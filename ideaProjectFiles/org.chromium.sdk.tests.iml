@@ -15,6 +15,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="org.chromium.sdk" />
     <orderEntry type="module" module-name="org.chromium.sdk.wipbackend.protocol_1_0" />
+    <orderEntry type="module" module-name="sdk parser" />
   </component>
 </module>
 

@@ -7,6 +7,12 @@
         <element id="module-output" name="org.chromium.sdk.wipbackend.protocol_1_0" />
       </root>
     </artifact>
+    <artifact type="jar" build-on-make="true" name="chromedevtools-sdk-0.3.8.1">
+      <output-path>$PROJECT_DIR$/out/artifacts</output-path>
+      <root id="archive" name="lib.org.chromium.sdk-0.3.8.1.jar">
+        <element id="module-output" name="org.chromium.sdk" />
+      </root>
+    </artifact>
   </component>
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Eclipse" />
@@ -239,6 +245,7 @@
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.wipbackend.wk120709.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.wipbackend.wk120709.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.wipbackends.feature.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.wipbackends.feature.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.source.iml" filepath="$PROJECT_DIR$/org.chromium.source.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdk parser.iml" filepath="$PROJECT_DIR$/sdk parser.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
