@@ -66,9 +66,9 @@ public class V8ProtocolUtil {
    * @param fieldName of the object to get the "ref" from
    * @return ref value or null if fieldName or "ref" not found
    */
-  public static Long getObjectRef(SomeRef child) {
+  public static long getObjectRef(SomeRef child) {
     if (child == null) {
-      return null;
+      return -1;
     }
     return child.ref();
   }

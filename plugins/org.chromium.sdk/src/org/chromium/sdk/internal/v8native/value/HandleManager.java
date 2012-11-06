@@ -4,9 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.value;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
+import gnu.trove.TLongObjectHashMap;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 
 /**
@@ -15,7 +13,6 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
  * methods.
  */
 public class HandleManager {
-
   private static final String SCRIPT_TYPE = "script";
   private static final String CONTEXT_TYPE = "context";
 
@@ -23,18 +20,25 @@ public class HandleManager {
     return SCRIPT_TYPE.equals(type) || CONTEXT_TYPE.equals(type);
   }
 
-  private final ConcurrentMap<Long, SomeHandle> refToHandle =
-      new ConcurrentHashMap<Long, SomeHandle>();
+  private final TLongObjectHashMap<SomeHandle> refToHandle = new TLongObjectHashMap<SomeHandle>();
 
-  void put(Long ref, SomeHandle smthWithHandle) {
-    SomeHandle oldObject = refToHandle.putIfAbsent(ref, smthWithHandle);
+  void put(long ref, SomeHandle smthWithHandle) {
+    SomeHandle oldObject;
+    synchronized (refToHandle) {
+      oldObject = refToHandle.get(ref);
+      if (oldObject == null) {
+        refToHandle.put(ref, smthWithHandle);
+      }
+    }
     if (oldObject != null) {
       mergeValues(oldObject, smthWithHandle);
     }
   }
 
-  public SomeHandle getHandle(Long ref) {
-    return refToHandle.get(ref);
+  public SomeHandle getHandle(long ref) {
+    synchronized (refToHandle) {
+      return refToHandle.get(ref);
+    }
   }
 
   private static void mergeValues(SomeHandle oldObject, SomeHandle newObject) {

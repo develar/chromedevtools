@@ -84,7 +84,7 @@ public class ScriptImpl extends ScriptBase<Long> {
               // We may have already issued 'continue' since the moment that change live command
               // was sent so the context was dropped. Ignore this case.
             } else {
-              debugContext.continueVm(DebugContext.StepAction.IN, 0, null);
+              debugContext.continueVm(DebugContext.StepAction.IN, 0, null, null);
             }
           } else {
             if (resultDescription != null && resultDescription.stack_modified()) {
@@ -106,8 +106,8 @@ public class ScriptImpl extends ScriptBase<Long> {
     };
   }
 
-  public static Long getScriptId(HandleManager handleManager, long scriptRef) {
-    SomeHandle handle = handleManager.getHandle(scriptRef);
+  public static long getScriptId(HandleManager handleManager, long scriptRef) {
+    SomeHandle handle = scriptRef == -1 ? null : handleManager.getHandle(scriptRef);
     if (handle == null) {
       return -1L; // not found
     }

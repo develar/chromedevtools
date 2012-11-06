@@ -100,15 +100,12 @@ public class ValueLoaderImpl extends ValueLoader {
   }
 
   public ValueMirror addDataToMap(ValueHandle valueHandle) {
-    ValueMirror mirror = ValueMirror.create(valueHandle, getLoadableStringFactory());
-    return putValueMirrorIntoMapRecursive(mirror);
+    return putValueMirrorIntoMapRecursive(ValueMirror.create(valueHandle, getLoadableStringFactory()));
   }
 
   public ValueMirror addDataToMap(Long ref, JsValue.Type type, String className,
       LoadableString loadableString, SubpropertiesMirror subpropertiesMirror) {
-    ValueMirror mirror =
-        ValueMirror.create(ref, type, className, loadableString, subpropertiesMirror);
-    return putValueMirrorIntoMapRecursive(mirror);
+    return putValueMirrorIntoMapRecursive(ValueMirror.create(ref, type, className, loadableString, subpropertiesMirror));
   }
 
   private ValueMirror putValueMirrorIntoMapRecursive(ValueMirror mirror) {
@@ -165,8 +162,7 @@ public class ValueLoaderImpl extends ValueLoader {
       // need to look up this value again
       TLongArrayList list = new TLongArrayList(1);
       list.add(ref);
-      List<ValueMirror> loadedMirrors = loadValuesFromRemote(list);
-      ValueMirror loadedMirror = loadedMirrors.get(0);
+      ValueMirror loadedMirror = loadValuesFromRemote(list).get(0);
       references = loadedMirror.getProperties();
       if (references == null) {
         throw new RuntimeException("Failed to load properties");
@@ -219,7 +215,6 @@ public class ValueLoaderImpl extends ValueLoader {
   @Override
   public ValueMirror[] getOrLoadValueFromRefs(List<? extends PropertyReference> propertyRefs)
       throws MethodIsBlockingException {
-    ValueMirror[] result = new ValueMirror[propertyRefs.size()];
     TLongIntHashMap refToRequestIndex = new TLongIntHashMap() {
       @Override
       public int get(long key) {
@@ -227,6 +222,7 @@ public class ValueLoaderImpl extends ValueLoader {
         return index < 0 ? -1 : _values[index];
       }
     };
+    ValueMirror[] result = new ValueMirror[propertyRefs.size()];
     List<PropertyReference> needsLoading = new ArrayList<PropertyReference>();
     for (int i = 0; i < propertyRefs.size(); i++) {
       PropertyReference property = propertyRefs.get(i);

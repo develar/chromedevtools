@@ -111,8 +111,7 @@ public class CallFrameImpl implements CallFrame {
     if (srcLine.trim().startsWith(DEBUGGER_RESERVED)) {
       currentLine++;
     }
-    Long scriptRef = V8ProtocolUtil.getObjectRef(frameObject.script());
-
+    long scriptRef = V8ProtocolUtil.getObjectRef(frameObject.script());
     scriptId = ScriptImpl.getScriptId(context.getValueLoader().getSpecialHandleManager(), scriptRef);
     lineNumber = currentLine;
     frameFunction = V8ProtocolUtil.getFunctionName(func);
@@ -294,7 +293,6 @@ public class CallFrameImpl implements CallFrame {
         return finishRestartSuccessfully(false, callback, relaySyncCallback);
       }
 
-      RestartFrameBody.ResultDescription resultDescription = body.getResultDescription();
       if (body.getResultDescription().stack_update_needs_step_in() == Boolean.TRUE) {
         return stepIn(debugContext, callback, relaySyncCallback);
       } else {
