@@ -3,7 +3,6 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.protocol_1_0/src-dynamic-impl/parser">
-      <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.protocol_1_0/src-dynamic-impl/parser/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.protocol_1_0/src-dynamic-impl/parser" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
