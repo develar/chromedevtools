@@ -14,7 +14,6 @@ import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
-import org.chromium.sdk.internal.v8native.protocol.input.ScopeBody;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.V8ProtocolParserAccess;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle;
@@ -208,18 +207,15 @@ public class ValueLoaderImpl extends ValueLoader {
 
   private ObjectValueHandle readFromScopeResponse(SuccessCommandResponse response) {
     List<SomeHandle> refs = response.refs();
-
     for (SomeHandle handle : refs) {
       addHandleFromRefs(handle);
     }
 
-    ScopeBody body;
     try {
-      body = response.body().asScopeBody();
+      return response.body().asScopeBody().object();
     } catch (JsonProtocolParseException e) {
       throw new ValueLoadException(e);
     }
-    return body.object();
   }
 
   /**
@@ -238,7 +234,6 @@ public class ValueLoaderImpl extends ValueLoader {
       }
     };
     List<PropertyReference> needsLoading = new ArrayList<PropertyReference>();
-
     for (int i = 0; i < propertyRefs.size(); i++) {
       PropertyReference property = propertyRefs.get(i);
       DataWithRef dataWithRef = property.getValueObject();
