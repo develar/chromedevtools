@@ -150,21 +150,15 @@ public class CallFrameImpl implements CallFrame {
     if (receiverVariableRef.get() != null) {
       return;
     }
-    JsVariable result;
 
     PropertyReference ref = V8Helper.computeReceiverRef(frameObject);
     if (ref == null) {
-      result = null;
-    } else {
-      ValueLoader valueLoader = context.getValueLoader();
-      ValueMirror mirror = valueLoader.getOrLoadValueFromRefs(Collections.singletonList(ref))[0];
-      // This name should be string. We are making it string as a fall-back strategy.
-      String varNameStr = ref.getName().toString();
-      result = new JsVariableImpl(valueLoader, mirror, varNameStr);
+      return;
     }
-    if (result != null) {
-      receiverVariableRef.compareAndSet(null, result);
-    }
+    ValueLoader valueLoader = context.getValueLoader();
+    ValueMirror mirror = valueLoader.getOrLoadValueFromRefs(Collections.singletonList(ref))[0];
+    // This name should be string. We are making it string as a fall-back strategy.
+    receiverVariableRef.compareAndSet(null, new JsVariableImpl(valueLoader, mirror, ref.getName().toString()));
   }
 
   @Override

@@ -246,7 +246,7 @@ public class V8ProtocolUtil {
    *         property
    */
   public static boolean isInternalProperty(Object propertyName) {
-    if (propertyName instanceof String == false) {
+    if (!(propertyName instanceof String)) {
       return false;
     }
     String propertyNameStr = (String) propertyName;

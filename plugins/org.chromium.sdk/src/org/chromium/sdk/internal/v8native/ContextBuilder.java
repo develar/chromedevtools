@@ -207,7 +207,6 @@ public class ContextBuilder {
       return valueLoader;
     }
 
-
     void createContext(DebugContextData contextData) {
       if (context != null) {
         throw new IllegalStateException();

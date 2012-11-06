@@ -14,11 +14,11 @@ public class PropertyReference {
   private final DataWithRef smthWithRef;
 
   /**
-   * @param propertyName the name of the property
-   * @param valueObject a JSON descriptor of the property
+   * @param name the name of the property
+   * @param smthWithRef a JSON descriptor of the property
    */
-  public PropertyReference(Object propertyName, DataWithRef smthWithRef) {
-    this.name = propertyName;
+  public PropertyReference(Object name, DataWithRef smthWithRef) {
+    this.name = name;
     this.smthWithRef = smthWithRef;
   }
 

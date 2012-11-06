@@ -60,7 +60,7 @@ public class V8Helper {
    */
   public static RelayOk reloadScriptAsync(final DebugSession debugSession, final List<Long> ids,
       final ScriptLoadCallback callback, SyncCallback syncCallback) {
-    ContextlessDebuggerMessage message = DebuggerMessageFactory.scripts(ids, true);
+    ContextlessDebuggerMessage message;
     if (ids == null) {
       message = DebuggerMessageFactory.scripts(ScriptsMessage.SCRIPTS_NORMAL, true);
     } else {
@@ -86,8 +86,7 @@ public class V8Helper {
               throw new RuntimeException(e);
             }
             ScriptManager scriptManager = debugSession.getScriptManager();
-            for (int i = 0; i < body.size(); ++i) {
-              ScriptHandle scriptHandle = body.get(i);
+            for (ScriptHandle scriptHandle : body) {
               if (V8Helper.JAVASCRIPT_VOID.equals(scriptHandle.source())) {
                 continue;
               }
@@ -95,7 +94,8 @@ public class V8Helper {
               ScriptImpl scriptById = scriptManager.findById(id);
               if (scriptById == null) {
                 scriptManager.addScript(scriptHandle, successResponse.refs());
-              } else {
+              }
+              else {
                 // A scrupulous refactoring note:
                 // do not call setSource in a legacy case, when ids parameter is null.
                 if (ids != null) {
@@ -198,11 +198,6 @@ public class V8Helper {
    * Clients may try to catch it.
    */
   public static class CallbackException extends RuntimeException {
-    CallbackException() {
-    }
-    CallbackException(String message, Throwable cause) {
-      super(message, cause);
-    }
     CallbackException(String message) {
       super(message);
     }
