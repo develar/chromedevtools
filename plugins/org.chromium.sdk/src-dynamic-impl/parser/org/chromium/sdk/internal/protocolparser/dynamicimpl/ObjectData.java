@@ -39,18 +39,10 @@ class ObjectData {
       int volatileArraySize, ObjectData superObjectData) {
     this.superObjectData = superObjectData;
     this.typeHandler = typeHandler;
-    this.underlyingObject = inputObject;
+    underlyingObject = inputObject;
 
-    if (fieldArraySize == 0) {
-      fieldArray = null;
-    } else {
-      fieldArray = new Object[fieldArraySize];
-    }
-    if (volatileArraySize == 0) {
-      atomicReferenceArray = null;
-    } else {
-      atomicReferenceArray = new AtomicReferenceArray<Object>(volatileArraySize);
-    }
+    fieldArray = fieldArraySize == 0 ? null : new Object[fieldArraySize];
+    atomicReferenceArray = volatileArraySize == 0 ? null : new AtomicReferenceArray<Object>(volatileArraySize);
   }
 
   void initProxy(Object proxy) {
