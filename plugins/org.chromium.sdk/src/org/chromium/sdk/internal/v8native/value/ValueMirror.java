@@ -54,12 +54,7 @@ public abstract class ValueMirror {
     final Type type = V8Helper.calculateType(refWithDisplayData.type(),
         refWithDisplayData.className(), false);
 
-    return new ValueMirror(refWithDisplayData.ref()) {
-      @Override
-      public Type getType() {
-        return type;
-      }
-
+    return new ValueMirror(refWithDisplayData.ref(), type) {
       @Override
       public String getClassName() {
         return refWithDisplayData.className();
@@ -90,20 +85,13 @@ public abstract class ValueMirror {
     };
   }
 
-
   /**
    * Constructs a ValueMirror given a V8 debugger object specification.
    * @param valueHandle containing the object specification from the V8 debugger
    */
   public static ValueMirror create(final ValueHandle valueHandle, final Factory factory) {
-    final Type type = V8Helper.calculateType(valueHandle.type(), valueHandle.className(), true);
-
-    return new ValueMirror(valueHandle.handle()) {
-      @Override
-      public Type getType() {
-        return type;
-      }
-
+    Type type = V8Helper.calculateType(valueHandle.type(), valueHandle.className(), true);
+    return new ValueMirror(valueHandle.handle(), type) {
       @Override
       public LoadableString getStringValue() {
         return V8Helper.createLoadableString(valueHandle, factory);
@@ -139,15 +127,10 @@ public abstract class ValueMirror {
     };
   }
 
-  public static ValueMirror create(long ref, final Type type,
+  public static ValueMirror create(long ref, Type type,
       final String className, final LoadableString loadableString,
       final SubpropertiesMirror subpropertiesMirror) {
-    return new ValueMirror(ref) {
-      @Override
-      public JsValue.Type getType() {
-        return type;
-      }
-
+    return new ValueMirror(ref, type) {
       @Override
       public String getClassName() {
         return className;
@@ -171,12 +154,16 @@ public abstract class ValueMirror {
   }
 
   private final long ref;
+  protected final Type type;
 
-  protected ValueMirror(long ref) {
+  protected ValueMirror(long ref, Type type) {
     this.ref = ref;
+    this.type = type;
   }
 
-  public abstract JsValue.Type getType();
+  public JsValue.Type getType() {
+    return type;
+  }
 
   public abstract SubpropertiesMirror getProperties();
 
