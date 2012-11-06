@@ -78,7 +78,7 @@ class WipContextBuilder {
 
   WipContextBuilder(WipTabImpl tabImpl) {
     this.tabImpl = tabImpl;
-    this.evaluateHack = new EvaluateHack(tabImpl);
+    evaluateHack = new EvaluateHack(tabImpl);
   }
 
   // Called from Dispatch Thread.
@@ -128,7 +128,7 @@ class WipContextBuilder {
     }
     WipDebugContextImpl context = currentContext;
     currentContext = null;
-    this.tabImpl.getDebugListener().getDebugEventListener().resumed();
+    tabImpl.getDebugListener().getDebugEventListener().resumed();
     context.reportClosed();
   }
 
@@ -195,7 +195,7 @@ class WipContextBuilder {
     }
 
     void reportClosed() {
-      CloseRequest request = this.closeRequest.get();
+      CloseRequest request = closeRequest.get();
       if (request != null && request.callback != null) {
         request.callback.success();
       }
@@ -588,7 +588,7 @@ class WipContextBuilder {
 
     public ScopeImpl(ScopeValue scopeData, Type type, WipValueLoader valueLoader) {
       this.type = type;
-      this.objectId = scopeData.object().objectId();
+      objectId = scopeData.object().objectId();
       this.valueLoader = valueLoader;
     }
 
@@ -857,7 +857,7 @@ class WipContextBuilder {
       };
 
 
-  private WipParams sdkStepToProtocolStep(StepAction stepAction) {
+  private static WipParams sdkStepToProtocolStep(StepAction stepAction) {
     switch (stepAction) {
     case CONTINUE:
       return RESUME_PARAMS;

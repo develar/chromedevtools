@@ -143,8 +143,7 @@ public class CallFrameImpl implements CallFrame {
     if (scopesRef.get() != null) {
       return;
     }
-    List<? extends JsScope> result = Collections.unmodifiableList(createScopes());
-    scopesRef.compareAndSet(null, result);
+    scopesRef.compareAndSet(null, Collections.unmodifiableList(createScopes()));
   }
 
   private void ensureReceiver() throws MethodIsBlockingException {
@@ -220,17 +219,13 @@ public class CallFrameImpl implements CallFrame {
 
   private final TextStreamPosition textStreamPosition = new TextStreamPosition() {
     @Override public int getOffset() {
-      return frameObject.position().intValue();
+      return frameObject.position();
     }
     @Override public int getLine() {
       return lineNumber;
     }
     @Override public int getColumn() {
-      Long columnObj = frameObject.column();
-      if (columnObj == null) {
-        return -1;
-      }
-      return columnObj.intValue();
+      return frameObject.column();
     }
   };
 

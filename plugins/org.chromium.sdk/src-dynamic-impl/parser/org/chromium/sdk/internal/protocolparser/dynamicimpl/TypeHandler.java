@@ -497,12 +497,10 @@ class TypeHandler<T> {
 
       for (FieldLoader fieldLoader : fieldLoaders) {
         String valueRef = methodScope.newMethodScopedName("value");
-        String hasValueRef = methodScope.newMethodScopedName("hasValue");
         String fieldName = fieldLoader.getFieldName();
         methodScope.append("\n");
-        Util.writeReadValueAndHasValue(methodScope, fieldName, "underlying", valueRef,
-            hasValueRef);
-        fieldLoader.writeFieldLoadJava(methodScope, valueRef, hasValueRef);
+        Util.writeReadValueAndHasValue(methodScope, fieldName, "underlying", valueRef);
+        fieldLoader.writeFieldLoadJava(methodScope, valueRef);
       }
 
       if (algCasesData != null) {

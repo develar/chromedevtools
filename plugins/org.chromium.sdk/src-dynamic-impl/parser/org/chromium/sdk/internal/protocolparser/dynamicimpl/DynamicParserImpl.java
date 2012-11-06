@@ -44,7 +44,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- * Java dynamic-proxy based implementation of {@link JsonProtocolParser}. It analyses
+ * Java dynamic-proxy based implementation of {@ link JsonProtocolParser}. It analyses
  * interfaces with reflection and provides their implementation by {@link Proxy} factory.
  * User-friendly 'root' interface is available by {@link #getParserRoot()} method.
  * @param <ROOT> root user-provided type (see {@link JsonParserRoot})
@@ -96,7 +96,7 @@ public class DynamicParserImpl<ROOT> {
 
 
   private static class ReadInterfacesSession {
-    private final Map<Class<?>, TypeHandler<?>> type2typeHandler;
+    private final Map<Class<?>, TypeHandler<?>> type2typeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>();
     private final List<? extends DynamicParserImpl<?>> basePackages;
     private final boolean strictMode;
 
@@ -107,7 +107,6 @@ public class DynamicParserImpl<ROOT> {
     ReadInterfacesSession(List<? extends Class<?>> protocolInterfaces,
         List<? extends DynamicParserImpl<?>> basePackages, boolean strictMode) {
       // Keep interfaces ordered to keep generated parser less random.
-      this.type2typeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>();
       this.basePackages = basePackages;
       this.strictMode = strictMode;
 
@@ -195,36 +194,52 @@ public class DynamicParserImpl<ROOT> {
         if (type == Long.class) {
           nullableIsNotSupported(declaredNullable);
           return LONG_PARSER.getNullable();
-        } else if (type == Long.TYPE) {
+        }
+        else if (type == Integer.class) {
+          nullableIsNotSupported(declaredNullable);
+          return INTEGER_PARSER.getNullable();
+        }
+        else if (type == Long.TYPE) {
           nullableIsNotSupported(declaredNullable);
           return LONG_PARSER.getNotNullable();
-        } else if (type == Boolean.class) {
+        }
+        else if (type == Boolean.class) {
           nullableIsNotSupported(declaredNullable);
           return BOOLEAN_PARSER.getNullable();
-        } else if (type == Boolean.TYPE) {
+        }
+        else if (type == Boolean.TYPE) {
           nullableIsNotSupported(declaredNullable);
           return BOOLEAN_PARSER.getNotNullable();
-        } else if (type == Float.class) {
+        }
+        else if (type == Float.class) {
           nullableIsNotSupported(declaredNullable);
           return FLOAT_PARSER.getNullable();
-        } else if (type == Float.TYPE) {
+        }
+        else if (type == Float.TYPE) {
           nullableIsNotSupported(declaredNullable);
           return FLOAT_PARSER.getNotNullable();
-        } else if (type == Number.class) {
+        }
+        else if (type == Number.class) {
           return NUMBER_PARSER.get(declaredNullable);
-        } else if (type == Void.class) {
+        }
+        else if (type == Void.class) {
           nullableIsNotSupported(declaredNullable);
           return VOID_PARSER;
-        } else if (type == String.class) {
+        }
+        else if (type == String.class) {
           return STRING_PARSER.get(declaredNullable);
-        } else if (type == Object.class) {
+        }
+        else if (type == Object.class) {
           return OBJECT_PARSER.get(declaredNullable);
-        } else if (type == JSONObject.class) {
+        }
+        else if (type == JSONObject.class) {
           return JSON_PARSER.get(declaredNullable);
-        } else if (typeClass.isEnum()) {
+        }
+        else if (typeClass.isEnum()) {
           Class<RetentionPolicy> enumTypeClass = (Class<RetentionPolicy>) typeClass;
           return EnumParser.create(enumTypeClass, declaredNullable);
-        } else if (type2typeHandler.containsKey(typeClass)) {
+        }
+        else if (type2typeHandler.containsKey(typeClass)) {
         }
         RefToType<?> ref = getTypeRef(typeClass);
         if (ref != null) {
@@ -254,20 +269,24 @@ public class DynamicParserImpl<ROOT> {
       }
     }
 
-    private void nullableIsNotSupported(boolean declaredNullable)
+    private static void nullableIsNotSupported(boolean declaredNullable)
         throws JsonProtocolModelParseException {
       if (declaredNullable) {
         throw new JsonProtocolModelParseException("The type cannot be declared nullable");
       }
     }
 
-    private <T> JsonTypeParser<T> createJsonParser(RefToType<T> type, boolean isNullable,
-        boolean isSubtyping) {
+    private static <T> JsonTypeParser<T> createJsonParser(
+            RefToType<T> type, boolean isNullable,
+            boolean isSubtyping
+    ) {
       return new JsonTypeParser<T>(type, isNullable, isSubtyping);
     }
 
-    private <T> ArrayParser<T> createArrayParser(SlowParser<T> componentParser,
-        boolean isNullable, FieldLoadStrategy loadStrategy) {
+    private static <T> ArrayParser<T> createArrayParser(
+            SlowParser<T> componentParser,
+            boolean isNullable, FieldLoadStrategy loadStrategy
+    ) {
       if (loadStrategy == FieldLoadStrategy.LAZY) {
         return new ArrayParser<T>(componentParser, isNullable, ArrayParser.LAZY);
       } else {
@@ -304,7 +323,7 @@ public class DynamicParserImpl<ROOT> {
         throws JsonProtocolModelParseException {
       RefToType<?> result = null;
       for (Type interfc : typeClass.getGenericInterfaces()) {
-        if (interfc instanceof ParameterizedType == false) {
+        if (!(interfc instanceof ParameterizedType)) {
           continue;
         }
         ParameterizedType parameterizedType = (ParameterizedType) interfc;
@@ -312,7 +331,7 @@ public class DynamicParserImpl<ROOT> {
           continue;
         }
         Type param = parameterizedType.getActualTypeArguments()[0];
-        if (param instanceof Class == false) {
+        if (!(param instanceof Class)) {
           throw new JsonProtocolModelParseException("Unexpected type of superclass " + param);
         }
         Class<?> paramClass = (Class<?>) param;
@@ -546,8 +565,7 @@ public class DynamicParserImpl<ROOT> {
             @Override
             ObjectData getSubtypeObjectData(ObjectData baseObjectData)
                 throws JsonProtocolParseException {
-              ObjectData objectData = baseObjectData;
-              return handler.getSubtypeData(objectData);
+              return handler.getSubtypeData(baseObjectData);
             }
             @Override
             void writeJava(ClassScope scope, String expectedTypeName, String superTypeValueRef,
@@ -704,13 +722,7 @@ public class DynamicParserImpl<ROOT> {
     public Object parse(ObjectData objectData) throws JsonProtocolParseException {
       Map<?,?> properties = (JSONObject)objectData.getUnderlyingObject();
       Object value = properties.get(fieldName);
-      boolean hasValue;
-      if (value == null) {
-        hasValue = properties.containsKey(fieldName);
-      } else {
-        hasValue = true;
-      }
-      return parse(hasValue, value, objectData);
+      return parse(value != null || properties.containsKey(fieldName), value, objectData);
     }
 
     public Object parse(boolean hasValue, Object value, ObjectData objectData)
@@ -756,9 +768,7 @@ public class DynamicParserImpl<ROOT> {
       }
 
       String valueRef = scope.newMethodScopedName("value");
-      String hasValueRef = scope.newMethodScopedName("hasValue");
-      Util.writeReadValueAndHasValue(scope, fieldName, "underlying", valueRef, hasValueRef);
-      scope.startLine("if (" + hasValueRef + ") {\n");
+      Util.writeReadValueAndHasValue(scope, fieldName, "underlying", valueRef);
       scope.indentRight();
       if (quickParser.javaCodeThrowsException()) {
         scope.startLine("try {\n");
@@ -930,13 +940,7 @@ public class DynamicParserImpl<ROOT> {
     protected Object parse(ObjectData objectData) throws JsonProtocolParseException {
       Map<?,?> properties = (JSONObject)objectData.getUnderlyingObject();
       Object value = properties.get(fieldName);
-      boolean hasValue;
-      if (value == null) {
-        hasValue = properties.containsKey(fieldName);
-      } else {
-        hasValue = true;
-      }
-      Object parsedValue = parse(hasValue, value, objectData);
+      Object parsedValue = parse(value != null || properties.containsKey(fieldName), value, objectData);
       // Cache already finished value, because we don't use unfinished value anywhere.
       FieldLoadedFinisher valueFinisher = slowParser.getValueFinisher();
       if (valueFinisher != null) {
@@ -987,10 +991,7 @@ public class DynamicParserImpl<ROOT> {
       }
 
       String valueRef = scope.newMethodScopedName("value");
-      String hasValueRef = scope.newMethodScopedName("hasValue");
-      Util.writeReadValueAndHasValue(scope, fieldName, "underlying", valueRef, hasValueRef);
-
-      scope.startLine("if (" + hasValueRef + ") {\n");
+      Util.writeReadValueAndHasValue(scope, fieldName, "underlying", valueRef);
       scope.indentRight();
       if (slowParser.javaCodeThrowsException()) {
         scope.startLine("try {\n");
@@ -1160,20 +1161,14 @@ public class DynamicParserImpl<ROOT> {
     }
   }
 
-  private static final SimpleParserPair<Long> LONG_PARSER =
-      SimpleParserPair.create(Long.class);
-  private static final SimpleParserPair<Boolean> BOOLEAN_PARSER =
-      SimpleParserPair.create(Boolean.class);
-  private static final SimpleParserPair<Float> FLOAT_PARSER =
-      SimpleParserPair.create(Float.class);
-  private static final SimpleParserPair<Number> NUMBER_PARSER =
-      SimpleParserPair.create(Number.class);
-  private static final SimpleParserPair<String> STRING_PARSER =
-      SimpleParserPair.create(String.class);
-  private static final SimpleParserPair<Object> OBJECT_PARSER =
-      SimpleParserPair.create(Object.class);
-  private static final SimpleParserPair<JSONObject> JSON_PARSER =
-      SimpleParserPair.create(JSONObject.class);
+  private static final SimpleParserPair<Long> LONG_PARSER = SimpleParserPair.create(Long.class);
+  private static final SimpleParserPair<Integer> INTEGER_PARSER = SimpleParserPair.create(Integer.class);
+  private static final SimpleParserPair<Boolean> BOOLEAN_PARSER = SimpleParserPair.create(Boolean.class);
+  private static final SimpleParserPair<Float> FLOAT_PARSER = SimpleParserPair.create(Float.class);
+  private static final SimpleParserPair<Number> NUMBER_PARSER = SimpleParserPair.create(Number.class);
+  private static final SimpleParserPair<String> STRING_PARSER = SimpleParserPair.create(String.class);
+  private static final SimpleParserPair<Object> OBJECT_PARSER = SimpleParserPair.create(Object.class);
+  private static final SimpleParserPair<JSONObject> JSON_PARSER = SimpleParserPair.create(JSONObject.class);
 
   static class ArrayParser<T> extends SlowParser<List<? extends T>> {
 
@@ -1192,9 +1187,9 @@ public class DynamicParserImpl<ROOT> {
         int size = array.size();
         List list = new ArrayList<Object>(size);
         FieldLoadedFinisher valueFinisher = componentParser.getValueFinisher();
-        for (int i = 0; i < size; i++) {
+        for (Object anArray : array) {
           // We do not support super object for array component.
-          Object val = componentParser.parseValue(array.get(i), null);
+          Object val = componentParser.parseValue(anArray, null);
           if (valueFinisher != null) {
             val = valueFinisher.getValueForUser(val);
           }
@@ -1235,7 +1230,7 @@ public class DynamicParserImpl<ROOT> {
       @Override
       <T> List<T> create(final JSONArray array, final SlowParser<T> componentParser) {
         final int size = array.size();
-        List<T> list = new AbstractList<T>() {
+        return new AbstractList<T>() {
           private final AtomicReferenceArray<T> values = new AtomicReferenceArray<T>(size);
 
           @Override
@@ -1267,7 +1262,6 @@ public class DynamicParserImpl<ROOT> {
             return size;
           }
         };
-        return list;
       }
 
       @Override
@@ -1356,7 +1350,7 @@ public class DynamicParserImpl<ROOT> {
       if (isNullable && value == null) {
         return null;
       }
-      if (value instanceof JSONArray == false) {
+      if (!(value instanceof JSONArray)) {
         throw new JsonProtocolParseException("Array value expected");
       }
       JSONArray arrayValue = (JSONArray) value;
@@ -1439,9 +1433,8 @@ public class DynamicParserImpl<ROOT> {
     ObjectData getFieldObjectData(ObjectData objectData) {
       Object[] array = objectData.getFieldArray();
       Integer actualCode = (Integer) array[variantCodeField];
-      if (this.code == actualCode) {
-        ObjectData data = (ObjectData) array[variantValueField];
-        return data;
+      if (code == actualCode) {
+        return (ObjectData) array[variantValueField];
       } else {
         return null;
       }
@@ -1532,8 +1525,8 @@ public class DynamicParserImpl<ROOT> {
             "JSON object input expected for non-manual subtyping");
       }
       int code = -1;
-      for (int i = 0; i < this.getSubtypes().size(); i++) {
-        TypeHandler<?> nextSubtype = this.getSubtypes().get(i).get();
+      for (int i = 0; i < getSubtypes().size(); i++) {
+        TypeHandler<?> nextSubtype = getSubtypes().get(i).get();
         boolean ok = nextSubtype.getSubtypeSupport().checkConditions(jsonProperties);
         if (ok) {
           if (code == -1) {
@@ -1544,16 +1537,15 @@ public class DynamicParserImpl<ROOT> {
         }
       }
       if (code == -1) {
-        if (!this.hasDefaultCase) {
+        if (!hasDefaultCase) {
           throw new JsonProtocolParseException("Not a singe case matches");
         }
       } else {
         ObjectData fieldData =
-            this.getSubtypes().get(code).get().parse(input, objectData);
-        objectData.getFieldArray()[this.variantValueFieldPos] = fieldData;
+                getSubtypes().get(code).get().parse(input, objectData);
+        objectData.getFieldArray()[variantValueFieldPos] = fieldData;
       }
-      objectData.getFieldArray()[this.variantCodeFieldPos] =
-          Integer.valueOf(code);
+      objectData.getFieldArray()[variantCodeFieldPos] = code;
     }
 
     @Override
@@ -1640,7 +1632,7 @@ public class DynamicParserImpl<ROOT> {
     }
 
     void writeGetExpressionJava(StringBuilder output) {
-      output.append(getCodeFieldName() + ".get()");
+      output.append(getCodeFieldName()).append(".get()");
     }
 
     void writeSetAndGetJava(MethodScope scope,
@@ -1718,7 +1710,7 @@ public class DynamicParserImpl<ROOT> {
     FileScope fileScope = globalScope.newFileScope(stringBuilder);
 
     fileScope.startLine("// This is a generated source.\n");
-    fileScope.startLine("// See " + this.getClass().getName() + " for details\n");
+    fileScope.startLine("// See " + getClass().getName() + " for details\n");
     fileScope.append("\n");
     fileScope.startLine("package " + packageName + ";\n");
     fileScope.append("\n");

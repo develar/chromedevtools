@@ -52,8 +52,7 @@ class FieldLoader {
     scope.append(" field_" + fieldName + ";\n");
   }
 
-  public void writeFieldLoadJava(MethodScope scope, String valueRef, String hasValueRef) {
-    scope.startLine("if (" + hasValueRef + ") {\n");
+  public void writeFieldLoadJava(MethodScope scope, String valueRef) {
     scope.indentRight();
     if (slowParser.javaCodeThrowsException()) {
       scope.startLine("try {\n");

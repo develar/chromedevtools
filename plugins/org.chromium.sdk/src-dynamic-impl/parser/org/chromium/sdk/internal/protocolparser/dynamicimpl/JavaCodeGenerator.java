@@ -138,9 +138,9 @@ public interface JavaCodeGenerator {
      * 'value' and 'hasValue' pair of variables.
      */
     public static void writeReadValueAndHasValue(MethodScope scope, String fieldName,
-        String jsonObjectRef, String valueRef, String hasValueRef) {
+        String jsonObjectRef, String valueRef) {
       scope.startLine("Object " + valueRef + " = " + jsonObjectRef + ".get(\"" + fieldName + "\");\n");
-      scope.startLine("boolean " + hasValueRef + " = " + valueRef + " != null || " + jsonObjectRef + ".containsKey(\"" + fieldName + "\");\n");
+      scope.startLine("if (" + valueRef + " != null || " + jsonObjectRef + ".containsKey(\"" + fieldName + "\")) {\n");
     }
 
     public static final String BASE_PACKAGE = "org.chromium.sdk.internal.protocolparser";
@@ -252,12 +252,12 @@ public interface JavaCodeGenerator {
 
       FileScopeImpl(GlobalScopeImpl globalScopeImpl, StringBuilder stringBuilder) {
         super(globalScopeImpl);
-        this.state = new State(stringBuilder);
+        state = new State(stringBuilder);
       }
 
       FileScopeImpl(FileScopeImpl fileScopeImpl) {
         super(fileScopeImpl);
-        this.state = fileScopeImpl.state;
+        state = fileScopeImpl.state;
       }
 
       @Override
@@ -333,14 +333,14 @@ public interface JavaCodeGenerator {
 
       ClassScopeImpl(FileScopeImpl fileScopeImpl, ClassScope parentClass) {
         super(fileScopeImpl);
-        this.state = new State();
+        state = new State();
         this.parentClass = parentClass;
       }
 
       ClassScopeImpl(ClassScopeImpl classScopeImpl) {
         super(classScopeImpl);
-        this.state = classScopeImpl.state;
-        this.parentClass = classScopeImpl.parentClass;
+        state = classScopeImpl.state;
+        parentClass = classScopeImpl.parentClass;
       }
 
       @Override

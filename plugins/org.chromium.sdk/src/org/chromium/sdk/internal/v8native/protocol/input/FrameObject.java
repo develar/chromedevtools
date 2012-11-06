@@ -53,9 +53,9 @@ public interface FrameObject {
 
   String type();
 
-  Long position();
+  Integer position();
 
-  Long column();
+  Integer column();
 
   Boolean debuggerFrame();
 }
