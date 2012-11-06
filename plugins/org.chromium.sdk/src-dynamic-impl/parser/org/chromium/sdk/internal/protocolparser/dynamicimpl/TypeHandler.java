@@ -81,9 +81,9 @@ class TypeHandler<T> {
       if (!fieldConditions.isEmpty()) {
         throw new IllegalArgumentException();
       }
-      this.subtypeAspect = new AbsentSubtypeAspect();
+      subtypeAspect = new AbsentSubtypeAspect();
     } else {
-      this.subtypeAspect = new ExistingSubtypeAspect(jsonSuperClass, fieldConditions);
+      subtypeAspect = new ExistingSubtypeAspect(jsonSuperClass, fieldConditions);
     }
   }
 
@@ -110,12 +110,7 @@ class TypeHandler<T> {
       for (FieldLoader fieldLoader : fieldLoaders) {
         String fieldName = fieldLoader.getFieldName();
         Object value = jsonProperties.get(fieldName);
-        boolean hasValue;
-        if (value == null) {
-          hasValue = jsonProperties.containsKey(fieldName);
-        } else {
-          hasValue = true;
-        }
+        boolean hasValue = value != null || jsonProperties.containsKey(fieldName);
         fieldLoader.parse(hasValue, value, objectData);
       }
 
@@ -161,7 +156,7 @@ class TypeHandler<T> {
   }
 
   void buildClosedNameSet() {
-    if (!this.subtypeAspect.isRoot()) {
+    if (!subtypeAspect.isRoot()) {
       return;
     }
     List<Set<String>> namesChain = new ArrayList<Set<String>>(3);
@@ -247,7 +242,7 @@ class TypeHandler<T> {
     }
     @Override
     ObjectData parseFromSuper(Object input) throws JsonProtocolParseException {
-      return TypeHandler.this.parse(input, null);
+      return parse(input, null);
     }
     @Override
     void checkHasSubtypeCaster() {
@@ -295,12 +290,7 @@ class TypeHandler<T> {
       for (FieldCondition condition : fieldConditions) {
         String name = condition.getPropertyName();
         Object value = map.get(name);
-        boolean hasValue;
-        if (value == null) {
-          hasValue = map.containsKey(name);
-        } else {
-          hasValue = true;
-        }
+        boolean hasValue = value != null || map.containsKey(name);
         boolean conditionRes = condition.checkValue(hasValue, value);
         if (!conditionRes) {
           return false;
@@ -331,7 +321,7 @@ class TypeHandler<T> {
     }
     @Override
     void checkHasSubtypeCaster() throws JsonProtocolModelParseException {
-      if (this.subtypeCaster == null) {
+      if (subtypeCaster == null) {
         throw new JsonProtocolModelParseException("Subtype caster should have been set in " +
             typeClass.getName());
       }
@@ -418,7 +408,7 @@ class TypeHandler<T> {
       String superTypeName = scope.getTypeImplReference(jsonSuperClass.get());
       scope.startLine(superTypeName + " superTypeValue = " + superTypeName + ".parse(" +
           inputRef + ");\n");
-      this.subtypeCaster.writeJava(scope, valueTypeName, "superTypeValue", "result");
+      subtypeCaster.writeJava(scope, valueTypeName, "superTypeValue", "result");
       scope.startLine("if (result == null) {\n");
       scope.startLine("  throw new " + Util.BASE_PACKAGE + ".JsonProtocolParseException(" +
           "\"Failed to get subtype object while parsing\");\n");
@@ -471,9 +461,9 @@ class TypeHandler<T> {
   }
 
   public void writeStaticClassJava(FileScope fileScope) {
-    fileScope.startLine("// Type " + this.getTypeClass().getName() + "\n");
+    fileScope.startLine("// Type " + getTypeClass().getName() + "\n");
     String valueImplClassName = fileScope.getTypeImplShortName(this);
-    String typeClassName = this.getTypeClass().getCanonicalName();
+    String typeClassName = getTypeClass().getCanonicalName();
 
     fileScope.startLine("public static class " + valueImplClassName + " extends " +
         Util.BASE_PACKAGE + ".implutil.GeneratedCodeLibrary.");
@@ -529,7 +519,7 @@ class TypeHandler<T> {
       field.writeFieldDeclarationJava(classScope);
     }
 
-    for (FieldLoader loader : this.fieldLoaders) {
+    for (FieldLoader loader : fieldLoaders) {
       loader.writeFieldDeclarationJava(classScope);
     }
 
@@ -539,7 +529,7 @@ class TypeHandler<T> {
 
     subtypeAspect.writeSuperFieldJava(classScope);
 
-    for (Map.Entry<Method, MethodHandler> en : this.methodHandlerMap.entrySet()) {
+    for (Map.Entry<Method, MethodHandler> en : methodHandlerMap.entrySet()) {
       Method m = en.getKey();
       MethodHandler methodHandler = en.getValue();
       methodHandler.writeMethodImplementationJava(classScope, m);
@@ -555,8 +545,8 @@ class TypeHandler<T> {
   }
 
   public void writeMapFillJava(ClassScope scope, String mapReference) {
-    scope.startLine("// Type " + this.getTypeClass().getName() + "\n");
-    scope.startLine(mapReference + ".put(" + this.getTypeClass().getCanonicalName() +
+    scope.startLine("// Type " + getTypeClass().getName() + "\n");
+    scope.startLine(mapReference + ".put(" + getTypeClass().getCanonicalName() +
         ".class, new " + Util.BASE_PACKAGE + ".implutil.GeneratedCodeLibrary.AbstractType() {\n");
     scope.startLine("  @Override public Object parseJson(org.json.simple.JSONObject json)" +
         Util.THROWS_CLAUSE + " {\n");
