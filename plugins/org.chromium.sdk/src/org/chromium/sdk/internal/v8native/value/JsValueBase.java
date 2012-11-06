@@ -20,8 +20,8 @@ abstract class JsValueBase implements JsValue {
   private final LoadableString loadableString;
 
   JsValueBase(ValueMirror valueData) {
-    this.type = valueData.getType();
-    this.loadableString = valueData.getStringValue();
+    type = valueData.getType();
+    loadableString = valueData.getStringValue();
   }
 
   @Override
