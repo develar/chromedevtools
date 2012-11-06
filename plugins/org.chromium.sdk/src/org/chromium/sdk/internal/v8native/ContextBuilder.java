@@ -130,7 +130,7 @@ public class ContextBuilder {
     // TODO(peter.rybin): complete it
   }
 
-  public void buildSequenceFailure() {
+  public static void buildSequenceFailure() {
     // this means we can't go on debugging
     // TODO(peter.rybin): implement
     throw new RuntimeException();
@@ -255,7 +255,7 @@ public class ContextBuilder {
       private final DebugContextData data;
 
       public UserContextImpl(DebugContextData contextData) {
-        this.data = contextData;
+        data = contextData;
       }
 
       @Override
@@ -359,7 +359,7 @@ public class ContextBuilder {
         if (!sendNoMessageAndInvalidate()) {
           return false;
         }
-        contextDismissed(UserContextImpl.this);
+        contextDismissed(this);
         getDebugSession().getDebugEventListener().resumed();
         return true;
       }
@@ -426,8 +426,8 @@ public class ContextBuilder {
         callFrames[callFrameImpl.getIdentifier()] = callFrameImpl;
       }
 
-      this.scriptsLinkedToFrames = false;
-      this.unmodifableFrames = Collections.unmodifiableList(Arrays.asList(callFrames));
+      scriptsLinkedToFrames = false;
+      unmodifableFrames = Collections.unmodifiableList(Arrays.asList(callFrames));
     }
 
     synchronized List<CallFrameImpl> getCallFrames() {
@@ -448,11 +448,10 @@ public class ContextBuilder {
    */
   private PreContext.UserContextImpl getCurrentUserContext() {
     // We can use currentStep as long as we are being operated from Dispatch thread.
-    if (currentStep instanceof PreContext.UserContextImpl == false) {
+    if (!(currentStep instanceof PreContext.UserContextImpl)) {
       return null;
     }
-    PreContext.UserContextImpl userContext = (PreContext.UserContextImpl) currentStep;
-    return userContext;
+    return (PreContext.UserContextImpl) currentStep;
   }
 
   /**
