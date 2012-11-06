@@ -20,7 +20,7 @@ public class GeneratedCodeLibrary {
     protected final JSONObject underlying;
 
     protected JsonValueBase(Object underlying) throws JsonProtocolParseException {
-      if (underlying instanceof JSONObject == false) {
+      if (!(underlying instanceof JSONObject)) {
         throw new JsonProtocolParseException("JSON object input expected");
       }
       this.underlying = (JSONObject) underlying;

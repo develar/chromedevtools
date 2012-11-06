@@ -139,15 +139,8 @@ public interface JavaCodeGenerator {
      */
     public static void writeReadValueAndHasValue(MethodScope scope, String fieldName,
         String jsonObjectRef, String valueRef, String hasValueRef) {
-      scope.startLine("Object " + valueRef + " = " + jsonObjectRef + ".get(\"" +
-          fieldName + "\");\n");
-      scope.startLine("boolean " + hasValueRef + ";\n");
-      scope.startLine("if (" + valueRef + " == null) {\n");
-      scope.startLine("  " + hasValueRef + " = " + jsonObjectRef + ".containsKey(\"" +
-          fieldName + "\");\n");
-      scope.startLine("} else {\n");
-      scope.startLine("  " + hasValueRef + " = true;\n");
-      scope.startLine("}\n");
+      scope.startLine("Object " + valueRef + " = " + jsonObjectRef + ".get(\"" + fieldName + "\");\n");
+      scope.startLine("boolean " + hasValueRef + " = " + valueRef + " != null || " + jsonObjectRef + ".containsKey(\"" + fieldName + "\");\n");
     }
 
     public static final String BASE_PACKAGE = "org.chromium.sdk.internal.protocolparser";
