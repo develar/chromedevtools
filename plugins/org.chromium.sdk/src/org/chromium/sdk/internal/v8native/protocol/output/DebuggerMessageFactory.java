@@ -7,6 +7,7 @@ package org.chromium.sdk.internal.v8native.protocol.output;
 import java.util.List;
 import java.util.Map;
 
+import gnu.trove.TLongArrayList;
 import org.chromium.sdk.Breakpoint;
 import org.chromium.sdk.DebugContext.StepAction;
 
@@ -55,7 +56,7 @@ public class DebuggerMessageFactory {
     return new ClearBreakpointMessage(id);
   }
 
-  public static DebuggerMessage lookup(List<Long> refs, Boolean inlineRefs) {
+  public static DebuggerMessage lookup(TLongArrayList refs, Boolean inlineRefs) {
     return new LookupMessage(refs, inlineRefs);
   }
 

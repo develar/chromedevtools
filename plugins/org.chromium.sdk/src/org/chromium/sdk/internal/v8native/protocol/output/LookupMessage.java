@@ -2,6 +2,7 @@ package org.chromium.sdk.internal.v8native.protocol.output;
 
 import java.util.List;
 
+import gnu.trove.TLongArrayList;
 import org.chromium.sdk.internal.v8native.DebuggerCommand;
 
 /**
@@ -13,11 +14,11 @@ public class LookupMessage extends DebuggerMessage {
    * @param handles to look up
    * @param inlineRefs whether to inline references
    */
-  public LookupMessage(List<Long> handles, Boolean inlineRefs) {
+  public LookupMessage(TLongArrayList handles, Boolean inlineRefs) {
     this(handles, inlineRefs, null);
   }
 
-  public LookupMessage(List<Long> handles, Boolean inlineRefs, Long maxStringLength) {
+  public LookupMessage(TLongArrayList handles, Boolean inlineRefs, Long maxStringLength) {
     super(DebuggerCommand.LOOKUP.value);
     putArgument("handles", handles);
     putArgument("inlineRefs", inlineRefs);

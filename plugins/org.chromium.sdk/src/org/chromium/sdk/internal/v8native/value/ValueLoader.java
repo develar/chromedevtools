@@ -28,7 +28,7 @@ public abstract class ValueLoader implements RemoteValueMapping {
    * Looks up {@link ValueMirror} in map, loads them if needed or reloads them
    * if property data is unavailable (or expired).
    */
-  public abstract SubpropertiesMirror getOrLoadSubproperties(Long ref)
+  public abstract SubpropertiesMirror getOrLoadSubproperties(long ref)
       throws MethodIsBlockingException;
 
   /**

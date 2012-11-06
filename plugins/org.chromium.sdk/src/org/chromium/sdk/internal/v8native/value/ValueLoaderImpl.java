@@ -4,29 +4,14 @@
 
 package org.chromium.sdk.internal.v8native.value;
 
-import static org.chromium.sdk.util.BasicUtil.getSafe;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
-
+import gnu.trove.TLongArrayList;
+import gnu.trove.TLongObjectHashMap;
 import org.chromium.sdk.JsValue;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-import org.chromium.sdk.internal.v8native.DebugSession;
-import org.chromium.sdk.internal.v8native.InternalContext;
-import org.chromium.sdk.internal.v8native.V8BlockingCallback;
-import org.chromium.sdk.internal.v8native.V8CommandCallbackBase;
-import org.chromium.sdk.internal.v8native.V8Helper;
+import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.protocol.input.ScopeBody;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
@@ -42,6 +27,12 @@ import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.json.simple.JSONObject;
 
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static org.chromium.sdk.util.BasicUtil.getSafe;
+
 /**
  * Implementation of {@link ValueLoader} that loads data by 'lookup' command and additionally
  * collects data as reported by various addDataToMap methods.
@@ -49,9 +40,7 @@ import org.json.simple.JSONObject;
  * strategies about whether to parse and add them into a map or save parsing time and ignore.
  */
 public class ValueLoaderImpl extends ValueLoader {
-
-  private final ConcurrentMap<Long, ValueMirror> refToMirror =
-      new ConcurrentHashMap<Long, ValueMirror>();
+  private final TLongObjectHashMap<ValueMirror> refToMirror = new TLongObjectHashMap<ValueMirror>();
 
   private final HandleManager specialHandleManager = new HandleManager();
 
@@ -62,7 +51,7 @@ public class ValueLoaderImpl extends ValueLoader {
 
   public ValueLoaderImpl(InternalContext context) {
     this.context = context;
-    this.loadableStringFactory = new StringFactory();
+    loadableStringFactory = new StringFactory();
   }
 
   public LoadableString.Factory getLoadableStringFactory() {
@@ -76,7 +65,9 @@ public class ValueLoaderImpl extends ValueLoader {
   @Override
   public void clearCaches() {
     cacheStateRef.incrementAndGet();
-    refToMirror.clear();
+    synchronized (refToMirror) {
+      refToMirror.clear();
+    }
   }
 
   @Override
@@ -130,9 +121,15 @@ public class ValueLoaderImpl extends ValueLoader {
     return mergeValueMirrorIntoMap(mirror.getRef(), mirror);
   }
 
-  private ValueMirror mergeValueMirrorIntoMap(Long ref, ValueMirror mirror) {
+  private ValueMirror mergeValueMirrorIntoMap(long ref, ValueMirror mirror) {
     while (true) {
-      ValueMirror old = refToMirror.putIfAbsent(ref, mirror);
+      ValueMirror old;
+      synchronized (refToMirror) {
+        old = refToMirror.get(ref);
+        if (old == null) {
+          refToMirror.put(ref, mirror);
+        }
+      }
       if (old == null) {
         return mirror;
       }
@@ -140,9 +137,13 @@ public class ValueLoaderImpl extends ValueLoader {
       if (merged == old) {
         return merged;
       }
-      boolean updated = refToMirror.replace(ref, old, merged);
-      if (updated) {
-        return merged;
+
+      synchronized (refToMirror) {
+        ValueMirror currentValue = refToMirror.get(ref);
+        if (currentValue != null && currentValue.equals(old)) {
+          refToMirror.put(ref, merged);
+          return merged;
+        }
       }
     }
   }
@@ -154,9 +155,11 @@ public class ValueLoaderImpl extends ValueLoader {
    * if property data is unavailable (or expired).
    */
   @Override
-  public SubpropertiesMirror getOrLoadSubproperties(Long ref) throws MethodIsBlockingException {
-    ValueMirror mirror = getSafe(refToMirror, ref);
-
+  public SubpropertiesMirror getOrLoadSubproperties(long ref) throws MethodIsBlockingException {
+    ValueMirror mirror;
+    synchronized (refToMirror) {
+      mirror = refToMirror.get(ref);
+    }
     SubpropertiesMirror references;
     if (mirror == null) {
       references = null;
@@ -165,8 +168,9 @@ public class ValueLoaderImpl extends ValueLoader {
     }
     if (references == null) {
       // need to look up this value again
-      List<ValueMirror> loadedMirrors =
-          loadValuesFromRemote(Collections.singletonList(ref));
+      TLongArrayList list = new TLongArrayList(1);
+      list.add(ref);
+      List<ValueMirror> loadedMirrors = loadValuesFromRemote(list);
       ValueMirror loadedMirror = loadedMirrors.get(0);
       references = loadedMirror.getProperties();
       if (references == null) {
@@ -234,7 +238,9 @@ public class ValueLoaderImpl extends ValueLoader {
       RefWithDisplayData dataWithDisplayData = dataWithRef.getWithDisplayData();
       ValueMirror mirror;
       if (dataWithDisplayData == null) {
-        mirror = getSafe(refToMirror, ref);
+        synchronized (refToMirror) {
+          mirror = refToMirror.get(ref);
+        }
       } else {
         mirror = ValueMirror.create(dataWithDisplayData, loadableStringFactory);
       }
@@ -253,7 +259,7 @@ public class ValueLoaderImpl extends ValueLoader {
     }
 
     if (!needsLoading.isEmpty()) {
-      List<Long> refIds = getRefIdFromReferences(needsLoading);
+      TLongArrayList refIds = getRefIdFromReferences(needsLoading);
       List<ValueMirror> loadedMirrors = loadValuesFromRemote(refIds);
       assert refIds.size() == loadedMirrors.size();
       for (int i = 0; i < propertyRefs.size(); i++) {
@@ -269,10 +275,10 @@ public class ValueLoaderImpl extends ValueLoader {
     return Arrays.asList(result);
   }
 
-  private static List<Long> getRefIdFromReferences(final List<PropertyReference> propertyRefs) {
-    List<Long> result = new ArrayList<Long>(propertyRefs.size());
+  private static TLongArrayList getRefIdFromReferences(final List<PropertyReference> propertyRefs) {
+    TLongArrayList result = new TLongArrayList(propertyRefs.size());
     for (PropertyReference ref : propertyRefs) {
-      result.add(Long.valueOf(ref.getRef()));
+      result.add(ref.getRef());
     }
     return result;
   }
@@ -282,7 +288,7 @@ public class ValueLoaderImpl extends ValueLoader {
    * @param propertyRefIds list of ref ids we need to look up
    * @return loaded value mirrors in the same order as in propertyRefIds
    */
-  public List<ValueMirror> loadValuesFromRemote(final List<Long> propertyRefIds)
+  public List<ValueMirror> loadValuesFromRemote(final TLongArrayList propertyRefIds)
       throws MethodIsBlockingException {
     if (propertyRefIds.isEmpty()) {
       return Collections.emptyList();
@@ -309,7 +315,7 @@ public class ValueLoaderImpl extends ValueLoader {
   }
 
   private List<ValueMirror> readResponseFromLookup(
-      SuccessCommandResponse successResponse, List<Long> propertyRefIds) {
+      SuccessCommandResponse successResponse, TLongArrayList propertyRefIds) {
     List<ValueMirror> result = new ArrayList<ValueMirror>(propertyRefIds.size());
     JSONObject body;
     try {
@@ -318,7 +324,7 @@ public class ValueLoaderImpl extends ValueLoader {
       throw new ValueLoadException(e);
     }
     for (int i = 0; i < propertyRefIds.size(); i++) {
-      int ref = propertyRefIds.get(i).intValue();
+      long ref = propertyRefIds.getQuick(i);
       JSONObject value = JsonUtil.getAsJSON(body, String.valueOf(ref));
       if (value == null) {
         throw new ValueLoadException("Failed to find value for ref=" + ref);
@@ -326,7 +332,8 @@ public class ValueLoaderImpl extends ValueLoader {
       ValueHandle valueHandle;
       try {
         valueHandle = V8ProtocolParserAccess.get().parseValueHandle(value);
-      } catch (JsonProtocolParseException e) {
+      }
+      catch (JsonProtocolParseException e) {
         throw new RuntimeException(e);
       }
 
@@ -341,7 +348,7 @@ public class ValueLoaderImpl extends ValueLoader {
   }
 
   private List<ValueHandle> readResponseFromLookupRaw(SuccessCommandResponse successResponse,
-      List<Long> propertyRefIds) {
+          TLongArrayList propertyRefIds) {
     List<ValueHandle> result = new ArrayList<ValueHandle>(propertyRefIds.size());
     JSONObject body;
     try {
@@ -350,7 +357,7 @@ public class ValueLoaderImpl extends ValueLoader {
       throw new ValueLoadException(e);
     }
     for (int i = 0; i < propertyRefIds.size(); i++) {
-      int ref = propertyRefIds.get(i).intValue();
+      long ref = propertyRefIds.getQuick(i);
       JSONObject value = JsonUtil.getAsJSON(body, String.valueOf(ref));
       if (value == null) {
         throw new ValueLoadException("Failed to find value for ref=" + ref);
@@ -358,7 +365,8 @@ public class ValueLoaderImpl extends ValueLoader {
       ValueHandle valueHandle;
       try {
         valueHandle = V8ProtocolParserAccess.get().parseValueHandle(value);
-      } catch (JsonProtocolParseException e) {
+      }
+      catch (JsonProtocolParseException e) {
         throw new ValueLoadException(e);
       }
 
@@ -372,7 +380,8 @@ public class ValueLoaderImpl extends ValueLoader {
   private RelayOk relookupValue(long handleId, Long maxLength,
       final GenericCallback<ValueHandle> callback,
       SyncCallback syncCallback) throws ContextDismissedCheckedException {
-    final List<Long> ids = Collections.singletonList(handleId);
+    final TLongArrayList ids = new TLongArrayList(1);
+    ids.add(handleId);
     DebuggerMessage message = new LookupMessage(ids, false, maxLength);
 
     V8CommandCallbackBase innerCallback = new V8CommandCallbackBase() {
@@ -387,7 +396,7 @@ public class ValueLoaderImpl extends ValueLoader {
       }
     };
 
-    return this.context.sendV8CommandAsync(message, true, innerCallback, syncCallback);
+    return context.sendV8CommandAsync(message, true, innerCallback, syncCallback);
   }
 
   private class StringFactory implements LoadableString.Factory {
@@ -423,7 +432,7 @@ public class ValueLoaderImpl extends ValueLoader {
             @Override
             public void success(ValueHandle handle) {
               LoadedValue newLoadedValue = new LoadedValue(handle);
-              replaceValue(handle, newLoadedValue);
+              replaceValue(newLoadedValue);
               if (callback != null) {
                 callback.success(null);
               }
@@ -454,7 +463,7 @@ public class ValueLoaderImpl extends ValueLoader {
           }
         }
 
-        private void replaceValue(ValueHandle handle, LoadedValue newValue) {
+        private void replaceValue(LoadedValue newValue) {
           while (true) {
             LoadedValue currentValue = valueRef.get();
             if (currentValue.loadedSize >= newValue.loadedSize) {
@@ -478,14 +487,14 @@ public class ValueLoaderImpl extends ValueLoader {
       final long actualSize;
 
       LoadedValue(ValueHandle handle) {
-        this.stringValue = (String) handle.value();
+        stringValue = (String) handle.value();
         Long toIndex = handle.toIndex();
         if (toIndex == null) {
-          this.loadedSize = this.stringValue.length();
-          this.actualSize = this.loadedSize;
+          loadedSize = stringValue.length();
+          actualSize = loadedSize;
         } else {
-          this.loadedSize = toIndex;
-          this.actualSize = handle.length();
+          loadedSize = toIndex;
+          actualSize = handle.length();
         }
       }
     }

@@ -48,7 +48,7 @@ class FakeValueLoader extends ValueLoader {
   }
 
   @Override
-  public SubpropertiesMirror getOrLoadSubproperties(Long ref) {
+  public SubpropertiesMirror getOrLoadSubproperties(long ref) {
     ValueData data = getSafe(valueDataMap, ref);
     ObjectData asObject = data.asObjectData();
     if (asObject == null) {
@@ -90,7 +90,7 @@ class FakeValueLoader extends ValueLoader {
       if (asObject == null) {
         subpropertiesMirror = SubpropertiesMirror.EMPTY;
       } else {
-        subpropertiesMirror = FakeValueLoader.createSubpropertiesMirror(asObject);
+        subpropertiesMirror = createSubpropertiesMirror(asObject);
       }
     } else {
       subpropertiesMirror = null;

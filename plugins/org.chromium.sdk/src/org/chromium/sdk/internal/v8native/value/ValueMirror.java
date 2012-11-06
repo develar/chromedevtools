@@ -50,13 +50,11 @@ public abstract class ValueMirror {
   /**
    * Constructs a {@link ValueMirror} given a V8 debugger object specification if it's possible.
    */
-  public static ValueMirror create(final RefWithDisplayData refWithDisplayData,
-      Factory loadableStringFactory) {
-    Long ref = refWithDisplayData.ref();
+  public static ValueMirror create(final RefWithDisplayData refWithDisplayData, Factory loadableStringFactory) {
     final Type type = V8Helper.calculateType(refWithDisplayData.type(),
         refWithDisplayData.className(), false);
 
-    return new ValueMirror(ref) {
+    return new ValueMirror(refWithDisplayData.ref()) {
       @Override
       public Type getType() {
         return type;
@@ -98,11 +96,9 @@ public abstract class ValueMirror {
    * @param valueHandle containing the object specification from the V8 debugger
    */
   public static ValueMirror create(final ValueHandle valueHandle, final Factory factory) {
-    Long ref = valueHandle.handle();
-
     final Type type = V8Helper.calculateType(valueHandle.type(), valueHandle.className(), true);
 
-    return new ValueMirror(ref) {
+    return new ValueMirror(valueHandle.handle()) {
       @Override
       public Type getType() {
         return type;
@@ -119,7 +115,8 @@ public abstract class ValueMirror {
         if (objectValueHandle == null) {
           return SubpropertiesMirror.EMPTY;
         }
-        int refId = (int) valueHandle.handle();
+        // unused
+        valueHandle.handle();
         SubpropertiesMirror subpropertiesMirror;
         if (type == Type.TYPE_FUNCTION) {
           FunctionValueHandle functionValueHandle = objectValueHandle.asFunction();
@@ -142,7 +139,7 @@ public abstract class ValueMirror {
     };
   }
 
-  public static ValueMirror create(Long ref, final Type type,
+  public static ValueMirror create(long ref, final Type type,
       final String className, final LoadableString loadableString,
       final SubpropertiesMirror subpropertiesMirror) {
     return new ValueMirror(ref) {
@@ -173,10 +170,9 @@ public abstract class ValueMirror {
     };
   }
 
-  private final Long ref;
+  private final long ref;
 
-  protected ValueMirror(Long ref) {
-    assert ref != null;
+  protected ValueMirror(long ref) {
     this.ref = ref;
   }
 
@@ -184,7 +180,7 @@ public abstract class ValueMirror {
 
   public abstract SubpropertiesMirror getProperties();
 
-  public Long getRef() {
+  public long getRef() {
     return ref;
   }
 
