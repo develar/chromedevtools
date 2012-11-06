@@ -51,7 +51,7 @@ public class JsVariableImpl implements JsVariable {
     this.decoratedName = decoratedName;
     this.qualifiedName = qualifiedName;
 
-    this.value = createValue(valueLoader, valueData, qualifiedName);
+    value = createValue(valueLoader, valueData, qualifiedName);
   }
 
   public static JsValueBase createValue(ValueLoader valueLoader, ValueMirror valueData,
@@ -86,11 +86,11 @@ public class JsVariableImpl implements JsVariable {
   }
 
   public String getRawName() {
-    return this.rawName.toString();
+    return rawName.toString();
   }
 
   Object getRawNameAsObject() {
-    return this.rawName;
+    return rawName;
   }
 
   @Override
@@ -119,13 +119,7 @@ public class JsVariableImpl implements JsVariable {
 
   @Override
   public String toString() {
-    return new StringBuilder()
-        .append("[JsVariable: name=")
-        .append(getName())
-        .append(",value=")
-        .append(getValue())
-        .append(']')
-        .toString();
+    return "[JsVariable: name=" + getName() + ",value=" + getValue() + ']';
   }
 
   @Override
