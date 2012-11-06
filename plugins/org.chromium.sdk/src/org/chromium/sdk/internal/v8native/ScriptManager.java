@@ -76,6 +76,7 @@ public class ScriptManager {
       setSourceCode(scriptBody, theScript);
     }
 
+    debugSession.getSessionManager().getDebugEventListener().scriptLoaded(theScript);
     return theScript;
   }
 
