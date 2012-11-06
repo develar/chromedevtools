@@ -36,7 +36,7 @@ public abstract class ValueLoader implements RemoteValueMapping {
    * 1. read it from PropertyReference (possibly cached value) or
    * 2. lookup value by refId from remote
    */
-  public abstract List<ValueMirror> getOrLoadValueFromRefs(
+  public abstract ValueMirror[] getOrLoadValueFromRefs(
       List<? extends PropertyReference> propertyRefs) throws MethodIsBlockingException;
 
   public abstract InternalContext getInternalContext();

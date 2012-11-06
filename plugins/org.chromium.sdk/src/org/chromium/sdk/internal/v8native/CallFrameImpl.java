@@ -87,8 +87,7 @@ public class CallFrameImpl implements CallFrame {
    * Constructs a call frame for the given handler using the FrameMirror data
    * from the remote JavaScript VM.
    *
-   * @param mirror frame in the VM
-   * @param index call frame id (0 is the stack top)
+   * @param frameObject frame in the VM
    * @param context in which the call frame is created
    */
   public CallFrameImpl(FrameObject frameObject, InternalContext context) {
@@ -113,13 +112,11 @@ public class CallFrameImpl implements CallFrame {
       currentLine++;
     }
     Long scriptRef = V8ProtocolUtil.getObjectRef(frameObject.script());
-    long scriptId =
-        ScriptImpl.getScriptId(context.getValueLoader().getSpecialHandleManager(), scriptRef);
 
-    this.scriptId = scriptId;
-    this.lineNumber = currentLine;
-    this.frameFunction = V8ProtocolUtil.getFunctionName(func);
-    this.frameId = index;
+    scriptId = ScriptImpl.getScriptId(context.getValueLoader().getSpecialHandleManager(), scriptRef);
+    lineNumber = currentLine;
+    frameFunction = V8ProtocolUtil.getFunctionName(func);
+    frameId = index;
   }
 
   public InternalContext getInternalContext() {
@@ -162,8 +159,7 @@ public class CallFrameImpl implements CallFrame {
       result = null;
     } else {
       ValueLoader valueLoader = context.getValueLoader();
-      ValueMirror mirror =
-          valueLoader.getOrLoadValueFromRefs(Collections.singletonList(ref)).get(0);
+      ValueMirror mirror = valueLoader.getOrLoadValueFromRefs(Collections.singletonList(ref))[0];
       // This name should be string. We are making it string as a fall-back strategy.
       String varNameStr = ref.getName().toString();
       result = new JsVariableImpl(valueLoader, mirror, varNameStr);
@@ -299,7 +295,6 @@ public class CallFrameImpl implements CallFrame {
       }
 
       RestartFrameBody.ResultDescription resultDescription = body.getResultDescription();
-
       if (body.getResultDescription().stack_update_needs_step_in() == Boolean.TRUE) {
         return stepIn(debugContext, callback, relaySyncCallback);
       } else {

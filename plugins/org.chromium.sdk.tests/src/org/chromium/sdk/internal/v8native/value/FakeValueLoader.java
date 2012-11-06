@@ -59,13 +59,14 @@ class FakeValueLoader extends ValueLoader {
   }
 
   @Override
-  public List<ValueMirror> getOrLoadValueFromRefs(List<? extends PropertyReference> propertyRefs) {
-    List<ValueMirror> result = new ArrayList<ValueMirror>();
-    for (PropertyReference reference : propertyRefs) {
+  public ValueMirror[] getOrLoadValueFromRefs(List<? extends PropertyReference> propertyRefs) {
+    ValueMirror[] result = new ValueMirror[propertyRefs.size()];
+    for (int i = 0; i < propertyRefs.size(); i++) {
+      PropertyReference reference = propertyRefs.get(i);
       Long ref = reference.getRef();
       ValueData data = getSafe(valueDataMap, ref);
       ValueMirror mirror = createMirrorFromData(data, false);
-      result.add(mirror);
+      result[i] = mirror;
     }
     return result;
   }

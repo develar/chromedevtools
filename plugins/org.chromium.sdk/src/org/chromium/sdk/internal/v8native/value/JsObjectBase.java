@@ -51,13 +51,12 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
    *
    * @param valueLoader where this instance belongs in
    * @param variableFqn the fully qualified name of the variable holding this object
-   * @param valueState the value data from the JS VM
    */
   JsObjectBase(ValueLoader valueLoader, String variableFqn, ValueMirror mirror) {
     super(mirror);
     this.valueLoader = valueLoader;
-    this.ref = mirror.getRef();
-    this.className = mirror.getClassName();
+    ref = mirror.getRef();
+    className = mirror.getClassName();
     this.variableFqn = variableFqn;
   }
 
@@ -184,11 +183,7 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
 
       private List<JsVariableImpl> wrapProperties(List<? extends PropertyReference> propertyRefs)
           throws MethodIsBlockingException {
-        List<ValueMirror> subMirrors = valueLoader.getOrLoadValueFromRefs(propertyRefs);
-
-        List<JsVariableImpl> wrappedProperties = createPropertiesFromMirror(subMirrors,
-            propertyRefs);
-        return Collections.unmodifiableList(wrappedProperties);
+        return Collections.unmodifiableList(createPropertiesFromMirror(valueLoader.getOrLoadValueFromRefs(propertyRefs), propertyRefs));
       }
     };
     if (reload) {
@@ -268,13 +263,11 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
     }
   }
 
-  private List<JsVariableImpl> createPropertiesFromMirror(List<ValueMirror> mirrorProperties,
-      List<? extends PropertyReference> propertyRefs) {
+  private List<JsVariableImpl> createPropertiesFromMirror(ValueMirror[] mirrorProperties, List<? extends PropertyReference> propertyRefs) {
     // TODO(peter.rybin) Maybe assert that context is valid here
-
-    List<JsVariableImpl> result = new ArrayList<JsVariableImpl>(mirrorProperties.size());
-    for (int i = 0; i < mirrorProperties.size(); i++) {
-      ValueMirror mirror = mirrorProperties.get(i);
+    List<JsVariableImpl> result = new ArrayList<JsVariableImpl>(mirrorProperties.length);
+    for (int i = 0; i < mirrorProperties.length; i++) {
+      ValueMirror mirror = mirrorProperties[i];
       Object varName = propertyRefs.get(i).getName();
       String fqn = getFullyQualifiedName(varName);
       if (fqn == null) {

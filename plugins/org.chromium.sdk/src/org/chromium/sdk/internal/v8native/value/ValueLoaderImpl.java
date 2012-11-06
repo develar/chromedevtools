@@ -28,7 +28,6 @@ import org.chromium.sdk.util.MethodIsBlockingException;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -161,12 +160,7 @@ public class ValueLoaderImpl extends ValueLoader {
     synchronized (refToMirror) {
       mirror = refToMirror.get(ref);
     }
-    SubpropertiesMirror references;
-    if (mirror == null) {
-      references = null;
-    } else {
-      references = mirror.getProperties();
-    }
+    SubpropertiesMirror references = mirror == null ? null : mirror.getProperties();
     if (references == null) {
       // need to look up this value again
       TLongArrayList list = new TLongArrayList(1);
@@ -223,7 +217,7 @@ public class ValueLoaderImpl extends ValueLoader {
    * (possibly cached value) or 2. lookup value by refId from remote
    */
   @Override
-  public List<ValueMirror> getOrLoadValueFromRefs(List<? extends PropertyReference> propertyRefs)
+  public ValueMirror[] getOrLoadValueFromRefs(List<? extends PropertyReference> propertyRefs)
       throws MethodIsBlockingException {
     ValueMirror[] result = new ValueMirror[propertyRefs.size()];
     TLongIntHashMap refToRequestIndex = new TLongIntHashMap() {
@@ -273,7 +267,7 @@ public class ValueLoaderImpl extends ValueLoader {
         }
       }
     }
-    return Arrays.asList(result);
+    return result;
   }
 
   private static TLongArrayList getRefIdFromReferences(final List<PropertyReference> propertyRefs) {

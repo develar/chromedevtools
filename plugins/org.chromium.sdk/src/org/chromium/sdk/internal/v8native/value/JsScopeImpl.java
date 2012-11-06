@@ -178,13 +178,12 @@ public abstract class JsScopeImpl<D> implements JsScope {
       List<? extends PropertyReference> propertyRefs =
           V8ProtocolUtil.extractObjectProperties(scopeObject);
 
-      List<ValueMirror> propertyMirrors = valueLoader.getOrLoadValueFromRefs(propertyRefs);
-
-      List<JsVariable> properties = new ArrayList<JsVariable>(propertyMirrors.size());
-      for (int i = 0; i < propertyMirrors.size(); i++) {
+      ValueMirror[] propertyMirrors = valueLoader.getOrLoadValueFromRefs(propertyRefs);
+      List<JsVariable> properties = new ArrayList<JsVariable>(propertyMirrors.length);
+      for (int i = 0; i < propertyMirrors.length; i++) {
         // This name should be string. We are making it string as a fall-back strategy.
         String varNameStr = propertyRefs.get(i).getName().toString();
-        properties.add(new JsVariableImpl(valueLoader, propertyMirrors.get(i), varNameStr));
+        properties.add(new JsVariableImpl(valueLoader, propertyMirrors[i], varNameStr));
       }
       return properties;
     }
