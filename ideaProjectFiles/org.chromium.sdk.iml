@@ -34,6 +34,7 @@
     </orderEntry>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="module" module-name="sdk parser" />
+    <orderEntry type="library" name="trove4j" level="project" />
   </component>
 </module>
 
