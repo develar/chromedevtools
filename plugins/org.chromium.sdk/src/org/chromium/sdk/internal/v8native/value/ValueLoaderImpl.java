@@ -5,6 +5,7 @@
 package org.chromium.sdk.internal.v8native.value;
 
 import gnu.trove.TLongArrayList;
+import gnu.trove.TLongIntHashMap;
 import gnu.trove.TLongObjectHashMap;
 import org.chromium.sdk.JsValue;
 import org.chromium.sdk.RelayOk;
@@ -27,11 +28,12 @@ import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.json.simple.JSONObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-
-import static org.chromium.sdk.util.BasicUtil.getSafe;
 
 /**
  * Implementation of {@link ValueLoader} that loads data by 'lookup' command and additionally
@@ -228,7 +230,13 @@ public class ValueLoaderImpl extends ValueLoader {
   public List<ValueMirror> getOrLoadValueFromRefs(List<? extends PropertyReference> propertyRefs)
       throws MethodIsBlockingException {
     ValueMirror[] result = new ValueMirror[propertyRefs.size()];
-    Map<Long, Integer> refToRequestIndex = new HashMap<Long, Integer>();
+    TLongIntHashMap refToRequestIndex = new TLongIntHashMap() {
+      @Override
+      public int get(long key) {
+        int index = index(key);
+        return index < 0 ? -1 : _values[index];
+      }
+    };
     List<PropertyReference> needsLoading = new ArrayList<PropertyReference>();
 
     for (int i = 0; i < propertyRefs.size(); i++) {
@@ -248,8 +256,8 @@ public class ValueLoaderImpl extends ValueLoader {
         // We don't have the data (enough) right now. We are requesting them from server.
         // There might be simultaneous request for the same value, which is a normal though
         // undesired case.
-        Integer requestPos = getSafe(refToRequestIndex, ref);
-        if (requestPos == null) {
+        int requestPos = refToRequestIndex.get(ref);
+        if (requestPos == -1) {
           refToRequestIndex.put(ref, needsLoading.size());
           needsLoading.add(property);
         }
@@ -266,9 +274,7 @@ public class ValueLoaderImpl extends ValueLoader {
         if (result[i] == null) {
           PropertyReference property = propertyRefs.get(i);
           DataWithRef dataWithRef = property.getValueObject();
-          Long ref = dataWithRef.ref();
-          int pos = getSafe(refToRequestIndex, ref);
-          result[i] = loadedMirrors.get(pos);
+          result[i] = loadedMirrors.get(refToRequestIndex.get(dataWithRef.ref()));
         }
       }
     }
