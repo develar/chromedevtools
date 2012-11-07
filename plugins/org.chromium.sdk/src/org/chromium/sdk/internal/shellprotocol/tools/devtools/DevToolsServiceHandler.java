@@ -4,15 +4,7 @@
 
 package org.chromium.sdk.internal.shellprotocol.tools.devtools;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolHandler;
@@ -21,8 +13,16 @@ import org.chromium.sdk.internal.shellprotocol.tools.protocol.DevToolsServiceCom
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsMessage;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsProtocolParserAccess;
 import org.chromium.sdk.internal.transport.Message;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
+
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles the interaction with the "DevToolsService" tool.
@@ -64,13 +64,7 @@ public class DevToolsServiceHandler implements ToolHandler {
 
     @Override
     public String toString() {
-      return new StringBuilder()
-          .append('[')
-          .append(id)
-          .append('=')
-          .append(url)
-          .append(']')
-          .toString();
+      return "[" + id + '=' + url + ']';
     }
   }
 
@@ -100,19 +94,12 @@ public class DevToolsServiceHandler implements ToolHandler {
   }
 
   public void handleMessage(Message message) {
-    JSONObject json;
-    try {
-      json = JsonUtil.jsonObjectFromJson(message.getContent());
-    } catch (ParseException e) {
-      Logger.getLogger(DevToolsServiceHandler.class.getName()).log(
-          Level.SEVERE, "Invalid JSON received: {0}", message.getContent());
-      return;
-    }
+    JsonReader reader = new JsonReader(new StringReader(message.getContent()));
     ToolsMessage toolsResponse;
     try {
-      toolsResponse = ToolsProtocolParserAccess.get().parseToolsMessage(json);
+      toolsResponse = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
     } catch (JsonProtocolParseException e) {
-      LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + json.toString(), e);
+      LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + reader.toString(), e);
       return;
     }
 
@@ -132,8 +119,7 @@ public class DevToolsServiceHandler implements ToolHandler {
         break;
       }
     } catch (JsonProtocolParseException e) {
-      LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + json.toString(), e);
-      return;
+      LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + reader.toString(), e);
     }
   }
 
@@ -168,8 +154,7 @@ public class DevToolsServiceHandler implements ToolHandler {
       }
       List<List<Object>> data = toolsResponse.data().asListTabsData();
       List<TabIdAndUrl> tabs = new ArrayList<TabIdAndUrl>(data.size());
-      for (int i = 0; i < data.size(); ++i) {
-        List<Object> idAndUrl = data.get(i);
+      for (List<Object> idAndUrl : data) {
         int id = ((Long) idAndUrl.get(0)).intValue();
         String url = (String) idAndUrl.get(1);
         tabs.add(new TabIdAndUrl(id, url));

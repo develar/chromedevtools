@@ -31,6 +31,8 @@ import org.json.simple.JSONObject;
  * descriptor object.
  */
 class TypeHandler<T> {
+  public static final String READER_NAME = "reader";
+
   private final Class<T> typeClass;
   private Constructor<? extends T> proxyClassConstructor = null;
 
@@ -266,7 +268,7 @@ class TypeHandler<T> {
     @Override void writeHelperMethodsJava(ClassScope classScope) {
     }
     @Override void writeParseMethodJava(ClassScope scope, String valueTypeName, String inputRef) {
-      scope.startLine("return new " + valueTypeName + "(" + inputRef + ");\n");
+      scope.getOutput().append("return new " + valueTypeName + "(" + inputRef + ");");
     }
   }
 
@@ -381,7 +383,7 @@ class TypeHandler<T> {
       classScope.startLine("public static boolean checkSubtypeConditions(" +
           "org.json.simple.JSONObject input)" + Util.THROWS_CLAUSE + " {\n");
       MethodScope methodScope = classScope.newMethodScope();
-      methodScope.indentRight();
+      methodScope.indentIn();
       for (FieldCondition condition : fieldConditions) {
         String name = condition.getPropertyName();
         methodScope.startLine("{\n");
@@ -399,7 +401,7 @@ class TypeHandler<T> {
         methodScope.startLine("}\n");
       }
       methodScope.startLine("return true;\n");
-      methodScope.indentLeft();
+      methodScope.indentOut();
       methodScope.startLine("}\n");
     }
 
@@ -461,99 +463,110 @@ class TypeHandler<T> {
   }
 
   public void writeStaticClassJava(FileScope fileScope) {
-    fileScope.startLine("// Type " + getTypeClass().getName() + "\n");
+    TextOutput out = fileScope.getOutput();
+    out.append("// Type ").append(getTypeClass().getName());
     String valueImplClassName = fileScope.getTypeImplShortName(this);
     String typeClassName = getTypeClass().getCanonicalName();
 
-    fileScope.startLine("public static class " + valueImplClassName + " extends " +
-        Util.BASE_PACKAGE + ".implutil.GeneratedCodeLibrary.");
-    if (requiresJsonObject) {
-      fileScope.append("JsonValueBase");
-    } else {
-      fileScope.append("ObjectValueBase");
-    }
-    fileScope.append(" implements " + typeClassName + " {\n");
+    out.newLine().append("public static class ").append(valueImplClassName);
+    out.append(" extends ").append(Util.BASE_PACKAGE).append(".implutil.GeneratedCodeLibrary.");
+    out.append(requiresJsonObject ? "JsonValueBase" : "ObjectValueBase");
+    out.append(" implements ").append(typeClassName).append(" {");
 
     ClassScope classScope = fileScope.newClassScope();
-    classScope.indentRight();
-
-    classScope.startLine("public static " + valueImplClassName + " parse(Object input)" +
-        Util.THROWS_CLAUSE + " {\n");
-    classScope.indentRight();
-    subtypeAspect.writeParseMethodJava(classScope, valueImplClassName, "input");
-    classScope.indentLeft();
-    classScope.startLine("}");
-    classScope.append("\n");
-    classScope.startLine(valueImplClassName + "(Object input");
-    subtypeAspect.writeSuperConstructorParamJava(classScope);
-    classScope.append(")" + Util.THROWS_CLAUSE + " {\n");
-
-    {
-      MethodScope methodScope = classScope.newMethodScope();
-      methodScope.indentRight();
-      methodScope.startLine("super(input);\n");
-
-      subtypeAspect.writeSuperConstructorInitializationJava(methodScope);
-
-      for (FieldLoader fieldLoader : fieldLoaders) {
-        String valueRef = methodScope.newMethodScopedName("value");
-        String fieldName = fieldLoader.getFieldName();
-        methodScope.append("\n");
-        Util.writeReadValueAndHasValue(methodScope, fieldName, "underlying", valueRef);
-        fieldLoader.writeFieldLoadJava(methodScope, valueRef);
-      }
-
-      if (algCasesData != null) {
-        algCasesData.writeConstructorCodeJava(methodScope);
-      }
-
-      methodScope.indentLeft();
-
-    }
-
-    classScope.startLine("}\n");
+    out.indentIn();
 
     for (VolatileFieldBinding field : volatileFields) {
-      field.writeFieldDeclarationJava(classScope);
+      field.writeFieldDeclarationJava(classScope, out);
     }
 
     for (FieldLoader loader : fieldLoaders) {
-      loader.writeFieldDeclarationJava(classScope);
+      loader.writeFieldDeclaration(classScope);
     }
 
     if (algCasesData != null) {
       algCasesData.writeFiledsJava(classScope);
     }
 
+    writeConstructorMethod(valueImplClassName, classScope, out);
+    out.newLine();
+    writeParseMethod(valueImplClassName, classScope, out);
+    out.newLine();
+
     subtypeAspect.writeSuperFieldJava(classScope);
 
     for (Map.Entry<Method, MethodHandler> en : methodHandlerMap.entrySet()) {
-      Method m = en.getKey();
-      MethodHandler methodHandler = en.getValue();
-      methodHandler.writeMethodImplementationJava(classScope, m);
+      en.getValue().writeMethodImplementationJava(classScope, en.getKey());
     }
 
     BaseHandlersLibrary.writeBaseMethodsJava(classScope, this);
 
     subtypeAspect.writeHelperMethodsJava(classScope);
 
-    classScope.indentLeft();
-    classScope.startLine("}\n");
-    fileScope.append("\n");
+    out.indentOut().append('}');
   }
 
-  public void writeMapFillJava(ClassScope scope, String mapReference) {
-    scope.startLine("// Type " + getTypeClass().getName() + "\n");
-    scope.startLine(mapReference + ".put(" + getTypeClass().getCanonicalName() +
-        ".class, new " + Util.BASE_PACKAGE + ".implutil.GeneratedCodeLibrary.AbstractType() {\n");
-    scope.startLine("  @Override public Object parseJson(org.json.simple.JSONObject json)" +
-        Util.THROWS_CLAUSE + " {\n");
-    scope.startLine("    return " + scope.getTypeImplShortName(this) + ".parse(json);\n");
-    scope.startLine("  }\n");
-    scope.startLine("  @Override public Object parseAnything(Object object)" +
-        Util.THROWS_CLAUSE + " {\n");
-    scope.startLine("    return " + scope.getTypeImplShortName(this) + ".parse(object);\n");
-    scope.startLine("  }\n");
-    scope.startLine("});\n");
+  private void writeParseMethod(String valueImplClassName, ClassScope classScope, TextOutput out) {
+    out.newLine().append("public static " + valueImplClassName + " parse(Object input)" + Util.THROWS_CLAUSE + " {");
+    out.newLine().indentIn();
+    subtypeAspect.writeParseMethodJava(classScope, valueImplClassName, "input");
+    out.indentOut().newLine().append('}');
+  }
+
+  private void writeConstructorMethod(String valueImplClassName, ClassScope classScope, TextOutput out) {
+    out.newLine().append(valueImplClassName).append("(Object input");
+    subtypeAspect.writeSuperConstructorParamJava(classScope);
+    out.append(')').append(Util.THROWS_CLAUSE).append(" {").newLine();
+
+    MethodScope methodScope = classScope.newMethodScope();
+    out.indentIn().append("super(input);").newLine();
+
+    subtypeAspect.writeSuperConstructorInitializationJava(methodScope);
+
+    out.newLine().append(READER_NAME).append(".beginObject();");
+    out.newLine().append("while (reader.hasNext()) {");
+    out.newLine().indentIn().append("String name = reader.nextName();");
+    boolean isFirst = true;
+    String operator = "if";
+    for (FieldLoader fieldLoader : fieldLoaders) {
+      String fieldName = fieldLoader.getFieldName();
+      out.newLine().append(operator).append(" (name.equals(\"").append(fieldName).append("\")) {");
+      {
+        out.indentedLine("if (").append(READER_NAME).append(".peek() == JsonToken.NULL) {");
+        {
+          out.newLine().indentIn();
+          if (fieldLoader.parser.isNullable()) {
+            assignField(out, fieldName).append("null");
+          }
+          else {
+            out.append("throwFieldIsNotOptional(\"").append(fieldName).append("\")");
+          }
+          out.append(';');
+        }
+        out.indentOut().newLine().append('}');
+      }
+      out.newLine().append("else {").indentIn().newLine();
+      assignField(out, fieldName);
+      fieldLoader.parser.writeReadCode(out);
+      out.append(';');
+      out.indentOut().newLine().append('}');
+      out.indentOut().newLine().append('}');
+      if (isFirst) {
+        isFirst = false;
+        operator = "else if";
+      }
+    }
+    out.indentOut().newLine().append('}');
+    out.newLine().append(READER_NAME).append(".endObject();");
+
+    if (algCasesData != null) {
+      algCasesData.writeConstructorCodeJava(methodScope);
+    }
+
+    out.indentOut().newLine().append('}');
+  }
+
+  private static TextOutput assignField(TextOutput out, String fieldName) {
+    return out.append(FieldLoader.FIELD_PREFIX + fieldName + " = ");
   }
 }

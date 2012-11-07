@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
 import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
@@ -23,7 +24,6 @@ import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
 
 import static org.chromium.sdk.util.BasicUtil.*;
-import org.json.simple.JSONObject;
 
 /**
  * Dynamic implementation of user 'root' interface to parser.
@@ -109,7 +109,7 @@ class ParserRootImpl<R> {
         }
         Type argument = arguments[0];
         MethodDelegate delegate;
-        if (argument == JSONObject.class) {
+        if (argument == JsonReader.class) {
           delegate = new ParseDelegate(typeHandler);
         } else if (argument == Object.class) {
           delegate = new ParseDelegate(typeHandler);
@@ -177,11 +177,11 @@ class ParserRootImpl<R> {
     void writeStaticMethodJava(ClassScope scope, Method method) {
       MethodHandler.writeMethodDeclarationJava(scope, method, STATIC_METHOD_PARAM_NAME_LIST);
       scope.append(JavaCodeGenerator.Util.THROWS_CLAUSE + " {\n");
-      scope.indentRight();
+      scope.indentIn();
 
       scope.startLine("return " + scope.getTypeImplReference(typeHandler) + ".parse(" +
           STATIC_METHOD_PARAM_NAME + ");\n");
-      scope.indentLeft();
+      scope.indentOut();
       scope.startLine("}\n");
       scope.append("\n");
     }

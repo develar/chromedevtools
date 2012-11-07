@@ -4,6 +4,7 @@
 
 package org.chromium.sdk.internal.protocolparser;
 
+import com.google.gson.stream.JsonReader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -13,5 +14,5 @@ import org.json.simple.JSONObject;
  * (not from {@link JSONArray} or whatever).
  */
 public interface JsonObjectBased extends AnyObjectBased {
-  JSONObject getUnderlyingObject();
+  JsonReader getUnderlyingObject();
 }

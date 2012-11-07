@@ -4,6 +4,8 @@
 
 package org.chromium.sdk.internal.transport;
 
+import org.chromium.sdk.internal.v8native.JavascriptVmImpl;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -11,9 +13,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
-
-import org.chromium.sdk.internal.transport.Message.MalformedMessageException;
-import org.chromium.sdk.internal.v8native.JavascriptVmImpl;
 
 /**
  * Handshaker handles "handshake" part of communication. It may write and read whatever it needs
@@ -53,9 +52,7 @@ public interface Handshaker {
         if (INCOMING_TEXT.equals(line)) {
           break;
         }
-        if (!ignoreUnexpectedResponses) {
-          throw new IOException("Unexpected handshake: " + line);
-        }
+        throw new IOException("Unexpected handshake: " + line);
       }
     }
 
@@ -108,13 +105,8 @@ public interface Handshaker {
 
     class HandshakeTaks implements Callable<RemoteInfo> {
       public RemoteInfo call() throws IOException {
-        final Message message;
-        try {
-          message = Message.fromBufferedReader(input, UTF8_CHARSET);
-        } catch (MalformedMessageException e) {
-          throw JavascriptVmImpl.newIOException("Unrecognized handshake message from remote", e);
-        }
-        if (message == null) {
+        final Message message = Message.fromBufferedReader(input, UTF8_CHARSET);
+                if (message == null) {
           throw new IOException("End of stream");
         }
         final String protocolVersion = message.getHeader("Protocol-Version", null);
@@ -125,7 +117,7 @@ public interface Handshaker {
         if (vmVersion == null) {
           throw new IOException("Absent V8 VM version");
         }
-        RemoteInfo remoteInfo = new RemoteInfo() {
+        return new RemoteInfo() {
           public String getProtocolVersion() {
             return protocolVersion;
           }
@@ -136,7 +128,6 @@ public interface Handshaker {
             return message.getHeader("Embedding-Host", null);
           }
         };
-        return remoteInfo;
       }
     }
 

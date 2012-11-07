@@ -4,12 +4,14 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
+import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
 import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
-import org.json.simple.JSONObject;
+
+import java.util.Map;
 
 /**
  * Interface to native V8 debug protocol parser.
@@ -19,15 +21,15 @@ import org.json.simple.JSONObject;
 public interface V8NativeProtocolParser extends V8NativeProtocolParserTestAccess {
 
   @JsonParseMethod
-  IncomingMessage parseIncomingMessage(JSONObject json) throws JsonProtocolParseException;
+  IncomingMessage parseIncomingMessage(JsonReader jsonReader) throws JsonProtocolParseException;
 
   @JsonParseMethod
-  SuccessCommandResponse parseSuccessCommandResponse(JSONObject json)
+  SuccessCommandResponse parseSuccessCommandResponse(JsonReader reader)
       throws JsonProtocolParseException;
 
   @JsonParseMethod
-  ContextData parseContextData(JSONObject dataObject) throws JsonProtocolParseException;
+  ContextData parseContextData(JsonReader reader) throws JsonProtocolParseException;
 
   @JsonParseMethod
-  ValueHandle parseValueHandle(JSONObject value) throws JsonProtocolParseException;
+  ValueHandle parseValueHandle(JsonReader reader) throws JsonProtocolParseException;
 }

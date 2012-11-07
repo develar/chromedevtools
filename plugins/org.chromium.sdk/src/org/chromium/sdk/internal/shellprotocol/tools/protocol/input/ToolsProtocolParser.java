@@ -4,10 +4,10 @@
 
 package org.chromium.sdk.internal.shellprotocol.tools.protocol.input;
 
+import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
 import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-import org.json.simple.JSONObject;
 
 /**
  * Interface to Chroimum 'DevTools' protocol parser.
@@ -17,6 +17,6 @@ import org.json.simple.JSONObject;
 public interface ToolsProtocolParser {
 
   @JsonParseMethod
-  ToolsMessage parseToolsMessage(JSONObject json) throws JsonProtocolParseException;
+  ToolsMessage parseToolsMessage(JsonReader reader) throws JsonProtocolParseException;
 
 }

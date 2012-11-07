@@ -21,12 +21,12 @@ import org.json.simple.JSONObject;
  */
 class JsonTypeParser<T> extends SlowParser<ObjectData> {
   private final RefToType<T> refToType;
-  private final boolean isNullable;
   private final boolean isSubtyping;
 
-  JsonTypeParser(RefToType<T> refToType, boolean isNullable, boolean isSubtyping) {
+  JsonTypeParser(RefToType<T> refToType, boolean nullable, boolean isSubtyping) {
+    super(nullable);
+
     this.refToType = refToType;
-    this.isNullable = isNullable;
     this.isSubtyping = isSubtyping;
   }
 
@@ -37,7 +37,7 @@ class JsonTypeParser<T> extends SlowParser<ObjectData> {
   @Override
   public ObjectData parseValue(Object value, ObjectData thisData)
       throws JsonProtocolParseException {
-    if (isNullable && value == null) {
+    if (isNullable() && value == null) {
       return null;
     }
     if (value == null) {
@@ -77,8 +77,8 @@ class JsonTypeParser<T> extends SlowParser<ObjectData> {
   };
 
   @Override
-  public void appendFinishedValueTypeNameJava(FileScope scope) {
-    scope.append(refToType.getTypeClass().getCanonicalName());
+  public void appendFinishedValueTypeNameJava(TextOutput out) {
+    out.append(refToType.getTypeClass().getCanonicalName());
   }
 
   @Override
@@ -93,7 +93,7 @@ class JsonTypeParser<T> extends SlowParser<ObjectData> {
     scope.startLine(typeName + " " + resultRef + ";\n");
 
     scope.startLine("if (" + valueRef+ " == null) {\n");
-    if (isNullable) {
+    if (isNullable()) {
       scope.startLine("  " + resultRef+ " = null;\n");
     } else {
       scope.startLine("  throw new " + Util.BASE_PACKAGE +
@@ -107,10 +107,5 @@ class JsonTypeParser<T> extends SlowParser<ObjectData> {
       scope.startLine("  " + resultRef + " = " + typeName + ".parse(" + valueRef + ");\n");
     }
     scope.startLine("}\n");
-  }
-
-  @Override
-  boolean javaCodeThrowsException() {
-    return true;
   }
 }

@@ -10,11 +10,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.AnyObjectBased;
 import org.chromium.sdk.internal.protocolparser.JsonObjectBased;
 import org.chromium.sdk.internal.protocolparser.JsonSubtype;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
-import org.json.simple.JSONObject;
 
 /**
  * Contains dynamic proxy method handlers for several well-known methods.
@@ -105,8 +105,8 @@ class BaseHandlersLibrary {
     }
 
     @Override
-    JSONObject handle(ObjectData objectData, Object[] args) {
-      return (JSONObject) objectData.getUnderlyingObject();
+    JsonReader handle(ObjectData objectData, Object[] args) {
+      return (JsonReader) objectData.getUnderlyingObject();
     }
 
     @Override

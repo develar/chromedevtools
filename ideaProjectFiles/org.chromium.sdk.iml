@@ -15,9 +15,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../plugins/org.chromium.sdk">
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src-static-impl/generated" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src-wip" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src-static-impl/bridge" isTestSource="false" />
     </content>
     <orderEntry type="library" name="ECLIPSE" level="application" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -35,6 +33,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="module" module-name="sdk parser" />
     <orderEntry type="library" name="trove4j" level="project" />
+    <orderEntry type="library" name="gson" level="project" />
+    <orderEntry type="module" module-name="V8 dynamic protocol impl" />
   </component>
 </module>
 

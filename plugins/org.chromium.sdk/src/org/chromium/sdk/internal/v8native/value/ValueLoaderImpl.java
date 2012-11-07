@@ -4,6 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.value;
 
+import com.google.gson.stream.JsonReader;
 import gnu.trove.TLongArrayList;
 import gnu.trove.TLongIntHashMap;
 import gnu.trove.TLongObjectHashMap;
@@ -25,11 +26,11 @@ import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory
 import org.chromium.sdk.internal.v8native.protocol.output.LookupMessage;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
-import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -308,7 +309,7 @@ public class ValueLoaderImpl extends ValueLoader {
   private List<ValueMirror> readResponseFromLookup(
       SuccessCommandResponse successResponse, TLongArrayList propertyRefIds) {
     List<ValueMirror> result = new ArrayList<ValueMirror>(propertyRefIds.size());
-    JSONObject body;
+    Map body;
     try {
       body = successResponse.body().asLookupMap();
     } catch (JsonProtocolParseException e) {
@@ -316,13 +317,13 @@ public class ValueLoaderImpl extends ValueLoader {
     }
     for (int i = 0; i < propertyRefIds.size(); i++) {
       long ref = propertyRefIds.getQuick(i);
-      JSONObject value = JsonUtil.getAsJSON(body, String.valueOf(ref));
+      Map value = JsonUtil.getAsJSON(body, String.valueOf(ref));
       if (value == null) {
         throw new ValueLoadException("Failed to find value for ref=" + ref);
       }
       ValueHandle valueHandle;
       try {
-        valueHandle = V8ProtocolParserAccess.get().parseValueHandle(value);
+        valueHandle = V8ProtocolParserAccess.get().parseValueHandle((JsonReader) value);
       }
       catch (JsonProtocolParseException e) {
         throw new RuntimeException(e);
@@ -341,7 +342,7 @@ public class ValueLoaderImpl extends ValueLoader {
   private List<ValueHandle> readResponseFromLookupRaw(SuccessCommandResponse successResponse,
           TLongArrayList propertyRefIds) {
     List<ValueHandle> result = new ArrayList<ValueHandle>(propertyRefIds.size());
-    JSONObject body;
+    Map body;
     try {
       body = successResponse.body().asLookupMap();
     } catch (JsonProtocolParseException e) {
@@ -349,13 +350,13 @@ public class ValueLoaderImpl extends ValueLoader {
     }
     for (int i = 0; i < propertyRefIds.size(); i++) {
       long ref = propertyRefIds.getQuick(i);
-      JSONObject value = JsonUtil.getAsJSON(body, String.valueOf(ref));
+      Map value = JsonUtil.getAsJSON(body, String.valueOf(ref));
       if (value == null) {
         throw new ValueLoadException("Failed to find value for ref=" + ref);
       }
       ValueHandle valueHandle;
       try {
-        valueHandle = V8ProtocolParserAccess.get().parseValueHandle(value);
+        valueHandle = V8ProtocolParserAccess.get().parseValueHandle((JsonReader) value);
       }
       catch (JsonProtocolParseException e) {
         throw new ValueLoadException(e);

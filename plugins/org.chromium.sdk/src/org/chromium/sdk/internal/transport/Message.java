@@ -23,33 +23,6 @@ import java.util.logging.Logger;
  * added and processed on read/write phase. It is not reported to user.
  */
 public class Message {
-
-  /**
-   * This exception is thrown during Message deserialization whenever the input
-   * is malformed.
-   */
-  public static class MalformedMessageException extends Exception {
-
-    private static final long serialVersionUID = 1L;
-
-    public MalformedMessageException() {
-      super();
-    }
-
-    public MalformedMessageException(String message) {
-      super(message);
-    }
-
-    public MalformedMessageException(Throwable cause) {
-      super(cause);
-    }
-
-    public MalformedMessageException(String message, Throwable cause) {
-      super(message, cause);
-    }
-
-  }
-
   /**
    * Known ChromeDevTools Protocol headers (ToolHandler implementations
    * can add their own headers.)
@@ -61,7 +34,7 @@ public class Message {
     public final String name;
 
     Header(String value) {
-      this.name = value;
+      name = value;
     }
   }
 
@@ -92,11 +65,10 @@ public class Message {
   /**
    * Sends a message through the specified writer.
    *
-   * @param writer to send the message through
    * @throws IOException
    */
   public void sendThrough(OutputStream outputStream, Charset charset) throws IOException {
-    for (Map.Entry<String, String> entry : this.headers.entrySet()) {
+    for (Map.Entry<String, String> entry : headers.entrySet()) {
       String headerValue = entry.getValue();
       if (headerValue == null) {
         break;
@@ -121,11 +93,9 @@ public class Message {
    * @return a new message, or {@code null} if input is invalid (end-of-stream
    *         or bad message format)
    * @throws IOException
-   * @throws MalformedMessageException if the input does not represent a valid
-   *         message
    */
   public static Message fromBufferedReader(LineReader reader, Charset charset)
-      throws IOException, MalformedMessageException {
+      throws IOException {
     Map<String, String> headers = new LinkedHashMap<String, String>();
 
     String contentLengthValue = null;
@@ -203,7 +173,7 @@ public class Message {
    *         is not found in the message
    */
   public String getHeader(String name, String defaultValue) {
-    return getHeader(this.headers, name, defaultValue);
+    return getHeader(headers, name, defaultValue);
   }
 
   private static String getHeader(Map<? extends String, String> headers, String headerName,
@@ -225,7 +195,7 @@ public class Message {
   public String toString() {
     ByteArrayOutputStream stream = new ByteArrayOutputStream();
     try {
-      this.sendThrough(stream, TO_STRING_CHARSET);
+      sendThrough(stream, TO_STRING_CHARSET);
     } catch (IOException e) {
       // never occurs
       throw new RuntimeException(e);

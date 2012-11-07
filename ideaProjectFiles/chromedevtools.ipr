@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AntConfiguration">
+    <defaultAnt bundledAnt="true" />
+  </component>
   <component name="ArtifactManager">
     <artifact type="jar" build-on-make="true" name="chromium-wipbackend.protocol-1.0">
       <output-path>$PROJECT_DIR$/../out/artifacts</output-path>
@@ -55,6 +58,8 @@
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/gson-2.2.2-sources.jar" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/gson-2.2.2.jar" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/trove4j.jar" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/trove4j_src.jar" charset="UTF-8" />
   </component>
@@ -255,6 +260,8 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/V8 dynamic protocol impl.iml" filepath="$PROJECT_DIR$/V8 dynamic protocol impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/V8 static protocol impl.iml" filepath="$PROJECT_DIR$/V8 static protocol impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.iml" filepath="$PROJECT_DIR$/org.chromium.debug.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.core.iml" filepath="$PROJECT_DIR$/org.chromium.debug.core.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.core.tests.iml" filepath="$PROJECT_DIR$/org.chromium.debug.core.tests.iml" />
@@ -286,6 +293,15 @@
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
   </component>
   <component name="libraryTable">
+    <library name="gson">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/gson-2.2.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/gson-2.2.2-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="trove4j">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/trove4j.jar!/" />

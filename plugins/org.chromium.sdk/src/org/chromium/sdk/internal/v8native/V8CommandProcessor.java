@@ -4,9 +4,7 @@
 
 package org.chromium.sdk.internal.v8native;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
@@ -16,7 +14,9 @@ import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage;
 import org.chromium.sdk.internal.v8native.protocol.input.V8ProtocolParserAccess;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
-import org.json.simple.JSONObject;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Sends JSON commands to V8 VM and handles responses. Command is sent
@@ -71,7 +71,7 @@ public class V8CommandProcessor implements V8CommandSender<DebuggerMessage, Runt
     this.messageOutput = messageOutput;
     this.defaultResponseHandler = defaultResponseHandler;
     this.debugSession = debugSession;
-    this.baseCommandProcessor =
+    baseCommandProcessor =
         new BaseCommandProcessor<Integer, DebuggerMessage, IncomingMessage, CommandResponse>(
             new HandlerImpl());
   }
@@ -102,10 +102,10 @@ public class V8CommandProcessor implements V8CommandSender<DebuggerMessage, Runt
     return DISPATCH_THREAD_PROMISES_TO_CALL;
   }
 
-  public void processIncomingJson(final JSONObject v8Json) {
+  public void processIncomingJson(JsonReader jsonReader) {
     IncomingMessage response;
     try {
-      response = V8ProtocolParserAccess.get().parseIncomingMessage(v8Json);
+      response = V8ProtocolParserAccess.get().parseIncomingMessage(jsonReader);
     } catch (JsonProtocolParseException e) {
       LOGGER.log(Level.SEVERE, "JSON message does not conform to the protocol", e);
       return;
@@ -128,7 +128,7 @@ public class V8CommandProcessor implements V8CommandSender<DebuggerMessage, Runt
     }
 
     public void send(DebuggerMessage message, boolean isImmediate) {
-      V8CommandProcessor.this.messageOutput.send(message, isImmediate);
+      messageOutput.send(message, isImmediate);
     }
 
     public CommandResponse parseWithSeq(IncomingMessage incoming) {
@@ -140,12 +140,12 @@ public class V8CommandProcessor implements V8CommandSender<DebuggerMessage, Runt
     }
 
     public void acceptNonSeq(IncomingMessage incoming) {
-      V8CommandProcessor.this.defaultResponseHandler.handleResponseWithHandler(incoming);
+      defaultResponseHandler.handleResponseWithHandler(incoming);
     }
 
     public void reportVmStatus(String currentRequest, int numberOfEnqueued) {
       DebugEventListener.VmStatusListener statusListener =
-        V8CommandProcessor.this.debugSession.getDebugEventListener().getVmStatusListener();
+              debugSession.getDebugEventListener().getVmStatusListener();
       if (statusListener == null) {
         return;
       }

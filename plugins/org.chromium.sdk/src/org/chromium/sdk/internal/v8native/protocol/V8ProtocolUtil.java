@@ -4,10 +4,6 @@
 
 package org.chromium.sdk.internal.v8native.protocol;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.chromium.sdk.Script;
 import org.chromium.sdk.Script.Type;
 import org.chromium.sdk.Version;
@@ -16,19 +12,16 @@ import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.V8ContextFilter;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.VersionBody;
-import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
-import org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle;
-import org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject;
-import org.chromium.sdk.internal.v8native.protocol.input.data.PropertyWithRef;
-import org.chromium.sdk.internal.v8native.protocol.input.data.PropertyWithValue;
-import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
-import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
-import org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef;
+import org.chromium.sdk.internal.v8native.protocol.input.data.*;
 import org.chromium.sdk.internal.v8native.protocol.output.ScriptsMessage;
 import org.chromium.sdk.internal.v8native.value.DataWithRef;
 import org.chromium.sdk.internal.v8native.value.PropertyReference;
 import org.chromium.sdk.internal.v8native.value.PropertyType;
-import org.json.simple.JSONObject;
+
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A utility class to process V8 debugger messages.
@@ -86,8 +79,7 @@ public class V8ProtocolUtil {
     List<PropertyObject> props = handle.properties();
     int propsLen = props.size();
     List<PropertyReference> objProps = new ArrayList<PropertyReference>(propsLen);
-    for (int i = 0; i < propsLen; i++) {
-      PropertyObject prop = props.get(i);
+    for (PropertyObject prop : props) {
       putMirror(objProps, prop, PropertyNameGetter.SUBPROPERTY);
     }
 
@@ -261,7 +253,7 @@ public class V8ProtocolUtil {
    * @return the actual of inferred function name. Will handle {@code null} or
    *         unnamed functions
    */
-  public static String getFunctionName(JSONObject functionObject) {
+  public static String getFunctionName(Map functionObject) {
     if (functionObject == null) {
       return "<unknown>";
     } else {
@@ -329,7 +321,7 @@ public class V8ProtocolUtil {
     return Version.parseString(versionString);
   }
 
-  private static String getNameOrInferred(JSONObject obj, V8Protocol nameProperty) {
+  private static String getNameOrInferred(Map obj, V8Protocol nameProperty) {
     String name = JsonUtil.getAsString(obj, nameProperty);
     if (isNullOrEmpty(name)) {
       name = JsonUtil.getAsString(obj, V8Protocol.INFERRED_NAME);

@@ -6,6 +6,7 @@ package org.chromium.sdk.internal;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +49,7 @@ public class JsonUtil {
   public static JSONObject jsonObjectFromJson(String json) throws ParseException {
     JSONParser p = new JSONParser();
     Object parsed = p.parse(json);
-    if (false == parsed instanceof JSONObject) {
+    if (!(parsed instanceof JSONObject)) {
       LOGGER.log(Level.SEVERE, "Not a JSON object: {0}", json);
       return null;
     }
@@ -97,7 +98,7 @@ public class JsonUtil {
    * @param key to look up
    * @return null if key not found or bad type
    */
-  public static String getAsString(JSONObject obj, CharSequence key) {
+  public static String getAsString(Map obj, CharSequence key) {
     String keyString = key.toString();
     Object v = obj.get(keyString);
     if (v instanceof String || v == null) {
@@ -133,11 +134,11 @@ public class JsonUtil {
    * @param key to look up
    * @return null if key not found
    */
-  public static JSONObject getAsJSON(JSONObject obj, CharSequence key) {
+  public static Map getAsJSON(Map obj, CharSequence key) {
     String keyString = key.toString();
     Object v = obj.get(keyString);
-    if (v instanceof JSONObject || v == null) {
-      return (JSONObject) v;
+    if (v instanceof Map || v == null) {
+      return (Map) v;
     }
 
     LOGGER.log(Level.SEVERE, "Key: {0}, found value: {1}", new Object[] {keyString, v});
@@ -151,8 +152,8 @@ public class JsonUtil {
    * @return not null
    * @throws JsonException if failed to rip out the object
    */
-  public static JSONObject getAsJSONStrict(JSONObject obj, CharSequence key) {
-    JSONObject result = getAsJSON(obj, key);
+  public static Map getAsJSONStrict(JSONObject obj, CharSequence key) {
+    Map result = getAsJSON(obj, key);
     if (result == null) {
       throw new JsonException("Failed to find property '" + key);
     }

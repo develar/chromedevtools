@@ -4,13 +4,13 @@
 
 package org.chromium.sdk.internal.shellprotocol.tools.protocol.input;
 
-import java.util.List;
-
+import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.JsonOptionalField;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
 import org.chromium.sdk.internal.protocolparser.JsonType;
-import org.json.simple.JSONObject;
+
+import java.util.List;
 
 @JsonType
 public interface ToolsMessage {
@@ -27,7 +27,7 @@ public interface ToolsMessage {
 
     // V8Debugger tool.
     @JsonSubtypeCasting
-    JSONObject asDebuggerData() throws JsonProtocolParseException;
+    JsonReader asDebuggerData();
 
     @JsonSubtypeCasting
     String asNavigatedData() throws JsonProtocolParseException;

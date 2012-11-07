@@ -4,14 +4,14 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import java.util.List;
-
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
-import org.json.simple.JSONObject;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * This is empty base type for all command response body types. The actual type
@@ -31,7 +31,7 @@ public interface CommandResponseBody {
 
   @JsonSubtypeCasting
   // map refId -> ValueHandle
-  JSONObject asLookupMap() throws JsonProtocolParseException;
+  Map asLookupMap() throws JsonProtocolParseException;
 
   @JsonSubtypeCasting(reinterpret=true)
   ValueHandle asEvaluateBody() throws JsonProtocolParseException;

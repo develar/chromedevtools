@@ -4,14 +4,7 @@
 
 package org.chromium.sdk.internal.shellprotocol.tools.v8debugger;
 
-import java.util.EnumSet;
-import java.util.Set;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.TabDebugEventListener;
 import org.chromium.sdk.internal.JsonUtil;
@@ -24,18 +17,21 @@ import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.Result;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsMessage;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsProtocolParserAccess;
 import org.chromium.sdk.internal.transport.Message;
-import org.chromium.sdk.internal.v8native.DebugSession;
-import org.chromium.sdk.internal.v8native.DebugSessionManager;
-import org.chromium.sdk.internal.v8native.V8CommandOutput;
-import org.chromium.sdk.internal.v8native.V8ContextFilter;
-import org.chromium.sdk.internal.v8native.V8Helper;
+import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.protocol.input.V8ProtocolParserAccess;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 import org.chromium.sdk.util.MethodIsBlockingException;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
+
+import java.io.StringReader;
+import java.util.EnumSet;
+import java.util.Set;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles the interaction with the "V8Debugger" tool.
@@ -94,8 +90,8 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
       if (data instanceof String) {
         String stringData = (String) data;
         // we should parse string and check context id. It should have the format "type,id".
-      } else if (data instanceof JSONObject) {
-        JSONObject dataObject = (JSONObject) data;
+      } else if (data instanceof JsonReader) {
+        JsonReader dataObject = (JsonReader) data;
         ContextData contextData;
         try {
           contextData = V8ProtocolParserAccess.get().parseContextData(dataObject);
@@ -130,7 +126,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
     this.browserTabImpl = browserTabImpl;
     this.toolOutput = toolOutput;
     V8CommandOutputImpl v8MessageOutput = new V8CommandOutputImpl(toolOutput);
-    this.debugSession = new DebugSession(this, CONTEXT_FILTER, v8MessageOutput, browserTabImpl);
+    debugSession = new DebugSession(this, CONTEXT_FILTER, v8MessageOutput, browserTabImpl);
   }
 
   public DebugSession getDebugSession() {
@@ -146,18 +142,12 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
   }
 
   private void handleChromeDevToolMessage(final Message message) {
-    JSONObject json;
-    try {
-      json = JsonUtil.jsonObjectFromJson(message.getContent());
-    } catch (ParseException e) {
-      LOGGER.log(Level.SEVERE, "Invalid JSON received: " + message.getContent(), e);
-      return;
-    }
+    JsonReader reader = new JsonReader(new StringReader(message.getContent()));
     ToolsMessage devToolsMessage;
     try {
-      devToolsMessage = ToolsProtocolParserAccess.get().parseToolsMessage(json);
+      devToolsMessage = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
     } catch (JsonProtocolParseException e) {
-      LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + json.toString(), e);
+      LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + reader.toString(), e);
       return;
     }
     DebuggerToolCommand command = DebuggerToolCommand.forName(devToolsMessage.command());
@@ -183,7 +173,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
           break;
       }
     } catch (JsonProtocolParseException e) {
-      LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + json.toString(), e);
+      LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + reader.toString(), e);
     }
   }
 
@@ -374,8 +364,10 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
    * @param callbackReference reference which may hold callback
    * @param result to notify the callback with
    */
-  private void notifyCallback(AtomicReference<ResultAwareCallback> callbackReference,
-      Result result) {
+  private static void notifyCallback(
+          AtomicReference<ResultAwareCallback> callbackReference,
+          Result result
+  ) {
     ResultAwareCallback callback = callbackReference.getAndSet(null);
     if (callback != null) {
       try {
@@ -418,11 +410,11 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
   }
 
   private void processDebuggerCommand(ToolsMessage toolsMessage) throws JsonProtocolParseException {
-    JSONObject v8Json = toolsMessage.data().asDebuggerData();
-    if (v8Json == null) {
+    JsonReader reader = toolsMessage.data().asDebuggerData();
+    if (reader == null) {
       throw new IllegalArgumentException("'data' field not found");
     }
-    debugSession.getV8CommandProcessor().processIncomingJson(v8Json);
+    debugSession.getV8CommandProcessor().processIncomingJson(reader);
   }
 
   private void processNavigated(ToolsMessage toolsMessage) throws JsonProtocolParseException {

@@ -29,23 +29,25 @@ public interface JavaCodeGenerator {
     String getTypeImplShortName(TypeHandler<?> typeHandler);
 
     /**
-     * @return new {@link FileScope} that extends {@link GlobalScope} and shares the state
+     * @return new {@link FileScope} that extends {@link GlobalScope} and shares the out
      *     with this {@link GlobalScope}
      */
     FileScope newFileScope(StringBuilder output);
   }
 
   interface FileScope extends GlobalScope {
+    TextOutput getOutput();
     StringBuilder getStringBuilder();
 
-    void startLine(String line);
-    void append(String line);
+    FileScope startLine(String line);
+    FileScope append(String line);
+    FileScope append(char c);
 
-    void indentRight();
-    void indentLeft();
+    void indentIn();
+    void indentOut();
 
     /**
-     * @return new {@link ClassScope} that extends {@link FileScope} and shares the state
+     * @return new {@link ClassScope} that extends {@link FileScope} and shares the out
      *     with this {@link FileScope}
      */
     ClassScope newClassScope();
@@ -55,8 +57,8 @@ public interface JavaCodeGenerator {
     ClassScope getRootClassScope();
 
     /**
-     * @return new {@link ClassScope} that has different state as {@link ClassScope},
-     *     but shares the state with this as {@link FileScope}
+     * @return new {@link ClassScope} that has different out as {@link ClassScope},
+     *     but shares the out with this as {@link FileScope}
      */
     @Override
     ClassScope newClassScope();
@@ -71,7 +73,7 @@ public interface JavaCodeGenerator {
     <T extends ElementData> T addMember(Object key, ElementFactory<T> factory);
 
     /**
-     * @return new {@link MethodScope} that extends {@link ClassScope} and shares the state
+     * @return new {@link MethodScope} that extends {@link ClassScope} and shares the out
      *     with this {@link ClassScope}.
      */
     MethodScope newMethodScope();
@@ -144,13 +146,11 @@ public interface JavaCodeGenerator {
     }
 
     public static final String BASE_PACKAGE = "org.chromium.sdk.internal.protocolparser";
-    public static final String THROWS_CLAUSE =
-        " throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException";
+    public static final String THROWS_CLAUSE = " throws java.io.IOException";
   }
 
 
   class Impl implements JavaCodeGenerator {
-
     @Override
     public GlobalScope newGlobalScope(Collection<TypeHandler<?>> typeHandlers,
         Collection<GeneratedCodeMap> basePackages) {
@@ -248,41 +248,57 @@ public interface JavaCodeGenerator {
     }
 
     private static class FileScopeImpl extends GlobalScopeImpl implements FileScope {
-      private final State state;
+      private final TextOutput out;
+      private final Out2 out2;
 
       FileScopeImpl(GlobalScopeImpl globalScopeImpl, StringBuilder stringBuilder) {
         super(globalScopeImpl);
-        state = new State(stringBuilder);
+        out = new TextOutput(stringBuilder);
+        out2 = new Out2(stringBuilder);
       }
 
       FileScopeImpl(FileScopeImpl fileScopeImpl) {
         super(fileScopeImpl);
-        state = fileScopeImpl.state;
+        out = fileScopeImpl.out;
+        out2 = fileScopeImpl.out2;
       }
 
       @Override
       public StringBuilder getStringBuilder() {
-        return state.getStringBuilder();
+        return out2.builder;
       }
 
       @Override
-      public void startLine(String line) {
-        state.startLine(line);
+      public TextOutput getOutput() {
+        return out;
       }
 
       @Override
-      public void append(String line) {
-        state.append(line);
+      public FileScope startLine(String line) {
+        out2.startLine(line);
+        return this;
       }
 
       @Override
-      public void indentRight() {
-        state.indentRight();
+      public FileScope append(String line) {
+        out2.append(line);
+        return this;
       }
 
       @Override
-      public void indentLeft() {
-        state.indentLeft();
+      public FileScope append(char line) {
+        out2.append(line);
+        return this;
+      }
+
+      @Override
+      public void indentIn() {
+        out2.indentIn();
+      }
+
+      @Override
+      public void indentOut() {
+        out2.indentOut();
       }
 
       @Override
@@ -294,34 +310,34 @@ public interface JavaCodeGenerator {
         return null;
       }
 
-      private static class State {
-        private final StringBuilder stringBuilder;
+      private static class Out2 {
+        private final StringBuilder builder;
         private int indent = 0;
 
-        State(StringBuilder stringBuilder) {
-          this.stringBuilder = stringBuilder;
-        }
-
-        StringBuilder getStringBuilder() {
-          return stringBuilder;
+        Out2(StringBuilder builder) {
+          this.builder = builder;
         }
 
         void startLine(String line) {
           for (int i = 0; i < indent; i++) {
-            stringBuilder.append(' ');
+            builder.append(' ');
           }
-          stringBuilder.append(line);
+          builder.append(line);
         }
 
         void append(String line) {
-          stringBuilder.append(line);
+          builder.append(line);
         }
 
-        void indentRight() {
+        void append(char line) {
+          builder.append(line);
+        }
+
+        void indentIn() {
           indent += 2;
         }
 
-        void indentLeft() {
+        void indentOut() {
           indent -= 2;
         }
       }

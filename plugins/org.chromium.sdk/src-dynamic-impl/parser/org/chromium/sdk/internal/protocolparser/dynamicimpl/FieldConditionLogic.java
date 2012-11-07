@@ -44,10 +44,9 @@ abstract class FieldConditionLogic {
    */
   static FieldConditionLogic readLogic(Method m) throws JsonProtocolModelParseException {
     List<FieldConditionLogic> results = new ArrayList<FieldConditionLogic>(1);
-    JsonSubtypeConditionBoolValue boolValueAnn =
-        m.getAnnotation(JsonSubtypeConditionBoolValue.class);
-    if (boolValueAnn != null) {
-      final Boolean required = boolValueAnn.value();
+    JsonSubtypeConditionBoolValue boolValueAnnotation = m.getAnnotation(JsonSubtypeConditionBoolValue.class);
+    if (boolValueAnnotation != null) {
+      final Boolean required = boolValueAnnotation.value();
       results.add(new FieldConditionLogic(true) {
         @Override
         boolean checkValue(boolean hasValue, Object unparsedValue, QuickParser<?> parser)
@@ -60,23 +59,23 @@ abstract class FieldConditionLogic {
             String resultRef, QuickParser<?> quickParser) {
           scope.startLine("boolean " + resultRef + ";\n");
           scope.startLine("if (" + hasValueRef + ") {\n");
-          scope.indentRight();
+          scope.indentIn();
           quickParser.writeParseQuickCode(scope, valueRef, "parserResult");
           scope.startLine(resultRef + " = " + required + " == parserResult;\n");
-          scope.indentLeft();
+          scope.indentOut();
           scope.startLine("} else {\n");
           scope.startLine("  " + resultRef + " = false;\n");
           scope.startLine("}\n");
         }
       });
     }
-    JsonSubtypeConditionCustom customAnn = m.getAnnotation(JsonSubtypeConditionCustom.class);
-    if (customAnn != null) {
-      Class<? extends JsonValueCondition<?>> condition = customAnn.condition();
+    JsonSubtypeConditionCustom customAnnotation = m.getAnnotation(JsonSubtypeConditionCustom.class);
+    if (customAnnotation != null) {
+      Class<? extends JsonValueCondition<?>> condition = customAnnotation.condition();
       // We do not know exact type of condition. But we also do not care about result type
       // in 'constraint'. Compiler cannot catch the wildcard here, so we use an assumed type.
       Class<? extends JsonValueCondition<Void>> assumedTypeCondition =
-          (Class<? extends JsonValueCondition<Void>>) customAnn.condition();
+          (Class<? extends JsonValueCondition<Void>>) customAnnotation.condition();
       final CustomConditionWrapper<?> constraint =
           CustomConditionWrapper.create(assumedTypeCondition);
       results.add(new FieldConditionLogic(true) {
@@ -91,11 +90,11 @@ abstract class FieldConditionLogic {
             String resultRef, QuickParser<?> quickParser) {
           scope.startLine("boolean " + resultRef + ";\n");
           scope.startLine("if (" + hasValueRef + ") {\n");
-          scope.indentRight();
+          scope.indentIn();
           quickParser.writeParseQuickCode(scope, valueRef, "parserResult");
           constraint.writeParseJava(scope, "parserResult", "constraintResult");
           scope.startLine(resultRef + " = constraintResult;\n");
-          scope.indentLeft();
+          scope.indentOut();
           scope.startLine("} else {\n");
           scope.startLine("  " + resultRef + " = false;\n");
           scope.startLine("}\n");

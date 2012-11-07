@@ -4,16 +4,15 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import java.util.List;
-
-import org.chromium.sdk.internal.protocolparser.FieldLoadStrategy;
 import org.chromium.sdk.internal.protocolparser.JsonField;
 import org.chromium.sdk.internal.protocolparser.JsonOptionalField;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 import org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef;
-import org.json.simple.JSONObject;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * A frame mirror object type. Technically it is almost subtype of {@link SomeHandle}:
@@ -26,7 +25,7 @@ public interface FrameObject {
 
   long index();
 
-  JSONObject func();
+  Map func();
 
   String text();
 
@@ -37,16 +36,16 @@ public interface FrameObject {
   @JsonOptionalField
   SomeRef script();
 
-  @JsonField(loadStrategy=FieldLoadStrategy.LAZY)
+  @JsonField
   List<PropertyObject> arguments();
 
-  @JsonField(loadStrategy=FieldLoadStrategy.LAZY)
+  @JsonField
   List<PropertyObject> locals();
 
-  @JsonField(loadStrategy=FieldLoadStrategy.LAZY)
+  @JsonField
   SomeRef receiver();
 
-  @JsonField(loadStrategy=FieldLoadStrategy.LAZY)
+  @JsonField
   List<ScopeRef> scopes();
 
   Boolean constructCall();

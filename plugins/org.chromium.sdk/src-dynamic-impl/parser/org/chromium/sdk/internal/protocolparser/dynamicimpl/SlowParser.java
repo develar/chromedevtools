@@ -21,6 +21,12 @@ import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.Me
  * via {@link #asQuickParser()} method.
  */
 abstract class SlowParser<T> {
+  private final boolean nullable;
+
+  protected SlowParser(boolean nullable) {
+    this.nullable = nullable;
+  }
+
   abstract T parseValue(Object value, ObjectData thisData) throws JsonProtocolParseException;
 
   abstract FieldLoadedFinisher getValueFinisher();
@@ -30,12 +36,18 @@ abstract class SlowParser<T> {
     return null;
   }
 
-  abstract void appendFinishedValueTypeNameJava(FileScope scope);
+  abstract void appendFinishedValueTypeNameJava(TextOutput out);
 
-  abstract void appendInternalValueTypeNameJava(FileScope scope);
+  void appendInternalValueTypeNameJava(FileScope scope) {
+    appendFinishedValueTypeNameJava(scope.getOutput());
+  }
 
-  abstract void writeParseCode(MethodScope methodScope, String valueRef, String superValueRef,
-      String resultRef);
+  abstract void writeParseCode(MethodScope methodScope, String valueRef, String superValueRef, String resultRef);
 
-  abstract boolean javaCodeThrowsException();
+  void writeReadCode(TextOutput out) {
+  }
+
+  public boolean isNullable() {
+    return nullable;
+  }
 }

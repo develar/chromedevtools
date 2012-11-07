@@ -5,6 +5,7 @@
 package org.chromium.sdk.internal.standalonev8;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.StandaloneVm;
 import org.chromium.sdk.UnsupportedVersionException;
@@ -68,7 +70,16 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
     this.connection = connection;
     this.handshaker = handshaker;
     V8CommandOutputImpl v8CommandOutput = new V8CommandOutputImpl(connection);
-    this.debugSession = new DebugSession(sessionManager, CONTEXT_FILTER, v8CommandOutput, this);
+    DebugSessionManager sessionManager = new DebugSessionManager() {
+      public DebugEventListener getDebugEventListener() {
+        return debugEventListener;
+      }
+
+      public void onDebuggerDetached() {
+        // Never called for standalone.
+      }
+    };
+    debugSession = new DebugSession(sessionManager, CONTEXT_FILTER, v8CommandOutput, this);
   }
 
   public void attach(DebugEventListener listener)
@@ -105,14 +116,8 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
       }
 
       public void messageReceived(Message message) {
-        JSONObject json;
-        try {
-          json = JsonUtil.jsonObjectFromJson(message.getContent());
-        } catch (ParseException e) {
-          LOGGER.log(Level.SEVERE, "Invalid JSON received: {0}", message.getContent());
-          return;
-        }
-        debugSession.getV8CommandProcessor().processIncomingJson(json);
+        JsonReader jsonReader = new JsonReader(new StringReader(message.getContent()));
+        debugSession.getV8CommandProcessor().processIncomingJson(jsonReader);
       }
     };
     connection.setNetListener(netListener);
@@ -139,9 +144,9 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
       throw new UnsupportedVersionException(null, null);
     }
 
-    StandaloneVmImpl.this.savedRemoteInfo = remoteInfo;
+    savedRemoteInfo = remoteInfo;
 
-    StandaloneVmImpl.this.debugEventListener = listener;
+    debugEventListener = listener;
 
     debugSession.startCommunication();
 
@@ -203,16 +208,6 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
     }
     return cause.getMessage();
   }
-
-  private final DebugSessionManager sessionManager = new DebugSessionManager() {
-    public DebugEventListener getDebugEventListener() {
-      return debugEventListener;
-    }
-
-    public void onDebuggerDetached() {
-      // Never called for standalone.
-    }
-  };
 
   private final static Handshaker.StandaloneV8.RemoteInfo NULL_REMOTE_INFO =
       new Handshaker.StandaloneV8.RemoteInfo() {

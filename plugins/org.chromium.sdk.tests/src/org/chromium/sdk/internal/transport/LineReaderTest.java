@@ -28,7 +28,7 @@ public class LineReaderTest {
    * works alright by reading {@link Message}'s from it.
    */
   @Test
-  public void testOnRandomChunkStream() throws IOException, MalformedMessageException {
+  public void testOnRandomChunkStream() throws IOException {
     Random random = new Random(0);
     Charset charset = Charset.forName("UTF-8");
 

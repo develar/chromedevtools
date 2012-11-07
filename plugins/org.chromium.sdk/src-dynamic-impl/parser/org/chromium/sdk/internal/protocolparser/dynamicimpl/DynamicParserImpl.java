@@ -4,44 +4,16 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import java.lang.annotation.RetentionPolicy;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.Type;
-import java.lang.reflect.WildcardType;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicReferenceArray;
-
-import org.chromium.sdk.internal.protocolparser.FieldLoadStrategy;
-import org.chromium.sdk.internal.protocolparser.JsonField;
-import org.chromium.sdk.internal.protocolparser.JsonNullable;
-import org.chromium.sdk.internal.protocolparser.JsonObjectBased;
-import org.chromium.sdk.internal.protocolparser.JsonOptionalField;
-import org.chromium.sdk.internal.protocolparser.JsonOverrideField;
-import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-import org.chromium.sdk.internal.protocolparser.JsonSubtype;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
-import org.chromium.sdk.internal.protocolparser.JsonType;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.GlobalScope;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.Util;
+import com.google.gson.stream.JsonReader;
+import org.chromium.sdk.internal.protocolparser.*;
+import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.*;
 import org.chromium.sdk.internal.protocolparser.implutil.CommonImpl.ParseRuntimeException;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.*;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * Java dynamic-proxy based implementation of {@ link JsonProtocolParser}. It analyses
@@ -186,30 +158,21 @@ public class DynamicParserImpl<ROOT> {
           requiresJsonObject, strictMode);
     }
 
-    private SlowParser<?> getFieldTypeParser(Type type, boolean declaredNullable,
-        boolean isSubtyping, FieldLoadStrategy loadStrategy)
+    private SlowParser<?> getFieldTypeParser(Type type, boolean declaredNullable, boolean isSubtyping)
         throws JsonProtocolModelParseException {
       if (type instanceof Class) {
         Class<?> typeClass = (Class<?>) type;
-        if (type == Long.class) {
+        if (type == Long.class || type == Long.TYPE) {
           nullableIsNotSupported(declaredNullable);
-          return LONG_PARSER.getNullable();
+          return LONG_PARSER;
         }
         else if (type == Integer.class) {
           nullableIsNotSupported(declaredNullable);
           return INTEGER_PARSER.getNullable();
         }
-        else if (type == Long.TYPE) {
+        else if (type == Boolean.class || type == Boolean.TYPE) {
           nullableIsNotSupported(declaredNullable);
-          return LONG_PARSER.getNotNullable();
-        }
-        else if (type == Boolean.class) {
-          nullableIsNotSupported(declaredNullable);
-          return BOOLEAN_PARSER.getNullable();
-        }
-        else if (type == Boolean.TYPE) {
-          nullableIsNotSupported(declaredNullable);
-          return BOOLEAN_PARSER.getNotNullable();
+          return BOOLEAN_PARSER;
         }
         else if (type == Float.class) {
           nullableIsNotSupported(declaredNullable);
@@ -227,15 +190,19 @@ public class DynamicParserImpl<ROOT> {
           return VOID_PARSER;
         }
         else if (type == String.class) {
-          return STRING_PARSER.get(declaredNullable);
+          return declaredNullable ? NULLABLE_STRING_PARSER : STRING_PARSER;
         }
         else if (type == Object.class) {
           return OBJECT_PARSER.get(declaredNullable);
         }
-        else if (type == JSONObject.class) {
+        else if (type == JsonReader.class) {
           return JSON_PARSER.get(declaredNullable);
         }
+        else if (type == Map.class) {
+          return MAP_PARSER.get(declaredNullable);
+        }
         else if (typeClass.isEnum()) {
+          @SuppressWarnings("unchecked")
           Class<RetentionPolicy> enumTypeClass = (Class<RetentionPolicy>) typeClass;
           return EnumParser.create(enumTypeClass, declaredNullable);
         }
@@ -257,9 +224,8 @@ public class DynamicParserImpl<ROOT> {
               argumentType = wildcard.getUpperBounds()[0];
             }
           }
-          SlowParser<?> componentParser =
-              getFieldTypeParser(argumentType, false, false, loadStrategy);
-          return createArrayParser(componentParser, declaredNullable, loadStrategy);
+          SlowParser<?> componentParser = getFieldTypeParser(argumentType, false, false);
+          return createArrayParser(componentParser, declaredNullable);
         } else {
           throw new JsonProtocolModelParseException("Method return type " + type +
               " (generic) not supported");
@@ -283,15 +249,8 @@ public class DynamicParserImpl<ROOT> {
       return new JsonTypeParser<T>(type, isNullable, isSubtyping);
     }
 
-    private static <T> ArrayParser<T> createArrayParser(
-            SlowParser<T> componentParser,
-            boolean isNullable, FieldLoadStrategy loadStrategy
-    ) {
-      if (loadStrategy == FieldLoadStrategy.LAZY) {
-        return new ArrayParser<T>(componentParser, isNullable, ArrayParser.LAZY);
-      } else {
-        return new ArrayParser<T>(componentParser, isNullable, ArrayParser.EAGER);
-      }
+    private static <T> ArrayParser<T> createArrayParser(SlowParser<T> componentParser, boolean isNullable) {
+      return new ArrayParser<T>(componentParser, isNullable, ArrayParser.EAGER);
     }
 
     private <T> RefToType<T> getTypeRef(final Class<T> typeClass) {
@@ -303,6 +262,7 @@ public class DynamicParserImpl<ROOT> {
       for (DynamicParserImpl<?> baseParser : basePackages) {
         TypeHandler<?> typeHandler = baseParser.type2TypeHandler.get(typeClass);
         if (typeHandler != null) {
+          //noinspection unchecked
           final TypeHandler<T> typeHandlerT = (TypeHandler<T>) typeHandler;
           return new RefToType<T>() {
             @Override
@@ -350,7 +310,7 @@ public class DynamicParserImpl<ROOT> {
     class FieldProcessor<T> {
       private final Class<T> typeClass;
 
-      private final JsonType jsonTypeAnn;
+      private final JsonType jsonTypeAnnotation;
       private final List<FieldLoader> fieldLoaders = new ArrayList<FieldLoader>(2);
       private final List<LazyHandler> onDemandHanlers = new ArrayList<LazyHandler>();
       private final Map<Method, MethodHandler> methodHandlerMap =
@@ -365,8 +325,8 @@ public class DynamicParserImpl<ROOT> {
 
       FieldProcessor(Class<T> typeClass) throws JsonProtocolModelParseException {
         this.typeClass = typeClass;
-        jsonTypeAnn = typeClass.getAnnotation(JsonType.class);
-        if (jsonTypeAnn == null) {
+        jsonTypeAnnotation = typeClass.getAnnotation(JsonType.class);
+        if (jsonTypeAnnotation == null) {
           throw new JsonProtocolModelParseException("Not a json model type: " + typeClass);
         }
       }
@@ -385,7 +345,7 @@ public class DynamicParserImpl<ROOT> {
         if (m.getParameterTypes().length != 0) {
           throw new JsonProtocolModelParseException("No parameters expected in " + m);
         }
-        JsonOverrideField overrideFieldAnn = m.getAnnotation(JsonOverrideField.class);
+        JsonOverrideField overrideFieldAnnotation = m.getAnnotation(JsonOverrideField.class);
         FieldConditionLogic fieldConditionLogic = FieldConditionLogic.readLogic(m);
         String fieldName = checkAndGetJsonFieldName(m);
         MethodHandler methodHandler;
@@ -396,12 +356,12 @@ public class DynamicParserImpl<ROOT> {
             throw new JsonProtocolModelParseException(
                 "Subtype condition annotation only works with field getter methods");
           }
-          if (overrideFieldAnn != null) {
+          if (overrideFieldAnnotation != null) {
             throw new JsonProtocolModelParseException(
                 "Override annotation only works with field getter methods");
           }
 
-          if (jsonTypeAnn.subtypesChosenManually()) {
+          if (jsonTypeAnnotation.subtypesChosenManually()) {
             if (manualAlgCasesData == null) {
               manualAlgCasesData = new ManualAlgebraicCasesDataImpl();
             }
@@ -420,7 +380,7 @@ public class DynamicParserImpl<ROOT> {
 
         } else {
           requiresJsonObject = true;
-          methodHandler = processFieldGetterMethod(m, fieldConditionLogic, overrideFieldAnn,
+          methodHandler = processFieldGetterMethod(m, fieldConditionLogic, overrideFieldAnnotation,
               fieldName);
         }
         methodHandlerMap.put(m, methodHandler);
@@ -429,18 +389,7 @@ public class DynamicParserImpl<ROOT> {
       private MethodHandler processFieldGetterMethod(Method m,
           FieldConditionLogic fieldConditionLogic, JsonOverrideField overrideFieldAnn,
           String fieldName) throws JsonProtocolModelParseException {
-        MethodHandler methodHandler;
-
-        FieldLoadStrategy loadStrategy;
-        if (m.getAnnotation(JsonField.class) == null) {
-          loadStrategy = FieldLoadStrategy.AUTO;
-        } else {
-          loadStrategy = m.getAnnotation(JsonField.class).loadStrategy();
-        }
-
-        JsonNullable nullableAnn = m.getAnnotation(JsonNullable.class);
-        SlowParser<?> fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(),
-            nullableAnn != null, false, loadStrategy);
+        SlowParser<?> fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), m.getAnnotation(JsonNullable.class) != null, false);
         if (fieldConditionLogic != null) {
           fieldConditions.add(new FieldCondition(fieldName, fieldTypeParser.asQuickParser(),
               fieldConditionLogic));
@@ -453,29 +402,7 @@ public class DynamicParserImpl<ROOT> {
 
         boolean isOptional = isOptionalField(m);
 
-        if (fieldTypeParser.asQuickParser() != null) {
-          QuickParser<?> quickParser = fieldTypeParser.asQuickParser();
-          if (loadStrategy == FieldLoadStrategy.EAGER) {
-            methodHandler = createEagerLoadGetterHandler(fieldName, fieldTypeParser, isOptional);
-          } else {
-            methodHandler = createLazyQuickGetterHandler(quickParser, isOptional, fieldName);
-          }
-        } else {
-          if (loadStrategy == FieldLoadStrategy.LAZY) {
-            methodHandler = createLazyCachedGetterHandler(fieldName, fieldTypeParser, isOptional);
-          } else {
-            methodHandler = createEagerLoadGetterHandler(fieldName, fieldTypeParser, isOptional);
-          }
-        }
-        return methodHandler;
-      }
-
-      private MethodHandler createLazyQuickGetterHandler(QuickParser<?> quickParser,
-          boolean isOptional, String fieldName) {
-        LazyParseFieldMethodHandler onDemandHandler = new LazyParseFieldMethodHandler(quickParser,
-            isOptional, fieldName, typeClass);
-        onDemandHanlers.add(onDemandHandler);
-        return onDemandHandler;
+        return createEagerLoadGetterHandler(fieldName, fieldTypeParser, isOptional);
       }
 
       private MethodHandler createEagerLoadGetterHandler(String fieldName,
@@ -486,16 +413,6 @@ public class DynamicParserImpl<ROOT> {
         fieldLoaders.add(fieldLoader);
         return new PreparsedFieldMethodHandler(fieldCode,
             fieldTypeParser.getValueFinisher(), fieldName);
-      }
-
-      private MethodHandler createLazyCachedGetterHandler(String fieldName,
-          SlowParser<?> fieldTypeParser, boolean isOptional) {
-        VolatileFieldBinding fieldBinding = allocateVolatileField(fieldTypeParser, false);
-        LazyCachedFieldMethodHandler lazyCachedHandler =
-            new LazyCachedFieldMethodHandler(fieldBinding, fieldTypeParser, isOptional,
-                fieldName, typeClass);
-        onDemandHanlers.add(lazyCachedHandler);
-        return lazyCachedHandler;
       }
 
       private MethodHandler processAutomaticSubtypeMethod(Method m)
@@ -546,16 +463,8 @@ public class DynamicParserImpl<ROOT> {
       private MethodHandler processManualSubtypeMethod(final Method m,
           JsonSubtypeCasting jsonSubtypeCaseAnn) throws JsonProtocolModelParseException {
 
-        SlowParser<?> fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false,
-            !jsonSubtypeCaseAnn.reinterpret(), FieldLoadStrategy.AUTO);
-
+        SlowParser<?> fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret());
         VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
-
-        if (!Arrays.asList(m.getExceptionTypes()).contains(JsonProtocolParseException.class)) {
-          throw new JsonProtocolModelParseException(
-              "Method should declare JsonProtocolParseException exception: " + m);
-        }
-
         final ManualSubtypeMethodHandler handler = new ManualSubtypeMethodHandler(fieldInfo,
             fieldTypeParser);
         JsonTypeParser<?> parserAsJsonTypeParser = fieldTypeParser.asJsonTypeParser();
@@ -590,7 +499,7 @@ public class DynamicParserImpl<ROOT> {
       }
 
       TypeHandler.AlgebraicCasesData getAlgCasesData() {
-        if (jsonTypeAnn.subtypesChosenManually()) {
+        if (jsonTypeAnnotation.subtypesChosenManually()) {
           return manualAlgCasesData;
         } else {
           return autoAlgCasesData;
@@ -634,7 +543,7 @@ public class DynamicParserImpl<ROOT> {
         } else {
           fieldTypeInfo = new FieldTypeInfo() {
             @Override public void appendValueTypeNameJava(FileScope scope) {
-              fieldTypeParser.appendFinishedValueTypeNameJava(scope);
+              fieldTypeParser.appendFinishedValueTypeNameJava(scope.getOutput());
             }
           };
         }
@@ -688,127 +597,6 @@ public class DynamicParserImpl<ROOT> {
   private interface LazyHandler {
     void parseEager(ObjectData objectData) throws JsonProtocolParseException;
     String getFieldName();
-  }
-
-  private static class LazyParseFieldMethodHandler extends MethodHandler implements LazyHandler {
-    private final QuickParser<?> quickParser;
-    private final boolean isOptional;
-    private final String fieldName;
-    private final Class<?> typeClass;
-
-    LazyParseFieldMethodHandler(QuickParser<?> quickParser, boolean isOptional, String fieldName,
-        Class<?> typeClass) {
-      this.quickParser = quickParser;
-      this.isOptional = isOptional;
-      this.fieldName = fieldName;
-      this.typeClass = typeClass;
-    }
-
-    @Override
-    Object handle(ObjectData objectData, Object[] args) {
-      try {
-        return parse(objectData);
-      } catch (JsonProtocolParseException e) {
-        throw new ParseRuntimeException(
-            "On demand parsing failed for " + objectData.getUnderlyingObject(), e);
-      }
-    }
-
-    @Override
-    public void parseEager(ObjectData objectData) throws JsonProtocolParseException {
-      parse(objectData);
-    }
-
-    public Object parse(ObjectData objectData) throws JsonProtocolParseException {
-      Map<?,?> properties = (JSONObject)objectData.getUnderlyingObject();
-      Object value = properties.get(fieldName);
-      return parse(value != null || properties.containsKey(fieldName), value, objectData);
-    }
-
-    public Object parse(boolean hasValue, Object value, ObjectData objectData)
-        throws JsonProtocolParseException {
-      if (hasValue) {
-        try {
-          return quickParser.parseValueQuick(value);
-        } catch (JsonProtocolParseException e) {
-          throw new JsonProtocolParseException("Failed to parse field '" + fieldName +
-              "' in type " + typeClass.getName(), e);
-        }
-      } else {
-        if (!isOptional) {
-          throw new JsonProtocolParseException("Field is not optional: " + fieldName +
-              " (in type " + typeClass.getName() + ")");
-        }
-        return null;
-      }
-    }
-
-    @Override
-    public String getFieldName() {
-      return fieldName;
-    }
-
-    @Override
-    void writeMethodImplementationJava(ClassScope classScope, Method m) {
-      writeMethodDeclarationJava(classScope, m, Collections.<String>emptyList());
-      classScope.startLine("{\n");
-
-      MethodScope scope = classScope.newMethodScope();
-
-      scope.indentRight();
-
-      scope.startLine("");
-      quickParser.appendFinishedValueTypeNameJava(scope);
-      scope.append(" result;\n");
-
-      boolean wrap = quickParser.javaCodeThrowsException() || !isOptional;
-      if (wrap) {
-        scope.startLine("try {\n");
-        scope.indentRight();
-      }
-
-      String valueRef = scope.newMethodScopedName("value");
-      Util.writeReadValueAndHasValue(scope, fieldName, "underlying", valueRef);
-      scope.indentRight();
-      if (quickParser.javaCodeThrowsException()) {
-        scope.startLine("try {\n");
-        scope.indentRight();
-        quickParser.writeParseQuickCode(scope, valueRef, "r1");
-        scope.startLine("result = r1;\n");
-        scope.indentLeft();
-        scope.startLine("} catch (" + Util.BASE_PACKAGE + ".JsonProtocolParseException e) {\n");
-        scope.startLine("  throw new " + Util.BASE_PACKAGE + ".JsonProtocolParseException(" +
-            "\"Failed to parse field " + fieldName + " in type ");
-        scope.append(typeClass.getName() + "\", e);\n");
-        scope.startLine("}\n");
-      } else {
-        quickParser.writeParseQuickCode(scope, valueRef, "r1");
-        scope.startLine("result = r1;\n");
-      }
-      scope.indentLeft();
-      scope.startLine("} else {\n");
-      scope.indentRight();
-      if (isOptional) {
-        scope.startLine("result = null;\n");
-      } else {
-        scope.startLine("throw new " + Util.BASE_PACKAGE + ".JsonProtocolParseException(" +
-            "\"Field is not optional: " + fieldName + "\");\n");
-      }
-      scope.indentLeft();
-      scope.startLine("}\n");
-
-      if (wrap) {
-        scope.indentLeft();
-        scope.startLine("} catch (" + Util.BASE_PACKAGE + ".JsonProtocolParseException e) {\n");
-        scope.startLine("  throw new " + Util.BASE_PACKAGE +
-            ".implutil.CommonImpl.ParseRuntimeException(" +
-            "\"On demand parsing failed for \" + underlying, e);\n");
-        scope.startLine("}\n");
-      }
-      scope.startLine("return result;\n");
-      scope.indentLeft();
-      scope.startLine("}\n");
-    }
   }
 
   /**
@@ -884,7 +672,7 @@ public class DynamicParserImpl<ROOT> {
 
       MethodScope scope = classScope.newMethodScope();
       scope.append(" {\n");
-      scope.indentRight();
+      scope.indentIn();
 
       classScope.startLine("");
       writeReturnTypeJava(classScope, m);
@@ -900,140 +688,19 @@ public class DynamicParserImpl<ROOT> {
       writeParseJava(scope, parseResultRef);
 
       scope.startLine("if (" + parseResultRef + " != null) {\n");
-      scope.indentRight();
+      scope.indentIn();
       getFieldBinding().writeSetAndGetJava(scope, parseResultRef, "cachedResult");
       scope.startLine(parseResultRef + " = cachedResult;\n");
-      scope.indentLeft();
+      scope.indentOut();
       scope.startLine("}\n");
 
       scope.startLine("return " + parseResultRef + ";\n");
 
-      scope.indentLeft();
+      scope.indentOut();
       scope.startLine("}\n");
     }
 
     protected abstract void writeParseJava(MethodScope scope, String parseResultRef);
-  }
-
-  private static class LazyCachedFieldMethodHandler extends LazyCachedMethodHandlerBase
-      implements LazyHandler {
-    private final SlowParser<?> slowParser;
-    private final boolean isOptional;
-    private final String fieldName;
-    private final Class<?> typeClass;
-
-    LazyCachedFieldMethodHandler(VolatileFieldBinding fieldBinding, SlowParser<?> slowParser,
-        boolean isOptional, String fieldName, Class<?> typeClass) {
-      super(fieldBinding);
-      this.slowParser = slowParser;
-      this.isOptional = isOptional;
-      this.fieldName = fieldName;
-      this.typeClass = typeClass;
-    }
-
-    @Override
-    public void parseEager(ObjectData objectData) throws JsonProtocolParseException {
-      parse(objectData);
-    }
-
-    @Override
-    protected Object parse(ObjectData objectData) throws JsonProtocolParseException {
-      Map<?,?> properties = (JSONObject)objectData.getUnderlyingObject();
-      Object value = properties.get(fieldName);
-      Object parsedValue = parse(value != null || properties.containsKey(fieldName), value, objectData);
-      // Cache already finished value, because we don't use unfinished value anywhere.
-      FieldLoadedFinisher valueFinisher = slowParser.getValueFinisher();
-      if (valueFinisher != null) {
-        parsedValue = valueFinisher.getValueForUser(parsedValue);
-      }
-      return parsedValue;
-    }
-
-    @Override
-    protected Object finishRawValue(Object raw) {
-      return raw;
-    }
-
-    private Object parse(boolean hasValue, Object value, ObjectData objectData)
-        throws JsonProtocolParseException {
-      if (hasValue) {
-        try {
-          return slowParser.parseValue(value, objectData);
-        } catch (JsonProtocolParseException e) {
-          throw new JsonProtocolParseException("Failed to parse field " + fieldName + " in type " +
-              typeClass.getName(), e);
-        }
-      } else {
-        if (!isOptional) {
-          throw new JsonProtocolParseException("Field is not optional: " + fieldName +
-              " (in type " + typeClass.getName() + ")");
-        }
-        return null;
-      }
-    }
-
-
-    @Override
-    protected void writeReturnTypeJava(ClassScope scope, Method m) {
-      getFieldBinding().getTypeInfo().appendValueTypeNameJava(scope);
-    }
-
-    @Override
-    protected void writeParseJava(MethodScope scope, String parseResultRef) {
-      scope.startLine("");
-      getFieldBinding().getTypeInfo().appendValueTypeNameJava(scope);
-      scope.append(" " + parseResultRef + ";\n");
-
-      boolean wrap = slowParser.javaCodeThrowsException() || !isOptional;
-      if (wrap) {
-        scope.startLine("try {\n");
-        scope.indentRight();
-      }
-
-      String valueRef = scope.newMethodScopedName("value");
-      Util.writeReadValueAndHasValue(scope, fieldName, "underlying", valueRef);
-      scope.indentRight();
-      if (slowParser.javaCodeThrowsException()) {
-        scope.startLine("try {\n");
-        scope.indentRight();
-        slowParser.writeParseCode(scope, valueRef, "null", "r1");
-        scope.startLine(parseResultRef + " = r1;\n");
-        scope.indentLeft();
-        scope.startLine("} catch (" + Util.BASE_PACKAGE + ".JsonProtocolParseException e) {\n");
-        scope.startLine("  throw new " + Util.BASE_PACKAGE + ".JsonProtocolParseException(" +
-            "\"Failed to parse field " + fieldName + " in type ");
-        scope.append(typeClass.getName() + "\", e);\n");
-        scope.startLine("}\n");
-      } else {
-        slowParser.writeParseCode(scope, valueRef, "null", "r1");
-        scope.startLine(parseResultRef + " = r1;\n");
-      }
-      scope.indentLeft();
-      scope.startLine("} else {\n");
-      scope.indentRight();
-      if (isOptional) {
-        scope.startLine(parseResultRef + " = null;\n");
-      } else {
-        scope.startLine("throw new " + Util.BASE_PACKAGE + ".JsonProtocolParseException(" +
-            "\"Field is not optional: " + fieldName + "\");\n");
-      }
-      scope.indentLeft();
-      scope.startLine("}\n");
-
-      if (wrap) {
-        scope.indentLeft();
-        scope.startLine("} catch (" + Util.BASE_PACKAGE + ".JsonProtocolParseException e) {\n");
-        scope.startLine("  throw new " + Util.BASE_PACKAGE +
-            ".implutil.CommonImpl.ParseRuntimeException(" +
-            "\"On demand parsing failed for \" + underlying, e);\n");
-        scope.startLine("}\n");
-      }
-    }
-
-    @Override
-    public String getFieldName() {
-      return fieldName;
-    }
   }
 
   private static class PreparsedFieldMethodHandler extends MethodHandler {
@@ -1060,46 +727,41 @@ public class DynamicParserImpl<ROOT> {
     void writeMethodImplementationJava(ClassScope scope, Method m) {
       writeMethodDeclarationJava(scope, m, Collections.<String>emptyList());
       scope.append(" {\n");
-      scope.startLine("  return field_" + fieldName + ";\n");
+      scope.startLine("  return " + FieldLoader.FIELD_PREFIX + fieldName + ";\n");
       scope.startLine("}\n");
     }
   }
 
-  static SlowParser<Void> VOID_PARSER = new QuickParser<Void>() {
+  static SlowParser<Void> VOID_PARSER = new QuickParser<Void>(true) {
     @Override
     public Void parseValueQuick(Object value) {
       return null;
     }
 
     @Override
-    public void appendFinishedValueTypeNameJava(FileScope scope) {
-      scope.append("Void");
+    public void appendFinishedValueTypeNameJava(TextOutput out) {
+      out.append("Void");
     }
 
     @Override
     void writeParseQuickCode(MethodScope scope, String valueRef, String resultRef) {
       scope.startLine("Void " + resultRef + " = null;\n");
     }
-
-    @Override
-    boolean javaCodeThrowsException() {
-      return false;
-    }
   };
 
   static class SimpleCastParser<T> extends QuickParser<T> {
-    private final boolean nullable;
     private final Class<T> fieldType;
 
     SimpleCastParser(Class<T> fieldType, boolean nullable) {
+      super(nullable);
+
       this.fieldType = fieldType;
-      this.nullable = nullable;
     }
 
     @Override
     public T parseValueQuick(Object value) throws JsonProtocolParseException {
       if (value == null) {
-        if (nullable) {
+        if (isNullable()) {
           return null;
         } else {
           throw new JsonProtocolParseException("Field must have type " + fieldType.getName());
@@ -1118,20 +780,16 @@ public class DynamicParserImpl<ROOT> {
     }
 
     @Override
-    public void appendFinishedValueTypeNameJava(FileScope scope) {
-      scope.append(fieldType.getCanonicalName());
+    public void appendFinishedValueTypeNameJava(TextOutput out) {
+      out.append(fieldType.getCanonicalName());
     }
 
     @Override
     public void writeParseQuickCode(MethodScope scope, String valueRef,
         String resultRef) {
-      scope.startLine(fieldType.getCanonicalName() + " " + resultRef + " = (" +
-          fieldType.getCanonicalName() + ") " + valueRef + ";\n");
-    }
-
-    @Override
-    boolean javaCodeThrowsException() {
-      return false;
+      TextOutput out = scope.getOutput();
+      out.newLine().append(fieldType.getCanonicalName()).append(" ").append(resultRef);
+      out.append(" = (").append(fieldType.getCanonicalName()).append(") ").append(valueRef).append(";");
     }
   }
 
@@ -1161,14 +819,19 @@ public class DynamicParserImpl<ROOT> {
     }
   }
 
-  private static final SimpleParserPair<Long> LONG_PARSER = SimpleParserPair.create(Long.class);
+  private static final PrimitiveParser LONG_PARSER = new PrimitiveParser("long", false);
+
   private static final SimpleParserPair<Integer> INTEGER_PARSER = SimpleParserPair.create(Integer.class);
-  private static final SimpleParserPair<Boolean> BOOLEAN_PARSER = SimpleParserPair.create(Boolean.class);
+  private static final PrimitiveParser BOOLEAN_PARSER = new PrimitiveParser("boolean", false);
   private static final SimpleParserPair<Float> FLOAT_PARSER = SimpleParserPair.create(Float.class);
   private static final SimpleParserPair<Number> NUMBER_PARSER = SimpleParserPair.create(Number.class);
-  private static final SimpleParserPair<String> STRING_PARSER = SimpleParserPair.create(String.class);
+
+  private static final PrimitiveParser STRING_PARSER = new PrimitiveParser("String", false);
+  private static final PrimitiveParser NULLABLE_STRING_PARSER = new PrimitiveParser("String", true);
+
   private static final SimpleParserPair<Object> OBJECT_PARSER = SimpleParserPair.create(Object.class);
-  private static final SimpleParserPair<JSONObject> JSON_PARSER = SimpleParserPair.create(JSONObject.class);
+  private static final SimpleParserPair<JsonReader> JSON_PARSER = SimpleParserPair.create(JsonReader.class);
+  private static final SimpleParserPair<Map> MAP_PARSER = SimpleParserPair.create(Map.class);
 
   static class ArrayParser<T> extends SlowParser<List<? extends T>> {
 
@@ -1181,6 +844,7 @@ public class DynamicParserImpl<ROOT> {
     }
 
     static final ListFactory EAGER = new ListFactory() {
+      @SuppressWarnings("unchecked")
       @Override
       <T> List<T> create(JSONArray array, SlowParser<T> componentParser)
           throws JsonProtocolParseException {
@@ -1207,147 +871,39 @@ public class DynamicParserImpl<ROOT> {
         String componentRef = scope.newMethodScopedName("arrayComponent");
         scope.startLine("int " + sizeRef + " = " + inputRef + ".size();\n");
         scope.startLine("java.util.List<");
-        componentParser.appendFinishedValueTypeNameJava(scope);
+        componentParser.appendFinishedValueTypeNameJava(scope.getOutput());
         scope.append("> " + listRef + " = new java.util.ArrayList<");
-        componentParser.appendFinishedValueTypeNameJava(scope);
+        componentParser.appendFinishedValueTypeNameJava(scope.getOutput());
         scope.append(">(" + sizeRef + ");\n");
         scope.startLine("for (int " + indexRef + " = 0; " + indexRef + " < " + sizeRef + "; " +
             indexRef + "++) {\n");
-        scope.indentRight();
+        scope.indentIn();
         componentParser.writeParseCode(scope, inputRef + ".get(" + indexRef + ")", "null",
             componentRef);
         scope.startLine(listRef + ".add(" + componentRef + ");\n");
-        scope.indentLeft();
+        scope.indentOut();
         scope.startLine("}\n");
         scope.startLine("java.util.List<");
-        componentParser.appendFinishedValueTypeNameJava(scope);
+        componentParser.appendFinishedValueTypeNameJava(scope.getOutput());
         scope.append("> " + resultRef + " = java.util.Collections.unmodifiableList(" +
             listRef + ");\n");
       }
     };
 
-    static final ListFactory LAZY = new ListFactory() {
-      @Override
-      <T> List<T> create(final JSONArray array, final SlowParser<T> componentParser) {
-        final int size = array.size();
-        return new AbstractList<T>() {
-          private final AtomicReferenceArray<T> values = new AtomicReferenceArray<T>(size);
-
-          @Override
-          public synchronized T get(int index) {
-            T parsedValue = values.get(index);
-            if (parsedValue == null) {
-              Object rawObject = array.get(index);
-              if (rawObject != null) {
-                Object parsedObject;
-                try {
-                  parsedObject = componentParser.parseValue(array.get(index), null);
-                } catch (JsonProtocolParseException e) {
-                  throw new ParseRuntimeException(e);
-                }
-                FieldLoadedFinisher valueFinisher = componentParser.getValueFinisher();
-                if (valueFinisher != null) {
-                  parsedObject = valueFinisher.getValueForUser(parsedObject);
-                }
-                parsedValue = (T) parsedObject;
-                values.compareAndSet(index, null, parsedValue);
-                parsedValue = values.get(index);
-              }
-            }
-            return parsedValue;
-          }
-
-          @Override
-          public int size() {
-            return size;
-          }
-        };
-      }
-
-      @Override
-      void writeCreateListCode(SlowParser<?> componentParser, MethodScope scope, String inputRef,
-          String resultRef) {
-        String sizeRef = scope.newMethodScopedName("size");
-        scope.startLine("final int " + sizeRef + " = " + inputRef + ".size();\n");
-        scope.startLine("java.util.List<");
-        componentParser.appendFinishedValueTypeNameJava(scope);
-        scope.append("> " + resultRef + " = new java.util.AbstractList<");
-        componentParser.appendFinishedValueTypeNameJava(scope);
-        scope.append(">() {\n");
-        scope.indentRight();
-        scope.startLine("private final java.util.concurrent.atomic.AtomicReferenceArray<");
-        componentParser.appendFinishedValueTypeNameJava(scope);
-        scope.append("> cachedValues = new java.util.concurrent.atomic.AtomicReferenceArray<");
-        componentParser.appendFinishedValueTypeNameJava(scope);
-        scope.append(">(" + sizeRef + ");\n");
-        scope.append("\n");
-        scope.startLine("@Override public int size() { return " + sizeRef + "; }\n");
-        scope.append("\n");
-        writeGetMethodCode(componentParser, scope, inputRef);
-        scope.indentLeft();
-        scope.startLine("};\n");
-      }
-
-      private void writeGetMethodCode(SlowParser<?> componentParser, MethodScope outerMethodScope,
-          String arrayRef) {
-        outerMethodScope.startLine("@Override public ");
-        componentParser.appendFinishedValueTypeNameJava(outerMethodScope);
-        outerMethodScope.append(" get(int index) {\n");
-        {
-          MethodScope scope = outerMethodScope.newMethodScope();
-          scope.indentRight();
-
-          String resultRef = scope.newMethodScopedName("result");
-
-          scope.startLine("");
-          componentParser.appendFinishedValueTypeNameJava(scope);
-          scope.append(" " + resultRef + " = cachedValues.get(index);\n");
-          scope.startLine("if (" + resultRef + " == null) {\n");
-          scope.indentRight();
-
-          boolean wrap = componentParser.javaCodeThrowsException();
-          if (wrap) {
-            scope.startLine("try {\n");
-            scope.indentRight();
-          }
-
-          scope.startLine("Object unparsed = " + arrayRef + ".get(index);\n");
-          componentParser.writeParseCode(scope, "unparsed", "null", "parsed");
-          scope.startLine(resultRef + " = parsed;\n");
-
-          if (wrap) {
-            scope.indentLeft();
-            scope.startLine("} catch (" + Util.BASE_PACKAGE +
-                ".JsonProtocolParseException e) {\n");
-            scope.startLine("  throw new " + Util.BASE_PACKAGE +
-                ".implutil.CommonImpl.ParseRuntimeException(e);\n");
-            scope.startLine("}\n");
-          }
-          scope.startLine("cachedValues.compareAndSet(index, null, " + resultRef + ");\n");
-          scope.startLine(resultRef + " = cachedValues.get(index);\n");
-          scope.indentLeft();
-          scope.startLine("}\n");
-          scope.startLine("return " + resultRef + ";\n");
-          scope.indentLeft();
-        }
-        outerMethodScope.startLine("}\n");
-      }
-    };
-
     private final SlowParser<T> componentParser;
-    private final boolean isNullable;
     private final ListFactory listFactory;
 
-    ArrayParser(SlowParser<T> componentParser, boolean isNullable, ListFactory listFactory) {
+    ArrayParser(SlowParser<T> componentParser, boolean nullable, ListFactory listFactory) {
+      super(nullable);
+
       this.componentParser = componentParser;
-      this.isNullable = isNullable;
       this.listFactory = listFactory;
     }
 
     @Override
     public List<? extends T> parseValue(Object value, ObjectData thisData)
         throws JsonProtocolParseException {
-      if (isNullable && value == null) {
+      if (isNullable() && value == null) {
         return null;
       }
       if (!(value instanceof JSONArray)) {
@@ -1368,21 +924,21 @@ public class DynamicParserImpl<ROOT> {
     }
 
     @Override
-    public void appendFinishedValueTypeNameJava(FileScope scope) {
-      scope.append("java.util.List<");
-      componentParser.appendFinishedValueTypeNameJava(scope);
-      scope.append(">");
+    public void appendFinishedValueTypeNameJava(TextOutput out) {
+      out.append("java.util.List<");
+      componentParser.appendFinishedValueTypeNameJava(out);
+      out.append('>');
     }
 
     @Override
     public void appendInternalValueTypeNameJava(FileScope scope) {
-      appendFinishedValueTypeNameJava(scope);
+      appendFinishedValueTypeNameJava(scope.getOutput());
     }
 
     @Override
     void writeParseCode(MethodScope scope, String valueRef,
         String superValueRef, String resultRef) {
-      if (isNullable) {
+      if (isNullable()) {
         scope.startLine("if (" + valueRef +  " == null) {\n");
         scope.startLine("  return null;\n");
         scope.startLine("}\n");
@@ -1397,11 +953,6 @@ public class DynamicParserImpl<ROOT> {
       scope.startLine("final org.json.simple.JSONArray " + arrayValueRef +
           " = (org.json.simple.JSONArray) " + valueRef +  ";\n");
       listFactory.writeCreateListCode(componentParser, scope, arrayValueRef, resultRef);
-    }
-
-    @Override
-    boolean javaCodeThrowsException() {
-      return true;
     }
   }
 
@@ -1538,7 +1089,7 @@ public class DynamicParserImpl<ROOT> {
       }
       if (code == -1) {
         if (!hasDefaultCase) {
-          throw new JsonProtocolParseException("Not a singe case matches");
+          throw new JsonProtocolParseException("Not a single case matches");
         }
       } else {
         ObjectData fieldData =
@@ -1566,7 +1117,7 @@ public class DynamicParserImpl<ROOT> {
       if (!hasDefaultCase) {
         methodScope.startLine("if (code == -1) {\n");
         methodScope.startLine("  throw new " + Util.BASE_PACKAGE +
-            ".JsonProtocolParseException(\"Not a singe case matches\");\n");
+            ".JsonProtocolParseException(\"Not a single case matches\");\n");
         methodScope.startLine("}\n");
       }
       for (int i = 0; i < getSubtypes().size(); i++) {
@@ -1646,17 +1197,12 @@ public class DynamicParserImpl<ROOT> {
     }
 
 
-    void writeFieldDeclarationJava(ClassScope scope) {
-      scope.startLine("private final java.util.concurrent.atomic.AtomicReference<");
+    void writeFieldDeclarationJava(ClassScope scope, TextOutput out) {
+      out.newLine().append("private final java.util.concurrent.atomic.AtomicReference<");
       fieldTypeInfo.appendValueTypeNameJava(scope);
-      scope.append("  > " + getCodeFieldName() +
-          " = new java.util.concurrent.atomic.AtomicReference<");
+      out.append("  > ").append(getCodeFieldName()).append(" = new java.util.concurrent.atomic.AtomicReference<");
       fieldTypeInfo.appendValueTypeNameJava(scope);
-      scope.append(">(null);\n");
-    }
-
-    FieldTypeInfo getTypeInfo() {
-      return fieldTypeInfo;
+      out.append(">(null);");
     }
 
     private String getCodeFieldName() {
@@ -1685,6 +1231,7 @@ public class DynamicParserImpl<ROOT> {
     }
 
     void set(TypeHandler<?> type) {
+      //noinspection unchecked
       this.type = (TypeHandler<T>)type;
     }
   }
@@ -1695,12 +1242,6 @@ public class DynamicParserImpl<ROOT> {
     final List<String> overridenNames = new ArrayList<String>(1);
   }
 
-  public GeneratedCodeMap generateStaticParser(StringBuilder stringBuilder,
-      String packageName, String className) {
-    return generateStaticParser(stringBuilder, packageName, className,
-        Collections.<GeneratedCodeMap>emptyList());
-  }
-
   public GeneratedCodeMap generateStaticParser(StringBuilder stringBuilder, String packageName,
       String className, Collection<GeneratedCodeMap> basePackages) {
     JavaCodeGenerator generator = new JavaCodeGenerator.Impl();
@@ -1708,17 +1249,17 @@ public class DynamicParserImpl<ROOT> {
     GlobalScope globalScope = generator.newGlobalScope(type2TypeHandler.values(), basePackages);
 
     FileScope fileScope = globalScope.newFileScope(stringBuilder);
+    TextOutput out = fileScope.getOutput();
+    out.newLine().append("// This is a generated source.\n");
+    out.newLine().append("// See " + getClass().getName() + " for details\n");
 
-    fileScope.startLine("// This is a generated source.\n");
-    fileScope.startLine("// See " + getClass().getName() + " for details\n");
-    fileScope.append("\n");
-    fileScope.startLine("package " + packageName + ";\n");
-    fileScope.append("\n");
-    fileScope.startLine("public class " + className + " implements " +
-        rootImpl.getType().getCanonicalName() + " {\n");
+    out.newLine().append("package ").append(packageName).append(";");
+    out.newLine().newLine().append("import com.google.gson.stream.JsonToken;");
+    out.newLine().newLine().append("public class ").append(className);
+    out.append(" implements ").append(rootImpl.getType().getCanonicalName()).append(" {").newLine();
 
     ClassScope rootClassScope = fileScope.newClassScope();
-    rootClassScope.indentRight();
+    out.indentIn();
 
     rootImpl.writeStaticMethodJava(rootClassScope);
 
@@ -1728,9 +1269,7 @@ public class DynamicParserImpl<ROOT> {
 
     rootClassScope.writeClassMembers();
 
-    rootClassScope.indentLeft();
-
-    rootClassScope.startLine("}\n");
+    out.indentOut().newLine().append('}').newLine();
 
     Map<Class<?>, String> type2ImplClassName = new HashMap<Class<?>, String>();
     for (TypeHandler<?> typeHandler : type2TypeHandler.values()) {

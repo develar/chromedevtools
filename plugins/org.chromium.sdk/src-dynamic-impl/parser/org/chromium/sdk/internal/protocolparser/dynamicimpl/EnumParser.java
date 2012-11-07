@@ -4,15 +4,14 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import org.chromium.sdk.internal.protocolparser.EnumValueCondition;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.Util;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 class EnumParser<T extends Enum<T>> extends QuickParser<T> {
   public static <T extends Enum<T>> EnumParser<T> create(Class<T> enumTypeClass,
@@ -21,16 +20,15 @@ class EnumParser<T extends Enum<T>> extends QuickParser<T> {
   }
 
   private final Method methodValueOf;
-  private final boolean isNullable;
   private final Class<T> enumClass;
 
-  private EnumParser(Class<T> enumClass, boolean isNullable)
+  private EnumParser(Class<T> enumClass, boolean nullable)
       throws JsonProtocolModelParseException {
+    super(nullable);
     this.enumClass = enumClass;
-    this.isNullable = isNullable;
 
     try {
-      this.methodValueOf = enumClass.getMethod("valueOf", String.class);
+      methodValueOf = enumClass.getMethod("valueOf", String.class);
     } catch (NoSuchMethodException e) {
       throw new JsonProtocolModelParseException(
           "Failed to find valueOf method for parsing strings", e);
@@ -39,10 +37,10 @@ class EnumParser<T extends Enum<T>> extends QuickParser<T> {
 
   @Override
   public T parseValueQuick(Object value) throws JsonProtocolParseException {
-    if (isNullable && value == null) {
+    if (isNullable() && value == null) {
       return null;
     }
-    if (value instanceof String == false) {
+    if (!(value instanceof String)) {
       throw new JsonProtocolParseException("String value expected");
     }
     String stringValue = (String) value;
@@ -64,13 +62,8 @@ class EnumParser<T extends Enum<T>> extends QuickParser<T> {
   }
 
   @Override
-  public void appendFinishedValueTypeNameJava(FileScope scope) {
-    scope.append(enumClass.getCanonicalName());
-  }
-
-  @Override
-  public void appendInternalValueTypeNameJava(FileScope scope) {
-    appendFinishedValueTypeNameJava(scope);
+  public void appendFinishedValueTypeNameJava(TextOutput out) {
+    out.append(enumClass.getCanonicalName());
   }
 
   @Override
@@ -84,7 +77,7 @@ class EnumParser<T extends Enum<T>> extends QuickParser<T> {
       }
     }
 
-    if (isNullable) {
+    if (isNullable()) {
       scope.startLine("if (" + valueRef + " == null) {\n");
       scope.startLine("  return null;\n");
       scope.startLine("}\n");
@@ -98,10 +91,5 @@ class EnumParser<T extends Enum<T>> extends QuickParser<T> {
     scope.startLine(enumClass.getCanonicalName() + " " + resultRef + " = " +
         enumClass.getCanonicalName() + ".valueOf(");
     scope.append("stringValue);\n");
-  }
-
-  @Override
-  boolean javaCodeThrowsException() {
-    return true;
   }
 }

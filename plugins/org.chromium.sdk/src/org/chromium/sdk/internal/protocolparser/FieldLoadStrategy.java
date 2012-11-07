@@ -21,5 +21,5 @@ public enum FieldLoadStrategy {
   /**
    * Compiler should choose strategy itself.
    */
-  AUTO;
+  AUTO
 }

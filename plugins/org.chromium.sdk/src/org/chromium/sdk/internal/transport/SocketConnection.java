@@ -4,6 +4,10 @@
 
 package org.chromium.sdk.internal.transport;
 
+import org.chromium.sdk.ConnectionLogger;
+import org.chromium.sdk.util.SignalRelay;
+import org.chromium.sdk.util.SignalRelay.AlreadySignalledException;
+
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.nio.charset.Charset;
@@ -12,11 +16,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.chromium.sdk.ConnectionLogger;
-import org.chromium.sdk.internal.transport.Message.MalformedMessageException;
-import org.chromium.sdk.util.SignalRelay;
-import org.chromium.sdk.util.SignalRelay.AlreadySignalledException;
 
 /**
  * The low-level network agent handling the reading and writing of Messages
@@ -42,13 +41,13 @@ public class SocketConnection implements Connection {
 
     @Override
     public synchronized void start() {
-      this.isTerminated = false;
+      isTerminated = false;
       super.start();
     }
 
     @Override
     public synchronized void interrupt() {
-      this.isTerminated = true;
+      isTerminated = true;
       super.interrupt();
     }
   }
@@ -162,12 +161,7 @@ public class SocketConnection implements Connection {
 
         while (!isTerminated && isAttached.get()) {
           Message message;
-          try {
-            message = Message.fromBufferedReader(lineReader, SOCKET_CHARSET);
-          } catch (MalformedMessageException e) {
-            LOGGER.log(Level.SEVERE, "Malformed protocol message", e);
-            continue;
-          }
+          message = Message.fromBufferedReader(lineReader, SOCKET_CHARSET);
           if (message == null) {
             LOGGER.fine("End of stream");
             break;
@@ -277,27 +271,27 @@ public class SocketConnection implements Connection {
 
   public SocketConnection(SocketAddress endpoint, int connectionTimeoutMs,
       ConnectionLogger connectionLogger, Handshaker handshaker) {
-    this.socketEndpoint = endpoint;
+    socketEndpoint = endpoint;
     this.connectionTimeoutMs = connectionTimeoutMs;
     this.connectionLogger = connectionLogger;
     this.handshaker = handshaker;
   }
 
   void attach() throws IOException {
-    this.socket = new SocketWrapper(socketEndpoint, connectionTimeoutMs,
+    socket = new SocketWrapper(socketEndpoint, connectionTimeoutMs,
         connectionLogger, SOCKET_CHARSET);
 
     try {
-      shutdownRelay.bind(this.socket.getShutdownRelay(), null, null);
+      shutdownRelay.bind(socket.getShutdownRelay(), null, null);
     } catch (AlreadySignalledException e) {
       throw new IOException("Unexpected: socket is already closed", e);
     }
 
     isAttached.set(true);
 
-    this.readerThread = new ReaderThread(socket.getLoggableInput(), socket.getLoggableOutput());
+    readerThread = new ReaderThread(socket.getLoggableInput(), socket.getLoggableOutput());
     // We do not start WriterThread until handshake is done (see ReaderThread)
-    this.writerThread = null;
+    writerThread = null;
     readerThread.setDaemon(true);
     readerThread.start();
   }
@@ -417,10 +411,10 @@ public class SocketConnection implements Connection {
 
   @Override
   public void setNetListener(NetListener netListener) {
-    if (this.listener != null && netListener != this.listener) {
+    if (listener != null && netListener != listener) {
       throw new IllegalStateException("Cannot change NetListener");
     }
-    this.listener = netListener != null
+    listener = netListener != null
         ? netListener
         : NULL_LISTENER;
     SignalRelay<?> listenerCloser = SignalRelay.create(new SignalRelay.Callback<Void>() {

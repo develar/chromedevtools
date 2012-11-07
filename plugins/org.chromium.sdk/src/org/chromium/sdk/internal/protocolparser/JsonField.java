@@ -22,6 +22,4 @@ public @interface JsonField {
    * prefix is truncated with the first letter decapitalization).
    */
   String jsonLiteralName() default "";
-
-  FieldLoadStrategy loadStrategy() default FieldLoadStrategy.AUTO;
 }

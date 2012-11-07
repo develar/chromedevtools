@@ -4,8 +4,12 @@
 
 package org.chromium.sdk.internal.protocolparser.implutil;
 
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.json.simple.JSONObject;
+
+import java.io.IOException;
 
 /**
  * A small library of classes and methods used from generated parser code.
@@ -17,13 +21,14 @@ public class GeneratedCodeLibrary {
   }
 
   public static class JsonValueBase {
-    protected final JSONObject underlying;
+    protected final JsonReader reader;
 
-    protected JsonValueBase(Object underlying) throws JsonProtocolParseException {
-      if (!(underlying instanceof JSONObject)) {
-        throw new JsonProtocolParseException("JSON object input expected");
-      }
-      this.underlying = (JSONObject) underlying;
+    protected JsonValueBase(Object reader) throws IOException {
+      this.reader = (JsonReader)reader;
+    }
+
+    protected static void throwFieldIsNotOptional(String fieldName) throws IOException {
+      throw new IOException("Field is not optional " + fieldName);
     }
   }
 

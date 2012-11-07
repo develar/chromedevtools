@@ -4,22 +4,7 @@
 
 package org.chromium.sdk.internal.v8native;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-
-import org.chromium.sdk.CallFrame;
-import org.chromium.sdk.DebugContext;
-import org.chromium.sdk.InvalidContextException;
-import org.chromium.sdk.JsEvaluateContext;
-import org.chromium.sdk.JsScope;
-import org.chromium.sdk.JsVariable;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.RestartFrameExtension;
-import org.chromium.sdk.Script;
-import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.TextStreamPosition;
+import org.chromium.sdk.*;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.processor.BacktraceProcessor;
@@ -31,15 +16,16 @@ import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.protocol.output.RestartFrameMessage;
-import org.chromium.sdk.internal.v8native.value.JsScopeImpl;
-import org.chromium.sdk.internal.v8native.value.JsVariableImpl;
-import org.chromium.sdk.internal.v8native.value.PropertyReference;
-import org.chromium.sdk.internal.v8native.value.ValueLoader;
-import org.chromium.sdk.internal.v8native.value.ValueMirror;
+import org.chromium.sdk.internal.v8native.value.*;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.sdk.util.RelaySyncCallback;
-import org.json.simple.JSONObject;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A generic implementation of the CallFrame interface.
@@ -95,7 +81,7 @@ public class CallFrameImpl implements CallFrame {
     this.context = context;
 
     int index = (int) frameObject.index();
-    JSONObject func = frameObject.func();
+    Map func = frameObject.func();
 
     int currentLine = (int) frameObject.line();
 
@@ -143,7 +129,7 @@ public class CallFrameImpl implements CallFrame {
     if (scopesRef.get() != null) {
       return;
     }
-    scopesRef.compareAndSet(null, Collections.unmodifiableList(createScopes()));
+    scopesRef.compareAndSet(null, createScopes());
   }
 
   private void ensureReceiver() throws MethodIsBlockingException {
@@ -193,11 +179,12 @@ public class CallFrameImpl implements CallFrame {
 
   private List<JsScopeImpl<?>> createScopes() {
     List<ScopeRef> scopes = frameObject.scopes();
-    List<JsScopeImpl<?>> result = new ArrayList<JsScopeImpl<?>>(scopes.size());
-    for (ScopeRef scopeRef : scopes) {
-      result.add(JsScopeImpl.create(JsScopeImpl.Host.create(this), scopeRef));
+    JsScopeImpl<?>[] result = new JsScopeImpl<?>[scopes.size()];
+    for (int i = 0; i < scopes.size(); i++) {
+      ScopeRef scopeRef = scopes.get(i);
+      result[i] = JsScopeImpl.create(JsScopeImpl.Host.create(this), scopeRef);
     }
-    return result;
+    return Arrays.asList(result);
   }
 
   private final JsEvaluateContextImpl evaluateContextImpl = new JsEvaluateContextImpl() {
