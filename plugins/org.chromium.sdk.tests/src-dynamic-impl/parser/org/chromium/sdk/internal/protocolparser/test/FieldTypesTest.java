@@ -9,6 +9,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,8 +55,7 @@ public class FieldTypesTest {
   @JsonParserRoot
   interface TypeWithNullableLongParser {
     @JsonParseMethod
-    TypeWithNullableLong parseTypeWithNullableLong(JSONObject json)
-        throws JsonProtocolParseException;
+    TypeWithNullableLong parseTypeWithNullableLong(JSONObject json) throws IOException;
   }
 
   @Test
@@ -89,12 +89,11 @@ public class FieldTypesTest {
   @JsonParserRoot
   interface TypeWithLongParser {
     @JsonParseMethod
-    TypeWithLong parseTypeWithLong(JSONObject json) throws JsonProtocolParseException;
+    TypeWithLong parseTypeWithLong(JSONObject json) throws IOException;
   }
 
   @Test
-  public void testNullStructValue() throws JsonProtocolModelParseException,
-      JsonProtocolParseException {
+  public void testNullStructValue() throws JsonProtocolModelParseException, IOException {
     TypeWithNullableSomethingParser parser = createDynamicParser(
         TypeWithNullableSomethingParser.class,
         Something.class,TypeWithNullableSomething.class);
@@ -125,13 +124,11 @@ public class FieldTypesTest {
   @JsonParserRoot
   interface TypeWithNullableSomethingParser {
     @JsonParseMethod
-    TypeWithNullableSomething parseTypeWithNullableSomething(JSONObject json)
-        throws JsonProtocolParseException;
+    TypeWithNullableSomething parseTypeWithNullableSomething(JSONObject json) throws IOException;
   }
 
   @Test
-  public void testBrokenNullStructValue() throws JsonProtocolModelParseException,
-      JsonProtocolParseException {
+  public void testBrokenNullStructValue() throws JsonProtocolModelParseException, IOException {
     TypeWithSomethingParser parser = createDynamicParser(TypeWithSomethingParser.class,
         Something.class, TypeWithSomething.class);
 
@@ -160,7 +157,7 @@ public class FieldTypesTest {
   @JsonParserRoot
   interface TypeWithSomethingParser {
     @JsonParseMethod
-    TypeWithSomething parseTypeWithSomething(JSONObject json) throws JsonProtocolParseException;
+    TypeWithSomething parseTypeWithSomething(JSONObject json) throws IOException;
   }
 
   @Test
@@ -212,16 +209,14 @@ public class FieldTypesTest {
   @JsonParserRoot
   interface SeveralTypesWithSomethingParser {
     @JsonParseMethod
-    TypeWithSomething parseTypeWithSomething(JSONObject json) throws JsonProtocolParseException;
+    TypeWithSomething parseTypeWithSomething(JSONObject json) throws IOException;
 
     @JsonParseMethod
-    TypeWithNullableLong parseTypeWithNullableLong(JSONObject json)
-        throws JsonProtocolParseException;
+    TypeWithNullableLong parseTypeWithNullableLong(JSONObject json) throws IOException;
   }
 
   @Test
-  public void testOptionalFields() throws JsonProtocolModelParseException,
-      JsonProtocolParseException {
+  public void testOptionalFields() throws JsonProtocolModelParseException, IOException {
 
     SeveralTypesWithLongParser parser;
     {
@@ -262,15 +257,13 @@ public class FieldTypesTest {
   interface SeveralTypesWithLongParser {
 
     @JsonParseMethod
-    TypeWithOptionalLong parseTypeWithOptionalLong(JSONObject emptyJson)
-        throws JsonProtocolParseException;
+    TypeWithOptionalLong parseTypeWithOptionalLong(JSONObject emptyJson) throws IOException;
 
     @JsonParseMethod
-    TypeWithOptionalSomething parseTypeWithOptionalSomething(
-        JSONObject emptyJson) throws JsonProtocolParseException;
+    TypeWithOptionalSomething parseTypeWithOptionalSomething(JSONObject emptyJson) throws IOException;
   }
 
-  private JSONObject parseJson(String semiJson) {
+  private static JSONObject parseJson(String semiJson) {
     String jsonString = semiJson.replace('\'', '"');
     JSONObject json;
     try {

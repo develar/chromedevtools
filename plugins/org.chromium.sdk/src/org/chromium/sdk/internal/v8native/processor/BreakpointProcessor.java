@@ -4,14 +4,8 @@
 
 package org.chromium.sdk.internal.v8native.processor;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import org.chromium.sdk.Breakpoint;
 import org.chromium.sdk.ExceptionData;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.BreakpointManager;
 import org.chromium.sdk.internal.v8native.ContextBuilder;
 import org.chromium.sdk.internal.v8native.DebugSession;
@@ -27,6 +21,12 @@ import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory
 import org.chromium.sdk.internal.v8native.value.ExceptionDataImpl;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
 import org.chromium.sdk.internal.v8native.value.ValueMirror;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Handles the suspension-related V8 command replies and events.
@@ -56,7 +56,7 @@ public class BreakpointProcessor extends V8EventProcessor {
       BreakEventBody breakEventBody;
       try {
         breakEventBody = eventMessage.body().asBreakEventBody();
-      } catch (JsonProtocolParseException e) {
+      } catch (IOException e) {
         throw new RuntimeException(e);
       }
 
@@ -69,7 +69,7 @@ public class BreakpointProcessor extends V8EventProcessor {
             internalContext);
         step2 = step1.setContextState(Collections.<Breakpoint> emptySet(), exception);
       } else {
-        contextBuilder.buildSequenceFailure();
+        ContextBuilder.buildSequenceFailure();
         throw new RuntimeException();
       }
 

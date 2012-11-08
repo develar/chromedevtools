@@ -38,10 +38,6 @@ public class TextOutput {
     return this;
   }
 
-  public TextOutput indentedLine(CharSequence s) {
-    return newLine().indentIn().append(s);
-  }
-
   public void append(double value) {
     maybeIndent();
     out.append(value);
@@ -67,6 +63,23 @@ public class TextOutput {
     maybeIndent();
     out.append(s);
     return this;
+  }
+
+  public void openBlock() {
+    out.append(' ').append('{');
+    newLine().indentIn();
+  }
+
+  public void closeBlock() {
+    indentOut().newLine().append('}');
+  }
+
+  public TextOutput comma() {
+    return append(',').append(' ');
+  }
+
+  public TextOutput quoute(CharSequence s) {
+    return append('"').append(s).append('"');
   }
 
   public void maybeIndent() {

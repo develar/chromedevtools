@@ -33,7 +33,6 @@ public class ParserGeneratorBase {
     File output = new File(directory, configuration.getClassName() + ".java");
     try {
       Writer writer = new OutputStreamWriter(new FileOutputStream(output));
-
       writer.append(stringBuilder);
       writer.close();
     } catch (IOException e) {

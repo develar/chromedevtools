@@ -4,12 +4,13 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.JsonSubtype;
 import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
 import org.chromium.sdk.internal.protocolparser.JsonSubtypeCondition;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
+
+import java.io.IOException;
 
 /**
  * A serialized form of object when it is fully (though shallowly) described. Object always
@@ -30,11 +31,11 @@ public interface SomeHandle extends JsonSubtype<SomeSerialized> {
 
 
   @JsonSubtypeCasting
-  ScriptHandle asScriptHandle() throws JsonProtocolParseException;
+  ScriptHandle asScriptHandle() throws IOException;
 
   @JsonSubtypeCasting
-  ValueHandle asValueHandle() throws JsonProtocolParseException;
+  ValueHandle asValueHandle() throws IOException;
 
   @JsonSubtypeCasting
-  ContextHandle asContextHandle() throws JsonProtocolParseException;
+  ContextHandle asContextHandle() throws IOException;
 }

@@ -44,10 +44,12 @@ abstract class SlowParser<T> {
 
   abstract void writeParseCode(MethodScope methodScope, String valueRef, String superValueRef, String resultRef);
 
-  void writeReadCode(TextOutput out) {
-  }
+  abstract void writeReadCode(String fieldName, MethodScope methodScope, TextOutput out);
 
   public boolean isNullable() {
     return nullable;
+  }
+
+  public void writeArrayReadCode(MethodScope scope, TextOutput out) {
   }
 }

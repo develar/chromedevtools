@@ -4,6 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.processor;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class AfterCompileProcessor extends V8EventProcessor {
             List<ScriptHandle> body;
             try {
               body = successResponse.body().asScripts();
-            } catch (JsonProtocolParseException e) {
+            } catch (IOException e) {
               throw new RuntimeException(e);
             }
             // body is an array of scripts
@@ -71,7 +72,7 @@ public class AfterCompileProcessor extends V8EventProcessor {
     AfterCompileBody body;
     try {
       body = eventResponse.body().asAfterCompileBody();
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       throw new RuntimeException(e);
     }
     ScriptHandle script = body.script();

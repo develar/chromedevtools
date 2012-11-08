@@ -7,10 +7,10 @@ package org.chromium.sdk.internal.v8native.protocol.input;
 import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
 import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef;
-import org.json.simple.JSONObject;
+
+import java.io.IOException;
 
 /**
  * A part of {@link V8NativeProtocolParser} interface that is introduced specially for
@@ -20,11 +20,11 @@ import org.json.simple.JSONObject;
 public interface V8NativeProtocolParserTestAccess {
 
   @JsonParseMethod
-  FrameObject parseFrameObject(JsonReader reader) throws JsonProtocolParseException;
+  FrameObject parseFrameObject(JsonReader reader) throws IOException;
 
   @JsonParseMethod
-  SomeRef parseSomeRef(JsonReader reader) throws JsonProtocolParseException;
+  SomeRef parseSomeRef(JsonReader reader) throws IOException;
 
   @JsonParseMethod
-  ScriptHandle parseScriptHandle(JsonReader reader) throws JsonProtocolParseException;
+  ScriptHandle parseScriptHandle(JsonReader reader) throws IOException;
 }

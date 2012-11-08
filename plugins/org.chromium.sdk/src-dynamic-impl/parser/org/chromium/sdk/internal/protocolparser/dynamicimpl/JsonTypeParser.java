@@ -7,7 +7,6 @@ package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.Util;
 import org.json.simple.JSONObject;
 
 /**
@@ -92,20 +91,26 @@ class JsonTypeParser<T> extends SlowParser<ObjectData> {
     String typeName = scope.getTypeImplReference(refToType.get());
     scope.startLine(typeName + " " + resultRef + ";\n");
 
-    scope.startLine("if (" + valueRef+ " == null) {\n");
-    if (isNullable()) {
-      scope.startLine("  " + resultRef+ " = null;\n");
-    } else {
-      scope.startLine("  throw new " + Util.BASE_PACKAGE +
-          ".JsonProtocolParseException(\"null input\");\n");
-    }
-    scope.startLine("} else {\n");
     if (isSubtyping) {
       scope.startLine("  " + resultRef + " = new " + typeName + "(" + valueRef + ", " +
-          superValueRef + ");\n");
-    } else {
+                      superValueRef + ");\n");
+    }
+    else {
       scope.startLine("  " + resultRef + " = " + typeName + ".parse(" + valueRef + ");\n");
     }
     scope.startLine("}\n");
+  }
+
+  @Override
+  void writeReadCode(String fieldName, MethodScope scope, TextOutput out) {
+    assert !isSubtyping;
+    out.append(scope.getTypeImplReference(refToType.get())).append(".parse(").append(TypeHandler.READER_NAME).append(')');
+  }
+
+  @Override
+  public void writeArrayReadCode(MethodScope scope, TextOutput out) {
+    out.append("readObjectArray").append('(').append(TypeHandler.READER_NAME);
+    out.comma().append("new ").append(scope.getTypeFactoryReference(refToType.get())).append("F()");
+    out.comma().append("name").append(')');
   }
 }

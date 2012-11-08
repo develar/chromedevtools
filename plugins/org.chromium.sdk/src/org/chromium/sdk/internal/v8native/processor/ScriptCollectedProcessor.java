@@ -11,6 +11,8 @@ import org.chromium.sdk.internal.v8native.protocol.input.EventNotification;
 import org.chromium.sdk.internal.v8native.protocol.input.EventNotificationBody;
 import org.chromium.sdk.internal.v8native.protocol.input.ScriptCollectedBody;
 
+import java.io.IOException;
+
 /**
  * Listens for scripts sent in the "scriptCollected" events and passes their ids to
  * the {@link ScriptManager}.
@@ -28,7 +30,7 @@ public class ScriptCollectedProcessor extends V8EventProcessor {
     ScriptCollectedBody scriptCollectedBody;
     try {
       scriptCollectedBody = body.asScriptCollectedBody();
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       throw new RuntimeException(e);
     }
 

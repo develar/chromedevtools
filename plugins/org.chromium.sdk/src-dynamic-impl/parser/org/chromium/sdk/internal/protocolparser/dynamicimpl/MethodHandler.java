@@ -16,29 +16,30 @@ import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.Cl
 abstract class MethodHandler {
   abstract Object handle(ObjectData objectData, Object[] args) throws Throwable;
 
-  abstract void writeMethodImplementationJava(ClassScope classScope, Method m);
+  abstract void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out);
 
-  protected static void appendMethodSignatureJava(ClassScope scope, Method m,
-      Iterable<String> paramNames) {
-    scope.append(m.getName());
-    scope.append("(");
+  protected static void appendMethodSignatureJava(Method m, Iterable<String> paramNames, TextOutput out) {
+    out.append(m.getName()).append('(');
     boolean firstArg = true;
     Iterator<String> namesIt = paramNames.iterator();
     for (Type arg : m.getGenericParameterTypes()) {
-      if (!firstArg) {
-        scope.append(", ");
+      if (firstArg) {
+        firstArg = false;
       }
-      JavaCodeGenerator.Util.writeJavaTypeName(arg, scope.getStringBuilder());
-      scope.append(" " + namesIt.next());
+      else {
+        out.comma();
+      }
+      Util.writeJavaTypeName(arg, out);
+      out.append(' ').append(namesIt.next());
     }
-    scope.append(")");
+    out.append(')');
   }
 
-  protected static void writeMethodDeclarationJava(ClassScope scope, Method m,
-      Iterable<String> paramNames) {
-    scope.startLine("@Override public ");
-    JavaCodeGenerator.Util.writeJavaTypeName(m.getGenericReturnType(), scope.getStringBuilder());
-    scope.append(" ");
-    appendMethodSignatureJava(scope, m, paramNames);
+  protected static void writeMethodDeclarationJava(ClassScope scope, Method m, Iterable<String> paramNames) {
+    TextOutput out = scope.getOutput();
+    out.append("@Override").newLine().append("public ");
+    Util.writeJavaTypeName(m.getGenericReturnType(), scope.getOutput());
+    out.append(' ');
+    appendMethodSignatureJava(m, paramNames, scope.getOutput());
   }
 }

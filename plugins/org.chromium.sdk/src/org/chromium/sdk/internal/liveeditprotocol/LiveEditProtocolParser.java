@@ -7,7 +7,8 @@ package org.chromium.sdk.internal.liveeditprotocol;
 import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
 import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
+
+import java.io.IOException;
 
 /**
  * Interface to LiveEdit protocol parser.
@@ -15,5 +16,5 @@ import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 @JsonParserRoot
 public interface LiveEditProtocolParser {
   @JsonParseMethod
-  LiveEditResult parseLiveEditResult(JsonReader underlyingObject) throws JsonProtocolParseException;
+  LiveEditResult parseLiveEditResult(JsonReader underlyingObject) throws IOException;
 }

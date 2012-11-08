@@ -4,9 +4,10 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
 import org.chromium.sdk.internal.protocolparser.JsonType;
+
+import java.io.IOException;
 
 /**
  * This is empty base type for all event notification body types. The actual type
@@ -15,11 +16,11 @@ import org.chromium.sdk.internal.protocolparser.JsonType;
 @JsonType(subtypesChosenManually=true)
 public interface EventNotificationBody {
   @JsonSubtypeCasting
-  BreakEventBody asBreakEventBody() throws JsonProtocolParseException;
+  BreakEventBody asBreakEventBody() throws IOException;
 
   @JsonSubtypeCasting
-  AfterCompileBody asAfterCompileBody() throws JsonProtocolParseException;
+  AfterCompileBody asAfterCompileBody() throws IOException;
 
   @JsonSubtypeCasting
-  ScriptCollectedBody asScriptCollectedBody() throws JsonProtocolParseException;
+  ScriptCollectedBody asScriptCollectedBody() throws IOException;
 }

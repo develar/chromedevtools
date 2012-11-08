@@ -9,12 +9,12 @@ import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.BaseCommandProcessor;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage;
 import org.chromium.sdk.internal.v8native.protocol.input.V8ProtocolParserAccess;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -106,7 +106,7 @@ public class V8CommandProcessor implements V8CommandSender<DebuggerMessage, Runt
     IncomingMessage response;
     try {
       response = V8ProtocolParserAccess.get().parseIncomingMessage(jsonReader);
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       LOGGER.log(Level.SEVERE, "JSON message does not conform to the protocol", e);
       return;
     }

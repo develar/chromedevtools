@@ -4,17 +4,6 @@
 
 package org.chromium.sdk.internal.browserfixture;
 
-import static org.chromium.sdk.tests.internal.JsonBuilderUtil.convertToRealJson;
-import static org.chromium.sdk.tests.internal.JsonBuilderUtil.jsonArray;
-import static org.chromium.sdk.tests.internal.JsonBuilderUtil.jsonObject;
-import static org.chromium.sdk.tests.internal.JsonBuilderUtil.jsonProperty;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.chromium.sdk.Breakpoint;
 import org.chromium.sdk.JavascriptVm.BreakpointCallback;
 import org.chromium.sdk.RelayOk;
@@ -22,11 +11,7 @@ import org.chromium.sdk.Script;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.FixtureParserAccess;
 import org.chromium.sdk.internal.JsonUtil;
-import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
-import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
-import org.chromium.sdk.internal.protocolparser.JsonType;
+import org.chromium.sdk.internal.protocolparser.*;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolName;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.DevToolsServiceCommand;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.output.MessageFactory;
@@ -34,12 +19,7 @@ import org.chromium.sdk.internal.shellprotocol.tools.v8debugger.DebuggerToolComm
 import org.chromium.sdk.internal.transport.ChromeStub;
 import org.chromium.sdk.internal.transport.Connection.NetListener;
 import org.chromium.sdk.internal.transport.Message;
-import org.chromium.sdk.internal.v8native.BreakpointImpl;
-import org.chromium.sdk.internal.v8native.BreakpointManager;
-import org.chromium.sdk.internal.v8native.DebuggerCommand;
-import org.chromium.sdk.internal.v8native.ScriptImplTestGate;
-import org.chromium.sdk.internal.v8native.ScriptManager;
-import org.chromium.sdk.internal.v8native.V8ContextFilter;
+import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.protocol.V8Protocol;
 import org.chromium.sdk.internal.v8native.protocol.input.V8ProtocolParserAccess;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
@@ -48,6 +28,15 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import static org.chromium.sdk.tests.internal.JsonBuilderUtil.*;
 
 /**
  * A ChromeStub implementation with a certain fixture applied.
@@ -673,16 +662,16 @@ public class FixtureChromeStub implements ChromeStub {
   @JsonType(subtypesChosenManually=true)
   public interface Refs {
     @JsonSubtypeCasting
-    List<SomeHandle> asHandles() throws JsonProtocolParseException;
+    List<SomeHandle> asHandles() throws IOException;
     @JsonSubtypeCasting
-    List<? extends SomeHandle> asHandles2() throws JsonProtocolParseException;
+    List<? extends SomeHandle> asHandles2() throws IOException;
   }
 
   @JsonParserRoot
   public interface FixtureParser {
 
     @JsonParseMethod
-    Refs parseRefs(Object refs) throws JsonProtocolParseException;
+    Refs parseRefs(Object refs) throws IOException;
 
   }
 }

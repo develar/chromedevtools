@@ -8,7 +8,6 @@ import org.chromium.sdk.Script;
 import org.chromium.sdk.Script.Type;
 import org.chromium.sdk.Version;
 import org.chromium.sdk.internal.JsonUtil;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.V8ContextFilter;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.VersionBody;
@@ -18,6 +17,7 @@ import org.chromium.sdk.internal.v8native.value.DataWithRef;
 import org.chromium.sdk.internal.v8native.value.PropertyReference;
 import org.chromium.sdk.internal.v8native.value.PropertyType;
 
+import java.io.IOException;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
@@ -296,7 +296,7 @@ public class V8ProtocolUtil {
       ContextHandle contextHandle;
       try {
         contextHandle = ref.asContextHandle();
-      } catch (JsonProtocolParseException e) {
+      } catch (IOException e) {
         throw new RuntimeException(e);
       }
       if (!contextFilter.isContextOurs(contextHandle)) {
@@ -311,7 +311,7 @@ public class V8ProtocolUtil {
     VersionBody body;
     try {
       body = versionResponse.body().asVersionBody();
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       throw new RuntimeException(e);
     }
     String versionString = body.getV8Version();

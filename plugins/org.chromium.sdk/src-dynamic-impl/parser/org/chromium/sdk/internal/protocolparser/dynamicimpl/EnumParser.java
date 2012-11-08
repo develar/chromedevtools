@@ -8,7 +8,6 @@ import org.chromium.sdk.internal.protocolparser.EnumValueCondition;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.Util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -91,5 +90,9 @@ class EnumParser<T extends Enum<T>> extends QuickParser<T> {
     scope.startLine(enumClass.getCanonicalName() + " " + resultRef + " = " +
         enumClass.getCanonicalName() + ".valueOf(");
     scope.append("stringValue);\n");
+  }
+
+  @Override
+  void writeReadCode(String fieldName, MethodScope methodScope, TextOutput out) {
   }
 }

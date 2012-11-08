@@ -4,34 +4,15 @@
 
 package org.chromium.sdk.internal.v8native;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-
-import org.chromium.sdk.Breakpoint;
+import org.chromium.sdk.*;
 import org.chromium.sdk.Breakpoint.Target;
-import org.chromium.sdk.BreakpointTypeExtension;
-import org.chromium.sdk.JavascriptVm;
 import org.chromium.sdk.JavascriptVm.BreakpointCallback;
 import org.chromium.sdk.JavascriptVm.ExceptionCatchMode;
 import org.chromium.sdk.JavascriptVm.ListBreakpointsCallback;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.ScriptRegExpBreakpointTarget;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.BreakpointImpl.FunctionTarget;
-import org.chromium.sdk.internal.v8native.protocol.input.BreakpointBody;
-import org.chromium.sdk.internal.v8native.protocol.input.CommandResponseBody;
-import org.chromium.sdk.internal.v8native.protocol.input.FlagsBody;
+import org.chromium.sdk.internal.v8native.protocol.input.*;
 import org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo;
-import org.chromium.sdk.internal.v8native.protocol.input.ListBreakpointsBody;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo;
 import org.chromium.sdk.internal.v8native.protocol.output.ChangeBreakpointMessage;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
@@ -39,6 +20,10 @@ import org.chromium.sdk.internal.v8native.protocol.output.FlagsMessage;
 import org.chromium.sdk.internal.v8native.protocol.output.ListBreakpointsMessage;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.logging.Logger;
 
 public class BreakpointManager {
   /** The class logger. */
@@ -86,7 +71,7 @@ public class BreakpointManager {
             BreakpointBody body;
             try {
               body = successResponse.body().asBreakpointBody();
-            } catch (JsonProtocolParseException e) {
+            } catch (IOException e) {
               throw new RuntimeException(e);
             }
             long id = body.breakpoint();
@@ -183,7 +168,7 @@ public class BreakpointManager {
         ListBreakpointsBody listBreakpointsBody;
         try {
           listBreakpointsBody = body.asListBreakpointsBody();
-        } catch (JsonProtocolParseException e) {
+        } catch (IOException e) {
           callback.failure(new Exception("Failed to read server response", e));
           return;
         }
@@ -306,7 +291,7 @@ public class BreakpointManager {
           FlagsBody body;
           try {
             body = successResponse.body().asFlagsBody();
-          } catch (JsonProtocolParseException e) {
+          } catch (IOException e) {
             throw new RuntimeException(e);
           }
           List<FlagInfo> flagList = body.flags();

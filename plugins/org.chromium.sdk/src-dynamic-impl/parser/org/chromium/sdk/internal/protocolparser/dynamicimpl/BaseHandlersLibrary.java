@@ -23,7 +23,7 @@ class BaseHandlersLibrary {
   public static BaseHandlersLibrary INSTANCE;
 
   public Map<Method, ? extends MethodHandler> getAllHandlers() {
-    return method2Handler;
+    return methodToHandler;
   }
 
   /**
@@ -55,15 +55,14 @@ class BaseHandlersLibrary {
     typeHandler.getSubtypeSupport().writeGetSuperMethodJava(scope);
   }
 
-  private final Map<Method, MethodHandler> method2Handler;
+  private final Map<Method, MethodHandler> methodToHandler;
 
   private BaseHandlersLibrary(Method[] objectMethods) throws NoSuchMethodException {
-    method2Handler = new HashMap<Method, MethodHandler>();
+    methodToHandler = new HashMap<Method, MethodHandler>();
     for (Method m : objectMethods) {
-      method2Handler.put(m, new SelfCallMethodHanlder(m));
+      methodToHandler.put(m, new SelfCallMethodHanlder(m));
     }
-    fill(method2Handler, new GetJsonObjectMethodHaldler(), new GetAnyObjectMethodHaldler(),
-        new GetSuperMethodHaldler());
+    fill(methodToHandler, new GetJsonObjectMethodHaldler(), new GetAnyObjectMethodHaldler(), new GetSuperMethodHaldler());
   }
 
   private static void fill(Map<Method, MethodHandler> map, MethodHandlerBase ... handlers) {
@@ -94,7 +93,7 @@ class BaseHandlersLibrary {
     }
 
     @Override
-    void writeMethodImplementationJava(ClassScope classScope, Method m) {
+    void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
       // Ignore.
     }
   }
@@ -110,7 +109,7 @@ class BaseHandlersLibrary {
     }
 
     @Override
-    void writeMethodImplementationJava(ClassScope classScope, Method m) {
+    void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
     }
   }
 
@@ -125,7 +124,7 @@ class BaseHandlersLibrary {
     }
 
     @Override
-    void writeMethodImplementationJava(ClassScope classScope, Method m) {
+    void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
     }
   }
 
@@ -140,7 +139,7 @@ class BaseHandlersLibrary {
     }
 
     @Override
-    void writeMethodImplementationJava(ClassScope classScope, Method m) {
+    void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
       // Ignore.
     }
   }

@@ -21,6 +21,7 @@ import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.sdk.util.RelaySyncCallback;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -257,7 +258,7 @@ public class CallFrameImpl implements CallFrame {
       RestartFrameBody body;
       try {
         body = successResponse.body().asRestartFrameBody();
-      } catch (JsonProtocolParseException e) {
+      } catch (IOException e) {
         throw new RuntimeException(e);
       }
 

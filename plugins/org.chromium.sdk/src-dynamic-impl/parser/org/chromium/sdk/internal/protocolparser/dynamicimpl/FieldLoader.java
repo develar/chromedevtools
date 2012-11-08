@@ -47,7 +47,7 @@ class FieldLoader {
   }
 
   public void writeFieldDeclaration(ClassScope scope) {
-    scope.getOutput().newLine().append("private ");
+    scope.getOutput().append("private ");
     parser.appendFinishedValueTypeNameJava(scope.getOutput());
     scope.append(' ').append(FIELD_PREFIX).append(fieldName).append(';');
   }

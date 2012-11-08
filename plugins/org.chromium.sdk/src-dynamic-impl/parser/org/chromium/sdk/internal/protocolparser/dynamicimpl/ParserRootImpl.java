@@ -4,6 +4,7 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -40,10 +41,10 @@ class ParserRootImpl<R> {
     this.rootClass = rootClass;
     ParseInterfaceSession session = new ParseInterfaceSession(type2TypeHandler);
     session.run(rootClass);
-    this.invocationHandler = session.createInvocationHandler();
+    invocationHandler = session.createInvocationHandler();
     Object result = Proxy.newProxyInstance(rootClass.getClassLoader(),
         new Class<?>[] { rootClass }, invocationHandler);
-    this.instance = (R) result;
+    instance = (R) result;
   }
 
   R getInstance() {
@@ -91,10 +92,8 @@ class ParserRootImpl<R> {
         if (exceptionTypes.length > 1) {
           throw new JsonProtocolModelParseException("Too many exception declared in " + m);
         }
-        if (exceptionTypes.length < 1 || exceptionTypes[0] != JsonProtocolParseException.class) {
-          throw new JsonProtocolModelParseException(
-              JsonProtocolParseException.class.getCanonicalName() +
-              " exception must be declared in " + m);
+        if (exceptionTypes.length < 1 || exceptionTypes[0] != IOException.class) {
+          throw new JsonProtocolModelParseException(IOException.class.getCanonicalName() + " exception must be declared in " + m);
         }
 
         Type returnType = m.getGenericReturnType();
@@ -120,7 +119,7 @@ class ParserRootImpl<R> {
       }
 
       for (Type baseType : clazz.getGenericInterfaces()) {
-        if (baseType instanceof Class == false) {
+        if (!(baseType instanceof Class)) {
           throw new JsonProtocolModelParseException("Base interface must be class in " + clazz);
         }
         Class<?> baseClass = (Class<?>) baseType;
@@ -175,18 +174,14 @@ class ParserRootImpl<R> {
 
     @Override
     void writeStaticMethodJava(ClassScope scope, Method method) {
+      TextOutput out = scope.getOutput();
       MethodHandler.writeMethodDeclarationJava(scope, method, STATIC_METHOD_PARAM_NAME_LIST);
-      scope.append(JavaCodeGenerator.Util.THROWS_CLAUSE + " {\n");
-      scope.indentIn();
-
-      scope.startLine("return " + scope.getTypeImplReference(typeHandler) + ".parse(" +
-          STATIC_METHOD_PARAM_NAME + ");\n");
-      scope.indentOut();
-      scope.startLine("}\n");
-      scope.append("\n");
+      out.append(Util.THROWS_CLAUSE).openBlock();
+      out.append("return new ").append(scope.getTypeImplReference(typeHandler)).append("(").append(STATIC_METHOD_PARAM_NAME).append(");");
+      out.closeBlock();
     }
 
-    private static final String STATIC_METHOD_PARAM_NAME = "obj";
+    private static final String STATIC_METHOD_PARAM_NAME = "reader";
 
     private static final List<String> STATIC_METHOD_PARAM_NAME_LIST =
         Collections.singletonList(STATIC_METHOD_PARAM_NAME);

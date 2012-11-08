@@ -4,12 +4,12 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -21,36 +21,36 @@ import java.util.Map;
 @JsonType(subtypesChosenManually=true)
 public interface CommandResponseBody {
   @JsonSubtypeCasting
-  BacktraceCommandBody asBacktraceCommandBody() throws JsonProtocolParseException;
+  BacktraceCommandBody asBacktraceCommandBody() throws IOException;
 
   @JsonSubtypeCasting
-  List<ScriptHandle> asScripts() throws JsonProtocolParseException;
+  List<ScriptHandle> asScripts() throws IOException;
 
   @JsonSubtypeCasting
-  BreakpointBody asBreakpointBody() throws JsonProtocolParseException;
+  BreakpointBody asBreakpointBody() throws IOException;
 
   @JsonSubtypeCasting
   // map refId -> ValueHandle
-  Map asLookupMap() throws JsonProtocolParseException;
+  Map asLookupMap() throws IOException;
 
   @JsonSubtypeCasting(reinterpret=true)
-  ValueHandle asEvaluateBody() throws JsonProtocolParseException;
+  ValueHandle asEvaluateBody() throws IOException;
 
   @JsonSubtypeCasting
-  ScopeBody asScopeBody() throws JsonProtocolParseException;
+  ScopeBody asScopeBody() throws IOException;
 
   @JsonSubtypeCasting
-  VersionBody asVersionBody() throws JsonProtocolParseException;
+  VersionBody asVersionBody() throws IOException;
 
   @JsonSubtypeCasting
-  ChangeLiveBody asChangeLiveBody() throws JsonProtocolParseException;
+  ChangeLiveBody asChangeLiveBody() throws IOException;
 
   @JsonSubtypeCasting
-  RestartFrameBody asRestartFrameBody() throws JsonProtocolParseException;
+  RestartFrameBody asRestartFrameBody() throws IOException;
 
   @JsonSubtypeCasting
-  ListBreakpointsBody asListBreakpointsBody() throws JsonProtocolParseException;
+  ListBreakpointsBody asListBreakpointsBody() throws IOException;
 
   @JsonSubtypeCasting
-  FlagsBody asFlagsBody() throws JsonProtocolParseException;
+  FlagsBody asFlagsBody() throws IOException;
 }

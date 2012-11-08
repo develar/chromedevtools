@@ -27,6 +27,7 @@ import org.chromium.sdk.internal.v8native.protocol.output.LookupMessage;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -88,7 +89,7 @@ public class ValueLoaderImpl extends ValueLoader {
       ValueHandle valueHandle;
       try {
         valueHandle = handle.asValueHandle();
-      } catch (JsonProtocolParseException e) {
+      } catch (IOException e) {
         throw new RuntimeException(e);
       }
       addDataToMap(valueHandle);
@@ -204,7 +205,7 @@ public class ValueLoaderImpl extends ValueLoader {
 
     try {
       return response.body().asScopeBody().object();
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       throw new ValueLoadException(e);
     }
   }
@@ -312,7 +313,7 @@ public class ValueLoaderImpl extends ValueLoader {
     Map body;
     try {
       body = successResponse.body().asLookupMap();
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       throw new ValueLoadException(e);
     }
     for (int i = 0; i < propertyRefIds.size(); i++) {
@@ -325,7 +326,7 @@ public class ValueLoaderImpl extends ValueLoader {
       try {
         valueHandle = V8ProtocolParserAccess.get().parseValueHandle((JsonReader) value);
       }
-      catch (JsonProtocolParseException e) {
+      catch (IOException e) {
         throw new RuntimeException(e);
       }
 
@@ -345,7 +346,7 @@ public class ValueLoaderImpl extends ValueLoader {
     Map body;
     try {
       body = successResponse.body().asLookupMap();
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       throw new ValueLoadException(e);
     }
     for (int i = 0; i < propertyRefIds.size(); i++) {
@@ -358,7 +359,7 @@ public class ValueLoaderImpl extends ValueLoader {
       try {
         valueHandle = V8ProtocolParserAccess.get().parseValueHandle((JsonReader) value);
       }
-      catch (JsonProtocolParseException e) {
+      catch (IOException e) {
         throw new ValueLoadException(e);
       }
 

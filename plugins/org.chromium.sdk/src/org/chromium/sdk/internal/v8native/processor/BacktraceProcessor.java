@@ -4,14 +4,9 @@
 
 package org.chromium.sdk.internal.v8native.processor;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import org.chromium.sdk.DebugContext;
 import org.chromium.sdk.JavascriptVm;
 import org.chromium.sdk.Script;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.ContextBuilder;
 import org.chromium.sdk.internal.v8native.DebugSession;
 import org.chromium.sdk.internal.v8native.DebuggerCommand;
@@ -22,6 +17,11 @@ import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Handles the "backtrace" V8 command replies.
@@ -68,7 +68,7 @@ public class BacktraceProcessor implements V8CommandProcessor.V8HandlerCallback 
     BacktraceCommandBody body;
     try {
       body = response.body().asBacktraceCommandBody();
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       throw new RuntimeException(e);
     }
     List<FrameObject> jsonFrames = body.frames();

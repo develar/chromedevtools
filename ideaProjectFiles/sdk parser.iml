@@ -9,6 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="org.chromium.sdk" />
     <orderEntry type="library" name="gson" level="project" />
+    <orderEntry type="library" name="trove4j" level="project" />
   </component>
 </module>
 

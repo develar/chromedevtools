@@ -4,16 +4,10 @@
 
 package org.chromium.sdk.internal.v8native;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.chromium.sdk.CallbackSemaphore;
 import org.chromium.sdk.JsValue.Type;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
@@ -29,6 +23,12 @@ import org.chromium.sdk.internal.v8native.value.LoadableString;
 import org.chromium.sdk.internal.v8native.value.PropertyReference;
 import org.chromium.sdk.internal.v8native.value.ValueLoadException;
 import org.chromium.sdk.util.MethodIsBlockingException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A helper class for performing complex V8-related operations.
@@ -82,7 +82,7 @@ public class V8Helper {
             List<ScriptHandle> body;
             try {
               body = successResponse.body().asScripts();
-            } catch (JsonProtocolParseException e) {
+            } catch (IOException e) {
               throw new RuntimeException(e);
             }
             ScriptManager scriptManager = debugSession.getScriptManager();

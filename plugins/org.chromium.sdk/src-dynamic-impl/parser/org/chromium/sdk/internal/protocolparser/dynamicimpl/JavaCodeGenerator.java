@@ -4,14 +4,13 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
+import gnu.trove.TObjectObjectProcedure;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +25,7 @@ public interface JavaCodeGenerator {
 
   interface GlobalScope {
     String getTypeImplReference(TypeHandler<?> typeHandler);
+    String getTypeFactoryReference(TypeHandler<?> typeHandler);
     String getTypeImplShortName(TypeHandler<?> typeHandler);
 
     /**
@@ -33,6 +33,8 @@ public interface JavaCodeGenerator {
      *     with this {@link GlobalScope}
      */
     FileScope newFileScope(StringBuilder output);
+
+    void forEachTypeFactory(TObjectObjectProcedure<String, String> procedure);
   }
 
   interface FileScope extends GlobalScope {
@@ -99,57 +101,6 @@ public interface JavaCodeGenerator {
     T create(int code);
   }
 
-  class Util {
-    /**
-     * Generate Java type name of the passed type. Type may be parameterized.
-     */
-    public static void writeJavaTypeName(Type arg, StringBuilder output) {
-      if (arg instanceof Class) {
-        Class<?> clazz = (Class<?>) arg;
-        output.append(clazz.getCanonicalName());
-      } else if (arg instanceof ParameterizedType) {
-        ParameterizedType parameterizedType = (ParameterizedType) arg;
-        writeJavaTypeName(parameterizedType.getRawType(), output);
-        output.append("<");
-        Type[] params = parameterizedType.getActualTypeArguments();
-        for (int i = 0; i < params.length; i++) {
-          if (i != 0) {
-            output.append(", ");
-          }
-          writeJavaTypeName(params[i], output);
-        }
-        output.append(">");
-      } else if (arg instanceof WildcardType) {
-        WildcardType wildcardType = (WildcardType) arg;
-        Type[] upperBounds = wildcardType.getUpperBounds();
-        if (upperBounds == null) {
-          throw new RuntimeException();
-        }
-        if (upperBounds.length != 1) {
-          throw new RuntimeException();
-        }
-        output.append("? extends ");
-        writeJavaTypeName(upperBounds[0], output);
-      } else {
-        output.append(arg);
-      }
-    }
-
-    /**
-     * Generates a commonly-used code that gets property from JSON in form of
-     * 'value' and 'hasValue' pair of variables.
-     */
-    public static void writeReadValueAndHasValue(MethodScope scope, String fieldName,
-        String jsonObjectRef, String valueRef) {
-      scope.startLine("Object " + valueRef + " = " + jsonObjectRef + ".get(\"" + fieldName + "\");\n");
-      scope.startLine("if (" + valueRef + " != null || " + jsonObjectRef + ".containsKey(\"" + fieldName + "\")) {\n");
-    }
-
-    public static final String BASE_PACKAGE = "org.chromium.sdk.internal.protocolparser";
-    public static final String THROWS_CLAUSE = " throws java.io.IOException";
-  }
-
-
   class Impl implements JavaCodeGenerator {
     @Override
     public GlobalScope newGlobalScope(Collection<TypeHandler<?>> typeHandlers,
@@ -157,97 +108,7 @@ public interface JavaCodeGenerator {
       return new GlobalScopeImpl(typeHandlers, basePackages);
     }
 
-    private static class GlobalScopeImpl implements GlobalScope {
-      private final State state;
-
-      GlobalScopeImpl(Collection<TypeHandler<?>> typeHandlers,
-          Collection<GeneratedCodeMap> basePackages) {
-        state = new State(typeHandlers, basePackages);
-      }
-
-      GlobalScopeImpl(GlobalScopeImpl globalScopeImpl) {
-        state = globalScopeImpl.state;
-      }
-
-      @Override
-      public String getTypeImplReference(TypeHandler<?> typeHandler) {
-        return state.getTypeImplReference(typeHandler);
-      }
-
-      @Override
-      public String getTypeImplShortName(TypeHandler<?> typeHandler) {
-        return state.getTypeImplShortName(typeHandler);
-      }
-
-      @Override
-      public FileScope newFileScope(StringBuilder output) {
-        return new FileScopeImpl(this, output);
-      }
-
-      private static class State {
-        private final Map<TypeHandler<?>, String> type2Name;
-        private final Collection<GeneratedCodeMap> basePackages;
-
-        State(Collection<TypeHandler<?>> typeHandlers, Collection<GeneratedCodeMap> basePackages) {
-          this.basePackages = basePackages;
-          type2Name = buildLocalTypeNameMap(typeHandlers);
-        }
-
-        String getTypeImplReference(TypeHandler<?> typeHandler) {
-          String localName = type2Name.get(typeHandler);
-          if (localName == null) {
-            for (GeneratedCodeMap base : basePackages) {
-              String result = base.getTypeImplementationReference(typeHandler.getTypeClass());
-              if (result != null) {
-                return result;
-              }
-            }
-          } else {
-            return localName;
-          }
-          throw new RuntimeException();
-        }
-
-        String getTypeImplShortName(TypeHandler<?> typeHandler) {
-          String result = type2Name.get(typeHandler);
-          if (result == null) {
-            throw new RuntimeException();
-          }
-          return result;
-        }
-
-        private static Map<TypeHandler<?>, String> buildLocalTypeNameMap(
-            Collection<TypeHandler<?>> typeHandlers) {
-          List<TypeHandler<?>> list = new ArrayList<TypeHandler<?>>(typeHandlers);
-
-          // Sort to produce consistent GeneratedCodeMap later.
-          Collections.sort(list, new Comparator<TypeHandler<?>>() {
-            @Override
-            public int compare(TypeHandler<?> o1, TypeHandler<?> o2) {
-              return getName(o1).compareTo(getName(o2));
-            }
-
-            private String getName(TypeHandler<?> handler) {
-              return handler.getTypeClass().getName();
-            }
-          });
-
-          int uniqueCode = 0;
-          Map<TypeHandler<?>, String> result = new HashMap<TypeHandler<?>, String>();
-
-          for (TypeHandler<?> handler : list) {
-            String name = "Value_" + uniqueCode++;
-            Object conflict = result.put(handler, name);
-            if (conflict != null) {
-              throw new RuntimeException();
-            }
-          }
-          return result;
-        }
-      }
-    }
-
-    private static class FileScopeImpl extends GlobalScopeImpl implements FileScope {
+    static class FileScopeImpl extends GlobalScopeImpl implements FileScope {
       private final TextOutput out;
       private final Out2 out2;
 

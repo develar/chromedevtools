@@ -10,6 +10,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.util.EnumSet;
 
 import org.chromium.sdk.internal.JsonUtil;
@@ -111,13 +112,13 @@ public class SubtypingAndAggregationTest {
   public interface TestParser {
 
     @JsonParseMethod
-    Ball parseBall(JSONObject json) throws JsonProtocolParseException;
+    Ball parseBall(JSONObject json) throws IOException;
 
     @JsonParseMethod
-    Color parseColor(JSONObject json) throws JsonProtocolParseException;
+    Color parseColor(JSONObject json) throws IOException;
 
     @JsonParseMethod
-    RgbColor parseRgbColor(JSONObject json) throws JsonProtocolParseException;
+    RgbColor parseRgbColor(JSONObject json) throws IOException;
 
   }
 

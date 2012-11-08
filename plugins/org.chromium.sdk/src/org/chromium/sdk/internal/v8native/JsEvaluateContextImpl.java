@@ -4,16 +4,11 @@
 
 package org.chromium.sdk.internal.v8native;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.chromium.sdk.JsEvaluateContext;
 import org.chromium.sdk.JsVariable;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.JsEvaluateContextBase;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
@@ -23,6 +18,11 @@ import org.chromium.sdk.internal.v8native.value.JsObjectBase;
 import org.chromium.sdk.internal.v8native.value.JsVariableImpl;
 import org.chromium.sdk.internal.v8native.value.ValueMirror;
 import org.chromium.sdk.util.RelaySyncCallback;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Generic implementation of {@link JsEvaluateContext}. The abstract class leaves unspecified
@@ -50,7 +50,7 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
             ValueHandle body;
             try {
               body = successResponse.body().asEvaluateBody();
-            } catch (JsonProtocolParseException e) {
+            } catch (IOException e) {
               throw new RuntimeException(e);
             }
             InternalContext internalContext = getInternalContext();

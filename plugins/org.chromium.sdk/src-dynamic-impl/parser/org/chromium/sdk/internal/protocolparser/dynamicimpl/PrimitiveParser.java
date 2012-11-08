@@ -6,6 +6,10 @@ class PrimitiveParser extends QuickParser<Object> {
   private final String className;
   private final String readPostfix;
 
+  PrimitiveParser(String name) {
+    this(name, false);
+  }
+
   PrimitiveParser(String name, boolean nullable) {
     super(nullable);
 
@@ -19,8 +23,16 @@ class PrimitiveParser extends QuickParser<Object> {
   }
 
   @Override
-  void writeReadCode(TextOutput out) {
-    out.append(TypeHandler.READER_NAME).append(".next").append(readPostfix).append("()");
+  void writeReadCode(String fieldName, JavaCodeGenerator.MethodScope methodScope, TextOutput out) {
+    out.append("read");
+    if (isNullable()) {
+      out.append("Nullable");
+    }
+    out.append(readPostfix).append('(').append(TypeHandler.READER_NAME);
+    if (!isNullable()) {
+      out.comma().quoute(fieldName);
+    }
+    out.append(')');
   }
 
   @Override
@@ -36,7 +48,7 @@ class PrimitiveParser extends QuickParser<Object> {
   @Override
   void writeParseQuickCode(JavaCodeGenerator.MethodScope scope, String valueRef, String resultRef) {
     TextOutput out = scope.getOutput();
-    out.newLine().append(className).append(" ").append(resultRef);
-    out.append(" = (").append(className).append(") ").append(valueRef).append(";");
+    out.newLine().append(className).append(' ').append(resultRef);
+    out.append(" = (").append(className).append(") ").append(valueRef).append(';');
   }
 }

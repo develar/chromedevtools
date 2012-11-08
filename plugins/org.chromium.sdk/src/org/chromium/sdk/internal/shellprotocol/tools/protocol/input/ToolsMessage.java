@@ -6,10 +6,10 @@ package org.chromium.sdk.internal.shellprotocol.tools.protocol.input;
 
 import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.JsonOptionalField;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 
+import java.io.IOException;
 import java.util.List;
 
 @JsonType
@@ -30,7 +30,7 @@ public interface ToolsMessage {
     JsonReader asDebuggerData();
 
     @JsonSubtypeCasting
-    String asNavigatedData() throws JsonProtocolParseException;
+    String asNavigatedData() throws IOException;
 
 
     // DevToolsService tool.
@@ -38,9 +38,9 @@ public interface ToolsMessage {
      * List of pairs (long id and String url) packed as array.
      */
     @JsonSubtypeCasting
-    List<List<Object>> asListTabsData() throws JsonProtocolParseException;
+    List<List<Object>> asListTabsData() throws IOException;
 
     @JsonSubtypeCasting
-    String asVersionData() throws JsonProtocolParseException;
+    String asVersionData() throws IOException;
   }
 }

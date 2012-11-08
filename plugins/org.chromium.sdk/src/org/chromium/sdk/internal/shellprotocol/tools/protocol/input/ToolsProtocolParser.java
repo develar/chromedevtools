@@ -7,7 +7,8 @@ package org.chromium.sdk.internal.shellprotocol.tools.protocol.input;
 import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
 import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
+
+import java.io.IOException;
 
 /**
  * Interface to Chroimum 'DevTools' protocol parser.
@@ -17,6 +18,6 @@ import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 public interface ToolsProtocolParser {
 
   @JsonParseMethod
-  ToolsMessage parseToolsMessage(JsonReader reader) throws JsonProtocolParseException;
+  ToolsMessage parseToolsMessage(JsonReader reader) throws IOException;
 
 }

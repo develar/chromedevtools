@@ -8,7 +8,6 @@ import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.TabDebugEventListener;
 import org.chromium.sdk.internal.JsonUtil;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.shellprotocol.BrowserImpl;
 import org.chromium.sdk.internal.shellprotocol.BrowserTabImpl;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolHandler;
@@ -24,6 +23,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 import org.chromium.sdk.util.MethodIsBlockingException;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.EnumSet;
 import java.util.Set;
@@ -95,7 +95,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
         ContextData contextData;
         try {
           contextData = V8ProtocolParserAccess.get().parseContextData(dataObject);
-        } catch (JsonProtocolParseException e) {
+        } catch (IOException e) {
           throw new RuntimeException(e);
         }
         scriptContextId = contextData.value();
@@ -146,7 +146,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
     ToolsMessage devToolsMessage;
     try {
       devToolsMessage = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + reader.toString(), e);
       return;
     }
@@ -172,7 +172,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
           processClosed(devToolsMessage);
           break;
       }
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + reader.toString(), e);
     }
   }
@@ -378,7 +378,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
     }
   }
 
-  private void processAttach(ToolsMessage toolsMessage) throws JsonProtocolParseException {
+  private void processAttach(ToolsMessage toolsMessage) throws IOException {
     long resultValue = toolsMessage.result();
     Result result = Result.forCode((int) resultValue);
     // Message destination equals context.getTabId()
@@ -395,7 +395,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
     notifyCallback(attachCallback, result);
   }
 
-  private void processDetach(ToolsMessage toolsMessage) throws JsonProtocolParseException {
+  private void processDetach(ToolsMessage toolsMessage) throws IOException {
     long resultValue = toolsMessage.result();
     Result result = Result.forCode((int) resultValue);
     if (result == Result.OK) {
@@ -409,7 +409,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
     notifyCallback(detachCallback, result);
   }
 
-  private void processDebuggerCommand(ToolsMessage toolsMessage) throws JsonProtocolParseException {
+  private void processDebuggerCommand(ToolsMessage toolsMessage) throws IOException {
     JsonReader reader = toolsMessage.data().asDebuggerData();
     if (reader == null) {
       throw new IllegalArgumentException("'data' field not found");
@@ -417,7 +417,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
     debugSession.getV8CommandProcessor().processIncomingJson(reader);
   }
 
-  private void processNavigated(ToolsMessage toolsMessage) throws JsonProtocolParseException {
+  private void processNavigated(ToolsMessage toolsMessage) throws IOException {
     String newUrl = toolsMessage.data().asNavigatedData();
 
     debugSession.getScriptManager().reset();

@@ -1,16 +1,11 @@
 package org.chromium.sdk.internal.v8native;
 
-import java.util.Collections;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.chromium.sdk.DebugContext;
 import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.ScriptBase;
 import org.chromium.sdk.internal.liveeditprotocol.LiveEditResult;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.V8Helper.ScriptLoadCallback;
 import org.chromium.sdk.internal.v8native.protocol.input.ChangeLiveBody;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
@@ -18,6 +13,11 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.ChangeLiveMessage;
 import org.chromium.sdk.internal.v8native.value.HandleManager;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ScriptImpl extends ScriptBase<Long> {
   /** The class logger. */
@@ -54,7 +54,7 @@ public class ScriptImpl extends ScriptBase<Long> {
         ChangeLiveBody body;
         try {
           body = successResponse.body().asChangeLiveBody();
-        } catch (JsonProtocolParseException e) {
+        } catch (IOException e) {
           throw new RuntimeException(e);
         }
 
@@ -114,7 +114,7 @@ public class ScriptImpl extends ScriptBase<Long> {
     ScriptHandle scriptHandle;
     try {
       scriptHandle = handle.asScriptHandle();
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       throw new RuntimeException(e);
     }
     return scriptHandle.id();

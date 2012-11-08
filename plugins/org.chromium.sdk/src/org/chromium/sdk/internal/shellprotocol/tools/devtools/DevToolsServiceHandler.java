@@ -6,7 +6,6 @@ package org.chromium.sdk.internal.shellprotocol.tools.devtools;
 
 import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.JsonUtil;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolHandler;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolOutput;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.DevToolsServiceCommand;
@@ -14,6 +13,7 @@ import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsMessage
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsProtocolParserAccess;
 import org.chromium.sdk.internal.transport.Message;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,7 +98,7 @@ public class DevToolsServiceHandler implements ToolHandler {
     ToolsMessage toolsResponse;
     try {
       toolsResponse = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + reader.toString(), e);
       return;
     }
@@ -118,7 +118,7 @@ public class DevToolsServiceHandler implements ToolHandler {
       default:
         break;
       }
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + reader.toString(), e);
     }
   }
@@ -128,7 +128,7 @@ public class DevToolsServiceHandler implements ToolHandler {
     // all tickets
   }
 
-  private void handleVersion(ToolsMessage toolsResponse) throws JsonProtocolParseException {
+  private void handleVersion(ToolsMessage toolsResponse) throws IOException {
     VersionCallback callback;
     synchronized (lock) {
       callback = versionCallback;
@@ -140,7 +140,7 @@ public class DevToolsServiceHandler implements ToolHandler {
     }
   }
 
-  private void handleListTabs(ToolsMessage toolsResponse) throws JsonProtocolParseException {
+  private void handleListTabs(ToolsMessage toolsResponse) throws IOException {
     ListTabsCallback callback;
     synchronized (lock) {
       callback = listTabsCallback;
