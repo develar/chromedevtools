@@ -34,11 +34,13 @@ class ArrayParser<T> extends SlowParser<List<? extends T>> {
   };
 
   private final SlowParser<T> componentParser;
+  private final boolean isList;
 
-  ArrayParser(SlowParser<T> componentParser, boolean nullable) {
+  ArrayParser(SlowParser<T> componentParser, boolean isList, boolean nullable) {
     super(nullable);
 
     this.componentParser = componentParser;
+    this.isList = isList;
   }
 
   @Override
@@ -66,9 +68,15 @@ class ArrayParser<T> extends SlowParser<List<? extends T>> {
 
   @Override
   public void appendFinishedValueTypeNameJava(TextOutput out) {
-    out.append("java.util.List<");
-    componentParser.appendFinishedValueTypeNameJava(out);
-    out.append('>');
+    if (isList) {
+      out.append("java.util.List<");
+      componentParser.appendFinishedValueTypeNameJava(out);
+      out.append('>');
+    }
+    else {
+      componentParser.appendFinishedValueTypeNameJava(out);
+      out.append("[]");
+    }
   }
 
   @Override

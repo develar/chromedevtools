@@ -20,7 +20,7 @@ public interface LiveEditResult {
 
   @JsonType
   interface TextualDiff {
-    List<Long> chunks();
+    long[] chunks();
   }
 
   @JsonType

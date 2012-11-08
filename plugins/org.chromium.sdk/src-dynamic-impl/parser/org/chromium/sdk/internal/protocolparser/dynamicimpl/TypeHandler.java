@@ -30,7 +30,6 @@ import org.json.simple.JSONObject;
  * descriptor object.
  */
 class TypeHandler<T> {
-  public static final String READER_NAME = "reader";
 
   private final Class<T> typeClass;
   private Constructor<? extends T> proxyClassConstructor;
@@ -195,7 +194,7 @@ class TypeHandler<T> {
     if (dotPos != -1) {
       name = name.substring(dotPos + 1);
     }
-    return "[" + name + "]";
+    return name;
   }
 
   static abstract class SubtypeSupport {
@@ -463,14 +462,11 @@ class TypeHandler<T> {
 
   public void writeStaticClassJava(FileScope fileScope) {
     TextOutput out = fileScope.getOutput();
-    out.append("/** @see ").append(getTypeClass().getName().replace('$', '.')).append(" */");
-
     String valueImplClassName = fileScope.getTypeImplShortName(this);
-    String typeClassName = getTypeClass().getCanonicalName();
-
-    out.newLine().append("public static class ").append(valueImplClassName);
+    out.append("public static class ").append(valueImplClassName);
     out.append(" extends ").append(requiresJsonObject ? "JsonValueBase" : "ObjectValueBase");
-    out.append(" implements ").append(typeClassName).openBlock();
+
+    out.append(" implements ").append(getShortName().replace('$', '.')).openBlock();
 
     ClassScope classScope = fileScope.newClassScope();
     for (VolatileFieldBinding field : volatileFields) {
@@ -489,8 +485,6 @@ class TypeHandler<T> {
 
     writeConstructorMethod(valueImplClassName, classScope, out);
     out.newLine();
-    writeParseMethod(valueImplClassName, classScope, out);
-    out.newLine();
 
     subtypeAspect.writeSuperFieldJava(classScope);
 
@@ -505,23 +499,15 @@ class TypeHandler<T> {
     out.indentOut().append('}');
   }
 
-  private void writeParseMethod(String valueImplClassName, ClassScope classScope, TextOutput out) {
-    out.newLine().append("public static " + valueImplClassName + " parse(Object input)" + Util.THROWS_CLAUSE).openBlock();
-    subtypeAspect.writeParseMethodJava(classScope, valueImplClassName, "input");
-    out.closeBlock();
-  }
-
   private void writeConstructorMethod(String valueImplClassName, ClassScope classScope, TextOutput out) {
-    out.newLine().append(valueImplClassName).append("(Object input");
+    out.newLine().append(valueImplClassName).append("(JsonReader ").append(Util.READER_NAME);
     subtypeAspect.writeSuperConstructorParamJava(classScope);
     out.append(')').append(Util.THROWS_CLAUSE).openBlock();
 
     MethodScope methodScope = classScope.newMethodScope();
-    out.append("super(input);").newLine();
-
     subtypeAspect.writeSuperConstructorInitializationJava(methodScope);
 
-    out.newLine().append(READER_NAME).append(".beginObject();");
+    out.append(Util.READER_NAME).append(".beginObject();");
     out.newLine().append("while (reader.hasNext())").openBlock();
     out.append("String name = reader.nextName();");
     boolean isFirst = true;
@@ -543,7 +529,7 @@ class TypeHandler<T> {
     }
 
     out.closeBlock();
-    out.newLine().append(READER_NAME).append(".endObject();");
+    out.newLine().append(Util.READER_NAME).append(".endObject();");
 
     if (algCasesData != null) {
       algCasesData.writeConstructorCodeJava(methodScope);

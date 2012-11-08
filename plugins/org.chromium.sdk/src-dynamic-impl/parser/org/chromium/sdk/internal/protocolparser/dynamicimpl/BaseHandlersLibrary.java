@@ -71,7 +71,7 @@ class BaseHandlersLibrary {
     }
   }
 
-  private static abstract class MethodHandlerBase extends MethodHandler {
+  static abstract class MethodHandlerBase extends MethodHandler {
     private final Method method;
     MethodHandlerBase(Method method) {
       this.method = method;
@@ -81,7 +81,7 @@ class BaseHandlersLibrary {
     }
   }
 
-  private static class SelfCallMethodHanlder extends MethodHandlerBase {
+  private static class SelfCallMethodHanlder extends NativeMethodHandler {
     SelfCallMethodHanlder(Method method) {
       super(method);
     }
@@ -91,14 +91,9 @@ class BaseHandlersLibrary {
         throws IllegalAccessException, InvocationTargetException {
       return getMethod().invoke(objectData, args);
     }
-
-    @Override
-    void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
-      // Ignore.
-    }
   }
 
-  private static class GetJsonObjectMethodHaldler extends MethodHandlerBase {
+  private static class GetJsonObjectMethodHaldler extends NativeMethodHandler {
     GetJsonObjectMethodHaldler() throws NoSuchMethodException {
       super(JsonObjectBased.class.getMethod("getUnderlyingObject"));
     }
@@ -107,13 +102,9 @@ class BaseHandlersLibrary {
     JsonReader handle(ObjectData objectData, Object[] args) {
       return (JsonReader) objectData.getUnderlyingObject();
     }
-
-    @Override
-    void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
-    }
   }
 
-  private static class GetAnyObjectMethodHaldler extends MethodHandlerBase {
+  private static class GetAnyObjectMethodHaldler extends NativeMethodHandler {
     GetAnyObjectMethodHaldler() throws NoSuchMethodException {
       super(AnyObjectBased.class.getMethod("getUnderlyingObject"));
     }
@@ -122,13 +113,9 @@ class BaseHandlersLibrary {
     Object handle(ObjectData objectData, Object[] args) {
       return objectData.getUnderlyingObject();
     }
-
-    @Override
-    void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
-    }
   }
 
-  private static class GetSuperMethodHaldler extends MethodHandlerBase {
+  private static class GetSuperMethodHaldler extends NativeMethodHandler {
     GetSuperMethodHaldler() throws NoSuchMethodException {
       super(JsonSubtype.class.getMethod("getSuper"));
     }
@@ -136,11 +123,6 @@ class BaseHandlersLibrary {
     @Override
     Object handle(ObjectData objectData, Object[] args) {
       return objectData.getSuperObjectData().getProxy();
-    }
-
-    @Override
-    void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
-      // Ignore.
     }
   }
 

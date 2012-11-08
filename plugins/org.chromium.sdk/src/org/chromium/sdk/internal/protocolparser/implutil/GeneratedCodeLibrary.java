@@ -6,6 +6,7 @@ package org.chromium.sdk.internal.protocolparser.implutil;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+import gnu.trove.TLongArrayList;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
@@ -22,16 +23,12 @@ public class GeneratedCodeLibrary {
     public abstract Object parseAnything(Object object) throws IOException;
   }
 
-  public abstract static class ObjectFactory<T extends JsonValueBase> {
+  public abstract static class ObjectFactory<T> {
     public abstract T read(JsonReader reader) throws IOException;
   }
 
   public abstract static class JsonValueBase {
-    protected final JsonReader reader;
-
-    protected JsonValueBase(Object reader) throws IOException {
-      this.reader = (JsonReader)reader;
-    }
+    private static final long[] EMPTY_LONG_ARRAY = {};
 
     private static void checkIsNull(JsonReader reader, String fieldName) throws IOException {
       if (reader.peek() == JsonToken.NULL) {
@@ -76,7 +73,7 @@ public class GeneratedCodeLibrary {
       return reader.peek() == JsonToken.NULL ? -1 : reader.nextLong();
     }
 
-    protected static <T extends JsonValueBase> List<T> readObjectArray(JsonReader reader, ObjectFactory<T> factory, String fieldName) throws IOException {
+    protected static <T> List<T> readObjectArray(JsonReader reader, ObjectFactory<T> factory, String fieldName) throws IOException {
       checkIsNull(reader, fieldName);
       reader.beginArray();
       if (!reader.hasNext()) {
@@ -92,9 +89,33 @@ public class GeneratedCodeLibrary {
       reader.endArray();
       return result;
     }
+
+    protected static long[] readLongArray(JsonReader reader, String fieldName) throws IOException {
+      checkIsNull(reader, fieldName);
+      reader.beginArray();
+      if (!reader.hasNext()) {
+        reader.endArray();
+        return EMPTY_LONG_ARRAY;
+      }
+
+      SkipCopyLongArrayList result = new SkipCopyLongArrayList();
+      do {
+        result.add(reader.nextLong());
+      }
+      while (reader.hasNext());
+      reader.endArray();
+      return result.toNativeArray();
+    }
+
+    private static final class SkipCopyLongArrayList extends TLongArrayList {
+      @Override
+      public long[] toNativeArray() {
+        return _data;
+      }
+    }
   }
 
-  public static class ObjectValueBase {
+  public abstract static class ObjectValueBase {
     protected final Object underlying;
 
     protected ObjectValueBase (Object underlying) {

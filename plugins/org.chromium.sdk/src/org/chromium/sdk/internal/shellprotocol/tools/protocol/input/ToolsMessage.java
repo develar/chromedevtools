@@ -14,7 +14,6 @@ import java.util.List;
 
 @JsonType
 public interface ToolsMessage {
-
   String command();
 
   long result();
@@ -24,7 +23,6 @@ public interface ToolsMessage {
 
   @JsonType(subtypesChosenManually=true)
   interface Data {
-
     // V8Debugger tool.
     @JsonSubtypeCasting
     JsonReader asDebuggerData();

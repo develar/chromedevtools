@@ -177,6 +177,9 @@ class ReadInterfacesSession {
       else if (type == Map.class) {
         return MAP_PARSER.get(declaredNullable);
       }
+      else if (typeClass.isArray()) {
+        return createArrayParser(getFieldTypeParser(typeClass.getComponentType(), false, false), false, declaredNullable);
+      }
       else if (typeClass.isEnum()) {
         @SuppressWarnings("unchecked")
         Class<RetentionPolicy> enumTypeClass = (Class<RetentionPolicy>)typeClass;
@@ -201,7 +204,7 @@ class ReadInterfacesSession {
             argumentType = wildcard.getUpperBounds()[0];
           }
         }
-        return createArrayParser(getFieldTypeParser(argumentType, false, false), declaredNullable);
+        return createArrayParser(getFieldTypeParser(argumentType, false, false), true, declaredNullable);
       }
       else {
         throw new JsonProtocolModelParseException("Method return type " + type + " (generic) not supported");
@@ -226,8 +229,8 @@ class ReadInterfacesSession {
     return new JsonTypeParser<T>(type, isNullable, isSubtyping);
   }
 
-  private static <T> ArrayParser<T> createArrayParser(SlowParser<T> componentParser, boolean isNullable) {
-    return new ArrayParser<T>(componentParser, isNullable);
+  private static <T> ArrayParser<T> createArrayParser(SlowParser<T> componentParser, boolean isList, boolean isNullable) {
+    return new ArrayParser<T>(componentParser, isList, isNullable);
   }
 
   private <T> RefToType<T> getTypeRef(Class<T> typeClass) {

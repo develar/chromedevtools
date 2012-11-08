@@ -22,8 +22,8 @@ public class GlobalScopeImpl implements JavaCodeGenerator.GlobalScope {
   }
 
   @Override
-  public String getTypeFactoryReference(TypeHandler<?> typeHandler) {
-    return state.getTypeFactoryReference(typeHandler);
+  public String requireFactoryGenerationAndGetName(TypeHandler<?> typeHandler) {
+    return state.requireFactoryGenerationAndGetName(typeHandler);
   }
 
   @Override
@@ -38,13 +38,13 @@ public class GlobalScopeImpl implements JavaCodeGenerator.GlobalScope {
 
   @Override
   public void forEachTypeFactory(TObjectObjectProcedure<String, String> procedure) {
-    state.typeNameToTypeFactoryName.forEachEntry(procedure);
+    state.typeNameToOriginName.forEachEntry(procedure);
   }
 
   private static class State {
     private final Map<TypeHandler<?>, String> typeToName;
     private final Collection<GeneratedCodeMap> basePackages;
-    private final THashMap<String, String> typeNameToTypeFactoryName = new THashMap<String, String>();
+    private final THashMap<String, String> typeNameToOriginName = new THashMap<String, String>();
 
     State(Collection<TypeHandler<?>> typeHandlers, Collection<GeneratedCodeMap> basePackages) {
       this.basePackages = basePackages;
@@ -67,14 +67,14 @@ public class GlobalScopeImpl implements JavaCodeGenerator.GlobalScope {
       throw new RuntimeException();
     }
 
-    public String getTypeFactoryReference(TypeHandler<?> typeHandler) {
+    public String requireFactoryGenerationAndGetName(TypeHandler<?> typeHandler) {
       String name = getTypeImplShortName(typeHandler);
-      String factoryName = typeNameToTypeFactoryName.get(name);
-      if (factoryName == null) {
-        factoryName = name + 'F';
-        typeNameToTypeFactoryName.put(name, factoryName);
+      String originName = typeNameToOriginName.get(name);
+      if (originName == null) {
+        originName = typeHandler.getShortName().replace('$', '.');
+        typeNameToOriginName.put(name, originName);
       }
-      return factoryName;
+      return name;
     }
 
     String getTypeImplShortName(TypeHandler<?> typeHandler) {

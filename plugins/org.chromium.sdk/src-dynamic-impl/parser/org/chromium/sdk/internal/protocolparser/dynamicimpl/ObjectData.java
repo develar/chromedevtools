@@ -75,6 +75,6 @@ class ObjectData {
 
   @Override
   public String toString() {
-    return typeHandler.getShortName() + "/" + underlyingObject;
+    return "[" + typeHandler.getShortName() + "]/" + underlyingObject;
   }
 }

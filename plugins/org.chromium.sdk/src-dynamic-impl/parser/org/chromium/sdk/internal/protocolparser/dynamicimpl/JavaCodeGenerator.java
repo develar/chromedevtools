@@ -25,7 +25,7 @@ public interface JavaCodeGenerator {
 
   interface GlobalScope {
     String getTypeImplReference(TypeHandler<?> typeHandler);
-    String getTypeFactoryReference(TypeHandler<?> typeHandler);
+    String requireFactoryGenerationAndGetName(TypeHandler<?> typeHandler);
     String getTypeImplShortName(TypeHandler<?> typeHandler);
 
     /**

@@ -28,7 +28,7 @@ class PrimitiveParser extends QuickParser<Object> {
     if (isNullable()) {
       out.append("Nullable");
     }
-    out.append(readPostfix).append('(').append(TypeHandler.READER_NAME);
+    out.append(readPostfix).append('(').append(Util.READER_NAME);
     if (!isNullable()) {
       out.comma().quoute(fieldName);
     }
@@ -50,5 +50,11 @@ class PrimitiveParser extends QuickParser<Object> {
     TextOutput out = scope.getOutput();
     out.newLine().append(className).append(' ').append(resultRef);
     out.append(" = (").append(className).append(") ").append(valueRef).append(';');
+  }
+
+  @Override
+  public void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, TextOutput out) {
+    out.append("read").append(readPostfix).append("Array").append('(').append(Util.READER_NAME);
+    out.comma().append("name").append(')');
   }
 }

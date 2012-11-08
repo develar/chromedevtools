@@ -605,18 +605,20 @@ public class DynamicParserImpl<ROOT> {
 
     ClassScope rootClassScope = fileScope.newClassScope();
     rootImpl.writeStaticMethodJava(rootClassScope);
-    out.newLine().newLine();
+    out.newLine();
 
     for (TypeHandler<?> typeHandler : typeToTypeHandler.values()) {
+      out.newLine();
       typeHandler.writeStaticClassJava(rootClassScope);
       out.newLine();
     }
 
     globalScope.forEachTypeFactory(new TObjectObjectProcedure<String, String>() {
       @Override
-      public boolean execute(String name, String factoryName) {
-        out.newLine().newLine().append("static final class ").append(factoryName).append(" extends ObjectFactory<").append(name).append('>').openBlock();
-        out.append("@Override").newLine().append("public ").append(name).append(" read(JsonReader reader) throws IOException").openBlock();
+      public boolean execute(String name, String originName) {
+        out.newLine().append("static final class ").append(name).append(Util.TYPE_FACTORY_NAME_POSTFIX).append(" extends ObjectFactory<").append(originName).append('>').openBlock();
+        out.append("@Override").newLine().append("public ").append(originName).append(" read(JsonReader ").append(Util.READER_NAME).append(')').append(
+          Util.THROWS_CLAUSE).openBlock();
         out.append("return new ").append(name).append("(reader);").closeBlock();
         out.closeBlock();
         return true;

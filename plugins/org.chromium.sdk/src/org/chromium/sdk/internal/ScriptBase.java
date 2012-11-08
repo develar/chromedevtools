@@ -162,7 +162,7 @@ public abstract class ScriptBase<ID> implements Script {
             return null;
           }
           return new TextualDiff() {
-            @Override public List<Long> getChunks() {
+            @Override public long[] getChunks() {
               return protocolTextualData.chunks();
             }
           };
