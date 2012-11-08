@@ -21,5 +21,5 @@ public interface ChangeLiveBody extends JsonSubtype<CommandResponseBody>  {
   LiveEditResult getResultDescription();
 
   @JsonOptionalField
-  Boolean stepin_recommended();
+  boolean stepin_recommended();
 }

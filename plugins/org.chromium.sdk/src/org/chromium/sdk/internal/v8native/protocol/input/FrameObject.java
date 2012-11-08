@@ -22,7 +22,6 @@ import java.util.Map;
  */
 @JsonType
 public interface FrameObject {
-
   long index();
 
   Map func();
@@ -48,13 +47,13 @@ public interface FrameObject {
   @JsonField
   List<ScopeRef> scopes();
 
-  Boolean constructCall();
+  boolean constructCall();
 
   String type();
 
-  Integer position();
+  int position();
 
-  Integer column();
+  int column();
 
-  Boolean debuggerFrame();
+  boolean debuggerFrame();
 }

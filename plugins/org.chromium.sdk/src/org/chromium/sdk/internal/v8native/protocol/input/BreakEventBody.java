@@ -16,7 +16,7 @@ import java.util.List;
 public interface BreakEventBody extends JsonSubtype<EventNotificationBody> {
 
   @JsonOptionalField
-  List<Long> breakpoints();
+  long[] breakpoints();
 
   @JsonOptionalField
   ValueHandle exception();
@@ -25,10 +25,10 @@ public interface BreakEventBody extends JsonSubtype<EventNotificationBody> {
   String sourceLineText();
 
   @JsonOptionalField
-  Boolean uncaught();
+  boolean uncaught();
 
   @JsonOptionalField
-  Long sourceLine();
+  long sourceLine();
 
   @JsonOptionalField
   String invocationText();
@@ -37,5 +37,5 @@ public interface BreakEventBody extends JsonSubtype<EventNotificationBody> {
   JsonReader script();
 
   @JsonOptionalField
-  Long sourceColumn();
+  long sourceColumn();
 }

@@ -98,8 +98,9 @@ public class DevToolsServiceHandler implements ToolHandler {
     ToolsMessage toolsResponse;
     try {
       toolsResponse = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
-    } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + reader.toString(), e);
+    }
+    catch (IOException e) {
+      LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + message.getContent(), e);
       return;
     }
 
@@ -147,7 +148,7 @@ public class DevToolsServiceHandler implements ToolHandler {
       listTabsCallback = null;
     }
     if (callback != null) {
-      int result = (int) toolsResponse.result();
+      int result = toolsResponse.result();
       if (result != 0) {
         callback.failure(result);
         return;

@@ -16,7 +16,7 @@ import java.util.List;
 public interface ToolsMessage {
   String command();
 
-  long result();
+  int result();
 
   @JsonOptionalField
   Data data();

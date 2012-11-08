@@ -93,15 +93,15 @@ public class BreakpointProcessor extends V8EventProcessor {
 
   private Collection<Breakpoint> getBreakpointsHit(EventNotification response,
       BreakEventBody breakEventBody) {
-    List<Long> breakpointIdsArray = breakEventBody.breakpoints();
+    long[] breakpointIdsArray = breakEventBody.breakpoints();
     BreakpointManager breakpointManager = getDebugSession().getBreakpointManager();
     if (breakpointIdsArray == null) {
       // Suspended on step end.
       return Collections.<Breakpoint> emptySet();
     }
-    Collection<Breakpoint> breakpointsHit = new ArrayList<Breakpoint>(breakpointIdsArray.size());
-    for (int i = 0, size = breakpointIdsArray.size(); i < size; ++i) {
-      Breakpoint existingBp = breakpointManager.getBreakpoint(breakpointIdsArray.get(i));
+    Collection<Breakpoint> breakpointsHit = new ArrayList<Breakpoint>(breakpointIdsArray.length);
+    for (int i = 0, size = breakpointIdsArray.length; i < size; ++i) {
+      Breakpoint existingBp = breakpointManager.getBreakpoint(breakpointIdsArray[i]);
       if (existingBp != null) {
         breakpointsHit.add(existingBp);
       }
@@ -109,8 +109,8 @@ public class BreakpointProcessor extends V8EventProcessor {
     return breakpointsHit;
   }
 
-  private ExceptionData createException(EventNotification response, BreakEventBody body,
-      InternalContext internalContext) {
+  private static ExceptionData createException(EventNotification response, BreakEventBody body,
+                                               InternalContext internalContext) {
     List<SomeHandle> refs = response.refs();
     ValueHandle exception = body.exception();
     ValueLoaderImpl valueLoader = internalContext.getValueLoader();

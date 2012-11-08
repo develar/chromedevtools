@@ -11,13 +11,12 @@ import org.chromium.sdk.internal.protocolparser.JsonType;
 
 @JsonType
 public interface RestartFrameBody extends JsonSubtype<CommandResponseBody> {
-
   @JsonField(jsonLiteralName="result")
   ResultDescription getResultDescription();
 
   @JsonType
   interface ResultDescription {
     @JsonOptionalField
-    Boolean stack_update_needs_step_in();
+    boolean stack_update_needs_step_in();
   }
 }

@@ -110,12 +110,10 @@ class ReadInterfacesSession {
   private <T> TypeHandler<T> createTypeHandler(Class<T> typeClass)
     throws JsonProtocolModelParseException {
     if (!typeClass.isInterface()) {
-      throw new JsonProtocolModelParseException("Json model type should be interface: " +
-                                                typeClass.getName());
+      throw new JsonProtocolModelParseException("Json model type should be interface: " + typeClass.getName());
     }
 
     FieldProcessor<T> fields = new FieldProcessor<T>(typeClass);
-
     fields.go();
 
     Map<Method, MethodHandler> methodHandlerMap = fields.getMethodHandlerMap();
@@ -126,12 +124,9 @@ class ReadInterfacesSession {
     TypeHandler.EagerFieldParser eagerFieldParser =
       new DynamicParserImpl.EagerFieldParserImpl(fields.getOnDemandHanlers());
 
-    RefToType<?> superclassRef = getSuperclassRef(typeClass);
-
     boolean requiresJsonObject = fields.requiresJsonObject() ||
                                  JsonObjectBased.class.isAssignableFrom(typeClass);
-
-    return new TypeHandler<T>(typeClass, superclassRef,
+    return new TypeHandler<T>(typeClass, getSuperclassRef(typeClass),
                               fields.getFieldArraySize(), fields.getVolatileFields(), methodHandlerMap,
                               fields.getFieldLoaders(),
                               fields.getFieldConditions(), eagerFieldParser, fields.getAlgCasesData(),
@@ -146,15 +141,15 @@ class ReadInterfacesSession {
         nullableIsNotSupported(declaredNullable);
         return LONG_PARSER;
       }
-      else if (type == Integer.class) {
+      else if (type == Integer.TYPE) {
         nullableIsNotSupported(declaredNullable);
         return INTEGER_PARSER;
       }
-      else if (type == Boolean.class || type == Boolean.TYPE) {
+      else if (type == Boolean.TYPE) {
         nullableIsNotSupported(declaredNullable);
         return BOOLEAN_PARSER;
       }
-      else if (type == Float.class || type == Float.TYPE) {
+      else if (type == Float.TYPE) {
         nullableIsNotSupported(declaredNullable);
         return FLOAT_PARSER;
       }
