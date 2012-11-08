@@ -151,8 +151,7 @@ public class ParserGeneratorBase {
     return generateImpl(configuration, new StringBuilder());
   }
 
-  private static GeneratedCodeMap generateImpl(GenerateConfiguration configuration,
-      StringBuilder stringBuilder) {
+  private static GeneratedCodeMap generateImpl(GenerateConfiguration configuration, StringBuilder stringBuilder) {
     return configuration.getParserImpl().generateStaticParser(stringBuilder,
         configuration.getPackageName(), configuration.getClassName(),
         configuration.getBasePackagesMap());

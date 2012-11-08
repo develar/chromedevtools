@@ -32,53 +32,51 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 public class V8DynamicParser {
   public static DynamicParserImpl<V8NativeProtocolParser> create() {
     try {
-      List<Class<?>> interfaces = Arrays.asList(
-          IncomingMessage.class,
-          EventNotification.class,
-          SuccessCommandResponse.class,
-          FailedCommandResponse.class,
-          CommandResponse.class,
-          BreakEventBody.class,
-          EventNotificationBody.class,
-          CommandResponseBody.class,
-          BacktraceCommandBody.class,
-          FrameObject.class,
-          BreakpointBody.class,
-          ScopeBody.class,
-          ScopeRef.class,
-          VersionBody.class,
-          AfterCompileBody.class,
-          ChangeLiveBody.class,
-          RestartFrameBody.class,
-          RestartFrameBody.ResultDescription.class,
-          ListBreakpointsBody.class,
-          ScriptCollectedBody.class,
-          FlagsBody.class,
-          FlagsBody.FlagInfo.class,
+      Class[] interfaces = new Class[]{
+        IncomingMessage.class,
+        EventNotification.class,
+        SuccessCommandResponse.class,
+        FailedCommandResponse.class,
+        CommandResponse.class,
+        BreakEventBody.class,
+        EventNotificationBody.class,
+        CommandResponseBody.class,
+        BacktraceCommandBody.class,
+        FrameObject.class,
+        BreakpointBody.class,
+        ScopeBody.class,
+        ScopeRef.class,
+        VersionBody.class,
+        AfterCompileBody.class,
+        ChangeLiveBody.class,
+        RestartFrameBody.class,
+        RestartFrameBody.ResultDescription.class,
+        ListBreakpointsBody.class,
+        ScriptCollectedBody.class,
+        FlagsBody.class,
+        FlagsBody.FlagInfo.class,
 
-          SomeHandle.class,
-          ScriptHandle.class,
-          ValueHandle.class,
-          RefWithDisplayData.class,
-          PropertyObject.class,
-          PropertyWithRef.class,
-          PropertyWithValue.class,
-          ObjectValueHandle.class,
-          FunctionValueHandle.class,
-          SomeRef.class,
-          SomeSerialized.class,
-          ContextHandle.class,
-          ContextData.class,
-          BreakpointInfo.class,
-          ScriptWithId.class
-          );
+        SomeHandle.class,
+        ScriptHandle.class,
+        ValueHandle.class,
+        RefWithDisplayData.class,
+        PropertyObject.class,
+        PropertyWithRef.class,
+        PropertyWithValue.class,
+        ObjectValueHandle.class,
+        FunctionValueHandle.class,
+        SomeRef.class,
+        SomeSerialized.class,
+        ContextHandle.class,
+        ContextData.class,
+        BreakpointInfo.class,
+        ScriptWithId.class
+      };
 
-      List<DynamicParserImpl<?>> basePackages =
-          Arrays.<DynamicParserImpl<?>>asList(LiveEditDynamicParser.create());
-
-      return new DynamicParserImpl<V8NativeProtocolParser>(V8NativeProtocolParser.class,
-          interfaces, basePackages, false);
-    } catch (JsonProtocolModelParseException e) {
+      List<DynamicParserImpl> basePackages = Arrays.<DynamicParserImpl>asList(LiveEditDynamicParser.create());
+      return new DynamicParserImpl<V8NativeProtocolParser>(V8NativeProtocolParser.class, interfaces, basePackages, false);
+    }
+    catch (JsonProtocolModelParseException e) {
       throw new RuntimeException(e);
     }
   }
