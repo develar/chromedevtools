@@ -491,11 +491,11 @@ class TypeHandler<T> {
     out.newLine();
     writeParseMethod(valueImplClassName, classScope, out);
     out.newLine();
-    out.newLine();
 
     subtypeAspect.writeSuperFieldJava(classScope);
 
     for (Map.Entry<Method, MethodHandler> en : methodHandlerMap.entrySet()) {
+      out.newLine();
       en.getValue().writeMethodImplementationJava(classScope, en.getKey(), out);
       out.newLine();
     }

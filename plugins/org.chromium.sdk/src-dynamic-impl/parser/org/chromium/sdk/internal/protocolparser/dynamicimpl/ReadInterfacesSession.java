@@ -31,13 +31,16 @@ class ReadInterfacesSession {
   private final List<DynamicParserImpl> basePackages;
   private final boolean strictMode;
 
+  private final boolean isStatic;
+
   final List<DynamicParserImpl.RefImpl<?>> refs = new ArrayList<DynamicParserImpl.RefImpl<?>>();
   final List<SubtypeCaster> subtypeCasters =
     new ArrayList<SubtypeCaster>();
 
-  ReadInterfacesSession(Class[] protocolInterfaces, List<DynamicParserImpl> basePackages, boolean strictMode) {
+  ReadInterfacesSession(Class[] protocolInterfaces, List<DynamicParserImpl> basePackages, boolean isStatic, boolean strictMode) {
     // Keep interfaces ordered to keep generated parser less random.
     this.basePackages = basePackages ==  null ? Collections.<DynamicParserImpl>emptyList() : basePackages;
+    this.isStatic = isStatic;
     this.strictMode = strictMode;
 
     for (Class typeClass : protocolInterfaces) {
@@ -116,7 +119,9 @@ class ReadInterfacesSession {
     fields.go();
 
     Map<Method, MethodHandler> methodHandlerMap = fields.getMethodHandlerMap();
-    methodHandlerMap.putAll(BaseHandlersLibrary.INSTANCE.getAllHandlers());
+    if (!isStatic) {
+      methodHandlerMap.putAll(BaseHandlersLibrary.INSTANCE.getAllHandlers());
+    }
 
     TypeHandler.EagerFieldParser eagerFieldParser =
       new DynamicParserImpl.EagerFieldParserImpl(fields.getOnDemandHanlers());

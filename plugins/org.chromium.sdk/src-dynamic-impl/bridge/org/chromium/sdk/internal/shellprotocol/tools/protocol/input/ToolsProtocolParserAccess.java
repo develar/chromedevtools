@@ -14,5 +14,5 @@ public class ToolsProtocolParserAccess {
   }
 
   private static final ToolsProtocolParser PARSER =
-      DynamicToolsProtocolParser.createDynamic().getParserRoot();
+      DynamicToolsProtocolParser.create(false).getParserRoot();
 }

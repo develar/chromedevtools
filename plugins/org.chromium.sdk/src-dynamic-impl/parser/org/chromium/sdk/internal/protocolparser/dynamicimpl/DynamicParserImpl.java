@@ -35,19 +35,19 @@ public class DynamicParserImpl<ROOT> {
    * may reference to type interfaces from base packages.
    * @param basePackages list of base packages in form of list of {@link DynamicParserImpl}'s
    */
-  public DynamicParserImpl(Class<ROOT> parserRootClass,
+  public DynamicParserImpl(boolean isStatic, Class<ROOT> parserRootClass,
                            Class[] protocolInterfaces,
       List<DynamicParserImpl> basePackages) throws JsonProtocolModelParseException {
-    this(parserRootClass, protocolInterfaces, basePackages, false);
+    this(isStatic, parserRootClass, protocolInterfaces, basePackages, false);
   }
 
-  public DynamicParserImpl(Class<ROOT> parserRootClass, Class[] protocolInterfaces, List<DynamicParserImpl> basePackages, boolean strictMode) throws JsonProtocolModelParseException {
-    typeToTypeHandler = readTypes(protocolInterfaces, basePackages, strictMode);
+  public DynamicParserImpl(boolean isStatic, Class<ROOT> parserRootClass, Class[] protocolInterfaces, List<DynamicParserImpl> basePackages, boolean strictMode) throws JsonProtocolModelParseException {
+    typeToTypeHandler = readTypes(protocolInterfaces, basePackages, isStatic, strictMode);
     rootImpl = new ParserRootImpl<ROOT>(parserRootClass, typeToTypeHandler);
   }
 
-  public DynamicParserImpl(Class<ROOT> parserRootClass, Class[] protocolInterfaces) throws JsonProtocolModelParseException {
-    typeToTypeHandler = readTypes(protocolInterfaces, null, false);
+  public DynamicParserImpl(boolean isStatic, Class<ROOT> parserRootClass, Class[] protocolInterfaces) throws JsonProtocolModelParseException {
+    typeToTypeHandler = readTypes(protocolInterfaces, null, isStatic, false);
     rootImpl = new ParserRootImpl<ROOT>(parserRootClass, typeToTypeHandler);
   }
 
@@ -57,8 +57,8 @@ public class DynamicParserImpl<ROOT> {
 
   private static Map<Class<?>, TypeHandler<?>> readTypes(Class[] protocolInterfaces,
                                                          List<DynamicParserImpl> basePackages,
-                                                         boolean strictMode) throws JsonProtocolModelParseException {
-    ReadInterfacesSession session = new ReadInterfacesSession(protocolInterfaces, basePackages, strictMode);
+                                                         boolean isStatic, boolean strictMode) throws JsonProtocolModelParseException {
+    ReadInterfacesSession session = new ReadInterfacesSession(protocolInterfaces, basePackages, isStatic, strictMode);
     session.go();
     return session.getResult();
   }

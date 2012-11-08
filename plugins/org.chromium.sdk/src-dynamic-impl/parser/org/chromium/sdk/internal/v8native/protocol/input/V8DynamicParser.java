@@ -30,7 +30,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
  * A dynamic implementation of a v8 protocol parser.
  */
 public class V8DynamicParser {
-  public static DynamicParserImpl<V8NativeProtocolParser> create() {
+  public static DynamicParserImpl<V8NativeProtocolParser> create(boolean isStatic) {
     try {
       Class[] interfaces = new Class[]{
         IncomingMessage.class,
@@ -73,8 +73,8 @@ public class V8DynamicParser {
         ScriptWithId.class
       };
 
-      List<DynamicParserImpl> basePackages = Arrays.<DynamicParserImpl>asList(LiveEditDynamicParser.create());
-      return new DynamicParserImpl<V8NativeProtocolParser>(V8NativeProtocolParser.class, interfaces, basePackages, false);
+      List<DynamicParserImpl> basePackages = Arrays.<DynamicParserImpl>asList(LiveEditDynamicParser.create(isStatic));
+      return new DynamicParserImpl<V8NativeProtocolParser>(isStatic, V8NativeProtocolParser.class, interfaces, basePackages, false);
     }
     catch (JsonProtocolModelParseException e) {
       throw new RuntimeException(e);

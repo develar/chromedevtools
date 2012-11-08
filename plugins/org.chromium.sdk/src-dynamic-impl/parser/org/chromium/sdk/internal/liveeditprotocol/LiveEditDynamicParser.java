@@ -11,9 +11,9 @@ import org.chromium.sdk.internal.protocolparser.dynamicimpl.DynamicParserImpl;
  * A dynamic implementation of a v8 protocol parser.
  */
 public class LiveEditDynamicParser {
-  public static DynamicParserImpl<LiveEditProtocolParser> create() {
+  public static DynamicParserImpl<LiveEditProtocolParser> create(boolean isStatic) {
     try {
-      return new DynamicParserImpl<LiveEditProtocolParser>(LiveEditProtocolParser.class,
+      return new DynamicParserImpl<LiveEditProtocolParser>(isStatic, LiveEditProtocolParser.class,
                                                            new Class[]{
                                                              LiveEditResult.class,
                                                              LiveEditResult.OldTreeNode.class,

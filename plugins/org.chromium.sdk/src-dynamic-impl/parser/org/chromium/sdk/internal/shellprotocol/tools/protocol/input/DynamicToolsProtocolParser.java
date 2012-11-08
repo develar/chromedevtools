@@ -11,9 +11,9 @@ import org.chromium.sdk.internal.protocolparser.dynamicimpl.DynamicParserImpl;
  * Dynamic implementation of tools protocol parser.
  */
 public class DynamicToolsProtocolParser {
-  public static DynamicParserImpl<ToolsProtocolParser> createDynamic() {
+  public static DynamicParserImpl<ToolsProtocolParser> create(boolean isStatic) {
     try {
-      return new DynamicParserImpl<ToolsProtocolParser>(ToolsProtocolParser.class, new Class[]{ToolsMessage.class, ToolsMessage.Data.class});
+      return new DynamicParserImpl<ToolsProtocolParser>(isStatic, ToolsProtocolParser.class, new Class[]{ToolsMessage.class, ToolsMessage.Data.class});
     }
     catch (JsonProtocolModelParseException e) {
       throw new RuntimeException(e);

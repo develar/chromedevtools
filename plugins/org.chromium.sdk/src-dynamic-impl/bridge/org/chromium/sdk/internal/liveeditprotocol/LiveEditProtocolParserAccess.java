@@ -14,5 +14,5 @@ public class LiveEditProtocolParserAccess {
   }
 
   private static final LiveEditProtocolParser PARSER =
-      LiveEditDynamicParser.create().getParserRoot();
+      LiveEditDynamicParser.create(false).getParserRoot();
 }

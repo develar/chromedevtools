@@ -13,5 +13,5 @@ public class V8ProtocolParserAccess {
     return PARSER;
   }
 
-  private static final V8NativeProtocolParser PARSER = V8DynamicParser.create().getParserRoot();
+  private static final V8NativeProtocolParser PARSER = V8DynamicParser.create(false).getParserRoot();
 }
