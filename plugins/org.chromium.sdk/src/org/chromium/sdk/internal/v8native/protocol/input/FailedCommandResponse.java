@@ -24,7 +24,7 @@ public interface FailedCommandResponse extends JsonSubtype<CommandResponse> {
   String message();
 
   @JsonField(jsonLiteralName="request_seq")
-  Long requestSeq();
+  long requestSeq();
 
   @JsonOptionalField
   String command();

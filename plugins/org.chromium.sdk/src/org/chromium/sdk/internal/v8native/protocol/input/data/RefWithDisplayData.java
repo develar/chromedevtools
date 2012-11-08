@@ -18,7 +18,6 @@ import org.chromium.sdk.internal.protocolparser.JsonType;
  */
 @JsonType
 public interface RefWithDisplayData extends JsonSubtype<SomeRef> {
-
   @JsonOverrideField
   long ref();
 
@@ -38,5 +37,5 @@ public interface RefWithDisplayData extends JsonSubtype<SomeRef> {
   String inferredName();
 
   @JsonOptionalField
-  Long scriptId();
+  long scriptId();
 }

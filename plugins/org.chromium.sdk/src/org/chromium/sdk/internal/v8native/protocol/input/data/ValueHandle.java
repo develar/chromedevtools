@@ -32,11 +32,11 @@ public interface ValueHandle extends JsonSubtype<SomeHandle>  {
 
   // for string type (the true length, value field may be truncated)
   @JsonOptionalField
-  Long length();
+  long length();
   @JsonOptionalField
-  Long fromIndex();
+  long fromIndex();
   @JsonOptionalField
-  Long toIndex();
+  long toIndex();
 
   @JsonOptionalField
   String className();

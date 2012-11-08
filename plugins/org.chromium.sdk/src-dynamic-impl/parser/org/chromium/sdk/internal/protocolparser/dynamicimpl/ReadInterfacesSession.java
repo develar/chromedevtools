@@ -137,7 +137,7 @@ class ReadInterfacesSession {
     throws JsonProtocolModelParseException {
     if (type instanceof Class) {
       Class<?> typeClass = (Class<?>)type;
-      if (type == Long.class || type == Long.TYPE) {
+      if (type == Long.TYPE) {
         nullableIsNotSupported(declaredNullable);
         return LONG_PARSER;
       }

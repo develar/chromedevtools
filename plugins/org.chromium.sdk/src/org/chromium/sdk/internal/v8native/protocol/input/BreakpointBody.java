@@ -11,7 +11,6 @@ import org.chromium.sdk.internal.protocolparser.JsonType;
 
 @JsonType
 public interface BreakpointBody extends JsonSubtype<CommandResponseBody> {
-
   long breakpoint();
 
   @JsonOptionalField
@@ -19,7 +18,7 @@ public interface BreakpointBody extends JsonSubtype<CommandResponseBody> {
   Object column();
 
   @JsonOptionalField
-  Long line();
+  long line();
 
   @JsonOptionalField
   String script_name();

@@ -18,8 +18,8 @@ public interface PropertyWithRef extends JsonSubtype<PropertyObject> {
   long ref();
 
   @JsonOptionalField
-  Object attributes();
+  long attributes();
 
   @JsonOptionalField
-  Long propertyType();
+  long propertyType();
 }

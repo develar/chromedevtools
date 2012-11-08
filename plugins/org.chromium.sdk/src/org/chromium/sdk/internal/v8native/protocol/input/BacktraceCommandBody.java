@@ -16,10 +16,10 @@ public interface BacktraceCommandBody extends JsonSubtype<CommandResponseBody> {
   List<FrameObject> frames();
 
   @JsonOptionalField
-  Long fromFrame();
+  long fromFrame();
 
   @JsonOptionalField
-  Long toFrame();
+  long toFrame();
 
-  Long totalFrames();
+  long totalFrames();
 }
