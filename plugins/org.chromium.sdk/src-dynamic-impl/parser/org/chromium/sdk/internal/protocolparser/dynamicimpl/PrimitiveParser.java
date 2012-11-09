@@ -23,15 +23,8 @@ class PrimitiveParser extends QuickParser<Object> {
   }
 
   @Override
-  void writeReadCode(String fieldName, JavaCodeGenerator.MethodScope methodScope, TextOutput out) {
-    out.append("read");
-    if (isNullable()) {
-      out.append("Nullable");
-    }
-    out.append(readPostfix).append('(').append(Util.READER_NAME);
-    if (!isNullable()) {
-      out.comma().quoute(fieldName);
-    }
+  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, TextOutput out) {
+    beginReadCall(readPostfix, out);
     out.append(')');
   }
 

@@ -29,10 +29,6 @@ public abstract class Message {
     }
   }
 
-  public abstract static class ObjectFactory<T> {
-    public abstract T read(JsonReader reader) throws IOException;
-  }
-
   private static void checkIsNull(JsonReader reader, String fieldName) throws IOException {
     if (reader.peek() == JsonToken.NULL) {
       throw new IOException("Field is not optional " + fieldName);
@@ -74,6 +70,15 @@ public abstract class Message {
 
   protected static long readNullableLong(JsonReader reader) throws IOException {
     return reader.peek() == JsonToken.NULL ? -1 : reader.nextLong();
+  }
+
+  protected static <T extends Enum<T>> T readEnum(JsonReader reader, String fieldName, Class<T> enumClass) throws IOException {
+    checkIsNull(reader, fieldName);
+    return Enum.valueOf(enumClass, reader.nextString());
+  }
+
+  protected static <T extends Enum<T>> T readNullableEnum(JsonReader reader, Class<T> enumClass) throws IOException {
+    return reader.peek() == JsonToken.NULL ? null : Enum.valueOf(enumClass, reader.nextString());
   }
 
   protected static <T> List<T> readObjectArray(JsonReader reader, ObjectFactory<T> factory, String fieldName) throws IOException {

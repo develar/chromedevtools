@@ -102,7 +102,7 @@ class JsonTypeParser<T> extends SlowParser<ObjectData> {
   }
 
   @Override
-  void writeReadCode(String fieldName, MethodScope scope, TextOutput out) {
+  void writeReadCode(MethodScope scope, TextOutput out) {
     assert !isSubtyping;
     out.append("new ").append(scope.getTypeImplReference(refToType.get())).append('(').append(Util.READER_NAME).append(')');
   }

@@ -464,7 +464,7 @@ class TypeHandler<T> {
     TextOutput out = fileScope.getOutput();
     String valueImplClassName = fileScope.getTypeImplShortName(this);
     out.append("public static class ").append(valueImplClassName);
-    out.append(" extends ").append(requiresJsonObject ? "Message" : "ObjectValueBase");
+    out.append(" extends ").append(requiresJsonObject ? "Message" : "LazyReadMessage");
 
     out.append(" implements ").append(getShortName().replace('$', '.')).openBlock();
 
@@ -507,6 +507,18 @@ class TypeHandler<T> {
     MethodScope methodScope = classScope.newMethodScope();
     subtypeAspect.writeSuperConstructorInitializationJava(methodScope);
 
+    if (!fieldLoaders.isEmpty()) {
+      writeReadFields(out, methodScope);
+    }
+
+    if (algCasesData != null) {
+      algCasesData.writeConstructorCodeJava(methodScope);
+    }
+
+    out.closeBlock();
+  }
+
+  private void writeReadFields(TextOutput out, MethodScope methodScope) {
     out.append(Util.READER_NAME).append(".beginObject();");
     out.newLine().append("while (reader.hasNext())").openBlock();
     out.append("String name = reader.nextName();");
@@ -517,7 +529,7 @@ class TypeHandler<T> {
       out.newLine().append(operator).append(" (name.equals(\"").append(fieldName).append("\"))").openBlock();
       {
         assignField(out, fieldName);
-        fieldLoader.parser.writeReadCode(fieldName, methodScope, out);
+        fieldLoader.parser.writeReadCode(methodScope, out);
         out.append(';');
       }
       out.closeBlock();
@@ -530,12 +542,6 @@ class TypeHandler<T> {
 
     out.closeBlock();
     out.newLine().append(Util.READER_NAME).append(".endObject();");
-
-    if (algCasesData != null) {
-      algCasesData.writeConstructorCodeJava(methodScope);
-    }
-
-    out.closeBlock();
   }
 
   private static TextOutput assignField(TextOutput out, String fieldName) {

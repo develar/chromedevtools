@@ -326,8 +326,7 @@ public class ValueLoaderImpl extends ValueLoader {
       if (refLong != ref) {
         throw new ValueLoadException("Inconsistent ref in response, ref=" + ref);
       }
-      ValueMirror mirror = addDataToMap(valueHandle);
-      result.add(mirror);
+      result.add(addDataToMap(valueHandle));
     }
     return result;
   }

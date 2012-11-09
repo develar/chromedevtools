@@ -239,7 +239,7 @@ public class DynamicParserImpl<ROOT> {
     }
 
     @Override
-    void writeReadCode(String fieldName, MethodScope methodScope, TextOutput out) {
+    void writeReadCode(MethodScope methodScope, TextOutput out) {
       out.append("null");
     }
   };
@@ -254,7 +254,7 @@ public class DynamicParserImpl<ROOT> {
     }
 
     @Override
-    void writeReadCode(String fieldName, MethodScope methodScope, TextOutput out) {
+    void writeReadCode(MethodScope methodScope, TextOutput out) {
 
     }
 
@@ -596,8 +596,9 @@ public class DynamicParserImpl<ROOT> {
     final TextOutput out = fileScope.getOutput();
     out.append("// This is a generated source.");
     out.newLine().append("package ").append(packageName).append(';');
+    out.newLine().newLine().append("import org.jetbrains.jsonProtocol.LazyReadMessage;");
     out.newLine().newLine().append("import org.jetbrains.jsonProtocol.Message;");
-    out.newLine().append("import org.chromium.sdk.internal.protocolparser.implutil.GeneratedCodeLibrary.ObjectFactory;");
+    out.newLine().append("import org.jetbrains.jsonProtocol.ObjectFactory;");
     out.newLine().append("import com.google.gson.stream.JsonReader;");
     out.newLine().append("import java.io.IOException;");
     out.newLine().newLine().append("public class ").append(className);

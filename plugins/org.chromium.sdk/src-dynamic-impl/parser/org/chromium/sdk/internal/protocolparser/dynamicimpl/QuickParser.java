@@ -53,4 +53,15 @@ abstract class QuickParser<T> extends SlowParser<T> {
   }
 
   abstract void writeParseQuickCode(MethodScope scope, String valueRef, String resultRef);
+
+  protected void beginReadCall(String readPostfix, TextOutput out) {
+    out.append("read");
+    if (isNullable()) {
+      out.append("Nullable");
+    }
+    out.append(readPostfix).append('(').append(Util.READER_NAME);
+    if (!isNullable()) {
+      out.comma().quoute("name");
+    }
+  }
 }

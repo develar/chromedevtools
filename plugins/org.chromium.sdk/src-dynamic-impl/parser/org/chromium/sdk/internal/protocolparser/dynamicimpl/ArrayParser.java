@@ -93,7 +93,7 @@ class ArrayParser<T> extends SlowParser<List<? extends T>> {
   }
 
   @Override
-  void writeReadCode(String fieldName, JavaCodeGenerator.MethodScope scope, TextOutput out) {
+  void writeReadCode(JavaCodeGenerator.MethodScope scope, TextOutput out) {
     componentParser.writeArrayReadCode(scope, out);
   }
 }

@@ -18,7 +18,6 @@ import java.io.IOException;
  */
 @JsonParserRoot
 public interface V8NativeProtocolParserTestAccess {
-
   @JsonParseMethod
   FrameObject parseFrameObject(JsonReader reader) throws IOException;
 
