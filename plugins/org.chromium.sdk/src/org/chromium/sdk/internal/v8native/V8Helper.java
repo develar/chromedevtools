@@ -58,7 +58,7 @@ public class V8Helper {
    * @param syncCallback to invoke after callback, regardless of whether it has returned normally
    *        or thrown an exception
    */
-  public static RelayOk reloadScriptAsync(final DebugSession debugSession, final List<Long> ids,
+  public static RelayOk reloadScriptAsync(final DebugSession debugSession, final long[] ids,
       final ScriptLoadCallback callback, SyncCallback syncCallback) {
     ContextlessDebuggerMessage message;
     if (ids == null) {

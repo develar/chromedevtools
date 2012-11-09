@@ -121,7 +121,7 @@ public interface JavascriptVm {
    * @param enabled new value to set or null
    * @param callback receives current value if succeed or error message
    */
-  RelayOk enableBreakpoints(Boolean enabled, GenericCallback<Boolean> callback,
+  RelayOk enableBreakpoints(boolean enabled, GenericCallback<Boolean> callback,
       SyncCallback syncCallback);
 
   /**

@@ -7,7 +7,6 @@ package org.chromium.sdk.internal.shellprotocol.tools.v8debugger;
 import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.TabDebugEventListener;
-import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.shellprotocol.BrowserImpl;
 import org.chromium.sdk.internal.shellprotocol.BrowserTabImpl;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolHandler;
@@ -22,9 +21,9 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ContextData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 import org.chromium.sdk.util.MethodIsBlockingException;
+import org.jetbrains.jsonProtocol.JsonUtil;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
@@ -45,9 +44,6 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
   public static class AttachmentFailureException extends Exception {
 
     private static final long serialVersionUID = 1L;
-
-    public AttachmentFailureException() {
-    }
 
     public AttachmentFailureException(String message, Throwable cause) {
       super(message, cause);
@@ -73,6 +69,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
       Logger.getLogger(ChromeDevToolSessionManager.class.getName());
 
   private static final V8ContextFilter CONTEXT_FILTER = new V8ContextFilter() {
+    @SuppressWarnings({"UnusedDeclaration", "UnusedAssignment"})
     public boolean isContextOurs(ContextHandle contextHandle) {
       Object data = contextHandle.data();
       if (data == null) {
@@ -142,7 +139,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
   }
 
   private void handleChromeDevToolMessage(final Message message) {
-    JsonReader reader = new JsonReader(new StringReader(message.getContent()));
+    JsonReader reader = JsonUtil.createReader(message.getContent());
     ToolsMessage devToolsMessage;
     try {
       devToolsMessage = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
@@ -379,8 +376,8 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
   }
 
   private void processAttach(ToolsMessage toolsMessage) throws IOException {
-    long resultValue = toolsMessage.result();
-    Result result = Result.forCode((int) resultValue);
+    int resultValue = toolsMessage.result();
+    Result result = Result.forCode(resultValue);
     // Message destination equals context.getTabId()
     if (result == Result.OK) {
       boolean res = attachState.compareAndSet(AttachState.ATTACHING, AttachState.NORMAL);
@@ -434,12 +431,9 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
     }
 
     public void send(DebuggerMessage debuggerMessage, boolean isImmediate) {
-      toolOutput.send(
-          V8DebuggerToolMessageFactory.debuggerCommand(
-              JsonUtil.streamAwareToJson(debuggerMessage)));
+      toolOutput.send(V8DebuggerToolMessageFactory.debuggerCommand(debuggerMessage.toJson()));
       if (isImmediate) {
-        toolOutput.send(
-            V8DebuggerToolMessageFactory.evaluateJavascript(V8Helper.JAVASCRIPT_VOID));
+        toolOutput.send(V8DebuggerToolMessageFactory.evaluateJavascript(V8Helper.JAVASCRIPT_VOID));
       }
     }
 
@@ -458,17 +452,15 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
       return createDebuggerMessage(DebuggerToolCommand.DETACH, null);
     }
 
-    public static String debuggerCommand(String json) {
+    public static String debuggerCommand(CharSequence json) {
       return createDebuggerMessage(DebuggerToolCommand.DEBUGGER_COMMAND, json);
     }
 
     public static String evaluateJavascript(String javascript) {
-      return createDebuggerMessage(DebuggerToolCommand.EVALUATE_JAVASCRIPT,
-          JsonUtil.quoteString(javascript));
+      return createDebuggerMessage(DebuggerToolCommand.EVALUATE_JAVASCRIPT, '"' + javascript + '"');
     }
 
-    private static String createDebuggerMessage(
-        DebuggerToolCommand command, String dataField) {
+    private static String createDebuggerMessage(DebuggerToolCommand command, CharSequence dataField) {
       StringBuilder sb = new StringBuilder("{\"command\":\"");
       sb.append(command.commandName).append('"');
       if (dataField != null) {

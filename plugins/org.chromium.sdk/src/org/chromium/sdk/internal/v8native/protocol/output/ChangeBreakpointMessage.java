@@ -18,8 +18,7 @@ public class ChangeBreakpointMessage extends ContextlessDebuggerMessage {
    * @param ignoreCount nullable number specifying the number of break point hits to ignore.
    *        Default is 0
    */
-  public ChangeBreakpointMessage(Long breakpoint, Boolean enabled,
-      String condition, Integer ignoreCount) {
+  public ChangeBreakpointMessage(long breakpoint, Boolean enabled, String condition, Integer ignoreCount) {
     super(DebuggerCommand.CHANGEBREAKPOINT.value);
     putArgument("breakpoint", breakpoint);
     putArgument("enabled", enabled);

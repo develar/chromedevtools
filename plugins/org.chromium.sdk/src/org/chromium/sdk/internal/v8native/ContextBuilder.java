@@ -388,8 +388,8 @@ public class ContextBuilder {
 
       private final JsEvaluateContext evaluateContext = new JsEvaluateContextImpl() {
         @Override
-        protected Integer getFrameIdentifier() {
-          return null;
+        protected int getFrameIdentifier() {
+          return -1;
         }
         @Override
         public InternalContext getInternalContext() {

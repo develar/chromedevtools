@@ -4,6 +4,9 @@
 
 package org.chromium.sdk.internal.v8native;
 
+import gnu.trove.TLongObjectHashMap;
+import gnu.trove.TLongObjectProcedure;
+import gnu.trove.TObjectProcedure;
 import org.chromium.sdk.*;
 import org.chromium.sdk.Breakpoint.Target;
 import org.chromium.sdk.JavascriptVm.BreakpointCallback;
@@ -33,8 +36,7 @@ public class BreakpointManager {
    * This map shall contain only breakpoints with valid IDs.
    * Complex operations must be explicitly synchronized on this instance.
    */
-  private final Map<Long, BreakpointImpl> idToBreakpoint =
-      Collections.synchronizedMap(new HashMap<Long, BreakpointImpl>());
+  private final TLongObjectHashMap<BreakpointImpl> idToBreakpoint = new TLongObjectHashMap<BreakpointImpl>();
 
   private final DebugSession debugSession;
 
@@ -95,20 +97,17 @@ public class BreakpointManager {
         syncCallback);
   }
 
-  public Breakpoint getBreakpoint(Long id) {
+  public Breakpoint getBreakpoint(long id) {
     return idToBreakpoint.get(id);
   }
 
-  public RelayOk clearBreakpoint(
-      final BreakpointImpl breakpointImpl, final BreakpointCallback callback,
-      SyncCallback syncCallback, long originalId) {
-    long id = originalId;
-    if (id == Breakpoint.INVALID_ID) {
+  public RelayOk clearBreakpoint(final BreakpointImpl breakpointImpl, final BreakpointCallback callback, SyncCallback syncCallback, long originalId) {
+    if (originalId == Breakpoint.INVALID_ID) {
       return RelaySyncCallback.finish(syncCallback);
     }
-    idToBreakpoint.remove(id);
+    idToBreakpoint.remove(originalId);
     return debugSession.sendMessageAsync(
-        DebuggerMessageFactory.clearBreakpoint(id),
+        DebuggerMessageFactory.clearBreakpoint(originalId),
         true,
         new V8CommandCallbackBase() {
           @Override
@@ -187,19 +186,19 @@ public class BreakpointManager {
         syncCallback);
   }
 
-  public RelayOk enableBreakpoints(Boolean enabled, final GenericCallback<Boolean> callback,
-      SyncCallback syncCallback) {
+  public RelayOk enableBreakpoints(boolean enabled, GenericCallback<Boolean> callback, SyncCallback syncCallback) {
     return setRemoteFlag("breakPointsActive", enabled, callback, syncCallback);
   }
 
   public RelayOk setBreakOnException(ExceptionCatchMode catchMode,
       final GenericCallback<ExceptionCatchMode> callback, SyncCallback syncCallback) {
-    Boolean caughtValue;
-    Boolean uncaughtValue;
+
+    boolean[] flagValues;
     if (catchMode == null) {
-      caughtValue = null;
-      uncaughtValue = null;
+      flagValues = new boolean[0];
     } else {
+      boolean caughtValue;
+          boolean uncaughtValue;
       switch (catchMode) {
         case ALL:
           caughtValue = true;
@@ -216,8 +215,8 @@ public class BreakpointManager {
         default:
           throw new RuntimeException();
       }
+      flagValues = new boolean[]{caughtValue, uncaughtValue};
     }
-    List<Boolean> flagValues = Arrays.asList(caughtValue, uncaughtValue);
 
     GenericCallback<List<Boolean>> wrappedCallback;
     if (callback == null) {
@@ -256,8 +255,7 @@ public class BreakpointManager {
   private static final List<String> BREAK_ON_EXCEPTION_FLAG_NAMES =
       Arrays.asList("breakOnCaughtException", "breakOnUncaughtException");
 
-  private RelayOk setRemoteFlag(String flagName, Boolean value,
-      final GenericCallback<Boolean> callback, SyncCallback syncCallback) {
+  private RelayOk setRemoteFlag(String flagName, boolean value, final GenericCallback<Boolean> callback, SyncCallback syncCallback) {
     GenericCallback<List<Boolean>> wrappedCallback;
     if (callback == null) {
       wrappedCallback = null;
@@ -271,16 +269,13 @@ public class BreakpointManager {
         }
       };
     }
-    return setRemoteFlags(Collections.singletonList(flagName), Collections.singletonList(value),
-        wrappedCallback, syncCallback);
+    return setRemoteFlags(Collections.singletonList(flagName), new boolean[]{value}, wrappedCallback, syncCallback);
   }
 
-  private RelayOk setRemoteFlags(final List<String> flagNames, List<Boolean> values,
-      final GenericCallback<List<Boolean>> callback, SyncCallback syncCallback) {
-    Map<String, Object> flagMap = new HashMap<String, Object>(values.size());
+  private RelayOk setRemoteFlags(final List<String> flagNames, boolean[] values, final GenericCallback<List<Boolean>> callback, SyncCallback syncCallback) {
+    Map<String, Boolean> flagMap = new HashMap<String, Boolean>(values.length);
     for (int i = 0; i < flagNames.size(); i++) {
-      Object jsonValue = values.get(i);
-      flagMap.put(flagNames.get(i), jsonValue);
+      flagMap.put(flagNames.get(i), values[i]);
     }
     V8CommandProcessor.V8HandlerCallback v8Callback;
     if (callback == null) {
@@ -312,7 +307,7 @@ public class BreakpointManager {
 
             Object flagValue = flag.value();
             Boolean boolValue;
-            if (flagValue instanceof Boolean == false) {
+            if (!(flagValue instanceof Boolean)) {
               LOGGER.info("Flag value has a wrong type");
               boolValue = null;
             } else {
@@ -338,8 +333,8 @@ public class BreakpointManager {
 
   private Collection<Breakpoint> syncBreakpoints(List<BreakpointInfo> infoList) {
     synchronized (idToBreakpoint) {
-      ArrayList<Breakpoint> result = new ArrayList<Breakpoint>();
-      Map<Long, BreakpointImpl> actualBreakpoints = new HashMap<Long, BreakpointImpl>();
+      final ArrayList<Breakpoint> result = new ArrayList<Breakpoint>();
+      final TLongObjectHashMap<BreakpointImpl> actualBreakpoints = new TLongObjectHashMap<BreakpointImpl>();
       // Wrap all loaded BreakpointInfo as BreakpointImpl, possibly reusing old instances.
       // Also check that all breakpoint id's in loaded list are unique.
       for (BreakpointInfo info : infoList) {
@@ -360,21 +355,25 @@ public class BreakpointManager {
         result.add(breakpoint);
       }
 
-      // Remove all obsolete breakpoints from the map.
-      for (Iterator<Long> it = idToBreakpoint.keySet().iterator(); it.hasNext(); ) {
-        Long id = it.next();
-        if (!actualBreakpoints.containsKey(id)) {
-          it.remove();
+      // Remove all obsolete breakpoints from the map
+      idToBreakpoint.retainEntries(new TLongObjectProcedure<BreakpointImpl>() {
+        @Override
+        public boolean execute(long id, BreakpointImpl b) {
+          return actualBreakpoints.containsKey(id);
         }
-      }
+      });
 
-      // Add breakpoints that are not in the main map yet.
-      for (BreakpointImpl breakpoint : actualBreakpoints.values()) {
-        if (!idToBreakpoint.containsKey(breakpoint.getId())) {
-          idToBreakpoint.put(breakpoint.getId(), breakpoint);
-          result.add(breakpoint);
+      // Add breakpoints that are not in the main map yet
+      actualBreakpoints.forEachValue(new TObjectProcedure<BreakpointImpl>() {
+        @Override
+        public boolean execute(BreakpointImpl breakpoint) {
+          if (!idToBreakpoint.containsKey(breakpoint.getId())) {
+            idToBreakpoint.put(breakpoint.getId(), breakpoint);
+            result.add(breakpoint);
+          }
+          return true;
         }
-      }
+      });
       return result;
     }
   }

@@ -4,31 +4,35 @@
 
 package org.chromium.sdk.internal.v8native.protocol.output;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import com.google.gson.stream.JsonWriter;
 
-import org.json.simple.JSONStreamAware;
-import org.json.simple.JSONValue;
+import java.io.IOException;
+import java.io.StringWriter;
 
 /**
  * Represents a generic JSONStreamAware V8 request message (so that it can
  * serialize itself into JSON.)
  */
-public class DebuggerMessage implements JSONStreamAware {
-
+public class DebuggerMessage {
   private final int sequence;
-
   private final String command;
+  private boolean argumentsObjectStarted;
 
-  private final Map<String, Object> arguments = new HashMap<String, Object>();
-
+  private final StringWriter stringWriter = new StringWriter();
+  protected final JsonWriter writer = new JsonWriter(stringWriter);
 
   public DebuggerMessage(String command) {
-    this.sequence = SeqGenerator.getInstance().next();
+    sequence = SeqGenerator.getInstance().next();
     this.command = command;
+
+    try {
+      writer.name("seq").value(sequence);
+      writer.name("type").value(V8MessageType.REQUEST.value);
+      writer.name("command").value(command);
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public Integer getSeq() {
@@ -43,38 +47,89 @@ public class DebuggerMessage implements JSONStreamAware {
     return command;
   }
 
-  public Map<String, Object> getArguments() {
-    return arguments;
-  }
-
-  protected final void putArgument(String key, Object object) {
-    if (object != null) {
-      arguments.put(key, object);
+  protected final void putArgument(String name, int value) {
+    try {
+      addArgumentsName();
+      writer.name(name).value(value);
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
-  protected final void putNullableArgument(String key, Object object) {
-    arguments.put(key, object);
-  }
-
-  private final void putArgumentString(String key, Object object) {
-    arguments.put(key, object.toString());
-  }
-
-  protected final void putArgumentStringIfNotNull(String key, Object object) {
-    if (object != null) {
-      putArgumentString(key, object);
+  protected final void putArgument(String name, long[] value) {
+    try {
+      addArgumentsName();
+      writer.name(name);
+      writer.beginArray();
+      for (long v : value) {
+        writer.value(v);
+      }
+      writer.endArray();
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
-  public void writeJSONString(Writer out) throws IOException {
-    LinkedHashMap<String, Object> obj = new LinkedHashMap<String, Object>();
-    obj.put("seq", sequence);
-    obj.put("type", V8MessageType.REQUEST.value);
-    obj.put("command", command);
-    if (!arguments.isEmpty()) {
-      obj.put("arguments", arguments);
+  protected final void putArgument(String name, long value) {
+    try {
+      addArgumentsName();
+      writer.name(name).value(value);
     }
-    JSONValue.writeJSONString(obj, out);
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  protected final void addArgumentsName() throws IOException {
+    if (!argumentsObjectStarted) {
+      argumentsObjectStarted = true;
+      writer.name("arguments");
+      writer.beginObject();
+    }
+  }
+
+  protected final void putArgument(String name, boolean value) {
+    try {
+      addArgumentsName();
+      writer.name(name).value(value);
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  protected final void putArgument(String name, String value) {
+    if (value != null) {
+      doPutArgument(name, value);
+    }
+  }
+
+  protected final void doPutArgument(String name, String value) {
+    try {
+      addArgumentsName();
+      writer.name(name).value(value);
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  protected final void putNullableArgument(String key, String value) {
+    doPutArgument(key, value);
+  }
+
+  public CharSequence toJson() {
+    if (argumentsObjectStarted) {
+      try {
+        writer.endObject();
+        writer.close();
+      }
+      catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return stringWriter.getBuffer();
   }
 }

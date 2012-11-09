@@ -7,7 +7,10 @@ import java.lang.reflect.WildcardType;
 public class Util {
   public static final String BASE_PACKAGE = "org.chromium.sdk.internal.protocolparser";
   public static final String THROWS_CLAUSE = " throws IOException";
+
+  public static final char TYPE_NAME_PREFIX = 'M';
   public static final char TYPE_FACTORY_NAME_POSTFIX = 'F';
+
   public static final String READER_NAME = "reader";
 
   /**

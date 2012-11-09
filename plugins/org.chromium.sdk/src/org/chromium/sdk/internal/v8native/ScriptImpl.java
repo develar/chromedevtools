@@ -6,7 +6,6 @@ import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.ScriptBase;
 import org.chromium.sdk.internal.liveeditprotocol.LiveEditResult;
-import org.chromium.sdk.internal.v8native.V8Helper.ScriptLoadCallback;
 import org.chromium.sdk.internal.v8native.protocol.input.ChangeLiveBody;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
@@ -15,7 +14,6 @@ import org.chromium.sdk.internal.v8native.protocol.output.ChangeLiveMessage;
 import org.chromium.sdk.internal.v8native.value.HandleManager;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,7 +58,7 @@ public class ScriptImpl extends ScriptBase<Long> {
 
         LiveEditResult resultDescription = body.getResultDescription();
         if (!previewOnly) {
-          ScriptLoadCallback scriptCallback = new ScriptLoadCallback() {
+          V8Helper.ScriptLoadCallback scriptCallback = new V8Helper.ScriptLoadCallback() {
             @Override
             public void failure(String message) {
               LOGGER.log(Level.SEVERE,
@@ -75,8 +73,7 @@ public class ScriptImpl extends ScriptBase<Long> {
               }
             }
           };
-          V8Helper.reloadScriptAsync(debugSession, Collections.singletonList(getId()),
-              scriptCallback, null);
+          V8Helper.reloadScriptAsync(debugSession, new long[]{getId()}, scriptCallback, null);
 
           if (body.stepin_recommended() == Boolean.TRUE) {
             DebugContext debugContext = debugSession.getContextBuilder().getCurrentDebugContext();

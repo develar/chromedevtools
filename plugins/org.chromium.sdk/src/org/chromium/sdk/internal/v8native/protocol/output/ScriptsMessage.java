@@ -4,8 +4,6 @@
 
 package org.chromium.sdk.internal.v8native.protocol.output;
 
-import java.util.List;
-
 import org.chromium.sdk.internal.v8native.DebuggerCommand;
 
 /**
@@ -33,7 +31,7 @@ public class ScriptsMessage extends ContextlessDebuggerMessage {
    * @param includeSource whether to include script source in the response,
    *        default is false
    */
-  public ScriptsMessage(Integer types, Boolean includeSource) {
+  public ScriptsMessage(int types, Boolean includeSource) {
     super(DebuggerCommand.SCRIPTS.value);
     putArgument("types", types);
     putArgument("includeSource", includeSource);
@@ -44,7 +42,7 @@ public class ScriptsMessage extends ContextlessDebuggerMessage {
    * @param includeSource whether to include script source in the response,
    *        default is false
    */
-  public ScriptsMessage(List<Long> ids, Boolean includeSource) {
+  public ScriptsMessage(long[] ids, Boolean includeSource) {
     super(DebuggerCommand.SCRIPTS.value);
     putArgument("ids", ids);
     putArgument("includeSource", includeSource);

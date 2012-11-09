@@ -4,12 +4,10 @@
 
 package org.chromium.sdk.internal.v8native.protocol.output;
 
-import java.util.List;
-import java.util.Map;
-
-import gnu.trove.TLongArrayList;
 import org.chromium.sdk.Breakpoint;
 import org.chromium.sdk.DebugContext.StepAction;
+
+import java.util.List;
 
 /**
  * A factory for {@link DebuggerMessage}s. Static methods are used to construct
@@ -26,9 +24,8 @@ public class DebuggerMessageFactory {
     return new ContinueMessage(stepAction, stepCount);
   }
 
-  public static DebuggerMessage evaluate(String expression, Integer frame, Boolean global,
-      Boolean disableBreak, List<Map.Entry<String, Integer>> additionalContext) {
-    return new EvaluateMessage(expression, frame, global, disableBreak, additionalContext);
+  public static DebuggerMessage evaluate(String expression, int frame, boolean disableBreak, List<EvaluateMessage.StringIntPair> additionalContext) {
+    return new EvaluateMessage(expression, frame, disableBreak, additionalContext);
   }
 
   public static DebuggerMessage frame(Integer frameNumber) {
@@ -39,7 +36,7 @@ public class DebuggerMessageFactory {
     return new ScriptsMessage(types, includeScripts);
   }
 
-  public static ContextlessDebuggerMessage scripts(List<Long> ids, Boolean includeScripts) {
+  public static ContextlessDebuggerMessage scripts(long[] ids, Boolean includeScripts) {
     return new ScriptsMessage(ids, includeScripts);
   }
 
@@ -56,7 +53,7 @@ public class DebuggerMessageFactory {
     return new ClearBreakpointMessage(id);
   }
 
-  public static DebuggerMessage lookup(TLongArrayList refs, Boolean inlineRefs) {
+  public static DebuggerMessage lookup(long[] refs, Boolean inlineRefs) {
     return new LookupMessage(refs, inlineRefs);
   }
 

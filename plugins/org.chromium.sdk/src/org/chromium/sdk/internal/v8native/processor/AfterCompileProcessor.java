@@ -4,12 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.processor;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
 import org.chromium.sdk.Script;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.DebugSession;
 import org.chromium.sdk.internal.v8native.V8CommandCallbackBase;
 import org.chromium.sdk.internal.v8native.V8ContextFilter;
@@ -20,6 +15,9 @@ import org.chromium.sdk.internal.v8native.protocol.input.EventNotification;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Listens for scripts sent in the "afterCompile" events and requests their
@@ -40,8 +38,7 @@ public class AfterCompileProcessor extends V8EventProcessor {
       return;
     }
     debugSession.sendMessageAsync(
-        DebuggerMessageFactory.scripts(
-            Collections.singletonList(V8ProtocolUtil.getScriptIdFromResponse(script)), true),
+        DebuggerMessageFactory.scripts(new long[]{V8ProtocolUtil.getScriptIdFromResponse(script)}, true),
         true,
         new V8CommandCallbackBase() {
           @Override

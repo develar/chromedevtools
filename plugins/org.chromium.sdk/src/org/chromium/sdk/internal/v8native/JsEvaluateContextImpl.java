@@ -14,6 +14,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
+import org.chromium.sdk.internal.v8native.protocol.output.EvaluateMessage;
 import org.chromium.sdk.internal.v8native.value.JsObjectBase;
 import org.chromium.sdk.internal.v8native.value.JsVariableImpl;
 import org.chromium.sdk.internal.v8native.value.ValueMirror;
@@ -33,15 +34,10 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
       final EvaluateCallback callback, SyncCallback syncCallback)
       throws ContextDismissedCheckedException {
 
-    Integer frameIdentifier = getFrameIdentifier();
-    Boolean isGlobal = frameIdentifier == null ? Boolean.TRUE : null;
+    int frameIdentifier = getFrameIdentifier();
 
-    List<Map.Entry<String, Integer>> internalAdditionalContext =
-        convertAdditionalContextList(additionalContext);
-
-    DebuggerMessage message = DebuggerMessageFactory.evaluate(expression, frameIdentifier,
-        isGlobal, Boolean.TRUE, internalAdditionalContext);
-
+    List<EvaluateMessage.StringIntPair> internalAdditionalContext = convertAdditionalContextList(additionalContext);
+    DebuggerMessage message = DebuggerMessageFactory.evaluate(expression, frameIdentifier, true, internalAdditionalContext);
     V8CommandProcessor.V8HandlerCallback commandCallback = callback == null
         ? null
         : new V8CommandCallbackBase() {
@@ -87,27 +83,14 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
   }
 
 
-  private static List<Map.Entry<String, Integer>> convertAdditionalContextList(
-      Map<String, String> source) {
+  private static List<EvaluateMessage.StringIntPair> convertAdditionalContextList(Map<String, String> source) {
     if (source == null) {
       return null;
     }
-    final List<Map.Entry<String, Integer>> dataList =
-        new ArrayList<Map.Entry<String,Integer>>(source.size());
-    for (final Map.Entry<String, String> en : source.entrySet()) {
-      final int refValue = JsObjectBase.parseRefId(en.getValue());
-      Map.Entry<String, Integer> convertedEntry = new Map.Entry<String, Integer>() {
-        public String getKey() {
-          return en.getKey();
-        }
-        public Integer getValue() {
-          return refValue;
-        }
-        public Integer setValue(Integer value) {
-          throw new UnsupportedOperationException();
-        }
-      };
-      dataList.add(convertedEntry);
+
+    List<EvaluateMessage.StringIntPair> dataList = new ArrayList<EvaluateMessage.StringIntPair>(source.size());
+    for (Map.Entry<String, String> en : source.entrySet()) {
+      dataList.add(new EvaluateMessage.StringIntPair(en.getKey(), JsObjectBase.parseRefId(en.getValue())));
     }
     return dataList;
   }
@@ -115,7 +98,7 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
   /**
    * @return frame identifier or null if the context is not frame-related
    */
-  protected abstract Integer getFrameIdentifier();
+  protected abstract int getFrameIdentifier();
 
   protected abstract InternalContext getInternalContext();
 }

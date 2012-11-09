@@ -16,7 +16,6 @@ import org.chromium.sdk.internal.v8native.ScriptManager;
 public class SetBreakpointMessage extends ContextlessDebuggerMessage {
 
   /**
-   * @param type ("function", "handle", or "script")
    * @param target function expression, script identification, or handle decimal number
    * @param line in the script or function
    * @param column of the target start within the line
@@ -30,7 +29,14 @@ public class SetBreakpointMessage extends ContextlessDebuggerMessage {
       Integer ignoreCount) {
     super(DebuggerCommand.SETBREAKPOINT.value);
     putArgument("type", target.accept(GET_TYPE_VISITOR));
-    putArgument("target", target.accept(GET_TARGET_VISITOR));
+
+    Object targetValue = target.accept(GET_TARGET_VISITOR);
+    if (targetValue instanceof Long) {
+      putArgument("target", ((Long)targetValue));
+    }
+    else {
+      putArgument("target", ((String)targetValue));
+    }
     putArgument("line", line);
     putArgument("column", column);
     putArgument("enabled", enabled);
@@ -66,8 +72,7 @@ public class SetBreakpointMessage extends ContextlessDebuggerMessage {
       return scriptName;
     }
     @Override public Object visitScriptId(Object scriptIdObj) {
-      Long scriptId = ScriptManager.convertAlienScriptId(scriptIdObj);
-      return scriptId;
+      return ScriptManager.convertAlienScriptId(scriptIdObj);
     }
     @Override public Object visitRegExp(String regExp) {
       return regExp;

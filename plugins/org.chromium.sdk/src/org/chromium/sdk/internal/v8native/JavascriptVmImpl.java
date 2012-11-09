@@ -61,10 +61,8 @@ public abstract class JavascriptVmImpl implements JavascriptVm {
   }
 
   @Override
-  public RelayOk enableBreakpoints(Boolean enabled, GenericCallback<Boolean> callback,
-      SyncCallback syncCallback) {
-    return getDebugSession().getBreakpointManager().enableBreakpoints(enabled,
-        callback, syncCallback);
+  public RelayOk enableBreakpoints(boolean enabled, GenericCallback<Boolean> callback, SyncCallback syncCallback) {
+    return getDebugSession().getBreakpointManager().enableBreakpoints(enabled, callback, syncCallback);
   }
 
   @Override

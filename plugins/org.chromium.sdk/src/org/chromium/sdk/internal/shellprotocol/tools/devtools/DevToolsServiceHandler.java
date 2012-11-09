@@ -5,16 +5,15 @@
 package org.chromium.sdk.internal.shellprotocol.tools.devtools;
 
 import com.google.gson.stream.JsonReader;
-import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolHandler;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolOutput;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.DevToolsServiceCommand;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsMessage;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsProtocolParserAccess;
 import org.chromium.sdk.internal.transport.Message;
+import org.jetbrains.jsonProtocol.JsonUtil;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -94,7 +93,7 @@ public class DevToolsServiceHandler implements ToolHandler {
   }
 
   public void handleMessage(Message message) {
-    JsonReader reader = new JsonReader(new StringReader(message.getContent()));
+    JsonReader reader = JsonUtil.createReader(message.getContent());
     ToolsMessage toolsResponse;
     try {
       toolsResponse = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
@@ -237,7 +236,6 @@ public class DevToolsServiceHandler implements ToolHandler {
   }
 
   private static class CommandFactory {
-
     public static String ping() {
       return createDevToolsMessage(DevToolsServiceCommand.PING);
     }
@@ -250,7 +248,7 @@ public class DevToolsServiceHandler implements ToolHandler {
     }
 
     private static String createDevToolsMessage(DevToolsServiceCommand command) {
-      return "{\"command\":" + JsonUtil.quoteString(command.commandName) + "}";
+      return "{\"command\":\"" + command.commandName + "\"}";
     }
   }
 }

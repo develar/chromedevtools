@@ -4,46 +4,32 @@
 
 package org.chromium.sdk.internal.standalonev8;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.Collections;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.StandaloneVm;
 import org.chromium.sdk.UnsupportedVersionException;
-import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.transport.Connection;
+import org.chromium.sdk.internal.transport.Connection.NetListener;
 import org.chromium.sdk.internal.transport.Handshaker;
 import org.chromium.sdk.internal.transport.Message;
 import org.chromium.sdk.internal.transport.SocketConnection;
-import org.chromium.sdk.internal.transport.Connection.NetListener;
-import org.chromium.sdk.internal.v8native.DebugSession;
-import org.chromium.sdk.internal.v8native.DebugSessionManager;
-import org.chromium.sdk.internal.v8native.JavascriptVmImpl;
-import org.chromium.sdk.internal.v8native.V8CommandOutput;
-import org.chromium.sdk.internal.v8native.V8ContextFilter;
+import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 import org.chromium.sdk.util.MethodIsBlockingException;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
+import org.jetbrains.jsonProtocol.JsonUtil;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Implementation of {@code StandaloneVm}. Currently knows nothing about
  * contexts, so all existing V8 contexts are presented mixed together.
  */
 public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
-
-  /** The class logger. */
-  private static final Logger LOGGER =
-      Logger.getLogger(StandaloneVmImpl.class.getName());
-
   private static final int WAIT_FOR_HANDSHAKE_TIMEOUT_MS = 3000;
 
   private static final V8ContextFilter CONTEXT_FILTER = new V8ContextFilter() {
@@ -116,7 +102,7 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
       }
 
       public void messageReceived(Message message) {
-        JsonReader jsonReader = new JsonReader(new StringReader(message.getContent()));
+        JsonReader jsonReader = JsonUtil.createReader(message.getContent());
         debugSession.getV8CommandProcessor().processIncomingJson(jsonReader);
       }
     };
@@ -237,10 +223,7 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
       this.outputConnection = outputConnection;
     }
     public void send(DebuggerMessage debuggerMessage, boolean immediate) {
-      String jsonString = JsonUtil.streamAwareToJson(debuggerMessage);
-      Message message = new Message(Collections.<String, String>emptyMap(), jsonString);
-
-      outputConnection.send(message);
+      outputConnection.send(new Message(Collections.<String, String>emptyMap(), debuggerMessage.toJson().toString()));
       // TODO(peter.rybin): support {@code immediate} in protocol
     }
     public void runInDispatchThread(Runnable callback) {

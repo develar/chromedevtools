@@ -4,30 +4,35 @@
 
 package org.chromium.sdk.internal.v8native.protocol.output;
 
-import java.util.Map;
-
 import org.chromium.sdk.internal.v8native.DebuggerCommand;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Represents a "flags" V8 request message.
  */
 public class FlagsMessage extends ContextlessDebuggerMessage {
-  public FlagsMessage(Map<String, Object> flags) {
+  public FlagsMessage(Map<String, Boolean> flags) {
     super(DebuggerCommand.FLAGS.value);
 
     if (flags != null) {
-      JSONArray flagArray = new JSONArray();
-      for (Map.Entry<String, Object> en : flags.entrySet()) {
-        JSONObject flagObject = new JSONObject();
-        flagObject.put("name", en.getKey());
-        if (en.getValue() != null) {
-          flagObject.put("value", en.getValue());
+      try {
+        addArgumentsName();
+        writer.name("flags");
+        writer.beginArray();
+        for (Map.Entry<String, Boolean> en : flags.entrySet()) {
+          writer.beginObject();
+          writer.name("name").value(en.getKey());
+          writer.name("value").value(en.getKey());
+          writer.endObject();
         }
-        flagArray.add(flagObject);
+
+        writer.endArray();
       }
-      putArgument("flags", flagArray);
+      catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 }

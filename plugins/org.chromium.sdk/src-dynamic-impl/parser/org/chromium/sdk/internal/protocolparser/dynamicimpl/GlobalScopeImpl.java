@@ -104,8 +104,7 @@ public class GlobalScopeImpl implements JavaCodeGenerator.GlobalScope {
       int uniqueCode = 0;
       Map<TypeHandler<?>, String> result = new THashMap<TypeHandler<?>, String>();
       for (TypeHandler<?> handler : list) {
-        String name = "V" + uniqueCode++;
-        Object conflict = result.put(handler, name);
+        Object conflict = result.put(handler, Util.TYPE_NAME_PREFIX + Integer.toString(uniqueCode++));
         if (conflict != null) {
           throw new RuntimeException();
         }

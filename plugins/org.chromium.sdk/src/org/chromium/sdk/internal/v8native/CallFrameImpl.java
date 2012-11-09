@@ -190,7 +190,7 @@ public class CallFrameImpl implements CallFrame {
 
   private final JsEvaluateContextImpl evaluateContextImpl = new JsEvaluateContextImpl() {
     @Override
-    protected Integer getFrameIdentifier() {
+    protected int getFrameIdentifier() {
       return getIdentifier();
     }
     @Override

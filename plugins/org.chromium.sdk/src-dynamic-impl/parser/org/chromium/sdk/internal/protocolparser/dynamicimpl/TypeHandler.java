@@ -464,7 +464,7 @@ class TypeHandler<T> {
     TextOutput out = fileScope.getOutput();
     String valueImplClassName = fileScope.getTypeImplShortName(this);
     out.append("public static class ").append(valueImplClassName);
-    out.append(" extends ").append(requiresJsonObject ? "JsonValueBase" : "ObjectValueBase");
+    out.append(" extends ").append(requiresJsonObject ? "Message" : "ObjectValueBase");
 
     out.append(" implements ").append(getShortName().replace('$', '.')).openBlock();
 

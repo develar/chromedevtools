@@ -63,25 +63,25 @@ public class BreakpointImpl implements Breakpoint {
       boolean enabled, String condition, BreakpointManager breakpointManager) {
     this.target = target;
     this.id = id;
-    this.isEnabled = enabled;
+    isEnabled = enabled;
     this.condition = condition;
     this.lineNumber = lineNumber;
     this.breakpointManager = breakpointManager;
   }
 
   public BreakpointImpl(BreakpointInfo info, BreakpointManager breakpointManager) {
-    this.target = getType(info);
-    this.id = info.number();
+    target = getType(info);
+    id = info.number();
     this.breakpointManager = breakpointManager;
     updateFromRemote(info);
   }
   public void updateFromRemote(BreakpointInfo info) {
-    if (this.id != info.number()) {
+    if (id != info.number()) {
       throw new IllegalArgumentException();
     }
-    this.lineNumber = info.line();
-    this.isEnabled = info.active();
-    this.condition = info.condition();
+    lineNumber = info.line();
+    isEnabled = info.active();
+    condition = info.condition();
   }
 
   @Override
@@ -111,10 +111,10 @@ public class BreakpointImpl implements Breakpoint {
 
   @Override
   public void setEnabled(boolean enabled) {
-    if (this.isEnabled != enabled) {
+    if (isEnabled != enabled) {
       setDirty(true);
     }
-    this.isEnabled = enabled;
+    isEnabled = enabled;
   }
 
   private RelayOk setIgnoreCount(int ignoreCount,
@@ -157,8 +157,8 @@ public class BreakpointImpl implements Breakpoint {
   @Override
   public RelayOk clear(JavascriptVm.BreakpointCallback callback, SyncCallback syncCallback) {
     // TODO: make this code thread-safe.
-    long originalId = this.id;
-    this.id = INVALID_ID;
+    long originalId = id;
+    id = INVALID_ID;
     return breakpointManager.clearBreakpoint(this, callback, syncCallback, originalId);
   }
 

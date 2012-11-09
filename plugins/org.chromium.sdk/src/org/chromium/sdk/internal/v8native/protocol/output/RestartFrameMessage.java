@@ -13,9 +13,9 @@ public class RestartFrameMessage extends DebuggerMessage {
   /**
    * @param frame number (top is 0).
    */
-  public RestartFrameMessage(Integer frame) {
+  public RestartFrameMessage(int frame) {
     super(DebuggerCommand.RESTARTFRAME.value);
-    if (frame != null) {
+    if (frame != -1) {
       putArgument("frame", frame);
     }
   }

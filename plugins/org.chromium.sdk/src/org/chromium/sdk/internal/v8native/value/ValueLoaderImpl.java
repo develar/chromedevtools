@@ -5,14 +5,12 @@
 package org.chromium.sdk.internal.v8native.value;
 
 import com.google.gson.stream.JsonReader;
-import gnu.trove.TLongArrayList;
 import gnu.trove.TLongIntHashMap;
 import gnu.trove.TLongObjectHashMap;
 import org.chromium.sdk.JsValue;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.JsonUtil;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
@@ -162,9 +160,7 @@ public class ValueLoaderImpl extends ValueLoader {
     SubpropertiesMirror references = mirror == null ? null : mirror.getProperties();
     if (references == null) {
       // need to look up this value again
-      TLongArrayList list = new TLongArrayList(1);
-      list.add(ref);
-      ValueMirror loadedMirror = loadValuesFromRemote(list).get(0);
+      ValueMirror loadedMirror = loadValuesFromRemote(new long[]{ref}).get(0);
       references = loadedMirror.getProperties();
       if (references == null) {
         throw new RuntimeException("Failed to load properties");
@@ -254,9 +250,9 @@ public class ValueLoaderImpl extends ValueLoader {
     }
 
     if (!needsLoading.isEmpty()) {
-      TLongArrayList refIds = getRefIdFromReferences(needsLoading);
+      long[] refIds = getRefIdFromReferences(needsLoading);
       List<ValueMirror> loadedMirrors = loadValuesFromRemote(refIds);
-      assert refIds.size() == loadedMirrors.size();
+      assert refIds.length == loadedMirrors.size();
       for (int i = 0; i < propertyRefs.size(); i++) {
         if (result[i] == null) {
           PropertyReference property = propertyRefs.get(i);
@@ -268,10 +264,10 @@ public class ValueLoaderImpl extends ValueLoader {
     return result;
   }
 
-  private static TLongArrayList getRefIdFromReferences(final List<PropertyReference> propertyRefs) {
-    TLongArrayList result = new TLongArrayList(propertyRefs.size());
-    for (PropertyReference ref : propertyRefs) {
-      result.add(ref.getRef());
+  private static long[] getRefIdFromReferences(final List<PropertyReference> propertyRefs) {
+    long[] result = new long[propertyRefs.size()];
+    for (int i = 0; i < propertyRefs.size(); i++) {
+      result[i] = propertyRefs.get(i).getRef();
     }
     return result;
   }
@@ -281,19 +277,17 @@ public class ValueLoaderImpl extends ValueLoader {
    * @param propertyRefIds list of ref ids we need to look up
    * @return loaded value mirrors in the same order as in propertyRefIds
    */
-  public List<ValueMirror> loadValuesFromRemote(final TLongArrayList propertyRefIds)
+  public List<ValueMirror> loadValuesFromRemote(final long[] propertyRefIds)
       throws MethodIsBlockingException {
-    if (propertyRefIds.isEmpty()) {
+    if (propertyRefIds.length == 0) {
       return Collections.emptyList();
     }
 
     DebuggerMessage message = DebuggerMessageFactory.lookup(propertyRefIds, false);
 
-    V8BlockingCallback<List<ValueMirror>> callback =
-        new V8BlockingCallback<List<ValueMirror>>() {
+    V8BlockingCallback<List<ValueMirror>> callback = new V8BlockingCallback<List<ValueMirror>>() {
       @Override
-      protected List<ValueMirror> handleSuccessfulResponse(
-          SuccessCommandResponse response) {
+      protected List<ValueMirror> handleSuccessfulResponse(SuccessCommandResponse response) {
         return readResponseFromLookup(response, propertyRefIds);
       }
     };
@@ -307,24 +301,22 @@ public class ValueLoaderImpl extends ValueLoader {
     }
   }
 
-  private List<ValueMirror> readResponseFromLookup(
-      SuccessCommandResponse successResponse, TLongArrayList propertyRefIds) {
-    List<ValueMirror> result = new ArrayList<ValueMirror>(propertyRefIds.size());
+  private List<ValueMirror> readResponseFromLookup(SuccessCommandResponse successResponse, long[] propertyRefIds) {
+    List<ValueMirror> result = new ArrayList<ValueMirror>(propertyRefIds.length);
     Map body;
     try {
       body = successResponse.body().asLookupMap();
     } catch (IOException e) {
       throw new ValueLoadException(e);
     }
-    for (int i = 0; i < propertyRefIds.size(); i++) {
-      long ref = propertyRefIds.getQuick(i);
+    for (long ref : propertyRefIds) {
       Map value = JsonUtil.getAsJSON(body, String.valueOf(ref));
       if (value == null) {
         throw new ValueLoadException("Failed to find value for ref=" + ref);
       }
       ValueHandle valueHandle;
       try {
-        valueHandle = V8ProtocolParserAccess.get().parseValueHandle((JsonReader) value);
+        valueHandle = V8ProtocolParserAccess.get().parseValueHandle((JsonReader)value);
       }
       catch (IOException e) {
         throw new RuntimeException(e);
@@ -341,23 +333,22 @@ public class ValueLoaderImpl extends ValueLoader {
   }
 
   private List<ValueHandle> readResponseFromLookupRaw(SuccessCommandResponse successResponse,
-          TLongArrayList propertyRefIds) {
-    List<ValueHandle> result = new ArrayList<ValueHandle>(propertyRefIds.size());
+          long[] propertyRefIds) {
+    List<ValueHandle> result = new ArrayList<ValueHandle>(propertyRefIds.length);
     Map body;
     try {
       body = successResponse.body().asLookupMap();
     } catch (IOException e) {
       throw new ValueLoadException(e);
     }
-    for (int i = 0; i < propertyRefIds.size(); i++) {
-      long ref = propertyRefIds.getQuick(i);
+    for (long ref : propertyRefIds) {
       Map value = JsonUtil.getAsJSON(body, String.valueOf(ref));
       if (value == null) {
         throw new ValueLoadException("Failed to find value for ref=" + ref);
       }
       ValueHandle valueHandle;
       try {
-        valueHandle = V8ProtocolParserAccess.get().parseValueHandle((JsonReader) value);
+        valueHandle = V8ProtocolParserAccess.get().parseValueHandle((JsonReader)value);
       }
       catch (IOException e) {
         throw new ValueLoadException(e);
@@ -370,17 +361,14 @@ public class ValueLoaderImpl extends ValueLoader {
     return result;
   }
 
-  private RelayOk relookupValue(long handleId, Long maxLength,
-      final GenericCallback<ValueHandle> callback,
-      SyncCallback syncCallback) throws ContextDismissedCheckedException {
-    final TLongArrayList ids = new TLongArrayList(1);
-    ids.add(handleId);
-    DebuggerMessage message = new LookupMessage(ids, false, maxLength);
+  private RelayOk relookupValue(long handleId, Long maxLength, final GenericCallback<ValueHandle> callback, SyncCallback syncCallback) throws ContextDismissedCheckedException {
+    final long[] handles = {handleId};
+    DebuggerMessage message = new LookupMessage(handles, false, maxLength);
 
     V8CommandCallbackBase innerCallback = new V8CommandCallbackBase() {
       @Override
       public void success(SuccessCommandResponse successResponse) {
-        List<ValueHandle> handleList = readResponseFromLookupRaw(successResponse, ids);
+        List<ValueHandle> handleList = readResponseFromLookupRaw(successResponse, handles);
         callback.success(handleList.get(0));
       }
       @Override

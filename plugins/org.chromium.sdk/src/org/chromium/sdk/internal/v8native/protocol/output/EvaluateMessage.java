@@ -4,44 +4,59 @@
 
 package org.chromium.sdk.internal.v8native.protocol.output;
 
-import java.util.List;
-import java.util.Map;
-
 import org.chromium.sdk.internal.v8native.DebuggerCommand;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Represents an "evaluate" V8 request message.
  */
 public class EvaluateMessage extends DebuggerMessage {
-
   /**
    * @param expression to evaluate
    * @param frame number (top is 0).
-   * @param global nullable. Default is false
    * @param disableBreak nullable. Default is true
    * @param additionalContext nullable
    */
-  public EvaluateMessage(String expression, Integer frame,
-      Boolean global, Boolean disableBreak, List<Map.Entry<String, Integer>> additionalContext) {
+  public EvaluateMessage(String expression, int frame, boolean disableBreak, List<EvaluateMessage.StringIntPair> additionalContext) {
     super(DebuggerCommand.EVALUATE.value);
     putArgument("expression", expression);
-    if (frame != null) {
+    if (frame != -1) {
       putArgument("frame", frame);
     }
-    putArgument("global", global);
+    else {
+      putArgument("global", true);
+    }
+
     putArgument("disable_break", disableBreak);
-    putArgument("inlineRefs", Boolean.TRUE);
+    putArgument("inlineRefs", true);
     if (additionalContext != null) {
-      JSONArray contextParam = new JSONArray();
-      for (Map.Entry<String, Integer> en : additionalContext) {
-        JSONObject mapping = new JSONObject();
-        mapping.put("name", en.getKey());
-        mapping.put("handle", en.getValue());
-        contextParam.add(mapping);
+      try {
+        addArgumentsName();
+        writer.name("additional_context");
+        writer.beginArray();
+        for (StringIntPair entry : additionalContext) {
+          writer.beginObject();
+          writer.name("name").value(entry.name);
+          writer.name("handle").value(entry.value);
+          writer.endObject();
+        }
+        writer.endArray();
       }
-      putArgument("additional_context", contextParam);
+      catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+
+  public static final class StringIntPair {
+    public final String name;
+    public final int value;
+
+    public StringIntPair(String name, int value) {
+      this.name = name;
+      this.value = value;
     }
   }
 }
