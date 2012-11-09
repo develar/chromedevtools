@@ -17,11 +17,11 @@ import org.json.simple.JSONObject;
  * {@link #VALUE_FINISHER} converter. We have to store an intermediate value for easier data
  * manipulation (dynamic proxy does not have any interfaces that we could make use of).
  */
-class JsonTypeParser<T> extends ValueParser<ObjectData> {
+class ObjectValueParser<T> extends ValueParser<ObjectData> {
   private final RefToType<T> refToType;
   private final boolean isSubtyping;
 
-  JsonTypeParser(RefToType<T> refToType, boolean nullable, boolean isSubtyping) {
+  ObjectValueParser(RefToType<T> refToType, boolean nullable, boolean isSubtyping) {
     super(nullable);
 
     this.refToType = refToType;
@@ -38,7 +38,7 @@ class JsonTypeParser<T> extends ValueParser<ObjectData> {
   }
 
   @Override
-  public JsonTypeParser<?> asJsonTypeParser() {
+  public ObjectValueParser<?> asJsonTypeParser() {
     return this;
   }
 
@@ -68,12 +68,14 @@ class JsonTypeParser<T> extends ValueParser<ObjectData> {
   }
 
   @Override
-  void writeReadCode(MethodScope scope, TextOutput out) {
-    out.append("new ").append(scope.getTypeImplReference(refToType.get())).append('(').append(Util.READER_NAME).append(')');
+  void writeReadCode(MethodScope scope, boolean subtyping, TextOutput out) {
+    out.append("new ").append(scope.getTypeImplReference(refToType.get())).append('(');
+    addReaderParameter(subtyping, out);
+    out.append(')');
   }
 
   @Override
-  public void writeArrayReadCode(MethodScope scope, TextOutput out) {
+  public void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out) {
     out.append("readObjectArray").append('(').append(Util.READER_NAME);
     out.comma().append("new ").append(scope.requireFactoryGenerationAndGetName(refToType.get())).append(Util.TYPE_FACTORY_NAME_POSTFIX).append("()");
     out.append(')');

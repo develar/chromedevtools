@@ -12,17 +12,17 @@ class ManualSubtypeMethodHandler extends LazyCachedMethodHandlerBase {
 
   @Override
   protected void writeReturnTypeJava(JavaCodeGenerator.ClassScope scope, Method m) {
-    JsonTypeParser<?> jsonTypeParser = parser.asJsonTypeParser();
-    if (jsonTypeParser == null) {
+    ObjectValueParser<?> objectValueParser = parser.asJsonTypeParser();
+    if (objectValueParser == null) {
       Util.writeJavaTypeName(m.getGenericReturnType(), scope.getOutput());
     }
     else {
-      scope.append(scope.getTypeImplReference(jsonTypeParser.getType().get()));
+      scope.append(scope.getTypeImplReference(objectValueParser.getType().get()));
     }
   }
 
   @Override
   protected void writeReadCode(JavaCodeGenerator.MethodScope scope) {
-    parser.writeReadCode(scope, scope.getOutput());
+    parser.writeReadCode(scope, true, scope.getOutput());
   }
 }

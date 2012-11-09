@@ -51,7 +51,6 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
     out.append("if (result != null)").openBlock();
     out.append("return result;").closeBlock();
 
-    out.newLine().append("JsonReader reader = new JsonReader(").append(Util.PENDING_INPUT_READER_NAME).append(");");
     out.newLine();
     getFieldBinding().writeGetExpressionJava(out);
     out.append(" = ");

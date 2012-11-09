@@ -352,7 +352,7 @@ class TypeHandler<T> {
       out.newLine().append(operator).append(" (name.equals(\"").append(fieldName).append("\"))").openBlock();
       {
         assignField(out, fieldName);
-        fieldLoader.parser.writeReadCode(methodScope, out);
+        fieldLoader.parser.writeReadCode(methodScope, false, out);
         out.append(';');
       }
       out.closeBlock();

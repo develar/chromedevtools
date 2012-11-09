@@ -111,12 +111,12 @@ public class DynamicParserImpl<ROOT> {
     }
 
     @Override
-    void writeReadCode(MethodScope methodScope, TextOutput out) {
+    void writeReadCode(MethodScope methodScope, boolean subtyping, TextOutput out) {
       out.append("null");
     }
 
     @Override
-    void writeArrayReadCode(MethodScope scope, TextOutput out) {
+    void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out) {
       throw new UnsupportedOperationException();
     }
   };

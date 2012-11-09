@@ -93,13 +93,13 @@ class EnumParser<T extends Enum<T>> extends QuickParser<T> {
   }
 
   @Override
-  void writeReadCode(MethodScope methodScope, TextOutput out) {
-    beginReadCall("Enum", out);
+  void writeReadCode(MethodScope methodScope, boolean subtyping, TextOutput out) {
+    beginReadCall("Enum", subtyping, out);
     out.comma().append(enumClass.getCanonicalName()).append(".class").append(')');
   }
 
   @Override
-  void writeArrayReadCode(MethodScope scope, TextOutput out) {
+  void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out) {
     throw new UnsupportedOperationException();
   }
 }

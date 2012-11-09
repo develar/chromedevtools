@@ -23,8 +23,8 @@ class PrimitiveParser extends QuickParser<Object> {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, TextOutput out) {
-    beginReadCall(readPostfix, out);
+  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, TextOutput out) {
+    beginReadCall(readPostfix, subtyping, out);
     out.append(')');
   }
 
@@ -46,7 +46,7 @@ class PrimitiveParser extends QuickParser<Object> {
   }
 
   @Override
-  public void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, TextOutput out) {
+  public void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
     out.append("read").append(readPostfix).append("Array").append('(').append(Util.READER_NAME);
     out.append(')');
   }

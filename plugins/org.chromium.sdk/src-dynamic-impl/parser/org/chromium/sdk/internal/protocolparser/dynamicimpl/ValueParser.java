@@ -27,7 +27,7 @@ abstract class ValueParser<T> {
   }
 
   abstract FieldLoadedFinisher getValueFinisher();
-  abstract JsonTypeParser<?> asJsonTypeParser();
+  abstract ObjectValueParser<?> asJsonTypeParser();
 
   QuickParser<T> asQuickParser() {
     return null;
@@ -39,11 +39,20 @@ abstract class ValueParser<T> {
     appendFinishedValueTypeNameJava(scope.getOutput());
   }
 
-  abstract void writeReadCode(MethodScope methodScope, TextOutput out);
+  abstract void writeReadCode(MethodScope methodScope, boolean subtyping, TextOutput out);
 
   public boolean isNullable() {
     return nullable;
   }
 
-  abstract void writeArrayReadCode(MethodScope scope, TextOutput out);
+  abstract void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out);
+
+  protected static void addReaderParameter(boolean subtyping, TextOutput out) {
+    if (subtyping) {
+      out.append("new JsonReader(").append(Util.PENDING_INPUT_READER_NAME).append(")");
+    }
+    else {
+      out.append(Util.READER_NAME);
+    }
+  }
 }

@@ -223,11 +223,11 @@ class ReadInterfacesSession {
     }
   }
 
-  private static <T> JsonTypeParser<T> createJsonParser(
+  private static <T> ObjectValueParser<T> createJsonParser(
     RefToType<T> type, boolean isNullable,
     boolean isSubtyping
   ) {
-    return new JsonTypeParser<T>(type, isNullable, isSubtyping);
+    return new ObjectValueParser<T>(type, isNullable, isSubtyping);
   }
 
   private static <T> ArrayParser<T> createArrayParser(ValueParser<T> componentParser, boolean isList, boolean isNullable) {
@@ -419,12 +419,12 @@ class ReadInterfacesSession {
       ValueParser<?> fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret());
       VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
       final ManualSubtypeMethodHandler handler = new ManualSubtypeMethodHandler(fieldInfo, fieldTypeParser);
-      JsonTypeParser<?> parserAsJsonTypeParser = fieldTypeParser.asJsonTypeParser();
-      if (parserAsJsonTypeParser != null && parserAsJsonTypeParser.isSubtyping()) {
-        SubtypeCaster subtypeCaster = new SubtypeCaster(typeClass, parserAsJsonTypeParser.getType()) {
+      ObjectValueParser<?> parserAsObjectValueParser = fieldTypeParser.asJsonTypeParser();
+      if (parserAsObjectValueParser != null && parserAsObjectValueParser.isSubtyping()) {
+        SubtypeCaster subtypeCaster = new SubtypeCaster(typeClass, parserAsObjectValueParser.getType()) {
 
         };
-        manualAlgCasesData.subtypes.add(parserAsJsonTypeParser.getType());
+        manualAlgCasesData.subtypes.add(parserAsObjectValueParser.getType());
         subtypeCasters.add(subtypeCaster);
       }
 

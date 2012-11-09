@@ -5,7 +5,7 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 /**
- * Late-resolvable reference to {@link TypeHandler}, for building {@link JsonTypeParser}.
+ * Late-resolvable reference to {@link TypeHandler}, for building {@link ObjectValueParser}.
  */
 abstract class RefToType<T> {
   /**

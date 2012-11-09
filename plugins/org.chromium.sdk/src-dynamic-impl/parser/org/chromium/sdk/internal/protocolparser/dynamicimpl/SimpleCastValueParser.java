@@ -12,8 +12,8 @@ class SimpleCastValueParser<T> extends QuickParser<T> {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, TextOutput out) {
-    out.append("reader");
+  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, TextOutput out) {
+    addReaderParameter(subtyping, out);
   }
 
   @Override
@@ -46,7 +46,7 @@ class SimpleCastValueParser<T> extends QuickParser<T> {
   }
 
   @Override
-  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, TextOutput out) {
+  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
     throw new UnsupportedOperationException();
   }
 }

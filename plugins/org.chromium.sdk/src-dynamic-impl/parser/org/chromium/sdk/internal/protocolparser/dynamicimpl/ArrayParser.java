@@ -19,7 +19,7 @@ class ArrayParser<T> extends ValueParser<List<? extends T>> {
   }
 
   @Override
-  public JsonTypeParser<?> asJsonTypeParser() {
+  public ObjectValueParser<?> asJsonTypeParser() {
     return null;
   }
 
@@ -42,12 +42,11 @@ class ArrayParser<T> extends ValueParser<List<? extends T>> {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope scope, TextOutput out) {
-    componentParser.writeArrayReadCode(scope, out);
+  void writeReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
+    componentParser.writeArrayReadCode(scope, subtyping, out);
   }
 
   @Override
-  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, TextOutput out) {
-
+  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
   }
 }

@@ -22,12 +22,13 @@ public class StringIntPairValueParser extends QuickParser<Object> {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, TextOutput out) {
+  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, TextOutput out) {
   }
 
   @Override
-  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, TextOutput out) {
-    out.append("read").append("IntStringPairs").append('(').append(Util.READER_NAME);
+  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
+    out.append("read").append("IntStringPairs").append('(');
+    addReaderParameter(subtyping, out);
     out.append(')');
   }
 }
