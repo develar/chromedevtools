@@ -20,11 +20,6 @@ abstract class QuickParser<T> extends ValueParser<T> {
     super(nullable);
   }
 
-  @Override
-  public T parseValue(Object value, ObjectData thisData) throws JsonProtocolParseException {
-    return parseValueQuick(value);
-  }
-
   /**
    * Parses input value and returns output that doesn't need any post-processing
    * by {@link FieldLoadedFinisher} (see {@link ValueParser}).

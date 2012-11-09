@@ -4,8 +4,6 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import java.util.concurrent.atomic.AtomicReferenceArray;
-
 import org.chromium.sdk.internal.protocolparser.JsonType;
 
 /**
@@ -20,7 +18,6 @@ class ObjectData {
    * Stores type-specific set of pre-parsed fields.
    */
   private final Object[] fieldArray;
-  private final AtomicReferenceArray<Object> atomicReferenceArray;
 
   /**
    * May be JSONObject (in most cases) or any
@@ -29,44 +26,17 @@ class ObjectData {
   private final Object underlyingObject;
   private final TypeHandler<?> typeHandler;
 
-  /**
-   * Holds reference to base type object data (or null).
-   */
-  private final ObjectData superObjectData;
   private Object proxy = null;
 
-  ObjectData(TypeHandler<?> typeHandler, Object inputObject, int fieldArraySize,
-      int volatileArraySize, ObjectData superObjectData) {
-    this.superObjectData = superObjectData;
+  ObjectData(TypeHandler<?> typeHandler, Object inputObject, int fieldArraySize) {
     this.typeHandler = typeHandler;
     underlyingObject = inputObject;
 
     fieldArray = fieldArraySize == 0 ? null : new Object[fieldArraySize];
-    atomicReferenceArray = volatileArraySize == 0 ? null : new AtomicReferenceArray<Object>(volatileArraySize);
-  }
-
-  void initProxy(Object proxy) {
-    this.proxy = proxy;
   }
 
   Object[] getFieldArray() {
     return fieldArray;
-  }
-
-  AtomicReferenceArray<Object> getAtomicReferenceArray() {
-    return atomicReferenceArray;
-  }
-
-  Object getUnderlyingObject() {
-    return underlyingObject;
-  }
-
-  TypeHandler<?> getTypeHandler() {
-    return typeHandler;
-  }
-
-  ObjectData getSuperObjectData() {
-    return superObjectData;
   }
 
   Object getProxy() {

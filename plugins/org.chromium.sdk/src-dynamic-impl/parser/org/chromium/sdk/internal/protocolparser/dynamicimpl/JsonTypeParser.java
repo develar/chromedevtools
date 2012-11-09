@@ -4,7 +4,6 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
 import org.json.simple.JSONObject;
@@ -12,7 +11,7 @@ import org.json.simple.JSONObject;
 /**
  * A parser that generates dynamic proxy implementation of JsonType interface
  * for a {@link JSONObject}.
- * It creates dynamic proxy instance in 2 steps. First {@link #parseValue(Object, ObjectData)}
+ * It creates dynamic proxy instance in 2 steps. First {@link }
  * outputs {@link ObjectData}, which gets stored in field storage array. Later, when we are
  * about to return the value to a user, it is converted to a dynamic proxy instance by
  * {@link #VALUE_FINISHER} converter. We have to store an intermediate value for easier data
@@ -31,23 +30,6 @@ class JsonTypeParser<T> extends ValueParser<ObjectData> {
 
   RefToType<T> getType() {
     return refToType;
-  }
-
-  @Override
-  public ObjectData parseValue(Object value, ObjectData thisData)
-      throws JsonProtocolParseException {
-    if (isNullable() && value == null) {
-      return null;
-    }
-    if (value == null) {
-      throw new JsonProtocolParseException("null input");
-    }
-    TypeHandler<T> typeHandler = refToType.get();
-    if (isSubtyping) {
-      return typeHandler.parse(value, thisData);
-    } else {
-      return typeHandler.parseRootImpl(value);
-    }
   }
 
   @Override

@@ -4,7 +4,6 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
 
@@ -12,7 +11,7 @@ import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.Me
  * A parser that accepts value of JSON field and outputs value in another form (e.g. string
  * is converted to enum constant) to serve field getters in JsonType interfaces.
  * <p>
- * First the input value should be processed by {@link #parseValue(Object, ObjectData)} method
+ * First the input value should be processed by method
  * that returns intermediate value (that may be stored in {@link ObjectData#getFieldArray()} array).
  * Then the output value may be obtained via value post-processor, available
  * from {@link #getValueFinisher()} (which is null in most cases, but not always).
@@ -26,8 +25,6 @@ abstract class ValueParser<T> {
   protected ValueParser(boolean nullable) {
     this.nullable = nullable;
   }
-
-  abstract T parseValue(Object value, ObjectData thisData) throws JsonProtocolParseException;
 
   abstract FieldLoadedFinisher getValueFinisher();
   abstract JsonTypeParser<?> asJsonTypeParser();

@@ -4,27 +4,18 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
 import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
 
-import static org.chromium.sdk.util.BasicUtil.*;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.*;
+
+import static org.chromium.sdk.util.BasicUtil.containsSafe;
 
 /**
  * Dynamic implementation of user 'root' interface to parser.
@@ -42,9 +33,8 @@ class ParserRootImpl<R> {
     ParseInterfaceSession session = new ParseInterfaceSession(type2TypeHandler);
     session.run(rootClass);
     invocationHandler = session.createInvocationHandler();
-    Object result = Proxy.newProxyInstance(rootClass.getClassLoader(),
-        new Class<?>[] { rootClass }, invocationHandler);
-    instance = (R) result;
+    //noinspection unchecked
+    instance = null;
   }
 
   R getInstance() {
@@ -63,7 +53,7 @@ class ParserRootImpl<R> {
     void run(Class<?> clazz) throws JsonProtocolModelParseException {
       parseInterfaceRecursive(clazz);
       for (Method method : BaseHandlersLibrary.OBJECT_METHODS) {
-        methodMap.put(method, new SelfCallDelegate(method));
+        methodMap.put(method, new SelfCallDelegate());
       }
     }
 
@@ -97,6 +87,7 @@ class ParserRootImpl<R> {
         }
 
         Type returnType = m.getGenericReturnType();
+        //noinspection SuspiciousMethodCalls
         TypeHandler<?> typeHandler = type2TypeHandler.get(returnType);
         if (typeHandler == null) {
           throw new JsonProtocolModelParseException("Unknown return type in " + m);
@@ -132,16 +123,11 @@ class ParserRootImpl<R> {
     }
   }
 
-  private static class InvocationHandlerImpl implements InvocationHandler {
+  private static class InvocationHandlerImpl {
     private final Map<Method, MethodDelegate> map;
 
     InvocationHandlerImpl(Map<Method, MethodDelegate> map) {
       this.map = map;
-    }
-
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-      return getSafe(map, method).invoke(proxy, this, args);
     }
 
     public void writeStaticMethodJava(ClassScope scope) {
@@ -152,8 +138,6 @@ class ParserRootImpl<R> {
   }
 
   private static abstract class MethodDelegate {
-    abstract Object invoke(Object proxy, InvocationHandlerImpl invocationHandlerImpl,
-        Object[] args) throws Throwable;
 
     abstract void writeStaticMethodJava(ClassScope scope, Method key);
   }
@@ -163,13 +147,6 @@ class ParserRootImpl<R> {
 
     ParseDelegate(TypeHandler<?> typeHandler) {
       this.typeHandler = typeHandler;
-    }
-
-    @Override
-    Object invoke(Object proxy, InvocationHandlerImpl invocationHandlerImpl, Object[] args)
-        throws JsonProtocolParseException {
-      Object obj = args[0];
-      return typeHandler.parseRoot(obj);
     }
 
     @Override
@@ -188,22 +165,8 @@ class ParserRootImpl<R> {
   }
 
   private static class SelfCallDelegate extends MethodDelegate {
-    private final Method method;
 
-    SelfCallDelegate(Method method) {
-      this.method = method;
-    }
-
-    @Override
-    Object invoke(Object proxy, InvocationHandlerImpl invocationHandlerImpl, Object[] args)
-        throws Throwable {
-      try {
-        return method.invoke(invocationHandlerImpl, args);
-      } catch (IllegalAccessException e) {
-        throw new RuntimeException(e);
-      } catch (InvocationTargetException e) {
-        throw new RuntimeException(e);
-      }
+    SelfCallDelegate() {
     }
 
     @Override

@@ -2,6 +2,7 @@ package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.*;
+import org.jetbrains.jsonProtocol.StringIntPair;
 
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
@@ -27,7 +28,7 @@ class ReadInterfacesSession {
   private static final SimpleParserPair<JsonReader> JSON_PARSER = SimpleParserPair.create(JsonReader.class);
   private static final SimpleParserPair<Map> MAP_PARSER = SimpleParserPair.create(Map.class);
 
-  private static final StringIntPair STRING_INT_PAIR_PARSER = SimpleParserPair.create(Map.class);
+  private static final StringIntPairValueParser STRING_INT_PAIR_PARSER = new StringIntPairValueParser();
 
   private final Map<Class<?>, TypeHandler<?>> typeTotypeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>();
   private final List<DynamicParserImpl> basePackages;
@@ -129,10 +130,10 @@ class ReadInterfacesSession {
     boolean requiresJsonObject = fields.requiresJsonObject() ||
                                  JsonObjectBased.class.isAssignableFrom(typeClass);
     return new TypeHandler<T>(typeClass, getSuperclassRef(typeClass),
-                              fields.getFieldArraySize(), fields.getVolatileFields(), methodHandlerMap,
+                              fields.getVolatileFields(), methodHandlerMap,
                               fields.getFieldLoaders(),
                               fields.getFieldConditions(), eagerFieldParser, fields.getAlgCasesData(),
-                              requiresJsonObject, strictMode);
+                              requiresJsonObject);
   }
 
   private ValueParser<?> getFieldTypeParser(Type type, boolean declaredNullable, boolean isSubtyping)
@@ -173,6 +174,9 @@ class ReadInterfacesSession {
       }
       else if (type == Map.class) {
         return MAP_PARSER.get(declaredNullable);
+      }
+      else if (type == StringIntPair.class) {
+        return STRING_INT_PAIR_PARSER;
       }
       else if (typeClass.isArray()) {
         return createArrayParser(getFieldTypeParser(typeClass.getComponentType(), false, false), false, declaredNullable);
@@ -368,16 +372,16 @@ class ReadInterfacesSession {
       else {
         fieldMap.overridenNames.add(fieldName);
       }
-      return createEagerLoadGetterHandler(fieldName, fieldTypeParser, isOptionalField(m));
+      return createEagerLoadGetterHandler(fieldName, fieldTypeParser);
     }
 
     private MethodHandler createEagerLoadGetterHandler(String fieldName,
-                                                       ValueParser<?> fieldTypeParser, boolean isOptional) {
+                                                       ValueParser<?> fieldTypeParser) {
       int fieldCode = allocateFieldInArray();
-      FieldLoader fieldLoader = new FieldLoader(fieldCode, fieldName, fieldTypeParser, isOptional);
+      FieldLoader fieldLoader = new FieldLoader(fieldName, fieldTypeParser);
       fieldLoaders.add(fieldLoader);
-      return new DynamicParserImpl.PreparsedFieldMethodHandler(fieldCode,
-                                                               fieldTypeParser.getValueFinisher(), fieldName);
+      return new DynamicParserImpl.PreparsedFieldMethodHandler(
+        fieldName);
     }
 
     private MethodHandler processAutomaticSubtypeMethod(Method m)
@@ -402,64 +406,29 @@ class ReadInterfacesSession {
         }
         final int algCode = autoAlgCasesData.subtypes.size();
         autoAlgCasesData.subtypes.add(ref);
-        final DynamicParserImpl.AutoSubtypeMethodHandler algMethodHandler = new DynamicParserImpl.AutoSubtypeMethodHandler(
-          autoAlgCasesData.variantCodeFieldPos, autoAlgCasesData.variantValueFieldPos,
+        methodHandler = new DynamicParserImpl.AutoSubtypeMethodHandler(
           algCode);
-        methodHandler = algMethodHandler;
 
-        SubtypeCaster subtypeCaster = new SubtypeCaster(typeClass, ref) {
-          @Override
-          ObjectData getSubtypeObjectData(ObjectData objectData) {
-            return algMethodHandler.getFieldObjectData(objectData);
-          }
-
-          @Override
-          void writeJava(JavaCodeGenerator.ClassScope scope, String expectedTypeName, String superTypeValueRef,
-                         String resultRef) {
-            scope.startLine(expectedTypeName + " " + resultRef + " = " + superTypeValueRef +
-                            "." + AutoAlgebraicCasesData.getAutoAlgFieldNameJava(algCode) + ";\n");
-          }
-        };
-
-        subtypeCasters.add(subtypeCaster);
+        subtypeCasters.add(new SubtypeCaster(typeClass, ref));
       }
       return methodHandler;
     }
 
 
-    private MethodHandler processManualSubtypeMethod(final Method m,
-                                                     JsonSubtypeCasting jsonSubtypeCaseAnn) throws JsonProtocolModelParseException {
-
+    private MethodHandler processManualSubtypeMethod(final Method m, JsonSubtypeCasting jsonSubtypeCaseAnn) throws JsonProtocolModelParseException {
       ValueParser<?> fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret());
       VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
-      final ManualSubtypeMethodHandler handler = new ManualSubtypeMethodHandler(fieldInfo,
-                                                                                                                    fieldTypeParser);
+      final ManualSubtypeMethodHandler handler = new ManualSubtypeMethodHandler(fieldInfo, fieldTypeParser);
       JsonTypeParser<?> parserAsJsonTypeParser = fieldTypeParser.asJsonTypeParser();
       if (parserAsJsonTypeParser != null && parserAsJsonTypeParser.isSubtyping()) {
-        SubtypeCaster subtypeCaster = new SubtypeCaster(typeClass,
-                                                        parserAsJsonTypeParser.getType()) {
-          @Override
-          ObjectData getSubtypeObjectData(ObjectData baseObjectData)
-            throws JsonProtocolParseException {
-            return handler.getSubtypeData(baseObjectData);
-          }
+        SubtypeCaster subtypeCaster = new SubtypeCaster(typeClass, parserAsJsonTypeParser.getType()) {
 
-          @Override
-          void writeJava(JavaCodeGenerator.ClassScope scope, String expectedTypeName, String superTypeValueRef,
-                         String resultRef) {
-            scope.startLine(expectedTypeName + " " + resultRef + " = " + superTypeValueRef +
-                            "." + m.getName() + "();\n");
-          }
         };
         manualAlgCasesData.subtypes.add(parserAsJsonTypeParser.getType());
         subtypeCasters.add(subtypeCaster);
       }
 
       return handler;
-    }
-
-    int getFieldArraySize() {
-      return fieldArraySize;
     }
 
     List<VolatileFieldBinding> getVolatileFields() {
@@ -522,11 +491,6 @@ class ReadInterfacesSession {
       VolatileFieldBinding binding = new VolatileFieldBinding(position, fieldTypeInfo);
       volatileFields.add(binding);
       return binding;
-    }
-
-    private boolean isOptionalField(Method m) {
-      JsonOptionalField jsonOptionalFieldAnn = m.getAnnotation(JsonOptionalField.class);
-      return jsonOptionalFieldAnn != null;
     }
 
     private String checkAndGetJsonFieldName(Method m) throws JsonProtocolModelParseException {

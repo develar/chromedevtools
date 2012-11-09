@@ -1,12 +1,8 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-import org.chromium.sdk.internal.protocolparser.implutil.CommonImpl;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Collections;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * Basic implementation of the method that parses value on demand and store it for
@@ -18,40 +14,6 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
   LazyCachedMethodHandlerBase(VolatileFieldBinding fieldBinding) {
     this.fieldBinding = fieldBinding;
   }
-
-  @Override
-  Object handle(ObjectData objectData, Object[] args) {
-    try {
-      return handle(objectData);
-    } catch (JsonProtocolParseException e) {
-      throw new CommonImpl.ParseRuntimeException(
-          "On demand parsing failed for " + objectData.getUnderlyingObject(), e);
-    }
-  }
-
-  Object handle(ObjectData objectData) throws JsonProtocolParseException {
-    Object raw = handleRaw(objectData);
-    return finishRawValue(raw);
-  }
-
-  protected abstract Object finishRawValue(Object raw);
-
-  Object handleRaw(ObjectData objectData) throws JsonProtocolParseException {
-    AtomicReferenceArray<Object> atomicReferenceArray = objectData.getAtomicReferenceArray();
-
-    Object cachedValue = fieldBinding.get(atomicReferenceArray);
-    if (cachedValue != null) {
-      return cachedValue;
-    }
-
-    Object parsedValue = parse(objectData);
-    if (parsedValue != null) {
-      parsedValue = fieldBinding.setAndGet(atomicReferenceArray, parsedValue);
-    }
-    return parsedValue;
-  }
-
-  protected abstract Object parse(ObjectData objectData) throws JsonProtocolParseException;
 
   protected VolatileFieldBinding getFieldBinding() {
     return fieldBinding;

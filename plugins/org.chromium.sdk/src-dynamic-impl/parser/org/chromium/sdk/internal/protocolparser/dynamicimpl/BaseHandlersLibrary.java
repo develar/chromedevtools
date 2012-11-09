@@ -4,13 +4,11 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.AnyObjectBased;
 import org.chromium.sdk.internal.protocolparser.JsonObjectBased;
 import org.chromium.sdk.internal.protocolparser.JsonSubtype;
@@ -85,22 +83,11 @@ class BaseHandlersLibrary {
     SelfCallMethodHanlder(Method method) {
       super(method);
     }
-
-    @Override
-    Object handle(ObjectData objectData, Object[] args)
-        throws IllegalAccessException, InvocationTargetException {
-      return getMethod().invoke(objectData, args);
-    }
   }
 
   private static class GetJsonObjectMethodHaldler extends NativeMethodHandler {
     GetJsonObjectMethodHaldler() throws NoSuchMethodException {
       super(JsonObjectBased.class.getMethod("getUnderlyingObject"));
-    }
-
-    @Override
-    JsonReader handle(ObjectData objectData, Object[] args) {
-      return (JsonReader) objectData.getUnderlyingObject();
     }
   }
 
@@ -108,21 +95,11 @@ class BaseHandlersLibrary {
     GetAnyObjectMethodHaldler() throws NoSuchMethodException {
       super(AnyObjectBased.class.getMethod("getUnderlyingObject"));
     }
-
-    @Override
-    Object handle(ObjectData objectData, Object[] args) {
-      return objectData.getUnderlyingObject();
-    }
   }
 
   private static class GetSuperMethodHaldler extends NativeMethodHandler {
     GetSuperMethodHaldler() throws NoSuchMethodException {
       super(JsonSubtype.class.getMethod("getSuper"));
-    }
-
-    @Override
-    Object handle(ObjectData objectData, Object[] args) {
-      return objectData.getSuperObjectData().getProxy();
     }
   }
 

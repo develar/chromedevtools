@@ -12,20 +12,7 @@ import java.util.Map;
  * The implementation of {@link InvocationHandler} for JSON types. It dispatches calls to method
  * handlers from the map.
  */
-class JsonInvocationHandler implements InvocationHandler {
-  private final ObjectData objectData;
-  private final Map<Method, MethodHandler> methodHandlerMap;
-
+class JsonInvocationHandler {
   JsonInvocationHandler(ObjectData objectData, Map<Method, MethodHandler> methodHandlerMap) {
-    this.objectData = objectData;
-    this.methodHandlerMap = methodHandlerMap;
-  }
-
-  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    MethodHandler methodHandler = methodHandlerMap.get(method);
-    if (methodHandler == null) {
-      throw new RuntimeException("No method handler for " + method);
-    }
-    return methodHandler.handle(objectData, args);
   }
 }

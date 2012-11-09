@@ -7,7 +7,6 @@ package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 import gnu.trove.TObjectObjectProcedure;
 import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.GlobalScope;
@@ -68,12 +67,6 @@ public class DynamicParserImpl<ROOT> {
     }
 
     @Override
-    void parseAllFields(ObjectData objectData) throws JsonProtocolParseException {
-      for (LazyHandler handler : onDemandHandlers) {
-        handler.parseEager(objectData);
-      }
-    }
-    @Override
     void addAllFieldNames(Set<? super String> output) {
       for (LazyHandler handler : onDemandHandlers) {
         output.add(handler.getFieldName());
@@ -82,28 +75,14 @@ public class DynamicParserImpl<ROOT> {
   }
 
   interface LazyHandler {
-    void parseEager(ObjectData objectData) throws JsonProtocolParseException;
     String getFieldName();
   }
 
   static class PreparsedFieldMethodHandler extends MethodHandler {
-    private final int pos;
-    private final FieldLoadedFinisher valueFinisher;
     private final String fieldName;
 
-    PreparsedFieldMethodHandler(int pos, FieldLoadedFinisher valueFinisher, String fieldName) {
-      this.pos = pos;
-      this.valueFinisher = valueFinisher;
+    PreparsedFieldMethodHandler(String fieldName) {
       this.fieldName = fieldName;
-    }
-
-    @Override
-    Object handle(ObjectData objectData, Object[] args) throws Throwable {
-      Object val = objectData.getFieldArray()[pos];
-      if (valueFinisher != null) {
-        val = valueFinisher.getValueForUser(val);
-      }
-      return val;
     }
 
     @Override
@@ -143,10 +122,6 @@ public class DynamicParserImpl<ROOT> {
   };
 
   static MethodHandler RETURN_NULL_METHOD_HANDLER = new MethodHandler() {
-    @Override
-    Object handle(ObjectData objectData, Object[] args) throws Throwable {
-      return null;
-    }
 
     @Override
     void writeMethodImplementationJava(ClassScope scope, Method m, TextOutput out) {
@@ -157,34 +132,10 @@ public class DynamicParserImpl<ROOT> {
   };
 
   static class AutoSubtypeMethodHandler extends MethodHandler {
-    private final int variantCodeField;
-    private final int variantValueField;
     private final int code;
 
-    AutoSubtypeMethodHandler(int variantCodeField, int variantValueField, int code) {
-      this.variantCodeField = variantCodeField;
-      this.variantValueField = variantValueField;
+    AutoSubtypeMethodHandler(int code) {
       this.code = code;
-    }
-
-    ObjectData getFieldObjectData(ObjectData objectData) {
-      Object[] array = objectData.getFieldArray();
-      Integer actualCode = (Integer) array[variantCodeField];
-      if (code == actualCode) {
-        return (ObjectData) array[variantValueField];
-      } else {
-        return null;
-      }
-    }
-
-    @Override
-    Object handle(ObjectData objectData, Object[] args) {
-      ObjectData resData = getFieldObjectData(objectData);
-      if (resData == null) {
-        return null;
-      } else {
-        return resData.getProxy();
-      }
     }
 
     @Override
@@ -202,10 +153,6 @@ public class DynamicParserImpl<ROOT> {
     @Override
     List<RefToType<?>> getSubtypes() {
       return subtypes;
-    }
-
-    @Override
-    void parseObjectSubtype(ObjectData objectData, Map<?, ?> jsonProperties, Object input) {
     }
 
     @Override

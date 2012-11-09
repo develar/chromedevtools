@@ -1,7 +1,5 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-
 import java.lang.reflect.Method;
 
 class ManualSubtypeMethodHandler extends LazyCachedMethodHandlerBase {
@@ -10,25 +8,6 @@ class ManualSubtypeMethodHandler extends LazyCachedMethodHandlerBase {
   ManualSubtypeMethodHandler(VolatileFieldBinding fieldInf, ValueParser<?> parser) {
     super(fieldInf);
     this.parser = parser;
-  }
-
-  @Override
-  protected Object parse(ObjectData objectData) throws JsonProtocolParseException {
-    return parser.parseValue(objectData.getUnderlyingObject(), objectData);
-  }
-
-  @Override
-  protected Object finishRawValue(Object raw) {
-    FieldLoadedFinisher valueFinisher = parser.getValueFinisher();
-    Object res = raw;
-    if (valueFinisher != null) {
-       res = valueFinisher.getValueForUser(res);
-    }
-    return res;
-  }
-
-  ObjectData getSubtypeData(ObjectData objectData) throws JsonProtocolParseException {
-    return (ObjectData) handleRaw(objectData);
   }
 
   @Override

@@ -4,15 +4,12 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
-
 /**
  * An internal facility for navigating from object of base type to object of subtype. Used only
  * when user wants to parse JSON object as subtype.
  * It works in terms of {@link ObjectData}.
  */
-abstract class SubtypeCaster {
+class SubtypeCaster {
   private final Class<?> baseType;
   private final RefToType<?> subtypeRef;
 
@@ -20,9 +17,6 @@ abstract class SubtypeCaster {
     this.baseType = baseType;
     this.subtypeRef = subtypeRef;
   }
-
-  abstract ObjectData getSubtypeObjectData(ObjectData baseObjectData)
-      throws JsonProtocolParseException;
 
   Class<?> getSubtype() {
     return subtypeRef.getTypeClass();
@@ -35,7 +29,4 @@ abstract class SubtypeCaster {
   Class<?> getBaseType() {
     return baseType;
   }
-
-  abstract void writeJava(ClassScope scope, String expectedTypeName, String superTypeValueRef,
-      String resultRef);
 }

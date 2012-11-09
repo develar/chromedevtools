@@ -4,7 +4,6 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
 
 /**
@@ -15,35 +14,15 @@ class FieldLoader {
   public static final char FIELD_PREFIX = '_';
 
   private final String fieldName;
-  private final int fieldPosInArray;
   final ValueParser<?> parser;
-  private final boolean isOptional;
 
-  FieldLoader(int fieldPosInArray, String fieldName, ValueParser<?> parser,
-      boolean isOptional) {
+  FieldLoader(String fieldName, ValueParser<?> parser) {
     this.fieldName = fieldName;
-    this.fieldPosInArray = fieldPosInArray;
     this.parser = parser;
-    this.isOptional = isOptional;
   }
 
   public String getFieldName() {
     return fieldName;
-  }
-
-  public void parse(boolean hasValue, Object value, ObjectData objectData)
-      throws JsonProtocolParseException {
-    if (hasValue) {
-      try {
-        objectData.getFieldArray()[fieldPosInArray] = parser.parseValue(value, objectData);
-      } catch (JsonProtocolParseException e) {
-        throw new JsonProtocolParseException("Failed to parse field " + getFieldName(), e);
-      }
-    } else {
-      if (!isOptional) {
-        throw new JsonProtocolParseException("Field is not optional: " + getFieldName());
-      }
-    }
   }
 
   public void writeFieldDeclaration(ClassScope scope) {

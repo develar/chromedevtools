@@ -1,10 +1,7 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 class AutoAlgebraicCasesData extends AlgebraicCasesData {
   int variantCodeFieldPos = -1;
@@ -15,39 +12,6 @@ class AutoAlgebraicCasesData extends AlgebraicCasesData {
   @Override
   List<RefToType<?>> getSubtypes() {
     return subtypes;
-  }
-
-  @Override
-  void parseObjectSubtype(ObjectData objectData, Map<?, ?> jsonProperties,
-                          Object input) throws JsonProtocolParseException {
-    if (jsonProperties == null) {
-      throw new JsonProtocolParseException(
-        "JSON object input expected for non-manual subtyping");
-    }
-    int code = -1;
-    for (int i = 0; i < getSubtypes().size(); i++) {
-      TypeHandler<?> nextSubtype = getSubtypes().get(i).get();
-      boolean ok = nextSubtype.getSubtypeSupport().checkConditions(jsonProperties);
-      if (ok) {
-        if (code == -1) {
-          code = i;
-        }
-        else {
-          throw new JsonProtocolParseException("More than one case match");
-        }
-      }
-    }
-    if (code == -1) {
-      if (!hasDefaultCase) {
-        throw new JsonProtocolParseException("Not a single case matches");
-      }
-    }
-    else {
-      ObjectData fieldData =
-        getSubtypes().get(code).get().parse(input, objectData);
-      objectData.getFieldArray()[variantValueFieldPos] = fieldData;
-    }
-    objectData.getFieldArray()[variantCodeFieldPos] = code;
   }
 
   @Override

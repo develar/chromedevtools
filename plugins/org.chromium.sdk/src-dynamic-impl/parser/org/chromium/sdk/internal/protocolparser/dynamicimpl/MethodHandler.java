@@ -14,8 +14,6 @@ import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.Cl
  * An abstract method handler for {@link JsonInvocationHandler}.
  */
 abstract class MethodHandler {
-  abstract Object handle(ObjectData objectData, Object[] args) throws Throwable;
-
   abstract void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out);
 
   protected static void appendMethodSignatureJava(Method m, Iterable<String> paramNames, TextOutput out) {

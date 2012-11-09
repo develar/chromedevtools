@@ -4,24 +4,15 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
-import org.json.simple.JSONObject;
+
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * The instance of this class corresponds to a particular json type. Primarily it serves
@@ -30,10 +21,6 @@ import org.json.simple.JSONObject;
  */
 class TypeHandler<T> {
   private final Class<T> typeClass;
-  private Constructor<? extends T> proxyClassConstructor;
-
-  /** Size of array that holds type-specific instance data. */
-  private final int fieldArraySize;
 
   private final List<VolatileFieldBinding> volatileFields;
 
@@ -49,32 +36,24 @@ class TypeHandler<T> {
   /** Holds the data about recognizing subtypes. */
   private final AlgebraicCasesData algebraicCasesData;
 
-  /** Full set of allowed field names. Should be used to check that JSON object is well-formed. */
-  private Set<String> closedNameSet;
-
   /** Subtype aspects of the type or null */
   private final SubtypeAspect subtypeAspect;
 
   private final boolean requiresJsonObject;
 
-  private final boolean checkLazyParsedFields;
-
-  TypeHandler(Class<T> typeClass, RefToType<?> jsonSuperClass, int fieldArraySize,
-      List<VolatileFieldBinding> volatileFields,
-      Map<Method, MethodHandler> methodHandlerMap,
-      List<FieldLoader> fieldLoaders,
-      List<FieldCondition> fieldConditions, EagerFieldParser eagerFieldParser,
-      AlgebraicCasesData algebraicCasesData, boolean requiresJsonObject,
-      boolean checkLazyParsedFields) {
+  TypeHandler(Class<T> typeClass, RefToType<?> jsonSuperClass,
+              List<VolatileFieldBinding> volatileFields,
+              Map<Method, MethodHandler> methodHandlerMap,
+              List<FieldLoader> fieldLoaders,
+              List<FieldCondition> fieldConditions, EagerFieldParser eagerFieldParser,
+              AlgebraicCasesData algebraicCasesData, boolean requiresJsonObject) {
     this.typeClass = typeClass;
-    this.fieldArraySize = fieldArraySize;
     this.volatileFields = volatileFields;
     this.methodHandlerMap = methodHandlerMap;
     this.fieldLoaders = fieldLoaders;
     this.eagerFieldParser = eagerFieldParser;
     this.algebraicCasesData = algebraicCasesData;
     this.requiresJsonObject = requiresJsonObject;
-    this.checkLazyParsedFields = checkLazyParsedFields;
     if (jsonSuperClass == null) {
       if (!fieldConditions.isEmpty()) {
         throw new IllegalArgumentException();
@@ -87,60 +66,6 @@ class TypeHandler<T> {
 
   public Class<T> getTypeClass() {
     return typeClass;
-  }
-
-  @SuppressWarnings("ConstantConditions")
-  public ObjectData parse(Object input, ObjectData superObjectData)
-      throws JsonProtocolParseException {
-    try {
-      subtypeAspect.checkSuperObject(superObjectData);
-
-      Map<?, ?> jsonProperties = null;
-      if (input instanceof JSONObject) {
-        jsonProperties = (JSONObject) input;
-      }
-
-      ObjectData objectData = new ObjectData(this, input, fieldArraySize, volatileFields.size(),
-          superObjectData);
-      if (requiresJsonObject && jsonProperties == null) {
-        throw new JsonProtocolParseException("JSON object input expected");
-      }
-
-      for (FieldLoader fieldLoader : fieldLoaders) {
-        String fieldName = fieldLoader.getFieldName();
-        Object value = jsonProperties.get(fieldName);
-        boolean hasValue = value != null || jsonProperties.containsKey(fieldName);
-        fieldLoader.parse(hasValue, value, objectData);
-      }
-
-      if (closedNameSet != null) {
-        for (Object fieldNameObject : jsonProperties.keySet()) {
-          //noinspection SuspiciousMethodCalls
-          if (!closedNameSet.contains(fieldNameObject)) {
-            throw new JsonProtocolParseException("Unexpected field " + fieldNameObject);
-          }
-        }
-      }
-
-      parseObjectSubtype(objectData, jsonProperties, input);
-
-      if (checkLazyParsedFields) {
-        eagerFieldParser.parseAllFields(objectData);
-      }
-      wrapInProxy(objectData, methodHandlerMap);
-      return objectData;
-    } catch (JsonProtocolParseException e) {
-      throw new JsonProtocolParseException("Failed to parse type " + getTypeClass().getName(), e);
-    }
-  }
-
-  public T parseRoot(Object input) throws JsonProtocolParseException {
-    ObjectData baseData = parseRootImpl(input);
-    return typeClass.cast(baseData.getProxy());
-  }
-
-  public ObjectData parseRootImpl(Object input) throws JsonProtocolParseException {
-    return subtypeAspect.parseFromSuper(input);
   }
 
   SubtypeSupport getSubtypeSupport() {
@@ -170,7 +95,6 @@ class TypeHandler<T> {
       for (Set<String> set : namesChain) {
         thisSet.addAll(set);
       }
-      closedNameSet = thisSet;
     } else {
       namesChain.add(thisSet);
       for (RefToType<?> subtype : algebraicCasesData.getSubtypes()) {
@@ -198,20 +122,10 @@ class TypeHandler<T> {
     abstract boolean checkConditions(Map<?, ?> jsonProperties) throws JsonProtocolParseException;
   }
 
-  private void parseObjectSubtype(ObjectData objectData, Map<?, ?> jsonProperties, Object input)
-      throws JsonProtocolParseException {
-    if (algebraicCasesData == null) {
-      return;
-    }
-    algebraicCasesData.parseObjectSubtype(objectData, jsonProperties, input);
-  }
-
   /**
    * Encapsulate subtype aspects of the type.
    */
   private static abstract class SubtypeAspect extends SubtypeSupport {
-    abstract void checkSuperObject(ObjectData superObjectData) throws JsonProtocolParseException;
-    abstract ObjectData parseFromSuper(Object input) throws JsonProtocolParseException;
     abstract boolean isRoot();
     abstract void writeSuperFieldJava(ClassScope scope);
     abstract void writeSuperConstructorParamJava(ClassScope scope);
@@ -222,19 +136,10 @@ class TypeHandler<T> {
 
   private class AbsentSubtypeAspect extends SubtypeAspect {
     @Override
-    void checkSuperObject(ObjectData superObjectData) throws JsonProtocolParseException {
-      if (superObjectData != null) {
-        throw new JsonProtocolParseException("super object is not expected");
-      }
-    }
-    @Override
     boolean checkConditions(Map<?, ?> jsonProperties) throws JsonProtocolParseException {
       throw new JsonProtocolParseException("Not a subtype: " + typeClass.getName());
     }
-    @Override
-    ObjectData parseFromSuper(Object input) throws JsonProtocolParseException {
-      return parse(input, null);
-    }
+
     @Override
     void checkHasSubtypeCaster() {
     }
@@ -286,26 +191,6 @@ class TypeHandler<T> {
       return true;
     }
 
-    @Override
-    void checkSuperObject(ObjectData superObjectData) throws JsonProtocolParseException {
-      if (jsonSuperClass == null) {
-        return;
-      }
-      if (!jsonSuperClass.getTypeClass().isAssignableFrom(
-          superObjectData.getTypeHandler().getTypeClass())) {
-        throw new JsonProtocolParseException("Unexpected type of super object");
-      }
-    }
-
-    @Override
-    ObjectData parseFromSuper(Object input) throws JsonProtocolParseException {
-      ObjectData base = jsonSuperClass.get().parseRootImpl(input);
-      ObjectData subtypeObject = subtypeCaster.getSubtypeObjectData(base);
-      if (subtypeObject == null) {
-        throw new JsonProtocolParseException("Failed to get subtype object while parsing");
-      }
-      return subtypeObject;
-    }
     @Override
     void checkHasSubtypeCaster() throws JsonProtocolModelParseException {
       if (subtypeCaster == null) {
@@ -390,38 +275,7 @@ class TypeHandler<T> {
     }
   }
 
-  private void wrapInProxy(ObjectData data, Map<Method, MethodHandler> methodHandlerMap) {
-    InvocationHandler handler = new JsonInvocationHandler(data, methodHandlerMap);
-    T proxy = createProxy(handler);
-    data.initProxy(proxy);
-  }
-
-  @SuppressWarnings("unchecked")
-  private T createProxy(InvocationHandler invocationHandler) {
-    if (proxyClassConstructor == null) {
-      Class<?>[] interfaces = new Class<?>[] { typeClass };
-      Class<?> proxyClass = Proxy.getProxyClass(typeClass.getClassLoader(), interfaces);
-      Constructor<?> c;
-      try {
-        c = proxyClass.getConstructor(InvocationHandler.class);
-      } catch (NoSuchMethodException e) {
-        throw new RuntimeException(e);
-      }
-      proxyClassConstructor = (Constructor<? extends T>) c;
-    }
-    try {
-      return proxyClassConstructor.newInstance(invocationHandler);
-    } catch (InstantiationException e) {
-      throw new RuntimeException(e);
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException(e);
-    } catch (InvocationTargetException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   static abstract class EagerFieldParser {
-    abstract void parseAllFields(ObjectData objectData) throws JsonProtocolParseException;
     abstract void addAllFieldNames(Set<? super String> output);
   }
 
