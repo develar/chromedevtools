@@ -18,7 +18,6 @@ import java.util.Set;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.JsonType;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.DynamicParserImpl.VolatileFieldBinding;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
@@ -30,7 +29,6 @@ import org.json.simple.JSONObject;
  * descriptor object.
  */
 class TypeHandler<T> {
-
   private final Class<T> typeClass;
   private Constructor<? extends T> proxyClassConstructor;
 
@@ -49,7 +47,7 @@ class TypeHandler<T> {
   private final EagerFieldParser eagerFieldParser;
 
   /** Holds the data about recognizing subtypes. */
-  private final AlgebraicCasesData algCasesData;
+  private final AlgebraicCasesData algebraicCasesData;
 
   /** Full set of allowed field names. Should be used to check that JSON object is well-formed. */
   private Set<String> closedNameSet;
@@ -66,7 +64,7 @@ class TypeHandler<T> {
       Map<Method, MethodHandler> methodHandlerMap,
       List<FieldLoader> fieldLoaders,
       List<FieldCondition> fieldConditions, EagerFieldParser eagerFieldParser,
-      AlgebraicCasesData algCasesData, boolean requiresJsonObject,
+      AlgebraicCasesData algebraicCasesData, boolean requiresJsonObject,
       boolean checkLazyParsedFields) {
     this.typeClass = typeClass;
     this.fieldArraySize = fieldArraySize;
@@ -74,7 +72,7 @@ class TypeHandler<T> {
     this.methodHandlerMap = methodHandlerMap;
     this.fieldLoaders = fieldLoaders;
     this.eagerFieldParser = eagerFieldParser;
-    this.algCasesData = algCasesData;
+    this.algebraicCasesData = algebraicCasesData;
     this.requiresJsonObject = requiresJsonObject;
     this.checkLazyParsedFields = checkLazyParsedFields;
     if (jsonSuperClass == null) {
@@ -91,6 +89,7 @@ class TypeHandler<T> {
     return typeClass;
   }
 
+  @SuppressWarnings("ConstantConditions")
   public ObjectData parse(Object input, ObjectData superObjectData)
       throws JsonProtocolParseException {
     try {
@@ -116,6 +115,7 @@ class TypeHandler<T> {
 
       if (closedNameSet != null) {
         for (Object fieldNameObject : jsonProperties.keySet()) {
+          //noinspection SuspiciousMethodCalls
           if (!closedNameSet.contains(fieldNameObject)) {
             throw new JsonProtocolParseException("Unexpected field " + fieldNameObject);
           }
@@ -147,14 +147,6 @@ class TypeHandler<T> {
     return subtypeAspect;
   }
 
-  @SuppressWarnings("unchecked")
-  <S> TypeHandler<S> cast(Class<S> typeClass) {
-    if (this.typeClass != typeClass) {
-      throw new RuntimeException();
-    }
-    return (TypeHandler<S>)this;
-  }
-
   void buildClosedNameSet() {
     if (!subtypeAspect.isRoot()) {
       return;
@@ -170,7 +162,7 @@ class TypeHandler<T> {
       thisSet.add(loader.getFieldName());
     }
 
-    if (algCasesData == null) {
+    if (algebraicCasesData == null) {
       JsonType jsonAnnotation = typeClass.getAnnotation(JsonType.class);
       if (jsonAnnotation.allowsOtherProperties()) {
         return;
@@ -181,7 +173,7 @@ class TypeHandler<T> {
       closedNameSet = thisSet;
     } else {
       namesChain.add(thisSet);
-      for (RefToType<?> subtype : algCasesData.getSubtypes()) {
+      for (RefToType<?> subtype : algebraicCasesData.getSubtypes()) {
         subtype.get().buildClosedNameSetRecursive(namesChain);
       }
       namesChain.remove(namesChain.size() - 1);
@@ -208,10 +200,10 @@ class TypeHandler<T> {
 
   private void parseObjectSubtype(ObjectData objectData, Map<?, ?> jsonProperties, Object input)
       throws JsonProtocolParseException {
-    if (algCasesData == null) {
+    if (algebraicCasesData == null) {
       return;
     }
-    algCasesData.parseObjectSubtype(objectData, jsonProperties, input);
+    algebraicCasesData.parseObjectSubtype(objectData, jsonProperties, input);
   }
 
   /**
@@ -224,9 +216,8 @@ class TypeHandler<T> {
     abstract void writeSuperFieldJava(ClassScope scope);
     abstract void writeSuperConstructorParamJava(ClassScope scope);
     abstract void writeSuperConstructorInitializationJava(MethodScope scope);
-    abstract void writeHelperMethodsJava(ClassScope classScope);
-    abstract void writeParseMethodJava(ClassScope classScope, String valueTypeName,
-        String inputRef);
+    void writeHelperMethodsJava(ClassScope classScope) {
+    }
   }
 
   private class AbsentSubtypeAspect extends SubtypeAspect {
@@ -261,12 +252,8 @@ class TypeHandler<T> {
     }
     @Override void writeSuperConstructorParamJava(ClassScope scope) {
     }
-    @Override void writeSuperConstructorInitializationJava(MethodScope scope) {
-    }
-    @Override void writeHelperMethodsJava(ClassScope classScope) {
-    }
-    @Override void writeParseMethodJava(ClassScope scope, String valueTypeName, String inputRef) {
-      scope.getOutput().append("return new " + valueTypeName + "(" + inputRef + ");");
+    @Override
+    void writeSuperConstructorInitializationJava(MethodScope scope) {
     }
   }
 
@@ -367,8 +354,7 @@ class TypeHandler<T> {
 
     @Override
     void writeSuperConstructorParamJava(ClassScope scope) {
-      scope.append(", " + jsonSuperClass.get().getTypeClass().getCanonicalName() +
-          " superValueParam");
+      scope.append(", " + jsonSuperClass.get().getTypeClass().getCanonicalName() + " superValueParam");
     }
 
     @Override
@@ -401,19 +387,6 @@ class TypeHandler<T> {
       methodScope.startLine("return true;\n");
       methodScope.indentOut();
       methodScope.startLine("}\n");
-    }
-
-    @Override
-    void writeParseMethodJava(ClassScope scope, String valueTypeName, String inputRef) {
-      String superTypeName = scope.getTypeImplReference(jsonSuperClass.get());
-      scope.startLine(superTypeName + " superTypeValue = " + superTypeName + ".parse(" +
-          inputRef + ");\n");
-      subtypeCaster.writeJava(scope, valueTypeName, "superTypeValue", "result");
-      scope.startLine("if (result == null) {\n");
-      scope.startLine("  throw new " + Util.BASE_PACKAGE + ".JsonProtocolParseException(" +
-          "\"Failed to get subtype object while parsing\");\n");
-      scope.startLine("}\n");
-      scope.startLine("return result;\n");
     }
   }
 
@@ -452,14 +425,6 @@ class TypeHandler<T> {
     abstract void addAllFieldNames(Set<? super String> output);
   }
 
-  static abstract class AlgebraicCasesData {
-    abstract void parseObjectSubtype(ObjectData objectData, Map<?, ?> jsonProperties, Object input)
-        throws JsonProtocolParseException;
-    abstract List<RefToType<?>> getSubtypes();
-    abstract void writeConstructorCodeJava(MethodScope methodScope);
-    abstract void writeFiledsJava(ClassScope classScope);
-  }
-
   public void writeStaticClassJava(FileScope fileScope) {
     TextOutput out = fileScope.getOutput();
     String valueImplClassName = fileScope.getTypeImplShortName(this);
@@ -479,8 +444,8 @@ class TypeHandler<T> {
       out.newLine();
     }
 
-    if (algCasesData != null) {
-      algCasesData.writeFiledsJava(classScope);
+    if (algebraicCasesData != null) {
+      algebraicCasesData.writeFiledsJava(classScope);
     }
 
     writeConstructorMethod(valueImplClassName, classScope, out);
@@ -511,8 +476,12 @@ class TypeHandler<T> {
       writeReadFields(out, methodScope);
     }
 
-    if (algCasesData != null) {
-      algCasesData.writeConstructorCodeJava(methodScope);
+    if (!requiresJsonObject) {
+      out.append("inputReader = ").append("createValueReader(").append(Util.READER_NAME).append(");");
+    }
+
+    if (algebraicCasesData != null) {
+      algebraicCasesData.writeConstructorCodeJava(methodScope);
     }
 
     out.closeBlock();

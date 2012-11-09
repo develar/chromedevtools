@@ -115,8 +115,7 @@ public abstract class Message {
     return result.toNativeArray();
   }
 
-  protected static Reader createValueReadeer(JsonReader reader, String fieldName) throws IOException {
-    checkIsNull(reader, fieldName);
+  protected static Reader createValueReader(JsonReader reader) throws IOException {
     try {
       int start = JSON_READER_POSITION_FIELD.getInt(reader);
       reader.skipValue();

@@ -283,9 +283,9 @@ class ReadInterfacesSession {
     private final DynamicParserImpl.FieldMap fieldMap = new DynamicParserImpl.FieldMap();
     private final List<FieldCondition> fieldConditions = new ArrayList<FieldCondition>(2);
     private DynamicParserImpl.ManualAlgebraicCasesDataImpl manualAlgCasesData = null;
-    private DynamicParserImpl.AutoAlgebraicCasesDataImpl autoAlgCasesData = null;
+    private AutoAlgebraicCasesData autoAlgCasesData = null;
     private int fieldArraySize = 0;
-    private List<DynamicParserImpl.VolatileFieldBinding> volatileFields = new ArrayList<DynamicParserImpl.VolatileFieldBinding>(2);
+    private List<VolatileFieldBinding> volatileFields = new ArrayList<VolatileFieldBinding>(2);
     private boolean requiresJsonObject = false;
 
     FieldProcessor(Class<T> typeClass) throws JsonProtocolModelParseException {
@@ -335,7 +335,7 @@ class ReadInterfacesSession {
         }
         else {
           if (autoAlgCasesData == null) {
-            autoAlgCasesData = new DynamicParserImpl.AutoAlgebraicCasesDataImpl();
+            autoAlgCasesData = new AutoAlgebraicCasesData();
           }
           if (jsonSubtypeCaseAnn.reinterpret()) {
             throw new JsonProtocolModelParseException(
@@ -420,7 +420,7 @@ class ReadInterfacesSession {
           void writeJava(JavaCodeGenerator.ClassScope scope, String expectedTypeName, String superTypeValueRef,
                          String resultRef) {
             scope.startLine(expectedTypeName + " " + resultRef + " = " + superTypeValueRef +
-                            "." + DynamicParserImpl.AutoAlgebraicCasesDataImpl.getAutoAlgFieldNameJava(algCode) + ";\n");
+                            "." + AutoAlgebraicCasesData.getAutoAlgFieldNameJava(algCode) + ";\n");
           }
         };
 
@@ -434,8 +434,8 @@ class ReadInterfacesSession {
                                                      JsonSubtypeCasting jsonSubtypeCaseAnn) throws JsonProtocolModelParseException {
 
       SlowParser<?> fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret());
-      DynamicParserImpl.VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
-      final DynamicParserImpl.ManualSubtypeMethodHandler handler = new DynamicParserImpl.ManualSubtypeMethodHandler(fieldInfo,
+      VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
+      final ManualSubtypeMethodHandler handler = new ManualSubtypeMethodHandler(fieldInfo,
                                                                                                                     fieldTypeParser);
       JsonTypeParser<?> parserAsJsonTypeParser = fieldTypeParser.asJsonTypeParser();
       if (parserAsJsonTypeParser != null && parserAsJsonTypeParser.isSubtyping()) {
@@ -465,11 +465,11 @@ class ReadInterfacesSession {
       return fieldArraySize;
     }
 
-    List<DynamicParserImpl.VolatileFieldBinding> getVolatileFields() {
+    List<VolatileFieldBinding> getVolatileFields() {
       return volatileFields;
     }
 
-    TypeHandler.AlgebraicCasesData getAlgCasesData() {
+    AlgebraicCasesData getAlgCasesData() {
       if (jsonTypeAnnotation.subtypesChosenManually()) {
         return manualAlgCasesData;
       }
@@ -502,7 +502,7 @@ class ReadInterfacesSession {
       return fieldArraySize++;
     }
 
-    private DynamicParserImpl.VolatileFieldBinding allocateVolatileField(final SlowParser<?> fieldTypeParser,
+    private VolatileFieldBinding allocateVolatileField(final SlowParser<?> fieldTypeParser,
                                                                          boolean internalType) {
       int position = volatileFields.size();
       FieldTypeInfo fieldTypeInfo;
@@ -522,7 +522,7 @@ class ReadInterfacesSession {
           }
         };
       }
-      DynamicParserImpl.VolatileFieldBinding binding = new DynamicParserImpl.VolatileFieldBinding(position, fieldTypeInfo);
+      VolatileFieldBinding binding = new VolatileFieldBinding(position, fieldTypeInfo);
       volatileFields.add(binding);
       return binding;
     }

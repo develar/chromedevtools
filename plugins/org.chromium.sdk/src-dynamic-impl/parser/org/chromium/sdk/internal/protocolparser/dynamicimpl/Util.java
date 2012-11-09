@@ -12,6 +12,7 @@ public class Util {
   public static final char TYPE_FACTORY_NAME_POSTFIX = 'F';
 
   public static final String READER_NAME = "reader";
+  public static final String PENDING_INPUT_READER_NAME = "inputReader";
 
   /**
    * Generate Java type name of the passed type. Type may be parameterized.
