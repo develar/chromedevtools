@@ -64,7 +64,7 @@ class ReadInterfacesSession {
       notNullable = new DynamicParserImpl.SimpleCastParser<T>(fieldType, false);
     }
 
-    SlowParser<?> get(boolean declaredNullable) {
+    ValueParser<?> get(boolean declaredNullable) {
       return declaredNullable ? nullable : notNullable;
     }
   }
@@ -133,7 +133,7 @@ class ReadInterfacesSession {
                               requiresJsonObject, strictMode);
   }
 
-  private SlowParser<?> getFieldTypeParser(Type type, boolean declaredNullable, boolean isSubtyping)
+  private ValueParser<?> getFieldTypeParser(Type type, boolean declaredNullable, boolean isSubtyping)
     throws JsonProtocolModelParseException {
     if (type instanceof Class) {
       Class<?> typeClass = (Class<?>)type;
@@ -224,7 +224,7 @@ class ReadInterfacesSession {
     return new JsonTypeParser<T>(type, isNullable, isSubtyping);
   }
 
-  private static <T> ArrayParser<T> createArrayParser(SlowParser<T> componentParser, boolean isList, boolean isNullable) {
+  private static <T> ArrayParser<T> createArrayParser(ValueParser<T> componentParser, boolean isList, boolean isNullable) {
     return new ArrayParser<T>(componentParser, isList, isNullable);
   }
 
@@ -356,7 +356,7 @@ class ReadInterfacesSession {
     private MethodHandler processFieldGetterMethod(Method m,
                                                    FieldConditionLogic fieldConditionLogic, JsonOverrideField overrideFieldAnn,
                                                    String fieldName) throws JsonProtocolModelParseException {
-      SlowParser<?> fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), m.getAnnotation(JsonNullable.class) != null, false);
+      ValueParser<?> fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), m.getAnnotation(JsonNullable.class) != null, false);
       if (fieldConditionLogic != null) {
         fieldConditions.add(new FieldCondition(fieldName, fieldTypeParser.asQuickParser(),
                                                fieldConditionLogic));
@@ -374,7 +374,7 @@ class ReadInterfacesSession {
     }
 
     private MethodHandler createEagerLoadGetterHandler(String fieldName,
-                                                       SlowParser<?> fieldTypeParser, boolean isOptional) {
+                                                       ValueParser<?> fieldTypeParser, boolean isOptional) {
       int fieldCode = allocateFieldInArray();
       FieldLoader fieldLoader = new FieldLoader(fieldCode, fieldName, fieldTypeParser,
                                                 isOptional);
@@ -433,7 +433,7 @@ class ReadInterfacesSession {
     private MethodHandler processManualSubtypeMethod(final Method m,
                                                      JsonSubtypeCasting jsonSubtypeCaseAnn) throws JsonProtocolModelParseException {
 
-      SlowParser<?> fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret());
+      ValueParser<?> fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret());
       VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
       final ManualSubtypeMethodHandler handler = new ManualSubtypeMethodHandler(fieldInfo,
                                                                                                                     fieldTypeParser);
@@ -502,7 +502,7 @@ class ReadInterfacesSession {
       return fieldArraySize++;
     }
 
-    private VolatileFieldBinding allocateVolatileField(final SlowParser<?> fieldTypeParser,
+    private VolatileFieldBinding allocateVolatileField(final ValueParser<?> fieldTypeParser,
                                                                          boolean internalType) {
       int position = volatileFields.size();
       FieldTypeInfo fieldTypeInfo;

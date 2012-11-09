@@ -20,10 +20,10 @@ import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.Me
  * Alternatively parser may be (optionally) castable to {@link QuickParser}
  * via {@link #asQuickParser()} method.
  */
-abstract class SlowParser<T> {
+abstract class ValueParser<T> {
   private final boolean nullable;
 
-  protected SlowParser(boolean nullable) {
+  protected ValueParser(boolean nullable) {
     this.nullable = nullable;
   }
 

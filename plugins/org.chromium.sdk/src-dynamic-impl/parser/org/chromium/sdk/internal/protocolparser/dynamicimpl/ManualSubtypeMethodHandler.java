@@ -5,9 +5,9 @@ import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import java.lang.reflect.Method;
 
 class ManualSubtypeMethodHandler extends LazyCachedMethodHandlerBase {
-  private final SlowParser<?> parser;
+  private final ValueParser<?> parser;
 
-  ManualSubtypeMethodHandler(VolatileFieldBinding fieldInf, SlowParser<?> parser) {
+  ManualSubtypeMethodHandler(VolatileFieldBinding fieldInf, ValueParser<?> parser) {
     super(fieldInf);
     this.parser = parser;
   }

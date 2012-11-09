@@ -12,13 +12,10 @@ import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.Cl
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.GlobalScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
-import org.chromium.sdk.internal.protocolparser.implutil.CommonImpl.ParseRuntimeException;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.lang.reflect.Type;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * Java dynamic-proxy based implementation of {@ link JsonProtocolParser}. It analyses
@@ -118,7 +115,7 @@ public class DynamicParserImpl<ROOT> {
     }
   }
 
-  static SlowParser<Void> VOID_PARSER = new QuickParser<Void>(true) {
+  static ValueParser<Void> VOID_PARSER = new QuickParser<Void>(true) {
     @Override
     public Void parseValueQuick(Object value) {
       return null;

@@ -18,7 +18,7 @@ import org.json.simple.JSONObject;
  * {@link #VALUE_FINISHER} converter. We have to store an intermediate value for easier data
  * manipulation (dynamic proxy does not have any interfaces that we could make use of).
  */
-class JsonTypeParser<T> extends SlowParser<ObjectData> {
+class JsonTypeParser<T> extends ValueParser<ObjectData> {
   private final RefToType<T> refToType;
   private final boolean isSubtyping;
 

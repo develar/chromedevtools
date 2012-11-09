@@ -15,7 +15,7 @@ import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.Me
  * The quick parser should be suitable for subtype conditions
  * (see {@link JsonSubtypeCondition} etc), because they should not take long to evaluate.
  */
-abstract class QuickParser<T> extends SlowParser<T> {
+abstract class QuickParser<T> extends ValueParser<T> {
   QuickParser(boolean nullable) {
     super(nullable);
   }
@@ -27,7 +27,7 @@ abstract class QuickParser<T> extends SlowParser<T> {
 
   /**
    * Parses input value and returns output that doesn't need any post-processing
-   * by {@link FieldLoadedFinisher} (see {@link SlowParser}).
+   * by {@link FieldLoadedFinisher} (see {@link ValueParser}).
    */
   public abstract T parseValueQuick(Object value) throws JsonProtocolParseException;
 

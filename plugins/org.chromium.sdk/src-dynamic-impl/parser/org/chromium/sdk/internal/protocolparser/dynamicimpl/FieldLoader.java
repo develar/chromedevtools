@@ -16,10 +16,10 @@ class FieldLoader {
 
   private final String fieldName;
   private final int fieldPosInArray;
-  final SlowParser<?> parser;
+  final ValueParser<?> parser;
   private final boolean isOptional;
 
-  FieldLoader(int fieldPosInArray, String fieldName, SlowParser<?> parser,
+  FieldLoader(int fieldPosInArray, String fieldName, ValueParser<?> parser,
       boolean isOptional) {
     this.fieldName = fieldName;
     this.fieldPosInArray = fieldPosInArray;

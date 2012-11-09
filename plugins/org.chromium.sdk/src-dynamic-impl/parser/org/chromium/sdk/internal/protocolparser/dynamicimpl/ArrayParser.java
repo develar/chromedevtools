@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class ArrayParser<T> extends SlowParser<List<? extends T>> {
+class ArrayParser<T> extends ValueParser<List<? extends T>> {
   static abstract class ListFactory {
-    abstract <T> List<T> create(JSONArray array, SlowParser<T> componentParser)
+    abstract <T> List<T> create(JSONArray array, ValueParser<T> componentParser)
         throws JsonProtocolParseException;
   }
 
   static final ListFactory EAGER = new ListFactory() {
     @SuppressWarnings("unchecked")
     @Override
-    <T> List<T> create(JSONArray array, SlowParser<T> componentParser)
+    <T> List<T> create(JSONArray array, ValueParser<T> componentParser)
         throws JsonProtocolParseException {
       int size = array.size();
       List list = new ArrayList<Object>(size);
@@ -33,10 +33,10 @@ class ArrayParser<T> extends SlowParser<List<? extends T>> {
     }
   };
 
-  private final SlowParser<T> componentParser;
+  private final ValueParser<T> componentParser;
   private final boolean isList;
 
-  ArrayParser(SlowParser<T> componentParser, boolean isList, boolean nullable) {
+  ArrayParser(ValueParser<T> componentParser, boolean isList, boolean nullable) {
     super(nullable);
 
     this.componentParser = componentParser;
