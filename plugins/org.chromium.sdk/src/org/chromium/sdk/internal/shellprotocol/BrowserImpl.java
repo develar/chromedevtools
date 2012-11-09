@@ -4,6 +4,21 @@
 
 package org.chromium.sdk.internal.shellprotocol;
 
+import org.chromium.sdk.*;
+import org.chromium.sdk.internal.CloseableMap;
+import org.chromium.sdk.internal.shellprotocol.tools.ToolHandler;
+import org.chromium.sdk.internal.shellprotocol.tools.ToolName;
+import org.chromium.sdk.internal.shellprotocol.tools.ToolOutput;
+import org.chromium.sdk.internal.shellprotocol.tools.devtools.DevToolsServiceHandler;
+import org.chromium.sdk.internal.shellprotocol.tools.protocol.output.MessageFactory;
+import org.chromium.sdk.internal.transport.Connection;
+import org.chromium.sdk.internal.transport.Connection.NetListener;
+import org.chromium.sdk.internal.transport.Message;
+import org.chromium.sdk.internal.v8native.DebugSession;
+import org.chromium.sdk.internal.v8native.JavascriptVmImpl;
+import org.chromium.sdk.util.MethodIsBlockingException;
+import org.jetbrains.jsonProtocol.StringIntPair;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,25 +29,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.chromium.sdk.Browser;
-import org.chromium.sdk.BrowserTab;
-import org.chromium.sdk.TabDebugEventListener;
-import org.chromium.sdk.UnsupportedVersionException;
-import org.chromium.sdk.Version;
-import org.chromium.sdk.internal.CloseableMap;
-import org.chromium.sdk.internal.shellprotocol.tools.ToolHandler;
-import org.chromium.sdk.internal.shellprotocol.tools.ToolName;
-import org.chromium.sdk.internal.shellprotocol.tools.ToolOutput;
-import org.chromium.sdk.internal.shellprotocol.tools.devtools.DevToolsServiceHandler;
-import org.chromium.sdk.internal.shellprotocol.tools.devtools.DevToolsServiceHandler.TabIdAndUrl;
-import org.chromium.sdk.internal.shellprotocol.tools.protocol.output.MessageFactory;
-import org.chromium.sdk.internal.transport.Connection;
-import org.chromium.sdk.internal.transport.Connection.NetListener;
-import org.chromium.sdk.internal.transport.Message;
-import org.chromium.sdk.internal.v8native.DebugSession;
-import org.chromium.sdk.internal.v8native.JavascriptVmImpl;
-import org.chromium.sdk.util.MethodIsBlockingException;
 
 /**
  * A thread-safe implementation of the Browser interface.
@@ -110,12 +106,12 @@ public class BrowserImpl implements Browser {
         throw JavascriptVmImpl.newIOException("Failed to get protocol version from remote", e);
       }
       if (serverVersionString == null) {
-        throw new UnsupportedVersionException(BrowserImpl.PROTOCOL_VERSION, null);
+        throw new UnsupportedVersionException(PROTOCOL_VERSION, null);
       }
       Version serverVersion = Version.parseString(serverVersionString);
       if (serverVersion == null ||
-          serverVersion.compareTo(BrowserImpl.PROTOCOL_VERSION) < 0) {
-        throw new UnsupportedVersionException(BrowserImpl.PROTOCOL_VERSION, serverVersion);
+          serverVersion.compareTo(PROTOCOL_VERSION) < 0) {
+        throw new UnsupportedVersionException(PROTOCOL_VERSION, serverVersion);
       }
     }
 
@@ -192,7 +188,7 @@ public class BrowserImpl implements Browser {
           LOGGER.log(Level.SEVERE, "Bad 'Tool' header received: {0}", message.getTool());
           return;
         }
-        ToolHandler handler = null;
+        ToolHandler handler;
         switch (toolName) {
           case DEVTOOLS_SERVICE:
             handler = devToolsHandler;
@@ -260,10 +256,10 @@ public class BrowserImpl implements Browser {
     public List<? extends TabConnector> getTabs() {
       Session session = ticket.getSession();
       session.checkConnection();
-      List<TabIdAndUrl> entries = session.devToolsHandler.listTabs(OPERATION_TIMEOUT_MS);
+      List<StringIntPair> entries = session.devToolsHandler.listTabs(OPERATION_TIMEOUT_MS);
       List<TabConnectorImpl> tabConnectors = new ArrayList<TabConnectorImpl>(entries.size());
-      for (TabIdAndUrl entry : entries) {
-        tabConnectors.add(new TabConnectorImpl(entry.id, entry.url, ticket));
+      for (StringIntPair entry : entries) {
+        tabConnectors.add(new TabConnectorImpl(entry.value, entry.name, ticket));
       }
       return tabConnectors;
     }
@@ -364,10 +360,7 @@ public class BrowserImpl implements Browser {
 
   public boolean isTabConnectedForTest(int tabId) {
     Session session = sessionManager.getCurrentSessionForTest();
-    if (session == null) {
-      return false;
-    }
-    return session.tabId2ToolHandler.get(tabId) != null;
+    return session != null && session.tabId2ToolHandler.get(tabId) != null;
   }
 
   public DevToolsServiceHandler getDevToolsServiceHandlerForTests() {

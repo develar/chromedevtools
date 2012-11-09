@@ -14,11 +14,11 @@ import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
-import org.chromium.sdk.internal.v8native.protocol.output.EvaluateMessage;
 import org.chromium.sdk.internal.v8native.value.JsObjectBase;
 import org.chromium.sdk.internal.v8native.value.JsVariableImpl;
 import org.chromium.sdk.internal.v8native.value.ValueMirror;
 import org.chromium.sdk.util.RelaySyncCallback;
+import org.jetbrains.jsonProtocol.StringIntPair;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
 
     int frameIdentifier = getFrameIdentifier();
 
-    List<EvaluateMessage.StringIntPair> internalAdditionalContext = convertAdditionalContextList(additionalContext);
+    List<StringIntPair> internalAdditionalContext = convertAdditionalContextList(additionalContext);
     DebuggerMessage message = DebuggerMessageFactory.evaluate(expression, frameIdentifier, true, internalAdditionalContext);
     V8CommandProcessor.V8HandlerCallback commandCallback = callback == null
         ? null
@@ -83,14 +83,14 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
   }
 
 
-  private static List<EvaluateMessage.StringIntPair> convertAdditionalContextList(Map<String, String> source) {
+  private static List<StringIntPair> convertAdditionalContextList(Map<String, String> source) {
     if (source == null) {
       return null;
     }
 
-    List<EvaluateMessage.StringIntPair> dataList = new ArrayList<EvaluateMessage.StringIntPair>(source.size());
+    List<StringIntPair> dataList = new ArrayList<StringIntPair>(source.size());
     for (Map.Entry<String, String> en : source.entrySet()) {
-      dataList.add(new EvaluateMessage.StringIntPair(en.getKey(), JsObjectBase.parseRefId(en.getValue())));
+      dataList.add(new StringIntPair(en.getKey(), JsObjectBase.parseRefId(en.getValue())));
     }
     return dataList;
   }

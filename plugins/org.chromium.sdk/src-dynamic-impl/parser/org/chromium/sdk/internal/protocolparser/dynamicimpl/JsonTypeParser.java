@@ -86,22 +86,6 @@ class JsonTypeParser<T> extends ValueParser<ObjectData> {
   }
 
   @Override
-  void writeParseCode(MethodScope scope, String valueRef,
-      String superValueRef, String resultRef) {
-    String typeName = scope.getTypeImplReference(refToType.get());
-    scope.startLine(typeName + " " + resultRef + ";\n");
-
-    if (isSubtyping) {
-      scope.startLine("  " + resultRef + " = new " + typeName + "(" + valueRef + ", " +
-                      superValueRef + ");\n");
-    }
-    else {
-      scope.startLine("  " + resultRef + " = " + typeName + ".parse(" + valueRef + ");\n");
-    }
-    scope.startLine("}\n");
-  }
-
-  @Override
   void writeReadCode(MethodScope scope, TextOutput out) {
     out.append("new ").append(scope.getTypeImplReference(refToType.get())).append('(').append(Util.READER_NAME).append(')');
   }

@@ -42,14 +42,11 @@ abstract class ValueParser<T> {
     appendFinishedValueTypeNameJava(scope.getOutput());
   }
 
-  abstract void writeParseCode(MethodScope methodScope, String valueRef, String superValueRef, String resultRef);
-
   abstract void writeReadCode(MethodScope methodScope, TextOutput out);
 
   public boolean isNullable() {
     return nullable;
   }
 
-  public void writeArrayReadCode(MethodScope scope, TextOutput out) {
-  }
+  abstract void writeArrayReadCode(MethodScope scope, TextOutput out);
 }

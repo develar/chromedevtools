@@ -4,18 +4,13 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
+import org.chromium.sdk.internal.protocolparser.*;
+import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
+import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeCondition;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeConditionBoolValue;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeConditionCustom;
-import org.chromium.sdk.internal.protocolparser.JsonValueCondition;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
 
 /**
  * An interface to field conditions logic. Some conditions are simple and never need parsed

@@ -45,7 +45,6 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
     }
 
     Object parsedValue = parse(objectData);
-
     if (parsedValue != null) {
       parsedValue = fieldBinding.setAndGet(atomicReferenceArray, parsedValue);
     }

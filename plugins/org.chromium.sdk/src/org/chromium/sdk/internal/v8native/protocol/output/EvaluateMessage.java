@@ -5,6 +5,7 @@
 package org.chromium.sdk.internal.v8native.protocol.output;
 
 import org.chromium.sdk.internal.v8native.DebuggerCommand;
+import org.jetbrains.jsonProtocol.StringIntPair;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,7 +20,7 @@ public class EvaluateMessage extends DebuggerMessage {
    * @param disableBreak nullable. Default is true
    * @param additionalContext nullable
    */
-  public EvaluateMessage(String expression, int frame, boolean disableBreak, List<EvaluateMessage.StringIntPair> additionalContext) {
+  public EvaluateMessage(String expression, int frame, boolean disableBreak, List<StringIntPair> additionalContext) {
     super(DebuggerCommand.EVALUATE.value);
     putArgument("expression", expression);
     if (frame != -1) {
@@ -47,16 +48,6 @@ public class EvaluateMessage extends DebuggerMessage {
       catch (IOException e) {
         throw new RuntimeException(e);
       }
-    }
-  }
-
-  public static final class StringIntPair {
-    public final String name;
-    public final int value;
-
-    public StringIntPair(String name, int value) {
-      this.name = name;
-      this.value = value;
     }
   }
 }

@@ -27,6 +27,8 @@ class ReadInterfacesSession {
   private static final SimpleParserPair<JsonReader> JSON_PARSER = SimpleParserPair.create(JsonReader.class);
   private static final SimpleParserPair<Map> MAP_PARSER = SimpleParserPair.create(Map.class);
 
+  private static final StringIntPair STRING_INT_PAIR_PARSER = SimpleParserPair.create(Map.class);
+
   private final Map<Class<?>, TypeHandler<?>> typeTotypeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>();
   private final List<DynamicParserImpl> basePackages;
   private final boolean strictMode;
@@ -56,12 +58,12 @@ class ReadInterfacesSession {
       return new SimpleParserPair<T>(fieldType);
     }
 
-    private final DynamicParserImpl.SimpleCastParser<T> nullable;
-    private final DynamicParserImpl.SimpleCastParser<T> notNullable;
+    private final SimpleCastValueParser<T> nullable;
+    private final SimpleCastValueParser<T> notNullable;
 
     private SimpleParserPair(Class<T> fieldType) {
-      nullable = new DynamicParserImpl.SimpleCastParser<T>(fieldType, true);
-      notNullable = new DynamicParserImpl.SimpleCastParser<T>(fieldType, false);
+      nullable = new SimpleCastValueParser<T>(fieldType, true);
+      notNullable = new SimpleCastValueParser<T>(fieldType, false);
     }
 
     ValueParser<?> get(boolean declaredNullable) {
@@ -358,8 +360,7 @@ class ReadInterfacesSession {
                                                    String fieldName) throws JsonProtocolModelParseException {
       ValueParser<?> fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), m.getAnnotation(JsonNullable.class) != null, false);
       if (fieldConditionLogic != null) {
-        fieldConditions.add(new FieldCondition(fieldName, fieldTypeParser.asQuickParser(),
-                                               fieldConditionLogic));
+        fieldConditions.add(new FieldCondition(fieldName, fieldTypeParser.asQuickParser(), fieldConditionLogic));
       }
       if (overrideFieldAnn == null) {
         fieldMap.localNames.add(fieldName);
@@ -367,17 +368,13 @@ class ReadInterfacesSession {
       else {
         fieldMap.overridenNames.add(fieldName);
       }
-
-      boolean isOptional = isOptionalField(m);
-
-      return createEagerLoadGetterHandler(fieldName, fieldTypeParser, isOptional);
+      return createEagerLoadGetterHandler(fieldName, fieldTypeParser, isOptionalField(m));
     }
 
     private MethodHandler createEagerLoadGetterHandler(String fieldName,
                                                        ValueParser<?> fieldTypeParser, boolean isOptional) {
       int fieldCode = allocateFieldInArray();
-      FieldLoader fieldLoader = new FieldLoader(fieldCode, fieldName, fieldTypeParser,
-                                                isOptional);
+      FieldLoader fieldLoader = new FieldLoader(fieldCode, fieldName, fieldTypeParser, isOptional);
       fieldLoaders.add(fieldLoader);
       return new DynamicParserImpl.PreparsedFieldMethodHandler(fieldCode,
                                                                fieldTypeParser.getValueFinisher(), fieldName);

@@ -21,10 +21,6 @@ class JsonInvocationHandler implements InvocationHandler {
     this.methodHandlerMap = methodHandlerMap;
   }
 
-  ObjectData getObjectData() {
-    return objectData;
-  }
-
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     MethodHandler methodHandler = methodHandlerMap.get(method);
     if (methodHandler == null) {

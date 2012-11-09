@@ -85,15 +85,12 @@ class ArrayParser<T> extends ValueParser<List<? extends T>> {
   }
 
   @Override
-  void writeParseCode(JavaCodeGenerator.MethodScope scope, String valueRef,
-      String superValueRef, String resultRef) {
-    String arrayValueRef = scope.newMethodScopedName("arrayValue");
-    scope.startLine("final org.json.simple.JSONArray " + arrayValueRef +
-                    " = (org.json.simple.JSONArray) " + valueRef + ";\n");
+  void writeReadCode(JavaCodeGenerator.MethodScope scope, TextOutput out) {
+    componentParser.writeArrayReadCode(scope, out);
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope scope, TextOutput out) {
-    componentParser.writeArrayReadCode(scope, out);
+  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, TextOutput out) {
+
   }
 }

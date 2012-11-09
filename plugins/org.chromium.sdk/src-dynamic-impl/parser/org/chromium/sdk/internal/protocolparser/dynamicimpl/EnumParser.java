@@ -97,4 +97,9 @@ class EnumParser<T extends Enum<T>> extends QuickParser<T> {
     beginReadCall("Enum", out);
     out.comma().append(enumClass.getCanonicalName()).append(".class").append(')');
   }
+
+  @Override
+  void writeArrayReadCode(MethodScope scope, TextOutput out) {
+    throw new UnsupportedOperationException();
+  }
 }

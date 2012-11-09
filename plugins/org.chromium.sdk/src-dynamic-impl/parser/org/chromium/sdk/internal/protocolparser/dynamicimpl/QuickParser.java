@@ -46,12 +46,6 @@ abstract class QuickParser<T> extends ValueParser<T> {
     return null;
   }
 
-  @Override
-  void writeParseCode(MethodScope scope, String valueRef,
-      String superValueRef, String resultRef) {
-    writeParseQuickCode(scope, valueRef, resultRef);
-  }
-
   abstract void writeParseQuickCode(MethodScope scope, String valueRef, String resultRef);
 
   protected void beginReadCall(String readPostfix, TextOutput out) {

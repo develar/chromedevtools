@@ -6,6 +6,7 @@ package org.chromium.sdk.internal.v8native.protocol.output;
 
 import org.chromium.sdk.Breakpoint;
 import org.chromium.sdk.DebugContext.StepAction;
+import org.jetbrains.jsonProtocol.StringIntPair;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class DebuggerMessageFactory {
     return new ContinueMessage(stepAction, stepCount);
   }
 
-  public static DebuggerMessage evaluate(String expression, int frame, boolean disableBreak, List<EvaluateMessage.StringIntPair> additionalContext) {
+  public static DebuggerMessage evaluate(String expression, int frame, boolean disableBreak, List<StringIntPair> additionalContext) {
     return new EvaluateMessage(expression, frame, disableBreak, additionalContext);
   }
 

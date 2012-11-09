@@ -12,9 +12,9 @@ import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsMessage
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsProtocolParserAccess;
 import org.chromium.sdk.internal.transport.Message;
 import org.jetbrains.jsonProtocol.JsonUtil;
+import org.jetbrains.jsonProtocol.StringIntPair;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -51,22 +51,6 @@ public class DevToolsServiceHandler implements ToolHandler {
    */
   private final Object lock = new Object();
 
-  public static class TabIdAndUrl {
-    public final int id;
-
-    public final String url;
-
-    private TabIdAndUrl(int id, String url) {
-      this.id = id;
-      this.url = url;
-    }
-
-    @Override
-    public String toString() {
-      return "[" + id + '=' + url + ']';
-    }
-  }
-
   /**
    * A callback that will be invoked when the ChromeDevTools protocol version
    * is available.
@@ -80,7 +64,7 @@ public class DevToolsServiceHandler implements ToolHandler {
    * instance are ready (or not...)
    */
   private interface ListTabsCallback {
-    void tabsReceived(List<TabIdAndUrl> tabs);
+    void tabsReceived(List<StringIntPair> tabs);
 
     void failure(int result);
   }
@@ -152,21 +136,14 @@ public class DevToolsServiceHandler implements ToolHandler {
         callback.failure(result);
         return;
       }
-      List<List<Object>> data = toolsResponse.data().asListTabsData();
-      List<TabIdAndUrl> tabs = new ArrayList<TabIdAndUrl>(data.size());
-      for (List<Object> idAndUrl : data) {
-        int id = ((Long) idAndUrl.get(0)).intValue();
-        String url = (String) idAndUrl.get(1);
-        tabs.add(new TabIdAndUrl(id, url));
-      }
-      callback.tabsReceived(tabs);
+      callback.tabsReceived(toolsResponse.data().asListTabsData());
     }
   }
 
   @SuppressWarnings("unchecked")
-  public List<TabIdAndUrl> listTabs(int timeout) {
+  public List<StringIntPair> listTabs(int timeout) {
     final Semaphore sem = new Semaphore(0);
-    final List<TabIdAndUrl>[] output = new List[1];
+    final List<StringIntPair>[] output = new List[1];
     synchronized (lock) {
       if (listTabsCallback != null) {
         throw new IllegalStateException("list_tabs request is pending");
@@ -176,7 +153,7 @@ public class DevToolsServiceHandler implements ToolHandler {
           sem.release();
         }
 
-        public void tabsReceived(List<TabIdAndUrl> tabs) {
+        public void tabsReceived(List<StringIntPair> tabs) {
           output[0] = tabs;
           sem.release();
         }
