@@ -76,6 +76,6 @@ class JsonTypeParser<T> extends ValueParser<ObjectData> {
   public void writeArrayReadCode(MethodScope scope, TextOutput out) {
     out.append("readObjectArray").append('(').append(Util.READER_NAME);
     out.comma().append("new ").append(scope.requireFactoryGenerationAndGetName(refToType.get())).append(Util.TYPE_FACTORY_NAME_POSTFIX).append("()");
-    out.comma().append("name").append(')');
+    out.append(')');
   }
 }

@@ -31,7 +31,7 @@ public abstract class Message {
 
   private static void checkIsNull(JsonReader reader, String fieldName) throws IOException {
     if (reader.peek() == JsonToken.NULL) {
-      throw new IOException("Field is not optional " + fieldName);
+      throw new IOException("Field is not optional" + (fieldName == null ? "" : (" " + fieldName)));
     }
   }
 
@@ -98,8 +98,8 @@ public abstract class Message {
     return result;
   }
 
-  protected static long[] readLongArray(JsonReader reader, String fieldName) throws IOException {
-    checkIsNull(reader, fieldName);
+  protected static long[] readLongArray(JsonReader reader) throws IOException {
+    checkIsNull(reader, null);
     reader.beginArray();
     if (!reader.hasNext()) {
       reader.endArray();
@@ -113,6 +113,25 @@ public abstract class Message {
     while (reader.hasNext());
     reader.endArray();
     return result.toNativeArray();
+  }
+
+  protected static List<StringIntPair> readIntStringPairs(JsonReader reader) throws IOException {
+    checkIsNull(reader, null);
+    reader.beginArray();
+    if (!reader.hasNext()) {
+      reader.endArray();
+      return Collections.emptyList();
+    }
+
+    List<StringIntPair> result = new ArrayList<StringIntPair>();
+    do {
+      reader.beginArray();
+      result.add(new StringIntPair(reader.nextInt(), reader.nextString()));
+      reader.endArray();
+    }
+    while (reader.hasNext());
+    reader.endArray();
+    return result;
   }
 
   protected static Reader createValueReader(JsonReader reader) throws IOException {

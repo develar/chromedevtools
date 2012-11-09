@@ -48,6 +48,6 @@ class PrimitiveParser extends QuickParser<Object> {
   @Override
   public void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, TextOutput out) {
     out.append("read").append(readPostfix).append("Array").append('(').append(Util.READER_NAME);
-    out.comma().append("name").append(')');
+    out.append(')');
   }
 }

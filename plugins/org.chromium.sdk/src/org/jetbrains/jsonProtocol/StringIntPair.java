@@ -8,4 +8,8 @@ public final class StringIntPair {
     this.name = name;
     this.value = value;
   }
+
+  public StringIntPair(int value, String name) {
+    this(name, value);
+  }
 }

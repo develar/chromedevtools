@@ -18,6 +18,7 @@ public class StringIntPairValueParser extends QuickParser<Object> {
 
   @Override
   void appendFinishedValueTypeNameJava(TextOutput out) {
+    out.append("StringIntPair");
   }
 
   @Override
@@ -26,5 +27,7 @@ public class StringIntPairValueParser extends QuickParser<Object> {
 
   @Override
   void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, TextOutput out) {
+    out.append("read").append("IntStringPairs").append('(').append(Util.READER_NAME);
+    out.append(')');
   }
 }
