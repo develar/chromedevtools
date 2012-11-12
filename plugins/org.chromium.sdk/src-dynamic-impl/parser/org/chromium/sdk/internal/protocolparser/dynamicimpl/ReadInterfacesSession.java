@@ -88,17 +88,6 @@ class ReadInterfacesSession {
       ref.set(type);
     }
 
-    // Set subtype casters.
-    for (SubtypeCaster subtypeCaster : subtypeCasters) {
-      TypeHandler<?> subtypeHandler = subtypeCaster.getSubtypeHandler();
-      subtypeHandler.getSubtypeSupport().setSubtypeCaster(subtypeCaster);
-    }
-
-    // Check subtype casters consistency.
-    for (TypeHandler<?> type : typeTotypeHandler.values()) {
-      type.getSubtypeSupport().checkHasSubtypeCaster();
-    }
-
     if (strictMode) {
       for (TypeHandler<?> type : typeTotypeHandler.values()) {
         type.buildClosedNameSet();

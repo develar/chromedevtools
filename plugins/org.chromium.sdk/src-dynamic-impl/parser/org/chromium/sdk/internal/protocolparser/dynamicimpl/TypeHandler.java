@@ -4,8 +4,6 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
@@ -114,12 +112,7 @@ class TypeHandler<T> {
   }
 
   static abstract class SubtypeSupport {
-    abstract void setSubtypeCaster(SubtypeCaster subtypeCaster)
-        throws JsonProtocolModelParseException;
-    abstract void checkHasSubtypeCaster() throws JsonProtocolModelParseException;
     abstract void writeGetSuperMethodJava(ClassScope scope);
-
-    abstract boolean checkConditions(Map<?, ?> jsonProperties) throws JsonProtocolParseException;
   }
 
   /**
@@ -134,19 +127,7 @@ class TypeHandler<T> {
     }
   }
 
-  private class AbsentSubtypeAspect extends SubtypeAspect {
-    @Override
-    boolean checkConditions(Map<?, ?> jsonProperties) throws JsonProtocolParseException {
-      throw new JsonProtocolParseException("Not a subtype: " + typeClass.getName());
-    }
-
-    @Override
-    void checkHasSubtypeCaster() {
-    }
-    @Override
-    void setSubtypeCaster(SubtypeCaster subtypeCaster) throws JsonProtocolModelParseException {
-      throw new JsonProtocolModelParseException("Not a subtype: " + typeClass.getName());
-    }
+  private static class AbsentSubtypeAspect extends SubtypeAspect {
     @Override
     boolean isRoot() {
       return true;
@@ -168,56 +149,12 @@ class TypeHandler<T> {
     /** Set of conditions that check whether this type conforms as subtype. */
     private final List<FieldCondition> fieldConditions;
 
-    /** The helper that casts base type instance to instance of our type */
-    private SubtypeCaster subtypeCaster = null;
-
     private ExistingSubtypeAspect(RefToType<?> jsonSuperClass,
         List<FieldCondition> fieldConditions) {
       this.jsonSuperClass = jsonSuperClass;
       this.fieldConditions = fieldConditions;
     }
 
-    @Override
-    boolean checkConditions(Map<?, ?> map) throws JsonProtocolParseException {
-      for (FieldCondition condition : fieldConditions) {
-        String name = condition.getPropertyName();
-        Object value = map.get(name);
-        boolean hasValue = value != null || map.containsKey(name);
-        boolean conditionRes = condition.checkValue(hasValue, value);
-        if (!conditionRes) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    @Override
-    void checkHasSubtypeCaster() throws JsonProtocolModelParseException {
-      if (subtypeCaster == null) {
-        throw new JsonProtocolModelParseException("Subtype caster should have been set in " +
-            typeClass.getName());
-      }
-    }
-
-    @Override
-    void setSubtypeCaster(SubtypeCaster subtypeCaster) throws JsonProtocolModelParseException {
-      if (jsonSuperClass == null) {
-        throw new JsonProtocolModelParseException(typeClass.getName() +
-            " does not have supertype declared" +
-            " (accessed from " + subtypeCaster.getBaseType().getName() + ")");
-      }
-      if (subtypeCaster.getBaseType() != jsonSuperClass.getTypeClass()) {
-        throw new JsonProtocolModelParseException("Wrong base type in " + typeClass.getName() +
-            ", expected " + subtypeCaster.getBaseType().getName());
-      }
-      if (subtypeCaster.getSubtype() != typeClass) {
-        throw new JsonProtocolModelParseException("Wrong subtype");
-      }
-      if (this.subtypeCaster != null) {
-        throw new JsonProtocolModelParseException("Subtype caster is already set");
-      }
-      this.subtypeCaster = subtypeCaster;
-    }
     @Override
     boolean isRoot() {
       return false;

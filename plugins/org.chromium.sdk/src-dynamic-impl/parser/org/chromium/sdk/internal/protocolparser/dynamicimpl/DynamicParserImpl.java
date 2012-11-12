@@ -233,13 +233,13 @@ public class DynamicParserImpl<ROOT> {
           Util.THROWS_CLAUSE).openBlock();
         out.append("return new ").append(name).append("(reader);").closeBlock();
         out.closeBlock();
+        out.newLine();
         return true;
       }
     });
 
     rootClassScope.writeClassMembers();
     out.closeBlock();
-    out.newLine();
 
     Map<Class<?>, String> typeToImplClassName = new HashMap<Class<?>, String>();
     for (TypeHandler<?> typeHandler : typeToTypeHandler.values()) {

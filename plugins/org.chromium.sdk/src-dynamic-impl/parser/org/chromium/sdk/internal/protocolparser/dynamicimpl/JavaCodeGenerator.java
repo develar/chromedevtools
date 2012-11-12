@@ -6,14 +6,7 @@ package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 import gnu.trove.TObjectObjectProcedure;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.WildcardType;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A set of interfaces and classes used to generate Java code of parser implementation.
@@ -39,7 +32,6 @@ public interface JavaCodeGenerator {
 
   interface FileScope extends GlobalScope {
     TextOutput getOutput();
-    StringBuilder getStringBuilder();
 
     FileScope startLine(String line);
     FileScope append(String line);
@@ -87,10 +79,6 @@ public interface JavaCodeGenerator {
   }
 
   interface MethodScope extends ClassScope {
-    /**
-     * @return a name unique to this scope with the provided prefix
-     */
-    String newMethodScopedName(String prefix);
   }
 
   interface ElementData {
@@ -122,11 +110,6 @@ public interface JavaCodeGenerator {
         super(fileScopeImpl);
         out = fileScopeImpl.out;
         out2 = fileScopeImpl.out2;
-      }
-
-      @Override
-      public StringBuilder getStringBuilder() {
-        return out2.builder;
       }
 
       @Override
@@ -251,8 +234,7 @@ public interface JavaCodeGenerator {
       }
 
       private static class State {
-        private final Map<Object, ElementData> key2ElementData =
-            new HashMap<Object, JavaCodeGenerator.ElementData>(2);
+        private final Map<Object, ElementData> key2ElementData = new HashMap<Object, JavaCodeGenerator.ElementData>(2);
         private int nextCode = 0;
 
         <T extends ElementData> T addMember(Object key, ElementFactory<T> factory) {
@@ -276,24 +258,8 @@ public interface JavaCodeGenerator {
     }
 
     private static class MethodScopeImpl extends ClassScopeImpl implements MethodScope {
-      private final State state;
-
       public MethodScopeImpl(ClassScopeImpl classScopeImpl) {
         super(classScopeImpl);
-        state = new State();
-      }
-
-      @Override
-      public String newMethodScopedName(String prefix) {
-        return state.newMethodScopedName(prefix);
-      }
-
-      private static class State {
-        private int nextId = 0;
-
-        String newMethodScopedName(String prefix) {
-          return prefix + nextId++;
-        }
       }
     }
   }
