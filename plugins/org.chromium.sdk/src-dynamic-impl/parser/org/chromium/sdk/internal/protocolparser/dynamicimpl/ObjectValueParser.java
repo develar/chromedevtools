@@ -76,7 +76,7 @@ class ObjectValueParser<T> extends ValueParser<ObjectData> {
 
   @Override
   public void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out) {
-    out.append("readObjectArray").append('(').append(Util.READER_NAME);
+    beginReadCall("ObjectArray", subtyping, out);
     out.comma().append("new ").append(scope.requireFactoryGenerationAndGetName(refToType.get())).append(Util.TYPE_FACTORY_NAME_POSTFIX).append("()");
     out.append(')');
   }

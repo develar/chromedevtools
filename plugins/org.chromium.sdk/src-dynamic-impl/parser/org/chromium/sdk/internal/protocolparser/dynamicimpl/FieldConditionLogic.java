@@ -66,7 +66,6 @@ abstract class FieldConditionLogic {
     }
     JsonSubtypeConditionCustom customAnnotation = m.getAnnotation(JsonSubtypeConditionCustom.class);
     if (customAnnotation != null) {
-      Class<? extends JsonValueCondition<?>> condition = customAnnotation.condition();
       // We do not know exact type of condition. But we also do not care about result type
       // in 'constraint'. Compiler cannot catch the wildcard here, so we use an assumed type.
       Class<? extends JsonValueCondition<Void>> assumedTypeCondition =

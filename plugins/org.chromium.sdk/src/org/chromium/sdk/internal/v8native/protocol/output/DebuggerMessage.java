@@ -26,6 +26,7 @@ public class DebuggerMessage {
     this.command = command;
 
     try {
+      writer.beginObject();
       writer.name("seq").value(sequence);
       writer.name("type").value(V8MessageType.REQUEST.value);
       writer.name("command").value(command);
@@ -121,14 +122,15 @@ public class DebuggerMessage {
   }
 
   public CharSequence toJson() {
-    if (argumentsObjectStarted) {
-      try {
+    try {
+      if (argumentsObjectStarted) {
         writer.endObject();
-        writer.close();
       }
-      catch (IOException e) {
-        throw new RuntimeException(e);
-      }
+      writer.endObject();
+      writer.close();
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
     }
     return stringWriter.getBuffer();
   }

@@ -32,7 +32,7 @@ public enum DebuggerToolCommand {
   public final String commandName;
 
   private DebuggerToolCommand(String value) {
-    this.commandName = value;
+    commandName = value;
   }
 
   public static DebuggerToolCommand forName(String name) {

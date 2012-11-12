@@ -2,15 +2,15 @@ package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 
-class PrimitiveParser extends QuickParser<Object> {
+class PrimitiveValueParser extends QuickParser<Object> {
   private final String className;
   private final String readPostfix;
 
-  PrimitiveParser(String name) {
+  PrimitiveValueParser(String name) {
     this(name, false);
   }
 
-  PrimitiveParser(String name, boolean nullable) {
+  PrimitiveValueParser(String name, boolean nullable) {
     super(nullable);
 
     className = name;

@@ -81,7 +81,7 @@ public abstract class Message {
     return reader.peek() == JsonToken.NULL ? null : Enum.valueOf(enumClass, reader.nextString());
   }
 
-  protected static <T> List<T> readObjectArray(JsonReader reader, ObjectFactory<T> factory, String fieldName) throws IOException {
+  protected static <T> List<T> readObjectArray(JsonReader reader, String fieldName, ObjectFactory<T> factory) throws IOException {
     checkIsNull(reader, fieldName);
     reader.beginArray();
     if (!reader.hasNext()) {

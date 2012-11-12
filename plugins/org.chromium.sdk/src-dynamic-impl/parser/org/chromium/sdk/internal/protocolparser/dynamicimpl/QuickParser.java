@@ -42,16 +42,4 @@ abstract class QuickParser<T> extends ValueParser<T> {
   }
 
   abstract void writeParseQuickCode(MethodScope scope, String valueRef, String resultRef);
-
-  protected void beginReadCall(String readPostfix, boolean subtyping, TextOutput out) {
-    out.append("read");
-    if (isNullable()) {
-      out.append("Nullable");
-    }
-    out.append(readPostfix).append('(');
-    addReaderParameter(subtyping, out);
-    if (!isNullable()) {
-      out.comma().append(subtyping ? "null" : "name");
-    }
-  }
 }

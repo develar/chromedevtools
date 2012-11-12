@@ -12,17 +12,17 @@ import java.lang.reflect.WildcardType;
 import java.util.*;
 
 class ReadInterfacesSession {
-  private static final PrimitiveParser LONG_PARSER = new PrimitiveParser("long");
+  private static final PrimitiveValueParser LONG_PARSER = new PrimitiveValueParser("long");
 
-  private static final PrimitiveParser INTEGER_PARSER = new PrimitiveParser("int");
-  private static final PrimitiveParser BOOLEAN_PARSER = new PrimitiveParser("boolean");
-  private static final PrimitiveParser FLOAT_PARSER = new PrimitiveParser("float");
+  private static final PrimitiveValueParser INTEGER_PARSER = new PrimitiveValueParser("int");
+  private static final PrimitiveValueParser BOOLEAN_PARSER = new PrimitiveValueParser("boolean");
+  private static final PrimitiveValueParser FLOAT_PARSER = new PrimitiveValueParser("float");
 
-  private static final PrimitiveParser NUMBER_PARSER = new PrimitiveParser("double");
-  private static final PrimitiveParser NULLABLE_NUMBER_PARSER = new PrimitiveParser("double", true);
+  private static final PrimitiveValueParser NUMBER_PARSER = new PrimitiveValueParser("double");
+  private static final PrimitiveValueParser NULLABLE_NUMBER_PARSER = new PrimitiveValueParser("double", true);
 
-  private static final PrimitiveParser STRING_PARSER = new PrimitiveParser("String");
-  private static final PrimitiveParser NULLABLE_STRING_PARSER = new PrimitiveParser("String", true);
+  private static final PrimitiveValueParser STRING_PARSER = new PrimitiveValueParser("String");
+  private static final PrimitiveValueParser NULLABLE_STRING_PARSER = new PrimitiveValueParser("String", true);
 
   private static final SimpleParserPair<Object> OBJECT_PARSER = SimpleParserPair.create(Object.class);
   private static final SimpleParserPair<JsonReader> JSON_PARSER = SimpleParserPair.create(JsonReader.class);

@@ -47,9 +47,21 @@ abstract class ValueParser<T> {
 
   abstract void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out);
 
+  protected void beginReadCall(String readPostfix, boolean subtyping, TextOutput out) {
+    out.append("read");
+    if (isNullable()) {
+      out.append("Nullable");
+    }
+    out.append(readPostfix).append('(');
+    addReaderParameter(subtyping, out);
+    if (!isNullable()) {
+      out.comma().append(subtyping ? "null" : "name");
+    }
+  }
+
   protected static void addReaderParameter(boolean subtyping, TextOutput out) {
     if (subtyping) {
-      out.append("new JsonReader(").append(Util.PENDING_INPUT_READER_NAME).append(")");
+      out.append("new JsonReader(").append(Util.PENDING_INPUT_READER_NAME).append(')');
     }
     else {
       out.append(Util.READER_NAME);
