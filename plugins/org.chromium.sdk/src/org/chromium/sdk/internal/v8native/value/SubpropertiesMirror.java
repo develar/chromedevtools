@@ -28,7 +28,7 @@ public abstract class SubpropertiesMirror {
   public static class ObjectValueBased extends JsonBased {
     private final ObjectValueHandle objectValueHandle;
     public ObjectValueBased(ObjectValueHandle valueHandle) {
-      this.objectValueHandle = valueHandle;
+      objectValueHandle = valueHandle;
     }
     @Override
     public Object getAdditionalPropertyData() {
@@ -58,8 +58,8 @@ public abstract class SubpropertiesMirror {
    * Keeps properties in for of JSON and parses JSON on demand.
    */
   public static abstract class JsonBased extends SubpropertiesMirror {
-    private List<? extends PropertyReference> properties = null;
-    private List<? extends PropertyReference> internalProperties = null;
+    private List<? extends PropertyReference> properties;
+    private List<? extends PropertyReference> internalProperties;
 
     @Override
     public synchronized List<? extends PropertyReference> getProperties() {
@@ -99,7 +99,7 @@ public abstract class SubpropertiesMirror {
     }
 
     ListBased(List<PropertyReference> refs) {
-      this.list = refs;
+      list = refs;
     }
 
     @Override

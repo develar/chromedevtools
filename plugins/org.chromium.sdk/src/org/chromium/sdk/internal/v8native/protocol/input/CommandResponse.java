@@ -21,7 +21,6 @@ import org.chromium.sdk.internal.protocolparser.JsonType;
  */
 @JsonType
 public interface CommandResponse extends JsonSubtype<IncomingMessage> {
-
   @JsonOverrideField
   @JsonSubtypeConditionCustom(condition=TypeValueCondition.class)
   MessageType type();

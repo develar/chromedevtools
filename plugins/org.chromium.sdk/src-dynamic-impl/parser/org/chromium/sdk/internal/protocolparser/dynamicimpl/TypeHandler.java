@@ -57,7 +57,8 @@ class TypeHandler<T> {
         throw new IllegalArgumentException();
       }
       subtypeAspect = new AbsentSubtypeAspect();
-    } else {
+    }
+    else {
       subtypeAspect = new ExistingSubtypeAspect(jsonSuperClass, fieldConditions);
     }
   }
@@ -74,8 +75,7 @@ class TypeHandler<T> {
     if (!subtypeAspect.isRoot()) {
       return;
     }
-    List<Set<String>> namesChain = new ArrayList<Set<String>>(3);
-    buildClosedNameSetRecursive(namesChain);
+    buildClosedNameSetRecursive(new ArrayList<Set<String>>(3));
   }
 
   private void buildClosedNameSetRecursive(List<Set<String>> namesChain) {
@@ -112,18 +112,18 @@ class TypeHandler<T> {
   }
 
   static abstract class SubtypeSupport {
-    abstract void writeGetSuperMethodJava(ClassScope scope);
+    abstract void writeGetSuperMethodJava(TextOutput out);
   }
 
   /**
    * Encapsulate subtype aspects of the type.
    */
-  private static abstract class SubtypeAspect extends SubtypeSupport {
+  static abstract class SubtypeAspect extends SubtypeSupport {
     abstract boolean isRoot();
-    abstract void writeSuperFieldJava(ClassScope scope);
-    abstract void writeSuperConstructorParamJava(ClassScope scope);
-    abstract void writeSuperConstructorInitializationJava(MethodScope scope);
-    void writeHelperMethodsJava(ClassScope classScope) {
+    abstract void writeSuperFieldJava(TextOutput out);
+    abstract void writeSuperConstructorParamJava(TextOutput out);
+    abstract void writeSuperConstructorInitialization(TextOutput out);
+    void writeHelperMethodsJava(ClassScope classScope, TextOutput out) {
     }
   }
 
@@ -132,83 +132,14 @@ class TypeHandler<T> {
     boolean isRoot() {
       return true;
     }
-    @Override void writeGetSuperMethodJava(ClassScope scope) {
+    @Override void writeGetSuperMethodJava(TextOutput out) {
     }
-    @Override void writeSuperFieldJava(ClassScope scope) {
+    @Override void writeSuperFieldJava(TextOutput out) {
     }
-    @Override void writeSuperConstructorParamJava(ClassScope scope) {
+    @Override void writeSuperConstructorParamJava(TextOutput out) {
     }
     @Override
-    void writeSuperConstructorInitializationJava(MethodScope scope) {
-    }
-  }
-
-  private class ExistingSubtypeAspect extends SubtypeAspect {
-    private final RefToType<?> jsonSuperClass;
-
-    /** Set of conditions that check whether this type conforms as subtype. */
-    private final List<FieldCondition> fieldConditions;
-
-    private ExistingSubtypeAspect(RefToType<?> jsonSuperClass,
-        List<FieldCondition> fieldConditions) {
-      this.jsonSuperClass = jsonSuperClass;
-      this.fieldConditions = fieldConditions;
-    }
-
-    @Override
-    boolean isRoot() {
-      return false;
-    }
-
-    @Override
-    void writeGetSuperMethodJava(ClassScope scope) {
-      scope.startLine("@Override public " +
-          jsonSuperClass.get().getTypeClass().getCanonicalName() + " getSuper() {\n");
-      scope.startLine("  return superTypeValue;\n");
-      scope.startLine("}\n");
-    }
-
-    @Override
-    void writeSuperFieldJava(ClassScope scope) {
-      scope.startLine("private final " + jsonSuperClass.get().getTypeClass().getCanonicalName() +
-          " superTypeValue;\n");
-    }
-
-    @Override
-    void writeSuperConstructorParamJava(ClassScope scope) {
-      scope.append(", " + jsonSuperClass.get().getTypeClass().getCanonicalName() + " superValueParam");
-    }
-
-    @Override
-    void writeSuperConstructorInitializationJava(MethodScope scope) {
-      scope.startLine("this.superTypeValue = superValueParam;\n");
-    }
-
-    @Override
-    void writeHelperMethodsJava(ClassScope classScope) {
-      classScope.startLine("public static boolean checkSubtypeConditions(" +
-          "org.json.simple.JSONObject input)" + Util.THROWS_CLAUSE + " {\n");
-      MethodScope methodScope = classScope.newMethodScope();
-      methodScope.indentIn();
-      for (FieldCondition condition : fieldConditions) {
-        String name = condition.getPropertyName();
-        methodScope.startLine("{\n");
-        methodScope.startLine("  Object value = input.get(\"" + name + "\");\n");
-        methodScope.startLine("  boolean hasValue;\n");
-        methodScope.startLine("  if (value == null) {\n");
-        methodScope.startLine("    hasValue = input.containsKey(\"" + name + "\");\n");
-        methodScope.startLine("  } else {\n");
-        methodScope.startLine("    hasValue = true;\n");
-        methodScope.startLine("  }\n");
-        condition.writeCheckJava(methodScope, "value", "hasValue", "conditionRes");
-        methodScope.startLine("  if (!conditionRes) {\n");
-        methodScope.startLine("    return false;\n");
-        methodScope.startLine("  }\n");
-        methodScope.startLine("}\n");
-      }
-      methodScope.startLine("return true;\n");
-      methodScope.indentOut();
-      methodScope.startLine("}\n");
+    void writeSuperConstructorInitialization(TextOutput out) {
     }
   }
 
@@ -222,7 +153,7 @@ class TypeHandler<T> {
     out.append("public static class ").append(valueImplClassName);
     out.append(" extends ").append(requiresJsonObject ? "Message" : "LazyReadMessage");
 
-    out.append(" implements ").append(getShortName().replace('$', '.')).openBlock();
+    out.append(" implements ").append(getTypeClass().getCanonicalName()).openBlock();
 
     ClassScope classScope = fileScope.newClassScope();
     for (VolatileFieldBinding field : volatileFields) {
@@ -231,9 +162,11 @@ class TypeHandler<T> {
     }
 
     for (FieldLoader loader : fieldLoaders) {
-      loader.writeFieldDeclaration(classScope);
+      loader.writeFieldDeclaration(out);
       out.newLine();
     }
+
+    subtypeAspect.writeSuperFieldJava(out);
 
     if (algebraicCasesData != null) {
       algebraicCasesData.writeFiledsJava(classScope);
@@ -242,26 +175,24 @@ class TypeHandler<T> {
     writeConstructorMethod(valueImplClassName, classScope, out);
     out.newLine();
 
-    subtypeAspect.writeSuperFieldJava(classScope);
-
     for (Map.Entry<Method, MethodHandler> en : methodHandlerMap.entrySet()) {
       out.newLine();
       en.getValue().writeMethodImplementationJava(classScope, en.getKey(), out);
       out.newLine();
     }
 
-    BaseHandlersLibrary.writeBaseMethodsJava(classScope, this);
-    subtypeAspect.writeHelperMethodsJava(classScope);
+    BaseHandlersLibrary.writeBaseMethods(classScope, this);
+    subtypeAspect.writeHelperMethodsJava(classScope, out);
     out.indentOut().append('}');
   }
 
   private void writeConstructorMethod(String valueImplClassName, ClassScope classScope, TextOutput out) {
     out.newLine().append(valueImplClassName).append("(JsonReader ").append(Util.READER_NAME);
-    subtypeAspect.writeSuperConstructorParamJava(classScope);
+    subtypeAspect.writeSuperConstructorParamJava(out);
     out.append(')').append(Util.THROWS_CLAUSE).openBlock();
 
     MethodScope methodScope = classScope.newMethodScope();
-    subtypeAspect.writeSuperConstructorInitializationJava(methodScope);
+    subtypeAspect.writeSuperConstructorInitialization(out);
 
     if (!fieldLoaders.isEmpty()) {
       writeReadFields(out, methodScope);
@@ -272,7 +203,7 @@ class TypeHandler<T> {
     }
 
     if (algebraicCasesData != null) {
-      algebraicCasesData.writeConstructorCodeJava(methodScope);
+      algebraicCasesData.writeConstructorCodeJava(methodScope, out);
     }
 
     out.closeBlock();
@@ -289,7 +220,7 @@ class TypeHandler<T> {
       out.newLine().append(operator).append(" (name.equals(\"").append(fieldName).append("\"))").openBlock();
       {
         assignField(out, fieldName);
-        fieldLoader.parser.writeReadCode(methodScope, false, out);
+        fieldLoader.valueParser.writeReadCode(methodScope, false, out);
         out.append(';');
       }
       out.closeBlock();

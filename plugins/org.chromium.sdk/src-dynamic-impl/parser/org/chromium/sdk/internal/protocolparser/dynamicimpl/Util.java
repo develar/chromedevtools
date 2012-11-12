@@ -14,6 +14,8 @@ public class Util {
   public static final String READER_NAME = "reader";
   public static final String PENDING_INPUT_READER_NAME = "inputReader";
 
+  public static final String BASE_VALUE_PREFIX = "baseMessage";
+
   /**
    * Generate Java type name of the passed type. Type may be parameterized.
    */

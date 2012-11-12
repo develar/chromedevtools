@@ -5,7 +5,6 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
 
 /**
@@ -20,8 +19,7 @@ class FieldCondition {
   FieldCondition(String propertyName, QuickParser<?> quickParser,
       FieldConditionLogic conditionLogic) throws JsonProtocolModelParseException {
     if (conditionLogic.requiresQuickParser() && quickParser == null) {
-      throw new JsonProtocolModelParseException(
-          "The choose condition does not work with the type of " + propertyName);
+      throw new JsonProtocolModelParseException("The choose condition does not work with the type of " + propertyName);
     }
     this.propertyName = propertyName;
     this.quickParser = quickParser;
@@ -30,14 +28,6 @@ class FieldCondition {
 
   String getPropertyName() {
     return propertyName;
-  }
-
-  /**
-   * @param hasValue whether field exists in JSON object (however its value may be null)
-   * @param unparsedValue value of the field if hasValue is true or undefined otherwise
-   */
-  boolean checkValue(boolean hasValue, Object unparsedValue) throws JsonProtocolParseException {
-    return conditionLogic.checkValue(hasValue, unparsedValue, quickParser);
   }
 
   public void writeCheckJava(MethodScope methodScope, String valueRef, String hasValueRef,

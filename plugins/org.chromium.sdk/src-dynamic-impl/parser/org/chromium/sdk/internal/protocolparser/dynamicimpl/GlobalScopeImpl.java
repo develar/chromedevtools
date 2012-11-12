@@ -71,7 +71,7 @@ public class GlobalScopeImpl implements JavaCodeGenerator.GlobalScope {
       String name = getTypeImplShortName(typeHandler);
       String originName = typeNameToOriginName.get(name);
       if (originName == null) {
-        originName = typeHandler.getShortName().replace('$', '.');
+        originName = typeHandler.getTypeClass().getCanonicalName();
         typeNameToOriginName.put(name, originName);
       }
       return name;

@@ -1,44 +1,38 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class AutoAlgebraicCasesData extends AlgebraicCasesData {
   int variantCodeFieldPos = -1;
   int variantValueFieldPos = -1;
-  boolean hasDefaultCase = false;
-  final List<RefToType<?>> subtypes = new ArrayList<RefToType<?>>();
+  boolean hasDefaultCase;
 
   @Override
-  List<RefToType<?>> getSubtypes() {
-    return subtypes;
-  }
-
-  @Override
-  void writeConstructorCodeJava(JavaCodeGenerator.MethodScope methodScope) {
-    methodScope.startLine("int code = -1;\n");
+  void writeConstructorCodeJava(JavaCodeGenerator.MethodScope methodScope, TextOutput out) {
+    boolean isFirst = true;
+    String operator = "if";
     for (int i = 0; i < getSubtypes().size(); i++) {
       TypeHandler<?> nextSubtype = getSubtypes().get(i).get();
-      methodScope.startLine("if (" + methodScope.getTypeImplReference(nextSubtype) +
-                            ".checkSubtypeConditions(underlying)) {\n");
-      methodScope.startLine("  if (code == -1) {\n");
-      methodScope.startLine("    code = " + i + ";\n");
-      methodScope.startLine("  } else {\n");
-      methodScope.startLine("    throw new " + Util.BASE_PACKAGE +
-                            ".JsonProtocolParseException(\"More than one case match\");\n");
-      methodScope.startLine("  }\n");
-      methodScope.startLine("}\n");
+      out.newLine().append(operator).append(" (").append(methodScope.getTypeImplReference(nextSubtype)).append(
+        ".checkSubtypeConditions(underlying))").openBlock();
+      {
+        out.append(getAutoAlgFieldNameJava(i)).append(" = new ").append(methodScope.getTypeImplReference(nextSubtype)).append('(').append(Util.READER_NAME).comma().append("this").append(')').append(';');
+        for (int j = 0; j < getSubtypes().size(); j++) {
+          if (j != i) {
+            out.newLine().append(getAutoAlgFieldNameJava(j)).append(" = null;");
+          }
+        }
+      }
+      out.closeBlock();
+
+      if (isFirst) {
+        isFirst = false;
+        operator = "else if";
+      }
     }
+
     if (!hasDefaultCase) {
-      methodScope.startLine("if (code == -1) {\n");
-      methodScope.startLine("  throw new " + Util.BASE_PACKAGE +
-                            ".JsonProtocolParseException(\"Not a single case matches\");\n");
-      methodScope.startLine("}\n");
-    }
-    for (int i = 0; i < getSubtypes().size(); i++) {
-      TypeHandler<?> nextSubtype = getSubtypes().get(i).get();
-      methodScope.startLine(getAutoAlgFieldNameJava(i) + " = (code == " + i + ") ? new " +
-                            methodScope.getTypeImplReference(nextSubtype) + "(underlying, this) : null;\n");
+      out.newLine().append("else").openBlock();
+      out.append("throw new IOException(\"Not a single case matches\");");
+      out.closeBlock();
     }
   }
 
@@ -52,6 +46,6 @@ class AutoAlgebraicCasesData extends AlgebraicCasesData {
   }
 
   static String getAutoAlgFieldNameJava(int code) {
-    return "auto_alg_field_" + code;
+    return "auto_alg_" + code;
   }
 }

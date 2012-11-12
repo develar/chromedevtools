@@ -29,7 +29,7 @@ class BaseHandlersLibrary {
    * {@link JsonObjectBased#getUnderlyingObject()},
    * {@link AnyObjectBased#getUnderlyingObject()} and {@link JsonSubtype#getSuper()}
    */
-  public static void writeBaseMethodsJava(ClassScope scope, TypeHandler<?> typeHandler) {
+  public static void writeBaseMethods(ClassScope scope, TypeHandler<?> typeHandler) {
     Class<?> typeClass = typeHandler.getTypeClass();
 
     // Generated getUnderlyingObject method if it's in interface.
@@ -50,7 +50,7 @@ class BaseHandlersLibrary {
       scope.startLine("}\n");
     }
 
-    typeHandler.getSubtypeSupport().writeGetSuperMethodJava(scope);
+    typeHandler.getSubtypeSupport().writeGetSuperMethodJava(scope.getOutput());
   }
 
   private final Map<Method, MethodHandler> methodToHandler;

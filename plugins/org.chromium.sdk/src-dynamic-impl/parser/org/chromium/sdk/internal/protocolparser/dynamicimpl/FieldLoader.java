@@ -4,8 +4,6 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
-
 /**
  * This classs is responsible for parsing field values and saving them in {@link ObjectData}
  * for future use.
@@ -14,20 +12,20 @@ class FieldLoader {
   public static final char FIELD_PREFIX = '_';
 
   private final String fieldName;
-  final ValueParser<?> parser;
+  final ValueParser<?> valueParser;
 
-  FieldLoader(String fieldName, ValueParser<?> parser) {
+  FieldLoader(String fieldName, ValueParser<?> valueParser) {
     this.fieldName = fieldName;
-    this.parser = parser;
+    this.valueParser = valueParser;
   }
 
   public String getFieldName() {
     return fieldName;
   }
 
-  public void writeFieldDeclaration(ClassScope scope) {
-    scope.getOutput().append("private ");
-    parser.appendFinishedValueTypeNameJava(scope.getOutput());
-    scope.append(' ').append(FIELD_PREFIX).append(fieldName).append(';');
+  public void writeFieldDeclaration(TextOutput out) {
+    out.append("private ");
+    valueParser.appendFinishedValueTypeNameJava(out);
+    out.append(' ').append(FIELD_PREFIX).append(fieldName).append(';');
   }
 }

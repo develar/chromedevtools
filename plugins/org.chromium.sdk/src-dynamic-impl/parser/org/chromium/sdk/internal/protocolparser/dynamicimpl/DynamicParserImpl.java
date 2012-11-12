@@ -148,15 +148,8 @@ public class DynamicParserImpl<ROOT> {
   }
 
   static class ManualAlgebraicCasesDataImpl extends AlgebraicCasesData {
-    final List<RefToType<?>> subtypes = new ArrayList<RefToType<?>>();
-
     @Override
-    List<RefToType<?>> getSubtypes() {
-      return subtypes;
-    }
-
-    @Override
-    void writeConstructorCodeJava(MethodScope methodScope) {
+    void writeConstructorCodeJava(MethodScope methodScope, TextOutput out) {
     }
 
     @Override
