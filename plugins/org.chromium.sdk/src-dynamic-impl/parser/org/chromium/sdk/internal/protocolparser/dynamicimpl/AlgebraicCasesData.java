@@ -12,5 +12,5 @@ abstract class AlgebraicCasesData {
 
   abstract void writeConstructorCodeJava(JavaCodeGenerator.MethodScope methodScope, TextOutput out);
 
-  abstract void writeFields(JavaCodeGenerator.ClassScope classScope);
+  abstract void writeFields(ClassScope classScope);
 }

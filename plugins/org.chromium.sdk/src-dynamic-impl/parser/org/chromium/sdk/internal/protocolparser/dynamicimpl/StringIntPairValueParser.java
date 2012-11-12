@@ -1,19 +1,8 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-
-public class StringIntPairValueParser extends QuickParser<Object> {
+public class StringIntPairValueParser extends ValueParser {
   StringIntPairValueParser() {
     super(false);
-  }
-
-  @Override
-  public Object parseValueQuick(Object value) throws JsonProtocolParseException {
-    return null;
-  }
-
-  @Override
-  void writeParseQuickCode(JavaCodeGenerator.MethodScope scope, String valueRef, String resultRef) {
   }
 
   @Override

@@ -6,18 +6,8 @@ package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
-import org.json.simple.JSONObject;
 
-/**
- * A parser that generates dynamic proxy implementation of JsonType interface
- * for a {@link JSONObject}.
- * It creates dynamic proxy instance in 2 steps. First {@link }
- * outputs {@link ObjectData}, which gets stored in field storage array. Later, when we are
- * about to return the value to a user, it is converted to a dynamic proxy instance by
- * {@link #VALUE_FINISHER} converter. We have to store an intermediate value for easier data
- * manipulation (dynamic proxy does not have any interfaces that we could make use of).
- */
-class ObjectValueParser<T> extends ValueParser<ObjectData> {
+class ObjectValueParser<T> extends ValueParser {
   private final RefToType<T> refToType;
   private final boolean isSubtyping;
 
@@ -33,11 +23,6 @@ class ObjectValueParser<T> extends ValueParser<ObjectData> {
   }
 
   @Override
-  public FieldLoadedFinisher getValueFinisher() {
-    return VALUE_FINISHER;
-  }
-
-  @Override
   public ObjectValueParser<?> asJsonTypeParser() {
     return this;
   }
@@ -45,17 +30,6 @@ class ObjectValueParser<T> extends ValueParser<ObjectData> {
   public boolean isSubtyping() {
     return isSubtyping;
   }
-
-  private static final FieldLoadedFinisher VALUE_FINISHER = new FieldLoadedFinisher() {
-    @Override
-    Object getValueForUser(Object cachedValue) {
-      if (cachedValue == null) {
-        return null;
-      }
-      ObjectData data = (ObjectData) cachedValue;
-      return data.getProxy();
-    }
-  };
 
   @Override
   public void appendFinishedValueTypeNameJava(TextOutput out) {

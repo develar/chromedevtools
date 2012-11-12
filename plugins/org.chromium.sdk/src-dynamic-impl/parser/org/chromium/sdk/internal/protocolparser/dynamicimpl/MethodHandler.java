@@ -8,8 +8,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Iterator;
 
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
-
 /**
  * An abstract method handler for {@link JsonInvocationHandler}.
  */

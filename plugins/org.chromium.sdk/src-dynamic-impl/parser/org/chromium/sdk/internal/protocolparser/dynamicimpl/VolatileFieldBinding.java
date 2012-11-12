@@ -21,7 +21,7 @@ class VolatileFieldBinding {
     out.append(getCodeFieldName());
   }
 
-  void writeFieldDeclaration(JavaCodeGenerator.ClassScope scope, TextOutput out) {
+  void writeFieldDeclaration(ClassScope scope, TextOutput out) {
     out.append("private ");
     fieldTypeInfo.appendValueTypeNameJava(scope);
     out.append(' ').append(getCodeFieldName()).append(';');

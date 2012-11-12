@@ -37,7 +37,7 @@ class AutoAlgebraicCasesData extends AlgebraicCasesData {
   }
 
   @Override
-  void writeFields(JavaCodeGenerator.ClassScope classScope) {
+  void writeFields(ClassScope classScope) {
     TextOutput out = classScope.getOutput();
     out.newLine();
     for (int i = 0; i < getSubtypes().size(); i++) {

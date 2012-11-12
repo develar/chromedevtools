@@ -19,10 +19,10 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
     return fieldBinding;
   }
 
-  protected abstract void writeReturnTypeJava(JavaCodeGenerator.ClassScope scope, Method m);
+  protected abstract void writeReturnTypeJava(ClassScope scope, Method m);
 
   @Override
-  void writeMethodImplementationJava(JavaCodeGenerator.ClassScope classScope, Method m, TextOutput out) {
+  void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
     out.append("@Override").newLine().append("public ");
     writeReturnTypeJava(classScope, m);
     out.append(' ');

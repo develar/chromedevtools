@@ -7,7 +7,6 @@ package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 import gnu.trove.TObjectObjectProcedure;
 import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.GlobalScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
@@ -94,20 +93,11 @@ public class DynamicParserImpl<ROOT> {
     }
   }
 
-  static ValueParser<Void> VOID_PARSER = new QuickParser<Void>(true) {
-    @Override
-    public Void parseValueQuick(Object value) {
-      return null;
-    }
+  static ValueParser VOID_PARSER = new ValueParser(true) {
 
     @Override
     public void appendFinishedValueTypeNameJava(TextOutput out) {
       out.append("Void");
-    }
-
-    @Override
-    void writeParseQuickCode(MethodScope scope, String valueRef, String resultRef) {
-      scope.startLine("Void " + resultRef + " = null;\n");
     }
 
     @Override

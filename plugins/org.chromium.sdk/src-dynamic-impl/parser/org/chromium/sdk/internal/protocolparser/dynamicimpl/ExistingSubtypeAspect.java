@@ -40,11 +40,10 @@ class ExistingSubtypeAspect extends TypeHandler.SubtypeAspect {
   }
 
   @Override
-  void writeHelperMethodsJava(JavaCodeGenerator.ClassScope classScope, TextOutput out) {
+  void writeHelperMethodsJava(ClassScope scope, TextOutput out) {
     out.newLine().newLine().append("public static boolean checkSubtypeConditions(").append(jsonSuperClass.get().getTypeClass().getCanonicalName()).append(" message)").append(Util.THROWS_CLAUSE).openBlock();
-    JavaCodeGenerator.MethodScope methodScope = classScope.newMethodScope();
     for (FieldCondition condition : fieldConditions) {
-      condition.writeCheck(methodScope, "message." + condition.getPropertyName() + "()", null, "conditionRes");
+      condition.conditionLogic.writeCheck(scope, out, "message." + condition.getPropertyName() + "()");
     }
     out.closeBlock();
     out.newLine();

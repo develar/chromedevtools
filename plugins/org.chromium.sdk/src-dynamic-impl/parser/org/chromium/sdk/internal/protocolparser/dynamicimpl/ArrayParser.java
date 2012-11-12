@@ -1,26 +1,14 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import java.util.List;
-
-class ArrayParser<T> extends ValueParser<List<? extends T>> {
-  private final ValueParser<T> componentParser;
+class ArrayParser extends ValueParser {
+  private final ValueParser componentParser;
   private final boolean isList;
 
-  ArrayParser(ValueParser<T> componentParser, boolean isList, boolean nullable) {
+  ArrayParser(ValueParser componentParser, boolean isList, boolean nullable) {
     super(nullable);
 
     this.componentParser = componentParser;
     this.isList = isList;
-  }
-
-  @Override
-  public FieldLoadedFinisher getValueFinisher() {
-    return null;
-  }
-
-  @Override
-  public ObjectValueParser<?> asJsonTypeParser() {
-    return null;
   }
 
   @Override

@@ -2,16 +2,16 @@ package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 import org.chromium.sdk.internal.protocolparser.JsonValueCondition;
 
-class CustomConditionWrapper<T> {
-  private final JsonValueCondition<? super T> constraint;
+class CustomConditionWrapper {
+  private final JsonValueCondition<?> constraint;
 
-  static <T> CustomConditionWrapper<T> create(Class<? extends JsonValueCondition<T>> constraintClass) {
-    return new CustomConditionWrapper<T>(constraintClass);
+  CustomConditionWrapper(JsonValueCondition<?> condition) {
+    constraint = condition;
   }
 
-  CustomConditionWrapper(Class<? extends JsonValueCondition<? super T>> constraintClass) {
+  public static CustomConditionWrapper create(Class<? extends JsonValueCondition<?>> condition) {
     try {
-      constraint = constraintClass.newInstance();
+      return new CustomConditionWrapper(condition.newInstance());
     }
     catch (InstantiationException e) {
       throw new RuntimeException(e);
@@ -21,17 +21,16 @@ class CustomConditionWrapper<T> {
     }
   }
 
-  abstract static class StaticField implements JavaCodeGenerator.ElementData {
+  private abstract static class StaticField implements JavaCodeGenerator.ElementData {
     abstract int getFieldNumber();
   }
 
-  public void writeParse(JavaCodeGenerator.ClassScope classScope, final TextOutput out, String valueRef) {
-
+  public void writeParse(ClassScope classScope, final TextOutput out, String valueRef) {
     StaticField field = classScope.getRootClassScope().addMember(constraint.getClass(), new JavaCodeGenerator.ElementFactory<StaticField>() {
       @Override
       public StaticField create(final int code) {
         return new StaticField() {
-          @Override public void generateCode(JavaCodeGenerator.ClassScope classScope) {
+          @Override public void generateCode(ClassScope classScope) {
             out.append("private static final ");
             out.append(constraint.getClass().getCanonicalName()).append(' ').append("CUSTOM_CONDITION_").append(getFieldNumber()).append(" = new ");
             out.append(constraint.getClass().getCanonicalName()).append("();");

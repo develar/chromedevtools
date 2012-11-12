@@ -5,105 +5,56 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 import org.chromium.sdk.internal.protocolparser.*;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An interface to field conditions logic. Some conditions are simple and never need parsed
  * values, others are more fine-grained and require quick parser before making actual checks.
  */
 abstract class FieldConditionLogic {
-  private final boolean logicRequiresQuickParser;
-
-  FieldConditionLogic(boolean logicRequiresQuickParser) {
-    this.logicRequiresQuickParser = logicRequiresQuickParser;
+  FieldConditionLogic() {
   }
 
-  boolean requiresQuickParser() {
-    return logicRequiresQuickParser;
-  }
-
-  /**
-   * Constructor function that creates field condition logic from method annotations.
-   */
-  static FieldConditionLogic readLogic(Method m) throws JsonProtocolModelParseException {
-    List<FieldConditionLogic> results = new ArrayList<FieldConditionLogic>(1);
+  static FieldConditionLogic readLogic(Method m) {
     JsonSubtypeConditionBoolValue boolValueAnnotation = m.getAnnotation(JsonSubtypeConditionBoolValue.class);
     if (boolValueAnnotation != null) {
       final boolean required = boolValueAnnotation.value();
-      results.add(new FieldConditionLogic(true) {
+      return new FieldConditionLogic() {
         @Override
-        void writeCheck(MethodScope scope, String valueRef, String hasValueRef,
-                        String resultRef, QuickParser<?> quickParser) {
-          TextOutput out = scope.getOutput();
+        void writeCheck(ClassScope scope, TextOutput out, String valueRef) {
           out.append("return ");
           if (!required) {
             out.append('!');
           }
           out.append(valueRef).semi();
         }
-      });
+      };
     }
+
     JsonSubtypeConditionCustom customAnnotation = m.getAnnotation(JsonSubtypeConditionCustom.class);
     if (customAnnotation != null) {
-      // We do not know exact type of condition. But we also do not care about result type
-      // in 'constraint'. Compiler cannot catch the wildcard here, so we use an assumed type.
-      @SuppressWarnings("unchecked") Class<? extends JsonValueCondition<Void>> assumedTypeCondition =
-          (Class<? extends JsonValueCondition<Void>>) customAnnotation.condition();
-      final CustomConditionWrapper<?> constraint = CustomConditionWrapper.create(assumedTypeCondition);
-      results.add(new FieldConditionLogic(true) {
+      final CustomConditionWrapper constraint = CustomConditionWrapper.create(customAnnotation.condition());
+      return new FieldConditionLogic() {
         @Override
-        void writeCheck(MethodScope scope, String valueRef, String hasValueRef, String resultRef, QuickParser<?> quickParser) {
-          constraint.writeParse(scope, scope.getOutput(), valueRef);
+        void writeCheck(ClassScope scope, TextOutput out, String valueRef) {
+          constraint.writeParse(scope, out, valueRef);
         }
-      });
+      };
     }
-    JsonSubtypeCondition conditionAnn = m.getAnnotation(JsonSubtypeCondition.class);
-    if (conditionAnn != null) {
-      int savedResSize = results.size();
-      if (conditionAnn.fieldIsAbsent()) {
-        results.add(new FieldConditionLogic(false) {
 
-          @Override
-          void writeCheck(MethodScope scope, String valueRef, String hasValueRef,
-                          String resultRef, QuickParser<?> quickParser) {
-            scope.startLine("boolean " + resultRef + " = !" + hasValueRef + ";\n");
-          }
-        });
-      }
-      if (conditionAnn.valueIsNull()) {
-        results.add(new FieldConditionLogic(false) {
-
-          @Override
-          void writeCheck(MethodScope scope, String valueRef, String hasValueRef,
-                          String resultRef, QuickParser<?> quickParser) {
-            scope.startLine("boolean " + resultRef + " = " + valueRef + " != null;\n");
-          }
-        });
-      }
-      if (savedResSize == results.size()) {
-        results.add(new FieldConditionLogic(false) {
-
-          @Override
-          void writeCheck(MethodScope scope, String valueRef, String hasValueRef,
-                          String resultRef, QuickParser<?> quickParser) {
-            scope.startLine("boolean " + resultRef + " = " + hasValueRef + ";\n");
-          }
-        });
-      }
+    JsonSubtypeCondition conditionAnnotation = m.getAnnotation(JsonSubtypeCondition.class);
+    if (conditionAnnotation != null) {
+      final boolean shouldBeNull = conditionAnnotation.fieldIsAbsent() || conditionAnnotation.valueIsNull();
+      return new FieldConditionLogic() {
+        @Override
+        void writeCheck(ClassScope scope, TextOutput out, String valueRef) {
+          out.append("return ").append(valueRef).space().append(shouldBeNull ? '=' : '!').append("= null").semi();
+        }
+      };
     }
-    if (results.size() == 0) {
-      return null;
-    }
-    if (results.size() > 1) {
-      throw new IllegalStateException("Too many constraints for field getter " + m);
-    }
-    return results.get(0);
+    return null;
   }
 
-  abstract void writeCheck(MethodScope methodScope, String valueRef, String hasValueRef,
-                           String resultRef, QuickParser<?> quickParser);
+  abstract void writeCheck(ClassScope scope, TextOutput out, String valueRef);
 }

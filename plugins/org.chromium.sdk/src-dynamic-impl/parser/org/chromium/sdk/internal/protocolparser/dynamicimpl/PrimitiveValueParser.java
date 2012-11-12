@@ -1,8 +1,6 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-
-class PrimitiveValueParser extends QuickParser<Object> {
+class PrimitiveValueParser extends ValueParser {
   private final String className;
   private final String readPostfix;
 
@@ -31,18 +29,6 @@ class PrimitiveValueParser extends QuickParser<Object> {
   @Override
   void appendFinishedValueTypeNameJava(TextOutput out) {
     out.append(className);
-  }
-
-  @Override
-  public Long parseValueQuick(Object value) throws JsonProtocolParseException {
-    throw new IllegalStateException();
-  }
-
-  @Override
-  void writeParseQuickCode(JavaCodeGenerator.MethodScope scope, String valueRef, String resultRef) {
-    TextOutput out = scope.getOutput();
-    out.newLine().append(className).append(' ').append(resultRef);
-    out.append(" = (").append(className).append(") ").append(valueRef).append(';');
   }
 
   @Override

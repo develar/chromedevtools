@@ -12,9 +12,9 @@ class FieldLoader {
   public static final char FIELD_PREFIX = '_';
 
   private final String fieldName;
-  final ValueParser<?> valueParser;
+  final ValueParser valueParser;
 
-  FieldLoader(String fieldName, ValueParser<?> valueParser) {
+  FieldLoader(String fieldName, ValueParser valueParser) {
     this.fieldName = fieldName;
     this.valueParser = valueParser;
   }
