@@ -157,7 +157,7 @@ class TypeHandler<T> {
 
     ClassScope classScope = fileScope.newClassScope();
     for (VolatileFieldBinding field : volatileFields) {
-      field.writeFieldDeclarationJava(classScope, out);
+      field.writeFieldDeclaration(classScope, out);
       out.newLine();
     }
 
@@ -169,7 +169,7 @@ class TypeHandler<T> {
     subtypeAspect.writeSuperFieldJava(out);
 
     if (algebraicCasesData != null) {
-      algebraicCasesData.writeFiledsJava(classScope);
+      algebraicCasesData.writeFields(classScope);
     }
 
     writeConstructorMethod(valueImplClassName, classScope, out);
@@ -181,9 +181,36 @@ class TypeHandler<T> {
       out.newLine();
     }
 
-    BaseHandlersLibrary.writeBaseMethods(classScope, this);
+    writeBaseMethods(classScope, out);
+    subtypeAspect.writeGetSuperMethodJava(out);
     subtypeAspect.writeHelperMethodsJava(classScope, out);
     out.indentOut().append('}');
+  }
+
+  /**
+   * Generates Java implementation of standard methods of JSON type class (if needed):
+   * {@link org.chromium.sdk.internal.protocolparser.JsonObjectBased#getUnderlyingObject()},
+   * {@link org.chromium.sdk.internal.protocolparser.AnyObjectBased#getUnderlyingObject()} and {@link org.chromium.sdk.internal.protocolparser.JsonSubtype#getSuper()}
+   */
+  private void writeBaseMethods(ClassScope scope, TextOutput out) {
+    Class<?> typeClass = getTypeClass();
+    // Generated getUnderlyingObject method if it's in interface.
+    Method method;
+    try {
+      method = typeClass.getMethod("getUnderlyingObject");
+    }
+    catch (SecurityException e) {
+      throw new RuntimeException(e);
+    }
+    catch (NoSuchMethodException e) {
+      // Method not found, skip.
+      return;
+    }
+
+    MethodHandler.writeMethodDeclarationJava(scope, method, Collections.<String>emptyList());
+    out.openBlock();
+    scope.append("return reader;");
+    out.closeBlock();
   }
 
   private void writeConstructorMethod(String valueImplClassName, ClassScope classScope, TextOutput out) {
@@ -194,6 +221,7 @@ class TypeHandler<T> {
     MethodScope methodScope = classScope.newMethodScope();
     subtypeAspect.writeSuperConstructorInitialization(out);
 
+    out.append(Util.READER_NAME).append(".beginObject();");
     if (!fieldLoaders.isEmpty()) {
       writeReadFields(out, methodScope);
     }
@@ -205,12 +233,11 @@ class TypeHandler<T> {
     if (algebraicCasesData != null) {
       algebraicCasesData.writeConstructorCodeJava(methodScope, out);
     }
-
+    out.newLine().append(Util.READER_NAME).append(".endObject();");
     out.closeBlock();
   }
 
   private void writeReadFields(TextOutput out, MethodScope methodScope) {
-    out.append(Util.READER_NAME).append(".beginObject();");
     out.newLine().append("while (reader.hasNext())").openBlock();
     out.append("String name = reader.nextName();");
     boolean isFirst = true;
@@ -232,7 +259,6 @@ class TypeHandler<T> {
     }
 
     out.closeBlock();
-    out.newLine().append(Util.READER_NAME).append(".endObject();");
   }
 
   private static TextOutput assignField(TextOutput out, String fieldName) {

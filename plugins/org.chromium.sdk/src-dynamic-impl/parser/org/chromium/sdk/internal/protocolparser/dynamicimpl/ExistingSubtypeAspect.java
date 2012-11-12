@@ -41,26 +41,12 @@ class ExistingSubtypeAspect extends TypeHandler.SubtypeAspect {
 
   @Override
   void writeHelperMethodsJava(JavaCodeGenerator.ClassScope classScope, TextOutput out) {
-    out.newLine().append("public static boolean checkSubtypeConditions(org.json.simple.JSONObject input)").append(Util.THROWS_CLAUSE).openBlock();
+    out.newLine().newLine().append("public static boolean checkSubtypeConditions(").append(jsonSuperClass.get().getTypeClass().getCanonicalName()).append(" message)").append(Util.THROWS_CLAUSE).openBlock();
     JavaCodeGenerator.MethodScope methodScope = classScope.newMethodScope();
     for (FieldCondition condition : fieldConditions) {
-      String name = condition.getPropertyName();
-      methodScope.startLine("{\n");
-      methodScope.startLine("  Object value = input.get(\"" + name + "\");\n");
-      methodScope.startLine("  boolean hasValue;\n");
-      methodScope.startLine("  if (value == null) {\n");
-      methodScope.startLine("    hasValue = input.containsKey(\"" + name + "\");\n");
-      methodScope.startLine("  } else {\n");
-      methodScope.startLine("    hasValue = true;\n");
-      methodScope.startLine("  }\n");
-      condition.writeCheckJava(methodScope, "value", "hasValue", "conditionRes");
-      methodScope.startLine("  if (!conditionRes) {\n");
-      methodScope.startLine("    return false;\n");
-      methodScope.startLine("  }\n");
-      methodScope.startLine("}\n");
+      condition.writeCheck(methodScope, "message." + condition.getPropertyName() + "()", null, "conditionRes");
     }
-    methodScope.startLine("return true;\n");
-    methodScope.indentOut();
-    methodScope.startLine("}\n");
+    out.closeBlock();
+    out.newLine();
   }
 }

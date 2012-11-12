@@ -43,9 +43,10 @@ public class TextOutput {
     out.append(value);
   }
 
-  public void append(int value) {
+  public TextOutput append(int value) {
     maybeIndent();
     out.append(value);
+    return this;
   }
 
   public TextOutput append(char c) {
@@ -76,6 +77,14 @@ public class TextOutput {
 
   public TextOutput comma() {
     return append(',').append(' ');
+  }
+
+  public TextOutput space() {
+    return append(' ');
+  }
+
+  public TextOutput semi() {
+    return append(';');
   }
 
   public TextOutput quoute(CharSequence s) {

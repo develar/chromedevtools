@@ -16,7 +16,7 @@ import java.util.List;
  * to {@link SuccessCommandResponse}.
  */
 @JsonType
-public interface EventNotification extends JsonObjectBased, JsonSubtype<IncomingMessage> {
+public interface EventNotification extends JsonSubtype<IncomingMessage> {
   @JsonOverrideField
   @JsonSubtypeConditionCustom(condition=TypeValueCondition.class)
   MessageType type();

@@ -153,7 +153,7 @@ public class DynamicParserImpl<ROOT> {
     }
 
     @Override
-    void writeFiledsJava(ClassScope classScope) {
+    void writeFields(ClassScope classScope) {
     }
   }
 

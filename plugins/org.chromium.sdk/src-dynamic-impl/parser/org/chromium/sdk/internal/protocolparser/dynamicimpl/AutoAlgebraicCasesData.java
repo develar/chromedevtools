@@ -11,10 +11,10 @@ class AutoAlgebraicCasesData extends AlgebraicCasesData {
     String operator = "if";
     for (int i = 0; i < getSubtypes().size(); i++) {
       TypeHandler<?> nextSubtype = getSubtypes().get(i).get();
-      out.newLine().append(operator).append(" (").append(methodScope.getTypeImplReference(nextSubtype)).append(
-        ".checkSubtypeConditions(underlying))").openBlock();
+      out.newLine().append(operator).append(" (").append(methodScope.getTypeImplReference(nextSubtype));
+      out.append(".checkSubtypeConditions(this))").openBlock();
       {
-        out.append(getAutoAlgFieldNameJava(i)).append(" = new ").append(methodScope.getTypeImplReference(nextSubtype)).append('(').append(Util.READER_NAME).comma().append("this").append(')').append(';');
+        out.append(getAutoAlgFieldNameJava(i)).append(" = new ").append(methodScope.getTypeImplReference(nextSubtype)).append('(').append(Util.READER_NAME).comma().append("this").append(')').semi();
         for (int j = 0; j < getSubtypes().size(); j++) {
           if (j != i) {
             out.newLine().append(getAutoAlgFieldNameJava(j)).append(" = null;");
@@ -37,15 +37,16 @@ class AutoAlgebraicCasesData extends AlgebraicCasesData {
   }
 
   @Override
-  void writeFiledsJava(JavaCodeGenerator.ClassScope classScope) {
+  void writeFields(JavaCodeGenerator.ClassScope classScope) {
+    TextOutput out = classScope.getOutput();
+    out.newLine();
     for (int i = 0; i < getSubtypes().size(); i++) {
       TypeHandler<?> nextSubtype = getSubtypes().get(i).get();
-      classScope.startLine("private final " + classScope.getTypeImplReference(nextSubtype) +
-                           " " + getAutoAlgFieldNameJava(i) + ";\n");
+      out.append("private final ").append(classScope.getTypeImplReference(nextSubtype)).space().append(getAutoAlgFieldNameJava(i)).semi().newLine();
     }
   }
 
   static String getAutoAlgFieldNameJava(int code) {
-    return "auto_alg_" + code;
+    return "conditional" + code;
   }
 }

@@ -4,15 +4,13 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.chromium.sdk.internal.protocolparser.AnyObjectBased;
 import org.chromium.sdk.internal.protocolparser.JsonObjectBased;
 import org.chromium.sdk.internal.protocolparser.JsonSubtype;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.ClassScope;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Contains dynamic proxy method handlers for several well-known methods.
@@ -22,35 +20,6 @@ class BaseHandlersLibrary {
 
   public Map<Method, ? extends MethodHandler> getAllHandlers() {
     return methodToHandler;
-  }
-
-  /**
-   * Generates Java implementation of standard methods of JSON type class (if needed):
-   * {@link JsonObjectBased#getUnderlyingObject()},
-   * {@link AnyObjectBased#getUnderlyingObject()} and {@link JsonSubtype#getSuper()}
-   */
-  public static void writeBaseMethods(ClassScope scope, TypeHandler<?> typeHandler) {
-    Class<?> typeClass = typeHandler.getTypeClass();
-
-    // Generated getUnderlyingObject method if it's in interface.
-    writeGetUnderlyingObject: {
-      Method method;
-      try {
-        method = typeClass.getMethod("getUnderlyingObject");
-      } catch (SecurityException e) {
-        throw new RuntimeException(e);
-      } catch (NoSuchMethodException e) {
-        // Method not found, skip.
-        break writeGetUnderlyingObject;
-      }
-
-      MethodHandler.writeMethodDeclarationJava(scope, method, Collections.<String>emptyList());
-      scope.startLine("{\n");
-      scope.startLine("  return underlying;\n");
-      scope.startLine("}\n");
-    }
-
-    typeHandler.getSubtypeSupport().writeGetSuperMethodJava(scope.getOutput());
   }
 
   private final Map<Method, MethodHandler> methodToHandler;

@@ -16,16 +16,16 @@ public class CallFunctionOnParams extends org.chromium.sdk.internal.wip.protocol
    @param returnByValueOpt Whether the result is expected to be a JSON object which should be sent by value.
    */
   public CallFunctionOnParams(String/*See org.chromium.sdk.internal.wip.protocol.common.runtime.RemoteObjectIdTypedef*/ objectId, String functionDeclaration, java.util.List<org.chromium.sdk.internal.wip.protocol.output.runtime.CallArgumentParam> argumentsOpt, Boolean doNotPauseOnExceptionsAndMuteConsoleOpt, Boolean returnByValueOpt) {
-    this.put("objectId", objectId);
-    this.put("functionDeclaration", functionDeclaration);
+    put("objectId", objectId);
+    put("functionDeclaration", functionDeclaration);
     if (argumentsOpt != null) {
-      this.put("arguments", argumentsOpt);
+      put("arguments", argumentsOpt);
     }
     if (doNotPauseOnExceptionsAndMuteConsoleOpt != null) {
-      this.put("doNotPauseOnExceptionsAndMuteConsole", doNotPauseOnExceptionsAndMuteConsoleOpt);
+      put("doNotPauseOnExceptionsAndMuteConsole", doNotPauseOnExceptionsAndMuteConsoleOpt);
     }
     if (returnByValueOpt != null) {
-      this.put("returnByValue", returnByValueOpt);
+      put("returnByValue", returnByValueOpt);
     }
   }
 

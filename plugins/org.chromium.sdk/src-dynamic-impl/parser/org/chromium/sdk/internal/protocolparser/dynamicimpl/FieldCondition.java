@@ -4,7 +4,6 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
 
 /**
@@ -16,10 +15,9 @@ class FieldCondition {
   private final QuickParser<?> quickParser;
   private final FieldConditionLogic conditionLogic;
 
-  FieldCondition(String propertyName, QuickParser<?> quickParser,
-      FieldConditionLogic conditionLogic) throws JsonProtocolModelParseException {
+  FieldCondition(String propertyName, QuickParser<?> quickParser, FieldConditionLogic conditionLogic) {
     if (conditionLogic.requiresQuickParser() && quickParser == null) {
-      throw new JsonProtocolModelParseException("The choose condition does not work with the type of " + propertyName);
+      throw new IllegalStateException("The choose condition does not work with the type of " + propertyName);
     }
     this.propertyName = propertyName;
     this.quickParser = quickParser;
@@ -30,8 +28,7 @@ class FieldCondition {
     return propertyName;
   }
 
-  public void writeCheckJava(MethodScope methodScope, String valueRef, String hasValueRef,
-      String resultRef) {
-    conditionLogic.writeCheckJava(methodScope, valueRef, hasValueRef, resultRef, quickParser);
+  public void writeCheck(MethodScope methodScope, String valueRef, String hasValueRef, String resultRef) {
+    conditionLogic.writeCheck(methodScope, valueRef, hasValueRef, resultRef, quickParser);
   }
 }
