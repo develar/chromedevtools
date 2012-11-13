@@ -5,7 +5,6 @@ import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 
 public class Util {
-  public static final String BASE_PACKAGE = "org.chromium.sdk.internal.protocolparser";
   public static final String THROWS_CLAUSE = " throws IOException";
 
   public static final char TYPE_NAME_PREFIX = 'M';

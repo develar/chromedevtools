@@ -68,7 +68,7 @@ public class AfterCompileProcessor extends V8EventProcessor {
       V8ContextFilter contextFilter) {
     AfterCompileBody body;
     try {
-      body = eventResponse.body().asAfterCompileBody();
+      body = eventResponse.asAfterCompileBody();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

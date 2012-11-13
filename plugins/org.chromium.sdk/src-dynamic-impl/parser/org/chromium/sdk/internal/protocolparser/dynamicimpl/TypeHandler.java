@@ -66,10 +66,6 @@ class TypeHandler<T> {
     return typeClass;
   }
 
-  SubtypeSupport getSubtypeSupport() {
-    return subtypeAspect;
-  }
-
   void buildClosedNameSet() {
     if (!subtypeAspect.isRoot()) {
       return;
@@ -206,7 +202,7 @@ class TypeHandler<T> {
       return;
     }
 
-    MethodHandler.writeMethodDeclarationJava(scope, method, Collections.<String>emptyList());
+    MethodHandler.writeMethodDeclarationJava(out, method);
     out.openBlock();
     scope.append("return reader;");
     out.closeBlock();

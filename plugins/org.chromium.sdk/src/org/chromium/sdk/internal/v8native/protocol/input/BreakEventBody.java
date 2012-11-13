@@ -6,15 +6,11 @@ package org.chromium.sdk.internal.v8native.protocol.input;
 
 import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.JsonOptionalField;
-import org.chromium.sdk.internal.protocolparser.JsonSubtype;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 
-import java.util.List;
-
 @JsonType
-public interface BreakEventBody extends JsonSubtype<EventNotificationBody> {
-
+public interface BreakEventBody {
   @JsonOptionalField
   long[] breakpoints();
 

@@ -4,11 +4,9 @@
 
 package org.chromium.sdk.internal.v8native.processor;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.v8native.DebugSession;
 import org.chromium.sdk.internal.v8native.ScriptManager;
 import org.chromium.sdk.internal.v8native.protocol.input.EventNotification;
-import org.chromium.sdk.internal.v8native.protocol.input.EventNotificationBody;
 import org.chromium.sdk.internal.v8native.protocol.input.ScriptCollectedBody;
 
 import java.io.IOException;
@@ -24,13 +22,12 @@ public class ScriptCollectedProcessor extends V8EventProcessor {
   }
 
   @Override
-  public void messageReceived(EventNotification eventMessage) {
-    EventNotificationBody body = eventMessage.body();
-
+  public void messageReceived(EventNotification message) {
     ScriptCollectedBody scriptCollectedBody;
     try {
-      scriptCollectedBody = body.asScriptCollectedBody();
-    } catch (IOException e) {
+      scriptCollectedBody = message.asScriptCollectedBody();
+    }
+    catch (IOException e) {
       throw new RuntimeException(e);
     }
 
@@ -38,5 +35,4 @@ public class ScriptCollectedProcessor extends V8EventProcessor {
 
     getDebugSession().getScriptManager().scriptCollected(scriptId);
   }
-
 }

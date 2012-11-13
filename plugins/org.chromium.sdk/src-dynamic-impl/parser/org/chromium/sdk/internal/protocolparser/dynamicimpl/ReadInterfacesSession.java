@@ -219,7 +219,7 @@ class ReadInterfacesSession {
     return new ObjectValueParser<T>(type, isNullable, isSubtyping);
   }
 
-  private static <T> ArrayParser createArrayParser(ValueParser componentParser, boolean isList, boolean isNullable) {
+  private static ArrayParser createArrayParser(ValueParser componentParser, boolean isList, boolean isNullable) {
     return new ArrayParser(componentParser, isList, isNullable);
   }
 
@@ -277,9 +277,8 @@ class ReadInterfacesSession {
       new HashMap<Method, MethodHandler>();
     private final DynamicParserImpl.FieldMap fieldMap = new DynamicParserImpl.FieldMap();
     private final List<FieldCondition> fieldConditions = new ArrayList<FieldCondition>(2);
-    private DynamicParserImpl.ManualAlgebraicCasesDataImpl manualAlgCasesData = null;
-    private AutoAlgebraicCasesData autoAlgCasesData = null;
-    private int fieldArraySize = 0;
+    private ManualAlgebraicCasesData manualAlgCasesData;
+    private AutoAlgebraicCasesData autoAlgCasesData;
     private List<VolatileFieldBinding> volatileFields = new ArrayList<VolatileFieldBinding>(2);
     private boolean requiresJsonObject = false;
 
@@ -324,7 +323,7 @@ class ReadInterfacesSession {
 
         if (jsonTypeAnnotation.subtypesChosenManually()) {
           if (manualAlgCasesData == null) {
-            manualAlgCasesData = new DynamicParserImpl.ManualAlgebraicCasesDataImpl();
+            manualAlgCasesData = new ManualAlgebraicCasesData();
           }
           methodHandler = processManualSubtypeMethod(m, jsonSubtypeCaseAnn);
         }
@@ -333,8 +332,7 @@ class ReadInterfacesSession {
             autoAlgCasesData = new AutoAlgebraicCasesData();
           }
           if (jsonSubtypeCaseAnn.reinterpret()) {
-            throw new JsonProtocolModelParseException(
-              "Option 'reinterpret' is only available with 'subtypes chosen manually'");
+            throw new JsonProtocolModelParseException("Option 'reinterpret' is only available with 'subtypes chosen manually'");
           }
           requiresJsonObject = true;
           methodHandler = processAutomaticSubtypeMethod(m);
@@ -349,7 +347,8 @@ class ReadInterfacesSession {
     }
 
     private MethodHandler processFieldGetterMethod(Method m,
-                                                   FieldConditionLogic fieldConditionLogic, JsonOverrideField overrideFieldAnn,
+                                                   FieldConditionLogic fieldConditionLogic,
+                                                   JsonOverrideField overrideFieldAnn,
                                                    String fieldName) throws JsonProtocolModelParseException {
       ValueParser fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), m.getAnnotation(JsonNullable.class) != null, false);
       if (fieldConditionLogic != null) {
@@ -364,24 +363,18 @@ class ReadInterfacesSession {
       return createEagerLoadGetterHandler(fieldName, fieldTypeParser);
     }
 
-    private MethodHandler createEagerLoadGetterHandler(String fieldName,
-                                                       ValueParser fieldTypeParser) {
-      int fieldCode = allocateFieldInArray();
-      FieldLoader fieldLoader = new FieldLoader(fieldName, fieldTypeParser);
-      fieldLoaders.add(fieldLoader);
-      return new DynamicParserImpl.PreparsedFieldMethodHandler(
-        fieldName);
+    private MethodHandler createEagerLoadGetterHandler(String fieldName, ValueParser fieldTypeParser) {
+      fieldLoaders.add(new FieldLoader(fieldName, fieldTypeParser));
+      return new DynamicParserImpl.PreparsedFieldMethodHandler(fieldName);
     }
 
-    private MethodHandler processAutomaticSubtypeMethod(Method m)
-      throws JsonProtocolModelParseException {
-      MethodHandler methodHandler;
+    private MethodHandler processAutomaticSubtypeMethod(Method m) throws JsonProtocolModelParseException {
       if (m.getReturnType() == Void.TYPE) {
         if (autoAlgCasesData.hasDefaultCase) {
           throw new JsonProtocolModelParseException("Duplicate default case method: " + m);
         }
         autoAlgCasesData.hasDefaultCase = true;
-        methodHandler = DynamicParserImpl.RETURN_NULL_METHOD_HANDLER;
+        return DynamicParserImpl.RETURN_NULL_METHOD_HANDLER;
       }
       else {
         Class<?> methodType = m.getReturnType();
@@ -389,18 +382,11 @@ class ReadInterfacesSession {
         if (ref == null) {
           throw new JsonProtocolModelParseException("Unknown return type in " + m);
         }
-        if (autoAlgCasesData.variantCodeFieldPos == -1) {
-          autoAlgCasesData.variantCodeFieldPos = allocateFieldInArray();
-          autoAlgCasesData.variantValueFieldPos = allocateFieldInArray();
-        }
         final int algCode = autoAlgCasesData.subtypes.size();
         autoAlgCasesData.subtypes.add(ref);
-        methodHandler = new DynamicParserImpl.AutoSubtypeMethodHandler(
-          algCode);
-
         subtypeCasters.add(new SubtypeCaster(typeClass, ref));
+        return new AutoSubtypeMethodHandler(algCode);
       }
-      return methodHandler;
     }
 
 
@@ -453,10 +439,6 @@ class ReadInterfacesSession {
       return requiresJsonObject;
     }
 
-    private int allocateFieldInArray() {
-      return fieldArraySize++;
-    }
-
     private VolatileFieldBinding allocateVolatileField(final ValueParser fieldTypeParser,
                                                                          boolean internalType) {
       int position = volatileFields.size();
@@ -494,6 +476,32 @@ class ReadInterfacesSession {
         }
       }
       return m.getName();
+    }
+  }
+
+  private static class AutoSubtypeMethodHandler extends MethodHandler {
+    private final int code;
+
+    AutoSubtypeMethodHandler(int code) {
+      this.code = code;
+    }
+
+    @Override
+    void writeMethodImplementationJava(ClassScope scope, Method m, TextOutput out) {
+      writeMethodDeclarationJava(out, m);
+      out.openBlock();
+      out.append("return ").append(AutoAlgebraicCasesData.getAutoAlgFieldNameJava(code)).semi();
+      out.closeBlock();
+    }
+  }
+
+  private static class ManualAlgebraicCasesData extends AlgebraicCasesData {
+    @Override
+    void writeConstructorCodeJava(JavaCodeGenerator.MethodScope methodScope, TextOutput out) {
+    }
+
+    @Override
+    void writeFields(ClassScope classScope) {
     }
   }
 }

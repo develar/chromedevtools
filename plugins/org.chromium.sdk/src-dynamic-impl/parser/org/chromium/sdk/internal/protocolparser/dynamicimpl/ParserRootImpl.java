@@ -151,7 +151,7 @@ class ParserRootImpl<R> {
     @Override
     void writeStaticMethodJava(ClassScope scope, Method method) {
       TextOutput out = scope.getOutput();
-      MethodHandler.writeMethodDeclarationJava(scope, method, STATIC_METHOD_PARAM_NAME_LIST);
+      MethodHandler.writeMethodDeclarationJava(out, method, STATIC_METHOD_PARAM_NAME_LIST);
       out.append(Util.THROWS_CLAUSE).openBlock();
       out.append("return new ").append(scope.getTypeImplReference(typeHandler)).append("(").append(STATIC_METHOD_PARAM_NAME).append(");");
       out.closeBlock();

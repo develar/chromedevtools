@@ -23,7 +23,7 @@ class ObjectValueParser<T> extends ValueParser {
   }
 
   @Override
-  public ObjectValueParser<?> asJsonTypeParser() {
+  public ObjectValueParser asJsonTypeParser() {
     return this;
   }
 

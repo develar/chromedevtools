@@ -86,9 +86,9 @@ public class DynamicParserImpl<ROOT> {
 
     @Override
     void writeMethodImplementationJava(ClassScope scope, Method m, TextOutput out) {
-      writeMethodDeclarationJava(scope, m, Collections.<String>emptyList());
+      writeMethodDeclarationJava(out, m);
       out.openBlock();
-      out.append("return ").append(FieldLoader.FIELD_PREFIX).append(fieldName).append(';');
+      out.append("return ").append(FieldLoader.FIELD_PREFIX).append(fieldName).semi();
       out.closeBlock();
     }
   }
@@ -115,37 +115,11 @@ public class DynamicParserImpl<ROOT> {
 
     @Override
     void writeMethodImplementationJava(ClassScope scope, Method m, TextOutput out) {
-      writeMethodDeclarationJava(scope, m, Collections.<String>emptyList());
+      writeMethodDeclarationJava(out, m);
       out.openBlock();
       out.closeBlock();
     }
   };
-
-  static class AutoSubtypeMethodHandler extends MethodHandler {
-    private final int code;
-
-    AutoSubtypeMethodHandler(int code) {
-      this.code = code;
-    }
-
-    @Override
-    void writeMethodImplementationJava(ClassScope scope, Method m, TextOutput out) {
-      writeMethodDeclarationJava(scope, m, Collections.<String>emptyList());
-      out.openBlock();
-      out.append("return ").append(AutoAlgebraicCasesData.getAutoAlgFieldNameJava(code)).append(';');
-      out.closeBlock();
-    }
-  }
-
-  static class ManualAlgebraicCasesDataImpl extends AlgebraicCasesData {
-    @Override
-    void writeConstructorCodeJava(MethodScope methodScope, TextOutput out) {
-    }
-
-    @Override
-    void writeFields(ClassScope classScope) {
-    }
-  }
 
   static class RefImpl<T> extends RefToType<T> {
     final Class<T> typeClass;

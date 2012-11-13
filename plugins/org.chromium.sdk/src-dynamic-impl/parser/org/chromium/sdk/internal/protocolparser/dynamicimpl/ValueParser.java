@@ -22,7 +22,7 @@ abstract class ValueParser {
     this.nullable = nullable;
   }
 
-  public ObjectValueParser<?> asJsonTypeParser() {
+  public ObjectValueParser asJsonTypeParser() {
     return null;
   }
 

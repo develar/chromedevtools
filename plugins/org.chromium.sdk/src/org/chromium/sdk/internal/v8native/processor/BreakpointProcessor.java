@@ -42,42 +42,39 @@ public class BreakpointProcessor extends V8EventProcessor {
 
   @Override
   public void messageReceived(EventNotification eventMessage) {
-    final boolean isEvent = true;
-    if (isEvent) {
-      String event = eventMessage.event();
-      DebugSession debugSession = getDebugSession();
+    String event = eventMessage.event();
+    DebugSession debugSession = getDebugSession();
 
-      ContextBuilder contextBuilder = debugSession.getContextBuilder();
+    ContextBuilder contextBuilder = debugSession.getContextBuilder();
 
-      ContextBuilder.ExpectingBreakEventStep step1 = contextBuilder.buildNewContext();
+    ContextBuilder.ExpectingBreakEventStep step1 = contextBuilder.buildNewContext();
 
-      InternalContext internalContext = step1.getInternalContext();
+    InternalContext internalContext = step1.getInternalContext();
 
-      BreakEventBody breakEventBody;
-      try {
-        breakEventBody = eventMessage.body().asBreakEventBody();
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-
-      ContextBuilder.ExpectingBacktraceStep step2;
-      if (V8Protocol.EVENT_BREAK.key.equals(event)) {
-        Collection<Breakpoint> breakpointsHit = getBreakpointsHit(eventMessage, breakEventBody);
-        step2 = step1.setContextState(breakpointsHit, null);
-      } else if (V8Protocol.EVENT_EXCEPTION.key.equals(event)) {
-        ExceptionData exception = createException(eventMessage, breakEventBody,
-            internalContext);
-        step2 = step1.setContextState(Collections.<Breakpoint> emptySet(), exception);
-      } else {
-        ContextBuilder.buildSequenceFailure();
-        throw new RuntimeException();
-      }
-
-      processNextStep(step2);
+    BreakEventBody breakEventBody;
+    try {
+      breakEventBody = eventMessage.asBreakEventBody();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+
+    ContextBuilder.ExpectingBacktraceStep step2;
+    if (V8Protocol.EVENT_BREAK.key.equals(event)) {
+      Collection<Breakpoint> breakpointsHit = getBreakpointsHit(breakEventBody);
+      step2 = step1.setContextState(breakpointsHit, null);
+    } else if (V8Protocol.EVENT_EXCEPTION.key.equals(event)) {
+      ExceptionData exception = createException(eventMessage, breakEventBody,
+          internalContext);
+      step2 = step1.setContextState(Collections.<Breakpoint> emptySet(), exception);
+    } else {
+      ContextBuilder.buildSequenceFailure();
+      throw new RuntimeException();
+    }
+
+    processNextStep(step2);
   }
 
-  public void processNextStep(ContextBuilder.ExpectingBacktraceStep step2) {
+  public static void processNextStep(ContextBuilder.ExpectingBacktraceStep step2) {
     BacktraceProcessor backtraceProcessor = new BacktraceProcessor(step2);
     InternalContext internalContext = step2.getInternalContext();
 
@@ -91,17 +88,16 @@ public class BreakpointProcessor extends V8EventProcessor {
     }
   }
 
-  private Collection<Breakpoint> getBreakpointsHit(EventNotification response,
-      BreakEventBody breakEventBody) {
+  private Collection<Breakpoint> getBreakpointsHit(BreakEventBody breakEventBody) {
     long[] breakpointIdsArray = breakEventBody.breakpoints();
     BreakpointManager breakpointManager = getDebugSession().getBreakpointManager();
     if (breakpointIdsArray == null) {
       // Suspended on step end.
-      return Collections.<Breakpoint> emptySet();
+      return Collections.emptySet();
     }
     Collection<Breakpoint> breakpointsHit = new ArrayList<Breakpoint>(breakpointIdsArray.length);
-    for (int i = 0, size = breakpointIdsArray.length; i < size; ++i) {
-      Breakpoint existingBp = breakpointManager.getBreakpoint(breakpointIdsArray[i]);
+    for (long aBreakpointIdsArray : breakpointIdsArray) {
+      Breakpoint existingBp = breakpointManager.getBreakpoint(aBreakpointIdsArray);
       if (existingBp != null) {
         breakpointsHit.add(existingBp);
       }

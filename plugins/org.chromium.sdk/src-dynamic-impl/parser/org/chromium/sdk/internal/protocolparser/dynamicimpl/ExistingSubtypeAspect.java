@@ -21,12 +21,12 @@ class ExistingSubtypeAspect extends TypeHandler.SubtypeAspect {
   @Override
   void writeGetSuperMethodJava(TextOutput out) {
     out.newLine().append("@Override").newLine().append("public ").append(jsonSuperClass.get().getTypeClass().getCanonicalName() ).append(" getSuper()").openBlock();
-    out.append("return ").append(Util.BASE_VALUE_PREFIX).append(';').closeBlock();
+    out.append("return this;").closeBlock();
   }
 
   @Override
   void writeSuperFieldJava(TextOutput out) {
-    out.newLine().append("private final ").append(jsonSuperClass.get().getTypeClass().getCanonicalName()).append(' ').append(Util.BASE_VALUE_PREFIX).append(';').newLine();
+    out.newLine().append("private final ").append(jsonSuperClass.get().getTypeClass().getCanonicalName()).append(' ').append(Util.BASE_VALUE_PREFIX).semi().newLine();
   }
 
   @Override

@@ -11,7 +11,6 @@ import org.chromium.sdk.internal.protocolparser.JsonType;
 
 @JsonType
 public interface ScriptHandle extends JsonSubtype<SomeHandle> {
-
   long id();
   long lineOffset();
   long columnOffset();
@@ -30,7 +29,6 @@ public interface ScriptHandle extends JsonSubtype<SomeHandle> {
   long sourceLength();
   long scriptType();
   long compilationType();
-
 
   @JsonOptionalField
   SomeSerialized evalFromScript();

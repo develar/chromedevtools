@@ -39,7 +39,6 @@ public class V8DynamicParser {
         FailedCommandResponse.class,
         CommandResponse.class,
         BreakEventBody.class,
-        EventNotificationBody.class,
         CommandResponseBody.class,
         BacktraceCommandBody.class,
         FrameObject.class,

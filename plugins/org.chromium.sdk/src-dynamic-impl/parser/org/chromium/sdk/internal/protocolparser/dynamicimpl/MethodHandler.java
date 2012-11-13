@@ -6,6 +6,7 @@ package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.Iterator;
 
 /**
@@ -31,11 +32,14 @@ abstract class MethodHandler {
     out.append(')');
   }
 
-  protected static void writeMethodDeclarationJava(ClassScope scope, Method m, Iterable<String> paramNames) {
-    TextOutput out = scope.getOutput();
+  protected static void writeMethodDeclarationJava(TextOutput out, Method m) {
+    writeMethodDeclarationJava(out, m, Collections.<String>emptyList());
+  }
+
+  protected static void writeMethodDeclarationJava(TextOutput out, Method m, Iterable<String> paramNames) {
     out.append("@Override").newLine().append("public ");
-    Util.writeJavaTypeName(m.getGenericReturnType(), scope.getOutput());
+    Util.writeJavaTypeName(m.getGenericReturnType(), out);
     out.append(' ');
-    appendMethodSignatureJava(m, paramNames, scope.getOutput());
+    appendMethodSignatureJava(m, paramNames, out);
   }
 }

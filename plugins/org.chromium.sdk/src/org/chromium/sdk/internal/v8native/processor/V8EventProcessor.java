@@ -11,7 +11,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.EventNotification;
  * An abstract base implementation of DebugContextImpl-aware
  * reply handlers for certain V8 commands.
  * <p>
- * NB! The {@link #messageReceived(org.json.simple.JSONObject)} implementation
+ * NB! The {@link #messageReceived} implementation
  * MUST NOT perform debugger commands in a blocking way the current thread.
  */
 public abstract class V8EventProcessor {

@@ -1,8 +1,6 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 class AutoAlgebraicCasesData extends AlgebraicCasesData {
-  int variantCodeFieldPos = -1;
-  int variantValueFieldPos = -1;
   boolean hasDefaultCase;
 
   @Override
