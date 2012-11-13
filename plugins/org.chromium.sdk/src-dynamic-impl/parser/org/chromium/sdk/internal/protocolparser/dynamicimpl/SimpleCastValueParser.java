@@ -23,4 +23,9 @@ class SimpleCastValueParser<T> extends ValueParser {
   void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
     throw new UnsupportedOperationException();
   }
+
+  @Override
+  public boolean isThrowsIOException() {
+    return false;
+  }
 }

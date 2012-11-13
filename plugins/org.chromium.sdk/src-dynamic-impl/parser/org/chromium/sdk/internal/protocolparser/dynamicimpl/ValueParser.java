@@ -60,4 +60,8 @@ abstract class ValueParser {
       out.append(Util.READER_NAME);
     }
   }
+
+  public boolean isThrowsIOException() {
+    return true;
+  }
 }

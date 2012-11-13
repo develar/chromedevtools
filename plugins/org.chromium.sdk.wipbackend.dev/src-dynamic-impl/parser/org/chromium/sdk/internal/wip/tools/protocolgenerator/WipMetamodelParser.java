@@ -4,15 +4,14 @@
 
 package org.chromium.sdk.internal.wip.tools.protocolgenerator;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
 import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.DynamicParserImpl;
 import org.chromium.sdk.internal.wip.tools.protocolgenerator.WipMetamodel.Root;
+
+import java.util.Collections;
 
 /**
  * Parser for WIP JSON metamodel.
@@ -46,8 +45,7 @@ interface WipMetamodelParser {
 
       DynamicParserImpl<WipMetamodelParser> dynamicParserImpl;
       try {
-        dynamicParserImpl = new DynamicParserImpl<WipMetamodelParser>(WipMetamodelParser.class,
-            Arrays.asList(classes), Collections.<DynamicParserImpl<?>>emptyList(), true);
+        dynamicParserImpl = new DynamicParserImpl<WipMetamodelParser>(false, WipMetamodelParser.class, classes, Collections.<DynamicParserImpl>emptyList(), true);
       } catch (JsonProtocolModelParseException e) {
         throw new RuntimeException("Failed to build metamodel parser", e);
       }

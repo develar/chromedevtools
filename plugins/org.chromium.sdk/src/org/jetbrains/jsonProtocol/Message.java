@@ -4,6 +4,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import gnu.trove.THashMap;
+import gnu.trove.TIntArrayList;
 import gnu.trove.TLongArrayList;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 public abstract class Message {
   private static final long[] EMPTY_LONG_ARRAY = {};
+  private static final int[] EMPTY_INT_ARRAY = {};
   private static final Field JSON_READER_POSITION_FIELD;
   private static final Field JSON_READER_IN_FIELD;
 
@@ -175,6 +177,23 @@ public abstract class Message {
     TLongArrayList result = new TLongArrayList();
     do {
       result.add(reader.nextLong());
+    }
+    while (reader.hasNext());
+    reader.endArray();
+    return result.toNativeArray();
+  }
+
+  protected static int[] readIntArray(JsonReader reader) throws IOException {
+    checkIsNull(reader, null);
+    reader.beginArray();
+    if (!reader.hasNext()) {
+      reader.endArray();
+      return EMPTY_INT_ARRAY;
+    }
+
+    TIntArrayList result = new TIntArrayList();
+    do {
+      result.add(reader.nextInt());
     }
     while (reader.hasNext());
     reader.endArray();

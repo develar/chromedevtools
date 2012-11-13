@@ -106,11 +106,11 @@ public class PushResultParser {
 
     public TreeBuilder(boolean previewOnly, int oldPositionOffset, int newPositionOffset) {
       if (previewOnly) {
-        this.statusRenderer = PREVIEW_STATUS_RENDERER;
+        statusRenderer = PREVIEW_STATUS_RENDERER;
       } else {
-        this.statusRenderer = RESULT_STATUS_RENDERER;
+        statusRenderer = RESULT_STATUS_RENDERER;
       }
-      this.hideOldVersion = !previewOnly;
+      hideOldVersion = !previewOnly;
       this.oldPositionOffset = oldPositionOffset;
       this.newPositionOffset = newPositionOffset;
     }
@@ -201,7 +201,7 @@ public class PushResultParser {
       private NodeImpl(UpdatableScript.FunctionNode<?> rawFunction, SourcePosition oldPosition,
           SourcePosition newPosition, List<? extends NodeImpl> childList) {
         this.rawFunction = rawFunction;
-        this.name = rawFunction.getName();
+        name = rawFunction.getName();
         this.oldPosition = oldPosition;
         this.newPosition = newPosition;
         this.childList = childList;
@@ -316,26 +316,27 @@ public class PushResultParser {
   private static TextualDiff shiftNewPositions(TextualDiff textualDiff,
       int oldCommentLength, int newCommentLength, int prefixLength, int suffixLength,
       int originalOldLength, int originalNewLength) {
-    List<Long> originalChunks = textualDiff.getChunks();
-    final List<Long> shiftedChunks = new ArrayList<Long>(originalChunks.size() + 3 + 3);
+    int[] originalChunks = textualDiff.getChunks();
+    final int[] shiftedChunks = new int[originalChunks.length + 3 + 3];
 
-    shiftedChunks.add((long) 0);
-    shiftedChunks.add((long) (oldCommentLength + prefixLength));
-    shiftedChunks.add((long) (newCommentLength + prefixLength));
+    int j = 0;
+    shiftedChunks[j++] = 0;
+    shiftedChunks[j++] = oldCommentLength + prefixLength;
+    shiftedChunks[j++] = newCommentLength + prefixLength;
 
-    for (int i = 0; i < originalChunks.size(); i += 3) {
-      shiftedChunks.add(originalChunks.get(i + 0) + oldCommentLength);
-      shiftedChunks.add(originalChunks.get(i + 1) + oldCommentLength);
-      shiftedChunks.add(originalChunks.get(i + 2) + newCommentLength);
+    for (int i = 0; i < originalChunks.length; i += 3) {
+      shiftedChunks[j++] = originalChunks[i] + oldCommentLength;
+      shiftedChunks[j++] = originalChunks[i + 1] + oldCommentLength;
+      shiftedChunks[j++] = originalChunks[i + 2] + newCommentLength;
     }
 
-    shiftedChunks.add((long) originalOldLength + oldCommentLength - suffixLength);
-    shiftedChunks.add((long) originalOldLength + oldCommentLength);
-    shiftedChunks.add((long) originalNewLength + newCommentLength + prefixLength + suffixLength);
+    shiftedChunks[j++] = (originalOldLength + oldCommentLength) - suffixLength;
+    shiftedChunks[j++] = originalOldLength + oldCommentLength;
+    shiftedChunks[j] = originalNewLength + newCommentLength + prefixLength + suffixLength;
 
     return new TextualDiff() {
       @Override
-      public List<Long> getChunks() {
+      public int[] getChunks() {
         return shiftedChunks;
       }
     };

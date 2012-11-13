@@ -418,7 +418,7 @@ class ReadInterfacesSession {
       throws JsonProtocolModelParseException {
       ValueParser fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret());
       VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
-      final ManualSubtypeMethodHandler handler = new ManualSubtypeMethodHandler(fieldInfo, fieldTypeParser);
+      final LazyCachedMethodHandler handler = new LazyCachedMethodHandler(fieldTypeParser, fieldInfo);
       ObjectValueParser<?> parserAsObjectValueParser = fieldTypeParser.asJsonTypeParser();
       if (parserAsObjectValueParser != null && parserAsObjectValueParser.isSubtyping()) {
         SubtypeCaster subtypeCaster = new SubtypeCaster(parserAsObjectValueParser.getType()) {

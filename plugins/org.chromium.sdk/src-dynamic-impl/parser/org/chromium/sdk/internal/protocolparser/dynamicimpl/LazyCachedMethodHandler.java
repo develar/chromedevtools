@@ -7,10 +7,12 @@ import java.util.Collections;
  * Basic implementation of the method that parses value on demand and store it for
  * a future use.
  */
-abstract class LazyCachedMethodHandlerBase extends MethodHandler {
+class LazyCachedMethodHandler extends MethodHandler {
+  private final ValueParser parser;
   private final VolatileFieldBinding fieldBinding;
 
-  LazyCachedMethodHandlerBase(VolatileFieldBinding fieldBinding) {
+  LazyCachedMethodHandler(ValueParser parser, VolatileFieldBinding fieldBinding) {
+    this.parser = parser;
     this.fieldBinding = fieldBinding;
   }
 
@@ -18,7 +20,19 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
     return fieldBinding;
   }
 
-  protected abstract void writeReturnTypeJava(ClassScope scope, Method m, TextOutput out);
+  protected void writeReadCode(JavaCodeGenerator.MethodScope scope) {
+    parser.writeReadCode(scope, true, scope.getOutput());
+  }
+
+  protected void writeReturnTypeJava(ClassScope scope, Method m, TextOutput out) {
+    ObjectValueParser objectValueParser = parser.asJsonTypeParser();
+    if (objectValueParser == null) {
+      Util.writeJavaTypeName(m.getGenericReturnType(), out);
+    }
+    else {
+      out.append(scope.getTypeImplReference(objectValueParser.getType().get()));
+    }
+  }
 
   @Override
   void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
@@ -33,17 +47,20 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
     getFieldBinding().writeGetExpression(out);
     out.append(" == null)").openBlock();
     {
-      out.append("try").openBlock();
+      if (parser.isThrowsIOException()) {
+        out.append("try").openBlock();
+      }
       {
         getFieldBinding().writeGetExpression(out);
         out.append(" = ");
         writeReadCode(scope);
         out.semi();
       }
-      out.closeBlock();
-      out.newLine().append("catch (IOException e)").openBlock();
-      out.append("throw new JsonParseException(e);").closeBlock();
-
+      if (parser.isThrowsIOException()) {
+        out.closeBlock();
+        out.newLine().append("catch (IOException e)").openBlock();
+        out.append("throw new JsonParseException(e);").closeBlock();
+      }
       out.newLine().append(Util.PENDING_INPUT_READER_NAME).append(" = null;");
     }
     out.closeBlock();
@@ -54,6 +71,4 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
 
     out.closeBlock();
   }
-
-  protected abstract void writeReadCode(JavaCodeGenerator.MethodScope scope);
 }

@@ -473,12 +473,12 @@ public class LiveEditDiffViewer {
     if (input == null) {
       return null;
     }
-    List<Long> chunkArray = input.getTextualDiff().getChunks();
+    int[] chunkArray = input.getTextualDiff().getChunks();
 
     String oldText = input.getOldSource().getText();
     String newText = input.getNewSource().getText();
 
-    int arrayLengthExpected = chunkArray.size() / 3;
+    int arrayLengthExpected = chunkArray.length / 3;
     List<ChunkData> oldLineNumbers = new ArrayList<ChunkData>(arrayLengthExpected);
     List<ChunkData> newLineNumbers = new ArrayList<ChunkData>(arrayLengthExpected);
 
@@ -488,11 +488,11 @@ public class LiveEditDiffViewer {
       int newPos = 0;
       int currentNewLineNumber = 0;
 
-      for (int i = 0; i < chunkArray.size(); i += 3) {
-        int oldStart = chunkArray.get(i + 0).intValue();
+      for (int i = 0; i < chunkArray.length; i += 3) {
+        int oldStart = chunkArray[i];
         int newStart = oldStart - oldPos + newPos;
-        int oldEnd = chunkArray.get(i + 1).intValue();
-        int newEnd = chunkArray.get(i + 2).intValue();
+        int oldEnd = chunkArray[i + 1];
+        int newEnd = chunkArray[i + 2];
 
         currentOldLineNumber += countLineEnds(oldText, oldPos, oldStart);
         currentNewLineNumber += countLineEnds(newText, newPos, newStart);
@@ -530,13 +530,13 @@ public class LiveEditDiffViewer {
     TextPresentation oldPresentation = new TextPresentation();
     TextPresentation newPresentation = new TextPresentation();
 
-    List<Long> chunkNumbers = textualDiff.getChunks();
+    int[] chunkNumbers = textualDiff.getChunks();
     int posOld = 0;
     int posNew = 0;
-    for (int i = 0; i < chunkNumbers.size(); i += 3) {
-      int startOld = chunkNumbers.get(i + 0).intValue();
-      int endOld = chunkNumbers.get(i + 1).intValue();
-      int endNew = chunkNumbers.get(i + 2).intValue();
+    for (int i = 0; i < chunkNumbers.length; i += 3) {
+      int startOld = chunkNumbers[i];
+      int endOld = chunkNumbers[i + 1];
+      int endNew = chunkNumbers[i + 2];
       int startNew = startOld - posOld + posNew;
 
       if (startOld == endOld) {
@@ -677,7 +677,7 @@ public class LiveEditDiffViewer {
     private final Map<Side, TextChangesMap> sideToMap;
 
     InputData(TextChangesMap oldSideMap, TextChangesMap newSideMap) {
-      this.sideToMap = new EnumMap<Side, TextChangesMap>(Side.class);
+      sideToMap = new EnumMap<Side, TextChangesMap>(Side.class);
       sideToMap.put(Side.OLD, oldSideMap);
       sideToMap.put(Side.NEW, newSideMap);
     }
@@ -715,10 +715,7 @@ public class LiveEditDiffViewer {
         }
       };
       int chunkIndex = RangeBinarySearch.find(searchInput);
-      if (chunkIndex == sourceChunks.size()) {
-        return false;
-      }
-      return lineStartOffset + lineLen > sourceChunks.get(chunkIndex).startPosition;
+      return chunkIndex != sourceChunks.size() && lineStartOffset + lineLen > sourceChunks.get(chunkIndex).startPosition;
     }
 
     int translateLineNumber(final int lineNumber, final boolean preferAboveNotBelow) {

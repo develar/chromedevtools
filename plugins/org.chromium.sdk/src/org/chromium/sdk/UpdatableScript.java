@@ -69,7 +69,7 @@ public interface UpdatableScript {
      * @return textual diff of the script in form of list of 3-element diff chunk parameters
      *   that are (old_start_pos, old_end_pos, new_end_pos)
      */
-    long[] getChunks();
+    int[] getChunks();
   }
 
   /**

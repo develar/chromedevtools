@@ -13,9 +13,9 @@ public class GetPropertiesParams extends org.chromium.sdk.internal.wip.protocol.
    @param ownPropertiesOpt If true, returns properties belonging only to the element itself, not to its prototype chain.
    */
   public GetPropertiesParams(String/*See org.chromium.sdk.internal.wip.protocol.common.runtime.RemoteObjectIdTypedef*/ objectId, Boolean ownPropertiesOpt) {
-    this.put("objectId", objectId);
+    put("objectId", objectId);
     if (ownPropertiesOpt != null) {
-      this.put("ownProperties", ownPropertiesOpt);
+      put("ownProperties", ownPropertiesOpt);
     }
   }
 
