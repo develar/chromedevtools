@@ -26,7 +26,8 @@ class ReadInterfacesSession {
 
   private static final SimpleParserPair<Object> OBJECT_PARSER = SimpleParserPair.create(Object.class);
   private static final SimpleParserPair<JsonReader> JSON_PARSER = SimpleParserPair.create(JsonReader.class);
-  private static final SimpleParserPair<Map> MAP_PARSER = SimpleParserPair.create(Map.class);
+  private static final MapParser MAP_PARSER = new MapParser(false);
+  private static final MapParser NULLABLE_MAP_PARSER = new MapParser(true);
 
   private static final StringIntPairValueParser STRING_INT_PAIR_PARSER = new StringIntPairValueParser();
 
@@ -166,7 +167,7 @@ class ReadInterfacesSession {
         return JSON_PARSER.get(declaredNullable);
       }
       else if (type == Map.class) {
-        return MAP_PARSER.get(declaredNullable);
+        return declaredNullable ? NULLABLE_MAP_PARSER : MAP_PARSER;
       }
       else if (type == StringIntPair.class) {
         return STRING_INT_PAIR_PARSER;
@@ -459,7 +460,7 @@ class ReadInterfacesSession {
         fieldTypeInfo = new FieldTypeInfo() {
           @Override
           public void appendValueTypeNameJava(JavaCodeGenerator.FileScope scope) {
-            fieldTypeParser.appendInternalValueTypeNameJava(scope);
+            fieldTypeParser.appendInternalValueTypeName(scope);
           }
         };
       }
@@ -467,7 +468,7 @@ class ReadInterfacesSession {
         fieldTypeInfo = new FieldTypeInfo() {
           @Override
           public void appendValueTypeNameJava(JavaCodeGenerator.FileScope scope) {
-            fieldTypeParser.appendFinishedValueTypeNameJava(scope.getOutput());
+            fieldTypeParser.appendFinishedValueTypeName(scope.getOutput());
           }
         };
       }

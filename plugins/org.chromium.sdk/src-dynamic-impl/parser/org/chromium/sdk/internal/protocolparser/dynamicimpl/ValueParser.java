@@ -26,10 +26,10 @@ abstract class ValueParser {
     return null;
   }
 
-  abstract void appendFinishedValueTypeNameJava(TextOutput out);
+  abstract void appendFinishedValueTypeName(TextOutput out);
 
-  void appendInternalValueTypeNameJava(FileScope scope) {
-    appendFinishedValueTypeNameJava(scope.getOutput());
+  void appendInternalValueTypeName(FileScope scope) {
+    appendFinishedValueTypeName(scope.getOutput());
   }
 
   abstract void writeReadCode(MethodScope methodScope, boolean subtyping, TextOutput out);

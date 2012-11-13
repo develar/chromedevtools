@@ -12,21 +12,21 @@ class ArrayParser extends ValueParser {
   }
 
   @Override
-  public void appendFinishedValueTypeNameJava(TextOutput out) {
+  public void appendFinishedValueTypeName(TextOutput out) {
     if (isList) {
       out.append("java.util.List<");
-      componentParser.appendFinishedValueTypeNameJava(out);
+      componentParser.appendFinishedValueTypeName(out);
       out.append('>');
     }
     else {
-      componentParser.appendFinishedValueTypeNameJava(out);
+      componentParser.appendFinishedValueTypeName(out);
       out.append("[]");
     }
   }
 
   @Override
-  public void appendInternalValueTypeNameJava(JavaCodeGenerator.FileScope scope) {
-    appendFinishedValueTypeNameJava(scope.getOutput());
+  public void appendInternalValueTypeName(JavaCodeGenerator.FileScope scope) {
+    appendFinishedValueTypeName(scope.getOutput());
   }
 
   @Override

@@ -1,23 +1,23 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-public class StringIntPairValueParser extends ValueParser {
-  StringIntPairValueParser() {
-    super(false);
+public class MapParser extends ValueParser {
+  MapParser(boolean nullable) {
+    super(nullable);
   }
 
   @Override
-  void appendFinishedValueTypeName(TextOutput out) {
-    out.append("StringIntPair");
+  public void appendFinishedValueTypeName(TextOutput out) {
+    out.append("java.util.Map");
   }
 
   @Override
   void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, TextOutput out) {
+    beginReadCall("Map", subtyping, out);
+    out.append(')');
   }
 
   @Override
   void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
-    out.append("read").append("IntStringPairs").append('(');
-    addReaderParameter(subtyping, out);
-    out.append(')');
+    throw new UnsupportedOperationException();
   }
 }

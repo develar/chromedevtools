@@ -96,7 +96,7 @@ public class DynamicParserImpl<ROOT> {
   static ValueParser VOID_PARSER = new ValueParser(true) {
 
     @Override
-    public void appendFinishedValueTypeNameJava(TextOutput out) {
+    public void appendFinishedValueTypeName(TextOutput out) {
       out.append("Void");
     }
 

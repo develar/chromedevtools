@@ -32,12 +32,12 @@ class ObjectValueParser<T> extends ValueParser {
   }
 
   @Override
-  public void appendFinishedValueTypeNameJava(TextOutput out) {
+  public void appendFinishedValueTypeName(TextOutput out) {
     out.append(refToType.getTypeClass().getCanonicalName());
   }
 
   @Override
-  public void appendInternalValueTypeNameJava(FileScope classScope) {
+  public void appendInternalValueTypeName(FileScope classScope) {
     classScope.append(classScope.getTypeImplReference(refToType.get()));
   }
 

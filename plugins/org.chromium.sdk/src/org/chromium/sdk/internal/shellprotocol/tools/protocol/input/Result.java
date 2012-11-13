@@ -4,8 +4,7 @@
 
 package org.chromium.sdk.internal.shellprotocol.tools.protocol.input;
 
-import java.util.HashMap;
-import java.util.Map;
+import gnu.trove.TIntObjectHashMap;
 
 /**
  * A V8 debugger attachment/detachment operation result.
@@ -29,7 +28,7 @@ public enum Result {
 
   public final int code;
 
-  private static final Map<Integer, Result> codeToResult = new HashMap<Integer, Result>();
+  private static final TIntObjectHashMap<Result> codeToResult = new TIntObjectHashMap<Result>();
 
   static {
     for (Result result : values()) {

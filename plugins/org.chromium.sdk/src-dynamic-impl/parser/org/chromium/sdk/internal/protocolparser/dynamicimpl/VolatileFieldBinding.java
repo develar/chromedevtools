@@ -17,17 +17,15 @@ class VolatileFieldBinding {
     return atomicReferenceArray.get(position);
   }
 
-  void writeGetExpressionJava(TextOutput out) {
-    out.append(getCodeFieldName());
+  void writeGetExpression(TextOutput out) {
+    out.append(FIELD_NAME_PREFIX).append(position);
   }
 
   void writeFieldDeclaration(ClassScope scope, TextOutput out) {
     out.append("private ");
     fieldTypeInfo.appendValueTypeNameJava(scope);
-    out.append(' ').append(getCodeFieldName()).append(';');
-  }
-
-  private String getCodeFieldName() {
-    return FIELD_NAME_PREFIX + position;
+    out.space();
+    writeGetExpression(out);
+    out.semi();
   }
 }

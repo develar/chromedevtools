@@ -15,7 +15,7 @@ class SimpleCastValueParser<T> extends ValueParser {
   }
 
   @Override
-  public void appendFinishedValueTypeNameJava(TextOutput out) {
+  public void appendFinishedValueTypeName(TextOutput out) {
     out.append(fieldType.getCanonicalName());
   }
 

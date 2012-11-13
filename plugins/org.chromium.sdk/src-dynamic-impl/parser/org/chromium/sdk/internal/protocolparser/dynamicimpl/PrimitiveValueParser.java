@@ -27,7 +27,7 @@ class PrimitiveValueParser extends ValueParser {
   }
 
   @Override
-  void appendFinishedValueTypeNameJava(TextOutput out) {
+  void appendFinishedValueTypeName(TextOutput out) {
     out.append(className);
   }
 

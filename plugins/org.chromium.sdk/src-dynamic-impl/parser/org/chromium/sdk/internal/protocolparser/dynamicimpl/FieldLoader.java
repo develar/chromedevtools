@@ -25,7 +25,7 @@ class FieldLoader {
 
   public void writeFieldDeclaration(TextOutput out) {
     out.append("private ");
-    valueParser.appendFinishedValueTypeNameJava(out);
+    valueParser.appendFinishedValueTypeName(out);
     out.append(' ').append(FIELD_PREFIX).append(fieldName).append(';');
   }
 }

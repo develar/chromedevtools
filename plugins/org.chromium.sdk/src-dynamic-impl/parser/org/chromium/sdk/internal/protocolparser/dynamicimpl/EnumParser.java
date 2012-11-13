@@ -19,7 +19,7 @@ class EnumParser<T extends Enum<T>> extends ValueParser {
   }
 
   @Override
-  public void appendFinishedValueTypeNameJava(TextOutput out) {
+  public void appendFinishedValueTypeName(TextOutput out) {
     out.append(enumClass.getCanonicalName());
   }
 

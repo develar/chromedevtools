@@ -42,23 +42,18 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
 
     JavaCodeGenerator.MethodScope scope = classScope.newMethodScope();
     out.openBlock();
-
-    writeReturnTypeJava(classScope, m, out);
-    out.append(" result = ");
-    getFieldBinding().writeGetExpressionJava(out);
-    out.append(';').newLine();
-
-    out.append("if (result != null)").openBlock();
-    out.append("return result;").closeBlock();
-
-    out.newLine();
-    getFieldBinding().writeGetExpressionJava(out);
-    out.append(" = ");
-    writeReadCode(scope);
-    out.semi();
-    out.newLine().append(Util.PENDING_INPUT_READER_NAME).append(" = null;");
+    out.append("if (");
+    getFieldBinding().writeGetExpression(out);
+    out.append(" == null)").openBlock();
+    {
+      getFieldBinding().writeGetExpression(out);
+      out.append(" = ");
+      writeReadCode(scope);
+      out.semi();
+      out.newLine().append(Util.PENDING_INPUT_READER_NAME).append(" = null;").closeBlock();
+    }
     out.newLine().append("return ");
-    getFieldBinding().writeGetExpressionJava(out);
+    getFieldBinding().writeGetExpression(out);
     out.semi();
 
     out.closeBlock();

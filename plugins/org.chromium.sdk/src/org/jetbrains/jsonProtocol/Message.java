@@ -2,6 +2,7 @@ package org.jetbrains.jsonProtocol;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+import gnu.trove.THashMap;
 import gnu.trove.TLongArrayList;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Message {
   private static final long[] EMPTY_LONG_ARRAY = {};
@@ -96,6 +98,69 @@ public abstract class Message {
     while (reader.hasNext());
     reader.endArray();
     return result;
+  }
+
+  protected static Map readMap(JsonReader reader, String fieldName) throws IOException {
+    checkIsNull(reader, fieldName);
+    reader.beginObject();
+    if (!reader.hasNext()) {
+      reader.endObject();
+      return Collections.emptyMap();
+    }
+
+    return nextObject(reader);
+  }
+
+  private static Object read(JsonReader reader) throws IOException {
+    switch (reader.peek()) {
+      case BEGIN_ARRAY:
+        return nextList(reader);
+
+      case BEGIN_OBJECT:
+        reader.beginObject();
+        return nextObject(reader);
+
+      case STRING:
+        return reader.nextString();
+
+      case NUMBER:
+        return reader.nextDouble();
+
+      case BOOLEAN:
+        return reader.nextBoolean();
+
+      case NULL:
+        reader.nextNull();
+        return null;
+
+      default: throw new IllegalStateException();
+    }
+  }
+
+  private static Map<String, Object> nextObject(JsonReader reader) throws IOException {
+    Map<String, Object> map = new THashMap<String, Object>();
+    while (reader.hasNext()) {
+      map.put(reader.nextName(), read(reader));
+    }
+    reader.endObject();
+    return map;
+  }
+
+  private static <T> List<T> nextList(JsonReader reader) throws IOException {
+    reader.beginArray();
+    if (!reader.hasNext()) {
+      reader.endArray();
+      return Collections.emptyList();
+    }
+
+    List<T> list = new ArrayList<T>();
+    do {
+      //noinspection unchecked
+      list.add((T)read(reader));
+    }
+    while (reader.hasNext());
+    reader.endArray();
+    return list;
   }
 
   protected static long[] readLongArray(JsonReader reader) throws IOException {
