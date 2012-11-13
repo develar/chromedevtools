@@ -42,7 +42,7 @@ class TypeHandler<T> {
               List<VolatileFieldBinding> volatileFields,
               Map<Method, MethodHandler> methodHandlerMap,
               List<FieldLoader> fieldLoaders,
-              List<FieldCondition> fieldConditions, EagerFieldParser eagerFieldParser,
+              EagerFieldParser eagerFieldParser,
               AlgebraicCasesData algebraicCasesData, boolean lazyRead) {
     this.typeClass = typeClass;
     this.volatileFields = volatileFields;
@@ -52,13 +52,10 @@ class TypeHandler<T> {
     this.algebraicCasesData = algebraicCasesData;
     this.lazyRead = lazyRead;
     if (jsonSuperClass == null) {
-      if (!fieldConditions.isEmpty()) {
-        throw new IllegalArgumentException();
-      }
       subtypeAspect = new AbsentSubtypeAspect();
     }
     else {
-      subtypeAspect = new ExistingSubtypeAspect(jsonSuperClass, fieldConditions);
+      subtypeAspect = new ExistingSubtypeAspect(jsonSuperClass);
     }
   }
 
@@ -129,8 +126,6 @@ class TypeHandler<T> {
     abstract void writeSuperFieldJava(TextOutput out);
     abstract void writeSuperConstructorParamJava(TextOutput out);
     abstract void writeSuperConstructorInitialization(TextOutput out);
-    void writeHelperMethodsJava(ClassScope classScope, TextOutput out) {
-    }
 
     abstract void writeParseMethod(String className, ClassScope scope, TextOutput out);
 
@@ -211,7 +206,6 @@ class TypeHandler<T> {
 
     writeBaseMethods(classScope, out);
     subtypeAspect.writeGetSuperMethodJava(out);
-    subtypeAspect.writeHelperMethodsJava(classScope, out);
     out.indentOut().append('}');
   }
 

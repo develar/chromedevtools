@@ -1,17 +1,11 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import java.util.List;
-
 class ExistingSubtypeAspect extends TypeHandler.SubtypeAspect {
   private SubtypeCaster subtypeCaster;
   private final RefToType<?> jsonSuperClass;
 
-  /** Set of conditions that check whether this type conforms as subtype. */
-  private final List<FieldCondition> fieldConditions;
-
-  ExistingSubtypeAspect(RefToType<?> jsonSuperClass, List<FieldCondition> fieldConditions) {
+  ExistingSubtypeAspect(RefToType<?> jsonSuperClass) {
     this.jsonSuperClass = jsonSuperClass;
-    this.fieldConditions = fieldConditions;
   }
 
   public void setSubtypeCaster(SubtypeCaster subtypeCaster) {
@@ -58,19 +52,5 @@ class ExistingSubtypeAspect extends TypeHandler.SubtypeAspect {
   @Override
   public void writeInstantiateCode(String className, TextOutput out) {
     out.append(className).append(".parse");
-  }
-
-  @Override
-  void writeHelperMethodsJava(ClassScope scope, TextOutput out) {
-    if (fieldConditions.isEmpty()) {
-      return;
-    }
-
-    out.newLine().newLine().append("public static boolean checkSubtypeConditions(").append(jsonSuperClass.get().getTypeClass().getCanonicalName()).append(" message)").openBlock();
-    for (FieldCondition condition : fieldConditions) {
-      condition.conditionLogic.writeCheck(scope, out, "message." + condition.getPropertyName() + "()");
-    }
-    out.closeBlock();
-    out.newLine();
   }
 }

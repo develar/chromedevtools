@@ -4,16 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import java.util.EnumSet;
-
-import org.chromium.sdk.internal.protocolparser.EnumValueCondition;
-import org.chromium.sdk.internal.protocolparser.JsonField;
-import org.chromium.sdk.internal.protocolparser.JsonOptionalField;
-import org.chromium.sdk.internal.protocolparser.JsonOverrideField;
-import org.chromium.sdk.internal.protocolparser.JsonSubtype;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeConditionCustom;
-import org.chromium.sdk.internal.protocolparser.JsonType;
+import org.chromium.sdk.internal.protocolparser.*;
 
 /**
  * A generic type for all command responses. There are 2 subtypes; one for

@@ -135,14 +135,7 @@ public class SubtypingAndAggregationTest {
   @JsonType
   public interface RgbColor extends JsonSubtype<SchemedColor> {
     @JsonOverrideField
-    @JsonSubtypeConditionCustom(condition=RgbSchemeCondition.class)
     ColorScheme scheme();
-
-    class RgbSchemeCondition extends EnumValueCondition<ColorScheme> {
-      public RgbSchemeCondition() {
-        super(EnumSet.<ColorScheme>of(ColorScheme.RGB));
-      }
-    }
 
     long red();
     long green();
@@ -152,14 +145,7 @@ public class SubtypingAndAggregationTest {
   @JsonType
   public interface CmykColor extends JsonSubtype<SchemedColor> {
     @JsonOverrideField
-    @JsonSubtypeConditionCustom(condition=CmykSchemeCondition.class)
     ColorScheme scheme();
-
-    class CmykSchemeCondition extends EnumValueCondition<ColorScheme> {
-      public CmykSchemeCondition() {
-        super(EnumSet.<ColorScheme>of(ColorScheme.CMYK));
-      }
-    }
 
     long cyan();
     long magenta();

@@ -151,7 +151,7 @@ class ReadInterfacesSession {
     return new TypeHandler<T>(typeClass, getSuperclassRef(typeClass),
                               fields.getVolatileFields(), methodHandlerMap,
                               fields.getFieldLoaders(),
-                              fields.getFieldConditions(), eagerFieldParser, fields.getAlgCasesData(),
+                              eagerFieldParser, fields.getAlgCasesData(),
                               lazyRead);
   }
 
@@ -304,7 +304,6 @@ class ReadInterfacesSession {
     private final List<DynamicParserImpl.LazyHandler> onDemandHanlers = new ArrayList<DynamicParserImpl.LazyHandler>();
     private final Map<Method, MethodHandler> methodHandlerMap = new HashMap<Method, MethodHandler>();
     private final DynamicParserImpl.FieldMap fieldMap = new DynamicParserImpl.FieldMap();
-    private final List<FieldCondition> fieldConditions = new ArrayList<FieldCondition>(2);
     private ManualAlgebraicCasesData manualAlgCasesData;
     private AutoAlgebraicCasesData autoAlgCasesData;
     private List<VolatileFieldBinding> volatileFields = new ArrayList<VolatileFieldBinding>(2);
@@ -321,19 +320,9 @@ class ReadInterfacesSession {
 
     void go() throws JsonProtocolModelParseException {
       Method[] methods = typeClass.getDeclaredMethods();
-      FieldConditionLogic[] fieldConditionLogics = new FieldConditionLogic[methods.length];
-      for (int i = 0; i < methods.length; i++) {
-        FieldConditionLogic fieldConditionLogic = FieldConditionLogic.readLogic(methods[i]);
-        fieldConditionLogics[i] = fieldConditionLogic;
-        if (useManualAlgCasesData && fieldConditionLogic != null) {
-          useManualAlgCasesData = false;
-        }
-      }
-
-      for (int i = 0; i < methods.length; i++) {
-        Method m = methods[i];
+      for (Method m : methods) {
         try {
-          processMethod(m, fieldConditionLogics[i]);
+          processMethod(m);
         }
         catch (JsonProtocolModelParseException e) {
           throw new JsonProtocolModelParseException("Problem with method " + m, e);
@@ -341,7 +330,7 @@ class ReadInterfacesSession {
       }
     }
 
-    private void processMethod(Method m, FieldConditionLogic fieldConditionLogic) throws JsonProtocolModelParseException {
+    private void processMethod(Method m) throws JsonProtocolModelParseException {
       if (m.getParameterTypes().length != 0) {
         throw new JsonProtocolModelParseException("No parameters expected in " + m);
       }
@@ -351,10 +340,6 @@ class ReadInterfacesSession {
 
       JsonSubtypeCasting jsonSubtypeCaseAnnotation = m.getAnnotation(JsonSubtypeCasting.class);
       if (jsonSubtypeCaseAnnotation != null) {
-        if (fieldConditionLogic != null) {
-          throw new JsonProtocolModelParseException(
-            "Subtype condition annotation only works with field getter methods");
-        }
         if (overrideFieldAnnotation != null) {
           throw new JsonProtocolModelParseException(
             "Override annotation only works with field getter methods");
@@ -378,19 +363,15 @@ class ReadInterfacesSession {
         }
       }
       else {
-        methodHandler = processFieldGetterMethod(m, fieldConditionLogic, overrideFieldAnnotation, fieldName);
+        methodHandler = processFieldGetterMethod(m, overrideFieldAnnotation, fieldName);
       }
       methodHandlerMap.put(m, methodHandler);
     }
 
     private MethodHandler processFieldGetterMethod(Method m,
-                                                   FieldConditionLogic fieldConditionLogic,
                                                    JsonOverrideField overrideFieldAnn,
                                                    String fieldName) throws JsonProtocolModelParseException {
       ValueParser fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), m.getAnnotation(JsonNullable.class) != null, false);
-      if (fieldConditionLogic != null) {
-        fieldConditions.add(new FieldCondition(fieldName, fieldConditionLogic));
-      }
       if (overrideFieldAnn == null) {
         fieldMap.localNames.add(fieldName);
       }
@@ -471,14 +452,6 @@ class ReadInterfacesSession {
 
     Map<Method, MethodHandler> getMethodHandlerMap() {
       return methodHandlerMap;
-    }
-
-    List<FieldCondition> getFieldConditions() {
-      return fieldConditions;
-    }
-
-    boolean requiresJsonObject() {
-      return lazyRead;
     }
 
     private VolatileFieldBinding allocateVolatileField(final ValueParser fieldTypeParser,
