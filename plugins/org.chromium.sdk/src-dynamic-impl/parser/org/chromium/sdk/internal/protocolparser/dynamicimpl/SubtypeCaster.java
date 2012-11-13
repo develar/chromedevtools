@@ -9,24 +9,16 @@ package org.chromium.sdk.internal.protocolparser.dynamicimpl;
  * when user wants to parse JSON object as subtype.
  * It works in terms of {@link ObjectData}.
  */
-class SubtypeCaster {
-  private final Class<?> baseType;
+abstract class SubtypeCaster {
   private final RefToType<?> subtypeRef;
 
-  SubtypeCaster(Class<?> baseType, RefToType<?> subtypeRef) {
-    this.baseType = baseType;
+  SubtypeCaster(RefToType<?> subtypeRef) {
     this.subtypeRef = subtypeRef;
   }
 
-  Class<?> getSubtype() {
-    return subtypeRef.getTypeClass();
-  }
+  abstract void writeJava(TextOutput out);
 
   TypeHandler<?> getSubtypeHandler() {
     return subtypeRef.get();
-  }
-
-  Class<?> getBaseType() {
-    return baseType;
   }
 }

@@ -89,7 +89,7 @@ public class BacktraceProcessor implements V8CommandProcessor.V8HandlerCallback 
     handleWrongStacktrace();
   }
 
-  private void handleWrongStacktrace() {
-    step2.getInternalContext().getContextBuilder().buildSequenceFailure();
+  private static void handleWrongStacktrace() {
+    ContextBuilder.buildSequenceFailure();
   }
 }

@@ -67,8 +67,15 @@ public class TextOutput {
   }
 
   public void openBlock() {
-    out.append(' ').append('{');
-    newLine().indentIn();
+    openBlock(true);
+  }
+
+  public void openBlock(boolean addNewLine) {
+    space().append('{');
+    if (addNewLine) {
+      newLine();
+    }
+    indentIn();
   }
 
   public void closeBlock() {

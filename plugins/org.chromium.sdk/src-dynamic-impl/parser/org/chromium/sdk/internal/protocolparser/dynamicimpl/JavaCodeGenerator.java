@@ -33,7 +33,6 @@ public interface JavaCodeGenerator {
   interface FileScope extends GlobalScope {
     TextOutput getOutput();
 
-    FileScope startLine(String line);
     FileScope append(String line);
     FileScope append(char c);
 
@@ -84,12 +83,6 @@ public interface JavaCodeGenerator {
       }
 
       @Override
-      public FileScope startLine(String line) {
-        out2.startLine(line);
-        return this;
-      }
-
-      @Override
       public FileScope append(String line) {
         out2.append(line);
         return this;
@@ -112,17 +105,9 @@ public interface JavaCodeGenerator {
 
       private static class Out2 {
         private final StringBuilder builder;
-        private int indent = 0;
 
         Out2(StringBuilder builder) {
           this.builder = builder;
-        }
-
-        void startLine(String line) {
-          for (int i = 0; i < indent; i++) {
-            builder.append(' ');
-          }
-          builder.append(line);
         }
 
         void append(String line) {

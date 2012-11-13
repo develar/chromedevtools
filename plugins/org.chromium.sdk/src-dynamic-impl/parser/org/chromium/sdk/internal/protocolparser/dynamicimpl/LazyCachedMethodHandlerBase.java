@@ -19,18 +19,18 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
     return fieldBinding;
   }
 
-  protected abstract void writeReturnTypeJava(ClassScope scope, Method m);
+  protected abstract void writeReturnTypeJava(ClassScope scope, Method m, TextOutput out);
 
   @Override
   void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
     out.append("@Override").newLine().append("public ");
-    writeReturnTypeJava(classScope, m);
+    writeReturnTypeJava(classScope, m, out);
     out.append(' ');
     appendMethodSignatureJava(m, Collections.<String>emptyList(), out);
     {
       Type[] exceptions = m.getGenericExceptionTypes();
       if (exceptions.length > 0) {
-        classScope.append(" throws ");
+        out.append(" throws ");
         for (int i = 0; i < exceptions.length; i++) {
           if (i != 0) {
             classScope.append(", ");
@@ -43,7 +43,7 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
     JavaCodeGenerator.MethodScope scope = classScope.newMethodScope();
     out.openBlock();
 
-    writeReturnTypeJava(classScope, m);
+    writeReturnTypeJava(classScope, m, out);
     out.append(" result = ");
     getFieldBinding().writeGetExpressionJava(out);
     out.append(';').newLine();
@@ -55,11 +55,11 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
     getFieldBinding().writeGetExpressionJava(out);
     out.append(" = ");
     writeReadCode(scope);
-    out.append(';');
+    out.semi();
     out.newLine().append(Util.PENDING_INPUT_READER_NAME).append(" = null;");
     out.newLine().append("return ");
     getFieldBinding().writeGetExpressionJava(out);
-    out.append(';');
+    out.semi();
 
     out.closeBlock();
   }

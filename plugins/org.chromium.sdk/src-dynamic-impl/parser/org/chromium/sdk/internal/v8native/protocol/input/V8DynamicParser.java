@@ -35,6 +35,7 @@ public class V8DynamicParser {
       Class[] interfaces = new Class[]{
         IncomingMessage.class,
         EventNotification.class,
+        EventNotificationBody.class,
         SuccessCommandResponse.class,
         FailedCommandResponse.class,
         CommandResponse.class,

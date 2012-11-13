@@ -53,7 +53,7 @@ public class BreakpointProcessor extends V8EventProcessor {
 
     BreakEventBody breakEventBody;
     try {
-      breakEventBody = eventMessage.asBreakEventBody();
+      breakEventBody = eventMessage.body().asBreakEventBody();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

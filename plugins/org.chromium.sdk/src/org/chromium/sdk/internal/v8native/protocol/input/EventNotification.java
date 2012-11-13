@@ -8,7 +8,6 @@ import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.internal.protocolparser.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 
-import java.io.IOException;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -30,14 +29,7 @@ public interface EventNotification extends JsonSubtype<IncomingMessage> {
 
   String event();
 
-  @JsonSubtypeCasting
-  BreakEventBody asBreakEventBody() throws IOException;
-
-  @JsonSubtypeCasting
-  AfterCompileBody asAfterCompileBody() throws IOException;
-
-  @JsonSubtypeCasting
-  ScriptCollectedBody asScriptCollectedBody() throws IOException;
+  EventNotificationBody body();
 
   // TODO(peter.rybin): does this field really exist?
   @JsonOptionalField

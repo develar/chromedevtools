@@ -37,8 +37,7 @@ class ReadInterfacesSession {
   private final boolean isStatic;
 
   final List<DynamicParserImpl.RefImpl<?>> refs = new ArrayList<DynamicParserImpl.RefImpl<?>>();
-  final List<SubtypeCaster> subtypeCasters =
-    new ArrayList<SubtypeCaster>();
+  final List<SubtypeCaster> subtypeCasters = new ArrayList<SubtypeCaster>();
 
   ReadInterfacesSession(Class[] protocolInterfaces, List<DynamicParserImpl> basePackages, boolean isStatic, boolean strictMode) {
     // Keep interfaces ordered to keep generated parser less random.
@@ -86,6 +85,11 @@ class ReadInterfacesSession {
         throw new RuntimeException();
       }
       ref.set(type);
+    }
+
+    // Set subtype casters.
+    for (SubtypeCaster subtypeCaster : subtypeCasters) {
+      subtypeCaster.getSubtypeHandler().getSubtypeSupport().setSubtypeCaster(subtypeCaster);
     }
 
     if (strictMode) {
@@ -384,20 +388,28 @@ class ReadInterfacesSession {
         }
         final int algCode = autoAlgCasesData.subtypes.size();
         autoAlgCasesData.subtypes.add(ref);
-        subtypeCasters.add(new SubtypeCaster(typeClass, ref));
+        subtypeCasters.add(new SubtypeCaster(ref) {
+          @Override
+          void writeJava(TextOutput out) {
+            out.append(AutoAlgebraicCasesData.getAutoAlgFieldNameJava(algCode));
+          }
+        });
         return new AutoSubtypeMethodHandler(algCode);
       }
     }
 
-
-    private MethodHandler processManualSubtypeMethod(final Method m, JsonSubtypeCasting jsonSubtypeCaseAnn) throws JsonProtocolModelParseException {
+    private MethodHandler processManualSubtypeMethod(final Method m, JsonSubtypeCasting jsonSubtypeCaseAnn)
+      throws JsonProtocolModelParseException {
       ValueParser fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret());
       VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
       final ManualSubtypeMethodHandler handler = new ManualSubtypeMethodHandler(fieldInfo, fieldTypeParser);
       ObjectValueParser<?> parserAsObjectValueParser = fieldTypeParser.asJsonTypeParser();
       if (parserAsObjectValueParser != null && parserAsObjectValueParser.isSubtyping()) {
-        SubtypeCaster subtypeCaster = new SubtypeCaster(typeClass, parserAsObjectValueParser.getType()) {
-
+        SubtypeCaster subtypeCaster = new SubtypeCaster(parserAsObjectValueParser.getType()) {
+          @Override
+          void writeJava(TextOutput out) {
+            out.append(m.getName()).append("()");
+          }
         };
         manualAlgCasesData.subtypes.add(parserAsObjectValueParser.getType());
         subtypeCasters.add(subtypeCaster);

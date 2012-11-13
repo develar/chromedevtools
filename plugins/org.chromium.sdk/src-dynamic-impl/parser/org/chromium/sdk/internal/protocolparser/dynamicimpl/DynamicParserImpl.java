@@ -112,7 +112,6 @@ public class DynamicParserImpl<ROOT> {
   };
 
   static MethodHandler RETURN_NULL_METHOD_HANDLER = new MethodHandler() {
-
     @Override
     void writeMethodImplementationJava(ClassScope scope, Method m, TextOutput out) {
       writeMethodDeclarationJava(out, m);
@@ -170,11 +169,10 @@ public class DynamicParserImpl<ROOT> {
     out.newLine().append("import com.google.gson.stream.JsonReader;");
     out.newLine().append("import java.io.IOException;");
     out.newLine().newLine().append("public class ").append(className);
-    out.append(" implements ").append(rootImpl.getType().getCanonicalName()).openBlock();
+    out.append(" implements ").append(rootImpl.getType().getCanonicalName()).openBlock(false);
 
     ClassScope rootClassScope = fileScope.newClassScope();
     rootImpl.writeStaticMethodJava(rootClassScope);
-    out.newLine();
 
     for (TypeHandler<?> typeHandler : typeToTypeHandler.values()) {
       out.newLine();

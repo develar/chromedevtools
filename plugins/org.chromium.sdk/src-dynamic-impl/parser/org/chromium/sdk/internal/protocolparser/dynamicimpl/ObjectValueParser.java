@@ -43,7 +43,8 @@ class ObjectValueParser<T> extends ValueParser {
 
   @Override
   void writeReadCode(MethodScope scope, boolean subtyping, TextOutput out) {
-    out.append("new ").append(scope.getTypeImplReference(refToType.get())).append('(');
+    refToType.get().writeInstantiateCode(scope.getRootClassScope(), out);
+    out.append('(');
     addReaderParameter(subtyping, out);
     out.append(')');
   }

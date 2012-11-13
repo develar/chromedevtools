@@ -51,9 +51,6 @@ class ParserRootImpl<R> {
 
     void run(Class<?> clazz) throws JsonProtocolModelParseException {
       parseInterfaceRecursive(clazz);
-      for (Method method : BaseHandlersLibrary.OBJECT_METHODS) {
-        methodMap.put(method, new SelfCallDelegate());
-      }
     }
 
     private void parseInterfaceRecursive(Class<?> clazz) throws JsonProtocolModelParseException {
@@ -130,15 +127,17 @@ class ParserRootImpl<R> {
     }
 
     public void writeStaticMethodJava(ClassScope scope) {
+      TextOutput out = scope.getOutput();
       for (Map.Entry<Method, MethodDelegate> en : map.entrySet()) {
-        en.getValue().writeStaticMethodJava(scope, en.getKey());
+        out.newLine();
+        en.getValue().writeStaticMethodJava(scope, en.getKey(), out);
+        out.newLine();
       }
     }
   }
 
   private static abstract class MethodDelegate {
-
-    abstract void writeStaticMethodJava(ClassScope scope, Method key);
+    abstract void writeStaticMethodJava(ClassScope scope, Method key, TextOutput out);
   }
 
   private static class ParseDelegate extends MethodDelegate {
@@ -149,11 +148,12 @@ class ParserRootImpl<R> {
     }
 
     @Override
-    void writeStaticMethodJava(ClassScope scope, Method method) {
-      TextOutput out = scope.getOutput();
+    void writeStaticMethodJava(ClassScope scope, Method method, TextOutput out) {
       MethodHandler.writeMethodDeclarationJava(out, method, STATIC_METHOD_PARAM_NAME_LIST);
       out.append(Util.THROWS_CLAUSE).openBlock();
-      out.append("return new ").append(scope.getTypeImplReference(typeHandler)).append("(").append(STATIC_METHOD_PARAM_NAME).append(");");
+      out.append("return ");
+      typeHandler.writeInstantiateCode(scope, out);
+      out.append("(").append(STATIC_METHOD_PARAM_NAME).append(");");
       out.closeBlock();
     }
 
@@ -161,16 +161,6 @@ class ParserRootImpl<R> {
 
     private static final List<String> STATIC_METHOD_PARAM_NAME_LIST =
         Collections.singletonList(STATIC_METHOD_PARAM_NAME);
-  }
-
-  private static class SelfCallDelegate extends MethodDelegate {
-
-    SelfCallDelegate() {
-    }
-
-    @Override
-    void writeStaticMethodJava(ClassScope scope, Method method) {
-    }
   }
 
   public Class<R> getType() {

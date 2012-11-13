@@ -4,16 +4,6 @@
 
 package org.chromium.sdk.internal.protocolparser.implutil;
 
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-import gnu.trove.TLongArrayList;
-import org.json.simple.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * A small library of classes and methods used from generated parser code.
  */

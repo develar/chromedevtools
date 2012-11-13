@@ -36,7 +36,7 @@ class TypeHandler<T> {
   /** Subtype aspects of the type or null */
   private final SubtypeAspect subtypeAspect;
 
-  private final boolean requiresJsonObject;
+  private final boolean lazyRead;
 
   TypeHandler(Class<T> typeClass, RefToType<?> jsonSuperClass,
               List<VolatileFieldBinding> volatileFields,
@@ -50,15 +50,16 @@ class TypeHandler<T> {
     this.fieldLoaders = fieldLoaders;
     this.eagerFieldParser = eagerFieldParser;
     this.algebraicCasesData = algebraicCasesData;
-    this.requiresJsonObject = requiresJsonObject;
     if (jsonSuperClass == null) {
       if (!fieldConditions.isEmpty()) {
         throw new IllegalArgumentException();
       }
       subtypeAspect = new AbsentSubtypeAspect();
+      lazyRead = !requiresJsonObject;
     }
     else {
       subtypeAspect = new ExistingSubtypeAspect(jsonSuperClass, fieldConditions);
+      lazyRead = true;
     }
   }
 
@@ -106,8 +107,19 @@ class TypeHandler<T> {
     return name;
   }
 
+  public SubtypeSupport getSubtypeSupport() {
+    return subtypeAspect;
+  }
+
+  public void writeInstantiateCode(ClassScope scope, TextOutput out) {
+    subtypeAspect.writeInstantiateCode(scope.getTypeImplReference(this), out);
+  }
+
   static abstract class SubtypeSupport {
     abstract void writeGetSuperMethodJava(TextOutput out);
+
+    public void setSubtypeCaster(SubtypeCaster subtypeCaster) {
+    }
   }
 
   /**
@@ -120,6 +132,10 @@ class TypeHandler<T> {
     abstract void writeSuperConstructorInitialization(TextOutput out);
     void writeHelperMethodsJava(ClassScope classScope, TextOutput out) {
     }
+
+    abstract void writeParseMethod(String className, ClassScope scope, TextOutput out);
+
+    public abstract void writeInstantiateCode(String className, TextOutput out);
   }
 
   private static class AbsentSubtypeAspect extends SubtypeAspect {
@@ -127,14 +143,30 @@ class TypeHandler<T> {
     boolean isRoot() {
       return true;
     }
-    @Override void writeGetSuperMethodJava(TextOutput out) {
+
+    @Override
+    void writeGetSuperMethodJava(TextOutput out) {
     }
-    @Override void writeSuperFieldJava(TextOutput out) {
+
+    @Override
+    void writeSuperFieldJava(TextOutput out) {
     }
-    @Override void writeSuperConstructorParamJava(TextOutput out) {
+
+    @Override
+    void writeSuperConstructorParamJava(TextOutput out) {
     }
+
     @Override
     void writeSuperConstructorInitialization(TextOutput out) {
+    }
+
+    @Override
+    void writeParseMethod(String className, ClassScope scope, TextOutput out) {
+    }
+
+    @Override
+    public void writeInstantiateCode(String className, TextOutput out) {
+      out.append("new ").append(className);
     }
   }
 
@@ -146,7 +178,7 @@ class TypeHandler<T> {
     TextOutput out = fileScope.getOutput();
     String valueImplClassName = fileScope.getTypeImplShortName(this);
     out.append("public static class ").append(valueImplClassName);
-    out.append(" extends ").append(requiresJsonObject ? "Message" : "LazyReadMessage");
+    out.append(" extends ").append(lazyRead ? "LazyReadMessage" : "Message");
 
     out.append(" implements ").append(getTypeClass().getCanonicalName()).openBlock();
 
@@ -169,6 +201,8 @@ class TypeHandler<T> {
 
     writeConstructorMethod(valueImplClassName, classScope, out);
     out.newLine();
+
+    subtypeAspect.writeParseMethod(valueImplClassName, classScope, out);
 
     for (Map.Entry<Method, MethodHandler> en : methodHandlerMap.entrySet()) {
       out.newLine();
@@ -221,8 +255,8 @@ class TypeHandler<T> {
       writeReadFields(out, methodScope);
     }
 
-    if (!requiresJsonObject) {
-      out.append("inputReader = ").append("createValueReader(").append(Util.READER_NAME).append(");");
+    if (lazyRead) {
+      out.newLine().append(Util.PENDING_INPUT_READER_NAME).append(" = ").append("createValueReader(").append(Util.READER_NAME).append(");");
     }
 
     if (algebraicCasesData != null) {
