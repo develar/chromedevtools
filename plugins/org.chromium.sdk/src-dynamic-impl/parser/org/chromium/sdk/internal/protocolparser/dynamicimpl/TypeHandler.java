@@ -43,23 +43,22 @@ class TypeHandler<T> {
               Map<Method, MethodHandler> methodHandlerMap,
               List<FieldLoader> fieldLoaders,
               List<FieldCondition> fieldConditions, EagerFieldParser eagerFieldParser,
-              AlgebraicCasesData algebraicCasesData, boolean requiresJsonObject) {
+              AlgebraicCasesData algebraicCasesData, boolean lazyRead) {
     this.typeClass = typeClass;
     this.volatileFields = volatileFields;
     this.methodHandlerMap = methodHandlerMap;
     this.fieldLoaders = fieldLoaders;
     this.eagerFieldParser = eagerFieldParser;
     this.algebraicCasesData = algebraicCasesData;
+    this.lazyRead = lazyRead;
     if (jsonSuperClass == null) {
       if (!fieldConditions.isEmpty()) {
         throw new IllegalArgumentException();
       }
       subtypeAspect = new AbsentSubtypeAspect();
-      lazyRead = !requiresJsonObject;
     }
     else {
       subtypeAspect = new ExistingSubtypeAspect(jsonSuperClass, fieldConditions);
-      lazyRead = true;
     }
   }
 
@@ -177,7 +176,7 @@ class TypeHandler<T> {
   public void writeStaticClassJava(FileScope fileScope) {
     TextOutput out = fileScope.getOutput();
     String valueImplClassName = fileScope.getTypeImplShortName(this);
-    out.append("public static class ").append(valueImplClassName);
+    out.append("public static final class ").append(valueImplClassName);
     out.append(" extends ").append(lazyRead ? "LazyReadMessage" : "Message");
 
     out.append(" implements ").append(getTypeClass().getCanonicalName()).openBlock();
@@ -243,7 +242,7 @@ class TypeHandler<T> {
   }
 
   private void writeConstructorMethod(String valueImplClassName, ClassScope classScope, TextOutput out) {
-    out.newLine().append(valueImplClassName).append("(JsonReader ").append(Util.READER_NAME);
+    out.newLine().append("public ").append(valueImplClassName).append("(JsonReader ").append(Util.READER_NAME);
     subtypeAspect.writeSuperConstructorParamJava(out);
     out.append(')').append(Util.THROWS_CLAUSE).openBlock();
 

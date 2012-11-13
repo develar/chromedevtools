@@ -22,14 +22,7 @@ import org.chromium.sdk.internal.protocolparser.JsonType;
 @JsonType
 public interface CommandResponse extends JsonSubtype<IncomingMessage> {
   @JsonOverrideField
-  @JsonSubtypeConditionCustom(condition=TypeValueCondition.class)
   MessageType type();
-
-  class TypeValueCondition extends EnumValueCondition<MessageType> {
-    public TypeValueCondition() {
-      super(EnumSet.of(MessageType.RESPONSE));
-    }
-  }
 
   /**
    * Id of the corresponding request sent to debugger.

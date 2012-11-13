@@ -21,7 +21,6 @@ public interface FunctionValueHandle extends JsonSubtype<ObjectValueHandle> {
   @JsonOptionalField
   JsonReader script();
 
-  @JsonSubtypeCondition
   boolean resolved();
 
   @JsonOptionalField

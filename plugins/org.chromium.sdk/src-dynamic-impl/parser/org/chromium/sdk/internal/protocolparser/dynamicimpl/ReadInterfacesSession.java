@@ -31,6 +31,32 @@ class ReadInterfacesSession {
 
   private static final StringIntPairValueParser STRING_INT_PAIR_PARSER = new StringIntPairValueParser();
 
+  private static ValueParser VOID_PARSER = new ValueParser(true) {
+    @Override
+    public void appendFinishedValueTypeName(TextOutput out) {
+      out.append("void");
+    }
+
+    @Override
+    void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, TextOutput out) {
+      out.append("null");
+    }
+
+    @Override
+    void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
+      throw new UnsupportedOperationException();
+    }
+  };
+
+  private static MethodHandler RETURN_NULL_METHOD_HANDLER = new MethodHandler() {
+    @Override
+    void writeMethodImplementationJava(ClassScope scope, Method m, TextOutput out) {
+      writeMethodDeclarationJava(out, m);
+      out.openBlock();
+      out.closeBlock();
+    }
+  };
+
   private final Map<Class<?>, TypeHandler<?>> typeTotypeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>();
   private final List<DynamicParserImpl> basePackages;
   private final boolean strictMode;
@@ -121,13 +147,12 @@ class ReadInterfacesSession {
     TypeHandler.EagerFieldParser eagerFieldParser =
       new DynamicParserImpl.EagerFieldParserImpl(fields.getOnDemandHanlers());
 
-    boolean requiresJsonObject = fields.requiresJsonObject() ||
-                                 JsonObjectBased.class.isAssignableFrom(typeClass);
+    boolean lazyRead = fields.lazyRead || JsonObjectBased.class.isAssignableFrom(typeClass);
     return new TypeHandler<T>(typeClass, getSuperclassRef(typeClass),
                               fields.getVolatileFields(), methodHandlerMap,
                               fields.getFieldLoaders(),
                               fields.getFieldConditions(), eagerFieldParser, fields.getAlgCasesData(),
-                              requiresJsonObject);
+                              lazyRead);
   }
 
   private ValueParser getFieldTypeParser(Type type, boolean declaredNullable, boolean isSubtyping)
@@ -153,9 +178,9 @@ class ReadInterfacesSession {
       else if (type == Number.class) {
         return declaredNullable ? NULLABLE_NUMBER_PARSER : NUMBER_PARSER;
       }
-      else if (type == Void.class) {
+      else if (type == Void.TYPE) {
         nullableIsNotSupported(declaredNullable);
-        return DynamicParserImpl.VOID_PARSER;
+        return VOID_PARSER;
       }
       else if (type == String.class) {
         return declaredNullable ? NULLABLE_STRING_PARSER : STRING_PARSER;
@@ -186,8 +211,7 @@ class ReadInterfacesSession {
       if (ref != null) {
         return createJsonParser(ref, declaredNullable, isSubtyping);
       }
-      throw new JsonProtocolModelParseException("Method return type " + type +
-                                                " (simple class) not supported");
+      throw new JsonProtocolModelParseException("Method return type " + type + " (simple class) not supported");
     }
     else if (type instanceof ParameterizedType) {
       ParameterizedType parameterizedType = (ParameterizedType)type;
@@ -272,20 +296,20 @@ class ReadInterfacesSession {
     return result;
   }
 
-  class FieldProcessor<T> {
+  private class FieldProcessor<T> {
     private final Class<T> typeClass;
 
     private final JsonType jsonTypeAnnotation;
     private final List<FieldLoader> fieldLoaders = new ArrayList<FieldLoader>(2);
     private final List<DynamicParserImpl.LazyHandler> onDemandHanlers = new ArrayList<DynamicParserImpl.LazyHandler>();
-    private final Map<Method, MethodHandler> methodHandlerMap =
-      new HashMap<Method, MethodHandler>();
+    private final Map<Method, MethodHandler> methodHandlerMap = new HashMap<Method, MethodHandler>();
     private final DynamicParserImpl.FieldMap fieldMap = new DynamicParserImpl.FieldMap();
     private final List<FieldCondition> fieldConditions = new ArrayList<FieldCondition>(2);
     private ManualAlgebraicCasesData manualAlgCasesData;
     private AutoAlgebraicCasesData autoAlgCasesData;
     private List<VolatileFieldBinding> volatileFields = new ArrayList<VolatileFieldBinding>(2);
-    private boolean requiresJsonObject = false;
+    private boolean lazyRead;
+    private boolean useManualAlgCasesData = true;
 
     FieldProcessor(Class<T> typeClass) throws JsonProtocolModelParseException {
       this.typeClass = typeClass;
@@ -296,9 +320,20 @@ class ReadInterfacesSession {
     }
 
     void go() throws JsonProtocolModelParseException {
-      for (Method m : typeClass.getDeclaredMethods()) {
+      Method[] methods = typeClass.getDeclaredMethods();
+      FieldConditionLogic[] fieldConditionLogics = new FieldConditionLogic[methods.length];
+      for (int i = 0; i < methods.length; i++) {
+        FieldConditionLogic fieldConditionLogic = FieldConditionLogic.readLogic(methods[i]);
+        fieldConditionLogics[i] = fieldConditionLogic;
+        if (useManualAlgCasesData && fieldConditionLogic != null) {
+          useManualAlgCasesData = false;
+        }
+      }
+
+      for (int i = 0; i < methods.length; i++) {
+        Method m = methods[i];
         try {
-          processMethod(m);
+          processMethod(m, fieldConditionLogics[i]);
         }
         catch (JsonProtocolModelParseException e) {
           throw new JsonProtocolModelParseException("Problem with method " + m, e);
@@ -306,17 +341,16 @@ class ReadInterfacesSession {
       }
     }
 
-    private void processMethod(Method m) throws JsonProtocolModelParseException {
+    private void processMethod(Method m, FieldConditionLogic fieldConditionLogic) throws JsonProtocolModelParseException {
       if (m.getParameterTypes().length != 0) {
         throw new JsonProtocolModelParseException("No parameters expected in " + m);
       }
       JsonOverrideField overrideFieldAnnotation = m.getAnnotation(JsonOverrideField.class);
-      FieldConditionLogic fieldConditionLogic = FieldConditionLogic.readLogic(m);
       String fieldName = checkAndGetJsonFieldName(m);
       MethodHandler methodHandler;
 
-      JsonSubtypeCasting jsonSubtypeCaseAnn = m.getAnnotation(JsonSubtypeCasting.class);
-      if (jsonSubtypeCaseAnn != null) {
+      JsonSubtypeCasting jsonSubtypeCaseAnnotation = m.getAnnotation(JsonSubtypeCasting.class);
+      if (jsonSubtypeCaseAnnotation != null) {
         if (fieldConditionLogic != null) {
           throw new JsonProtocolModelParseException(
             "Subtype condition annotation only works with field getter methods");
@@ -326,27 +360,25 @@ class ReadInterfacesSession {
             "Override annotation only works with field getter methods");
         }
 
-        if (jsonTypeAnnotation.subtypesChosenManually()) {
+        if (useManualAlgCasesData) {
           if (manualAlgCasesData == null) {
             manualAlgCasesData = new ManualAlgebraicCasesData();
           }
-          methodHandler = processManualSubtypeMethod(m, jsonSubtypeCaseAnn);
+          methodHandler = processManualSubtypeMethod(m, jsonSubtypeCaseAnnotation);
+          lazyRead = true;
         }
         else {
           if (autoAlgCasesData == null) {
             autoAlgCasesData = new AutoAlgebraicCasesData();
           }
-          if (jsonSubtypeCaseAnn.reinterpret()) {
+          if (jsonSubtypeCaseAnnotation.reinterpret()) {
             throw new JsonProtocolModelParseException("Option 'reinterpret' is only available with 'subtypes chosen manually'");
           }
-          requiresJsonObject = true;
           methodHandler = processAutomaticSubtypeMethod(m);
         }
       }
       else {
-        requiresJsonObject = true;
-        methodHandler = processFieldGetterMethod(m, fieldConditionLogic, overrideFieldAnnotation,
-                                                 fieldName);
+        methodHandler = processFieldGetterMethod(m, fieldConditionLogic, overrideFieldAnnotation, fieldName);
       }
       methodHandlerMap.put(m, methodHandler);
     }
@@ -369,8 +401,10 @@ class ReadInterfacesSession {
     }
 
     private MethodHandler createEagerLoadGetterHandler(String fieldName, ValueParser fieldTypeParser) {
-      fieldLoaders.add(new FieldLoader(fieldName, fieldTypeParser));
-      return new DynamicParserImpl.PreparsedFieldMethodHandler(fieldName);
+      if (fieldTypeParser != VOID_PARSER) {
+        fieldLoaders.add(new FieldLoader(fieldName, fieldTypeParser));
+      }
+      return new PreparsedFieldMethodHandler(fieldTypeParser == VOID_PARSER ? null : fieldName);
     }
 
     private MethodHandler processAutomaticSubtypeMethod(Method m) throws JsonProtocolModelParseException {
@@ -379,7 +413,7 @@ class ReadInterfacesSession {
           throw new JsonProtocolModelParseException("Duplicate default case method: " + m);
         }
         autoAlgCasesData.hasDefaultCase = true;
-        return DynamicParserImpl.RETURN_NULL_METHOD_HANDLER;
+        return RETURN_NULL_METHOD_HANDLER;
       }
       else {
         Class<?> methodType = m.getReturnType();
@@ -423,13 +457,8 @@ class ReadInterfacesSession {
       return volatileFields;
     }
 
-    AlgebraicCasesData getAlgCasesData() {
-      if (jsonTypeAnnotation.subtypesChosenManually()) {
-        return manualAlgCasesData;
-      }
-      else {
-        return autoAlgCasesData;
-      }
+    private AlgebraicCasesData getAlgCasesData() {
+      return useManualAlgCasesData ? manualAlgCasesData : autoAlgCasesData;
     }
 
     List<FieldLoader> getFieldLoaders() {
@@ -449,7 +478,7 @@ class ReadInterfacesSession {
     }
 
     boolean requiresJsonObject() {
-      return requiresJsonObject;
+      return lazyRead;
     }
 
     private VolatileFieldBinding allocateVolatileField(final ValueParser fieldTypeParser,

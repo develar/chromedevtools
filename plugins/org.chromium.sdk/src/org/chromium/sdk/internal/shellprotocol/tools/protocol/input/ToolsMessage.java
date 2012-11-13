@@ -22,7 +22,7 @@ public interface ToolsMessage {
   @JsonOptionalField
   Data data();
 
-  @JsonType(subtypesChosenManually=true)
+  @JsonType
   interface Data {
     // V8Debugger tool.
     @JsonSubtypeCasting

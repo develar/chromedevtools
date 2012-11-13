@@ -95,8 +95,7 @@ public class V8ProtocolUtil {
     }
     List<PropertyObject> props = handle.internalProperties();
     if (props != null) {
-      for (int i = 0; i < props.size(); i++) {
-        PropertyObject prop = props.get(i);
+      for (PropertyObject prop : props) {
         putMirror(objProps, prop, PropertyNameGetter.PRIMITIVE_VALUE);
       }
     }

@@ -4,17 +4,15 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
-import java.util.List;
-
 import org.chromium.sdk.internal.protocolparser.JsonOptionalField;
 import org.chromium.sdk.internal.protocolparser.JsonSubtype;
 import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeCondition;
 import org.chromium.sdk.internal.protocolparser.JsonType;
+
+import java.util.List;
 
 @JsonType
 public interface ObjectValueHandle extends JsonSubtype<ValueHandle> {
-  @JsonSubtypeCondition
   List<PropertyObject> properties();
 
   @JsonOptionalField
@@ -31,7 +29,4 @@ public interface ObjectValueHandle extends JsonSubtype<ValueHandle> {
 
   @JsonSubtypeCasting
   FunctionValueHandle asFunction();
-
-  @JsonSubtypeCasting
-  void notFunction();
 }

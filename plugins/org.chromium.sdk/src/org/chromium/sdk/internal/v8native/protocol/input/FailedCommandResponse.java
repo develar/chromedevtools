@@ -4,12 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import org.chromium.sdk.internal.protocolparser.JsonField;
-import org.chromium.sdk.internal.protocolparser.JsonOptionalField;
-import org.chromium.sdk.internal.protocolparser.JsonOverrideField;
-import org.chromium.sdk.internal.protocolparser.JsonSubtype;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeConditionBoolValue;
-import org.chromium.sdk.internal.protocolparser.JsonType;
+import org.chromium.sdk.internal.protocolparser.*;
 
 /**
  * A type for failed command response message. It should contain "message" field
@@ -18,7 +13,6 @@ import org.chromium.sdk.internal.protocolparser.JsonType;
 @JsonType
 public interface FailedCommandResponse extends JsonSubtype<CommandResponse> {
   @JsonOverrideField
-  @JsonSubtypeConditionBoolValue(false)
   boolean success();
 
   String message();

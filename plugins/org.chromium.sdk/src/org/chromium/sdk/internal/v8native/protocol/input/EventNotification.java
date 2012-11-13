@@ -18,14 +18,7 @@ import java.util.List;
 @JsonType
 public interface EventNotification extends JsonSubtype<IncomingMessage> {
   @JsonOverrideField
-  @JsonSubtypeConditionCustom(condition=TypeValueCondition.class)
   MessageType type();
-
-  class TypeValueCondition extends EnumValueCondition<MessageType> {
-    public TypeValueCondition() {
-      super(EnumSet.of(MessageType.EVENT));
-    }
-  }
 
   String event();
 

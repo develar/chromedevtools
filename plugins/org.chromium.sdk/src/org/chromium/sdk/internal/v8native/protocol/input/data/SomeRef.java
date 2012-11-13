@@ -6,7 +6,6 @@ package org.chromium.sdk.internal.v8native.protocol.input.data;
 
 import org.chromium.sdk.internal.protocolparser.JsonSubtype;
 import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeCondition;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 
 
@@ -19,12 +18,8 @@ import org.chromium.sdk.internal.protocolparser.JsonType;
  */
 @JsonType
 public interface SomeRef extends JsonSubtype<SomeSerialized> {
-  @JsonSubtypeCondition
   long ref();
 
   @JsonSubtypeCasting
   RefWithDisplayData asWithDisplayData();
-
-  @JsonSubtypeCasting
-  void asJustSomeRef();
 }

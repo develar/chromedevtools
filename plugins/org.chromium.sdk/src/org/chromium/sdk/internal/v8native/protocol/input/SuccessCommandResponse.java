@@ -4,14 +4,13 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import java.util.List;
-
 import org.chromium.sdk.internal.protocolparser.JsonOptionalField;
 import org.chromium.sdk.internal.protocolparser.JsonOverrideField;
 import org.chromium.sdk.internal.protocolparser.JsonSubtype;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeConditionBoolValue;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
+
+import java.util.List;
 
 /**
  * A type for success command response message. It holds all the data in
@@ -20,7 +19,6 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 @JsonType
 public interface SuccessCommandResponse extends JsonSubtype<CommandResponse> {
   @JsonOverrideField
-  @JsonSubtypeConditionBoolValue(true)
   boolean success();
 
   @JsonOptionalField

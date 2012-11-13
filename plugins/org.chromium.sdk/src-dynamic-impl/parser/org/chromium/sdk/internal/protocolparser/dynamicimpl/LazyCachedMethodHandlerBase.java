@@ -1,7 +1,6 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.Collections;
 
 /**
@@ -27,18 +26,6 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
     writeReturnTypeJava(classScope, m, out);
     out.append(' ');
     appendMethodSignatureJava(m, Collections.<String>emptyList(), out);
-    {
-      Type[] exceptions = m.getGenericExceptionTypes();
-      if (exceptions.length > 0) {
-        out.append(" throws ");
-        for (int i = 0; i < exceptions.length; i++) {
-          if (i != 0) {
-            classScope.append(", ");
-          }
-          Util.writeJavaTypeName(exceptions[i], out);
-        }
-      }
-    }
 
     JavaCodeGenerator.MethodScope scope = classScope.newMethodScope();
     out.openBlock();
@@ -46,12 +33,21 @@ abstract class LazyCachedMethodHandlerBase extends MethodHandler {
     getFieldBinding().writeGetExpression(out);
     out.append(" == null)").openBlock();
     {
-      getFieldBinding().writeGetExpression(out);
-      out.append(" = ");
-      writeReadCode(scope);
-      out.semi();
-      out.newLine().append(Util.PENDING_INPUT_READER_NAME).append(" = null;").closeBlock();
+      out.append("try").openBlock();
+      {
+        getFieldBinding().writeGetExpression(out);
+        out.append(" = ");
+        writeReadCode(scope);
+        out.semi();
+      }
+      out.closeBlock();
+      out.newLine().append("catch (IOException e)").openBlock();
+      out.append("throw new JsonParseException(e);").closeBlock();
+
+      out.newLine().append(Util.PENDING_INPUT_READER_NAME).append(" = null;");
     }
+    out.closeBlock();
+
     out.newLine().append("return ");
     getFieldBinding().writeGetExpression(out);
     out.semi();

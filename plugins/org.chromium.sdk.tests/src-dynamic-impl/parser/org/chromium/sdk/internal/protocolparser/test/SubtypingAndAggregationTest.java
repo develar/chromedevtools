@@ -4,29 +4,16 @@
 
 package org.chromium.sdk.internal.protocolparser.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.chromium.sdk.internal.JsonUtil;
+import org.chromium.sdk.internal.protocolparser.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.EnumSet;
 
-import org.chromium.sdk.internal.JsonUtil;
-import org.chromium.sdk.internal.protocolparser.EnumValueCondition;
-import org.chromium.sdk.internal.protocolparser.JsonOverrideField;
-import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
-import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-import org.chromium.sdk.internal.protocolparser.JsonSubtype;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeCondition;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeConditionCustom;
-import org.chromium.sdk.internal.protocolparser.JsonType;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class SubtypingAndAggregationTest {
   @Test
@@ -135,7 +122,6 @@ public class SubtypingAndAggregationTest {
 
   @JsonType
   public interface SchemedColor extends JsonSubtype<Color> {
-    @JsonSubtypeCondition
     ColorScheme scheme();
 
     @JsonSubtypeCasting RgbColor asRgbColor();
@@ -183,7 +169,6 @@ public class SubtypingAndAggregationTest {
 
   @JsonType
   public interface NamedColor extends JsonSubtype<Color> {
-    @JsonSubtypeCondition
     String name();
   }
 

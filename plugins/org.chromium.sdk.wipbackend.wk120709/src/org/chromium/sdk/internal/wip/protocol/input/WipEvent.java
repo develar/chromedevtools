@@ -17,7 +17,7 @@ public interface WipEvent {
   @JsonOptionalField
   Data data();
 
-  @JsonType(subtypesChosenManually=true, allowsOtherProperties=true)
+  @JsonType(allowsOtherProperties=true)
   interface Data extends JsonObjectBased {
   }
 }

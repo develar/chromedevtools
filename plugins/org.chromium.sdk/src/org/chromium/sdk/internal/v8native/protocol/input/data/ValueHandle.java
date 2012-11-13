@@ -10,6 +10,8 @@ import org.chromium.sdk.internal.protocolparser.JsonSubtype;
 import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 
+import java.io.IOException;
+
 
 /**
  * A serialization of a JavaScript value. May be cast to {@link ObjectValueHandle} if value is
@@ -42,9 +44,9 @@ public interface ValueHandle extends JsonSubtype<SomeHandle>  {
   String className();
 
   @JsonSubtypeCasting
-  ObjectValueHandle asObject();
+  ObjectValueHandle asObject() throws IOException;
 
-  @JsonSubtypeCasting
-  void asNotObject();
+  //@JsonSubtypeCasting
+  //void asNotObject();
 }
 

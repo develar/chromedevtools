@@ -659,7 +659,7 @@ public class FixtureChromeStub implements ChromeStub {
         createMessage("{\"command\":\"navigated\",\"result\":0,\"data\":\"" + newUrl + "\"}"));
   }
 
-  @JsonType(subtypesChosenManually=true)
+  @JsonType
   public interface Refs {
     @JsonSubtypeCasting
     List<SomeHandle> asHandles() throws IOException;

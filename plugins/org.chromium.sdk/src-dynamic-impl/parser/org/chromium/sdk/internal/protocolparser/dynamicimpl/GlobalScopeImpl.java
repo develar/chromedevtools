@@ -1,7 +1,9 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 import gnu.trove.THashMap;
+import gnu.trove.THashSet;
 import gnu.trove.TObjectObjectProcedure;
+import gnu.trove.TObjectProcedure;
 
 import java.util.*;
 
@@ -37,14 +39,14 @@ public class GlobalScopeImpl implements JavaCodeGenerator.GlobalScope {
   }
 
   @Override
-  public void forEachTypeFactory(TObjectObjectProcedure<String, String> procedure) {
-    state.typeNameToOriginName.forEachEntry(procedure);
+  public void forEachTypeFactory(TObjectProcedure<TypeHandler> procedure) {
+    state.typesWithFactories.forEach(procedure);
   }
 
   private static class State {
     private final Map<TypeHandler<?>, String> typeToName;
     private final Collection<GeneratedCodeMap> basePackages;
-    private final THashMap<String, String> typeNameToOriginName = new THashMap<String, String>();
+    private final THashSet<TypeHandler> typesWithFactories = new THashSet<TypeHandler>();
 
     State(Collection<TypeHandler<?>> typeHandlers, Collection<GeneratedCodeMap> basePackages) {
       this.basePackages = basePackages;
@@ -69,11 +71,7 @@ public class GlobalScopeImpl implements JavaCodeGenerator.GlobalScope {
 
     public String requireFactoryGenerationAndGetName(TypeHandler<?> typeHandler) {
       String name = getTypeImplShortName(typeHandler);
-      String originName = typeNameToOriginName.get(name);
-      if (originName == null) {
-        originName = typeHandler.getTypeClass().getCanonicalName();
-        typeNameToOriginName.put(name, originName);
-      }
+      typesWithFactories.add(typeHandler);
       return name;
     }
 

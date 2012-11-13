@@ -11,7 +11,7 @@ import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
 import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 
-@JsonType(subtypesChosenManually=true)
+@JsonType
 public interface WipTabList {
   @JsonSubtypeCasting List<TabDescription> asTabList() throws JsonProtocolParseException;
 

@@ -13,11 +13,7 @@ class AutoAlgebraicCasesData extends AlgebraicCasesData {
       out.append(".checkSubtypeConditions(this))").openBlock();
       {
         out.append(getAutoAlgFieldNameJava(i)).append(" = new ").append(methodScope.getTypeImplReference(nextSubtype)).append('(').append(Util.READER_NAME).comma().append("this").append(')').semi();
-        for (int j = 0; j < getSubtypes().size(); j++) {
-          if (j != i) {
-            out.newLine().append(getAutoAlgFieldNameJava(j)).append(" = null;");
-          }
-        }
+        nullifyOther(out, i);
       }
       out.closeBlock();
 
@@ -27,10 +23,21 @@ class AutoAlgebraicCasesData extends AlgebraicCasesData {
       }
     }
 
-    if (!hasDefaultCase) {
-      out.newLine().append("else").openBlock();
-      out.append("throw new IOException(\"Not a single case matches\");");
-      out.closeBlock();
+    out.newLine().append("else").openBlock(false);
+    if (hasDefaultCase) {
+      nullifyOther(out, -1);
+    }
+    else {
+      out.newLine().append("throw new IOException(\"Not a single case matches\");");
+    }
+    out.closeBlock();
+  }
+
+  private void nullifyOther(TextOutput out, int exclude) {
+    for (int i = 0; i < getSubtypes().size(); i++) {
+      if (exclude == -1 || i != exclude) {
+        out.newLine().append(getAutoAlgFieldNameJava(i)).append(" = null;");
+      }
     }
   }
 

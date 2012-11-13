@@ -83,7 +83,7 @@ public class TestProtocolParser {
   interface SimpleData {
     Cases a();
   }
-  @JsonType(subtypesChosenManually=true)
+  @JsonType
   interface Cases {
     @JsonSubtypeCasting List<Object> asList() throws JsonProtocolParseException;
     @JsonSubtypeCasting long asNumber() throws JsonProtocolParseException;

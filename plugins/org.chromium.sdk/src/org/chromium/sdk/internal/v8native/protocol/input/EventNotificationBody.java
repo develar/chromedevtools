@@ -13,7 +13,7 @@ import java.io.IOException;
  * This is empty base type for all event notification body types. The actual type
  * depends on a particular event.
  */
-@JsonType(subtypesChosenManually=true)
+@JsonType
 public interface EventNotificationBody {
   @JsonSubtypeCasting
   BreakEventBody asBreakEventBody() throws IOException;

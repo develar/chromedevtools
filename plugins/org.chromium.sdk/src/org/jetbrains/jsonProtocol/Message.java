@@ -1,5 +1,6 @@
 package org.jetbrains.jsonProtocol;
 
+import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import gnu.trove.THashMap;
@@ -199,7 +200,7 @@ public abstract class Message {
     return result;
   }
 
-  protected static Reader createValueReader(JsonReader reader) throws IOException {
+  protected static Reader createValueReader(JsonReader reader) {
     try {
       int start = JSON_READER_POSITION_FIELD.getInt(reader);
       reader.skipValue();
@@ -207,7 +208,10 @@ public abstract class Message {
       return ((StringReader)JSON_READER_IN_FIELD.get(reader)).subReader(start, end);
     }
     catch (IllegalAccessException e) {
-      throw new IOException(e);
+      throw new JsonParseException(e);
+    }
+    catch (IOException e) {
+      throw new JsonParseException(e);
     }
   }
 }

@@ -4,14 +4,12 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import gnu.trove.TObjectObjectProcedure;
+import gnu.trove.TObjectProcedure;
 import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.FileScope;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.GlobalScope;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.MethodScope;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.*;
 
@@ -77,49 +75,6 @@ public class DynamicParserImpl<ROOT> {
     String getFieldName();
   }
 
-  static class PreparsedFieldMethodHandler extends MethodHandler {
-    private final String fieldName;
-
-    PreparsedFieldMethodHandler(String fieldName) {
-      this.fieldName = fieldName;
-    }
-
-    @Override
-    void writeMethodImplementationJava(ClassScope scope, Method m, TextOutput out) {
-      writeMethodDeclarationJava(out, m);
-      out.openBlock();
-      out.append("return ").append(FieldLoader.FIELD_PREFIX).append(fieldName).semi();
-      out.closeBlock();
-    }
-  }
-
-  static ValueParser VOID_PARSER = new ValueParser(true) {
-
-    @Override
-    public void appendFinishedValueTypeName(TextOutput out) {
-      out.append("Void");
-    }
-
-    @Override
-    void writeReadCode(MethodScope methodScope, boolean subtyping, TextOutput out) {
-      out.append("null");
-    }
-
-    @Override
-    void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out) {
-      throw new UnsupportedOperationException();
-    }
-  };
-
-  static MethodHandler RETURN_NULL_METHOD_HANDLER = new MethodHandler() {
-    @Override
-    void writeMethodImplementationJava(ClassScope scope, Method m, TextOutput out) {
-      writeMethodDeclarationJava(out, m);
-      out.openBlock();
-      out.closeBlock();
-    }
-  };
-
   static class RefImpl<T> extends RefToType<T> {
     final Class<T> typeClass;
     private TypeHandler<T> type;
@@ -159,7 +114,7 @@ public class DynamicParserImpl<ROOT> {
       String className, Collection<GeneratedCodeMap> basePackages) {
     JavaCodeGenerator generator = new JavaCodeGenerator.Impl();
 
-    GlobalScope globalScope = generator.newGlobalScope(typeToTypeHandler.values(), basePackages);
+    final GlobalScope globalScope = generator.newGlobalScope(typeToTypeHandler.values(), basePackages);
 
     FileScope fileScope = globalScope.newFileScope(stringBuilder);
     final TextOutput out = fileScope.getOutput();
@@ -167,11 +122,12 @@ public class DynamicParserImpl<ROOT> {
     out.newLine().append("package ").append(packageName).append(';');
     out.newLine().newLine().append("import org.jetbrains.jsonProtocol.*;");
     out.newLine().append("import com.google.gson.stream.JsonReader;");
+    out.newLine().append("import com.google.gson.JsonParseException;");
     out.newLine().append("import java.io.IOException;");
-    out.newLine().newLine().append("public class ").append(className);
+    out.newLine().newLine().append("public final class ").append(className);
     out.append(" implements ").append(rootImpl.getType().getCanonicalName()).openBlock(false);
 
-    ClassScope rootClassScope = fileScope.newClassScope();
+    final ClassScope rootClassScope = fileScope.newClassScope();
     rootImpl.writeStaticMethodJava(rootClassScope);
 
     for (TypeHandler<?> typeHandler : typeToTypeHandler.values()) {
@@ -180,13 +136,18 @@ public class DynamicParserImpl<ROOT> {
       out.newLine();
     }
 
-    globalScope.forEachTypeFactory(new TObjectObjectProcedure<String, String>() {
+    globalScope.forEachTypeFactory(new TObjectProcedure<TypeHandler>() {
       @Override
-      public boolean execute(String name, String originName) {
+      public boolean execute(TypeHandler typeHandler) {
+        String name = globalScope.getTypeImplShortName(typeHandler);
+        String originName = typeHandler.getTypeClass().getCanonicalName();
         out.newLine().append("static final class ").append(name).append(Util.TYPE_FACTORY_NAME_POSTFIX).append(" extends ObjectFactory<").append(originName).append('>').openBlock();
-        out.append("@Override").newLine().append("public ").append(originName).append(" read(JsonReader ").append(Util.READER_NAME).append(')').append(
-          Util.THROWS_CLAUSE).openBlock();
-        out.append("return new ").append(name).append("(reader);").closeBlock();
+        out.append("@Override").newLine().append("public ").append(originName).append(" read(JsonReader ").append(Util.READER_NAME).append(
+          ')');
+        out.append(Util.THROWS_CLAUSE).openBlock();
+        out.append("return ");
+        typeHandler.writeInstantiateCode(rootClassScope, out);
+        out.append('(').append(Util.READER_NAME).append(");").closeBlock();
         out.closeBlock();
         out.newLine();
         return true;

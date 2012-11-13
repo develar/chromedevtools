@@ -7,6 +7,7 @@ package org.chromium.sdk.internal.v8native.protocol.input.data;
 import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
 import org.chromium.sdk.internal.protocolparser.JsonType;
 
+import java.io.IOException;
 
 /**
  * A serialized form of object. There may be 2 schemas: reference (like pointer) or full description
@@ -18,8 +19,8 @@ import org.chromium.sdk.internal.protocolparser.JsonType;
 @JsonType
 public interface SomeSerialized {
   @JsonSubtypeCasting
-  SomeRef asSomeRef();
+  SomeRef asSomeRef() throws IOException;
 
   @JsonSubtypeCasting
-  SomeHandle asSmthWithHandle();
+  SomeHandle asSmthWithHandle() throws IOException;
 }

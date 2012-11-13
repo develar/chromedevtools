@@ -4,9 +4,9 @@
 
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
-import gnu.trove.TObjectObjectProcedure;
+import gnu.trove.TObjectProcedure;
 
-import java.util.*;
+import java.util.Collection;
 
 /**
  * A set of interfaces and classes used to generate Java code of parser implementation.
@@ -27,7 +27,7 @@ public interface JavaCodeGenerator {
      */
     FileScope newFileScope(StringBuilder output);
 
-    void forEachTypeFactory(TObjectObjectProcedure<String, String> procedure);
+    void forEachTypeFactory(TObjectProcedure<TypeHandler> procedure);
   }
 
   interface FileScope extends GlobalScope {

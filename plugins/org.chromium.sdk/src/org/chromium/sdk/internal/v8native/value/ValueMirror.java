@@ -13,6 +13,8 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.RefWithDisplayData
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 import org.chromium.sdk.internal.v8native.value.LoadableString.Factory;
 
+import java.io.IOException;
+
 /**
  * A representation of a datum (value) in the remote JavaScript VM. The class must be immutable.
  * When additional (or more recent) data arrives, new instance should be put into
@@ -99,7 +101,13 @@ public abstract class ValueMirror {
 
       @Override
       public SubpropertiesMirror getProperties() {
-        ObjectValueHandle objectValueHandle = valueHandle.asObject();
+        ObjectValueHandle objectValueHandle;
+        try {
+          objectValueHandle = valueHandle.asObject();
+        }
+        catch (IOException e) {
+          throw new RuntimeException(e);
+        }
         if (objectValueHandle == null) {
           return SubpropertiesMirror.EMPTY;
         }

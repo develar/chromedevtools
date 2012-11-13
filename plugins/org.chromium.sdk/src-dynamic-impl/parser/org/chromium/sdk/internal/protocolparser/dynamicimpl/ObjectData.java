@@ -19,10 +19,6 @@ class ObjectData {
    */
   private final Object[] fieldArray;
 
-  /**
-   * May be JSONObject (in most cases) or any
-   * object (for {@link JsonType#subtypesChosenManually()}=true).
-   */
   private final Object underlyingObject;
   private final TypeHandler<?> typeHandler;
 

@@ -18,7 +18,7 @@ import java.util.Map;
  * depends on a particular command. Note that in JSON sometimes it is an array rather than object
  * (for scripts).
  */
-@JsonType(subtypesChosenManually=true)
+@JsonType
 public interface CommandResponseBody {
   @JsonSubtypeCasting
   BacktraceCommandBody asBacktraceCommandBody() throws IOException;
