@@ -277,10 +277,7 @@
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.wip.eclipse.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.wip.eclipse.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.wip.source.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.wip.source.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.wipbackend.dev.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.wipbackend.dev.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.wipbackend.protocol_1_0.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.wipbackend.protocol_1_0.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.wipbackend.protocol_1_0 Parser.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.wipbackend.protocol_1_0 Parser.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.wipbackend.wk118685.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.wipbackend.wk118685.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.wipbackend.wk120709.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.wipbackend.wk120709.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.wipbackends.feature.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.wipbackends.feature.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.source.iml" filepath="$PROJECT_DIR$/org.chromium.source.iml" />
       <module fileurl="file://$PROJECT_DIR$/sdk parser.iml" filepath="$PROJECT_DIR$/sdk parser.iml" />

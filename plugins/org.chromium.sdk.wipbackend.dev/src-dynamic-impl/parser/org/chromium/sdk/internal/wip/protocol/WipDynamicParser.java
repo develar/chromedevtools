@@ -37,8 +37,7 @@ public class WipDynamicParser {
     classList.addAll(Arrays.asList(baseTypes));
     classList.addAll(Arrays.asList(generatedTypes));
     try {
-      return new DynamicParserImpl<WipProtocolParser>(WipProtocolParser.class, classList,
-          Collections.<DynamicParserImpl<?>>emptyList(), true);
+      return new DynamicParserImpl<WipProtocolParser>(WipProtocolParser.class, classList, Collections.<DynamicParserImpl<?>>emptyList(), true);
     } catch (JsonProtocolModelParseException e) {
       throw new RuntimeException(e);
     }
