@@ -600,7 +600,7 @@ class Generator {
           fullName +
           "> TYPE\n\t      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<" +
           fullName +
-          ">(\"" + domainName + "." + event.name() + "\", " + fullName + ".class) {\n" +
+          ">(\"" + domainName + "" + event.name() + "\", " + fullName + ".class) {\n" +
           "\t    @Override public " + fullName + " parse(" + INPUT_PACKAGE + "." +
           PARSER_ROOT_INTERFACE_NAME + " parser, org.json.simple.JSONObject obj)" +
           " throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {\n" +
@@ -851,7 +851,7 @@ class Generator {
 
           addMember(objectName, builder);
 
-          jsonProtocolParserClassNames.add(getFullName() + "." + objectName);
+          jsonProtocolParserClassNames.add(getFullName() + "" + objectName);
 
           return BoxableType.createReference(new NamePath(objectName, getClassContextNamespace()));
         }
@@ -1442,7 +1442,7 @@ class Generator {
       }
 
       static String getPackageName(String domainName) {
-        return INPUT_PACKAGE + "." + domainName.toLowerCase();
+        return INPUT_PACKAGE + "" + domainName.toLowerCase();
       }
     }
 
@@ -1456,7 +1456,7 @@ class Generator {
       }
 
       static String getPackageName(String domainName) {
-        return OUTPUT_PACKAGE + "." + domainName.toLowerCase();
+        return OUTPUT_PACKAGE + "" + domainName.toLowerCase();
       }
     }
 
@@ -1470,7 +1470,7 @@ class Generator {
       }
 
       static String getPackageName(String domainName) {
-        return COMMON_PACKAGE + "." + domainName.toLowerCase();
+        return COMMON_PACKAGE + "" + domainName.toLowerCase();
       }
     }
   }

@@ -1,10 +1,9 @@
 // This is a generated source.
 package org.chromium.sdk.wip.schemaParser;
 
+import org.jetbrains.jsonProtocol.*;
 import com.google.gson.stream.JsonReader;
-import org.jetbrains.jsonProtocol.Message;
-import org.jetbrains.jsonProtocol.ObjectFactory;
-
+import com.google.gson.JsonParseException;
 import java.io.IOException;
 
 public final class WipProtocolSchemaParser implements org.chromium.wip.schemaParser.WipMetamodelParser {
@@ -598,10 +597,10 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
     }
   }
 
-  static final class M5F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Parameter> {
+  static final class M2F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Domain> {
     @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.Parameter read(JsonReader reader) throws IOException {
-      return new M5(reader);
+    public org.chromium.wip.schemaParser.WipMetamodel.Domain read(JsonReader reader) throws IOException {
+      return new M2(reader);
     }
   }
 
@@ -633,10 +632,10 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
     }
   }
 
-  static final class M2F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Domain> {
+  static final class M5F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Parameter> {
     @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.Domain read(JsonReader reader) throws IOException {
-      return new M2(reader);
+    public org.chromium.wip.schemaParser.WipMetamodel.Parameter read(JsonReader reader) throws IOException {
+      return new M5(reader);
     }
   }
 

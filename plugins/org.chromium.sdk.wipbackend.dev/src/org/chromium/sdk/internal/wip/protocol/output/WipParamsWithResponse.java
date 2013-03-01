@@ -4,15 +4,14 @@
 
 package org.chromium.sdk.internal.wip.protocol.output;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-import org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot;
-import org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse;
+import org.chromium.wip.protocol.input.WipGeneratedParserRoot;
+import org.jetrbrains.wip.protocol.WipCommandResponse;
+import org.jetrbrains.wip.protocol.WipParams;
 
 /**
  * A base class for all method parameter classes that implies non-empty responses.
  * @param <R> a type of the corresponding response
  */
 public abstract class WipParamsWithResponse<R> extends WipParams {
-  public abstract R parseResponse(WipCommandResponse.Data success, WipGeneratedParserRoot parser)
-      throws JsonProtocolParseException;
+  public abstract R parseResponse(WipCommandResponse.Data success, WipGeneratedParserRoot parser);
 }

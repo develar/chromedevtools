@@ -276,11 +276,13 @@
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.source.iml" filepath="$PROJECT_DIR$/org.chromium.source.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-model-generator/protocol-model-generator.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-model-generator/protocol-model-generator.iml" group="wip" />
-      <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-parser/src/protocol-parser.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-parser/src/protocol-parser.iml" group="wip" />
+      <module fileurl="file://$PROJECT_DIR$/../wip/protocol-parser/src/protocol-parser.iml" filepath="$PROJECT_DIR$/../wip/protocol-parser/src/protocol-parser.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/schema-parser/schema-parser.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/schema-parser/schema-parser.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/sdk parser.iml" filepath="$PROJECT_DIR$/sdk parser.iml" />
       <module fileurl="file://$PROJECT_DIR$/wip-eclipse.iml" filepath="$PROJECT_DIR$/wip-eclipse.iml" group="wip" />
+      <module fileurl="file://$PROJECT_DIR$/../wip/protocol/wip-protocol.iml" filepath="$PROJECT_DIR$/../wip/protocol/wip-protocol.iml" group="wip" />
+      <module fileurl="file://$PROJECT_DIR$/../wip/protocol-model/wip-protocol-model.iml" filepath="$PROJECT_DIR$/../wip/protocol-model/wip-protocol-model.iml" group="wip" />
+      <module fileurl="file://$PROJECT_DIR$/../wip/protocol-model-generator/wip-protocol-model-generator.iml" filepath="$PROJECT_DIR$/../wip/protocol-model-generator/wip-protocol-model-generator.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/wip-source.iml" filepath="$PROJECT_DIR$/wip-source.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/wipbackend-dev.iml" filepath="$PROJECT_DIR$/wipbackend-dev.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/wipbackends-feature.iml" filepath="$PROJECT_DIR$/wipbackends-feature.iml" group="wip" />
@@ -293,7 +295,7 @@
     <configuration default="false" name="Generate WIP schema reader " type="Application" factoryName="Application" singleton="true">
       <option name="MAIN_CLASS_NAME" value="org.chromium.wip.schemaParser.WipSchemaParserGenerator" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PROGRAM_PARAMETERS" value="--output-dir=generated" />
+      <option name="PROGRAM_PARAMETERS" value="--output-dir=$PROJECT_DIR$/../wip/protocol-model/generated" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/schema-parser" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />

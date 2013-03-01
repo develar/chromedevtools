@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.wip.protocol;
+package org.jetbrains.wip.protocol;
 
 public interface BasicConstants {
   interface Property {

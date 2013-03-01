@@ -4,12 +4,10 @@
 
 package org.chromium.sdk.internal.protocolparser;
 
-import org.json.simple.JSONArray;
-
 /**
  * Optional base interface for JSON type interface. Underlying object becomes available
  * to user this way. The JSON type instance may be created from any supported object
- * (e.g. from {@link JSONArray}), but may take advantage of this liberty only if it has no fields.
+ * (e.g. from {@_link JSONArray}), but may take advantage of this liberty only if it has no fields.
  */
 public interface AnyObjectBased {
   Object getUnderlyingObject();

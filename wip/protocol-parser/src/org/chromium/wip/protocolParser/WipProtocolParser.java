@@ -2,12 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.wip.protocol.input;
+package org.chromium.wip.protocolParser;
 
 import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
 import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-import org.chromium.sdk.internal.wip.protocol.input.runtime.RemoteObjectValue;
+import org.chromium.wip.protocol.input.WipGeneratedParserRoot;
+import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
+import org.jetrbrains.wip.protocol.WipCommandResponse;
+import org.jetrbrains.wip.protocol.WipEvent;
+import org.jetrbrains.wip.protocol.WipTabList;
 import org.json.simple.JSONObject;
 
 /**

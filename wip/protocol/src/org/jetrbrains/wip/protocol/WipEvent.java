@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.wip.protocol.input;
+package org.jetrbrains.wip.protocol;
 
 import org.chromium.sdk.internal.protocolparser.JsonField;
 import org.chromium.sdk.internal.protocolparser.JsonObjectBased;

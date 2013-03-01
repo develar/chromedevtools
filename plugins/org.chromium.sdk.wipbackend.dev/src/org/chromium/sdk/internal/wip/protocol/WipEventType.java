@@ -2,9 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.wip.protocol.input;
+package org.chromium.sdk.internal.wip.protocol;
 
 import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
+import org.chromium.wip.protocol.input.WipGeneratedParserRoot;
 import org.json.simple.JSONObject;
 
 /**

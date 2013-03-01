@@ -14,11 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Base class for all generator main classes.
- */
 public class ParserGeneratorBase {
-
   protected static void mainImpl(String[] args, GenerateConfiguration configuration) {
     Params params = parseArgs(args);
 
@@ -28,6 +24,7 @@ public class ParserGeneratorBase {
     String path = configuration.getPackageName().replace('.', '/');
 
     File directory = new File(params.outputDirectory() + "/" + path);
+    //noinspection ResultOfMethodCallIgnored
     directory.mkdirs();
 
     File output = new File(directory, configuration.getClassName() + ".java");
@@ -50,8 +47,7 @@ public class ParserGeneratorBase {
       this(packageName, className, parserImpl, Collections.<GeneratedCodeMap>emptyList());
     }
 
-    public GenerateConfiguration(String packageName, String className,
-        DynamicParserImpl parserImpl, Collection<GeneratedCodeMap> basePackagesMap) {
+    public GenerateConfiguration(String packageName, String className, DynamicParserImpl parserImpl, Collection<GeneratedCodeMap> basePackagesMap) {
       this.packageName = packageName;
       this.className = className;
       this.parserImpl = parserImpl;
