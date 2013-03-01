@@ -276,7 +276,7 @@
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.source.iml" filepath="$PROJECT_DIR$/org.chromium.source.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-parser/protocol-parser.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-parser/protocol-parser.iml" group="wip" />
+      <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-model-generator/protocol-model-generator.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-model-generator/protocol-model-generator.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/schema-parser/schema-parser.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/schema-parser/schema-parser.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/sdk parser.iml" filepath="$PROJECT_DIR$/sdk parser.iml" />
       <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/src-dynamic-impl/parser/wip protocol generator.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/src-dynamic-impl/parser/wip protocol generator.iml" group="wip" />
@@ -288,6 +288,24 @@
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/../out" />
+  </component>
+  <component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Generate WIP schema reader " type="Application" factoryName="Application" singleton="true">
+      <option name="MAIN_CLASS_NAME" value="org.chromium.wip.schemaParser.WipSchemaParserGenerator" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PROGRAM_PARAMETERS" value="--output-dir=generated" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/schema-parser" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="schema-parser" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />

@@ -84,7 +84,6 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
     private java.util.List<org.chromium.wip.schemaParser.WipMetamodel.Event> _events;
     private String _description;
     private boolean _hidden;
-    private boolean _async;
 
     public M2(JsonReader reader) throws IOException {
       reader.beginObject();
@@ -107,9 +106,6 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
         }
         else if (name.equals("hidden")) {
           _hidden = readBoolean(reader, name);
-        }
-        else if (name.equals("async")) {
-          _async = readBoolean(reader, name);
         }
         else {
           skipValue(name, reader);
@@ -147,11 +143,6 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
     public java.util.List<org.chromium.wip.schemaParser.WipMetamodel.StandaloneType> types() {
       return _types;
     }
-
-    @Override
-    public boolean async() {
-      return _async;
-    }
   }
 
   public static final class M1 extends Message implements org.chromium.wip.schemaParser.WipMetamodel.Command {
@@ -160,6 +151,7 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
     private boolean _hidden;
     private java.util.List<org.chromium.wip.schemaParser.WipMetamodel.Parameter> _parameters;
     private java.util.List<org.chromium.wip.schemaParser.WipMetamodel.Parameter> _returns;
+    private boolean _async;
 
     public M1(JsonReader reader) throws IOException {
       reader.beginObject();
@@ -179,6 +171,9 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
         }
         else if (name.equals("returns")) {
           _returns = readObjectArray(reader, name, new M5F());
+        }
+        else if (name.equals("async")) {
+          _async = readBoolean(reader, name);
         }
         else {
           skipValue(name, reader);
@@ -210,6 +205,11 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
     @Override
     public java.util.List<org.chromium.wip.schemaParser.WipMetamodel.Parameter> parameters() {
       return _parameters;
+    }
+
+    @Override
+    public boolean async() {
+      return _async;
     }
   }
 
@@ -598,27 +598,6 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
     }
   }
 
-  static final class M3F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Event> {
-    @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.Event read(JsonReader reader) throws IOException {
-      return new M3(reader);
-    }
-  }
-
-  static final class M7F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.StandaloneType> {
-    @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.StandaloneType read(JsonReader reader) throws IOException {
-      return new M7(reader);
-    }
-  }
-
-  static final class M4F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty> {
-    @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty read(JsonReader reader) throws IOException {
-      return new M4(reader);
-    }
-  }
-
   static final class M5F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Parameter> {
     @Override
     public org.chromium.wip.schemaParser.WipMetamodel.Parameter read(JsonReader reader) throws IOException {
@@ -630,6 +609,27 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
     @Override
     public org.chromium.wip.schemaParser.WipMetamodel.Command read(JsonReader reader) throws IOException {
       return new M1(reader);
+    }
+  }
+
+  static final class M4F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty> {
+    @Override
+    public org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty read(JsonReader reader) throws IOException {
+      return new M4(reader);
+    }
+  }
+
+  static final class M7F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.StandaloneType> {
+    @Override
+    public org.chromium.wip.schemaParser.WipMetamodel.StandaloneType read(JsonReader reader) throws IOException {
+      return new M7(reader);
+    }
+  }
+
+  static final class M3F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Event> {
+    @Override
+    public org.chromium.wip.schemaParser.WipMetamodel.Event read(JsonReader reader) throws IOException {
+      return new M3(reader);
     }
   }
 

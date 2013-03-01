@@ -39,7 +39,6 @@ public interface WipMetamodel {
     @JsonOptionalField String description();
 
     @JsonOptionalField boolean hidden();
-    @JsonOptionalField boolean async();
   }
 
   @JsonType
@@ -51,6 +50,7 @@ public interface WipMetamodel {
     @JsonOptionalField String description();
 
     @JsonOptionalField boolean hidden();
+    @JsonOptionalField boolean async();
   }
 
   @JsonType

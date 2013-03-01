@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/src-dynamic-impl/bridge" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/src-static-impl/generated" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-model-generator/generated" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="module" module-name="org.chromium.sdk" />

@@ -4,7 +4,7 @@ import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.DynamicParserImpl;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.ParserGeneratorBase;
 
-public class WipProtocolSchemaParserGenerator extends ParserGeneratorBase {
+public class WipSchemaParserGenerator extends ParserGeneratorBase {
   public static void main(String[] args) throws JsonProtocolModelParseException {
     Class<?>[] classes = {
       WipMetamodel.Root.class,

@@ -235,7 +235,7 @@ public abstract class Message {
   }
 
   protected static void skipValue(String name, JsonReader reader) throws IOException {
-    System.err.append("Unknown field ").append(name).append(" ").append(reader.toString());
+    System.err.append("Unknown field ").append(name).append(" ").append(reader.toString()).append('\n');
     reader.skipValue();
   }
 }
