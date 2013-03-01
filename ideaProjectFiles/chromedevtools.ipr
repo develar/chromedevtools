@@ -277,6 +277,7 @@
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.source.iml" filepath="$PROJECT_DIR$/org.chromium.source.iml" />
       <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-model-generator/protocol-model-generator.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-model-generator/protocol-model-generator.iml" group="wip" />
+      <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-parser/src/protocol-parser.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-parser/src/protocol-parser.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/schema-parser/schema-parser.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/schema-parser/schema-parser.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/sdk parser.iml" filepath="$PROJECT_DIR$/sdk parser.iml" />
       <module fileurl="file://$PROJECT_DIR$/wip-eclipse.iml" filepath="$PROJECT_DIR$/wip-eclipse.iml" group="wip" />

@@ -17,7 +17,7 @@ public class WipSchemaParserGenerator extends ParserGeneratorBase {
       WipMetamodel.ObjectProperty.class,
       WipMetamodel.ArrayItemType.class,
     };
-    ParserGeneratorBase.mainImpl(args, new GenerateConfiguration("org.chromium.sdk.wip.schemaParser", "WipProtocolSchemaParser",
+    mainImpl(args, new GenerateConfiguration("org.chromium.sdk.wip.schemaParser", "WipProtocolSchemaParser",
                                                                  new DynamicParserImpl<WipMetamodelParser>(true, WipMetamodelParser.class,
                                                                                                            classes)));
   }
