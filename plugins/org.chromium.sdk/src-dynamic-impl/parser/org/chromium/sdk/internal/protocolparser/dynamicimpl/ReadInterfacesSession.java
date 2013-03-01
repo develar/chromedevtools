@@ -57,7 +57,7 @@ class ReadInterfacesSession {
     }
   };
 
-  private final Map<Class<?>, TypeHandler<?>> typeTotypeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>();
+  private final Map<Class<?>, TypeHandler<?>> typeTotypeHandler;
   private final List<DynamicParserImpl> basePackages;
   private final boolean strictMode;
 
@@ -68,10 +68,11 @@ class ReadInterfacesSession {
 
   ReadInterfacesSession(Class[] protocolInterfaces, List<DynamicParserImpl> basePackages, boolean isStatic, boolean strictMode) {
     // Keep interfaces ordered to keep generated parser less random.
-    this.basePackages = basePackages ==  null ? Collections.<DynamicParserImpl>emptyList() : basePackages;
+    this.basePackages = basePackages == null ? Collections.<DynamicParserImpl>emptyList() : basePackages;
     this.isStatic = isStatic;
     this.strictMode = strictMode;
 
+    typeTotypeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>(protocolInterfaces.length);
     for (Class typeClass : protocolInterfaces) {
       if (typeTotypeHandler.containsKey(typeClass)) {
         throw new IllegalArgumentException("Protocol interface duplicated " + typeClass.getName());

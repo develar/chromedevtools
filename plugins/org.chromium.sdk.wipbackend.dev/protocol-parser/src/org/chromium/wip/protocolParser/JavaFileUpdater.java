@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.wip.tools.protocolgenerator;
+package org.chromium.wip.protocolParser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +25,7 @@ class JavaFileUpdater {
 
   JavaFileUpdater(File file) {
     this.file = file;
-    this.writer = new StringWriter();
+    writer = new StringWriter();
   }
 
   Writer getWriter() {

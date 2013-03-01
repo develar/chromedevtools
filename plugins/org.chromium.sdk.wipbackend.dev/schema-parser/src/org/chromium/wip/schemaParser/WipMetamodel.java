@@ -1,8 +1,4 @@
-// Copyright (c) 2011 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-package org.chromium.sdk.internal.wip.tools.protocolgenerator;
+package org.chromium.wip.schemaParser;
 
 import org.chromium.sdk.internal.protocolparser.JsonField;
 import org.chromium.sdk.internal.protocolparser.JsonOptionalField;
@@ -17,8 +13,15 @@ import java.util.List;
 public interface WipMetamodel {
   @JsonType
   interface Root {
-    @JsonOptionalField Object version();
+    @JsonOptionalField
+    Version version();
     List<Domain> domains();
+  }
+
+  @JsonType
+  interface Version {
+    String major();
+    String minor();
   }
 
   @JsonType
@@ -35,7 +38,8 @@ public interface WipMetamodel {
 
     @JsonOptionalField String description();
 
-    @JsonOptionalField Boolean hidden();
+    @JsonOptionalField boolean hidden();
+    @JsonOptionalField boolean async();
   }
 
   @JsonType
@@ -46,7 +50,7 @@ public interface WipMetamodel {
 
     @JsonOptionalField String description();
 
-    @JsonOptionalField Boolean hidden();
+    @JsonOptionalField boolean hidden();
   }
 
   @JsonType
@@ -72,11 +76,11 @@ public interface WipMetamodel {
     String ref();
 
     @JsonOptionalField
-    Boolean optional();
+    boolean optional();
 
     @JsonOptionalField String description();
 
-    @JsonOptionalField Boolean hidden();
+    @JsonOptionalField boolean hidden();
   }
 
   @JsonType interface Event {
@@ -85,7 +89,7 @@ public interface WipMetamodel {
 
     @JsonOptionalField String description();
 
-    @JsonOptionalField Boolean hidden();
+    @JsonOptionalField boolean hidden();
   }
 
   @JsonType interface StandaloneType {
@@ -95,7 +99,7 @@ public interface WipMetamodel {
 
     String type();
 
-    @JsonOptionalField Boolean hidden();
+    @JsonOptionalField boolean hidden();
 
     @JsonOptionalField List<ObjectProperty> properties();
 
@@ -114,7 +118,7 @@ public interface WipMetamodel {
     String description();
 
     @JsonOptionalField
-    Boolean optional();
+    boolean optional();
 
     @JsonOptionalField
     String type();
@@ -130,7 +134,7 @@ public interface WipMetamodel {
     @JsonOptionalField
     List<String> getEnum();
 
-    @JsonOptionalField Boolean hidden();
+    @JsonOptionalField boolean hidden();
   }
 
   @JsonType interface ArrayItemType {
@@ -138,7 +142,7 @@ public interface WipMetamodel {
     String description();
 
     @JsonOptionalField
-    Boolean optional();
+    boolean optional();
 
     @JsonOptionalField
     String type();

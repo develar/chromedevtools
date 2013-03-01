@@ -2,35 +2,23 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.wip.tools.protocolgenerator;
+package org.chromium.wip.protocolParser;
+
+import org.chromium.sdk.internal.protocolparser.EnumValueCondition;
+import org.chromium.wip.schemaParser.WipMetamodel;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import org.chromium.sdk.internal.protocolparser.EnumValueCondition;
-import org.chromium.sdk.internal.wip.tools.protocolgenerator.WipMetamodel.ArrayItemType;
-import org.chromium.sdk.internal.wip.tools.protocolgenerator.WipMetamodel.Command;
-import org.chromium.sdk.internal.wip.tools.protocolgenerator.WipMetamodel.Domain;
-import org.chromium.sdk.internal.wip.tools.protocolgenerator.WipMetamodel.Event;
-import org.chromium.sdk.internal.wip.tools.protocolgenerator.WipMetamodel.ObjectProperty;
-import org.chromium.sdk.internal.wip.tools.protocolgenerator.WipMetamodel.Parameter;
-import org.chromium.sdk.internal.wip.tools.protocolgenerator.WipMetamodel.StandaloneType;
+import static org.chromium.wip.schemaParser.WipMetamodel.*;
 
 /**
  * Read metamodel and generates set of files with Java classes/interfaces for the protocol.
  */
 class Generator {
-  private static final String ROOT_PACKAGE = "org.chromium.sdk.internal.wip.protocol";
+  private static final String ROOT_PACKAGE = "org.chromium.wip.protocol";
   private static final String OUTPUT_PACKAGE = ROOT_PACKAGE + ".output";
   private static final String INPUT_PACKAGE = ROOT_PACKAGE + ".input";
   private static final String COMMON_PACKAGE = ROOT_PACKAGE + ".common";
@@ -41,25 +29,21 @@ class Generator {
   private final List<ParserRootInterfaceItem> parserRootInterfaceItems =
       new ArrayList<ParserRootInterfaceItem>();
   private final TypeMap typeMap = new TypeMap();
-  private final String originReference;
 
   private final FileSet fileSet;
 
-  Generator(String outputDir, String originReference) {
-    this.originReference = originReference;
-    this.fileSet = new FileSet(new File(outputDir));
+  Generator(String outputDir) {
+    fileSet = new FileSet(new File(outputDir));
   }
 
-  void go(WipMetamodel.Root metamodel) throws IOException {
+  void go(Root metamodel) throws IOException {
     List<Domain> domainList = metamodel.domains();
 
     initializeKnownTypes(typeMap);
 
     Set<String> domainTodoList = new HashSet<String>(Arrays.asList(DOMAIN_WHITE_LIST));
 
-    Map<String, DomainGenerator> domainGeneratorMap =
-        new HashMap<String, Generator.DomainGenerator>();
-
+    Map<String, DomainGenerator> domainGeneratorMap = new HashMap<String, Generator.DomainGenerator>();
     for (Domain domain : domainList) {
       boolean found = domainTodoList.remove(domain.domain());
       if (!found) {
@@ -69,7 +53,6 @@ class Generator {
 
       DomainGenerator domainGenerator = new DomainGenerator(domain);
       domainGeneratorMap.put(domain.domain(), domainGenerator);
-
       domainGenerator.registerTypes();
     }
 
@@ -84,11 +67,8 @@ class Generator {
     }
 
     typeMap.generateRequestedTypes();
-
     generateParserInterfaceList();
-
     generateParserRoot(parserRootInterfaceItems);
-
     fileSet.deleteOtherFiles();
   }
 
@@ -1420,7 +1400,7 @@ class Generator {
     void writeCode(Writer writer) throws IOException {
       writer.write("  @org.chromium.sdk.internal.protocolparser.JsonParseMethod\n");
       writer.write("  " + fullName + " " + nameScheme.getParseMethodName(domain, name) +
-          "(org.json.simple.JSONObject obj)" +
+          "(JsonReader reader)" +
           " throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;\n");
       writer.write("\n");
     }
@@ -1706,7 +1686,6 @@ class Generator {
     Writer writer = fileUpdater.getWriter();
     writer.write("// Generated source.\n");
     writer.write("// Generator: " + this.getClass().getCanonicalName() + "\n");
-    writer.write("// Origin: " + originReference + "\n\n");
     writer.write("package " + packageName + ";\n\n");
     return fileUpdater;
   }

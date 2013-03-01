@@ -23,8 +23,8 @@ public abstract class Message {
 
   static {
     try {
-      JSON_READER_POSITION_FIELD = JsonReader.class.getField("pos");
-      JSON_READER_IN_FIELD = JsonReader.class.getField("in");
+      JSON_READER_POSITION_FIELD = JsonReader.class.getDeclaredField("pos");
+      JSON_READER_IN_FIELD = JsonReader.class.getDeclaredField("in");
 
       JSON_READER_POSITION_FIELD.setAccessible(true);
       JSON_READER_IN_FIELD.setAccessible(true);
@@ -149,7 +149,7 @@ public abstract class Message {
     return map;
   }
 
-  private static <T> List<T> nextList(JsonReader reader) throws IOException {
+  protected static <T> List<T> nextList(JsonReader reader) throws IOException {
     reader.beginArray();
     if (!reader.hasNext()) {
       reader.endArray();
@@ -232,5 +232,10 @@ public abstract class Message {
     catch (IOException e) {
       throw new JsonParseException(e);
     }
+  }
+
+  protected static void skipValue(String name, JsonReader reader) throws IOException {
+    System.err.append("Unknown field ").append(name).append(" ").append(reader.toString());
+    reader.skipValue();
   }
 }

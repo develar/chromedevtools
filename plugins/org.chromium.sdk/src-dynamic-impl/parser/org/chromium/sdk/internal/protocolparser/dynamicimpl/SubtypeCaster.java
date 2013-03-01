@@ -7,7 +7,7 @@ package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 /**
  * An internal facility for navigating from object of base type to object of subtype. Used only
  * when user wants to parse JSON object as subtype.
- * It works in terms of {@link ObjectData}.
+ * It works in terms of {@_link ObjectData}.
  */
 abstract class SubtypeCaster {
   private final RefToType<?> subtypeRef;

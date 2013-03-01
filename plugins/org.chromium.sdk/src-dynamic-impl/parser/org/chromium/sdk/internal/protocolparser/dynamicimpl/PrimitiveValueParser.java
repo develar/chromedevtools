@@ -33,7 +33,13 @@ class PrimitiveValueParser extends ValueParser {
 
   @Override
   public void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
-    out.append("read").append(readPostfix).append("Array").append('(').append(Util.READER_NAME);
+    if (readPostfix.equals("String")) {
+      out.append("nextList");
+    }
+    else {
+      out.append("read").append(readPostfix).append("Array");
+    }
+    out.append('(').append(Util.READER_NAME);
     out.append(')');
   }
 }

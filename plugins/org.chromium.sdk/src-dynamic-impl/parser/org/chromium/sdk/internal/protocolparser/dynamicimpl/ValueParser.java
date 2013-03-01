@@ -12,7 +12,7 @@ import org.chromium.sdk.internal.protocolparser.dynamicimpl.JavaCodeGenerator.Me
  * is converted to enum constant) to serve field getters in JsonType interfaces.
  * <p>
  * First the input value should be processed by method
- * that returns intermediate value (that may be stored in {@link ObjectData#getFieldArray()} array).
+ * that returns intermediate value (that may be stored in {@_link ObjectData#getFieldArray()} array).
  * <p>The parser's name "slow" reads "may be slow". It means that parser may do heavy operations.
  */
 abstract class ValueParser {

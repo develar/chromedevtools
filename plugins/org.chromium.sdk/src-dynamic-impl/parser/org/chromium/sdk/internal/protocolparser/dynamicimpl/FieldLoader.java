@@ -5,7 +5,7 @@
 package org.chromium.sdk.internal.protocolparser.dynamicimpl;
 
 /**
- * This classs is responsible for parsing field values and saving them in {@link ObjectData}
+ * This classs is responsible for parsing field values and saving them in {@_link ObjectData}
  * for future use.
  */
 class FieldLoader {

@@ -263,6 +263,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/V8 dynamic protocol impl.iml" filepath="$PROJECT_DIR$/V8 dynamic protocol impl.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/V8 static protocol impl.iml" filepath="$PROJECT_DIR$/V8 static protocol impl.iml" group="v8" />
+      <module fileurl="file://$PROJECT_DIR$/../fake module.iml" filepath="$PROJECT_DIR$/../fake module.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.iml" filepath="$PROJECT_DIR$/org.chromium.debug.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.core.iml" filepath="$PROJECT_DIR$/org.chromium.debug.core.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.core.tests.iml" filepath="$PROJECT_DIR$/org.chromium.debug.core.tests.iml" />
@@ -275,7 +276,10 @@
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.source.iml" filepath="$PROJECT_DIR$/org.chromium.source.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-parser/protocol-parser.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/protocol-parser/protocol-parser.iml" group="wip" />
+      <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/schema-parser/schema-parser.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/schema-parser/schema-parser.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/sdk parser.iml" filepath="$PROJECT_DIR$/sdk parser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/src-dynamic-impl/parser/wip protocol generator.iml" filepath="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/src-dynamic-impl/parser/wip protocol generator.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/wip-eclipse.iml" filepath="$PROJECT_DIR$/wip-eclipse.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/wip-source.iml" filepath="$PROJECT_DIR$/wip-source.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/wipbackend-dev.iml" filepath="$PROJECT_DIR$/wipbackend-dev.iml" group="wip" />

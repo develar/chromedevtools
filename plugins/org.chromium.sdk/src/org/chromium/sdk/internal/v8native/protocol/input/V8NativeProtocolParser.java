@@ -20,7 +20,7 @@ import java.io.IOException;
 public interface V8NativeProtocolParser extends V8NativeProtocolParserTestAccess {
 
   @JsonParseMethod
-  IncomingMessage parseIncomingMessage(JsonReader jsonReader) throws IOException;
+  IncomingMessage parseIncomingMessage(JsonReader reader) throws IOException;
 
   @JsonParseMethod
   SuccessCommandResponse parseSuccessCommandResponse(JsonReader reader) throws IOException;

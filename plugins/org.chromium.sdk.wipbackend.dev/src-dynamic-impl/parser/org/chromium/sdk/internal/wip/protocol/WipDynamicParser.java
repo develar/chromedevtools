@@ -25,11 +25,11 @@ public class WipDynamicParser {
       // Tab list protocol interfaces.
       WipTabList.class, WipTabList.TabDescription.class
     };
-    Class<?>[] generatedTypes = GeneratedParserInterfaceList.LIST;
+    //Class<?>[] generatedTypes = GeneratedParserInterfaceList.LIST;
 
     List<Class<?>> classList = new ArrayList<Class<?>>();
     classList.addAll(Arrays.asList(baseTypes));
-    classList.addAll(Arrays.asList(generatedTypes));
+    //classList.addAll(Arrays.asList(generatedTypes));
     //try {
     //  return new DynamicParserImpl<WipProtocolParser>(WipProtocolParser.class, classList, Collections.<DynamicParserImpl<?>>emptyList(), true);
     //} catch (JsonProtocolModelParseException e) {

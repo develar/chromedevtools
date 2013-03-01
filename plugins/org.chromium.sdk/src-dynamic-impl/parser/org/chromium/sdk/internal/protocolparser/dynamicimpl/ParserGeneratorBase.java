@@ -46,8 +46,7 @@ public class ParserGeneratorBase {
     private final DynamicParserImpl parserImpl;
     private final Collection<GeneratedCodeMap> basePackagesMap;
 
-    public GenerateConfiguration(String packageName, String className,
-        DynamicParserImpl parserImpl) {
+    public GenerateConfiguration(String packageName, String className, DynamicParserImpl parserImpl) {
       this(packageName, className, parserImpl, Collections.<GeneratedCodeMap>emptyList());
     }
 

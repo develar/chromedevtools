@@ -13,7 +13,7 @@ import java.util.*;
 
 /**
  * The instance of this class corresponds to a particular json type. Primarily it serves
- * as a factory for dynamic proxy/{@link ObjectData}, but also plays a role of type
+ * as a factory for dynamic proxy/{@_link ObjectData}, but also plays a role of type
  * descriptor object.
  */
 class TypeHandler<T> {
@@ -92,15 +92,6 @@ class TypeHandler<T> {
       }
       namesChain.remove(namesChain.size() - 1);
     }
-  }
-
-  String getShortName() {
-    String name = typeClass.getName();
-    int dotPos = name.lastIndexOf('.');
-    if (dotPos != -1) {
-      name = name.substring(dotPos + 1);
-    }
-    return name;
   }
 
   public SubtypeSupport getSubtypeSupport() {
@@ -279,6 +270,9 @@ class TypeHandler<T> {
         operator = "else if";
       }
     }
+
+    out.newLine().append("else").openBlock();
+    out.append("skipValue(name, reader);").closeBlock();
 
     out.closeBlock();
   }
