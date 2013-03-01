@@ -9,7 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="module" module-name="org.chromium.sdk" />
-    <orderEntry type="module" module-name="org.chromium.sdk.wipbackend.dev" />
+    <orderEntry type="module" module-name="wipbackend-dev" />
   </component>
 </module>
 

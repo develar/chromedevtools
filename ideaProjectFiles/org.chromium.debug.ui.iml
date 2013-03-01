@@ -8,7 +8,7 @@
     </content>
     <orderEntry type="module" module-name="org.chromium.debug.core" />
     <orderEntry type="module" module-name="org.chromium.sdk" />
-    <orderEntry type="module" module-name="org.chromium.sdk.wip.eclipse" />
+    <orderEntry type="module" module-name="wip-eclipse" />
     <orderEntry type="library" name="ECLIPSE" level="application" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
