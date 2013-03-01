@@ -295,8 +295,8 @@
     <configuration default="false" name="Generate WIP schema reader " type="Application" factoryName="Application" singleton="true">
       <option name="MAIN_CLASS_NAME" value="org.chromium.wip.schemaParser.WipSchemaParserGenerator" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PROGRAM_PARAMETERS" value="--output-dir=$PROJECT_DIR$/../wip/protocol-model/generated" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/schema-parser" />
+      <option name="PROGRAM_PARAMETERS" value="--output-dir=protocol-model/generated" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../wip" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />

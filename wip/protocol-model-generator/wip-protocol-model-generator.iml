@@ -5,8 +5,8 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../protocol-model/generated">
-      <sourceFolder url="file://$MODULE_DIR$/../protocol-model/generated" isTestSource="false" />
+    <content url="file://$MODULE_DIR$/generated">
+      <sourceFolder url="file://$MODULE_DIR$/generated" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
