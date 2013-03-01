@@ -2,10 +2,7 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../../plugins/org.chromium.sdk.wipbackend.dev/protocol-model-generator/generated">
-      <sourceFolder url="file://$MODULE_DIR$/../../../plugins/org.chromium.sdk.wipbackend.dev/protocol-model-generator/generated" isTestSource="false" />
-    </content>
-    <content url="file://$MODULE_DIR$">
+    <content url="file://$MODULE_DIR$/..">
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
