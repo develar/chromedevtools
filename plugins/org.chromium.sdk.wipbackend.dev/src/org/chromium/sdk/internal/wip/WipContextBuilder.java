@@ -36,7 +36,7 @@ import org.chromium.sdk.RemoteValueMapping;
 import org.chromium.sdk.RestartFrameExtension;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.TextStreamPosition;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
+import org.chromium.protocolParser.JsonProtocolParseException;
 import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
 import org.chromium.sdk.internal.wip.WipValueLoader.Getter;
 import org.chromium.sdk.internal.wip.protocol.WipParserAccess;

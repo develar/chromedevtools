@@ -31,10 +31,10 @@
       </library>
     </orderEntry>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="module" module-name="sdk parser" />
     <orderEntry type="library" name="trove4j" level="project" />
     <orderEntry type="library" name="gson" level="project" />
     <orderEntry type="module" module-name="V8 dynamic protocol impl" />
+    <orderEntry type="module" module-name="protocolParserRuntime" />
   </component>
 </module>
 

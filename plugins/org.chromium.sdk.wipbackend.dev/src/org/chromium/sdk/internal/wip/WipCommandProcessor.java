@@ -16,7 +16,7 @@ import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.TabDebugEventListener;
 import org.chromium.sdk.internal.BaseCommandProcessor;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
+import org.chromium.protocolParser.JsonProtocolParseException;
 import org.chromium.sdk.internal.websocket.WsConnection;
 import org.chromium.sdk.internal.wip.protocol.BasicConstants;
 import org.chromium.sdk.internal.wip.protocol.WipParserAccess;

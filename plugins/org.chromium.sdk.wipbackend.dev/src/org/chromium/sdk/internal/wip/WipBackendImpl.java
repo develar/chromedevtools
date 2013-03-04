@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.chromium.sdk.ConnectionLogger;
 import org.chromium.sdk.TabDebugEventListener;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
+import org.chromium.protocolParser.JsonProtocolParseException;
 import org.chromium.sdk.internal.transport.SocketWrapper;
 import org.chromium.sdk.internal.transport.SocketWrapper.LoggableInputStream;
 import org.chromium.sdk.internal.transport.SocketWrapper.LoggableOutputStream;

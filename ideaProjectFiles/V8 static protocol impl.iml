@@ -4,7 +4,6 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src-static-impl">
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src-static-impl/generated" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src-static-impl/bridge" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

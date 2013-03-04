@@ -9,7 +9,7 @@ import java.util.Collections;
 
 import org.chromium.sdk.internal.browserfixture.FixtureChromeStub.FixtureParser;
 import org.chromium.sdk.internal.browserfixture.FixtureChromeStub.Refs;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
+import org.chromium.protocolParser.JsonProtocolModelParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.DynamicParserImpl;
 import org.chromium.sdk.internal.v8native.protocol.input.V8DynamicParser;
 

@@ -14,7 +14,7 @@
     <orderEntry type="library" name="ECLIPSE" level="application" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="org.chromium.sdk" />
-    <orderEntry type="module" module-name="sdk parser" />
+    <orderEntry type="module" module-name="protocolParserRuntime" />
   </component>
 </module>
 

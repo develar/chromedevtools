@@ -12,7 +12,7 @@ import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.ScriptBase;
 import org.chromium.sdk.internal.liveeditprotocol.LiveEditProtocolParserAccess;
 import org.chromium.sdk.internal.liveeditprotocol.LiveEditResult;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
+import org.chromium.protocolParser.JsonProtocolParseException;
 import org.chromium.sdk.internal.wip.protocol.input.debugger.CallFrameValue;
 import org.chromium.sdk.internal.wip.protocol.input.debugger.SetScriptSourceData;
 import org.chromium.sdk.internal.wip.protocol.output.debugger.SetScriptSourceParams;

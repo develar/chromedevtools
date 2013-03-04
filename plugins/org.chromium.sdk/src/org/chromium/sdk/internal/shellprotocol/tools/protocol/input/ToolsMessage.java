@@ -5,9 +5,9 @@
 package org.chromium.sdk.internal.shellprotocol.tools.protocol.input;
 
 import com.google.gson.stream.JsonReader;
-import org.chromium.sdk.internal.protocolparser.JsonOptionalField;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
-import org.chromium.sdk.internal.protocolparser.JsonType;
+import org.chromium.protocolParser.JsonOptionalField;
+import org.chromium.protocolParser.JsonSubtypeCasting;
+import org.chromium.protocolParser.JsonType;
 import org.jetbrains.jsonProtocol.StringIntPair;
 
 import java.io.IOException;

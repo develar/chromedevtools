@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.chromium.sdk.internal.JsonUtil;
-import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
-import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
-import org.chromium.sdk.internal.protocolparser.JsonSubtypeCasting;
-import org.chromium.sdk.internal.protocolparser.JsonType;
+import org.chromium.protocolParser.JsonParseMethod;
+import org.chromium.protocolParser.JsonParserRoot;
+import org.chromium.protocolParser.JsonProtocolParseException;
+import org.chromium.protocolParser.JsonSubtypeCasting;
+import org.chromium.protocolParser.JsonType;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.DynamicParserImpl;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage;

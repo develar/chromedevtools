@@ -5,8 +5,8 @@
 package org.chromium.sdk.internal.shellprotocol.tools.protocol.input;
 
 import com.google.gson.stream.JsonReader;
-import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
-import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
+import org.chromium.protocolParser.JsonParseMethod;
+import org.chromium.protocolParser.JsonParserRoot;
 
 import java.io.IOException;
 

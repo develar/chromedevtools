@@ -5,12 +5,10 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.dev">
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/src-dynamic-impl/bridge" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="module" module-name="org.chromium.sdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="sdk parser" />
     <orderEntry type="library" name="gson" level="project" />
   </component>
 </module>
