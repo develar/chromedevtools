@@ -5,10 +5,8 @@
 package org.chromium.sdk.internal.v8native.protocol.input;
 
 import com.google.gson.stream.JsonReader;
-import org.chromium.sdk.internal.protocolparser.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 
-import java.util.EnumSet;
 import java.util.List;
 
 /**

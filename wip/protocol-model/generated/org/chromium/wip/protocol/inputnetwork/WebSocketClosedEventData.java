@@ -2,10 +2,14 @@
 // Generator: org.chromium.wip.protocolParser.Generator
 package org.chromium.wip.protocol.inputnetwork;
 
+import org.chromium.protocolparser.JsonProtocolParseException;
+import org.chromium.protocolparser.JsonType;
+import org.jetrbrains.wip.protocol.WipEventType;
+
 /**
  Fired when WebSocket is closed.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@JsonType
 public interface WebSocketClosedEventData {
   /**
    Request identifier.
@@ -17,9 +21,10 @@ public interface WebSocketClosedEventData {
    */
   Number/*See org.chromium.wip.protocol.commonnetwork.TimestampTypedef*/ timestamp();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketClosedEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketClosedEventData>("NetworkwebSocketClosed", org.chromium.wip.protocol.inputnetwork.WebSocketClosedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketClosedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  public static final WipEventType<WebSocketClosedEventData> TYPE
+      = new WipEventType<WebSocketClosedEventData>("NetworkwebSocketClosed", org.chromium.wip.protocol.inputnetwork.WebSocketClosedEventData.class) {
+    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketClosedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws
+                                                                                                                                                                                          JsonProtocolParseException {
       return parser.parseNetworkWebSocketClosedEventData(obj);
     }
   };

@@ -5,7 +5,6 @@
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
 import com.google.gson.stream.JsonReader;
-import org.chromium.sdk.internal.protocolparser.*;
 import org.chromium.sdk.internal.v8native.protocol.input.ScopeRef;
 
 import java.util.List;

@@ -4,7 +4,7 @@
 
 package org.jetrbrains.wip.protocol;
 
-import org.chromium.sdk.internal.protocolparser.*;
+import org.chromium.protocolparser.*;
 
 import java.util.List;
 
@@ -13,7 +13,8 @@ public interface WipCommandResponse {
   @JsonField(jsonLiteralName = BasicConstants.Property.ID)
   Long id();
 
-  @JsonSubtypeCasting Success asSuccess();
+  @JsonSubtypeCasting
+  Success asSuccess();
   @JsonSubtypeCasting Error asError();
 
   @JsonType

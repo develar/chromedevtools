@@ -4,8 +4,6 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
-import org.chromium.sdk.internal.protocolparser.*;
-
 /**
  * A reference (a pointer) to an object, that prefetches some of its key properties.
  * <p>Gets serialized in mirror-delay.js,

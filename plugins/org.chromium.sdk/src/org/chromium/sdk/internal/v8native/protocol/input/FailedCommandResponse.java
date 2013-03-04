@@ -4,8 +4,6 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import org.chromium.sdk.internal.protocolparser.*;
-
 /**
  * A type for failed command response message. It should contain "message" field
  * hinting at the cause of the failure.

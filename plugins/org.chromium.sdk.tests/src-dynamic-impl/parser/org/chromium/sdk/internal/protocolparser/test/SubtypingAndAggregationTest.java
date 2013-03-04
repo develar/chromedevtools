@@ -5,13 +5,11 @@
 package org.chromium.sdk.internal.protocolparser.test;
 
 import org.chromium.sdk.internal.JsonUtil;
-import org.chromium.sdk.internal.protocolparser.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.EnumSet;
 
 import static org.junit.Assert.*;
 

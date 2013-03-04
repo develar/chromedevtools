@@ -11,7 +11,6 @@ import org.chromium.sdk.Script;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.FixtureParserAccess;
 import org.chromium.sdk.internal.JsonUtil;
-import org.chromium.sdk.internal.protocolparser.*;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolName;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.DevToolsServiceCommand;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.output.MessageFactory;

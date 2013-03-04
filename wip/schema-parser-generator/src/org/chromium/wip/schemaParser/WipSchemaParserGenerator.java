@@ -1,11 +1,10 @@
 package org.chromium.wip.schemaParser;
 
-import org.chromium.sdk.internal.protocolparser.JsonProtocolModelParseException;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.DynamicParserImpl;
-import org.chromium.sdk.internal.protocolparser.dynamicimpl.ParserGeneratorBase;
+import org.chromium.protocolparser.DynamicParserImpl;
+import org.chromium.protocolparser.ParserGeneratorBase;
 
 public class WipSchemaParserGenerator extends ParserGeneratorBase {
-  public static void main(String[] args) throws JsonProtocolModelParseException {
+  public static void main(String[] args) {
     Class<?>[] classes = {
       WipMetamodel.Root.class,
       WipMetamodel.Version.class,
@@ -18,7 +17,7 @@ public class WipSchemaParserGenerator extends ParserGeneratorBase {
       WipMetamodel.ArrayItemType.class,
     };
     mainImpl(args, new GenerateConfiguration("org.chromium.sdk.wip.schemaParser", "WipProtocolSchemaParser",
-                                                                 new DynamicParserImpl<WipMetamodelParser>(true, WipMetamodelParser.class,
-                                                                                                           classes)));
+                                             new DynamicParserImpl<WipMetamodelParser>(true, WipMetamodelParser.class,
+                                                                                       classes)));
   }
 }
