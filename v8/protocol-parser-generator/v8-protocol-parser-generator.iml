@@ -8,7 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="protocolParser" />
-    <orderEntry type="module" module-name="protocol" />
+    <orderEntry type="module" module-name="v8-protocol" />
     <orderEntry type="library" name="gson" level="project" />
   </component>
 </module>
