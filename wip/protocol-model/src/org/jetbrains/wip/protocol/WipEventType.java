@@ -7,6 +7,8 @@ package org.jetbrains.wip.protocol;
 import com.google.gson.stream.JsonReader;
 import org.chromium.wip.protocol.input.WipGeneratedParserRoot;
 
+import java.io.IOException;
+
 /**
  * This class describes event static information that helps to automate response parsing
  * and dispatching.
@@ -28,5 +30,5 @@ public abstract class WipEventType<T> {
     return eventType;
   }
 
-  public abstract T parse(WipGeneratedParserRoot parser, JsonReader reader);
+  public abstract T parse(WipGeneratedParserRoot parser, JsonReader reader) throws IOException;
 }

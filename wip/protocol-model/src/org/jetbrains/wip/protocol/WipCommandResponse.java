@@ -5,14 +5,13 @@
 package org.jetbrains.wip.protocol;
 
 import org.chromium.protocolParser.*;
-import org.jetbrains.wip.protocol.BasicConstants;
 
 import java.util.List;
 
 @JsonType
 public interface WipCommandResponse {
   @JsonField(jsonLiteralName = BasicConstants.Property.ID)
-  Long id();
+  long id();
 
   @JsonSubtypeCasting
   Success asSuccess();
@@ -21,7 +20,7 @@ public interface WipCommandResponse {
   @JsonType
   interface Success extends JsonSubtype<WipCommandResponse> {
     @JsonOptionalField
-    Void error();
+    void error();
 
     @JsonField(jsonLiteralName="result")
     Data data();

@@ -57,7 +57,7 @@ public interface ScriptParsedEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData>("DebuggerscriptParsed", org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+    @Override public org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseDebuggerScriptParsedEventData(reader);
     }
   };

@@ -25,7 +25,7 @@ public class SearchInContentParams extends org.jetbrains.wip.protocol.WipParamsW
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.SearchInContentData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputdebugger.SearchInContentData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) throws java.io.IOException {
     return parser.parseDebuggerSearchInContentData(data.getUnderlyingObject());
   }
 

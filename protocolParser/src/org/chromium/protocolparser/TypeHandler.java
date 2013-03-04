@@ -64,10 +64,9 @@ class TypeHandler<T> {
   }
 
   void buildClosedNameSet() {
-    if (!subtypeAspect.isRoot()) {
-      return;
+    if (subtypeAspect.isRoot()) {
+      buildClosedNameSetRecursive(new ArrayList<Set<String>>(3));
     }
-    buildClosedNameSetRecursive(new ArrayList<Set<String>>(3));
   }
 
   private void buildClosedNameSetRecursive(List<Set<String>> namesChain) {

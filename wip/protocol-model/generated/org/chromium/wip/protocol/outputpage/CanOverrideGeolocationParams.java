@@ -15,7 +15,7 @@ public class CanOverrideGeolocationParams extends org.jetbrains.wip.protocol.Wip
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.CanOverrideGeolocationData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputpage.CanOverrideGeolocationData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) throws java.io.IOException {
     return parser.parsePageCanOverrideGeolocationData(data.getUnderlyingObject());
   }
 

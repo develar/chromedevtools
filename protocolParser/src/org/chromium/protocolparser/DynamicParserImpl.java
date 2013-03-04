@@ -19,37 +19,13 @@ public class DynamicParserImpl<ROOT> {
   final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;
   private final ParserRootImpl<ROOT> rootImpl;
 
-  /**
-   * Constructs parser from a set of type interfaces and a list of base packages. Type interfaces
-   * may reference to type interfaces from base packages.
-   * @param basePackages list of base packages in form of list of {@link DynamicParserImpl}'s
-   */
-  public DynamicParserImpl(boolean isStatic, Class<ROOT> parserRootClass,
-                           Class[] protocolInterfaces,
-      List<DynamicParserImpl> basePackages) throws JsonProtocolModelParseException {
-    this(isStatic, parserRootClass, protocolInterfaces, basePackages, false);
-  }
-
-  public DynamicParserImpl(boolean isStatic, Class<ROOT> parserRootClass, Class[] protocolInterfaces, List<DynamicParserImpl> basePackages, boolean strictMode) throws JsonProtocolModelParseException {
-    typeToTypeHandler = readTypes(protocolInterfaces, basePackages, isStatic, strictMode);
-    rootImpl = new ParserRootImpl<ROOT>(parserRootClass, typeToTypeHandler);
-  }
-
   public DynamicParserImpl(boolean isStatic, Class<ROOT> parserRootClass, Class[] protocolInterfaces) {
-    typeToTypeHandler = readTypes(protocolInterfaces, null, isStatic, false);
+    typeToTypeHandler = new InterfaceReader(protocolInterfaces, isStatic, false).go();
     rootImpl = new ParserRootImpl<ROOT>(parserRootClass, typeToTypeHandler);
   }
 
   public ROOT getParserRoot() {
     return rootImpl.getInstance();
-  }
-
-  private static Map<Class<?>, TypeHandler<?>> readTypes(Class[] protocolInterfaces,
-                                                         List<DynamicParserImpl> basePackages,
-                                                         boolean isStatic, boolean strictMode) {
-    ReadInterfacesSession session = new ReadInterfacesSession(protocolInterfaces, basePackages, isStatic, strictMode);
-    session.go();
-    return session.getResult();
   }
 
   static class EagerFieldParserImpl extends TypeHandler.EagerFieldParser {
@@ -69,35 +45,6 @@ public class DynamicParserImpl<ROOT> {
 
   interface LazyHandler {
     String getFieldName();
-  }
-
-  static class RefImpl<T> extends RefToType<T> {
-    final Class<T> typeClass;
-    private TypeHandler<T> type;
-
-    RefImpl(Class<T> typeClass) {
-      this.typeClass = typeClass;
-    }
-
-    RefImpl(Class<T> typeClass, TypeHandler<T> typeHandler) {
-      this.typeClass = typeClass;
-      type = typeHandler;
-    }
-
-    @Override
-    Class<?> getTypeClass() {
-      return typeClass;
-    }
-
-    @Override
-    TypeHandler<T> get() {
-      return type;
-    }
-
-    void set(TypeHandler<?> type) {
-      //noinspection unchecked
-      this.type = (TypeHandler<T>)type;
-    }
   }
 
   // We should use it for static analysis later.

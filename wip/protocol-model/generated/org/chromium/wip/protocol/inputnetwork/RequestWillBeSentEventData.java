@@ -50,7 +50,7 @@ public interface RequestWillBeSentEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData>("NetworkrequestWillBeSent", org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData.class) {
-    @Override public org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+    @Override public org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseNetworkRequestWillBeSentEventData(reader);
     }
   };

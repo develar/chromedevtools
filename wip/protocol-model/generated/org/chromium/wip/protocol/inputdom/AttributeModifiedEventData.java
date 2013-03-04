@@ -24,7 +24,7 @@ public interface AttributeModifiedEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.AttributeModifiedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.AttributeModifiedEventData>("DOMattributeModified", org.chromium.wip.protocol.inputdom.AttributeModifiedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdom.AttributeModifiedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+    @Override public org.chromium.wip.protocol.inputdom.AttributeModifiedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseDOMAttributeModifiedEventData(reader);
     }
   };

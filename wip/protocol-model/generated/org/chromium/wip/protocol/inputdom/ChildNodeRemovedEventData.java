@@ -19,7 +19,7 @@ public interface ChildNodeRemovedEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.ChildNodeRemovedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.ChildNodeRemovedEventData>("DOMchildNodeRemoved", org.chromium.wip.protocol.inputdom.ChildNodeRemovedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdom.ChildNodeRemovedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+    @Override public org.chromium.wip.protocol.inputdom.ChildNodeRemovedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseDOMChildNodeRemovedEventData(reader);
     }
   };

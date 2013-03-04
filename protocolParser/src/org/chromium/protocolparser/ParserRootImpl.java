@@ -23,13 +23,11 @@ class ParserRootImpl<R> {
   private final InvocationHandlerImpl invocationHandler;
   private final R instance;
 
-  ParserRootImpl(Class<R> rootClass, Map<Class<?>, TypeHandler<?>> type2TypeHandler)
-      throws JsonProtocolModelParseException {
+  ParserRootImpl(Class<R> rootClass, Map<Class<?>, TypeHandler<?>> typeToTypeHandler) {
     this.rootClass = rootClass;
-    ParseInterfaceSession session = new ParseInterfaceSession(type2TypeHandler);
+    ParseInterfaceSession session = new ParseInterfaceSession(typeToTypeHandler);
     session.run(rootClass);
     invocationHandler = session.createInvocationHandler();
-    //noinspection unchecked
     instance = null;
   }
 
@@ -46,7 +44,7 @@ class ParserRootImpl<R> {
       this.typeToTypeHandler = typeToTypeHandler;
     }
 
-    void run(Class<?> clazz) throws JsonProtocolModelParseException {
+    void run(Class<?> clazz) {
       parseInterfaceRecursive(clazz);
     }
 
@@ -83,7 +81,10 @@ class ParserRootImpl<R> {
         //noinspection SuspiciousMethodCalls
         TypeHandler<?> typeHandler = typeToTypeHandler.get(returnType);
         if (typeHandler == null) {
-          throw new JsonProtocolModelParseException("Unknown return type in " + m);
+          typeHandler = InterfaceReader.createHandler(typeToTypeHandler, m.getReturnType());
+          if (typeHandler == null) {
+            throw new JsonProtocolModelParseException("Unknown return type in " + m);
+          }
         }
 
         Type[] arguments = m.getGenericParameterTypes();

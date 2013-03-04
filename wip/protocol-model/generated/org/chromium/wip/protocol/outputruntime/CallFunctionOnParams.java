@@ -29,7 +29,7 @@ public class CallFunctionOnParams extends org.jetbrains.wip.protocol.WipParamsWi
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputruntime.CallFunctionOnData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputruntime.CallFunctionOnData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) throws java.io.IOException {
     return parser.parseRuntimeCallFunctionOnData(data.getUnderlyingObject());
   }
 

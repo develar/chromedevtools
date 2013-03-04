@@ -11,5 +11,5 @@ import org.chromium.wip.protocol.input.WipGeneratedParserRoot;
  * @param <R> a type of the corresponding response
  */
 public abstract class WipParamsWithResponse<R> extends WipParams {
-  public abstract R parseResponse(WipCommandResponse.Data success, WipGeneratedParserRoot parser);
+  public abstract R parseResponse(WipCommandResponse.Data success, WipGeneratedParserRoot parser) throws java.io.IOException;
 }

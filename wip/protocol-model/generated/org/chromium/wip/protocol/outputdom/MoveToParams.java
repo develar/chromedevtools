@@ -23,7 +23,7 @@ public class MoveToParams extends org.jetbrains.wip.protocol.WipParamsWithRespon
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.MoveToData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputdom.MoveToData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) throws java.io.IOException {
     return parser.parseDOMMoveToData(data.getUnderlyingObject());
   }
 

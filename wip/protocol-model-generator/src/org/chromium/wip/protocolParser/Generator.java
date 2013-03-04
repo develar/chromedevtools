@@ -139,7 +139,7 @@ class Generator {
         additionalMemberBuilder.append(
             "\t  @Override public " + dataInterfaceFullname + " parseResponse(" +
             "org.jetbrains.wip.protocol.WipCommandResponse.Data data, " +
-            "org.chromium.wip.protocol.input." + PARSER_ROOT_INTERFACE_NAME + " parser) {\n");
+            "org.chromium.wip.protocol.input." + PARSER_ROOT_INTERFACE_NAME + " parser) throws java.io.IOException {\n");
         additionalMemberBuilder.append("\t    return parser." +
             Naming.COMMAND_DATA.getParseMethodName(domain.domain(), command.name()) +
             "(data.getUnderlyingObject());\n");
@@ -609,7 +609,7 @@ class Generator {
           fullName +
           ">(\"" + domainName + "" + event.name() + "\", " + fullName + ".class) {\n" +
           "\t    @Override public " + fullName + " parse(" + INPUT_PACKAGE + "." +
-          PARSER_ROOT_INTERFACE_NAME + " parser, com.google.gson.stream.JsonReader reader) {\n" +
+          PARSER_ROOT_INTERFACE_NAME + " parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {\n" +
           "\t      return parser." +
           Naming.EVENT_DATA.getParseMethodName(domainName, event.name()) +
           "(reader);\n" +
@@ -1378,7 +1378,7 @@ class Generator {
     void writeCode(Writer writer) throws IOException {
       writer.write("  @org.chromium.protocolParser.JsonParseMethod\n");
       writer.write("  " + fullName + " " + nameScheme.getParseMethodName(domain, name) +
-          "(com.google.gson.stream.JsonReader reader);\n");
+          "(com.google.gson.stream.JsonReader reader) throws java.io.IOException;\n");
       writer.write("\n");
     }
 

@@ -31,6 +31,5 @@ public interface WipProtocolParser extends WipGeneratedParserRoot {
 
   // Used by WipContextBuilder because protocol declares exception value as raw object.
   @JsonParseMethod
-  RemoteObjectValue parseRemoteObjectValue(JsonReader reader);
-
+  RemoteObjectValue parseRemoteObjectValue(JsonReader reader) throws IOException;
 }

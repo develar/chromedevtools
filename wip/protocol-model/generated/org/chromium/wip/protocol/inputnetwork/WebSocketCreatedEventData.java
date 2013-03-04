@@ -19,7 +19,7 @@ public interface WebSocketCreatedEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData>("NetworkwebSocketCreated", org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseNetworkWebSocketCreatedEventData(reader);
     }
   };

@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 import java.util.*;
 
-class ReadInterfacesSession {
+class InterfaceReader {
   private static final PrimitiveValueParser LONG_PARSER = new PrimitiveValueParser("long");
 
   private static final PrimitiveValueParser INTEGER_PARSER = new PrimitiveValueParser("int");
@@ -58,17 +58,14 @@ class ReadInterfacesSession {
   };
 
   private final Map<Class<?>, TypeHandler<?>> typeTotypeHandler;
-  private final List<DynamicParserImpl> basePackages;
   private final boolean strictMode;
 
   private final boolean isStatic;
 
-  final List<DynamicParserImpl.RefImpl<?>> refs = new ArrayList<DynamicParserImpl.RefImpl<?>>();
+  final List<RefImpl<?>> refs = new ArrayList<RefImpl<?>>();
   final List<SubtypeCaster> subtypeCasters = new ArrayList<SubtypeCaster>();
 
-  ReadInterfacesSession(Class[] protocolInterfaces, List<DynamicParserImpl> basePackages, boolean isStatic, boolean strictMode) {
-    // Keep interfaces ordered to keep generated parser less random.
-    this.basePackages = basePackages == null ? Collections.<DynamicParserImpl>emptyList() : basePackages;
+  InterfaceReader(Class[] protocolInterfaces, boolean isStatic, boolean strictMode) {
     this.isStatic = isStatic;
     this.strictMode = strictMode;
 
@@ -79,6 +76,17 @@ class ReadInterfacesSession {
       }
       typeTotypeHandler.put(typeClass, null);
     }
+  }
+
+  private InterfaceReader(Map<Class<?>, TypeHandler<?>> typeTotypeHandler, boolean isStatic, boolean strictMode) {
+    this.isStatic = isStatic;
+    this.strictMode = strictMode;
+    this.typeTotypeHandler = typeTotypeHandler;
+  }
+
+  public static TypeHandler createHandler(Map<Class<?>, TypeHandler<?>> typeToTypeHandler, Class<?> aClass) {
+    new InterfaceReader(typeToTypeHandler, true, true).go(new Class[]{aClass});
+    return typeToTypeHandler.get(aClass);
   }
 
   static class SimpleParserPair<T> {
@@ -99,15 +107,17 @@ class ReadInterfacesSession {
     }
   }
 
-  void go() {
-    // Create TypeHandler's.
-    for (Class<?> typeClass : typeTotypeHandler.keySet()) {
-      TypeHandler<?> typeHandler = createTypeHandler(typeClass);
-      typeTotypeHandler.put(typeClass, typeHandler);
+  Map<Class<?>, TypeHandler<?>> go() {
+    return go(typeTotypeHandler.keySet().toArray(new Class[typeTotypeHandler.size()]));
+  }
+
+  private Map<Class<?>, TypeHandler<?>> go(Class<?>[] classes) {
+    for (Class<?> typeClass : classes) {
+      createIfNotExists(typeClass);
     }
 
     // Resolve cross-references.
-    for (DynamicParserImpl.RefImpl<?> ref : refs) {
+    for (RefImpl<?> ref : refs) {
       TypeHandler<?> type = typeTotypeHandler.get(ref.typeClass);
       if (type == null) {
         throw new RuntimeException();
@@ -125,10 +135,33 @@ class ReadInterfacesSession {
         type.buildClosedNameSet();
       }
     }
+
+    return typeTotypeHandler;
   }
 
-  Map<Class<?>, TypeHandler<?>> getResult() {
-    return typeTotypeHandler;
+  private void createIfNotExists(Class<?> typeClass) {
+    TypeHandler<?> typeHandler = typeTotypeHandler.get(typeClass);
+    if (typeHandler != null) {
+      return;
+    }
+
+    typeTotypeHandler.put(typeClass, null);
+
+    for (Class<?> aClass : typeClass.getDeclaredClasses()) {
+      if (aClass.isInterface()) {
+        createIfNotExists(aClass);
+      }
+    }
+
+    typeHandler = createTypeHandler(typeClass);
+    for (RefImpl<?> ref : refs) {
+      if (ref.typeClass == typeClass) {
+        assert ref.get() == null;
+        ref.set(typeHandler);
+        break;
+      }
+    }
+    typeTotypeHandler.put(typeClass, typeHandler);
   }
 
   private <T> TypeHandler<T> createTypeHandler(Class<T> typeClass) {
@@ -140,13 +173,18 @@ class ReadInterfacesSession {
     fields.go();
 
     Map<Method, MethodHandler> methodHandlerMap = fields.getMethodHandlerMap();
+    for (Method method : methodHandlerMap.keySet()) {
+      Class<?> returnType = method.getReturnType();
+      if (returnType != typeClass && returnType.getAnnotation(JsonType.class) != null) {
+        createIfNotExists(returnType);
+      }
+    }
+
     if (!isStatic) {
       methodHandlerMap.putAll(BaseHandlersLibrary.INSTANCE.getAllHandlers());
     }
 
-    TypeHandler.EagerFieldParser eagerFieldParser =
-      new DynamicParserImpl.EagerFieldParserImpl(fields.getOnDemandHanlers());
-
+    TypeHandler.EagerFieldParser eagerFieldParser = new DynamicParserImpl.EagerFieldParserImpl(fields.getOnDemandHanlers());
     boolean lazyRead = fields.lazyRead || JsonObjectBased.class.isAssignableFrom(typeClass);
     return new TypeHandler<T>(typeClass, getSuperclassRef(typeClass),
                               fields.getVolatileFields(), methodHandlerMap,
@@ -254,17 +292,17 @@ class ReadInterfacesSession {
 
   private <T> RefToType<T> getTypeRef(Class<T> typeClass) {
     if (typeTotypeHandler.containsKey(typeClass)) {
-      DynamicParserImpl.RefImpl<T> result = new DynamicParserImpl.RefImpl<T>(typeClass);
+      RefImpl<T> result = new RefImpl<T>(typeClass);
       refs.add(result);
       return result;
     }
-    for (DynamicParserImpl<?> baseParser : basePackages) {
-      @SuppressWarnings("unchecked")
-      TypeHandler<T> typeHandler = (TypeHandler<T>)baseParser.typeToTypeHandler.get(typeClass);
-      if (typeHandler != null) {
-        return new DynamicParserImpl.RefImpl<T>(typeClass, typeHandler);
-      }
-    }
+    //for (DynamicParserImpl<?> baseParser : basePackages) {
+    //  @SuppressWarnings("unchecked")
+    //  TypeHandler<T> typeHandler = (TypeHandler<T>)baseParser.typeToTypeHandler.get(typeClass);
+    //  if (typeHandler != null) {
+    //    return new DynamicParserImpl.RefImpl<T>(typeClass, typeHandler);
+    //  }
+    //}
     return null;
   }
 
@@ -330,7 +368,7 @@ class ReadInterfacesSession {
       }
     }
 
-    private void processMethod(Method m) throws JsonProtocolModelParseException {
+    private void processMethod(Method m) {
       if (m.getParameterTypes().length != 0) {
         throw new JsonProtocolModelParseException("No parameters expected in " + m);
       }

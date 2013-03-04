@@ -14,7 +14,7 @@ public interface FrameNavigatedEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputpage.FrameNavigatedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputpage.FrameNavigatedEventData>("PageframeNavigated", org.chromium.wip.protocol.inputpage.FrameNavigatedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputpage.FrameNavigatedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+    @Override public org.chromium.wip.protocol.inputpage.FrameNavigatedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parsePageFrameNavigatedEventData(reader);
     }
   };
