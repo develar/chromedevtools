@@ -9,7 +9,7 @@ public class MarkUndoableStateParams extends org.jetbrains.wip.protocol.WipParam
   public MarkUndoableStateParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".markUndoableState";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".markUndoableState";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

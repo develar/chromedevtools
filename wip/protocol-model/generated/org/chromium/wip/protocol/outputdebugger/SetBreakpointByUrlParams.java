@@ -13,29 +13,21 @@ public class SetBreakpointByUrlParams extends org.jetbrains.wip.protocol.WipPara
    @param columnNumberOpt Offset in the line to set breakpoint at.
    @param conditionOpt Expression to use as a breakpoint condition. When specified, debugger will only stop on the breakpoint if this expression evaluates to true.
    */
-  public SetBreakpointByUrlParams(long lineNumber, String urlOpt, String urlRegexOpt, Long columnNumberOpt, String conditionOpt) {
-    this.put("lineNumber", lineNumber);
-    if (urlOpt != null) {
-      this.put("url", urlOpt);
-    }
-    if (urlRegexOpt != null) {
-      this.put("urlRegex", urlRegexOpt);
-    }
-    if (columnNumberOpt != null) {
-      this.put("columnNumber", columnNumberOpt);
-    }
-    if (conditionOpt != null) {
-      this.put("condition", conditionOpt);
-    }
+  public SetBreakpointByUrlParams(long lineNumber, String urlOpt, String urlRegexOpt, long columnNumberOpt, String conditionOpt) {
+    //this.put("lineNumber", lineNumber);
+    //this.put("url", urlOpt);
+    //this.put("urlRegex", urlRegexOpt);
+    //this.put("columnNumber", columnNumberOpt);
+    //this.put("condition", conditionOpt);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setBreakpointByUrl";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setBreakpointByUrl";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.SetBreakpointByUrlData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputdebugger.SetBreakpointByUrlData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerSetBreakpointByUrlData(data.getUnderlyingObject());
   }
 

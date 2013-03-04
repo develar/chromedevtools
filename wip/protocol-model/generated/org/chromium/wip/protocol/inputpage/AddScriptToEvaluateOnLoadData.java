@@ -7,6 +7,6 @@ public interface AddScriptToEvaluateOnLoadData {
   /**
    Identifier of the added script.
    */
-  String/*See org.chromium.wip.protocol.commonpage.ScriptIdentifierTypedef*/ identifier();
+  String identifier();
 
 }

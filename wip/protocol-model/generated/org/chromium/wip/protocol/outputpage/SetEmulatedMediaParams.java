@@ -10,10 +10,10 @@ public class SetEmulatedMediaParams extends org.jetbrains.wip.protocol.WipParams
    @param media Media type to emulate. Empty string disables the override.
    */
   public SetEmulatedMediaParams(String media) {
-    this.put("media", media);
+    //this.put("media", media);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".setEmulatedMedia";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".setEmulatedMedia";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

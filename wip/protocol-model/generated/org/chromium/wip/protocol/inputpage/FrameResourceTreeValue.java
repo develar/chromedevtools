@@ -44,13 +44,13 @@ public interface FrameResourceTreeValue {
      True if the resource failed to load.
      */
     @org.chromium.protocolParser.JsonOptionalField
-    Boolean failed();
+    boolean failed();
 
     /**
      True if the resource was canceled during loading.
      */
     @org.chromium.protocolParser.JsonOptionalField
-    Boolean canceled();
+    boolean canceled();
 
   }
 }

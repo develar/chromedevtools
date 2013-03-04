@@ -9,17 +9,17 @@ public class RequestNodeParams extends org.jetbrains.wip.protocol.WipParamsWithR
   /**
    @param objectId JavaScript object id to convert into node.
    */
-  public RequestNodeParams(String/*See org.chromium.wip.protocol.commonruntime.RemoteObjectIdTypedef*/ objectId) {
-    this.put("objectId", objectId);
+  public RequestNodeParams(String objectId) {
+    //this.put("objectId", objectId);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".requestNode";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".requestNode";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.RequestNodeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputdom.RequestNodeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parseDOMRequestNodeData(data.getUnderlyingObject());
   }
 

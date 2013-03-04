@@ -11,13 +11,11 @@ public class SetInspectModeEnabledParams extends org.jetbrains.wip.protocol.WipP
    @param highlightConfigOpt A descriptor for the highlight appearance of hovered-over nodes. May be omitted if <code>enabled == false</code>.
    */
   public SetInspectModeEnabledParams(boolean enabled, org.chromium.wip.protocol.outputdom.HighlightConfigParam highlightConfigOpt) {
-    this.put("enabled", enabled);
-    if (highlightConfigOpt != null) {
-      this.put("highlightConfig", highlightConfigOpt);
-    }
+    //this.put("enabled", enabled);
+    //this.put("highlightConfig", highlightConfigOpt);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".setInspectModeEnabled";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".setInspectModeEnabled";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

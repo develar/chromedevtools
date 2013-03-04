@@ -10,7 +10,7 @@ public interface FrameStartedLoadingEventData {
   /**
    Id of the frame that has started loading.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId();
+  String frameId();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputpage.FrameStartedLoadingEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputpage.FrameStartedLoadingEventData>("PageframeStartedLoading", org.chromium.wip.protocol.inputpage.FrameStartedLoadingEventData.class) {

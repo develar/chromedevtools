@@ -16,7 +16,7 @@ public interface InitiatorValue {
    Initiator JavaScript stack trace, set for Script only.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  java.util.List<org.chromium.wip.protocol.inputconsole.CallFrameValue>/*See org.chromium.wip.protocol.inputconsole.StackTraceTypedef*/ stackTrace();
+  java.util.List<org.chromium.wip.protocol.inputconsole.CallFrameValue> stackTrace();
 
   /**
    Initiator URL, set for Parser type only.

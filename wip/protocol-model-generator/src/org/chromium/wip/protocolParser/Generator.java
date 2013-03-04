@@ -26,8 +26,7 @@ class Generator {
   private static final String PARSER_ROOT_INTERFACE_NAME = "WipGeneratedParserRoot";
 
   private final List<String> jsonProtocolParserClassNames = new ArrayList<String>();
-  private final List<ParserRootInterfaceItem> parserRootInterfaceItems =
-      new ArrayList<ParserRootInterfaceItem>();
+  private final List<ParserRootInterfaceItem> parserRootInterfaceItems = new ArrayList<ParserRootInterfaceItem>();
   private final TypeMap typeMap = new TypeMap();
 
   private final FileSet fileSet;
@@ -39,7 +38,7 @@ class Generator {
   void go(Root metamodel) throws IOException {
     List<Domain> domainList = metamodel.domains();
 
-    initializeKnownTypes(typeMap);
+    initializeKnownTypes();
 
     Set<String> domainTodoList = new HashSet<String>(Arrays.asList(DOMAIN_WHITE_LIST));
 
@@ -105,7 +104,7 @@ class Generator {
         for (Event event : domain.events()) {
           generateEvenData(event);
           jsonProtocolParserClassNames.add(
-              Naming.EVENT_DATA.getFullName(domain.domain(), event.name()).getFullText());
+            Naming.EVENT_DATA.getFullName(domain.domain(), event.name()).getFullText());
           parserRootInterfaceItems.add(
               new ParserRootInterfaceItem(domain.domain(), event.name(), Naming.EVENT_DATA));
         }
@@ -116,15 +115,15 @@ class Generator {
       StringBuilder baseTypeBuilder = new StringBuilder();
       baseTypeBuilder.append("org.jetbrains.wip.protocol.");
       if (hasResponse) {
-        baseTypeBuilder.append("WipParamsWithResponse<" +
-            Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText() + ">");
+        baseTypeBuilder.append("WipParamsWithResponse<")
+          .append(Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText()).append(">");
       } else {
         baseTypeBuilder.append("WipParams");
       }
 
       DeferredWriter additionalMemberBuilder = new DeferredWriter();
       additionalMemberBuilder.append("\t  public static final String METHOD_NAME = " +
-          "org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain." +
+          "org.jetbrains.wip.protocol.BasicConstants.Domain." +
           domain.domain().toUpperCase() + " + \"." + command.name() + "\";\n");
       additionalMemberBuilder.append("\n");
 
@@ -140,8 +139,7 @@ class Generator {
         additionalMemberBuilder.append(
             "\t  @Override public " + dataInterfaceFullname + " parseResponse(" +
             "org.jetbrains.wip.protocol.WipCommandResponse.Data data, " +
-            "org.jetbrains.wip.protocol." +
-            PARSER_ROOT_INTERFACE_NAME + " parser) {\n");
+            "org.chromium.wip.protocol.input." + PARSER_ROOT_INTERFACE_NAME + " parser) {\n");
         additionalMemberBuilder.append("\t    return parser." +
             Naming.COMMAND_DATA.getParseMethodName(domain.domain(), command.name()) +
             "(data.getUnderlyingObject());\n");
@@ -156,7 +154,7 @@ class Generator {
 
     private void generateCommandAdditionalParam(StandaloneType type) throws IOException {
       generateTopLevelOutputClass(Naming.ADDITIONAL_PARAM, type.id(), type.description(),
-          "org.json.simple.JSONObject", null, type.properties(), PropertyLikeAccess.PROPERTY);
+          null, null, type.properties(), PropertyLikeAccess.PROPERTY);
     }
 
     private <P> void generateTopLevelOutputClass(ClassNameScheme nameScheme, String baseName,
@@ -183,17 +181,20 @@ class Generator {
       if (description != null) {
         writer.append("\t/**\n" + description + "\n */\n");
       }
-      writer.append("\tpublic class " + classNamePath.getLastComponent() +
-          " extends " + baseType + " {\n");
+      writer.append("\tpublic class " + classNamePath.getLastComponent());
+      if (baseType != null) {
+        writer.append(" extends " + baseType);
+      }
+      writer.append(" {\n");
 
       OutputClassScope classScope = new OutputClassScope(classNamePath);
 
       if (additionalMemberText != null) {
-        classScope.addMember("param-specific", additionalMemberText);
+        classScope.addMember(additionalMemberText);
       }
 
-      classScope.generateCommandParamsBody(writer, properties, propertyAccess,
-          classNamePath.getLastComponent());
+      classScope.generateCommandParamsBody(writer, properties, propertyAccess
+      );
 
       classScope.writeAdditionalMembers(writer);
 
@@ -297,9 +298,7 @@ class Generator {
                   resolveType(items, TypedObjectAccess.FOR_ARRAY_ITEM, resolveAndGenerateScope);
               BoxableType itemBoxableType = itemTypeData.getJavaType();
 
-              final BoxableType arrayType = BoxableType.createList(itemBoxableType);
-
-              return arrayType;
+              return BoxableType.createList(itemBoxableType);
             }
           };
 
@@ -346,7 +345,7 @@ class Generator {
             }
             @Override
             public BoxableType generateNestedObject(String description,
-                List<ObjectProperty> properties) throws IOException {
+                List<ObjectProperty> properties) {
               throw new UnsupportedOperationException();
             }
           };
@@ -489,7 +488,8 @@ class Generator {
             case INPUT:
               throw new RuntimeException("TODO");
             case OUTPUT:
-              generateOutputClass(writer, classNamePath, description, "org.json.simple.JSONObject",
+              // "org.json.simple.JSONObject"
+              generateOutputClass(writer, classNamePath, description, null,
                   null, properties, PropertyLikeAccess.PROPERTY);
               break;
             default:
@@ -518,21 +518,31 @@ class Generator {
           DecoratedBoxableType(BoxableType original) {
             this.original = original;
           }
-          @Override String getFullText() {
-            return decorateTypeName(original.getFullText(), typedefJavaType.getFullText());
+
+          @Override
+          String getFullText() {
+            return original.getFullText();
+            //return decorateTypeName(original.getFullText(), typedefJavaType.getFullText());
           }
-          @Override String getShortText(NamePath contextNamespace) {
-            return decorateTypeName(original.getShortText(contextNamespace),
-                typedefJavaType.getShortText(contextNamespace));
+
+          @Override
+          String getShortText(NamePath contextNamespace) {
+            return original.getShortText(contextNamespace);
+            //return decorateTypeName(original.getShortText(contextNamespace),
+            //                        typedefJavaType.getShortText(contextNamespace));
           }
-          @Override BoxableType convertToPureReference() {
+
+          @Override
+          BoxableType convertToPureReference() {
             BoxableType pureReference = original.convertToPureReference();
             if (pureReference == original) {
               return this;
-            } else {
+            }
+            else {
               return new DecoratedBoxableType(pureReference);
             }
           }
+
           private String decorateTypeName(String actualTypeName, String innerTypeName) {
             return actualTypeName + "/*See " + innerTypeName + "*/";
           }
@@ -545,8 +555,6 @@ class Generator {
           String className = nameScheme.getShortName(name);
           JavaFileUpdater fileUpdater = startJavaFile(nameScheme, domain, name);
 
-          NamePath contextNamespace = typedefJavaName;
-
           IndentWriter writer = new IndentWriterImpl(fileUpdater.getWriter(), "");
 
           if (description != null) {
@@ -558,7 +566,7 @@ class Generator {
               "\t   It merely holds a type javadoc and its only field refers to an " +
               "actual type.\n" +
               "\t   */\n");
-          writer.append("\t  " + actualJavaType.getShortText(contextNamespace) + " actualType;\n");
+          writer.append("\t  " + actualJavaType.getShortText(typedefJavaName) + " actualType;\n");
 
           IndentWriter innerWriter = writer.createInner();
           for (DeferredWriter memberWriter : deferredWriters) {
@@ -630,7 +638,7 @@ class Generator {
           new NamePath(ClassNameScheme.Input.getPackageName(domain.domain()))));
 
       if (additionalMembersText != null) {
-        classScope.addMember("extra", additionalMembersText);
+        classScope.addMember(additionalMembersText);
       }
 
       classScope.generateMainJsonProtocolInterfaceBody(writer, parameters);
@@ -660,7 +668,7 @@ class Generator {
         return contextNamespace;
       }
 
-      void addMember(String key, DeferredWriter deferredWriter) {
+      void addMember(DeferredWriter deferredWriter) {
         additionalMemberTexts.add(deferredWriter);
       }
 
@@ -670,7 +678,6 @@ class Generator {
         }
       }
 
-      protected abstract MemberScope newMemberScope(String memberName);
       protected abstract TypeData.Direction getTypeDirection();
 
       /**
@@ -777,8 +784,7 @@ class Generator {
         return TypeData.Direction.INPUT;
       }
 
-      @Override
-      protected MemberScope newMemberScope(String memberName) {
+      private MemberScope newMemberScope(String memberName) {
         return new InputMemberScope(memberName);
       }
 
@@ -801,22 +807,19 @@ class Generator {
                 EnumValueCondition.decorateEnumConstantName(constant) + ",\n");
           }
           builder.append("\t  }\n");
-          addMember(enumName, builder);
+          addMember(builder);
 
           return BoxableType.createReference(new NamePath(enumName, getClassContextNamespace()));
         }
 
         @Override
-        public BoxableType generateNestedObject(String description,
-            List<ObjectProperty> propertyList) throws IOException {
+        public BoxableType generateNestedObject(String description, List<ObjectProperty> propertyList) throws IOException {
           DeferredWriter builder = new DeferredWriter();
-
           if (description != null) {
             builder.append("\t  /**\n   " + description + "\n   */\n");
           }
 
           String objectName = capitalizeFirstChar(getMemberName());
-
           if (propertyList == null) {
             builder.append("\t  @org.chromium.protocolParser.JsonType(" +
                 "allowsOtherProperties=true)\n");
@@ -847,9 +850,9 @@ class Generator {
             builder.append("\t  }\n");
           }
 
-          addMember(objectName, builder);
+          addMember(builder);
 
-          jsonProtocolParserClassNames.add(getFullName() + "" + objectName);
+          jsonProtocolParserClassNames.add(getFullName() + '.' + objectName);
 
           return BoxableType.createReference(new NamePath(objectName, getClassContextNamespace()));
         }
@@ -862,7 +865,7 @@ class Generator {
       }
 
       <P> void generateCommandParamsBody(IndentWriter writer, List<P> parameters,
-          PropertyLikeAccess<P> access, String commandName) throws IOException {
+                                         PropertyLikeAccess<P> access) throws IOException {
 
         if (parameters != null) {
           boolean hasDoc = false;
@@ -907,13 +910,12 @@ class Generator {
           for (P param : parameters) {
             boolean isOptional = access.forTypedObject().getOptional(param) == Boolean.TRUE;
             String paramName = getParamName(param, access);
+            //if (isOptional) {
+            //  writer.append("\t    if (" + paramName + " != null) {\n  ");
+            //}
+            writer.append("\t    //this.put(\"" + access.getName(param) + "\", " + paramName + ");\n");
             if (isOptional) {
-              writer.append("\t    if (" + paramName + " != null) {\n  ");
-            }
-            writer.append("\t    this.put(\"" + access.getName(param) + "\", " + paramName +
-                ");\n");
-            if (isOptional) {
-              writer.append("\t    }\n");
+              //writer.append("\t    }\n");
             }
           }
         }
@@ -926,8 +928,7 @@ class Generator {
         return TypeData.Direction.OUTPUT;
       }
 
-      @Override
-      protected MemberScope newMemberScope(String memberName) {
+      private MemberScope newMemberScope(String memberName) {
         return new OutputMemberScope(memberName);
       }
 
@@ -943,8 +944,9 @@ class Generator {
             builder.append("\t  /**\n   " + description + "\n   */\n");
           }
           String enumName = capitalizeFirstChar(getMemberName());
+          // JSONAware
           builder.append("\t  public enum " + enumName +
-              " implements org.json.simple.JSONAware{\n");
+              " {\n");
           for (String constant : enumConstants) {
             builder.append("\t    " + EnumValueCondition.decorateEnumConstantName(constant) +
                 "(\"" + constant + "\"),\n");
@@ -956,11 +958,11 @@ class Generator {
           builder.append("\t      this.protocolValue = protocolValue;\n");
           builder.append("\t    }\n");
           builder.append("\t\n");
-          builder.append("\t    @Override public String toJSONString() {\n");
+          builder.append("\t    public String toJSONString() {\n");
           builder.append("\t      return '\"' + protocolValue + '\"';\n");
           builder.append("\t    }\n");
           builder.append("\t  }\n");
-          addMember(enumName, builder);
+          addMember(builder);
 
           return BoxableType.createReference(new NamePath(enumName, getClassContextNamespace()));
         }
@@ -1099,7 +1101,7 @@ class Generator {
       @Override public UnqualifiedTypeData visitUnknown() {
         return UnqualifiedTypeData.ANY;
       }
-      private <S> String getDescription() {
+      private String getDescription() {
         return access.getDescription(typedObject);
       }
     });
@@ -1171,20 +1173,18 @@ class Generator {
   }
 
   private void generateParserInterfaceList() throws IOException {
-    JavaFileUpdater fileUpdater =
-        startJavaFile(INPUT_PACKAGE, PARSER_INTERFACE_LIST_CLASS_NAME + ".java");
+    JavaFileUpdater fileUpdater = startJavaFile(INPUT_PACKAGE, PARSER_INTERFACE_LIST_CLASS_NAME + ".java");
 
     // Write classes in stable order.
     Collections.sort(jsonProtocolParserClassNames);
 
     Writer writer = fileUpdater.getWriter();
-
     writer.write("public class " + PARSER_INTERFACE_LIST_CLASS_NAME + " {\n");
-    writer.write("  public static final Class<?>[] LIST = {\n");
+    writer.write("\tpublic static final Class<?>[] LIST = {\n");
     for (String name : jsonProtocolParserClassNames) {
-      writer.write("    " + name + ".class" + ",\n");
+      writer.write("\t\t" + name + ".class" + ",\n");
     }
-    writer.write("  };\n");
+    writer.write("\t};\n");
     writer.write("}\n");
 
     fileUpdater.update();
@@ -1211,10 +1211,6 @@ class Generator {
   }
 
   private static abstract class BoxableType {
-    public static BoxableType create(String boxed, String unboxed) {
-      return new Base(boxed, unboxed);
-    }
-
     public static BoxableType createReference(NamePath namePath) {
       return new Reference(namePath);
     }
@@ -1228,28 +1224,6 @@ class Generator {
     abstract String getShortText(NamePath contextNamespace);
 
     abstract BoxableType convertToPureReference();
-
-    private static class Base extends BoxableType {
-      private final NamePath boxed;
-      private final String unboxed;
-
-      private Base(String boxed, String unboxed) {
-        this.boxed = new NamePath(boxed);
-        this.unboxed = unboxed;
-      }
-
-      @Override String getFullText() {
-        return unboxed;
-      }
-
-      @Override String getShortText(NamePath contextNamespace) {
-        return getFullText();
-      }
-
-      @Override BoxableType convertToPureReference() {
-        return new Reference(boxed);
-      }
-    }
 
     private static class Reference extends BoxableType {
       private final NamePath namePath;
@@ -1275,8 +1249,8 @@ class Generator {
         return namePath.getFullText();
       }
 
-      private StringBuilder subtractContextRecursively(NamePath namePos, int count,
-          NamePath prefix) {
+      private static StringBuilder subtractContextRecursively(NamePath namePos, int count,
+                                                              NamePath prefix) {
         if (count > 1) {
           StringBuilder result =
               subtractContextRecursively(namePos.getParent(), count - 1, prefix);
@@ -1316,10 +1290,16 @@ class Generator {
       }
 
       @Override String getFullText() {
+        if (itemType.getFullText().equals(LONG.getFullText())) {
+          return "long[]";
+        }
         return "java.util.List<" + itemType.getFullText() + ">";
       }
 
       @Override String getShortText(NamePath contextNamespace) {
+        if (itemType.getFullText().equals(LONG.getFullText())) {
+          return "long[]";
+        }
         return "java.util.List<" + itemType.getShortText(contextNamespace) + ">";
       }
 
@@ -1332,8 +1312,8 @@ class Generator {
     static final BoxableType STRING = createReference(new NamePath("String"));
     static final BoxableType OBJECT = createReference(new NamePath("Object"));
     static final BoxableType NUMBER = createReference(new NamePath("Number"));
-    static final BoxableType LONG = create("Long", "long");
-    static final BoxableType BOOLEAN = create("Boolean", "boolean");
+    static final BoxableType LONG = createReference(new NamePath("long"));
+    static final BoxableType BOOLEAN = createReference(new NamePath("boolean"));
   }
 
   private static class NamePath {
@@ -1398,7 +1378,7 @@ class Generator {
     void writeCode(Writer writer) throws IOException {
       writer.write("  @org.chromium.protocolParser.JsonParseMethod\n");
       writer.write("  " + fullName + " " + nameScheme.getParseMethodName(domain, name) +
-          "(JsonReader reader);\n");
+          "(com.google.gson.stream.JsonReader reader);\n");
       writer.write("\n");
     }
 
@@ -1652,7 +1632,7 @@ class Generator {
     return typeMap.resolve(domainName, shortName, direction);
   }
 
-  private String generateMethodNameSubstitute(String originalName, IndentWriter output) {
+  private static String generateMethodNameSubstitute(String originalName, IndentWriter output) {
     if (!BAD_METHOD_NAMES.contains(originalName)) {
       return originalName;
     }
@@ -1739,7 +1719,6 @@ class Generator {
   }
 
   private static class TypeData {
-    private final String domain;
     private final String name;
 
     private Input input = null;
@@ -1748,8 +1727,7 @@ class Generator {
     private StandaloneType type = null;
     private StandaloneTypeBinding commonBinding = null;
 
-    TypeData(String domain, String name) {
-      this.domain = domain;
+    TypeData(String name) {
       this.name = name;
     }
 
@@ -1882,7 +1860,6 @@ class Generator {
 
   }
 
-
   /**
    * Keeps track of all referenced types.
    * A type may be used and resolved (generated or hard-coded).
@@ -1911,6 +1888,7 @@ class Generator {
 
     public void generateRequestedTypes() throws IOException {
       // Size may grow during iteration.
+      //noinspection ForLoopReplaceableByForEach
       for (int i = 0; i < typesToGenerate.size(); i++) {
         typesToGenerate.get(i).generate();
       }
@@ -1924,13 +1902,13 @@ class Generator {
       List<String> key = createKey(domainName, typeName);
       TypeData result = map.get(key);
       if (result == null) {
-        result = new TypeData(domainName, typeName);
+        result = new TypeData(typeName);
         map.put(key, result);
       }
       return result;
     }
 
-    private List<String> createKey(String domainName, String typeName) {
+    private static List<String> createKey(String domainName, String typeName) {
       return Arrays.asList(domainName, typeName);
     }
   }
@@ -1957,6 +1935,7 @@ class Generator {
 
     void deleteOtherFiles() {
       for (File file : unusedFiles) {
+        //noinspection ResultOfMethodCallIgnored
         file.delete();
       }
     }
@@ -1965,6 +1944,7 @@ class Generator {
       if (file.isFile()) {
         list.add(file);
       } else if (file.isDirectory()) {
+        //noinspection ConstantConditions
         for (File inner : file.listFiles()) {
           collectFilesRecursive(inner, list);
         }
@@ -1981,7 +1961,7 @@ class Generator {
     "DOM",
   };
 
-  private static void initializeKnownTypes(TypeMap typeMap) {
+  private static void initializeKnownTypes() {
     // Code example:
     // typeMap.getTypeData("Page", "Cookie").getInput().setJavaTypeName("Object");
   }

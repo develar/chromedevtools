@@ -9,7 +9,7 @@ public class UndoParams extends org.jetbrains.wip.protocol.WipParams {
   public UndoParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".undo";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".undo";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

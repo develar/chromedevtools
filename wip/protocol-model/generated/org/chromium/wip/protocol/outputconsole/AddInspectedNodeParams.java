@@ -9,11 +9,11 @@ public class AddInspectedNodeParams extends org.jetbrains.wip.protocol.WipParams
   /**
    @param nodeId DOM node id to be accessible by means of $x command line API.
    */
-  public AddInspectedNodeParams(long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId) {
-    this.put("nodeId", nodeId);
+  public AddInspectedNodeParams(long nodeId) {
+    //this.put("nodeId", nodeId);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.CONSOLE + ".addInspectedNode";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.CONSOLE + ".addInspectedNode";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

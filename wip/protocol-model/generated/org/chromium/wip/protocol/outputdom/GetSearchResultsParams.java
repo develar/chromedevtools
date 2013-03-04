@@ -12,18 +12,18 @@ public class GetSearchResultsParams extends org.jetbrains.wip.protocol.WipParams
    @param toIndex End index of the search result to be returned.
    */
   public GetSearchResultsParams(String searchId, long fromIndex, long toIndex) {
-    this.put("searchId", searchId);
-    this.put("fromIndex", fromIndex);
-    this.put("toIndex", toIndex);
+    //this.put("searchId", searchId);
+    //this.put("fromIndex", fromIndex);
+    //this.put("toIndex", toIndex);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".getSearchResults";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".getSearchResults";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.GetSearchResultsData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputdom.GetSearchResultsData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parseDOMGetSearchResultsData(data.getUnderlyingObject());
   }
 

@@ -9,13 +9,13 @@ public class CanSetScriptSourceParams extends org.jetbrains.wip.protocol.WipPara
   public CanSetScriptSourceParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DEBUGGER + ".canSetScriptSource";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".canSetScriptSource";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.CanSetScriptSourceData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputdebugger.CanSetScriptSourceData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerCanSetScriptSourceData(data.getUnderlyingObject());
   }
 

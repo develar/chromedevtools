@@ -9,7 +9,7 @@ public class ClearGeolocationOverrideParams extends org.jetbrains.wip.protocol.W
   public ClearGeolocationOverrideParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".clearGeolocationOverride";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".clearGeolocationOverride";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

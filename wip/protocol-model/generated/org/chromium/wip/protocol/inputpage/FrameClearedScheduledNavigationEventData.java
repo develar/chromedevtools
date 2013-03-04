@@ -10,7 +10,7 @@ public interface FrameClearedScheduledNavigationEventData {
   /**
    Id of the frame that has cleared its scheduled navigation.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId();
+  String frameId();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputpage.FrameClearedScheduledNavigationEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputpage.FrameClearedScheduledNavigationEventData>("PageframeClearedScheduledNavigation", org.chromium.wip.protocol.inputpage.FrameClearedScheduledNavigationEventData.class) {

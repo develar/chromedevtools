@@ -11,7 +11,7 @@ public interface CompileScriptData {
    Id of the script.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  String/*See org.chromium.wip.protocol.commondebugger.ScriptIdTypedef*/ scriptId();
+  String scriptId();
 
   /**
    Syntax error message if compilation failed.

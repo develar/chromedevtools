@@ -10,7 +10,7 @@ public interface CallFrameValue {
   /**
    Call frame identifier. This identifier is only valid while the virtual machine is paused.
    */
-  String/*See org.chromium.wip.protocol.commondebugger.CallFrameIdTypedef*/ callFrameId();
+  String callFrameId();
 
   /**
    Name of the JavaScript function called on this call frame.

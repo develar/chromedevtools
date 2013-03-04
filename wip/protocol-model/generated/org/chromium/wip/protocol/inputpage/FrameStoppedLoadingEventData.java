@@ -10,7 +10,7 @@ public interface FrameStoppedLoadingEventData {
   /**
    Id of the frame that has stopped loading.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId();
+  String frameId();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputpage.FrameStoppedLoadingEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputpage.FrameStoppedLoadingEventData>("PageframeStoppedLoading", org.chromium.wip.protocol.inputpage.FrameStoppedLoadingEventData.class) {

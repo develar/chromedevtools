@@ -9,7 +9,7 @@ public class RedoParams extends org.jetbrains.wip.protocol.WipParams {
   public RedoParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".redo";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".redo";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

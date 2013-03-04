@@ -10,6 +10,6 @@ public interface QuerySelectorAllData {
   /**
    Query selector result.
    */
-  java.util.List<Long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/> nodeIds();
+  long[] nodeIds();
 
 }

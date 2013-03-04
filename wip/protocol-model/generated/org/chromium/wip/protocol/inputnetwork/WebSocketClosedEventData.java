@@ -10,12 +10,12 @@ public interface WebSocketClosedEventData {
   /**
    Request identifier.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.RequestIdTypedef*/ requestId();
+  String requestId();
 
   /**
    Timestamp.
    */
-  Number/*See org.chromium.wip.protocol.commonnetwork.TimestampTypedef*/ timestamp();
+  Number timestamp();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketClosedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketClosedEventData>("NetworkwebSocketClosed", org.chromium.wip.protocol.inputnetwork.WebSocketClosedEventData.class) {

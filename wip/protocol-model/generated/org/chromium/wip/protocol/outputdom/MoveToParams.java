@@ -11,21 +11,19 @@ public class MoveToParams extends org.jetbrains.wip.protocol.WipParamsWithRespon
    @param targetNodeId Id of the element to drop into.
    @param insertBeforeNodeIdOpt Drop node before given one.
    */
-  public MoveToParams(long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId, long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ targetNodeId, Long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ insertBeforeNodeIdOpt) {
-    this.put("nodeId", nodeId);
-    this.put("targetNodeId", targetNodeId);
-    if (insertBeforeNodeIdOpt != null) {
-      this.put("insertBeforeNodeId", insertBeforeNodeIdOpt);
-    }
+  public MoveToParams(long nodeId, long targetNodeId, long insertBeforeNodeIdOpt) {
+    //this.put("nodeId", nodeId);
+    //this.put("targetNodeId", targetNodeId);
+    //this.put("insertBeforeNodeId", insertBeforeNodeIdOpt);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".moveTo";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".moveTo";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.MoveToData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputdom.MoveToData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parseDOMMoveToData(data.getUnderlyingObject());
   }
 

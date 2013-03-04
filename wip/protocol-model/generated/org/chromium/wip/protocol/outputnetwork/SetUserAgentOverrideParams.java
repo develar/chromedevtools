@@ -10,10 +10,10 @@ public class SetUserAgentOverrideParams extends org.jetbrains.wip.protocol.WipPa
    @param userAgent User agent to use.
    */
   public SetUserAgentOverrideParams(String userAgent) {
-    this.put("userAgent", userAgent);
+    //this.put("userAgent", userAgent);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.NETWORK + ".setUserAgentOverride";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.NETWORK + ".setUserAgentOverride";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

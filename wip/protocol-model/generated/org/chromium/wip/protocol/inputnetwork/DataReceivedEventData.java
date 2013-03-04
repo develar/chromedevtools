@@ -10,12 +10,12 @@ public interface DataReceivedEventData {
   /**
    Request identifier.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.RequestIdTypedef*/ requestId();
+  String requestId();
 
   /**
    Timestamp.
    */
-  Number/*See org.chromium.wip.protocol.commonnetwork.TimestampTypedef*/ timestamp();
+  Number timestamp();
 
   /**
    Data chunk length.

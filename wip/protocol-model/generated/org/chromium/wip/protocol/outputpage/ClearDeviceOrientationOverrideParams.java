@@ -9,7 +9,7 @@ public class ClearDeviceOrientationOverrideParams extends org.jetbrains.wip.prot
   public ClearDeviceOrientationOverrideParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".clearDeviceOrientationOverride";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".clearDeviceOrientationOverride";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

@@ -9,7 +9,7 @@ public class ResumeParams extends org.jetbrains.wip.protocol.WipParams {
   public ResumeParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DEBUGGER + ".resume";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".resume";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

@@ -10,10 +10,10 @@ public class SetContinuousPaintingEnabledParams extends org.jetbrains.wip.protoc
    @param enabled True for enabling cointinuous painting
    */
   public SetContinuousPaintingEnabledParams(boolean enabled) {
-    this.put("enabled", enabled);
+    //this.put("enabled", enabled);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".setContinuousPaintingEnabled";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".setContinuousPaintingEnabled";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

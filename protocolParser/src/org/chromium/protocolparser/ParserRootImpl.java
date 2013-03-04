@@ -38,12 +38,12 @@ class ParserRootImpl<R> {
   }
 
   private static class ParseInterfaceSession {
-    private final Map<Class<?>, TypeHandler<?>> type2TypeHandler;
+    private final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;
     private final Set<Class<?>> visitedInterfaces = new HashSet<Class<?>>(1);
     private final Map<Method, MethodDelegate> methodMap = new HashMap<Method, MethodDelegate>();
 
-    ParseInterfaceSession(Map<Class<?>, TypeHandler<?>> type2TypeHandler) {
-      this.type2TypeHandler = type2TypeHandler;
+    ParseInterfaceSession(Map<Class<?>, TypeHandler<?>> typeToTypeHandler) {
+      this.typeToTypeHandler = typeToTypeHandler;
     }
 
     void run(Class<?> clazz) throws JsonProtocolModelParseException {
@@ -81,7 +81,7 @@ class ParserRootImpl<R> {
 
         Type returnType = m.getGenericReturnType();
         //noinspection SuspiciousMethodCalls
-        TypeHandler<?> typeHandler = type2TypeHandler.get(returnType);
+        TypeHandler<?> typeHandler = typeToTypeHandler.get(returnType);
         if (typeHandler == null) {
           throw new JsonProtocolModelParseException("Unknown return type in " + m);
         }

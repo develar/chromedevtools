@@ -9,7 +9,7 @@ public class ClearBrowserCookiesParams extends org.jetbrains.wip.protocol.WipPar
   public ClearBrowserCookiesParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.NETWORK + ".clearBrowserCookies";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.NETWORK + ".clearBrowserCookies";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

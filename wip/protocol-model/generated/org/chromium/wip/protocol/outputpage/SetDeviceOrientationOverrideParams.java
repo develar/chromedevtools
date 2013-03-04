@@ -12,12 +12,12 @@ public class SetDeviceOrientationOverrideParams extends org.jetbrains.wip.protoc
    @param gamma Mock gamma
    */
   public SetDeviceOrientationOverrideParams(Number alpha, Number beta, Number gamma) {
-    this.put("alpha", alpha);
-    this.put("beta", beta);
-    this.put("gamma", gamma);
+    //this.put("alpha", alpha);
+    //this.put("beta", beta);
+    //this.put("gamma", gamma);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".setDeviceOrientationOverride";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".setDeviceOrientationOverride";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

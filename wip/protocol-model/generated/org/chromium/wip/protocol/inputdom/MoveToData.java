@@ -10,6 +10,6 @@ public interface MoveToData {
   /**
    New id of the moved node.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId();
+  long nodeId();
 
 }

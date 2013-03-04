@@ -10,10 +10,10 @@ public class SetShowFPSCounterParams extends org.jetbrains.wip.protocol.WipParam
    @param show True for showing the FPS counter
    */
   public SetShowFPSCounterParams(boolean show) {
-    this.put("show", show);
+    //this.put("show", show);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".setShowFPSCounter";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".setShowFPSCounter";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

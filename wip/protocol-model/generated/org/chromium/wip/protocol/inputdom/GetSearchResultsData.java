@@ -10,6 +10,6 @@ public interface GetSearchResultsData {
   /**
    Ids of the search result nodes.
    */
-  java.util.List<Long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/> nodeIds();
+  long[] nodeIds();
 
 }

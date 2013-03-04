@@ -10,17 +10,17 @@ public interface RequestServedFromMemoryCacheEventData {
   /**
    Request identifier.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.RequestIdTypedef*/ requestId();
+  String requestId();
 
   /**
    Frame identifier.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId();
+  String frameId();
 
   /**
    Loader identifier.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.LoaderIdTypedef*/ loaderId();
+  String loaderId();
 
   /**
    URL of the document this request is loaded for.
@@ -30,7 +30,7 @@ public interface RequestServedFromMemoryCacheEventData {
   /**
    Timestamp.
    */
-  Number/*See org.chromium.wip.protocol.commonnetwork.TimestampTypedef*/ timestamp();
+  Number timestamp();
 
   /**
    Request initiator.

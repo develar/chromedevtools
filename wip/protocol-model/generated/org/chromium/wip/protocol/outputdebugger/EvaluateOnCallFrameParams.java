@@ -15,33 +15,23 @@ public class EvaluateOnCallFrameParams extends org.jetbrains.wip.protocol.WipPar
    @param returnByValueOpt Whether the result is expected to be a JSON object that should be sent by value.
    @param generatePreviewOpt Whether preview should be generated for the result.
    */
-  public EvaluateOnCallFrameParams(String/*See org.chromium.wip.protocol.commondebugger.CallFrameIdTypedef*/ callFrameId, String expression, String objectGroupOpt, Boolean includeCommandLineAPIOpt, Boolean doNotPauseOnExceptionsAndMuteConsoleOpt, Boolean returnByValueOpt, Boolean generatePreviewOpt) {
-    this.put("callFrameId", callFrameId);
-    this.put("expression", expression);
-    if (objectGroupOpt != null) {
-      this.put("objectGroup", objectGroupOpt);
-    }
-    if (includeCommandLineAPIOpt != null) {
-      this.put("includeCommandLineAPI", includeCommandLineAPIOpt);
-    }
-    if (doNotPauseOnExceptionsAndMuteConsoleOpt != null) {
-      this.put("doNotPauseOnExceptionsAndMuteConsole", doNotPauseOnExceptionsAndMuteConsoleOpt);
-    }
-    if (returnByValueOpt != null) {
-      this.put("returnByValue", returnByValueOpt);
-    }
-    if (generatePreviewOpt != null) {
-      this.put("generatePreview", generatePreviewOpt);
-    }
+  public EvaluateOnCallFrameParams(String callFrameId, String expression, String objectGroupOpt, boolean includeCommandLineAPIOpt, boolean doNotPauseOnExceptionsAndMuteConsoleOpt, boolean returnByValueOpt, boolean generatePreviewOpt) {
+    //this.put("callFrameId", callFrameId);
+    //this.put("expression", expression);
+    //this.put("objectGroup", objectGroupOpt);
+    //this.put("includeCommandLineAPI", includeCommandLineAPIOpt);
+    //this.put("doNotPauseOnExceptionsAndMuteConsole", doNotPauseOnExceptionsAndMuteConsoleOpt);
+    //this.put("returnByValue", returnByValueOpt);
+    //this.put("generatePreview", generatePreviewOpt);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DEBUGGER + ".evaluateOnCallFrame";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".evaluateOnCallFrame";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.EvaluateOnCallFrameData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputdebugger.EvaluateOnCallFrameData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerEvaluateOnCallFrameData(data.getUnderlyingObject());
   }
 

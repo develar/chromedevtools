@@ -10,7 +10,7 @@ public interface LocationValue {
   /**
    Script identifier as reported in the <code>Debugger.scriptParsed</code>.
    */
-  String/*See org.chromium.wip.protocol.commondebugger.ScriptIdTypedef*/ scriptId();
+  String scriptId();
 
   /**
    Line number in the script.
@@ -21,6 +21,6 @@ public interface LocationValue {
    Column number in the script.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Long columnNumber();
+  long columnNumber();
 
 }

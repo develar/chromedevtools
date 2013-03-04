@@ -12,26 +12,20 @@ public class RunScriptParams extends org.jetbrains.wip.protocol.WipParamsWithRes
    @param objectGroupOpt Symbolic group name that can be used to release multiple objects.
    @param doNotPauseOnExceptionsAndMuteConsoleOpt Specifies whether script run should stop on exceptions and mute console. Overrides setPauseOnException state.
    */
-  public RunScriptParams(String/*See org.chromium.wip.protocol.commondebugger.ScriptIdTypedef*/ scriptId, Long/*See org.chromium.wip.protocol.commonruntime.ExecutionContextIdTypedef*/ contextIdOpt, String objectGroupOpt, Boolean doNotPauseOnExceptionsAndMuteConsoleOpt) {
-    this.put("scriptId", scriptId);
-    if (contextIdOpt != null) {
-      this.put("contextId", contextIdOpt);
-    }
-    if (objectGroupOpt != null) {
-      this.put("objectGroup", objectGroupOpt);
-    }
-    if (doNotPauseOnExceptionsAndMuteConsoleOpt != null) {
-      this.put("doNotPauseOnExceptionsAndMuteConsole", doNotPauseOnExceptionsAndMuteConsoleOpt);
-    }
+  public RunScriptParams(String scriptId, long contextIdOpt, String objectGroupOpt, boolean doNotPauseOnExceptionsAndMuteConsoleOpt) {
+    //this.put("scriptId", scriptId);
+    //this.put("contextId", contextIdOpt);
+    //this.put("objectGroup", objectGroupOpt);
+    //this.put("doNotPauseOnExceptionsAndMuteConsole", doNotPauseOnExceptionsAndMuteConsoleOpt);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DEBUGGER + ".runScript";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".runScript";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.RunScriptData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputdebugger.RunScriptData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerRunScriptData(data.getUnderlyingObject());
   }
 

@@ -10,12 +10,12 @@ public interface WebSocketFrameErrorEventData {
   /**
    Request identifier.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.RequestIdTypedef*/ requestId();
+  String requestId();
 
   /**
    Timestamp.
    */
-  Number/*See org.chromium.wip.protocol.commonnetwork.TimestampTypedef*/ timestamp();
+  Number timestamp();
 
   /**
    WebSocket frame error message.

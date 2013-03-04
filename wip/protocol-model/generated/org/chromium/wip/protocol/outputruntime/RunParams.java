@@ -9,7 +9,7 @@ public class RunParams extends org.jetbrains.wip.protocol.WipParams {
   public RunParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.RUNTIME + ".run";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.RUNTIME + ".run";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

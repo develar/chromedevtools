@@ -9,7 +9,7 @@ public class PauseParams extends org.jetbrains.wip.protocol.WipParams {
   public PauseParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DEBUGGER + ".pause";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".pause";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

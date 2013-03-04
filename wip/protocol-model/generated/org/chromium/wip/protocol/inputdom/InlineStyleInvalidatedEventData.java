@@ -10,7 +10,7 @@ public interface InlineStyleInvalidatedEventData {
   /**
    Ids of the nodes for which the inline styles have been invalidated.
    */
-  java.util.List<Long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/> nodeIds();
+  long[] nodeIds();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.InlineStyleInvalidatedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.InlineStyleInvalidatedEventData>("DOMinlineStyleInvalidated", org.chromium.wip.protocol.inputdom.InlineStyleInvalidatedEventData.class) {

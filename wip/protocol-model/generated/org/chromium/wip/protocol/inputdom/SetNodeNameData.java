@@ -10,6 +10,6 @@ public interface SetNodeNameData {
   /**
    New node's id.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId();
+  long nodeId();
 
 }

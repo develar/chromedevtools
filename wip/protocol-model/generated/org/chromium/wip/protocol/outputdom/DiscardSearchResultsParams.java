@@ -10,10 +10,10 @@ public class DiscardSearchResultsParams extends org.jetbrains.wip.protocol.WipPa
    @param searchId Unique search session identifier.
    */
   public DiscardSearchResultsParams(String searchId) {
-    this.put("searchId", searchId);
+    //this.put("searchId", searchId);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".discardSearchResults";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".discardSearchResults";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

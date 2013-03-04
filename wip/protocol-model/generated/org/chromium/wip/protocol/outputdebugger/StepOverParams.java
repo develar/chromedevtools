@@ -9,7 +9,7 @@ public class StepOverParams extends org.jetbrains.wip.protocol.WipParams {
   public StepOverParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DEBUGGER + ".stepOver";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".stepOver";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

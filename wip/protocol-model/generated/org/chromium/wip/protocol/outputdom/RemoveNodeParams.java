@@ -9,11 +9,11 @@ public class RemoveNodeParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param nodeId Id of the node to remove.
    */
-  public RemoveNodeParams(long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId) {
-    this.put("nodeId", nodeId);
+  public RemoveNodeParams(long nodeId) {
+    //this.put("nodeId", nodeId);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".removeNode";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".removeNode";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

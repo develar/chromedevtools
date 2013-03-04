@@ -10,7 +10,7 @@ public interface AttributeRemovedEventData {
   /**
    Id of the node that has changed.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId();
+  long nodeId();
 
   /**
    A ttribute name.

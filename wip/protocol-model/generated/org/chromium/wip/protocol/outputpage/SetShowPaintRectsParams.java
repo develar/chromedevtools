@@ -10,10 +10,10 @@ public class SetShowPaintRectsParams extends org.jetbrains.wip.protocol.WipParam
    @param result True for showing paint rectangles
    */
   public SetShowPaintRectsParams(boolean result) {
-    this.put("result", result);
+    //this.put("result", result);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".setShowPaintRects";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".setShowPaintRects";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

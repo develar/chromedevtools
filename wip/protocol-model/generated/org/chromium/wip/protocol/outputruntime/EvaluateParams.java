@@ -15,35 +15,23 @@ public class EvaluateParams extends org.jetbrains.wip.protocol.WipParamsWithResp
    @param returnByValueOpt Whether the result is expected to be a JSON object that should be sent by value.
    @param generatePreviewOpt Whether preview should be generated for the result.
    */
-  public EvaluateParams(String expression, String objectGroupOpt, Boolean includeCommandLineAPIOpt, Boolean doNotPauseOnExceptionsAndMuteConsoleOpt, Long/*See org.chromium.wip.protocol.commonruntime.ExecutionContextIdTypedef*/ contextIdOpt, Boolean returnByValueOpt, Boolean generatePreviewOpt) {
-    this.put("expression", expression);
-    if (objectGroupOpt != null) {
-      this.put("objectGroup", objectGroupOpt);
-    }
-    if (includeCommandLineAPIOpt != null) {
-      this.put("includeCommandLineAPI", includeCommandLineAPIOpt);
-    }
-    if (doNotPauseOnExceptionsAndMuteConsoleOpt != null) {
-      this.put("doNotPauseOnExceptionsAndMuteConsole", doNotPauseOnExceptionsAndMuteConsoleOpt);
-    }
-    if (contextIdOpt != null) {
-      this.put("contextId", contextIdOpt);
-    }
-    if (returnByValueOpt != null) {
-      this.put("returnByValue", returnByValueOpt);
-    }
-    if (generatePreviewOpt != null) {
-      this.put("generatePreview", generatePreviewOpt);
-    }
+  public EvaluateParams(String expression, String objectGroupOpt, boolean includeCommandLineAPIOpt, boolean doNotPauseOnExceptionsAndMuteConsoleOpt, long contextIdOpt, boolean returnByValueOpt, boolean generatePreviewOpt) {
+    //this.put("expression", expression);
+    //this.put("objectGroup", objectGroupOpt);
+    //this.put("includeCommandLineAPI", includeCommandLineAPIOpt);
+    //this.put("doNotPauseOnExceptionsAndMuteConsole", doNotPauseOnExceptionsAndMuteConsoleOpt);
+    //this.put("contextId", contextIdOpt);
+    //this.put("returnByValue", returnByValueOpt);
+    //this.put("generatePreview", generatePreviewOpt);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.RUNTIME + ".evaluate";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.RUNTIME + ".evaluate";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputruntime.EvaluateData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputruntime.EvaluateData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parseRuntimeEvaluateData(data.getUnderlyingObject());
   }
 

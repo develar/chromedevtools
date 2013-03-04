@@ -10,7 +10,7 @@ public interface RequestServedFromCacheEventData {
   /**
    Request identifier.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.RequestIdTypedef*/ requestId();
+  String requestId();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.RequestServedFromCacheEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.RequestServedFromCacheEventData>("NetworkrequestServedFromCache", org.chromium.wip.protocol.inputnetwork.RequestServedFromCacheEventData.class) {

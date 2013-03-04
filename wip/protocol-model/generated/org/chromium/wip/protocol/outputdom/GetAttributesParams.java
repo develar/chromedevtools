@@ -9,17 +9,17 @@ public class GetAttributesParams extends org.jetbrains.wip.protocol.WipParamsWit
   /**
    @param nodeId Id of the node to retrieve attibutes for.
    */
-  public GetAttributesParams(long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId) {
-    this.put("nodeId", nodeId);
+  public GetAttributesParams(long nodeId) {
+    //this.put("nodeId", nodeId);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".getAttributes";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".getAttributes";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.GetAttributesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputdom.GetAttributesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parseDOMGetAttributesData(data.getUnderlyingObject());
   }
 

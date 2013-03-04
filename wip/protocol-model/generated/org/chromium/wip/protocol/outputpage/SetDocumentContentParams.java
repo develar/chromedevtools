@@ -10,12 +10,12 @@ public class SetDocumentContentParams extends org.jetbrains.wip.protocol.WipPara
    @param frameId Frame id to set HTML for.
    @param html HTML content to set.
    */
-  public SetDocumentContentParams(String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId, String html) {
-    this.put("frameId", frameId);
-    this.put("html", html);
+  public SetDocumentContentParams(String frameId, String html) {
+    //this.put("frameId", frameId);
+    //this.put("html", html);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".setDocumentContent";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".setDocumentContent";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

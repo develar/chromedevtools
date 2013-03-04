@@ -9,7 +9,7 @@ public class ClearBrowserCacheParams extends org.jetbrains.wip.protocol.WipParam
   public ClearBrowserCacheParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.NETWORK + ".clearBrowserCache";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.NETWORK + ".clearBrowserCache";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

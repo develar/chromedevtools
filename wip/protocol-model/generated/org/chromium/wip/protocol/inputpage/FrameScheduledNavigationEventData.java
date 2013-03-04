@@ -10,7 +10,7 @@ public interface FrameScheduledNavigationEventData {
   /**
    Id of the frame that has scheduled a navigation.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId();
+  String frameId();
 
   /**
    Delay (in seconds) until the navigation is scheduled to begin. The navigation is not guaranteed to start.

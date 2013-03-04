@@ -14,30 +14,22 @@ public class CallFunctionOnParams extends org.jetbrains.wip.protocol.WipParamsWi
    @param returnByValueOpt Whether the result is expected to be a JSON object which should be sent by value.
    @param generatePreviewOpt Whether preview should be generated for the result.
    */
-  public CallFunctionOnParams(String/*See org.chromium.wip.protocol.commonruntime.RemoteObjectIdTypedef*/ objectId, String functionDeclaration, java.util.List<org.chromium.wip.protocol.outputruntime.CallArgumentParam> argumentsOpt, Boolean doNotPauseOnExceptionsAndMuteConsoleOpt, Boolean returnByValueOpt, Boolean generatePreviewOpt) {
-    this.put("objectId", objectId);
-    this.put("functionDeclaration", functionDeclaration);
-    if (argumentsOpt != null) {
-      this.put("arguments", argumentsOpt);
-    }
-    if (doNotPauseOnExceptionsAndMuteConsoleOpt != null) {
-      this.put("doNotPauseOnExceptionsAndMuteConsole", doNotPauseOnExceptionsAndMuteConsoleOpt);
-    }
-    if (returnByValueOpt != null) {
-      this.put("returnByValue", returnByValueOpt);
-    }
-    if (generatePreviewOpt != null) {
-      this.put("generatePreview", generatePreviewOpt);
-    }
+  public CallFunctionOnParams(String objectId, String functionDeclaration, java.util.List<org.chromium.wip.protocol.outputruntime.CallArgumentParam> argumentsOpt, boolean doNotPauseOnExceptionsAndMuteConsoleOpt, boolean returnByValueOpt, boolean generatePreviewOpt) {
+    //this.put("objectId", objectId);
+    //this.put("functionDeclaration", functionDeclaration);
+    //this.put("arguments", argumentsOpt);
+    //this.put("doNotPauseOnExceptionsAndMuteConsole", doNotPauseOnExceptionsAndMuteConsoleOpt);
+    //this.put("returnByValue", returnByValueOpt);
+    //this.put("generatePreview", generatePreviewOpt);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.RUNTIME + ".callFunctionOn";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.RUNTIME + ".callFunctionOn";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputruntime.CallFunctionOnData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputruntime.CallFunctionOnData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parseRuntimeCallFunctionOnData(data.getUnderlyingObject());
   }
 

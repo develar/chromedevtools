@@ -10,12 +10,12 @@ public interface ShadowRootPoppedEventData {
   /**
    Host element id.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ hostId();
+  long hostId();
 
   /**
    Shadow root id.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ rootId();
+  long rootId();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.ShadowRootPoppedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.ShadowRootPoppedEventData>("DOMshadowRootPopped", org.chromium.wip.protocol.inputdom.ShadowRootPoppedEventData.class) {

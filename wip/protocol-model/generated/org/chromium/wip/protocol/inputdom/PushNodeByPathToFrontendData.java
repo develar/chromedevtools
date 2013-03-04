@@ -10,6 +10,6 @@ public interface PushNodeByPathToFrontendData {
   /**
    Id of the node for given path.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId();
+  long nodeId();
 
 }

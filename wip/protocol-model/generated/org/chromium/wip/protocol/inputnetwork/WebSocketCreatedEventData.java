@@ -10,7 +10,7 @@ public interface WebSocketCreatedEventData {
   /**
    Request identifier.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.RequestIdTypedef*/ requestId();
+  String requestId();
 
   /**
    WebSocket request URL.

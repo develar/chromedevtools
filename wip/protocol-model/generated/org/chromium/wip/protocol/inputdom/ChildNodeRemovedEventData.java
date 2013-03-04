@@ -10,12 +10,12 @@ public interface ChildNodeRemovedEventData {
   /**
    Parent id.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ parentNodeId();
+  long parentNodeId();
 
   /**
    Id of the node that has been removed.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId();
+  long nodeId();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.ChildNodeRemovedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.ChildNodeRemovedEventData>("DOMchildNodeRemoved", org.chromium.wip.protocol.inputdom.ChildNodeRemovedEventData.class) {

@@ -10,10 +10,10 @@ public class HandleJavaScriptDialogParams extends org.jetbrains.wip.protocol.Wip
    @param accept Whether to accept or dismiss the dialog.
    */
   public HandleJavaScriptDialogParams(boolean accept) {
-    this.put("accept", accept);
+    //this.put("accept", accept);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".handleJavaScriptDialog";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".handleJavaScriptDialog";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

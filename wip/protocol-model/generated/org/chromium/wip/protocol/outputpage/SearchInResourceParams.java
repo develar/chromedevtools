@@ -13,25 +13,21 @@ public class SearchInResourceParams extends org.jetbrains.wip.protocol.WipParams
    @param caseSensitiveOpt If true, search is case sensitive.
    @param isRegexOpt If true, treats string parameter as regex.
    */
-  public SearchInResourceParams(String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId, String url, String query, Boolean caseSensitiveOpt, Boolean isRegexOpt) {
-    this.put("frameId", frameId);
-    this.put("url", url);
-    this.put("query", query);
-    if (caseSensitiveOpt != null) {
-      this.put("caseSensitive", caseSensitiveOpt);
-    }
-    if (isRegexOpt != null) {
-      this.put("isRegex", isRegexOpt);
-    }
+  public SearchInResourceParams(String frameId, String url, String query, boolean caseSensitiveOpt, boolean isRegexOpt) {
+    //this.put("frameId", frameId);
+    //this.put("url", url);
+    //this.put("query", query);
+    //this.put("caseSensitive", caseSensitiveOpt);
+    //this.put("isRegex", isRegexOpt);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".searchInResource";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".searchInResource";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.SearchInResourceData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputpage.SearchInResourceData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parsePageSearchInResourceData(data.getUnderlyingObject());
   }
 

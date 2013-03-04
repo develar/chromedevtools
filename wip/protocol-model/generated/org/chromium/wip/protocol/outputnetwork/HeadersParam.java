@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputnetwork;
 /**
 Request / response headers as keys / values of JSON object.
  */
-public class HeadersParam extends org.json.simple.JSONObject {
+public class HeadersParam {
   public HeadersParam() {
   }
 

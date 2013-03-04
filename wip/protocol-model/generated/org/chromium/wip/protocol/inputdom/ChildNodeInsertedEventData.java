@@ -10,12 +10,12 @@ public interface ChildNodeInsertedEventData {
   /**
    Id of the node that has changed.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ parentNodeId();
+  long parentNodeId();
 
   /**
    If of the previous siblint.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ previousNodeId();
+  long previousNodeId();
 
   /**
    Inserted node data.

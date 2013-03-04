@@ -10,6 +10,6 @@ public interface RequestNodeData {
   /**
    Node id for given object.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId();
+  long nodeId();
 
 }

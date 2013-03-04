@@ -21,7 +21,7 @@ public interface FrameValue {
   /**
    Identifier of the loader associated with this frame.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.LoaderIdTypedef*/ loaderId();
+  String loaderId();
 
   /**
    Frame's name as specified in the tag.

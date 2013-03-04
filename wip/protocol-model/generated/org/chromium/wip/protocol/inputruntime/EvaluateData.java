@@ -16,6 +16,6 @@ public interface EvaluateData {
    True if the result was thrown during the evaluation.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Boolean wasThrown();
+  boolean wasThrown();
 
 }

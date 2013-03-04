@@ -10,7 +10,7 @@ public interface BreakpointResolvedEventData {
   /**
    Breakpoint unique identifier.
    */
-  String/*See org.chromium.wip.protocol.commondebugger.BreakpointIdTypedef*/ breakpointId();
+  String breakpointId();
 
   /**
    Actual breakpoint location.

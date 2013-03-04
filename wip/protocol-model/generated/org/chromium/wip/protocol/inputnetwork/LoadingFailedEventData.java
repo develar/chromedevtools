@@ -10,12 +10,12 @@ public interface LoadingFailedEventData {
   /**
    Request identifier.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.RequestIdTypedef*/ requestId();
+  String requestId();
 
   /**
    Timestamp.
    */
-  Number/*See org.chromium.wip.protocol.commonnetwork.TimestampTypedef*/ timestamp();
+  Number timestamp();
 
   /**
    User friendly error message.
@@ -26,7 +26,7 @@ public interface LoadingFailedEventData {
    True if loading was canceled.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Boolean canceled();
+  boolean canceled();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.LoadingFailedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.LoadingFailedEventData>("NetworkloadingFailed", org.chromium.wip.protocol.inputnetwork.LoadingFailedEventData.class) {

@@ -10,7 +10,7 @@ public interface SetChildNodesEventData {
   /**
    Parent node id to populate with children.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ parentId();
+  long parentId();
 
   /**
    Child nodes array.

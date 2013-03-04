@@ -10,7 +10,7 @@ public interface FrameDetachedEventData {
   /**
    Id of the frame that has been detached.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId();
+  String frameId();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputpage.FrameDetachedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputpage.FrameDetachedEventData>("PageframeDetached", org.chromium.wip.protocol.inputpage.FrameDetachedEventData.class) {

@@ -13,19 +13,21 @@ import org.jetbrains.wip.protocol.WipCommandResponse;
 import org.jetbrains.wip.protocol.WipEvent;
 import org.jetbrains.wip.protocol.WipTabList;
 
+import java.io.IOException;
+
 /**
  * Interface to WIP protocol parser. It includes generated part {@link WipGeneratedParserRoot}.
  */
 @JsonParserRoot
 public interface WipProtocolParser extends WipGeneratedParserRoot {
   @JsonParseMethod
-  WipCommandResponse parseWipCommandResponse(JsonReader reader);
+  WipCommandResponse parseWipCommandResponse(JsonReader reader) throws IOException;
 
   @JsonParseMethod
-  WipEvent parseWipEvent(JsonReader reader);
+  WipEvent parseWipEvent(JsonReader reader) throws IOException;
 
   @JsonParseMethod
-  WipTabList parseTabList(JsonReader reader);
+  WipTabList parseTabList(JsonReader reader) throws IOException;
 
   // Used by WipContextBuilder because protocol declares exception value as raw object.
   @JsonParseMethod

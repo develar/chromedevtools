@@ -25,7 +25,7 @@ public interface EventListenerValue {
   /**
    Target <code>DOMNode</code> id.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId();
+  long nodeId();
 
   /**
    Event handler function body.

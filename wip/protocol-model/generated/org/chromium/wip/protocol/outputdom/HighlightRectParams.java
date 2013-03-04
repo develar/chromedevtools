@@ -15,19 +15,15 @@ public class HighlightRectParams extends org.jetbrains.wip.protocol.WipParams {
    @param outlineColorOpt The highlight outline color (default: transparent).
    */
   public HighlightRectParams(long x, long y, long width, long height, org.chromium.wip.protocol.outputdom.RGBAParam colorOpt, org.chromium.wip.protocol.outputdom.RGBAParam outlineColorOpt) {
-    this.put("x", x);
-    this.put("y", y);
-    this.put("width", width);
-    this.put("height", height);
-    if (colorOpt != null) {
-      this.put("color", colorOpt);
-    }
-    if (outlineColorOpt != null) {
-      this.put("outlineColor", outlineColorOpt);
-    }
+    //this.put("x", x);
+    //this.put("y", y);
+    //this.put("width", width);
+    //this.put("height", height);
+    //this.put("color", colorOpt);
+    //this.put("outlineColor", outlineColorOpt);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".highlightRect";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".highlightRect";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

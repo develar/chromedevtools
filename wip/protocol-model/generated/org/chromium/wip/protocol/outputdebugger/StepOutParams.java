@@ -9,7 +9,7 @@ public class StepOutParams extends org.jetbrains.wip.protocol.WipParams {
   public StepOutParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DEBUGGER + ".stepOut";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".stepOut";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

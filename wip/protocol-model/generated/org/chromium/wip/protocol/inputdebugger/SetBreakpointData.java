@@ -10,7 +10,7 @@ public interface SetBreakpointData {
   /**
    Id of the created breakpoint for further reference.
    */
-  String/*See org.chromium.wip.protocol.commondebugger.BreakpointIdTypedef*/ breakpointId();
+  String breakpointId();
 
   /**
    Location this breakpoint resolved into.

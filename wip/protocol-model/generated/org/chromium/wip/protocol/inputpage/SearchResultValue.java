@@ -15,7 +15,7 @@ public interface SearchResultValue {
   /**
    Resource frame id.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId();
+  String frameId();
 
   /**
    Number of matches in the resource content.

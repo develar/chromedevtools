@@ -10,7 +10,7 @@ public interface ShadowRootPushedEventData {
   /**
    Host element id.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ hostId();
+  long hostId();
 
   /**
    Shadow root.

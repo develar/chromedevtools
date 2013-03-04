@@ -64,7 +64,7 @@ public interface ResponseValue {
    Specifies that the request was served from the disk cache.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Boolean fromDiskCache();
+  boolean fromDiskCache();
 
   /**
    Timing information for the given request.

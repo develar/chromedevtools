@@ -10,10 +10,10 @@ public class SetExtraHTTPHeadersParams extends org.jetbrains.wip.protocol.WipPar
    @param headers Map with extra HTTP headers.
    */
   public SetExtraHTTPHeadersParams(org.chromium.wip.protocol.outputnetwork.HeadersParam headers) {
-    this.put("headers", headers);
+    //this.put("headers", headers);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.NETWORK + ".setExtraHTTPHeaders";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.NETWORK + ".setExtraHTTPHeaders";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

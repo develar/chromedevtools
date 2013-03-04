@@ -10,7 +10,7 @@ public interface NodeValue {
   /**
    Node identifier that is passed into the rest of the DOM messages as the <code>nodeId</code>. Backend will only push node with given <code>id</code> once. It is aware of all requested nodes and will only fire DOM events for nodes known to the client.
    */
-  long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId();
+  long nodeId();
 
   /**
    <code>Node</code>'s nodeType.
@@ -36,7 +36,7 @@ public interface NodeValue {
    Child count for <code>Container</code> nodes.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Long childNodeCount();
+  long childNodeCount();
 
   /**
    Child nodes of this node when requested with children.
@@ -102,7 +102,7 @@ public interface NodeValue {
    Frame ID for frame owner elements.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId();
+  String frameId();
 
   /**
    Content document for frame owner elements.

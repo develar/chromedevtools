@@ -10,10 +10,10 @@ public class SetPauseOnExceptionsParams extends org.jetbrains.wip.protocol.WipPa
    @param state Pause on exceptions mode.
    */
   public SetPauseOnExceptionsParams(State state) {
-    this.put("state", state);
+    //this.put("state", state);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setPauseOnExceptions";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setPauseOnExceptions";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
@@ -22,7 +22,7 @@ public class SetPauseOnExceptionsParams extends org.jetbrains.wip.protocol.WipPa
   /**
    Pause on exceptions mode.
    */
-  public enum State implements org.json.simple.JSONAware{
+  public enum State {
     NONE("none"),
     UNCAUGHT("uncaught"),
     ALL("all"),
@@ -33,7 +33,7 @@ public class SetPauseOnExceptionsParams extends org.jetbrains.wip.protocol.WipPa
       this.protocolValue = protocolValue;
     }
 
-    @Override public String toJSONString() {
+    public String toJSONString() {
       return '"' + protocolValue + '"';
     }
   }

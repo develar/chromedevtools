@@ -9,7 +9,7 @@ public class ClearMessagesParams extends org.jetbrains.wip.protocol.WipParams {
   public ClearMessagesParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.CONSOLE + ".clearMessages";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.CONSOLE + ".clearMessages";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

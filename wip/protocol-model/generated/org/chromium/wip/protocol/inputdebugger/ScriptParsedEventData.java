@@ -10,7 +10,7 @@ public interface ScriptParsedEventData {
   /**
    Identifier of the script parsed.
    */
-  String/*See org.chromium.wip.protocol.commondebugger.ScriptIdTypedef*/ scriptId();
+  String scriptId();
 
   /**
    URL or name of the script parsed (if any).
@@ -41,7 +41,7 @@ public interface ScriptParsedEventData {
    Determines whether this script is a user extension script.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Boolean isContentScript();
+  boolean isContentScript();
 
   /**
    URL of source map associated with script (if any).
@@ -53,7 +53,7 @@ public interface ScriptParsedEventData {
    True, if this script has sourceURL.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Boolean hasSourceURL();
+  boolean hasSourceURL();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData>("DebuggerscriptParsed", org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData.class) {

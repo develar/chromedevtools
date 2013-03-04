@@ -10,18 +10,18 @@ public class GetResourceContentParams extends org.jetbrains.wip.protocol.WipPara
    @param frameId Frame id to get resource for.
    @param url URL of the resource to get content for.
    */
-  public GetResourceContentParams(String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId, String url) {
-    this.put("frameId", frameId);
-    this.put("url", url);
+  public GetResourceContentParams(String frameId, String url) {
+    //this.put("frameId", frameId);
+    //this.put("url", url);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".getResourceContent";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".getResourceContent";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.GetResourceContentData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputpage.GetResourceContentData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parsePageGetResourceContentData(data.getUnderlyingObject());
   }
 

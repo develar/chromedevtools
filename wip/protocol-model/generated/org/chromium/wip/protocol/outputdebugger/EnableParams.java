@@ -9,7 +9,7 @@ public class EnableParams extends org.jetbrains.wip.protocol.WipParams {
   public EnableParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DEBUGGER + ".enable";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".enable";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

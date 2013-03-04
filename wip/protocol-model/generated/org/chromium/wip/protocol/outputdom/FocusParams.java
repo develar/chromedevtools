@@ -9,11 +9,11 @@ public class FocusParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param nodeId Id of the node to focus.
    */
-  public FocusParams(long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId) {
-    this.put("nodeId", nodeId);
+  public FocusParams(long nodeId) {
+    //this.put("nodeId", nodeId);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".focus";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".focus";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

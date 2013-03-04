@@ -16,6 +16,6 @@ public interface RunScriptData {
    True if the result was thrown during the script run.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Boolean wasThrown();
+  boolean wasThrown();
 
 }

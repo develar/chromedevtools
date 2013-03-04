@@ -22,7 +22,7 @@ public interface PropertyDescriptorValue {
    True if the value associated with the property may be changed (data descriptors only).
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Boolean writable();
+  boolean writable();
 
   /**
    A function which serves as a getter for the property, or <code>undefined</code> if there is no getter (accessor descriptors only).
@@ -50,12 +50,12 @@ public interface PropertyDescriptorValue {
    True if the result was thrown during the evaluation.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Boolean wasThrown();
+  boolean wasThrown();
 
   /**
    True if the property is owned for the object.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Boolean isOwn();
+  boolean isOwn();
 
 }

@@ -13,13 +13,13 @@ public class SetDeviceMetricsOverrideParams extends org.jetbrains.wip.protocol.W
    @param fitWindow Whether a view that exceeds the available browser window area should be scaled down to fit.
    */
   public SetDeviceMetricsOverrideParams(long width, long height, Number fontScaleFactor, boolean fitWindow) {
-    this.put("width", width);
-    this.put("height", height);
-    this.put("fontScaleFactor", fontScaleFactor);
-    this.put("fitWindow", fitWindow);
+    //this.put("width", width);
+    //this.put("height", height);
+    //this.put("fontScaleFactor", fontScaleFactor);
+    //this.put("fitWindow", fitWindow);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".setDeviceMetricsOverride";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".setDeviceMetricsOverride";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

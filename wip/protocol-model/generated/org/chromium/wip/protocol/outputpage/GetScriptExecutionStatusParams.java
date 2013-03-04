@@ -9,13 +9,13 @@ public class GetScriptExecutionStatusParams extends org.jetbrains.wip.protocol.W
   public GetScriptExecutionStatusParams() {
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.PAGE + ".getScriptExecutionStatus";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".getScriptExecutionStatus";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.GetScriptExecutionStatusData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputpage.GetScriptExecutionStatusData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parsePageGetScriptExecutionStatusData(data.getUnderlyingObject());
   }
 

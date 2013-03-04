@@ -10,22 +10,22 @@ public interface ResponseReceivedEventData {
   /**
    Request identifier.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.RequestIdTypedef*/ requestId();
+  String requestId();
 
   /**
    Frame identifier.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId();
+  String frameId();
 
   /**
    Loader identifier.
    */
-  String/*See org.chromium.wip.protocol.commonnetwork.LoaderIdTypedef*/ loaderId();
+  String loaderId();
 
   /**
    Timestamp.
    */
-  Number/*See org.chromium.wip.protocol.commonnetwork.TimestampTypedef*/ timestamp();
+  Number timestamp();
 
   /**
    Resource type.

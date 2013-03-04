@@ -10,18 +10,18 @@ public class QuerySelectorAllParams extends org.jetbrains.wip.protocol.WipParams
    @param nodeId Id of the node to query upon.
    @param selector Selector string.
    */
-  public QuerySelectorAllParams(long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId, String selector) {
-    this.put("nodeId", nodeId);
-    this.put("selector", selector);
+  public QuerySelectorAllParams(long nodeId, String selector) {
+    //this.put("nodeId", nodeId);
+    //this.put("selector", selector);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".querySelectorAll";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".querySelectorAll";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.QuerySelectorAllData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
+  @Override public org.chromium.wip.protocol.inputdom.QuerySelectorAllData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) {
     return parser.parseDOMQuerySelectorAllData(data.getUnderlyingObject());
   }
 

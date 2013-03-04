@@ -10,12 +10,12 @@ public class SetNodeValueParams extends org.jetbrains.wip.protocol.WipParams {
    @param nodeId Id of the node to set value for.
    @param value New node's value.
    */
-  public SetNodeValueParams(long/*See org.chromium.wip.protocol.commondom.NodeIdTypedef*/ nodeId, String value) {
-    this.put("nodeId", nodeId);
-    this.put("value", value);
+  public SetNodeValueParams(long nodeId, String value) {
+    //this.put("nodeId", nodeId);
+    //this.put("value", value);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DOM + ".setNodeValue";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".setNodeValue";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

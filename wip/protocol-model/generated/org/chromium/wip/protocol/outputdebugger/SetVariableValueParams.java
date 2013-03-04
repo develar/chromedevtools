@@ -13,19 +13,15 @@ public class SetVariableValueParams extends org.jetbrains.wip.protocol.WipParams
    @param callFrameIdOpt Id of callframe that holds variable.
    @param functionObjectIdOpt Object id of closure (function) that holds variable.
    */
-  public SetVariableValueParams(long scopeNumber, String variableName, org.chromium.wip.protocol.outputruntime.CallArgumentParam newValue, String/*See org.chromium.wip.protocol.commondebugger.CallFrameIdTypedef*/ callFrameIdOpt, String/*See org.chromium.wip.protocol.commonruntime.RemoteObjectIdTypedef*/ functionObjectIdOpt) {
-    this.put("scopeNumber", scopeNumber);
-    this.put("variableName", variableName);
-    this.put("newValue", newValue);
-    if (callFrameIdOpt != null) {
-      this.put("callFrameId", callFrameIdOpt);
-    }
-    if (functionObjectIdOpt != null) {
-      this.put("functionObjectId", functionObjectIdOpt);
-    }
+  public SetVariableValueParams(long scopeNumber, String variableName, org.chromium.wip.protocol.outputruntime.CallArgumentParam newValue, String callFrameIdOpt, String functionObjectIdOpt) {
+    //this.put("scopeNumber", scopeNumber);
+    //this.put("variableName", variableName);
+    //this.put("newValue", newValue);
+    //this.put("callFrameId", callFrameIdOpt);
+    //this.put("functionObjectId", functionObjectIdOpt);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setVariableValue";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setVariableValue";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;

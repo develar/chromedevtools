@@ -5,18 +5,16 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Location in the source code.
  */
-public class LocationParam extends org.json.simple.JSONObject {
+public class LocationParam {
   /**
    @param scriptId Script identifier as reported in the <code>Debugger.scriptParsed</code>.
    @param lineNumber Line number in the script.
    @param columnNumberOpt Column number in the script.
    */
-  public LocationParam(String/*See org.chromium.wip.protocol.commondebugger.ScriptIdTypedef*/ scriptId, long lineNumber, Long columnNumberOpt) {
-    this.put("scriptId", scriptId);
-    this.put("lineNumber", lineNumber);
-    if (columnNumberOpt != null) {
-      this.put("columnNumber", columnNumberOpt);
-    }
+  public LocationParam(String scriptId, long lineNumber, long columnNumberOpt) {
+    //this.put("scriptId", scriptId);
+    //this.put("lineNumber", lineNumber);
+    //this.put("columnNumber", columnNumberOpt);
   }
 
 }

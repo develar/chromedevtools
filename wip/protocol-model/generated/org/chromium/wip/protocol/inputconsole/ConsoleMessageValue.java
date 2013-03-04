@@ -38,13 +38,13 @@ public interface ConsoleMessageValue {
    Line number in the resource that generated this message.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Long line();
+  long line();
 
   /**
    Repeat count for repeated messages.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Long repeatCount();
+  long repeatCount();
 
   /**
    Message parameters in case of the formatted message.
@@ -56,13 +56,13 @@ public interface ConsoleMessageValue {
    JavaScript stack trace for assertions and error messages.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  java.util.List<org.chromium.wip.protocol.inputconsole.CallFrameValue>/*See org.chromium.wip.protocol.inputconsole.StackTraceTypedef*/ stackTrace();
+  java.util.List<org.chromium.wip.protocol.inputconsole.CallFrameValue> stackTrace();
 
   /**
    Identifier of the network request associated with this message.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  String/*See org.chromium.wip.protocol.commonnetwork.RequestIdTypedef*/ networkRequestId();
+  String networkRequestId();
 
   /**
    Message source.

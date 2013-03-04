@@ -10,10 +10,10 @@ public class ReleaseObjectGroupParams extends org.jetbrains.wip.protocol.WipPara
    @param objectGroup Symbolic object group name.
    */
   public ReleaseObjectGroupParams(String objectGroup) {
-    this.put("objectGroup", objectGroup);
+    //this.put("objectGroup", objectGroup);
   }
 
-  public static final String METHOD_NAME = org.chromium.sdk.internal.wip.protocol.BasicConstants.Domain.RUNTIME + ".releaseObjectGroup";
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.RUNTIME + ".releaseObjectGroup";
 
   @Override protected String getRequestName() {
     return METHOD_NAME;
