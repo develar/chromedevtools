@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Requests that the node is sent to the caller given its path. // FIXME, use XPath
  */
-public class PushNodeByPathToFrontendParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.PushNodeByPathToFrontendData> {
+public class PushNodeByPathToFrontendParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.PushNodeByPathToFrontendData> {
   /**
    @param path Path to node in the proprietary format.
    */
@@ -19,7 +19,7 @@ public class PushNodeByPathToFrontendParams extends org.chromium.sdk.internal.wi
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.PushNodeByPathToFrontendData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdom.PushNodeByPathToFrontendData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDOMPushNodeByPathToFrontendData(data.getUnderlyingObject());
   }
 

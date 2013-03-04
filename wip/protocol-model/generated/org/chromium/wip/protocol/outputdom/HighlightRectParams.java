@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
  */
-public class HighlightRectParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class HighlightRectParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param x X coordinate
    @param y Y coordinate

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Compiles expression.
  */
-public class CompileScriptParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.CompileScriptData> {
+public class CompileScriptParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.CompileScriptData> {
   /**
    @param expression Expression to compile.
    @param sourceURL Source url to be set for the script.
@@ -21,7 +21,7 @@ public class CompileScriptParams extends org.chromium.sdk.internal.wip.protocol.
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.CompileScriptData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdebugger.CompileScriptData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerCompileScriptData(data.getUnderlyingObject());
   }
 

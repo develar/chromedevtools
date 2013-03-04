@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputnetwork;
 /**
 Toggles ignoring cache for each request. If <code>true</code>, cache will not be used.
  */
-public class SetCacheDisabledParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetCacheDisabledParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param cacheDisabled Cache disabled state.
    */

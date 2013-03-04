@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputruntime;
 /**
 Tells inspected instance(worker or page) that it can run in case it was started paused.
  */
-public class RunParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class RunParams extends org.jetbrains.wip.protocol.WipParams {
   public RunParams() {
   }
 

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Marks last undoable state.
  */
-public class MarkUndoableStateParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class MarkUndoableStateParams extends org.jetbrains.wip.protocol.WipParams {
   public MarkUndoableStateParams() {
   }
 

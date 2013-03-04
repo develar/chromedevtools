@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.chromium.sdk.CallbackSemaphore;
 import org.chromium.sdk.JsEvaluateContext;
-import org.chromium.sdk.JsValue;
 import org.chromium.sdk.JsVariable;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.RemoteValueMapping;

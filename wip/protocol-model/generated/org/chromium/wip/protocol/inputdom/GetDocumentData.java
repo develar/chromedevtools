@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdom;
 /**
  Returns the root DOM node to the caller.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface GetDocumentData {
   /**
    Resulting node.

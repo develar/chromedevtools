@@ -2,7 +2,7 @@
 // Generator: org.chromium.wip.protocolParser.Generator
 package org.chromium.wip.protocol.inputruntime;
 
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface PropertyPreviewValue {
   /**
    Property name.
@@ -17,19 +17,19 @@ public interface PropertyPreviewValue {
   /**
    User-friendly property value string.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String value();
 
   /**
    Nested value preview.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   org.chromium.wip.protocol.inputruntime.ObjectPreviewValue valuePreview();
 
   /**
    Object subtype hint. Specified for <code>object</code> type values only.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Subtype subtype();
 
   /**

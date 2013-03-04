@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Focuses the given element.
  */
-public class FocusParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class FocusParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param nodeId Id of the node to focus.
    */

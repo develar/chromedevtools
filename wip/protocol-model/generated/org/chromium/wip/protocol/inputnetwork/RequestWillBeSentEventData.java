@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputnetwork;
 /**
  Fired when page is about to send HTTP request.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface RequestWillBeSentEventData {
   /**
    Request identifier.
@@ -45,13 +45,13 @@ public interface RequestWillBeSentEventData {
   /**
    Redirect response data.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   org.chromium.wip.protocol.inputnetwork.ResponseValue redirectResponse();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData>("NetworkrequestWillBeSent", org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData.class) {
-    @Override public org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
-      return parser.parseNetworkRequestWillBeSentEventData(obj);
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData>("NetworkrequestWillBeSent", org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData.class) {
+    @Override public org.chromium.wip.protocol.inputnetwork.RequestWillBeSentEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+      return parser.parseNetworkRequestWillBeSentEventData(reader);
     }
   };
 }

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Clears the overriden Geolocation Position and Error.
  */
-public class ClearGeolocationOverrideParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class ClearGeolocationOverrideParams extends org.jetbrains.wip.protocol.WipParams {
   public ClearGeolocationOverrideParams() {
   }
 

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Returns event listeners relevant to the node.
  */
-public class GetEventListenersForNodeParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.GetEventListenersForNodeData> {
+public class GetEventListenersForNodeParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.GetEventListenersForNodeData> {
   /**
    @param nodeId Id of the node to get listeners for.
    @param objectGroupOpt Symbolic group name for handler value. Handler value is not returned without this parameter specified.
@@ -23,7 +23,7 @@ public class GetEventListenersForNodeParams extends org.chromium.sdk.internal.wi
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.GetEventListenersForNodeData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdom.GetEventListenersForNodeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDOMGetEventListenersForNodeData(data.getUnderlyingObject());
   }
 

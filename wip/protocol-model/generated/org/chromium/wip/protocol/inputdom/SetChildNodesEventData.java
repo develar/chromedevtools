@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdom;
 /**
  Fired when backend wants to provide client with the missing DOM structure. This happens upon most of the calls requesting node ids.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface SetChildNodesEventData {
   /**
    Parent node id to populate with children.
@@ -17,10 +17,10 @@ public interface SetChildNodesEventData {
    */
   java.util.List<org.chromium.wip.protocol.inputdom.NodeValue> nodes();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdom.SetChildNodesEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdom.SetChildNodesEventData>("DOMsetChildNodes", org.chromium.wip.protocol.inputdom.SetChildNodesEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdom.SetChildNodesEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
-      return parser.parseDOMSetChildNodesEventData(obj);
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.SetChildNodesEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.SetChildNodesEventData>("DOMsetChildNodes", org.chromium.wip.protocol.inputdom.SetChildNodesEventData.class) {
+    @Override public org.chromium.wip.protocol.inputdom.SetChildNodesEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+      return parser.parseDOMSetChildNodesEventData(reader);
     }
   };
 }

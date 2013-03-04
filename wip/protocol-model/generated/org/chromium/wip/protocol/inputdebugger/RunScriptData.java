@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdebugger;
 /**
  Runs script with given id in a given context.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface RunScriptData {
   /**
    Run result.
@@ -15,7 +15,7 @@ public interface RunScriptData {
   /**
    True if the result was thrown during the script run.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Boolean wasThrown();
 
 }

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputruntime;
 /**
  Evaluates expression on global object.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface EvaluateData {
   /**
    Evaluation result.
@@ -15,7 +15,7 @@ public interface EvaluateData {
   /**
    True if the result was thrown during the evaluation.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Boolean wasThrown();
 
 }

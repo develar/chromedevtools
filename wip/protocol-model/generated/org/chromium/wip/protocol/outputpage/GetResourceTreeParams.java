@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Returns present frame / resource tree structure.
  */
-public class GetResourceTreeParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.GetResourceTreeData> {
+public class GetResourceTreeParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.GetResourceTreeData> {
   public GetResourceTreeParams() {
   }
 
@@ -15,7 +15,7 @@ public class GetResourceTreeParams extends org.chromium.sdk.internal.wip.protoco
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.GetResourceTreeData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputpage.GetResourceTreeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parsePageGetResourceTreeData(data.getUnderlyingObject());
   }
 

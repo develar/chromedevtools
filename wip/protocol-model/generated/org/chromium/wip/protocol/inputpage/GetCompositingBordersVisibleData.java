@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputpage;
 /**
  Indicates the visibility of compositing borders.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface GetCompositingBordersVisibleData {
   /**
    If true, compositing borders are visible.

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.protocolparser;
+package org.chromium.protocolParser;
 
 /**
  * A base interface for JSON subtype interface. This inheritance serves 2 purposes:

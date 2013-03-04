@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputruntime;
 /**
 Calls function with given declaration on the given object. Object group of the result is inherited from the target object.
  */
-public class CallFunctionOnParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputruntime.CallFunctionOnData> {
+public class CallFunctionOnParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputruntime.CallFunctionOnData> {
   /**
    @param objectId Identifier of the object to call function on.
    @param functionDeclaration Declaration of the function to call.
@@ -37,7 +37,7 @@ public class CallFunctionOnParams extends org.chromium.sdk.internal.wip.protocol
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputruntime.CallFunctionOnData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputruntime.CallFunctionOnData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseRuntimeCallFunctionOnData(data.getUnderlyingObject());
   }
 

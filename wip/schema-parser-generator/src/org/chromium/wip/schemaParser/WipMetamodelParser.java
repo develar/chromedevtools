@@ -5,8 +5,8 @@
 package org.chromium.wip.schemaParser;
 
 import com.google.gson.stream.JsonReader;
-import org.chromium.protocolparser.JsonParseMethod;
-import org.chromium.protocolparser.JsonParserRoot;
+import org.chromium.protocolParser.JsonParseMethod;
+import org.chromium.protocolParser.JsonParserRoot;
 import org.chromium.wip.schemaParser.WipMetamodel.Root;
 
 import java.io.IOException;

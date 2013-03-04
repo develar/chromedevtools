@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputnetwork;
 /**
  WebSocket response data.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface WebSocketResponseValue {
   /**
    HTTP response status code.

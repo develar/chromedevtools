@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Sets overlay message.
  */
-public class SetOverlayMessageParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetOverlayMessageParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param messageOpt Overlay message to display when paused in debugger.
    */

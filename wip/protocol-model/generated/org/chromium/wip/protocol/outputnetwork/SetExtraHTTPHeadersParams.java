@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputnetwork;
 /**
 Specifies whether to always send extra HTTP headers with the requests from this page.
  */
-public class SetExtraHTTPHeadersParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetExtraHTTPHeadersParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param headers Map with extra HTTP headers.
    */

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Sets JavaScript breakpoint at a given location.
  */
-public class SetBreakpointParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.SetBreakpointData> {
+public class SetBreakpointParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.SetBreakpointData> {
   /**
    @param location Location to set breakpoint in.
    @param conditionOpt Expression to use as a breakpoint condition. When specified, debugger will only stop on the breakpoint if this expression evaluates to true.
@@ -23,7 +23,7 @@ public class SetBreakpointParams extends org.chromium.sdk.internal.wip.protocol.
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.SetBreakpointData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdebugger.SetBreakpointData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerSetBreakpointData(data.getUnderlyingObject());
   }
 

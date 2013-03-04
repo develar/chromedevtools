@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdom;
 /**
  Mirrors <code>DOMCharacterDataModified</code> event.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface CharacterDataModifiedEventData {
   /**
    Id of the node that has changed.
@@ -17,10 +17,10 @@ public interface CharacterDataModifiedEventData {
    */
   String characterData();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData>("DOMcharacterDataModified", org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
-      return parser.parseDOMCharacterDataModifiedEventData(obj);
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData>("DOMcharacterDataModified", org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData.class) {
+    @Override public org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+      return parser.parseDOMCharacterDataModifiedEventData(reader);
     }
   };
 }

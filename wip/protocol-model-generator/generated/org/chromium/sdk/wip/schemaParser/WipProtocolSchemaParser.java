@@ -597,10 +597,10 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
     }
   }
 
-  static final class M7F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.StandaloneType> {
+  static final class M4F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty> {
     @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.StandaloneType read(JsonReader reader) throws IOException {
-      return new M7(reader);
+    public org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty read(JsonReader reader) throws IOException {
+      return new M4(reader);
     }
   }
 
@@ -611,20 +611,6 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
     }
   }
 
-  static final class M4F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty> {
-    @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty read(JsonReader reader) throws IOException {
-      return new M4(reader);
-    }
-  }
-
-  static final class M1F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Command> {
-    @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.Command read(JsonReader reader) throws IOException {
-      return new M1(reader);
-    }
-  }
-
   static final class M3F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Event> {
     @Override
     public org.chromium.wip.schemaParser.WipMetamodel.Event read(JsonReader reader) throws IOException {
@@ -632,10 +618,24 @@ public final class WipProtocolSchemaParser implements org.chromium.wip.schemaPar
     }
   }
 
+  static final class M7F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.StandaloneType> {
+    @Override
+    public org.chromium.wip.schemaParser.WipMetamodel.StandaloneType read(JsonReader reader) throws IOException {
+      return new M7(reader);
+    }
+  }
+
   static final class M5F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Parameter> {
     @Override
     public org.chromium.wip.schemaParser.WipMetamodel.Parameter read(JsonReader reader) throws IOException {
       return new M5(reader);
+    }
+  }
+
+  static final class M1F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Command> {
+    @Override
+    public org.chromium.wip.schemaParser.WipMetamodel.Command read(JsonReader reader) throws IOException {
+      return new M1(reader);
     }
   }
 

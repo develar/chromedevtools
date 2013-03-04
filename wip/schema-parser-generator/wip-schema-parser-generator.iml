@@ -7,7 +7,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="sdk parser" />
     <orderEntry type="library" name="gson" level="project" />
     <orderEntry type="module" module-name="protocolParser" />
   </component>

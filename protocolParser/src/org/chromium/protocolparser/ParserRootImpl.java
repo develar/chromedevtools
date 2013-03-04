@@ -5,6 +5,8 @@
 package org.chromium.protocolparser;
 
 import com.google.gson.stream.JsonReader;
+import org.chromium.protocolParser.JsonParseMethod;
+import org.chromium.protocolParser.JsonParserRoot;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -14,7 +16,7 @@ import java.util.*;
 /**
  * Dynamic implementation of user 'root' interface to parser.
  * @param <R> 'root' interface type
- * @see JsonParserRoot
+ * @see org.chromium.protocolParser.JsonParserRoot
  */
 class ParserRootImpl<R> {
   private final Class<R> rootClass;

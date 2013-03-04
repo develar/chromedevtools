@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or objectId must be specified.
  */
-public class HighlightNodeParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class HighlightNodeParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param highlightConfig A descriptor for the highlight appearance.
    @param nodeIdOpt Identifier of the node to highlight.

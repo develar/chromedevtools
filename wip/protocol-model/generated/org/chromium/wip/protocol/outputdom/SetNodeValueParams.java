@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Sets node value for a node with given id.
  */
-public class SetNodeValueParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetNodeValueParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param nodeId Id of the node to set value for.
    @param value New node's value.

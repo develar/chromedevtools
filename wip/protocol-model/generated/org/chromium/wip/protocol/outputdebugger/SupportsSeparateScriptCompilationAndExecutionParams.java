@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Tells whether debugger supports separate script compilation and execution.
  */
-public class SupportsSeparateScriptCompilationAndExecutionParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.SupportsSeparateScriptCompilationAndExecutionData> {
+public class SupportsSeparateScriptCompilationAndExecutionParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.SupportsSeparateScriptCompilationAndExecutionData> {
   public SupportsSeparateScriptCompilationAndExecutionParams() {
   }
 
@@ -15,7 +15,7 @@ public class SupportsSeparateScriptCompilationAndExecutionParams extends org.chr
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.SupportsSeparateScriptCompilationAndExecutionData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdebugger.SupportsSeparateScriptCompilationAndExecutionData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerSupportsSeparateScriptCompilationAndExecutionData(data.getUnderlyingObject());
   }
 

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdebugger;
 /**
  JavaScript call frame. Array of call frames form the call stack.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface CallFrameValue {
   /**
    Call frame identifier. This identifier is only valid while the virtual machine is paused.
@@ -30,7 +30,7 @@ public interface CallFrameValue {
   /**
    <code>this</code> object for this call frame.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonField(jsonLiteralName="this")
+  @org.chromium.protocolParser.JsonField(jsonLiteralName="this")
   org.chromium.wip.protocol.inputruntime.RemoteObjectValue getThis();
 
 }

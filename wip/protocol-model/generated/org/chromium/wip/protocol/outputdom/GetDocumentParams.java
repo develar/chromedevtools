@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Returns the root DOM node to the caller.
  */
-public class GetDocumentParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.GetDocumentData> {
+public class GetDocumentParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.GetDocumentData> {
   public GetDocumentParams() {
   }
 
@@ -15,7 +15,7 @@ public class GetDocumentParams extends org.chromium.sdk.internal.wip.protocol.ou
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.GetDocumentData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdom.GetDocumentData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDOMGetDocumentData(data.getUnderlyingObject());
   }
 

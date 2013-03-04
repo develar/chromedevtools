@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Resolves JavaScript node object for given node id.
  */
-public class ResolveNodeParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.ResolveNodeData> {
+public class ResolveNodeParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.ResolveNodeData> {
   /**
    @param nodeId Id of the node to resolve.
    @param objectGroupOpt Symbolic group name that can be used to release multiple objects.
@@ -23,7 +23,7 @@ public class ResolveNodeParams extends org.chromium.sdk.internal.wip.protocol.ou
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.ResolveNodeData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdom.ResolveNodeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDOMResolveNodeData(data.getUnderlyingObject());
   }
 

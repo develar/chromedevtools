@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Undoes the last performed action.
  */
-public class UndoParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class UndoParams extends org.jetbrains.wip.protocol.WipParams {
   public UndoParams() {
   }
 

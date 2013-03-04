@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputnetwork;
 /**
 This method sends a new XMLHttpRequest which is identical to the original one. The following parameters should be identical: method, url, async, request body, extra headers, withCredentials attribute, user, password.
  */
-public class ReplayXHRParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class ReplayXHRParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param requestId Identifier of XHR to replay.
    */

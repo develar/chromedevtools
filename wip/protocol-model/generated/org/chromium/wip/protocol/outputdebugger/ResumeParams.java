@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Resumes JavaScript execution.
  */
-public class ResumeParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class ResumeParams extends org.jetbrains.wip.protocol.WipParams {
   public ResumeParams() {
   }
 

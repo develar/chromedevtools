@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Disables page domain notifications.
  */
-public class DisableParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class DisableParams extends org.jetbrains.wip.protocol.WipParams {
   public DisableParams() {
   }
 

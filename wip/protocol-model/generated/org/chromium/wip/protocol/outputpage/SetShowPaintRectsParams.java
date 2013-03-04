@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Requests that backend shows paint rectangles
  */
-public class SetShowPaintRectsParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetShowPaintRectsParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param result True for showing paint rectangles
    */

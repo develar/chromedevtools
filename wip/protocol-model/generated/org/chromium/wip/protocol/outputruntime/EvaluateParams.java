@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputruntime;
 /**
 Evaluates expression on global object.
  */
-public class EvaluateParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputruntime.EvaluateData> {
+public class EvaluateParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputruntime.EvaluateData> {
   /**
    @param expression Expression to evaluate.
    @param objectGroupOpt Symbolic group name that can be used to release multiple objects.
@@ -43,7 +43,7 @@ public class EvaluateParams extends org.chromium.sdk.internal.wip.protocol.outpu
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputruntime.EvaluateData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputruntime.EvaluateData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseRuntimeEvaluateData(data.getUnderlyingObject());
   }
 

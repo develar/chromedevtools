@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Runs script with given id in a given context.
  */
-public class RunScriptParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.RunScriptData> {
+public class RunScriptParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.RunScriptData> {
   /**
    @param scriptId Id of the script to run.
    @param contextIdOpt Specifies in which isolated context to perform script run. Each content script lives in an isolated context and this parameter may be used to specify one of those contexts. If the parameter is omitted or 0 the evaluation will be performed in the context of the inspected page.
@@ -31,7 +31,7 @@ public class RunScriptParams extends org.chromium.sdk.internal.wip.protocol.outp
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.RunScriptData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdebugger.RunScriptData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerRunScriptData(data.getUnderlyingObject());
   }
 

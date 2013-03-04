@@ -1,7 +1,8 @@
 package org.chromium.protocolparser;
 
 import com.google.gson.stream.JsonReader;
-import org.jetbrains.jsonProtocol.StringIntPair;
+import org.chromium.protocolParser.*;
+import org.jetbrains.jsonProtocol.*;
 
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;

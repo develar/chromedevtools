@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputnetwork;
 /**
  Fired when WebSocket handshake response becomes available.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface WebSocketHandshakeResponseReceivedEventData {
   /**
    Request identifier.
@@ -22,10 +22,10 @@ public interface WebSocketHandshakeResponseReceivedEventData {
    */
   org.chromium.wip.protocol.inputnetwork.WebSocketResponseValue response();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData>("NetworkwebSocketHandshakeResponseReceived", org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
-      return parser.parseNetworkWebSocketHandshakeResponseReceivedEventData(obj);
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData>("NetworkwebSocketHandshakeResponseReceived", org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData.class) {
+    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+      return parser.parseNetworkWebSocketHandshakeResponseReceivedEventData(reader);
     }
   };
 }

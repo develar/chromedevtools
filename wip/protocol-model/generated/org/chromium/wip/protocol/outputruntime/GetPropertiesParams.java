@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputruntime;
 /**
 Returns properties of a given object. Object group of the result is inherited from the target object.
  */
-public class GetPropertiesParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputruntime.GetPropertiesData> {
+public class GetPropertiesParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputruntime.GetPropertiesData> {
   /**
    @param objectId Identifier of the object to return properties for.
    @param ownPropertiesOpt If true, returns properties belonging only to the element itself, not to its prototype chain.
@@ -23,7 +23,7 @@ public class GetPropertiesParams extends org.chromium.sdk.internal.wip.protocol.
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputruntime.GetPropertiesData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputruntime.GetPropertiesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseRuntimeGetPropertiesData(data.getUnderlyingObject());
   }
 

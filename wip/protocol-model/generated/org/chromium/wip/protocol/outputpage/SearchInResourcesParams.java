@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Searches for given string in frame / resource tree structure.
  */
-public class SearchInResourcesParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.SearchInResourcesData> {
+public class SearchInResourcesParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.SearchInResourcesData> {
   /**
    @param text String to search for.
    @param caseSensitiveOpt If true, search is case sensitive.
@@ -27,7 +27,7 @@ public class SearchInResourcesParams extends org.chromium.sdk.internal.wip.proto
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.SearchInResourcesData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputpage.SearchInResourcesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parsePageSearchInResourcesData(data.getUnderlyingObject());
   }
 

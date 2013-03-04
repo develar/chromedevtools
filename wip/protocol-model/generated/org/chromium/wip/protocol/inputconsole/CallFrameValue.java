@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputconsole;
 /**
  Stack entry for console errors and assertions.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface CallFrameValue {
   /**
    JavaScript function name.

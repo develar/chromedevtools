@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdom;
 /**
  Called when shadow root is pushed into the element.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface ShadowRootPushedEventData {
   /**
    Host element id.
@@ -17,10 +17,10 @@ public interface ShadowRootPushedEventData {
    */
   org.chromium.wip.protocol.inputdom.NodeValue root();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdom.ShadowRootPushedEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdom.ShadowRootPushedEventData>("DOMshadowRootPushed", org.chromium.wip.protocol.inputdom.ShadowRootPushedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdom.ShadowRootPushedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
-      return parser.parseDOMShadowRootPushedEventData(obj);
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.ShadowRootPushedEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.ShadowRootPushedEventData>("DOMshadowRootPushed", org.chromium.wip.protocol.inputdom.ShadowRootPushedEventData.class) {
+    @Override public org.chromium.wip.protocol.inputdom.ShadowRootPushedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+      return parser.parseDOMShadowRootPushedEventData(reader);
     }
   };
 }

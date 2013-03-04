@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Clears the overridden Device Orientation.
  */
-public class ClearDeviceOrientationOverrideParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class ClearDeviceOrientationOverrideParams extends org.jetbrains.wip.protocol.WipParams {
   public ClearDeviceOrientationOverrideParams() {
   }
 

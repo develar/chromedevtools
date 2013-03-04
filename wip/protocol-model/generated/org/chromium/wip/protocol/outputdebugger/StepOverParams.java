@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Steps over the statement.
  */
-public class StepOverParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class StepOverParams extends org.jetbrains.wip.protocol.WipParams {
   public StepOverParams() {
   }
 

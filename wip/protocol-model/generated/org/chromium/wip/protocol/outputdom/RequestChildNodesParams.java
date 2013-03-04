@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Requests that children of the node with given id are returned to the caller in form of <code>setChildNodes</code> events where not only immediate children are retrieved, but all children down to the specified depth.
  */
-public class RequestChildNodesParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class RequestChildNodesParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param nodeId Id of the node to get children for.
    @param depthOpt The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the entire subtree or provide an integer larger than 0.

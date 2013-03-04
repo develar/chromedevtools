@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdebugger;
 /**
  Fired when virtual machine parses script. This event is also fired for all known and uncollected scripts upon enabling debugger.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface ScriptParsedEventData {
   /**
    Identifier of the script parsed.
@@ -40,25 +40,25 @@ public interface ScriptParsedEventData {
   /**
    Determines whether this script is a user extension script.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Boolean isContentScript();
 
   /**
    URL of source map associated with script (if any).
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String sourceMapURL();
 
   /**
    True, if this script has sourceURL.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Boolean hasSourceURL();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData>("DebuggerscriptParsed", org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
-      return parser.parseDebuggerScriptParsedEventData(obj);
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData>("DebuggerscriptParsed", org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData.class) {
+    @Override public org.chromium.wip.protocol.inputdebugger.ScriptParsedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+      return parser.parseDebuggerScriptParsedEventData(reader);
     }
   };
 }

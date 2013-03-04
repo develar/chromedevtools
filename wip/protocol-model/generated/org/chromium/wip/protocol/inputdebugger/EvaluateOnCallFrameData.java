@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdebugger;
 /**
  Evaluates expression on a given call frame.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface EvaluateOnCallFrameData {
   /**
    Object wrapper for the evaluation result.
@@ -15,7 +15,7 @@ public interface EvaluateOnCallFrameData {
   /**
    True if the result was thrown during the evaluation.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Boolean wasThrown();
 
 }

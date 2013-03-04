@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Edits JavaScript source live.
  */
-public class SetScriptSourceParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.SetScriptSourceData> {
+public class SetScriptSourceParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.SetScriptSourceData> {
   /**
    @param scriptId Id of the script to edit.
    @param scriptSource New content of the script.
@@ -25,7 +25,7 @@ public class SetScriptSourceParams extends org.chromium.sdk.internal.wip.protoco
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.SetScriptSourceData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdebugger.SetScriptSourceData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerSetScriptSourceData(data.getUnderlyingObject());
   }
 

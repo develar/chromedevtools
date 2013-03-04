@@ -2,7 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.jetrbrains.wip.protocol;
+package org.jetbrains.wip.protocol;
+
+import com.google.gson.stream.JsonReader;
+import org.chromium.wip.protocol.input.WipGeneratedParserRoot;
 
 /**
  * This class describes event static information that helps to automate response parsing
@@ -25,6 +28,5 @@ public abstract class WipEventType<T> {
     return eventType;
   }
 
-  //public abstract T parse(WipGeneratedParserRoot parser, JSONObject obj)
-  //    throws JsonProtocolParseException;
+  public abstract T parse(WipGeneratedParserRoot parser, JsonReader reader);
 }

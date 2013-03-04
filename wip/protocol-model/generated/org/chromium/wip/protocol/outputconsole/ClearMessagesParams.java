@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputconsole;
 /**
 Clears console messages collected in the browser.
  */
-public class ClearMessagesParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class ClearMessagesParams extends org.jetbrains.wip.protocol.WipParams {
   public ClearMessagesParams() {
   }
 

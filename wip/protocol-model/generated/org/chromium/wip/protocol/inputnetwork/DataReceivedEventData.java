@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputnetwork;
 /**
  Fired when data chunk was received over the network.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface DataReceivedEventData {
   /**
    Request identifier.
@@ -27,10 +27,10 @@ public interface DataReceivedEventData {
    */
   long encodedDataLength();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputnetwork.DataReceivedEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputnetwork.DataReceivedEventData>("NetworkdataReceived", org.chromium.wip.protocol.inputnetwork.DataReceivedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputnetwork.DataReceivedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
-      return parser.parseNetworkDataReceivedEventData(obj);
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.DataReceivedEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.DataReceivedEventData>("NetworkdataReceived", org.chromium.wip.protocol.inputnetwork.DataReceivedEventData.class) {
+    @Override public org.chromium.wip.protocol.inputnetwork.DataReceivedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+      return parser.parseNetworkDataReceivedEventData(reader);
     }
   };
 }

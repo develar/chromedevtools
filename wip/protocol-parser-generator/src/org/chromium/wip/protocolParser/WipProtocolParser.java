@@ -4,34 +4,31 @@
 
 package org.chromium.wip.protocolParser;
 
-import org.chromium.sdk.internal.protocolparser.JsonParseMethod;
-import org.chromium.sdk.internal.protocolparser.JsonParserRoot;
-import org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;
+import com.google.gson.stream.JsonReader;
+import org.chromium.protocolParser.JsonParseMethod;
+import org.chromium.protocolParser.JsonParserRoot;
 import org.chromium.wip.protocol.input.WipGeneratedParserRoot;
 import org.chromium.wip.protocol.inputruntime.RemoteObjectValue;
-import org.jetrbrains.wip.protocol.WipCommandResponse;
-import org.jetrbrains.wip.protocol.WipEvent;
-import org.jetrbrains.wip.protocol.WipTabList;
-import org.json.simple.JSONObject;
+import org.jetbrains.wip.protocol.WipCommandResponse;
+import org.jetbrains.wip.protocol.WipEvent;
+import org.jetbrains.wip.protocol.WipTabList;
 
 /**
  * Interface to WIP protocol parser. It includes generated part {@link WipGeneratedParserRoot}.
  */
 @JsonParserRoot
 public interface WipProtocolParser extends WipGeneratedParserRoot {
+  @JsonParseMethod
+  WipCommandResponse parseWipCommandResponse(JsonReader reader);
 
   @JsonParseMethod
-  WipCommandResponse parseWipCommandResponse(JSONObject incoming)
-      throws JsonProtocolParseException;
+  WipEvent parseWipEvent(JsonReader reader);
 
   @JsonParseMethod
-  WipEvent parseWipEvent(JSONObject jsonObject) throws JsonProtocolParseException;
-
-  @JsonParseMethod
-  WipTabList parseTabList(Object jsonValue) throws JsonProtocolParseException;
+  WipTabList parseTabList(JsonReader reader);
 
   // Used by WipContextBuilder because protocol declares exception value as raw object.
   @JsonParseMethod
-  RemoteObjectValue parseRemoteObjectValue(Object jsonValue) throws JsonProtocolParseException;
+  RemoteObjectValue parseRemoteObjectValue(JsonReader reader);
 
 }

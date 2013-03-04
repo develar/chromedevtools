@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Returns detailed informtation on given function.
  */
-public class GetFunctionDetailsParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.GetFunctionDetailsData> {
+public class GetFunctionDetailsParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.GetFunctionDetailsData> {
   /**
    @param functionId Id of the function to get location for.
    */
@@ -19,7 +19,7 @@ public class GetFunctionDetailsParams extends org.chromium.sdk.internal.wip.prot
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.GetFunctionDetailsData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdebugger.GetFunctionDetailsData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerGetFunctionDetailsData(data.getUnderlyingObject());
   }
 

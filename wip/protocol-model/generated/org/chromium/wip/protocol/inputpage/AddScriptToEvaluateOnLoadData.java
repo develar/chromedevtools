@@ -2,7 +2,7 @@
 // Generator: org.chromium.wip.protocolParser.Generator
 package org.chromium.wip.protocol.inputpage;
 
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface AddScriptToEvaluateOnLoadData {
   /**
    Identifier of the added script.

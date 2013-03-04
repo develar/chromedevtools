@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Changes value of variable in a callframe or a closure. Either callframe or function must be specified. Object-based scopes are not supported and must be mutated manually.
  */
-public class SetVariableValueParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetVariableValueParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param scopeNumber 0-based number of scope as was listed in scope chain. Only 'local', 'closure' and 'catch' scope types are allowed. Other scopes could be manipulated manually.
    @param variableName Variable name.

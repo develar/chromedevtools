@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputnetwork;
 /**
 Clears browser cache.
  */
-public class ClearBrowserCacheParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class ClearBrowserCacheParams extends org.jetbrains.wip.protocol.WipParams {
   public ClearBrowserCacheParams() {
   }
 

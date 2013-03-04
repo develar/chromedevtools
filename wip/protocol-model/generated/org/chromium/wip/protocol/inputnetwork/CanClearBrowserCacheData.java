@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputnetwork;
 /**
  Tells whether clearing browser cache is supported.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface CanClearBrowserCacheData {
   /**
    True if browser cache can be cleared.

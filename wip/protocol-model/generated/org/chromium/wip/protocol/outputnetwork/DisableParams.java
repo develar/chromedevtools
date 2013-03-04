@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputnetwork;
 /**
 Disables network tracking, prevents network events from being sent to the client.
  */
-public class DisableParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class DisableParams extends org.jetbrains.wip.protocol.WipParams {
   public DisableParams() {
   }
 

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Tells if backend supports continuous painting
  */
-public class CanContinuouslyPaintParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.CanContinuouslyPaintData> {
+public class CanContinuouslyPaintParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.CanContinuouslyPaintData> {
   public CanContinuouslyPaintParams() {
   }
 
@@ -15,7 +15,7 @@ public class CanContinuouslyPaintParams extends org.chromium.sdk.internal.wip.pr
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.CanContinuouslyPaintData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputpage.CanContinuouslyPaintData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parsePageCanContinuouslyPaintData(data.getUnderlyingObject());
   }
 

@@ -13,7 +13,7 @@ import java.util.*;
  * Java dynamic-proxy based implementation of {@_link JsonProtocolParser}. It analyses
  * interfaces with reflection and provides their implementation by {@link Proxy} factory.
  * User-friendly 'root' interface is available by {@link #getParserRoot()} method.
- * @param <ROOT> root user-provided type (see {@link JsonParserRoot})
+ * @param <ROOT> root user-provided type (see {@link org.chromium.protocolParser.JsonParserRoot})
  */
 public class DynamicParserImpl<ROOT> {
   final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;

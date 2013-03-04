@@ -4,6 +4,10 @@
 
 package org.chromium.protocolparser;
 
+import org.chromium.protocolParser.AnyObjectBased;
+import org.chromium.protocolParser.JsonObjectBased;
+import org.chromium.protocolParser.JsonSubtype;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;

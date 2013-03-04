@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Sets node name for a node with given id.
  */
-public class SetNodeNameParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.SetNodeNameData> {
+public class SetNodeNameParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.SetNodeNameData> {
   /**
    @param nodeId Id of the node to set name for.
    @param name New node's name.
@@ -21,7 +21,7 @@ public class SetNodeNameParams extends org.chromium.sdk.internal.wip.protocol.ou
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.SetNodeNameData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdom.SetNodeNameData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDOMSetNodeNameData(data.getUnderlyingObject());
   }
 

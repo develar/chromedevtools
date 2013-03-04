@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Sets given markup as the document's HTML.
  */
-public class SetDocumentContentParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetDocumentContentParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param frameId Frame id to set HTML for.
    @param html HTML content to set.

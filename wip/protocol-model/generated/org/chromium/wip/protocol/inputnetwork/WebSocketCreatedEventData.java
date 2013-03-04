@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputnetwork;
 /**
  Fired upon WebSocket creation.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface WebSocketCreatedEventData {
   /**
    Request identifier.
@@ -17,10 +17,10 @@ public interface WebSocketCreatedEventData {
    */
   String url();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData>("NetworkwebSocketCreated", org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
-      return parser.parseNetworkWebSocketCreatedEventData(obj);
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData>("NetworkwebSocketCreated", org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData.class) {
+    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketCreatedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+      return parser.parseNetworkWebSocketCreatedEventData(reader);
     }
   };
 }

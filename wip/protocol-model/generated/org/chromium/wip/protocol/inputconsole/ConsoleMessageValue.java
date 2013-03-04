@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputconsole;
 /**
  Console message.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface ConsoleMessageValue {
   /**
    Message source.
@@ -25,43 +25,43 @@ public interface ConsoleMessageValue {
   /**
    Console message type.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Type type();
 
   /**
    URL of the message origin.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String url();
 
   /**
    Line number in the resource that generated this message.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Long line();
 
   /**
    Repeat count for repeated messages.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Long repeatCount();
 
   /**
    Message parameters in case of the formatted message.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   java.util.List<org.chromium.wip.protocol.inputruntime.RemoteObjectValue> parameters();
 
   /**
    JavaScript stack trace for assertions and error messages.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   java.util.List<org.chromium.wip.protocol.inputconsole.CallFrameValue>/*See org.chromium.wip.protocol.inputconsole.StackTraceTypedef*/ stackTrace();
 
   /**
    Identifier of the network request associated with this message.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String/*See org.chromium.wip.protocol.commonnetwork.RequestIdTypedef*/ networkRequestId();
 
   /**

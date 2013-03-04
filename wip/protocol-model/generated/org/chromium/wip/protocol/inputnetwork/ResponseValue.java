@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputnetwork;
 /**
  HTTP response data.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface ResponseValue {
   /**
    Response URL. This URL can be different from CachedResource.url in case of redirect.
@@ -30,7 +30,7 @@ public interface ResponseValue {
   /**
    HTTP response headers text.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String headersText();
 
   /**
@@ -41,13 +41,13 @@ public interface ResponseValue {
   /**
    Refined HTTP request headers that were actually transmitted over the network.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   org.chromium.wip.protocol.inputnetwork.HeadersValue requestHeaders();
 
   /**
    HTTP request headers text.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String requestHeadersText();
 
   /**
@@ -63,13 +63,13 @@ public interface ResponseValue {
   /**
    Specifies that the request was served from the disk cache.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Boolean fromDiskCache();
 
   /**
    Timing information for the given request.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   org.chromium.wip.protocol.inputnetwork.ResourceTimingValue timing();
 
 }

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Re-does the last undone action.
  */
-public class RedoParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class RedoParams extends org.jetbrains.wip.protocol.WipParams {
   public RedoParams() {
   }
 

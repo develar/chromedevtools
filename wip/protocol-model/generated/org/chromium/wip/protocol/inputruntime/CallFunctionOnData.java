@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputruntime;
 /**
  Calls function with given declaration on the given object. Object group of the result is inherited from the target object.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface CallFunctionOnData {
   /**
    Call result.
@@ -15,7 +15,7 @@ public interface CallFunctionOnData {
   /**
    True if the result was thrown during the evaluation.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Boolean wasThrown();
 
 }

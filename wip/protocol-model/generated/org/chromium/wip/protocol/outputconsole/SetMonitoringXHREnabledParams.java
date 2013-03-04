@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputconsole;
 /**
 Toggles monitoring of XMLHttpRequest. If <code>true</code>, console will receive messages upon each XHR issued.
  */
-public class SetMonitoringXHREnabledParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetMonitoringXHREnabledParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param enabled Monitoring enabled state.
    */

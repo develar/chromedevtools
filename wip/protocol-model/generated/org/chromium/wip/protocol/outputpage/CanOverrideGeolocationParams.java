@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Checks if Geolocation can be overridden.
  */
-public class CanOverrideGeolocationParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.CanOverrideGeolocationData> {
+public class CanOverrideGeolocationParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.CanOverrideGeolocationData> {
   public CanOverrideGeolocationParams() {
   }
 
@@ -15,7 +15,7 @@ public class CanOverrideGeolocationParams extends org.chromium.sdk.internal.wip.
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.CanOverrideGeolocationData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputpage.CanOverrideGeolocationData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parsePageCanOverrideGeolocationData(data.getUnderlyingObject());
   }
 

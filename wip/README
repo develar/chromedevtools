@@ -1,1 +1,2 @@
-# Generate WIP schema reader (convert JSON schema to our java model)
+# Generate WIP schema reader (convert protocol schema from JSON to our Java), ability to read schema in JSON
+# Generate WIP model (generate protocol model from schema)

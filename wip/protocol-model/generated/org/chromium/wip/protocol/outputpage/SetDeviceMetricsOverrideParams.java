@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Overrides the values of device screen dimensions (window.screen.width, window.screen.height, window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media query results) and the font scale factor.
  */
-public class SetDeviceMetricsOverrideParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetDeviceMetricsOverrideParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param width Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
    @param height Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.

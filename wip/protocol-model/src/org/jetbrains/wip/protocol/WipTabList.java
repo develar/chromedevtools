@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.jetrbrains.wip.protocol;
+package org.jetbrains.wip.protocol;
 
-import org.chromium.protocolparser.JsonOptionalField;
-import org.chromium.protocolparser.JsonSubtypeCasting;
-import org.chromium.protocolparser.JsonType;
+import org.chromium.protocolParser.JsonOptionalField;
+import org.chromium.protocolParser.JsonSubtypeCasting;
+import org.chromium.protocolParser.JsonType;
 
 import java.util.List;
 

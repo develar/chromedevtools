@@ -5,6 +5,6 @@ package org.chromium.wip.protocol.inputnetwork;
 /**
  Request / response headers as keys / values of JSON object.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface HeadersValue {
 }

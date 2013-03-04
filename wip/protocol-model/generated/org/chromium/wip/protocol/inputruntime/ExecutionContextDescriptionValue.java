@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputruntime;
 /**
  Description of an isolated world.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface ExecutionContextDescriptionValue {
   /**
    Unique id of the execution context. It can be used to specify in which execution context script evaluation should be performed.

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Hides DOM node highlight.
  */
-public class HideHighlightParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class HideHighlightParams extends org.jetbrains.wip.protocol.WipParams {
   public HideHighlightParams() {
   }
 

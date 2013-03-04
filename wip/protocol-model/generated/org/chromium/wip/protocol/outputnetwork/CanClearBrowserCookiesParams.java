@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputnetwork;
 /**
 Tells whether clearing browser cookies is supported.
  */
-public class CanClearBrowserCookiesParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputnetwork.CanClearBrowserCookiesData> {
+public class CanClearBrowserCookiesParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputnetwork.CanClearBrowserCookiesData> {
   public CanClearBrowserCookiesParams() {
   }
 
@@ -15,7 +15,7 @@ public class CanClearBrowserCookiesParams extends org.chromium.sdk.internal.wip.
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputnetwork.CanClearBrowserCookiesData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputnetwork.CanClearBrowserCookiesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseNetworkCanClearBrowserCookiesData(data.getUnderlyingObject());
   }
 

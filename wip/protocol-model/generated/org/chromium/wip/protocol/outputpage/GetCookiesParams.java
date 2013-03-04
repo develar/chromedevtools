@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Returns all browser cookies. Depending on the backend support, will either return detailed cookie information in the <code>cookie</code> field or string cookie representation using <code>cookieString</code>.
  */
-public class GetCookiesParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.GetCookiesData> {
+public class GetCookiesParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.GetCookiesData> {
   public GetCookiesParams() {
   }
 
@@ -15,7 +15,7 @@ public class GetCookiesParams extends org.chromium.sdk.internal.wip.protocol.out
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.GetCookiesData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputpage.GetCookiesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parsePageGetCookiesData(data.getUnderlyingObject());
   }
 

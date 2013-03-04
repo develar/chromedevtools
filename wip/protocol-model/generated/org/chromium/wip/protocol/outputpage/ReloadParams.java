@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Reloads given page optionally ignoring the cache.
  */
-public class ReloadParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class ReloadParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param ignoreCacheOpt If true, browser cache is ignored (as if the user pressed Shift+refresh).
    @param scriptToEvaluateOnLoadOpt If set, the script will be injected into all frames of the inspected page after reload.

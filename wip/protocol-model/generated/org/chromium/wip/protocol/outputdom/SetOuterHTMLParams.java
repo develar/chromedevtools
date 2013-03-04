@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Sets node HTML markup, returns new node id.
  */
-public class SetOuterHTMLParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetOuterHTMLParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param nodeId Id of the node to set markup for.
    @param outerHTML Outer HTML markup to set.

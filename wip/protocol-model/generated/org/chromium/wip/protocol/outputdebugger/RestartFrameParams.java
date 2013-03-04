@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Restarts particular call frame from the beginning.
  */
-public class RestartFrameParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.RestartFrameData> {
+public class RestartFrameParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.RestartFrameData> {
   /**
    @param callFrameId Call frame identifier to evaluate on.
    */
@@ -19,7 +19,7 @@ public class RestartFrameParams extends org.chromium.sdk.internal.wip.protocol.o
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.RestartFrameData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdebugger.RestartFrameData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerRestartFrameData(data.getUnderlyingObject());
   }
 

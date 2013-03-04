@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.jetrbrains.wip.protocol;
+package org.jetbrains.wip.protocol;
 
 /**
  * A base class for all method parameter classes.
@@ -10,4 +10,8 @@ package org.jetrbrains.wip.protocol;
  */
 public abstract class WipParams {
   protected abstract String getRequestName();
+
+  protected void put(String name, Object value) {
+    throw new UnsupportedOperationException();
+  }
 }

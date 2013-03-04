@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdebugger;
 /**
  Tells whether <code>setScriptSource</code> is supported.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface CanSetScriptSourceData {
   /**
    True if <code>setScriptSource</code> is supported.

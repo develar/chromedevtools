@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputpage;
 /**
  Search match for resource.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface SearchMatchValue {
   /**
    Line number in resource content.

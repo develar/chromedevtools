@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Returns node's HTML markup.
  */
-public class GetOuterHTMLParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.GetOuterHTMLData> {
+public class GetOuterHTMLParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.GetOuterHTMLData> {
   /**
    @param nodeId Id of the node to get markup for.
    */
@@ -19,7 +19,7 @@ public class GetOuterHTMLParams extends org.chromium.sdk.internal.wip.protocol.o
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.GetOuterHTMLData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdom.GetOuterHTMLData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDOMGetOuterHTMLData(data.getUnderlyingObject());
   }
 

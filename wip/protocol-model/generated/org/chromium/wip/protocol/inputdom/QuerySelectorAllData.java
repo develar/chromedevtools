@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdom;
 /**
  Executes <code>querySelectorAll</code> on a given node.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface QuerySelectorAllData {
   /**
    Query selector result.

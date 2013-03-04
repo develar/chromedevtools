@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Tells if backend supports a FPS counter display
  */
-public class CanShowFPSCounterParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.CanShowFPSCounterData> {
+public class CanShowFPSCounterParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.CanShowFPSCounterData> {
   public CanShowFPSCounterParams() {
   }
 
@@ -15,7 +15,7 @@ public class CanShowFPSCounterParams extends org.chromium.sdk.internal.wip.proto
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.CanShowFPSCounterData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputpage.CanShowFPSCounterData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parsePageCanShowFPSCounterData(data.getUnderlyingObject());
   }
 

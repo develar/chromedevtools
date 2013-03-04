@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputpage;
 /**
  Checks whether <code>setDeviceMetricsOverride</code> can be invoked.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface CanOverrideDeviceMetricsData {
   /**
    If true, <code>setDeviceMetricsOverride</code> can safely be invoked on the agent.

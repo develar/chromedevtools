@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdom;
 /**
  Fired when <code>Element</code>'s attribute is removed.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface AttributeRemovedEventData {
   /**
    Id of the node that has changed.
@@ -17,10 +17,10 @@ public interface AttributeRemovedEventData {
    */
   String name();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdom.AttributeRemovedEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdom.AttributeRemovedEventData>("DOMattributeRemoved", org.chromium.wip.protocol.inputdom.AttributeRemovedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdom.AttributeRemovedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
-      return parser.parseDOMAttributeRemovedEventData(obj);
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.AttributeRemovedEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.AttributeRemovedEventData>("DOMattributeRemoved", org.chromium.wip.protocol.inputdom.AttributeRemovedEventData.class) {
+    @Override public org.chromium.wip.protocol.inputdom.AttributeRemovedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+      return parser.parseDOMAttributeRemovedEventData(reader);
     }
   };
 }

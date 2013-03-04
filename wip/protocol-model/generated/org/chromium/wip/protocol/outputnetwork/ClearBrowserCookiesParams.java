@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputnetwork;
 /**
 Clears browser cookies.
  */
-public class ClearBrowserCookiesParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class ClearBrowserCookiesParams extends org.jetbrains.wip.protocol.WipParams {
   public ClearBrowserCookiesParams() {
   }
 

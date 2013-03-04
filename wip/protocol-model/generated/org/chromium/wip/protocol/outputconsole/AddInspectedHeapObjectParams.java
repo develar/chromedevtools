@@ -2,7 +2,7 @@
 // Generator: org.chromium.wip.protocolParser.Generator
 package org.chromium.wip.protocol.outputconsole;
 
-public class AddInspectedHeapObjectParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class AddInspectedHeapObjectParams extends org.jetbrains.wip.protocol.WipParams {
   public AddInspectedHeapObjectParams(long heapObjectId) {
     this.put("heapObjectId", heapObjectId);
   }

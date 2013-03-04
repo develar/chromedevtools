@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Enables page domain notifications.
  */
-public class EnableParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class EnableParams extends org.jetbrains.wip.protocol.WipParams {
   public EnableParams() {
   }
 

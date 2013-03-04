@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Evaluates expression on a given call frame.
  */
-public class EvaluateOnCallFrameParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.EvaluateOnCallFrameData> {
+public class EvaluateOnCallFrameParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.EvaluateOnCallFrameData> {
   /**
    @param callFrameId Call frame identifier to evaluate on.
    @param expression Expression to evaluate.
@@ -41,7 +41,7 @@ public class EvaluateOnCallFrameParams extends org.chromium.sdk.internal.wip.pro
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.EvaluateOnCallFrameData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdebugger.EvaluateOnCallFrameData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerEvaluateOnCallFrameData(data.getUnderlyingObject());
   }
 

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdom;
 /**
  DOM interaction is implemented in terms of mirror objects that represent the actual DOM nodes. DOMNode is a base node mirror type.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface NodeValue {
   /**
    Node identifier that is passed into the rest of the DOM messages as the <code>nodeId</code>. Backend will only push node with given <code>id</code> once. It is aware of all requested nodes and will only fire DOM events for nodes known to the client.
@@ -35,91 +35,91 @@ public interface NodeValue {
   /**
    Child count for <code>Container</code> nodes.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Long childNodeCount();
 
   /**
    Child nodes of this node when requested with children.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   java.util.List<org.chromium.wip.protocol.inputdom.NodeValue> children();
 
   /**
    Attributes of the <code>Element</code> node in the form of flat array <code>[name1, value1, name2, value2]</code>.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   java.util.List<String> attributes();
 
   /**
    Document URL that <code>Document</code> or <code>FrameOwner</code> node points to.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String documentURL();
 
   /**
    Base URL that <code>Document</code> or <code>FrameOwner</code> node uses for URL completion.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String baseURL();
 
   /**
    <code>DocumentType</code>'s publicId.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String publicId();
 
   /**
    <code>DocumentType</code>'s systemId.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String systemId();
 
   /**
    <code>DocumentType</code>'s internalSubset.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String internalSubset();
 
   /**
    <code>Document</code>'s XML version in case of XML documents.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String xmlVersion();
 
   /**
    <code>Attr</code>'s name.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String name();
 
   /**
    <code>Attr</code>'s value.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String value();
 
   /**
    Frame ID for frame owner elements.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String/*See org.chromium.wip.protocol.commonnetwork.FrameIdTypedef*/ frameId();
 
   /**
    Content document for frame owner elements.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   org.chromium.wip.protocol.inputdom.NodeValue contentDocument();
 
   /**
    Shadow root list for given element host.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   java.util.List<org.chromium.wip.protocol.inputdom.NodeValue> shadowRoots();
 
   /**
    Content document fragment for template elements
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   org.chromium.wip.protocol.inputdom.NodeValue templateContent();
 
 }

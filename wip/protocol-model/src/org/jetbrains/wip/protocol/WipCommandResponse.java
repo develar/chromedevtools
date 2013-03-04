@@ -2,9 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.jetrbrains.wip.protocol;
+package org.jetbrains.wip.protocol;
 
-import org.chromium.protocolparser.*;
+import org.chromium.protocolParser.*;
+import org.jetbrains.wip.protocol.BasicConstants;
 
 import java.util.List;
 

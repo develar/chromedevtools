@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Tells whether enabling debugger causes scripts recompilation.
  */
-public class CausesRecompilationParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.CausesRecompilationData> {
+public class CausesRecompilationParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdebugger.CausesRecompilationData> {
   public CausesRecompilationParams() {
   }
 
@@ -15,7 +15,7 @@ public class CausesRecompilationParams extends org.chromium.sdk.internal.wip.pro
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdebugger.CausesRecompilationData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdebugger.CausesRecompilationData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDebuggerCausesRecompilationData(data.getUnderlyingObject());
   }
 

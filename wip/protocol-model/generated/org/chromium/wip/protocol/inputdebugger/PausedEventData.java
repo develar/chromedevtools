@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdebugger;
 /**
  Fired when the virtual machine stopped on breakpoint or exception or any other stop criteria.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface PausedEventData {
   /**
    Call stack the virtual machine stopped on.
@@ -20,13 +20,13 @@ public interface PausedEventData {
   /**
    Object containing break-specific auxiliary properties.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   Data data();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdebugger.PausedEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdebugger.PausedEventData>("Debuggerpaused", org.chromium.wip.protocol.inputdebugger.PausedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdebugger.PausedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
-      return parser.parseDebuggerPausedEventData(obj);
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdebugger.PausedEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdebugger.PausedEventData>("Debuggerpaused", org.chromium.wip.protocol.inputdebugger.PausedEventData.class) {
+    @Override public org.chromium.wip.protocol.inputdebugger.PausedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+      return parser.parseDebuggerPausedEventData(reader);
     }
   };
   /**
@@ -44,7 +44,7 @@ public interface PausedEventData {
   /**
    Object containing break-specific auxiliary properties.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonType(allowsOtherProperties=true)
-  public interface Data extends org.chromium.sdk.internal.protocolparser.JsonObjectBased {
+  @org.chromium.protocolParser.JsonType(allowsOtherProperties=true)
+  public interface Data extends org.chromium.protocolParser.JsonObjectBased {
   }
 }

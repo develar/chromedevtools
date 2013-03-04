@@ -277,6 +277,7 @@
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.source.iml" filepath="$PROJECT_DIR$/org.chromium.source.iml" />
       <module fileurl="file://$PROJECT_DIR$/../protocolParser/protocolParser.iml" filepath="$PROJECT_DIR$/../protocolParser/protocolParser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../protocolParserRuntime/protocolParserRuntime.iml" filepath="$PROJECT_DIR$/../protocolParserRuntime/protocolParserRuntime.iml" />
       <module fileurl="file://$PROJECT_DIR$/sdk parser.iml" filepath="$PROJECT_DIR$/sdk parser.iml" />
       <module fileurl="file://$PROJECT_DIR$/wip-eclipse.iml" filepath="$PROJECT_DIR$/wip-eclipse.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../wip/protocol/wip-protocol.iml" filepath="$PROJECT_DIR$/../wip/protocol/wip-protocol.iml" group="wip" />

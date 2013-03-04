@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdebugger;
 /**
  Fired when virtual machine fails to parse the script.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface ScriptFailedToParseEventData {
   /**
    URL of the script that failed to parse.
@@ -32,10 +32,10 @@ public interface ScriptFailedToParseEventData {
    */
   String errorMessage();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdebugger.ScriptFailedToParseEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputdebugger.ScriptFailedToParseEventData>("DebuggerscriptFailedToParse", org.chromium.wip.protocol.inputdebugger.ScriptFailedToParseEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdebugger.ScriptFailedToParseEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
-      return parser.parseDebuggerScriptFailedToParseEventData(obj);
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdebugger.ScriptFailedToParseEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdebugger.ScriptFailedToParseEventData>("DebuggerscriptFailedToParse", org.chromium.wip.protocol.inputdebugger.ScriptFailedToParseEventData.class) {
+    @Override public org.chromium.wip.protocol.inputdebugger.ScriptFailedToParseEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+      return parser.parseDebuggerScriptFailedToParseEventData(reader);
     }
   };
 }

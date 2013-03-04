@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputruntime;
 /**
  Object internal property descriptor. This property isn't normally visible in JavaScript code.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface InternalPropertyDescriptorValue {
   /**
    Conventional property name.
@@ -15,7 +15,7 @@ public interface InternalPropertyDescriptorValue {
   /**
    The value associated with the property.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   org.chromium.wip.protocol.inputruntime.RemoteObjectValue value();
 
 }

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.protocolparser;
+package org.chromium.protocolParser;
 
 /**
  * Optional base interface for JSON type interface. Underlying object becomes available

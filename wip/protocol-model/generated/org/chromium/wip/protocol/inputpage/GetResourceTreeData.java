@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputpage;
 /**
  Returns present frame / resource tree structure.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface GetResourceTreeData {
   /**
    Present frame / resource tree structure.

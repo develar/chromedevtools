@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Tells if backend supports debug borders on layers
  */
-public class CanShowDebugBordersParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.CanShowDebugBordersData> {
+public class CanShowDebugBordersParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputpage.CanShowDebugBordersData> {
   public CanShowDebugBordersParams() {
   }
 
@@ -15,7 +15,7 @@ public class CanShowDebugBordersParams extends org.chromium.sdk.internal.wip.pro
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.CanShowDebugBordersData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputpage.CanShowDebugBordersData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parsePageCanShowDebugBordersData(data.getUnderlyingObject());
   }
 

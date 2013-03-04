@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Activates / deactivates all breakpoints on the page.
  */
-public class SetBreakpointsActiveParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetBreakpointsActiveParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param active New value for breakpoints active state.
    */

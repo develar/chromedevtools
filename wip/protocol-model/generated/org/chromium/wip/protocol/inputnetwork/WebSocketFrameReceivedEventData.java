@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputnetwork;
 /**
  Fired when WebSocket frame is received.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface WebSocketFrameReceivedEventData {
   /**
    Request identifier.
@@ -22,10 +22,10 @@ public interface WebSocketFrameReceivedEventData {
    */
   org.chromium.wip.protocol.inputnetwork.WebSocketFrameValue response();
 
-  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketFrameReceivedEventData> TYPE
-      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketFrameReceivedEventData>("NetworkwebSocketFrameReceived", org.chromium.wip.protocol.inputnetwork.WebSocketFrameReceivedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketFrameReceivedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, org.json.simple.JSONObject obj) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
-      return parser.parseNetworkWebSocketFrameReceivedEventData(obj);
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketFrameReceivedEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketFrameReceivedEventData>("NetworkwebSocketFrameReceived", org.chromium.wip.protocol.inputnetwork.WebSocketFrameReceivedEventData.class) {
+    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketFrameReceivedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) {
+      return parser.parseNetworkWebSocketFrameReceivedEventData(reader);
     }
   };
 }

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdom;
 /**
  Resolves JavaScript node object for given node id.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface ResolveNodeData {
   /**
    JavaScript object wrapper for given node.

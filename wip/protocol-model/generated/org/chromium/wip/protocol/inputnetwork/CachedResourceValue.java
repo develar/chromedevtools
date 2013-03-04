@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputnetwork;
 /**
  Information about the cached resource.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface CachedResourceValue {
   /**
    Resource URL. This is the url of the original network request.
@@ -20,7 +20,7 @@ public interface CachedResourceValue {
   /**
    Cached response data.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   org.chromium.wip.protocol.inputnetwork.ResponseValue response();
 
   /**

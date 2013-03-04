@@ -4,7 +4,7 @@
 
 package org.chromium.wip.protocolParser;
 
-import org.chromium.sdk.internal.protocolparser.EnumValueCondition;
+import org.chromium.protocolparser.EnumValueCondition;
 import org.chromium.wip.schemaParser.WipMetamodel;
 
 import java.io.File;
@@ -114,7 +114,7 @@ class Generator {
 
     private void generateCommandParams(Command command, boolean hasResponse) throws IOException {
       StringBuilder baseTypeBuilder = new StringBuilder();
-      baseTypeBuilder.append("org.chromium.sdk.internal.wip.protocol.output.");
+      baseTypeBuilder.append("org.jetbrains.wip.protocol.");
       if (hasResponse) {
         baseTypeBuilder.append("WipParamsWithResponse<" +
             Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText() + ">");
@@ -139,10 +139,9 @@ class Generator {
             Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText();
         additionalMemberBuilder.append(
             "\t  @Override public " + dataInterfaceFullname + " parseResponse(" +
-            "org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, " +
-            "org.chromium.sdk.internal.wip.protocol.input." +
-            PARSER_ROOT_INTERFACE_NAME + " parser) " +
-            "throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {\n");
+            "org.jetbrains.wip.protocol.WipCommandResponse.Data data, " +
+            "org.jetbrains.wip.protocol." +
+            PARSER_ROOT_INTERFACE_NAME + " parser) {\n");
         additionalMemberBuilder.append("\t    return parser." +
             Naming.COMMAND_DATA.getParseMethodName(domain.domain(), command.name()) +
             "(data.getUnderlyingObject());\n");
@@ -394,7 +393,7 @@ class Generator {
             writer.append("\t/**\n " + description + "\n */\n");
           }
 
-          writer.append("\t@org.chromium.sdk.internal.protocolparser.JsonType\n");
+          writer.append("\t@org.chromium.protocolParser.JsonType\n");
           writer.append("\tpublic interface " + className.getLastComponent() +" {\n");
 
           InputClassScope classScope = new InputClassScope(className);
@@ -596,17 +595,16 @@ class Generator {
 
       DeferredWriter eventTypeMemberText = new DeferredWriter();
       eventTypeMemberText.append(
-          "\t  public static final org.chromium.sdk.internal.wip.protocol.input.WipEventType<" +
+          "\t  public static final org.jetbrains.wip.protocol.WipEventType<" +
           fullName +
-          "> TYPE\n\t      = new org.chromium.sdk.internal.wip.protocol.input.WipEventType<" +
+          "> TYPE\n\t      = new org.jetbrains.wip.protocol.WipEventType<" +
           fullName +
           ">(\"" + domainName + "" + event.name() + "\", " + fullName + ".class) {\n" +
           "\t    @Override public " + fullName + " parse(" + INPUT_PACKAGE + "." +
-          PARSER_ROOT_INTERFACE_NAME + " parser, org.json.simple.JSONObject obj)" +
-          " throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {\n" +
+          PARSER_ROOT_INTERFACE_NAME + " parser, com.google.gson.stream.JsonReader reader) {\n" +
           "\t      return parser." +
           Naming.EVENT_DATA.getParseMethodName(domainName, event.name()) +
-          "(obj);\n" +
+          "(reader);\n" +
           "\t    }\n" +
           "\t  };\n");
 
@@ -625,7 +623,7 @@ class Generator {
         writer.append("\t/**\n " + description + "\n */\n");
       }
 
-      writer.append("\t@org.chromium.sdk.internal.protocolparser.JsonType\n");
+      writer.append("\t@org.chromium.protocolParser.JsonType\n");
       writer.append("\tpublic interface " + className +" {\n");
 
       InputClassScope classScope = new InputClassScope(new NamePath(className,
@@ -647,7 +645,7 @@ class Generator {
       private final NamePath contextNamespace;
 
       ClassScope(NamePath classNamespace) {
-        this.contextNamespace = classNamespace;
+        contextNamespace = classNamespace;
       }
 
       protected String getShortClassName() {
@@ -820,13 +818,13 @@ class Generator {
           String objectName = capitalizeFirstChar(getMemberName());
 
           if (propertyList == null) {
-            builder.append("\t  @org.chromium.sdk.internal.protocolparser.JsonType(" +
+            builder.append("\t  @org.chromium.protocolParser.JsonType(" +
                 "allowsOtherProperties=true)\n");
             builder.append("\t  public interface " + objectName +
-                " extends org.chromium.sdk.internal.protocolparser.JsonObjectBased {\n");
+                " extends org.chromium.protocolParser.JsonObjectBased {\n");
             builder.append("\t  }\n");
           } else {
-            builder.append("\t  @org.chromium.sdk.internal.protocolparser.JsonType\n");
+            builder.append("\t  @org.chromium.protocolParser.JsonType\n");
             builder.append("\t  public interface " + objectName + " {\n");
             for (ObjectProperty property : propertyList) {
               if (property.description() != null) {
@@ -1163,11 +1161,11 @@ class Generator {
     void writeAnnotations(IndentWriter appendable, String indent) throws IOException {
       if (isOptional()) {
         appendable.append("\t" + indent +
-            "@org.chromium.sdk.internal.protocolparser.JsonOptionalField\n");
+            "@org.chromium.protocolParser.JsonOptionalField\n");
       }
       if (isNullable()) {
         appendable.append("\t" + indent +
-            "@org.chromium.sdk.internal.protocolparser.JsonNullable\n");
+            "@org.chromium.protocolParser.JsonNullable\n");
       }
     }
   }
@@ -1202,7 +1200,7 @@ class Generator {
 
     Writer writer = fileUpdater.getWriter();
 
-    writer.write("@org.chromium.sdk.internal.protocolparser.JsonParserRoot\n");
+    writer.write("@org.chromium.protocolParser.JsonParserRoot\n");
     writer.write("public interface " + PARSER_ROOT_INTERFACE_NAME + " {\n");
     for (ParserRootInterfaceItem item : parserRootInterfaceItems) {
       item.writeCode(writer);
@@ -1331,11 +1329,11 @@ class Generator {
       }
     }
 
-    static final BoxableType STRING = BoxableType.createReference(new NamePath("String"));
-    static final BoxableType OBJECT = BoxableType.createReference(new NamePath("Object"));
-    static final BoxableType NUMBER = BoxableType.createReference(new NamePath("Number"));
-    static final BoxableType LONG = BoxableType.create("Long", "long");
-    static final BoxableType BOOLEAN = BoxableType.create("Boolean", "boolean");
+    static final BoxableType STRING = createReference(new NamePath("String"));
+    static final BoxableType OBJECT = createReference(new NamePath("Object"));
+    static final BoxableType NUMBER = createReference(new NamePath("Number"));
+    static final BoxableType LONG = create("Long", "long");
+    static final BoxableType BOOLEAN = create("Boolean", "boolean");
   }
 
   private static class NamePath {
@@ -1347,7 +1345,7 @@ class Generator {
     }
 
     NamePath(String component, NamePath parent) {
-      this.lastComponent = component;
+      lastComponent = component;
       this.parent = parent;
     }
 
@@ -1398,16 +1396,15 @@ class Generator {
     }
 
     void writeCode(Writer writer) throws IOException {
-      writer.write("  @org.chromium.sdk.internal.protocolparser.JsonParseMethod\n");
+      writer.write("  @org.chromium.protocolParser.JsonParseMethod\n");
       writer.write("  " + fullName + " " + nameScheme.getParseMethodName(domain, name) +
-          "(JsonReader reader)" +
-          " throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException;\n");
+          "(JsonReader reader);\n");
       writer.write("\n");
     }
 
     @Override
     public int compareTo(ParserRootInterfaceItem o) {
-      return this.fullName.compareTo(o.fullName);
+      return fullName.compareTo(o.fullName);
     }
   }
 
@@ -1655,12 +1652,11 @@ class Generator {
     return typeMap.resolve(domainName, shortName, direction);
   }
 
-  private String generateMethodNameSubstitute(String originalName, IndentWriter output)
-      throws IOException {
+  private String generateMethodNameSubstitute(String originalName, IndentWriter output) {
     if (!BAD_METHOD_NAMES.contains(originalName)) {
       return originalName;
     }
-    output.append("\t  @org.chromium.sdk.internal.protocolparser.JsonField(jsonLiteralName=\"" +
+    output.append("\t  @org.chromium.protocolParser.JsonField(jsonLiteralName=\"" +
         originalName + "\")\n");
     return "get" + Character.toUpperCase(originalName.charAt(0)) + originalName.substring(1);
   }
@@ -1685,7 +1681,7 @@ class Generator {
     JavaFileUpdater fileUpdater = fileSet.createFileUpdater(filePath + "/" + filename);
     Writer writer = fileUpdater.getWriter();
     writer.write("// Generated source.\n");
-    writer.write("// Generator: " + this.getClass().getCanonicalName() + "\n");
+    writer.write("// Generator: " + getClass().getCanonicalName() + "\n");
     writer.write("package " + packageName + ";\n\n");
     return fileUpdater;
   }

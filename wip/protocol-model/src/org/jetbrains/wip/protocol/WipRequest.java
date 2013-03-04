@@ -2,13 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.wip.protocol.output;
+package org.jetbrains.wip.protocol;
 
-import org.jetrbrains.wip.protocol.BasicConstants;
-import org.jetrbrains.wip.protocol.WipParams;
+import org.jetbrains.wip.protocol.BasicConstants;
+import org.jetbrains.wip.protocol.WipParams;
 import org.json.simple.JSONObject;
 
-public class WipRequest extends JSONObject {
+public class WipRequest {
   public WipRequest(WipParams params) {
     put(BasicConstants.Property.METHOD, params.getRequestName());
     put(BasicConstants.Property.PARAMS, params);

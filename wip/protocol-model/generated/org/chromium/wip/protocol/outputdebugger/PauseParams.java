@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Stops on the next JavaScript statement.
  */
-public class PauseParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class PauseParams extends org.jetbrains.wip.protocol.WipParams {
   public PauseParams() {
   }
 

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputruntime;
 /**
 Releases remote object with given id.
  */
-public class ReleaseObjectParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class ReleaseObjectParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param objectId Identifier of the object to release.
    */

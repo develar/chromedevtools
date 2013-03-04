@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Highlights owner element of the frame with given id.
  */
-public class HighlightFrameParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class HighlightFrameParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param frameId Identifier of the frame to highlight.
    @param contentColorOpt The content box highlight fill color (default: transparent).

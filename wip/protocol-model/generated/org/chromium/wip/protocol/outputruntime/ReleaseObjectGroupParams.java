@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputruntime;
 /**
 Releases all remote objects that belong to a given group.
  */
-public class ReleaseObjectGroupParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class ReleaseObjectGroupParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param objectGroup Symbolic object group name.
    */

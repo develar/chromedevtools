@@ -1,8 +1,8 @@
 package org.chromium.wip.schemaParser;
 
-import org.chromium.protocolparser.JsonField;
-import org.chromium.protocolparser.JsonOptionalField;
-import org.chromium.protocolparser.JsonType;
+import org.chromium.protocolParser.JsonField;
+import org.chromium.protocolParser.JsonOptionalField;
+import org.chromium.protocolParser.JsonType;
 
 import java.util.List;
 

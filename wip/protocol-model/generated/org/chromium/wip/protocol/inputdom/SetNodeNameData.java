@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdom;
 /**
  Sets node name for a node with given id.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface SetNodeNameData {
   /**
    New node's id.

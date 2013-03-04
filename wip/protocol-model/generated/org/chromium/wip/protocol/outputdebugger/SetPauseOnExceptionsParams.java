@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdebugger;
 /**
 Defines pause on exceptions state. Can be set to stop on all exceptions, uncaught exceptions or no exceptions. Initial pause on exceptions state is <code>none</code>.
  */
-public class SetPauseOnExceptionsParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetPauseOnExceptionsParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param state Pause on exceptions mode.
    */

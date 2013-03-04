@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputconsole;
 /**
 Enables console to refer to the node with given id via $x (see Command Line API for more details $x functions).
  */
-public class AddInspectedNodeParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class AddInspectedNodeParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param nodeId DOM node id to be accessible by means of $x command line API.
    */

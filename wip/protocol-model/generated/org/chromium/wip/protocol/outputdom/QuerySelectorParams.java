@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Executes <code>querySelector</code> on a given node.
  */
-public class QuerySelectorParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.QuerySelectorData> {
+public class QuerySelectorParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.QuerySelectorData> {
   /**
    @param nodeId Id of the node to query upon.
    @param selector Selector string.
@@ -21,7 +21,7 @@ public class QuerySelectorParams extends org.chromium.sdk.internal.wip.protocol.
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.QuerySelectorData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdom.QuerySelectorData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDOMQuerySelectorData(data.getUnderlyingObject());
   }
 

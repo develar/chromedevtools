@@ -2,7 +2,7 @@
 // Generator: org.chromium.wip.protocolParser.Generator
 package org.chromium.wip.protocol.outputpage;
 
-public class RemoveScriptToEvaluateOnLoadParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class RemoveScriptToEvaluateOnLoadParams extends org.jetbrains.wip.protocol.WipParams {
   public RemoveScriptToEvaluateOnLoadParams(String/*See org.chromium.wip.protocol.commonpage.ScriptIdentifierTypedef*/ identifier) {
     this.put("identifier", identifier);
   }

@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.jetrbrains.wip.protocol;
+package org.jetbrains.wip.protocol;
 
-import org.chromium.protocolparser.JsonType;
-import org.chromium.sdk.internal.protocolparser.JsonField;
-import org.chromium.sdk.internal.protocolparser.JsonObjectBased;
-import org.chromium.sdk.internal.protocolparser.JsonOptionalField;
+import org.chromium.protocolParser.JsonField;
+import org.chromium.protocolParser.JsonObjectBased;
+import org.chromium.protocolParser.JsonOptionalField;
+import org.chromium.protocolParser.JsonType;
 
 @JsonType
 public interface WipEvent {

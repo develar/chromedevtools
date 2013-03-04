@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputdom;
 /**
  Returns event listeners relevant to the node.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface GetEventListenersForNodeData {
   /**
    Array of relevant listeners.

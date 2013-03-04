@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Searches for a given string in the DOM tree. Use <code>getSearchResults</code> to access search results or <code>cancelSearch</code> to end this search session.
  */
-public class PerformSearchParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.PerformSearchData> {
+public class PerformSearchParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.PerformSearchData> {
   /**
    @param query Plain text or query selector or XPath search query.
    */
@@ -19,7 +19,7 @@ public class PerformSearchParams extends org.chromium.sdk.internal.wip.protocol.
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.PerformSearchData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdom.PerformSearchData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDOMPerformSearchData(data.getUnderlyingObject());
   }
 

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.inputnetwork;
 /**
  HTTP request data.
  */
-@org.chromium.sdk.internal.protocolparser.JsonType
+@org.chromium.protocolParser.JsonType
 public interface RequestValue {
   /**
    Request URL.
@@ -25,7 +25,7 @@ public interface RequestValue {
   /**
    HTTP POST request data.
    */
-  @org.chromium.sdk.internal.protocolparser.JsonOptionalField
+  @org.chromium.protocolParser.JsonOptionalField
   String postData();
 
 }

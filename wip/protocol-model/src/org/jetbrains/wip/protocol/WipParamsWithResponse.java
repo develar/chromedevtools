@@ -2,11 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.wip.protocol.output;
+package org.jetbrains.wip.protocol;
 
 import org.chromium.wip.protocol.input.WipGeneratedParserRoot;
-import org.jetrbrains.wip.protocol.WipCommandResponse;
-import org.jetrbrains.wip.protocol.WipParams;
 
 /**
  * A base class for all method parameter classes that implies non-empty responses.

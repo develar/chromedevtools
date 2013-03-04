@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Returns search results from given <code>fromIndex</code> to given <code>toIndex</code> from the sarch with the given identifier.
  */
-public class GetSearchResultsParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.GetSearchResultsData> {
+public class GetSearchResultsParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.GetSearchResultsData> {
   /**
    @param searchId Unique search session identifier.
    @param fromIndex Start index of the search result to be returned.
@@ -23,7 +23,7 @@ public class GetSearchResultsParams extends org.chromium.sdk.internal.wip.protoc
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.GetSearchResultsData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdom.GetSearchResultsData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDOMGetSearchResultsData(data.getUnderlyingObject());
   }
 

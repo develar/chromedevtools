@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputpage;
 /**
 Deletes browser cookie with given name, domain and path.
  */
-public class DeleteCookieParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class DeleteCookieParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param cookieName Name of the cookie to remove.
    @param url URL to match cooke domain and path.

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.protocolparser;
+package org.chromium.protocolParser;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,10 +10,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * For field-reading method specifies that the field is optional and may safely be absent in
- * JSON object. By default fields are not optional.
+ * For field-reading method specifies its type as {@code nullable}; it means
+ * that JSON structure may have null value for a corresponding property.
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JsonOptionalField {
+public @interface JsonNullable {
 }

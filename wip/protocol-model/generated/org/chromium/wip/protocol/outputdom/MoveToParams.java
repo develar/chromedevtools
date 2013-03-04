@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Moves node into the new container, places it before the given anchor.
  */
-public class MoveToParams extends org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.MoveToData> {
+public class MoveToParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.inputdom.MoveToData> {
   /**
    @param nodeId Id of the node to drop.
    @param targetNodeId Id of the element to drop into.
@@ -25,7 +25,7 @@ public class MoveToParams extends org.chromium.sdk.internal.wip.protocol.output.
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputdom.MoveToData parseResponse(org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Data data, org.chromium.sdk.internal.wip.protocol.input.WipGeneratedParserRoot parser) throws org.chromium.sdk.internal.protocolparser.JsonProtocolParseException {
+  @Override public org.chromium.wip.protocol.inputdom.MoveToData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.jetbrains.wip.protocol.WipGeneratedParserRoot parser) {
     return parser.parseDOMMoveToData(data.getUnderlyingObject());
   }
 

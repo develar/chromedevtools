@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.outputdom;
 /**
 Sets attribute for an element with given id.
  */
-public class SetAttributeValueParams extends org.chromium.sdk.internal.wip.protocol.output.WipParams {
+public class SetAttributeValueParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    @param nodeId Id of the element to set attribute for.
    @param name Attribute name.
