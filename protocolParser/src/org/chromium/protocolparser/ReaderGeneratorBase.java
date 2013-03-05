@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParserGeneratorBase {
+public class ReaderGeneratorBase {
   protected static void mainImpl(String[] args, GenerateConfiguration configuration) {
     Params params = parseArgs(args);
 

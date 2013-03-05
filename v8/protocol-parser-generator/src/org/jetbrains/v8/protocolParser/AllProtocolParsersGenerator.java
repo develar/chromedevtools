@@ -9,7 +9,7 @@ package org.jetbrains.v8.protocolParser;
  */
 public class AllProtocolParsersGenerator {
   public static void main(String[] args) {
-    LiveEditParserGenerator.main(args);
-    V8ParserGenerator.main(args);
+    LiveEditReaderGenerator.main(args);
+    V8ReaderGenerator.main(args);
   }
 }

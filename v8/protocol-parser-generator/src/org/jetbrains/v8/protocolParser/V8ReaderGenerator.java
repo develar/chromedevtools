@@ -6,7 +6,7 @@ package org.jetbrains.v8.protocolParser;
 
 import org.chromium.protocolparser.DynamicParserImpl;
 import org.chromium.protocolparser.GeneratedCodeMap;
-import org.chromium.protocolparser.ParserGeneratorBase;
+import org.chromium.protocolparser.ReaderGeneratorBase;
 import org.chromium.sdk.internal.v8native.protocol.input.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.*;
 
@@ -15,7 +15,7 @@ import java.util.Collections;
 /**
  * A main class that generates V8 protocol static parser implementation.
  */
-public class V8ParserGenerator extends ParserGeneratorBase {
+public class V8ReaderGenerator extends ReaderGeneratorBase {
   public static void main(String[] args) {
     mainImpl(args, createConfiguration());
   }
@@ -63,8 +63,8 @@ public class V8ParserGenerator extends ParserGeneratorBase {
     };
 
 
-    GeneratedCodeMap liveEditParserMap = buildParserMap(LiveEditParserGenerator.createConfiguration());
-    // LiveEditParserGenerator.create()
+    GeneratedCodeMap liveEditParserMap = buildParserMap(LiveEditReaderGenerator.createConfiguration());
+    // LiveEditReaderGenerator.create()
     return new GenerateConfiguration("org.chromium.v8.protocol",
         "V8ProtocolReader", new DynamicParserImpl<V8NativeProtocolParser>(true, V8NativeProtocolParser.class, interfaces),
         Collections.singletonList(liveEditParserMap));
