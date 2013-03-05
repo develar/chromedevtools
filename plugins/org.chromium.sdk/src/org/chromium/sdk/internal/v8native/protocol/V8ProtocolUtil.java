@@ -51,14 +51,6 @@ public class V8ProtocolUtil {
     }
   }
 
-  /**
-   * Returns the value of "ref" field in object corresponding to the fieldName
-   * in parent.
-   *
-   * @param parent to get the object from
-   * @param fieldName of the object to get the "ref" from
-   * @return ref value or null if fieldName or "ref" not found
-   */
   public static long getObjectRef(SomeRef child) {
     if (child == null) {
       return -1;
@@ -130,7 +122,7 @@ public class V8ProtocolUtil {
    * the "original" or "inlineRefs" format.
    *
    * @param prop json object
-   * @param valuePropertyName name of value property in this prop object, might be null
+   * @param nameGetter name of value property in this prop object, might be null
    * @return PropertyReference or null if we ignore this property
    */
   public static <OBJ> PropertyReference extractProperty(OBJ prop,

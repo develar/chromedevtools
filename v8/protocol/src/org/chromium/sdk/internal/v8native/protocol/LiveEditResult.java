@@ -1,9 +1,9 @@
-package org.jetbrains.v8.protocolParser;
-
-import java.util.List;
+package org.chromium.sdk.internal.v8native.protocol;
 
 import org.chromium.protocolParser.JsonOptionalField;
 import org.chromium.protocolParser.JsonType;
+
+import java.util.List;
 
 @JsonType
 public interface LiveEditResult {

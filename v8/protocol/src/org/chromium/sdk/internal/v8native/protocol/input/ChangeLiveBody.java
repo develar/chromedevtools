@@ -4,12 +4,8 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import org.chromium.sdk.internal.liveeditprotocol.LiveEditResult;
-import org.chromium.protocolParser.JsonField;
-import org.chromium.protocolParser.JsonNullable;
-import org.chromium.protocolParser.JsonOptionalField;
-import org.chromium.protocolParser.JsonSubtype;
-import org.chromium.protocolParser.JsonType;
+import org.chromium.protocolParser.*;
+import org.chromium.sdk.internal.v8native.protocol.LiveEditResult;
 
 @JsonType
 public interface ChangeLiveBody extends JsonSubtype<CommandResponseBody>  {

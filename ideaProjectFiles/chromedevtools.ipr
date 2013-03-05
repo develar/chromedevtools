@@ -295,6 +295,50 @@
     <output url="file://$PROJECT_DIR$/../out" />
   </component>
   <component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Generate V8 reader" type="Application" factoryName="Application" singleton="true">
+      <option name="MAIN_CLASS_NAME" value="org.jetbrains.v8.protocolParser.AllProtocolParsersGenerator" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PROGRAM_PARAMETERS" value="--output-dir=plugins/org.chromium.sdk/src-static-impl/generated" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/.." />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="v8-protocol-parser-generator" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Generate WIP reader" type="Application" factoryName="Application" singleton="true">
+      <option name="MAIN_CLASS_NAME" value="org.chromium.wip.protocolParser.WipParserGenerator" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PROGRAM_PARAMETERS" value="--output-dir=protocol/generated" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../wip" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="wip-protocol-parser-generator" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
     <configuration default="false" name="Generate WIP schema reader " type="Application" factoryName="Application" singleton="true">
       <option name="MAIN_CLASS_NAME" value="org.chromium.wip.schemaParser.WipSchemaParserGenerator" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -308,6 +352,28 @@
       <module name="wip-schema-parser-generator" />
       <envs />
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Generate WIP model" type="Application" factoryName="Application" singleton="true">
+      <option name="MAIN_CLASS_NAME" value="org.chromium.wip.protocolParser.WipProtocolGeneratorMain" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="protocol-model/generated" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../wip" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="wip-protocol-model-generator" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>

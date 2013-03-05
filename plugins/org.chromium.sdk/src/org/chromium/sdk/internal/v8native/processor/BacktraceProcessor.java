@@ -9,7 +9,7 @@ import org.chromium.sdk.JavascriptVm;
 import org.chromium.sdk.Script;
 import org.chromium.sdk.internal.v8native.ContextBuilder;
 import org.chromium.sdk.internal.v8native.DebugSession;
-import org.chromium.sdk.internal.v8native.DebuggerCommand;
+import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
 import org.chromium.sdk.internal.v8native.V8CommandProcessor;
 import org.chromium.sdk.internal.v8native.protocol.input.BacktraceCommandBody;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;

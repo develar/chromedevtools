@@ -7,7 +7,7 @@ package org.chromium.sdk.internal.v8native.protocol.output;
 import org.chromium.sdk.Breakpoint;
 import org.chromium.sdk.Breakpoint.Target;
 import org.chromium.sdk.internal.v8native.BreakpointImpl;
-import org.chromium.sdk.internal.v8native.DebuggerCommand;
+import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
 import org.chromium.sdk.internal.v8native.ScriptManager;
 
 /**

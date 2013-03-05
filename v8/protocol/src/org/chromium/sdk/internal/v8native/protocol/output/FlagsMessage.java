@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.output;
 
-import org.chromium.sdk.internal.v8native.DebuggerCommand;
+import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
 
 import java.io.IOException;
 import java.util.Map;

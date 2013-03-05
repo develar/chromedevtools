@@ -7,6 +7,7 @@ package org.jetbrains.v8.protocolParser;
 import org.chromium.protocolparser.DynamicParserImpl;
 import org.chromium.protocolparser.JsonProtocolModelParseException;
 import org.chromium.protocolparser.ParserGeneratorBase;
+import org.chromium.sdk.internal.v8native.protocol.LiveEditResult;
 
 /**
  * A main class that generates V8 protocol static parser implementation.

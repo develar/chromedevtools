@@ -35,6 +35,7 @@
     <orderEntry type="library" name="gson" level="project" />
     <orderEntry type="module" module-name="V8 dynamic protocol impl" />
     <orderEntry type="module" module-name="protocolParserRuntime" />
+    <orderEntry type="module" module-name="v8-protocol" />
   </component>
 </module>
 
