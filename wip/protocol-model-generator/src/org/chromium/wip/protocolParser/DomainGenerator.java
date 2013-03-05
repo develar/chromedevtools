@@ -81,7 +81,7 @@ class DomainGenerator {
                                 memberBuilder, command.parameters(), PropertyLikeAccess.PARAMETER);
   }
 
-  private void generateCommandAdditionalParam(WipMetamodel.StandaloneType type) throws IOException {
+  void generateCommandAdditionalParam(WipMetamodel.StandaloneType type) throws IOException {
     generateTopLevelOutputClass(Naming.ADDITIONAL_PARAM, type.id(), type.description(),
         null, null, type.properties(), PropertyLikeAccess.PROPERTY);
   }
@@ -128,80 +128,7 @@ class DomainGenerator {
   StandaloneTypeBinding createStandaloneOutputTypeBinding(WipMetamodel.StandaloneType type,
       final String name) {
     return Generator.switchByType(type, TypedObjectAccess.FOR_STANDALONE,
-                                  new CreateStandalonTypeBindingVisitorBase(this, type) {
-                                    @Override
-                                    public StandaloneTypeBinding visitObject(List<WipMetamodel.ObjectProperty> properties) {
-                                      return new StandaloneTypeBinding() {
-                                        @Override
-                                        public BoxableType getJavaType() {
-                                          return BoxableType.createReference(
-                                            Naming.ADDITIONAL_PARAM.getFullName(domain.domain(), name));
-                                        }
-
-                                        @Override
-                                        public void generate() throws IOException {
-                                          generateCommandAdditionalParam(getType());
-                                        }
-
-                                        @Override
-                                        public TypeData.Direction getDirection() {
-                                          return TypeData.Direction.OUTPUT;
-                                        }
-                                      };
-                                    }
-
-                                    @Override
-                                    public StandaloneTypeBinding visitEnum(List<String> enumConstants) {
-                                      throw new RuntimeException();
-                                    }
-
-                                    @Override
-                                    public StandaloneTypeBinding visitArray(final WipMetamodel.ArrayItemType items) {
-                                      StandaloneTypeBinding.Target target = new StandaloneTypeBinding.Target() {
-                                        @Override
-                                        public BoxableType resolve(final ResolveContext context) {
-                                          ResolveAndGenerateScope resolveAndGenerateScope =
-                                            new ResolveAndGenerateScope() {
-                                              // This class is responsible for generating ad hoc type.
-                                              // If we ever are to do it, we should generate into string buffer and put strings
-                                              // inside TypeDef class.
-                                              @Override
-                                              public String getDomainName() {
-                                                return domain.domain();
-                                              }
-
-                                              @Override
-                                              public TypeData.Direction getTypeDirection() {
-                                                return TypeData.Direction.OUTPUT;
-                                              }
-
-                                              @Override
-                                              public BoxableType generateEnum(String description,
-                                                                                        List<String> enumConstants) {
-                                                throw new UnsupportedOperationException();
-                                              }
-
-                                              @Override
-                                              public <T> QualifiedTypeData resolveType(T typedObject, TypedObjectAccess<T> access) {
-                                                throw new UnsupportedOperationException();
-                                              }
-
-                                              @Override
-                                              public BoxableType generateNestedObject(String description,
-                                                                                                List<WipMetamodel.ObjectProperty> properties)
-                                                throws IOException {
-                                                return context.generateNestedObject("Item", description, properties);
-                                              }
-                                            };
-                                          QualifiedTypeData itemTypeData = generator.resolveType(items, TypedObjectAccess.FOR_ARRAY_ITEM, resolveAndGenerateScope);
-                                          BoxableType itemBoxableType = itemTypeData.getJavaType();
-                                          return BoxableType.createList(itemBoxableType);
-                                        }
-                                      };
-
-                                      return createTypedefTypeBinding(getType(), target, Naming.OUTPUT_TYPEDEF, TypeData.Direction.OUTPUT);
-                                    }
-                                  });
+                                  new MyCreateStandalonTypeBindingVisitorBase(this, type, name));
   }
 
   StandaloneTypeBinding createStandaloneInputTypeBinding(WipMetamodel.StandaloneType type) {
