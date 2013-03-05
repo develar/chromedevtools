@@ -15,7 +15,7 @@ public class CanOverrideDeviceMetricsParams extends org.jetbrains.wip.protocol.W
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.CanOverrideDeviceMetricsData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) throws java.io.IOException {
+  @Override public org.chromium.wip.protocol.inputpage.CanOverrideDeviceMetricsData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parsePageCanOverrideDeviceMetricsData(data.getUnderlyingObject());
   }
 

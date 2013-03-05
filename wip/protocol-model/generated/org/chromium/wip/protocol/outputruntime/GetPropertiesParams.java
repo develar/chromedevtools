@@ -21,7 +21,7 @@ public class GetPropertiesParams extends org.jetbrains.wip.protocol.WipParamsWit
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputruntime.GetPropertiesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) throws java.io.IOException {
+  @Override public org.chromium.wip.protocol.inputruntime.GetPropertiesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseRuntimeGetPropertiesData(data.getUnderlyingObject());
   }
 

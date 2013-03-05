@@ -4,10 +4,10 @@ import org.chromium.protocolparser.DynamicParserImpl;
 import org.chromium.protocolparser.ParserGeneratorBase;
 import org.chromium.wip.protocol.input.GeneratedParserInterfaceList;
 
-public class WipParserGenerator extends ParserGeneratorBase {
+public class WipReaderGenerator extends ParserGeneratorBase {
   public static void main(String[] args) {
-    mainImpl(args, new GenerateConfiguration("org.chromium.sdk.internal.wip.protocol", "GeneratedWipProtocolParser",
-                                             new DynamicParserImpl<WipProtocolParser>(true, WipProtocolParser.class,
+    mainImpl(args, new GenerateConfiguration("org.chromium.wip.protocol", "WipProtocolReaderImpl",
+                                             new DynamicParserImpl<WipProtocolReader>(true, WipProtocolReader.class,
                                                                                       GeneratedParserInterfaceList.LIST)));
   }
 }

@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.input;
 
 @org.chromium.protocolParser.JsonParserRoot
-public interface WipGeneratedParserRoot {
+public interface GeneratedWipProtocolReader {
   @org.chromium.protocolParser.JsonParseMethod
   org.chromium.wip.protocol.inputconsole.MessageAddedEventData parseConsoleMessageAddedEventData(com.google.gson.stream.JsonReader reader) throws java.io.IOException;
 

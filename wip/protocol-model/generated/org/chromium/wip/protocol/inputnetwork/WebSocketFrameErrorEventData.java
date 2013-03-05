@@ -24,7 +24,7 @@ public interface WebSocketFrameErrorEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketFrameErrorEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketFrameErrorEventData>("NetworkwebSocketFrameError", org.chromium.wip.protocol.inputnetwork.WebSocketFrameErrorEventData.class) {
-    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketFrameErrorEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketFrameErrorEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseNetworkWebSocketFrameErrorEventData(reader);
     }
   };

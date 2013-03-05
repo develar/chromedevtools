@@ -19,7 +19,7 @@ public interface SetChildNodesEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.SetChildNodesEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.SetChildNodesEventData>("DOMsetChildNodes", org.chromium.wip.protocol.inputdom.SetChildNodesEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdom.SetChildNodesEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    @Override public org.chromium.wip.protocol.inputdom.SetChildNodesEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseDOMSetChildNodesEventData(reader);
     }
   };

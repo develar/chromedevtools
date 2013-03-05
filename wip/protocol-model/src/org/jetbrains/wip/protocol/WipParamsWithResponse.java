@@ -4,12 +4,12 @@
 
 package org.jetbrains.wip.protocol;
 
-import org.chromium.wip.protocol.input.WipGeneratedParserRoot;
+import org.chromium.wip.protocol.input.GeneratedWipProtocolReader;
 
 /**
  * A base class for all method parameter classes that implies non-empty responses.
  * @param <R> a type of the corresponding response
  */
 public abstract class WipParamsWithResponse<R> extends WipParams {
-  public abstract R parseResponse(WipCommandResponse.Data success, WipGeneratedParserRoot parser) throws java.io.IOException;
+  public abstract R parseResponse(WipCommandResponse.Data success, GeneratedWipProtocolReader parser) throws java.io.IOException;
 }

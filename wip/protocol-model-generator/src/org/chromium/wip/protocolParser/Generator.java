@@ -23,7 +23,7 @@ class Generator {
   private static final String INPUT_PACKAGE = ROOT_PACKAGE + ".input";
   private static final String COMMON_PACKAGE = ROOT_PACKAGE + ".common";
   private static final String PARSER_INTERFACE_LIST_CLASS_NAME = "GeneratedParserInterfaceList";
-  private static final String PARSER_ROOT_INTERFACE_NAME = "WipGeneratedParserRoot";
+  private static final String PARSER_ROOT_INTERFACE_NAME = "GeneratedWipProtocolReader";
 
   private final List<String> jsonProtocolParserClassNames = new ArrayList<String>();
   private final List<ParserRootInterfaceItem> parserRootInterfaceItems = new ArrayList<ParserRootInterfaceItem>();

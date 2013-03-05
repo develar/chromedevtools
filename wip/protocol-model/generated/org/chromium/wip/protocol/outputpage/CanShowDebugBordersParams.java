@@ -15,7 +15,7 @@ public class CanShowDebugBordersParams extends org.jetbrains.wip.protocol.WipPar
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputpage.CanShowDebugBordersData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) throws java.io.IOException {
+  @Override public org.chromium.wip.protocol.inputpage.CanShowDebugBordersData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parsePageCanShowDebugBordersData(data.getUnderlyingObject());
   }
 

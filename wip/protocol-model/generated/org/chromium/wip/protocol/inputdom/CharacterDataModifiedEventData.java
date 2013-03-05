@@ -19,7 +19,7 @@ public interface CharacterDataModifiedEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData>("DOMcharacterDataModified", org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    @Override public org.chromium.wip.protocol.inputdom.CharacterDataModifiedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseDOMCharacterDataModifiedEventData(reader);
     }
   };

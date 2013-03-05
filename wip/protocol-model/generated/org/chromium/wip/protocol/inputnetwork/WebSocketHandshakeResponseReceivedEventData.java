@@ -24,7 +24,7 @@ public interface WebSocketHandshakeResponseReceivedEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData>("NetworkwebSocketHandshakeResponseReceived", org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    @Override public org.chromium.wip.protocol.inputnetwork.WebSocketHandshakeResponseReceivedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseNetworkWebSocketHandshakeResponseReceivedEventData(reader);
     }
   };

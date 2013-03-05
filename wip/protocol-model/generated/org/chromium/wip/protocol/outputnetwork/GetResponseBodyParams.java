@@ -19,7 +19,7 @@ public class GetResponseBodyParams extends org.jetbrains.wip.protocol.WipParamsW
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.inputnetwork.GetResponseBodyData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.WipGeneratedParserRoot parser) throws java.io.IOException {
+  @Override public org.chromium.wip.protocol.inputnetwork.GetResponseBodyData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseNetworkGetResponseBodyData(data.getUnderlyingObject());
   }
 

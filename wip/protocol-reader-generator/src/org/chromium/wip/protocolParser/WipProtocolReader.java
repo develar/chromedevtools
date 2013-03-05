@@ -7,7 +7,7 @@ package org.chromium.wip.protocolParser;
 import com.google.gson.stream.JsonReader;
 import org.chromium.protocolParser.JsonParseMethod;
 import org.chromium.protocolParser.JsonParserRoot;
-import org.chromium.wip.protocol.input.WipGeneratedParserRoot;
+import org.chromium.wip.protocol.input.GeneratedWipProtocolReader;
 import org.chromium.wip.protocol.inputruntime.RemoteObjectValue;
 import org.jetbrains.wip.protocol.WipCommandResponse;
 import org.jetbrains.wip.protocol.WipEvent;
@@ -15,11 +15,8 @@ import org.jetbrains.wip.protocol.WipTabList;
 
 import java.io.IOException;
 
-/**
- * Interface to WIP protocol parser. It includes generated part {@link WipGeneratedParserRoot}.
- */
 @JsonParserRoot
-public interface WipProtocolParser extends WipGeneratedParserRoot {
+public interface WipProtocolReader extends GeneratedWipProtocolReader {
   @JsonParseMethod
   WipCommandResponse parseWipCommandResponse(JsonReader reader) throws IOException;
 

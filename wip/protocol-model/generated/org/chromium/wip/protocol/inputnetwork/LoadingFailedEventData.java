@@ -30,7 +30,7 @@ public interface LoadingFailedEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.LoadingFailedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputnetwork.LoadingFailedEventData>("NetworkloadingFailed", org.chromium.wip.protocol.inputnetwork.LoadingFailedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputnetwork.LoadingFailedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    @Override public org.chromium.wip.protocol.inputnetwork.LoadingFailedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseNetworkLoadingFailedEventData(reader);
     }
   };

@@ -317,7 +317,7 @@
       <method />
     </configuration>
     <configuration default="false" name="Generate WIP reader" type="Application" factoryName="Application" singleton="true">
-      <option name="MAIN_CLASS_NAME" value="org.chromium.wip.protocolParser.WipParserGenerator" />
+      <option name="MAIN_CLASS_NAME" value="org.chromium.wip.protocolParser.WipReaderGenerator" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PROGRAM_PARAMETERS" value="--output-dir=protocol/generated" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../wip" />
@@ -326,7 +326,7 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="wip-protocol-parser-generator" />
+      <module name="wip-protocol-reader-generator" />
       <envs />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="" />

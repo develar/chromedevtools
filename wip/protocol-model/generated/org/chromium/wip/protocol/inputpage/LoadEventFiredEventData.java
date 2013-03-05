@@ -8,7 +8,7 @@ public interface LoadEventFiredEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputpage.LoadEventFiredEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputpage.LoadEventFiredEventData>("PageloadEventFired", org.chromium.wip.protocol.inputpage.LoadEventFiredEventData.class) {
-    @Override public org.chromium.wip.protocol.inputpage.LoadEventFiredEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    @Override public org.chromium.wip.protocol.inputpage.LoadEventFiredEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parsePageLoadEventFiredEventData(reader);
     }
   };

@@ -19,7 +19,7 @@ public interface ShadowRootPoppedEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.ShadowRootPoppedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.inputdom.ShadowRootPoppedEventData>("DOMshadowRootPopped", org.chromium.wip.protocol.inputdom.ShadowRootPoppedEventData.class) {
-    @Override public org.chromium.wip.protocol.inputdom.ShadowRootPoppedEventData parse(org.chromium.wip.protocol.input.WipGeneratedParserRoot parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    @Override public org.chromium.wip.protocol.inputdom.ShadowRootPoppedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseDOMShadowRootPoppedEventData(reader);
     }
   };
