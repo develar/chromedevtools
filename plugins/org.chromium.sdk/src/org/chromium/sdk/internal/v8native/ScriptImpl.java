@@ -5,7 +5,7 @@ import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.ScriptBase;
-import org.chromium.sdk.internal.liveeditprotocol.LiveEditResult;
+import org.chromium.sdk.internal.v8native.protocol.LiveEditResult;
 import org.chromium.sdk.internal.v8native.protocol.input.ChangeLiveBody;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
@@ -91,8 +91,7 @@ public class ScriptImpl extends ScriptBase<Long> {
         }
 
         if (callback != null) {
-          callback.success(body.getChangeLog(),
-              UpdateResultParser.wrapChangeDescription(resultDescription));
+          callback.success(body.getChangeLog(), UpdateResultParser.wrapChangeDescription(resultDescription));
         }
       }
 

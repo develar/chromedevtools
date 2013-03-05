@@ -13,10 +13,8 @@ import org.chromium.sdk.internal.shellprotocol.tools.ToolHandler;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolOutput;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.Result;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsMessage;
-import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsProtocolParserAccess;
 import org.chromium.sdk.internal.transport.Message;
 import org.chromium.sdk.internal.v8native.*;
-import org.chromium.sdk.internal.v8native.protocol.input.V8ProtocolParserAccess;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
@@ -142,12 +140,13 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
   private void handleChromeDevToolMessage(final Message message) {
     JsonReader reader = JsonUtil.createReader(message.getContent());
     ToolsMessage devToolsMessage;
-    try {
-      devToolsMessage = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
-    } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + reader.toString(), e);
-      return;
-    }
+    //try {
+      //devToolsMessage = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
+      devToolsMessage = null;
+    //} catch (IOException e) {
+    //  LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + reader.toString(), e);
+    //  return;
+    //}
     DebuggerToolCommand command = DebuggerToolCommand.forName(devToolsMessage.command());
     if (command == null) {
       throw new IllegalArgumentException("Invalid command: " + devToolsMessage.command());

@@ -4,14 +4,14 @@
 
 package org.chromium.sdk.internal;
 
+import org.chromium.sdk.Script;
+import org.chromium.sdk.UpdatableScript;
+import org.chromium.sdk.internal.v8native.protocol.LiveEditResult;
+
 import java.util.AbstractList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.chromium.sdk.Script;
-import org.chromium.sdk.UpdatableScript;
-import org.chromium.sdk.internal.liveeditprotocol.LiveEditResult;
 
 /**
  * An objects that holds data for a "script" which is a part of a resource
@@ -138,8 +138,7 @@ public abstract class ScriptBase<ID> implements Script {
   }
 
   protected static class UpdateResultParser {
-    public static UpdatableScript.ChangeDescription wrapChangeDescription(
-        final LiveEditResult previewDescription) {
+    public static UpdatableScript.ChangeDescription wrapChangeDescription(final LiveEditResult previewDescription) {
       if (previewDescription == null) {
         return null;
       }
