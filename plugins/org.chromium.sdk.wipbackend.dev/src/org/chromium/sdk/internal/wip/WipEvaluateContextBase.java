@@ -4,21 +4,16 @@
 
 package org.chromium.sdk.internal.wip;
 
-import java.util.Map;
-
-import org.chromium.sdk.CallbackSemaphore;
-import org.chromium.sdk.JsEvaluateContext;
-import org.chromium.sdk.JsVariable;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.RemoteValueMapping;
-import org.chromium.sdk.SyncCallback;
+import org.chromium.sdk.*;
 import org.chromium.sdk.internal.JsEvaluateContextBase;
 import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
-import org.chromium.sdk.internal.wip.protocol.input.runtime.RemoteObjectValue;
-import org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.sdk.wip.EvaluateToMappingExtension;
+import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
+import org.jetbrains.wip.protocol.WipParamsWithResponse;
+
+import java.util.Map;
 
 /**
  * Basic implementation of the abstract {@link JsEvaluateContextBase}. Class leaves unimplemented
@@ -155,8 +150,7 @@ abstract class WipEvaluateContextBase<DATA> extends JsEvaluateContextBase {
         String expression, Map<String, String> additionalContext,
         RemoteValueMapping targetMapping, EvaluateCallback evaluateCallback,
         SyncCallback syncCallback) {
-      WipEvaluateContextBase<?> contextImpl =
-          WipEvaluateContextBase.castArgument(evaluateContext);
+      WipEvaluateContextBase<?> contextImpl = castArgument(evaluateContext);
       return contextImpl.evaluateAsync(expression, additionalContext,
           evaluateCallback, syncCallback);
     }

@@ -4,46 +4,28 @@
 
 package org.chromium.sdk.internal.wip;
 
-import static org.chromium.sdk.util.BasicUtil.getSafe;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.Logger;
-
-import org.chromium.sdk.FunctionScopeExtension;
-import org.chromium.sdk.JsArray;
-import org.chromium.sdk.JsFunction;
-import org.chromium.sdk.JsObject;
-import org.chromium.sdk.JsObjectProperty;
-import org.chromium.sdk.JsScope;
-import org.chromium.sdk.JsValue;
+import org.chromium.sdk.*;
 import org.chromium.sdk.JsEvaluateContext.EvaluateCallback;
 import org.chromium.sdk.JsValue.Type;
-import org.chromium.sdk.JsVariable;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.Script;
-import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.TextStreamPosition;
 import org.chromium.sdk.internal.wip.WipExpressionBuilder.ObjectPropertyNameBuilder;
 import org.chromium.sdk.internal.wip.WipExpressionBuilder.PropertyNameBuilder;
 import org.chromium.sdk.internal.wip.WipExpressionBuilder.QualifiedNameBuilder;
 import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
 import org.chromium.sdk.internal.wip.WipValueLoader.Getter;
 import org.chromium.sdk.internal.wip.WipValueLoader.ObjectProperties;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.FunctionDetailsValue;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.LocationValue;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.ScopeValue;
-import org.chromium.sdk.internal.wip.protocol.input.runtime.PropertyDescriptorValue;
-import org.chromium.sdk.internal.wip.protocol.input.runtime.RemoteObjectValue;
 import org.chromium.sdk.util.AsyncFutureRef;
 import org.chromium.sdk.util.MethodIsBlockingException;
+import org.chromium.wip.protocol.input.debugger.FunctionDetailsValue;
+import org.chromium.wip.protocol.input.debugger.LocationValue;
+import org.chromium.wip.protocol.input.debugger.ScopeValue;
+import org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue;
+import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Logger;
+
+import static org.chromium.sdk.util.BasicUtil.getSafe;
 
 /**
  * A builder for implementations of {@link JsValue} and {@link JsVariable}.
@@ -483,6 +465,7 @@ class WipValueBuilder {
         }
         int length;
         try {
+          assert lengthValue != null;
           length = Integer.parseInt(lengthValue.getValueString());
         } catch (NumberFormatException e) {
           length = -1;
@@ -552,7 +535,7 @@ class WipValueBuilder {
         final LocationValue functionPosition = getFunctionDetails().location();
         return new TextStreamPosition() {
           @Override public int getOffset() {
-            return WipBrowserImpl.throwUnsupported();
+            throw new UnsupportedOperationException();
           }
 
           @Override public int getLine() {

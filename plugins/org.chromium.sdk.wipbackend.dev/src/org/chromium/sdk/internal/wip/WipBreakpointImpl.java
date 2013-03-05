@@ -4,31 +4,22 @@
 
 package org.chromium.sdk.internal.wip;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.chromium.sdk.Breakpoint;
-import org.chromium.sdk.BreakpointTypeExtension;
-import org.chromium.sdk.IgnoreCountBreakpointExtension;
+import org.chromium.sdk.*;
 import org.chromium.sdk.JavascriptVm.BreakpointCallback;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.ScriptRegExpBreakpointTarget;
-import org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Success;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.LocationValue;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.SetBreakpointByUrlData;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.SetBreakpointData;
-import org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.LocationParam;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.RemoveBreakpointParams;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.SetBreakpointByUrlParams;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.SetBreakpointParams;
+import org.chromium.wip.protocol.input.debugger.LocationValue;
+import org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData;
+import org.chromium.wip.protocol.input.debugger.SetBreakpointData;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
+import org.chromium.wip.protocol.output.WipParamsWithResponse;
+import org.chromium.wip.protocol.output.debugger.LocationParam;
+import org.chromium.wip.protocol.output.debugger.RemoveBreakpointParams;
+import org.chromium.wip.protocol.output.debugger.SetBreakpointByUrlParams;
+import org.chromium.wip.protocol.output.debugger.SetBreakpointParams;
+import org.jetbrains.wip.protocol.WipCommandResponse.Success;
+
+import java.util.*;
 
 /**
  * Wip-based breakpoint implementation.

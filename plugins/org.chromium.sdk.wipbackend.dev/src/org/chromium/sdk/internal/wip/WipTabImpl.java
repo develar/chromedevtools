@@ -4,6 +4,23 @@
 
 package org.chromium.sdk.internal.wip;
 
+import org.chromium.sdk.*;
+import org.chromium.sdk.internal.JsonUtil;
+import org.chromium.sdk.internal.websocket.WsConnection;
+import org.chromium.sdk.util.GenericCallback;
+import org.chromium.sdk.util.MethodIsBlockingException;
+import org.chromium.sdk.util.RelaySyncCallback;
+import org.chromium.sdk.util.SignalRelay;
+import org.chromium.sdk.util.SignalRelay.AlreadySignalledException;
+import org.chromium.sdk.wip.*;
+import org.chromium.wip.protocol.output.debugger.PauseParams;
+import org.chromium.wip.protocol.output.debugger.SetBreakpointsActiveParams;
+import org.chromium.wip.protocol.output.debugger.SetPauseOnExceptionsParams;
+import org.jetbrains.wip.protocol.WipCommandResponse.Success;
+import org.jetbrains.wip.protocol.WipParams;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,38 +28,6 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.chromium.sdk.Breakpoint;
-import org.chromium.sdk.BreakpointTypeExtension;
-import org.chromium.sdk.BrowserTab;
-import org.chromium.sdk.CallbackSemaphore;
-import org.chromium.sdk.FunctionScopeExtension;
-import org.chromium.sdk.IgnoreCountBreakpointExtension;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.RestartFrameExtension;
-import org.chromium.sdk.Script;
-import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.TabDebugEventListener;
-import org.chromium.sdk.Version;
-import org.chromium.sdk.internal.JsonUtil;
-import org.chromium.sdk.internal.websocket.WsConnection;
-import org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Success;
-import org.chromium.sdk.internal.wip.protocol.output.WipParams;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.PauseParams;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.SetBreakpointsActiveParams;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.SetPauseOnExceptionsParams;
-import org.chromium.sdk.util.GenericCallback;
-import org.chromium.sdk.util.MethodIsBlockingException;
-import org.chromium.sdk.util.RelaySyncCallback;
-import org.chromium.sdk.util.SignalRelay;
-import org.chromium.sdk.util.SignalRelay.AlreadySignalledException;
-import org.chromium.sdk.wip.EvaluateToMappingExtension;
-import org.chromium.sdk.wip.PermanentRemoteValueMapping;
-import org.chromium.sdk.wip.WipBrowser;
-import org.chromium.sdk.wip.WipBrowserTab;
-import org.chromium.sdk.wip.WipJavascriptVm;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
 /**
  * {@link BrowserTab} implementation that attaches to remote tab via WebInspector
@@ -70,9 +55,9 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
     this.socket = socket;
     this.browserImpl = browserImpl;
     this.tabListener = tabListener;
-    this.url = preliminaryUrl;
+    url = preliminaryUrl;
 
-    this.closeSignalRelay = SignalRelay.create(new SignalRelay.Callback<Void>() {
+    closeSignalRelay = SignalRelay.create(new SignalRelay.Callback<Void>() {
       @Override
       public void onSignal(Void signal, Exception cause) {
         WipTabImpl.this.tabListener.closed();
@@ -127,11 +112,11 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
     };
 
     commandProcessor.send(
-        new org.chromium.sdk.internal.wip.protocol.output.debugger.EnableParams(),
+        new org.chromium.wip.protocol.output.debugger.EnableParams(),
         null, syncCallback);
 
     commandProcessor.send(
-        new org.chromium.sdk.internal.wip.protocol.output.page.EnableParams(),
+        new org.chromium.wip.protocol.output.page.EnableParams(),
         null, null);
 
     frameManager.readFrames();
@@ -144,7 +129,7 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
     }
     scriptManager.pageReloaded();
     breakpointManager.clearNonProvisionalBreakpoints();
-    WipTabImpl.this.tabListener.navigated(this.url);
+    tabListener.navigated(this.url);
     contextBuilder.getEvaluateHack().pageReloaded();
   }
 
@@ -173,8 +158,7 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
   }
 
   @Override
-  public RelayOk enableBreakpoints(Boolean enabled,
-      GenericCallback<Boolean> callback, SyncCallback syncCallback) {
+  public RelayOk enableBreakpoints(boolean enabled, GenericCallback<Boolean> callback, SyncCallback syncCallback) {
     return updateVmVariable(enabled, VmState.BREAKPOINTS_ACTIVE, callback, syncCallback);
   }
 
@@ -327,11 +311,11 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
   }
 
   public TabDebugEventListener getDebugListener() {
-    return this.tabListener;
+    return tabListener;
   }
 
   public WsConnection getWsSocket() {
-    return this.socket;
+    return socket;
   }
 
   WipContextBuilder getContextBuilder() {

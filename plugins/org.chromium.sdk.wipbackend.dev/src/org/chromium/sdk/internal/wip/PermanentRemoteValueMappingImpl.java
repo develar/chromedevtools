@@ -7,10 +7,10 @@ package org.chromium.sdk.internal.wip;
 import org.chromium.sdk.JsEvaluateContext;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse;
-import org.chromium.sdk.internal.wip.protocol.output.runtime.ReleaseObjectGroupParams;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.wip.PermanentRemoteValueMapping;
+import org.chromium.wip.protocol.output.runtime.ReleaseObjectGroupParams;
+import org.jetbrains.wip.protocol.WipCommandResponse;
 
 class PermanentRemoteValueMappingImpl extends WipValueLoader
     implements PermanentRemoteValueMapping {

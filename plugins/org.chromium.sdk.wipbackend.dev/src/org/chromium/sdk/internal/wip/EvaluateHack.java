@@ -4,11 +4,6 @@
 
 package org.chromium.sdk.internal.wip;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.chromium.sdk.JsEvaluateContext;
 import org.chromium.sdk.JsVariable;
 import org.chromium.sdk.RelayOk;
@@ -16,15 +11,20 @@ import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
 import org.chromium.sdk.internal.wip.WipRelayRunner.ProcessException;
 import org.chromium.sdk.internal.wip.WipRelayRunner.Step;
-import org.chromium.sdk.internal.wip.protocol.input.runtime.CallFunctionOnData;
-import org.chromium.sdk.internal.wip.protocol.input.runtime.EvaluateData;
-import org.chromium.sdk.internal.wip.protocol.input.runtime.RemoteObjectValue;
-import org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse;
-import org.chromium.sdk.internal.wip.protocol.output.runtime.CallArgumentParam;
-import org.chromium.sdk.internal.wip.protocol.output.runtime.CallFunctionOnParams;
-import org.chromium.sdk.internal.wip.protocol.output.runtime.EvaluateParams;
+import org.chromium.wip.protocol.input.runtime.EvaluateData;
+import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
+import org.chromium.wip.protocol.output.runtime.EvaluateParams;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
+import org.chromium.wip.protocol.input.runtime.CallFunctionOnData;
+import org.chromium.wip.protocol.output.runtime.CallArgumentParam;
+import org.chromium.wip.protocol.output.runtime.CallFunctionOnParams;
+import org.jetbrains.wip.protocol.WipParamsWithResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Helper class that implements evaluate with additional context and

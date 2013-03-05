@@ -4,11 +4,11 @@
 
 package org.chromium.sdk.internal.wip;
 
+import org.chromium.sdk.internal.BaseCommandProcessor;
+import org.jetbrains.wip.protocol.WipCommandResponse;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.chromium.sdk.internal.BaseCommandProcessor;
-import org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse;
 
 /**
  * An explicit interface for a generic type {@link BaseCommandProcessor.Callback}.

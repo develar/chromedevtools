@@ -4,37 +4,32 @@
 
 package org.chromium.sdk.internal.wip;
 
+import com.google.gson.stream.JsonReader;
+import org.chromium.protocolParser.JsonProtocolParseException;
+import org.chromium.sdk.DebugEventListener.VmStatusListener;
+import org.chromium.sdk.RelayOk;
+import org.chromium.sdk.SyncCallback;
+import org.chromium.sdk.TabDebugEventListener;
+import org.chromium.sdk.internal.BaseCommandProcessor;
+import org.chromium.sdk.internal.websocket.WsConnection;
+import org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData;
+import org.chromium.wip.protocol.input.debugger.PausedEventData;
+import org.chromium.wip.protocol.input.debugger.ResumedEventData;
+import org.chromium.wip.protocol.input.debugger.ScriptParsedEventData;
+import org.chromium.wip.protocol.input.page.FrameDetachedEventData;
+import org.chromium.wip.protocol.input.page.FrameNavigatedEventData;
+import org.chromium.sdk.util.GenericCallback;
+import org.chromium.sdk.wip.WipParserAccess;
+import org.jetbrains.wip.protocol.*;
+import org.jetbrains.wip.protocol.WipCommandResponse.Success;
+import org.json.simple.JSONObject;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.chromium.sdk.DebugEventListener.VmStatusListener;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.TabDebugEventListener;
-import org.chromium.sdk.internal.BaseCommandProcessor;
-import org.chromium.protocolParser.JsonProtocolParseException;
-import org.chromium.sdk.internal.websocket.WsConnection;
-import org.chromium.sdk.internal.wip.protocol.BasicConstants;
-import org.chromium.sdk.internal.wip.protocol.WipParserAccess;
-import org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse;
-import org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse.Success;
-import org.chromium.sdk.internal.wip.protocol.input.WipEvent;
-import org.chromium.sdk.internal.wip.protocol.input.WipEventType;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.BreakpointResolvedEventData;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.PausedEventData;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.ResumedEventData;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.ScriptParsedEventData;
-import org.chromium.sdk.internal.wip.protocol.input.page.FrameDetachedEventData;
-import org.chromium.sdk.internal.wip.protocol.input.page.FrameNavigatedEventData;
-import org.chromium.sdk.internal.wip.protocol.output.WipParams;
-import org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse;
-import org.chromium.sdk.internal.wip.protocol.output.WipRequest;
-import org.chromium.sdk.util.GenericCallback;
-import org.json.simple.JSONObject;
 
 /**
  * Responsible for the basic processing and dispatching all incoming and outgoing messages.
@@ -85,7 +80,7 @@ class WipCommandProcessor {
           RESPONSE response;
           try {
             response = params.parseResponse(success.data(), WipParserAccess.get());
-          } catch (JsonProtocolParseException e) {
+          } catch (IOException e) {
             throw new RuntimeException(e);
           }
           callback.success(response);
@@ -113,7 +108,7 @@ class WipCommandProcessor {
     WipEvent event;
     try {
       event = WipParserAccess.get().parseWipEvent(jsonObject);
-    } catch (JsonProtocolParseException e) {
+    } catch (IOException e) {
       LOGGER.log(Level.SEVERE, "Failed to parse event", e);
       return;
     }
@@ -123,8 +118,7 @@ class WipCommandProcessor {
   /**
    * Handles all operations specific to Wip messages.
    */
-  private class WipMessageTypeHandler implements
-      BaseCommandProcessor.Handler<Integer, JSONObject, JSONObject, WipCommandResponse> {
+  private class WipMessageTypeHandler implements BaseCommandProcessor.Handler<Integer, JsonReader, JsonReader, WipCommandResponse> {
     @Override
     public Integer getUpdatedSeq(JSONObject message) {
       Integer seq = currentSeq.addAndGet(1);
@@ -140,7 +134,7 @@ class WipCommandProcessor {
     @Override
     public void send(JSONObject message, boolean isImmediate) {
       try {
-        WipCommandProcessor.this.tabImpl.getWsSocket().sendTextualMessage(
+        tabImpl.getWsSocket().sendTextualMessage(
             message.toJSONString());
       } catch (IOException e) {
         LOGGER.log(Level.SEVERE, "Failed to send", e);
@@ -154,7 +148,7 @@ class WipCommandProcessor {
       }
       try {
         return WipParserAccess.get().parseWipCommandResponse(incoming);
-      } catch (JsonProtocolParseException e) {
+      } catch (IOException e) {
         throw new RuntimeException("Failed to parse response", e);
       }
     }
@@ -233,7 +227,7 @@ class WipCommandProcessor {
   }
 
   public RelayOk runInDispatchThread(Runnable runnable, SyncCallback syncCallback) {
-    return this.tabImpl.getWsSocket().runInDispatchThread(runnable, syncCallback);
+    return tabImpl.getWsSocket().runInDispatchThread(runnable, syncCallback);
   }
 
   private static class EventMap {
@@ -274,7 +268,7 @@ class WipCommandProcessor {
         } else {
           try {
             data = type.parse(WipParserAccess.get(), genericData.getUnderlyingObject());
-          } catch (JsonProtocolParseException e) {
+          } catch (IOException e) {
             throw new RuntimeException(e);
           }
         }

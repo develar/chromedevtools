@@ -4,10 +4,10 @@
 
 package org.chromium.sdk;
 
-import java.util.Collection;
-
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
+
+import java.util.Collection;
 
 /**
  * Abstraction of a remote JavaScript virtual machine. Clients can use it to
@@ -121,8 +121,7 @@ public interface JavascriptVm {
    * @param enabled new value to set or null
    * @param callback receives current value if succeed or error message
    */
-  RelayOk enableBreakpoints(boolean enabled, GenericCallback<Boolean> callback,
-      SyncCallback syncCallback);
+  RelayOk enableBreakpoints(boolean enabled, GenericCallback<Boolean> callback, SyncCallback syncCallback);
 
   /**
    * Defines when VM will break on exception throw (before stack unwind happened).

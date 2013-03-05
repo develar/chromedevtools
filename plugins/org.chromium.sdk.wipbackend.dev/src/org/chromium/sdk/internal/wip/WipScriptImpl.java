@@ -4,19 +4,17 @@
 
 package org.chromium.sdk.internal.wip;
 
-import org.chromium.protocolParser.JsonProtocolParseException;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.Script;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.ScriptBase;
-import org.chromium.sdk.internal.liveeditprotocol.LiveEditProtocolParserAccess;
 import org.chromium.sdk.internal.v8native.protocol.LiveEditResult;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
 import org.chromium.v8.protocol.ProtocolService;
-import org.chromium.wip.protocol.inputdebugger.CallFrameValue;
-import org.chromium.wip.protocol.inputdebugger.SetScriptSourceData;
-import org.chromium.wip.protocol.outputdebugger.SetScriptSourceParams;
+import org.chromium.wip.protocol.input.debugger.CallFrameValue;
+import org.chromium.wip.protocol.input.debugger.SetScriptSourceData;
+import org.chromium.wip.protocol.output.debugger.SetScriptSourceParams;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,7 +50,6 @@ class WipScriptImpl extends ScriptBase<String> {
     final RelaySyncCallback.Guard guard = relay.newGuard();
 
     SetScriptSourceParams params = new SetScriptSourceParams(getId(), newSource, preview);
-
     GenericCallback<SetScriptSourceData> commandCallback =
         new GenericCallback<SetScriptSourceData>() {
       @Override

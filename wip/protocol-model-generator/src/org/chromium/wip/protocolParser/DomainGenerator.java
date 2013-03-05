@@ -298,7 +298,6 @@ class DomainGenerator {
         JavaFileUpdater fileUpdater = generator.startJavaFile(Naming.INPUT_VALUE, domain, name);
 
         IndentWriter writer = new IndentWriterImpl(fileUpdater.getWriter(), "");
-
         if (description != null) {
           writer.append("\t/**\n " + description + "\n */\n");
         }
@@ -307,13 +306,9 @@ class DomainGenerator {
         writer.append("\tpublic interface " + className.getLastComponent() +" {\n");
 
         InputClassScope classScope = new InputClassScope(className);
-
         classScope.generateStandaloneTypeBody(writer, properties);
-
         classScope.writeAdditionalMembers(writer);
-
         writer.append("\t}\n");
-
         fileUpdater.update();
       }
 

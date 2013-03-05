@@ -8,7 +8,7 @@ import com.google.gson.stream.JsonReader;
 import org.chromium.protocolParser.JsonParseMethod;
 import org.chromium.protocolParser.JsonParserRoot;
 import org.chromium.wip.protocol.input.GeneratedWipProtocolReader;
-import org.chromium.wip.protocol.inputruntime.RemoteObjectValue;
+import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
 
 import java.io.IOException;
 

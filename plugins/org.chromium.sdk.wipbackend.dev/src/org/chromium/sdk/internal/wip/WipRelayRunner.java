@@ -6,11 +6,11 @@ package org.chromium.sdk.internal.wip;
 
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse;
-import org.chromium.sdk.internal.wip.protocol.output.WipParams;
-import org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
+import org.jetbrains.wip.protocol.WipCommandResponse;
+import org.jetbrains.wip.protocol.WipParams;
+import org.jetbrains.wip.protocol.WipParamsWithResponse;
 
 /**
  * A utility class that helps running a chain of asynchronous commands in a safe manner.

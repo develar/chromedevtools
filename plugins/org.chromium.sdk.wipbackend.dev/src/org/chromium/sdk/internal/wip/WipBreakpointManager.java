@@ -19,7 +19,7 @@ import org.chromium.sdk.JavascriptVm.BreakpointCallback;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.TextStreamPosition;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.BreakpointResolvedEventData;
+import org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData;
 import org.chromium.sdk.util.RelaySyncCallback;
 
 /**

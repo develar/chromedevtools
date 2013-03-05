@@ -4,10 +4,10 @@
 
 package org.chromium.sdk.internal.wip;
 
-import org.chromium.sdk.internal.wip.protocol.input.page.FrameNavigatedEventData;
-import org.chromium.sdk.internal.wip.protocol.input.page.FrameValue;
-import org.chromium.sdk.internal.wip.protocol.input.page.GetResourceTreeData;
-import org.chromium.sdk.internal.wip.protocol.output.page.GetResourceTreeParams;
+import org.chromium.wip.protocol.input.page.FrameNavigatedEventData;
+import org.chromium.wip.protocol.input.page.FrameValue;
+import org.chromium.wip.protocol.input.page.GetResourceTreeData;
+import org.chromium.wip.protocol.output.page.GetResourceTreeParams;
 import org.chromium.sdk.util.GenericCallback;
 
 /**

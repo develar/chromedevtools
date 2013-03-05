@@ -4,68 +4,30 @@
 
 package org.chromium.sdk.internal.wip;
 
-import static org.chromium.sdk.util.BasicUtil.getSafe;
+import org.chromium.sdk.*;
+import org.chromium.sdk.DebugContext.StepAction;
+import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
+import org.chromium.sdk.internal.wip.WipValueLoader.Getter;
+import org.chromium.sdk.util.*;
+import org.chromium.sdk.wip.WipParserAccess;
+import org.chromium.wip.protocol.input.debugger.*;
+import org.chromium.wip.protocol.input.runtime.EvaluateData;
+import org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue;
+import org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue;
+import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
+import org.chromium.wip.protocol.output.debugger.*;
+import org.chromium.wip.protocol.output.runtime.EvaluateParams;
+import org.jetbrains.wip.protocol.WipCommandResponse;
+import org.jetbrains.wip.protocol.WipParams;
+import org.jetbrains.wip.protocol.WipParamsWithResponse;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.chromium.sdk.Breakpoint;
-import org.chromium.sdk.CallFrame;
-import org.chromium.sdk.DebugContext;
-import org.chromium.sdk.DebugContext.StepAction;
-import org.chromium.sdk.ExceptionData;
-import org.chromium.sdk.JavascriptVm;
-import org.chromium.sdk.JsArray;
-import org.chromium.sdk.JsEvaluateContext;
-import org.chromium.sdk.JsFunction;
-import org.chromium.sdk.JsObject;
-import org.chromium.sdk.JsScope;
-import org.chromium.sdk.JsValue;
-import org.chromium.sdk.JsVariable;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.RemoteValueMapping;
-import org.chromium.sdk.RestartFrameExtension;
-import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.TextStreamPosition;
-import org.chromium.protocolParser.JsonProtocolParseException;
-import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
-import org.chromium.sdk.internal.wip.WipValueLoader.Getter;
-import org.chromium.sdk.internal.wip.protocol.WipParserAccess;
-import org.chromium.sdk.internal.wip.protocol.input.WipCommandResponse;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.CallFrameValue;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.EvaluateOnCallFrameData;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.PausedEventData;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.RestartFrameData;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.ResumedEventData;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.ScopeValue;
-import org.chromium.sdk.internal.wip.protocol.input.runtime.EvaluateData;
-import org.chromium.sdk.internal.wip.protocol.input.runtime.InternalPropertyDescriptorValue;
-import org.chromium.sdk.internal.wip.protocol.input.runtime.PropertyDescriptorValue;
-import org.chromium.sdk.internal.wip.protocol.input.runtime.RemoteObjectValue;
-import org.chromium.sdk.internal.wip.protocol.output.WipParams;
-import org.chromium.sdk.internal.wip.protocol.output.WipParamsWithResponse;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.EvaluateOnCallFrameParams;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.RestartFrameParams;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.ResumeParams;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.StepIntoParams;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.StepOutParams;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.StepOverParams;
-import org.chromium.sdk.internal.wip.protocol.output.runtime.EvaluateParams;
-import org.chromium.sdk.util.AsyncFutureRef;
-import org.chromium.sdk.util.GenericCallback;
-import org.chromium.sdk.util.LazyConstructable;
-import org.chromium.sdk.util.MethodIsBlockingException;
-import org.chromium.sdk.util.RelaySyncCallback;
-import org.json.simple.JSONObject;
+import static org.chromium.sdk.util.BasicUtil.getSafe;
 
 /**
  * Builder for {@link DebugContext} that works with Wip protocol.
@@ -79,7 +41,7 @@ class WipContextBuilder {
 
   WipContextBuilder(WipTabImpl tabImpl) {
     this.tabImpl = tabImpl;
-    this.evaluateHack = new EvaluateHack(tabImpl);
+    evaluateHack = new EvaluateHack(tabImpl);
   }
 
   // Called from Dispatch Thread.
@@ -129,7 +91,7 @@ class WipContextBuilder {
     }
     WipDebugContextImpl context = currentContext;
     currentContext = null;
-    this.tabImpl.getDebugListener().getDebugEventListener().resumed();
+    tabImpl.getDebugListener().getDebugEventListener().resumed();
     context.reportClosed();
   }
 
@@ -145,14 +107,13 @@ class WipContextBuilder {
       if (data.reason() == PausedEventData.Reason.EXCEPTION && additionalData != null) {
         RemoteObjectValue exceptionRemoteObject;
         try {
-          JSONObject additionalDataObject = additionalData.getUnderlyingObject();
-          exceptionRemoteObject =
-              WipParserAccess.get().parseRemoteObjectValue(additionalDataObject);
-        } catch (JsonProtocolParseException e) {
+          exceptionRemoteObject = WipParserAccess.get().parseRemoteObjectValue(additionalData.getUnderlyingObject());
+        }
+        catch (IOException e) {
           throw new RuntimeException("Failed to parse exception data", e);
         }
         JsValue exceptionValue =
-            valueLoader.getValueBuilder().wrap(exceptionRemoteObject, null);
+          valueLoader.getValueBuilder().wrap(exceptionRemoteObject, null);
         exceptionData = new ExceptionDataImpl(exceptionValue);
       } else {
         exceptionData = null;
@@ -196,7 +157,7 @@ class WipContextBuilder {
     }
 
     void reportClosed() {
-      CloseRequest request = this.closeRequest.get();
+      CloseRequest request = closeRequest.get();
       if (request != null && request.callback != null) {
         request.callback.success();
       }
@@ -330,10 +291,8 @@ class WipContextBuilder {
         scopeData = LazyConstructable.create(new LazyConstructable.Factory<List<JsScope>>() {
           @Override
           public List<JsScope> construct() {
-            final List<JsScope> scopes = new ArrayList<JsScope>(scopeDataList.size());
-
-            for (int i = 0; i < scopeDataList.size(); i++) {
-              ScopeValue scopeData = scopeDataList.get(i);
+            List<JsScope> scopes = new ArrayList<JsScope>(scopeDataList.size());
+            for (ScopeValue scopeData : scopeDataList) {
               scopes.add(createScope(scopeData, valueLoader));
             }
             return scopes;
@@ -361,14 +320,18 @@ class WipContextBuilder {
           column = columnObject.intValue();
         }
         streamPosition = new TextStreamPosition() {
-          @Override public int getOffset() {
-            return WipBrowserImpl.throwUnsupported();
+          @Override
+          public int getOffset() {
+            throw new UnsupportedOperationException();
           }
-          @Override public int getLine() {
+
+          @Override
+          public int getLine() {
             return line;
           }
 
-          @Override public int getColumn() {
+          @Override
+          public int getColumn() {
             return column;
           }
         };
@@ -589,7 +552,7 @@ class WipContextBuilder {
 
     public ScopeImpl(ScopeValue scopeData, Type type, WipValueLoader valueLoader) {
       this.type = type;
-      this.objectId = scopeData.object().objectId();
+      objectId = scopeData.object().objectId();
       this.valueLoader = valueLoader;
     }
 
