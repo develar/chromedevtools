@@ -1,6 +1,5 @@
 package org.chromium.wip.protocolParser;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,7 @@ abstract class ClassScope {
     additionalMemberTexts.add(deferredWriter);
   }
 
-  void writeAdditionalMembers(IndentWriter writer) throws IOException {
+  void writeAdditionalMembers(IndentWriter writer) {
     for (DeferredWriter deferredWriter : additionalMemberTexts) {
       deferredWriter.writeContent(writer);
     }

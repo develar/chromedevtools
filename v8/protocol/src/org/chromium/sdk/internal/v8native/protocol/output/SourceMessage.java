@@ -19,8 +19,8 @@ public class SourceMessage extends ContextlessDebuggerMessage {
    */
   public SourceMessage(Integer frame, Integer fromLine, Integer toLine) {
     super(DebuggerCommand.SOURCE.value);
-    putArgument("frame", frame);
-    putArgument("fromLine", fromLine);
-    putArgument("toLine", toLine);
+    put("frame", frame);
+    put("fromLine", fromLine);
+    put("toLine", toLine);
   }
 }

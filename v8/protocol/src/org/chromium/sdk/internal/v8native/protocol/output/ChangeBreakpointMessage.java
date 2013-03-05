@@ -20,23 +20,23 @@ public class ChangeBreakpointMessage extends ContextlessDebuggerMessage {
    */
   public ChangeBreakpointMessage(long breakpoint, Boolean enabled, String condition, Integer ignoreCount) {
     super(DebuggerCommand.CHANGEBREAKPOINT.value);
-    putArgument("breakpoint", breakpoint);
-    putArgument("enabled", enabled);
+    put("breakpoint", breakpoint);
+    put("enabled", enabled);
     putNullableArgument("condition", condition);
-    putArgument("ignoreCount", ignoreCount);
+    put("ignoreCount", ignoreCount);
   }
 
   public ChangeBreakpointMessage(Long breakpoint, Boolean enabled,
       String condition) {
     super(DebuggerCommand.CHANGEBREAKPOINT.value);
-    putArgument("breakpoint", breakpoint);
-    putArgument("enabled", enabled);
+    put("breakpoint", breakpoint);
+    put("enabled", enabled);
     putNullableArgument("condition", condition);
   }
 
   public ChangeBreakpointMessage(Long breakpoint, int ignoreCount) {
     super(DebuggerCommand.CHANGEBREAKPOINT.value);
-    putArgument("breakpoint", breakpoint);
-    putArgument("ignoreCount", ignoreCount);
+    put("breakpoint", breakpoint);
+    put("ignoreCount", ignoreCount);
   }
 }

@@ -125,8 +125,8 @@
         <inspection_tool class="UnnecessaryThis" enabled="true" level="WARNING" enabled_by_default="true" />
       </profile>
     </profiles>
-    <option name="PROJECT_PROFILE" value="Project Default" />
-    <option name="USE_PROJECT_PROFILE" value="true" />
+    <option name="PROJECT_PROFILE" />
+    <option name="USE_PROJECT_PROFILE" value="false" />
     <version value="1.0" />
   </component>
   <component name="Palette2">

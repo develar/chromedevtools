@@ -16,6 +16,6 @@ public class FrameMessage extends DebuggerMessage {
    */
   public FrameMessage(Integer frame) {
     super(DebuggerCommand.FRAME.value);
-    putArgument("number", frame);
+    put("number", frame);
   }
 }

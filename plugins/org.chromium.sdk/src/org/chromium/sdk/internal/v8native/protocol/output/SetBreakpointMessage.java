@@ -28,20 +28,20 @@ public class SetBreakpointMessage extends ContextlessDebuggerMessage {
       Integer line, Integer column, Boolean enabled, String condition,
       Integer ignoreCount) {
     super(DebuggerCommand.SETBREAKPOINT.value);
-    putArgument("type", target.accept(GET_TYPE_VISITOR));
+    put("type", target.accept(GET_TYPE_VISITOR));
 
     Object targetValue = target.accept(GET_TARGET_VISITOR);
     if (targetValue instanceof Long) {
-      putArgument("target", ((Long)targetValue));
+      put("target", ((Long)targetValue));
     }
     else {
-      putArgument("target", ((String)targetValue));
+      put("target", ((String)targetValue));
     }
-    putArgument("line", line);
-    putArgument("column", column);
-    putArgument("enabled", enabled);
-    putArgument("condition", condition);
-    putArgument("ignoreCount", ignoreCount);
+    put("line", line);
+    put("column", column);
+    put("enabled", enabled);
+    put("condition", condition);
+    put("ignoreCount", ignoreCount);
   }
 
   private static final BreakpointImpl.TargetExtendedVisitor<String> GET_TYPE_VISITOR =

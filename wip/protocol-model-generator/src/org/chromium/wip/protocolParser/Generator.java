@@ -197,14 +197,6 @@ class Generator {
     fileUpdater.update();
   }
 
-  static <P> String getParamName(P param, PropertyLikeAccess<P> access) {
-    String paramName = access.getName(param);
-    if (access.forTypedObject().getOptional(param) == Boolean.TRUE) {
-      paramName = paramName + "Opt";
-    }
-    return paramName;
-  }
-
   /**
    * Resolve absolute (DOMAIN.TYPE) or relative (TYPE) typename.
    */

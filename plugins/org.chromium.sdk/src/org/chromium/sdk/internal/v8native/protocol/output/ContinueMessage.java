@@ -34,8 +34,8 @@ public class ContinueMessage extends DebuggerMessage {
     super(DebuggerCommand.CONTINUE.value);
     String stepActionString = stepActionToV8.get(stepAction);
     if (stepActionString != null) {
-      putArgument("stepaction", stepActionString);
-      putArgument("stepcount", stepCount);
+      put("stepaction", stepActionString);
+      put("stepcount", stepCount);
     }
   }
 }

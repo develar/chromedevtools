@@ -11,7 +11,7 @@ public abstract class OutMessage {
 
   public abstract String getCommand();
 
-  protected final void putArgument(String name, int value) {
+  protected final void put(String name, int value) {
     try {
       addArgumentsName();
       writer.name(name).value(value);
@@ -21,7 +21,7 @@ public abstract class OutMessage {
     }
   }
 
-  protected final void putArgument(String name, long[] value) {
+  protected final void put(String name, long[] value) {
     try {
       addArgumentsName();
       writer.name(name);
@@ -36,7 +36,7 @@ public abstract class OutMessage {
     }
   }
 
-  protected final void putArgument(String name, long value) {
+  protected final void put(String name, long value) {
     try {
       addArgumentsName();
       writer.name(name).value(value);
@@ -56,7 +56,7 @@ public abstract class OutMessage {
     }
   }
 
-  protected final void putArgument(String name, boolean value) {
+  protected final void put(String name, boolean value) {
     try {
       addArgumentsName();
       writer.name(name).value(value);
@@ -69,7 +69,7 @@ public abstract class OutMessage {
   protected void addArgumentsName() throws IOException {
   }
 
-  protected final void putArgument(String name, String value) {
+  protected final void put(String name, String value) {
     if (value != null) {
       doPutArgument(name, value);
     }

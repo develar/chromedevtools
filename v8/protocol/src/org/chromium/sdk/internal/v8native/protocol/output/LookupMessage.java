@@ -16,10 +16,10 @@ public class LookupMessage extends DebuggerMessage {
 
   public LookupMessage(long[] handles, Boolean inlineRefs, long maxStringLength) {
     super(DebuggerCommand.LOOKUP.value);
-    putArgument("handles", handles);
-    putArgument("inlineRefs", inlineRefs);
+    put("handles", handles);
+    put("inlineRefs", inlineRefs);
     if (maxStringLength != -1) {
-      putArgument("maxStringLength", maxStringLength);
+      put("maxStringLength", maxStringLength);
     }
   }
 }

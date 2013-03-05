@@ -18,10 +18,10 @@ public class BacktraceMessage extends DebuggerMessage {
   public BacktraceMessage(int fromFrame, int toFrame, boolean inlineRefs) {
     super(DebuggerCommand.BACKTRACE.value);
 
-    putArgument("fromFrame", fromFrame);
-    putArgument("toFrame", toFrame);
+    put("fromFrame", fromFrame);
+    put("toFrame", toFrame);
     if (inlineRefs) {
-      putArgument("inlineRefs", inlineRefs);
+      put("inlineRefs", inlineRefs);
     }
   }
 }

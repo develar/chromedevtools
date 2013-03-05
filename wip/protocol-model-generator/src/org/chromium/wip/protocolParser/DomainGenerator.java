@@ -100,15 +100,15 @@ class DomainGenerator {
 
   private <P> void generateOutputClass(IndentWriter writer, NamePath classNamePath,
       String description, String baseType, final TextOutput additionalMemberText,
-      List<P> properties, PropertyLikeAccess<P> propertyAccess) throws IOException {
+      List<P> properties, PropertyLikeAccess<P> propertyAccess) {
+    TextOutput out = new TextOutput(new StringBuilder());
     if (description != null) {
-      writer.append("\t/**\n" + description + "\n */\n");
+      out.append("/**\n" + description + "\n */").newLine();
     }
-    writer.append("\tpublic class " + classNamePath.getLastComponent());
+    out.append("public class ").append(classNamePath.getLastComponent());
     if (baseType != null) {
-      writer.append(" extends " + baseType);
+      out.append(" extends ").append(baseType);
     }
-    writer.append(" {\n");
 
     OutputClassScope classScope = new OutputClassScope(this, classNamePath);
     if (additionalMemberText != null) {
@@ -120,9 +120,11 @@ class DomainGenerator {
       });
     }
 
-    classScope.generateCommandParamsBody(writer, properties, propertyAccess);
-    classScope.writeAdditionalMembers(writer);
-    writer.append("\t}\n");
+    out.openBlock();
+    classScope.generateConstructor(out, properties, propertyAccess);
+    classScope.writeAdditionalMembers(new IndentWriterImpl(out.getOut(), ""));
+    out.closeBlock();
+    writer.append(out.getOut().toString());
   }
 
   StandaloneTypeBinding createStandaloneOutputTypeBinding(WipMetamodel.StandaloneType type,

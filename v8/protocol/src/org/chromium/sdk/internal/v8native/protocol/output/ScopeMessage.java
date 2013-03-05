@@ -13,14 +13,14 @@ public class ScopeMessage extends DebuggerMessage {
 
   public ScopeMessage(int scopeNumber, Integer frameNumber, Long functionHandle) {
     super(DebuggerCommand.SCOPE.value);
-    putArgument("number", scopeNumber);
+    put("number", scopeNumber);
     if (frameNumber != null) {
-      putArgument("frameNumber", frameNumber);
+      put("frameNumber", frameNumber);
     }
     if (functionHandle != null) {
-      putArgument("functionHandle", functionHandle);
+      put("functionHandle", functionHandle);
     }
-    putArgument("inlineRefs", true);
+    put("inlineRefs", true);
   }
 
 }

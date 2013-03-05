@@ -11,7 +11,4 @@ import org.jetbrains.jsonProtocol.OutMessage;
  * It also allows to get the method name it corresponds to.
  */
 public abstract class WipParams extends OutMessage {
-  protected void put(String name, Object value) {
-    throw new UnsupportedOperationException();
-  }
 }

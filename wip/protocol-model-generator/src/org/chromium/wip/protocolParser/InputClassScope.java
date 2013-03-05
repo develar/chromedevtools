@@ -42,11 +42,8 @@ class InputClassScope extends ClassScope {
         }
 
         String methodName = Generator.generateMethodNameSubstitute(propertyName, writer);
-
         MemberScope memberScope = newMemberScope(propertyName);
-
         QualifiedTypeData propertyTypeData = memberScope.resolveType(objectProperty);
-
         propertyTypeData.writeAnnotations(writer, "  ");
 
         writer.append("\t  " +

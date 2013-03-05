@@ -12,10 +12,10 @@ import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
 public class ChangeLiveMessage extends ContextlessDebuggerMessage {
   public ChangeLiveMessage(long scriptId, String newSource, Boolean previewOnly) {
     super(DebuggerCommand.CHANGELIVE.value);
-    putArgument("script_id", scriptId);
-    putArgument("new_source", newSource);
+    put("script_id", scriptId);
+    put("new_source", newSource);
     if (previewOnly != null) {
-      putArgument("preview_only", previewOnly);
+      put("preview_only", previewOnly);
     }
   }
 }

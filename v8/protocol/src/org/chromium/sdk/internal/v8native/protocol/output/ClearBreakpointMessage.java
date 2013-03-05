@@ -16,6 +16,6 @@ public class ClearBreakpointMessage extends ContextlessDebuggerMessage {
    */
   public ClearBreakpointMessage(Long breakpoint) {
     super(DebuggerCommand.CLEARBREAKPOINT.value);
-    putArgument("breakpoint", breakpoint);
+    put("breakpoint", breakpoint);
   }
 }

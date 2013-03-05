@@ -22,16 +22,16 @@ public class EvaluateMessage extends DebuggerMessage {
    */
   public EvaluateMessage(String expression, int frame, boolean disableBreak, List<StringIntPair> additionalContext) {
     super(DebuggerCommand.EVALUATE.value);
-    putArgument("expression", expression);
+    put("expression", expression);
     if (frame != -1) {
-      putArgument("frame", frame);
+      put("frame", frame);
     }
     else {
-      putArgument("global", true);
+      put("global", true);
     }
 
-    putArgument("disable_break", disableBreak);
-    putArgument("inlineRefs", true);
+    put("disable_break", disableBreak);
+    put("inlineRefs", true);
     if (additionalContext != null) {
       try {
         addArgumentsName();
