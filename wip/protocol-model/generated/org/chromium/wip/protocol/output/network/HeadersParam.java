@@ -5,8 +5,6 @@ package org.chromium.wip.protocol.output.network;
 /**
 Request / response headers as keys / values of JSON object.
  */
-public class HeadersParam {
-  public HeadersParam() {
-  }
+public class HeadersParam extends org.jetbrains.jsonProtocol.OutMessage {
 
 }

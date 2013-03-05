@@ -7,27 +7,52 @@ Sets JavaScript breakpoint at given location specified either by URL or URL rege
  */
 public class SetBreakpointByUrlParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData> {
   /**
-   @param lineNumber Line number to set breakpoint at.
-   @param urlOpt URL of the resources to set breakpoint on.
-   @param urlRegexOpt Regex pattern for the URLs of the resources to set breakpoints on. Either <code>url</code> or <code>urlRegex</code> must be specified.
-   @param columnNumberOpt Offset in the line to set breakpoint at.
-   @param conditionOpt Expression to use as a breakpoint condition. When specified, debugger will only stop on the breakpoint if this expression evaluates to true.
+   * @param lineNumber Line number to set breakpoint at.
    */
-  public SetBreakpointByUrlParams(long lineNumber, String urlOpt, String urlRegexOpt, long columnNumberOpt, String conditionOpt) {
-    //this.put("lineNumber", lineNumber);
-    //this.put("url", urlOpt);
-    //this.put("urlRegex", urlRegexOpt);
-    //this.put("columnNumber", columnNumberOpt);
-    //this.put("condition", conditionOpt);
+  public SetBreakpointByUrlParams(long lineNumber) {
+    put("lineNumber", lineNumber);
   }
 
+  /**
+   * @param v URL of the resources to set breakpoint on.
+   */
+  public SetBreakpointByUrlParams url(String v) {
+    put("url", v);
+    return this;
+  }
+
+  /**
+   * @param v Regex pattern for the URLs of the resources to set breakpoints on. Either <code>url</code> or <code>urlRegex</code> must be specified.
+   */
+  public SetBreakpointByUrlParams urlRegex(String v) {
+    put("urlRegex", v);
+    return this;
+  }
+
+  /**
+   * @param v Offset in the line to set breakpoint at.
+   */
+  public SetBreakpointByUrlParams columnNumber(long v) {
+    put("columnNumber", v);
+    return this;
+  }
+
+  /**
+   * @param v Expression to use as a breakpoint condition. When specified, debugger will only stop on the breakpoint if this expression evaluates to true.
+   */
+  public SetBreakpointByUrlParams condition(String v) {
+    put("condition", v);
+    return this;
+  }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setBreakpointByUrl";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
+  @Override
+  public org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseDebuggerSetBreakpointByUrlData(data.getUnderlyingObject());
   }
 

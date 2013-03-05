@@ -7,19 +7,19 @@ Overrides the Device Orientation.
  */
 public class SetDeviceOrientationOverrideParams extends org.jetbrains.wip.protocol.WipParams {
   /**
-   @param alpha Mock alpha
-   @param beta Mock beta
-   @param gamma Mock gamma
+   * @param alpha Mock alpha
+   * @param beta Mock beta
+   * @param gamma Mock gamma
    */
   public SetDeviceOrientationOverrideParams(Number alpha, Number beta, Number gamma) {
-    //this.put("alpha", alpha);
-    //this.put("beta", beta);
-    //this.put("gamma", gamma);
+    put("alpha", alpha);
+    put("beta", beta);
+    put("gamma", gamma);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".setDeviceOrientationOverride";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

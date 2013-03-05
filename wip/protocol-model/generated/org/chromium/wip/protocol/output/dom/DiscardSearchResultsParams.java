@@ -7,15 +7,15 @@ Discards search results from the session with the given id. <code>getSearchResul
  */
 public class DiscardSearchResultsParams extends org.jetbrains.wip.protocol.WipParams {
   /**
-   @param searchId Unique search session identifier.
+   * @param searchId Unique search session identifier.
    */
   public DiscardSearchResultsParams(String searchId) {
-    //this.put("searchId", searchId);
+    put("searchId", searchId);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".discardSearchResults";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

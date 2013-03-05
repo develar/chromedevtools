@@ -127,7 +127,7 @@ public class EvaluateHack {
     EvaluateSession(String expression, ValueNameBuilder valueNameBuidler,
         Map<String, String> additionalContext,
         WipValueLoader destinationValueLoader, EvaluateCommandHandler<?> evaluateCommandHandler) {
-      this.userExpression = expression;
+      userExpression = expression;
       this.valueNameBuidler = valueNameBuidler;
       this.additionalContext = additionalContext;
       this.destinationValueLoader = destinationValueLoader;
@@ -185,7 +185,7 @@ public class EvaluateHack {
           }
           parametersBuilder.append(commandParamName);
         }
-        assigmentBuilder.append(tempObjectRef + entry.getKey() + " = " + commandParamName + ";\n");
+        assigmentBuilder.append(tempObjectRef).append(entry.getKey()).append(" = ").append(commandParamName).append(";\n");
       }
 
       final String functionText = "function(" + parametersBuilder + ") { " +
@@ -197,16 +197,15 @@ public class EvaluateHack {
       return new WipRelayRunner.SendStepWithResponse<CallFunctionOnData, JsVariable>() {
         @Override
         public WipParamsWithResponse<CallFunctionOnData> getParams() {
-          List<CallArgumentParam> arguments;
-          if (additionalObjectIds.isEmpty()) {
-            arguments = null;
-          } else {
-            arguments = new ArrayList<CallArgumentParam>(additionalObjectIds.size());
+          CallFunctionOnParams params = new CallFunctionOnParams(thisObjectIdFinal, functionText);
+          if (!additionalObjectIds.isEmpty()) {
+            List<CallArgumentParam> arguments = new ArrayList<CallArgumentParam>(additionalObjectIds.size());
             for (String objectId : additionalObjectIds) {
-              arguments.add(new CallArgumentParam(null, objectId));
+              arguments.add(new CallArgumentParam().objectId(objectId));
             }
+            params.arguments(arguments);
           }
-          return new CallFunctionOnParams(thisObjectIdFinal, functionText, arguments, null, true);
+          return params;
         }
 
         @Override
@@ -256,10 +255,7 @@ public class EvaluateHack {
      */
     private void clearTempObjectAsync() {
       String script = "delete " + GLOBAL_VARIABLE_NAME + ".data." + dataId + ";";
-      String deleteDataExpression = "(function() {" + script +"})()";
-      EvaluateParams evaluateParams =
-          new EvaluateParams(deleteDataExpression, null, null, null, null, true);
-      tabImpl.getCommandProcessor().send(evaluateParams, (WipCommandCallback) null, null);
+      tabImpl.getCommandProcessor().send(new EvaluateParams("(function() {" + script +"})()"), (WipCommandCallback) null, null);
     }
 
     /**
@@ -272,7 +268,7 @@ public class EvaluateHack {
         @Override
         public WipParamsWithResponse<CallFunctionOnData> getParams() {
           String functionText = "function() { return String(this.message); }";
-          return new CallFunctionOnParams(remoteObjectValue.objectId(), functionText, null, null, true);
+          return new CallFunctionOnParams(remoteObjectValue.objectId(), functionText);
         }
 
         @Override
@@ -295,8 +291,7 @@ public class EvaluateHack {
    * This cannot be implemented as step in {@link WipRelayRunner}, because the method
    * is synchronized and cannot undergo required control inversion.
    */
-  private synchronized RelayOk ensureObjectInjected(GenericCallback<Void> callback,
-      SyncCallback syncCallback) {
+  private synchronized RelayOk ensureObjectInjected(GenericCallback<Void> callback, SyncCallback syncCallback) {
     if (objectInjected) {
       callback.success(null);
       return RelaySyncCallback.finish(syncCallback);
@@ -311,7 +306,7 @@ public class EvaluateHack {
     // 'code' is for utility methods.
     String injectedObjectText = "{ data: {}, code: {}}";
     String expression = "(function() { " + GLOBAL_VARIABLE_NAME + " = " + injectedObjectText + " ; })()";
-    EvaluateParams evaluateParams = new EvaluateParams(expression, null, false, null, null, true);
+    EvaluateParams evaluateParams = new EvaluateParams(expression);
     GenericCallback<EvaluateData> wrappedCallback = new GenericCallback<EvaluateData>() {
       @Override
       public void success(EvaluateData value) {

@@ -7,15 +7,15 @@ Allows overriding user agent with the given string.
  */
 public class SetUserAgentOverrideParams extends org.jetbrains.wip.protocol.WipParams {
   /**
-   @param userAgent User agent to use.
+   * @param userAgent User agent to use.
    */
   public SetUserAgentOverrideParams(String userAgent) {
-    //this.put("userAgent", userAgent);
+    put("userAgent", userAgent);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.NETWORK + ".setUserAgentOverride";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

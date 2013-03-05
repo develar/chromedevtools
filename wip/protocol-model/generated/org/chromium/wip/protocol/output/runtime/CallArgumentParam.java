@@ -5,14 +5,22 @@ package org.chromium.wip.protocol.output.runtime;
 /**
 Represents function call argument. Either remote object id <code>objectId</code> or primitive <code>value</code> or neither of (for undefined) them should be specified.
  */
-public class CallArgumentParam {
+public class CallArgumentParam extends org.jetbrains.jsonProtocol.OutMessage {
+
+
   /**
-   @param valueOpt Primitive value.
-   @param objectIdOpt Remote object handle.
+   * @param v Primitive value.
    */
-  public CallArgumentParam(Object valueOpt, String objectIdOpt) {
-    //this.put("value", valueOpt);
-    //this.put("objectId", objectIdOpt);
+  public CallArgumentParam value(String v) {
+    put("value", v);
+    return this;
   }
 
+  /**
+   * @param v Remote object handle.
+   */
+  public CallArgumentParam objectId(String v) {
+    put("objectId", v);
+    return this;
+  }
 }

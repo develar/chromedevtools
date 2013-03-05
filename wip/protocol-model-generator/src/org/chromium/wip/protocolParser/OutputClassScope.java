@@ -13,30 +13,61 @@ class OutputClassScope extends ClassScope {
     super(generator, classNamePath);
   }
 
-  <P> void generateConstructor(TextOutput out, List<P> parameters, PropertyLikeAccess<P> access) {
+  <P> void generate(TextOutput out, List<P> parameters, PropertyLikeAccess<P> access) {
     if (parameters == null) {
       return;
     }
+
     List<P> mandatoryParameters = new ArrayList<P>();
-    for (P param : parameters) {
-      if (!access.forTypedObject().getOptional(param)) {
-        mandatoryParameters.add(param);
+    List<P> optionalParameters = new ArrayList<P>();
+    for (P parameter : parameters) {
+      if (access.forTypedObject().getOptional(parameter)) {
+        optionalParameters.add(parameter);
+      }
+      else {
+        mandatoryParameters.add(parameter);
       }
     }
 
+    if (!mandatoryParameters.isEmpty()) {
+      generateConstructor(out, access, mandatoryParameters);
+    }
+    for (P parameter : optionalParameters) {
+      String description = access.forTypedObject().getDescription(parameter);
+      out.newLine().newLine();
+      if (description != null) {
+        out.append("/**").newLine().append(" * @param v ").append(description).newLine().append(" */").newLine();
+      }
+      String paramName = access.getName(parameter);
+
+      String type = newMemberScope(paramName).resolveType(parameter, access.forTypedObject()).getJavaType().getShortText(getClassContextNamespace());
+      if (type.equals("Object")) {
+        type = "String";
+      }
+
+      out.append("public ").append(getShortClassName());
+      out.space().append(paramName).append("(").append(type);
+      out.space().append("v").append(")").openBlock();
+      out.append("put(").quoute(paramName).comma().append("v);");
+      out.newLine().append("return this;");
+      out.closeBlock();
+    }
+  }
+
+  private <P> void generateConstructor(TextOutput out, PropertyLikeAccess<P> access, List<P> mandatoryParameters) {
     boolean hasDoc = false;
-    for (P param : mandatoryParameters) {
-      if (access.forTypedObject().getDescription(param) != null) {
+    for (P parameter : mandatoryParameters) {
+      if (access.forTypedObject().getDescription(parameter) != null) {
         hasDoc = true;
         break;
       }
     }
     if (hasDoc) {
       out.append("/**").newLine();
-      for (P param : mandatoryParameters) {
-        String propertyDescription = access.forTypedObject().getDescription(param);
+      for (P parameter : mandatoryParameters) {
+        String propertyDescription = access.forTypedObject().getDescription(parameter);
         if (propertyDescription != null) {
-          out.append(" * @param " + getParamName(param, access) + " " + propertyDescription).newLine();
+          out.append(" * @param " + access.getName(parameter) + " " + propertyDescription).newLine();
         }
       }
       out.append(" */").newLine();
@@ -44,28 +75,20 @@ class OutputClassScope extends ClassScope {
     out.append("public " + getShortClassName() + "(");
 
     boolean needComa = false;
-    for (P param : mandatoryParameters) {
+    for (P parameter : mandatoryParameters) {
       if (needComa) {
         out.comma();
       }
-      String paramName = getParamName(param, access);
-      out.append(newMemberScope(paramName).resolveType(param, access.forTypedObject()).getJavaType().getShortText(getClassContextNamespace()));
+      String paramName = access.getName(parameter);
+      out.append(newMemberScope(paramName).resolveType(parameter, access.forTypedObject()).getJavaType().getShortText(getClassContextNamespace()));
       out.space().append(paramName);
       needComa = true;
     }
     out.append(")").openBlock(false);
     for (P param : mandatoryParameters) {
-      out.newLine().append("put(").quoute(access.getName(param)).comma().append(getParamName(param, access)).append(");");
+      out.newLine().append("put(").quoute(access.getName(param)).comma().append(access.getName(param)).append(");");
     }
     out.closeBlock();
-  }
-
-  private static <P> String getParamName(P param, PropertyLikeAccess<P> access) {
-    String paramName = access.getName(param);
-    if (access.forTypedObject().getOptional(param) == Boolean.TRUE) {
-      paramName = paramName + "Opt";
-    }
-    return paramName;
   }
 
   @Override

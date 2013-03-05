@@ -7,15 +7,15 @@ Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or o
  */
 public class HandleJavaScriptDialogParams extends org.jetbrains.wip.protocol.WipParams {
   /**
-   @param accept Whether to accept or dismiss the dialog.
+   * @param accept Whether to accept or dismiss the dialog.
    */
   public HandleJavaScriptDialogParams(boolean accept) {
-    //this.put("accept", accept);
+    put("accept", accept);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".handleJavaScriptDialog";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

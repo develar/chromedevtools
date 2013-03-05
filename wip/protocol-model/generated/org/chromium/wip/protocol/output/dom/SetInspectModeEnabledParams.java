@@ -7,17 +7,23 @@ Enters the 'inspect' mode. In this mode, elements that user is hovering over are
  */
 public class SetInspectModeEnabledParams extends org.jetbrains.wip.protocol.WipParams {
   /**
-   @param enabled True to enable inspection mode, false to disable it.
-   @param highlightConfigOpt A descriptor for the highlight appearance of hovered-over nodes. May be omitted if <code>enabled == false</code>.
+   * @param enabled True to enable inspection mode, false to disable it.
    */
-  public SetInspectModeEnabledParams(boolean enabled, org.chromium.wip.protocol.output.dom.HighlightConfigParam highlightConfigOpt) {
-    //this.put("enabled", enabled);
-    //this.put("highlightConfig", highlightConfigOpt);
+  public SetInspectModeEnabledParams(boolean enabled) {
+    put("enabled", enabled);
   }
 
+  /**
+   * @param v A descriptor for the highlight appearance of hovered-over nodes. May be omitted if <code>enabled == false</code>.
+   */
+  public SetInspectModeEnabledParams highlightConfig(org.chromium.wip.protocol.output.dom.HighlightConfigParam v) {
+    put("highlightConfig", v);
+    return this;
+  }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".setInspectModeEnabled";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

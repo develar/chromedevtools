@@ -9,7 +9,11 @@ public abstract class OutMessage {
   private final StringWriter stringWriter = new StringWriter();
   protected final JsonWriter writer = new JsonWriter(stringWriter);
 
-  public abstract String getCommand();
+  protected boolean argumentsObjectStarted;
+
+  public  String getCommand() {
+    throw new AbstractMethodError();
+  }
 
   protected final void put(String name, int value) {
     try {
@@ -67,6 +71,11 @@ public abstract class OutMessage {
   }
 
   protected void addArgumentsName() throws IOException {
+    if (!argumentsObjectStarted) {
+      argumentsObjectStarted = true;
+      writer.name("arguments");
+      writer.beginObject();
+    }
   }
 
   protected final void put(String name, String value) {
@@ -81,7 +90,9 @@ public abstract class OutMessage {
 
   public CharSequence toJson() {
     try {
-      writer.endObject();
+      if (argumentsObjectStarted) {
+        writer.endObject();
+      }
       writer.close();
     }
     catch (IOException e) {

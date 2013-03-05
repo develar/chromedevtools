@@ -7,18 +7,17 @@ Defines pause on exceptions state. Can be set to stop on all exceptions, uncaugh
  */
 public class SetPauseOnExceptionsParams extends org.jetbrains.wip.protocol.WipParams {
   /**
-   @param state Pause on exceptions mode.
+   * @param state Pause on exceptions mode.
    */
   public SetPauseOnExceptionsParams(State state) {
-    //this.put("state", state);
+    put("state", state);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setPauseOnExceptions";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
-
   /**
    Pause on exceptions mode.
    */
@@ -37,4 +36,5 @@ public class SetPauseOnExceptionsParams extends org.jetbrains.wip.protocol.WipPa
       return '"' + protocolValue + '"';
     }
   }
+
 }

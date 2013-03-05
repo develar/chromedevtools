@@ -7,19 +7,31 @@ Highlights DOM node with given id or with the given JavaScript object wrapper. E
  */
 public class HighlightNodeParams extends org.jetbrains.wip.protocol.WipParams {
   /**
-   @param highlightConfig A descriptor for the highlight appearance.
-   @param nodeIdOpt Identifier of the node to highlight.
-   @param objectIdOpt JavaScript object id of the node to be highlighted.
+   * @param highlightConfig A descriptor for the highlight appearance.
    */
-  public HighlightNodeParams(org.chromium.wip.protocol.output.dom.HighlightConfigParam highlightConfig, long nodeIdOpt, String objectIdOpt) {
-    //this.put("highlightConfig", highlightConfig);
-    //this.put("nodeId", nodeIdOpt);
-    //this.put("objectId", objectIdOpt);
+  public HighlightNodeParams(org.chromium.wip.protocol.output.dom.HighlightConfigParam highlightConfig) {
+    put("highlightConfig", highlightConfig);
   }
 
+  /**
+   * @param v Identifier of the node to highlight.
+   */
+  public HighlightNodeParams nodeId(long v) {
+    put("nodeId", v);
+    return this;
+  }
+
+  /**
+   * @param v JavaScript object id of the node to be highlighted.
+   */
+  public HighlightNodeParams objectId(String v) {
+    put("objectId", v);
+    return this;
+  }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".highlightNode";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

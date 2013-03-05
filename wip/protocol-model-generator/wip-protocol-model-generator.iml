@@ -11,6 +11,15 @@
     <orderEntry type="library" name="gson" level="project" />
     <orderEntry type="module" module-name="wip-schema-reader-generator" />
     <orderEntry type="module" module-name="protocolParser" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../plugins/org.chromium.sdk/lib/annotations.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

@@ -3,6 +3,7 @@ package org.chromium.wip.protocolParser;
 import org.chromium.protocolparser.EnumValueCondition;
 import org.chromium.protocolparser.TextOutput;
 import org.chromium.wip.schemaParser.WipMetamodel;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -99,16 +100,14 @@ class DomainGenerator {
   }
 
   private <P> void generateOutputClass(IndentWriter writer, NamePath classNamePath,
-      String description, String baseType, final TextOutput additionalMemberText,
+      String description, @Nullable String baseType, final TextOutput additionalMemberText,
       List<P> properties, PropertyLikeAccess<P> propertyAccess) {
     TextOutput out = new TextOutput(new StringBuilder());
     if (description != null) {
       out.append("/**\n" + description + "\n */").newLine();
     }
     out.append("public class ").append(classNamePath.getLastComponent());
-    if (baseType != null) {
-      out.append(" extends ").append(baseType);
-    }
+    out.append(" extends ").append(baseType == null ? "org.jetbrains.jsonProtocol.OutMessage" : baseType);
 
     OutputClassScope classScope = new OutputClassScope(this, classNamePath);
     if (additionalMemberText != null) {
@@ -121,7 +120,7 @@ class DomainGenerator {
     }
 
     out.openBlock();
-    classScope.generateConstructor(out, properties, propertyAccess);
+    classScope.generate(out, properties, propertyAccess);
     classScope.writeAdditionalMembers(new IndentWriterImpl(out.getOut(), ""));
     out.closeBlock();
     writer.append(out.getOut().toString());

@@ -7,19 +7,20 @@ Searches for a given string in the DOM tree. Use <code>getSearchResults</code> t
  */
 public class PerformSearchParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.PerformSearchData> {
   /**
-   @param query Plain text or query selector or XPath search query.
+   * @param query Plain text or query selector or XPath search query.
    */
   public PerformSearchParams(String query) {
-    //this.put("query", query);
+    put("query", query);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".performSearch";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.input.dom.PerformSearchData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
+  @Override
+  public org.chromium.wip.protocol.input.dom.PerformSearchData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseDOMPerformSearchData(data.getUnderlyingObject());
   }
 

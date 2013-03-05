@@ -4,12 +4,12 @@ package org.chromium.wip.protocol.output.console;
 
 public class AddInspectedHeapObjectParams extends org.jetbrains.wip.protocol.WipParams {
   public AddInspectedHeapObjectParams(long heapObjectId) {
-    //this.put("heapObjectId", heapObjectId);
+    put("heapObjectId", heapObjectId);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.CONSOLE + ".addInspectedHeapObject";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

@@ -7,15 +7,15 @@ Toggles monitoring of XMLHttpRequest. If <code>true</code>, console will receive
  */
 public class SetMonitoringXHREnabledParams extends org.jetbrains.wip.protocol.WipParams {
   /**
-   @param enabled Monitoring enabled state.
+   * @param enabled Monitoring enabled state.
    */
   public SetMonitoringXHREnabledParams(boolean enabled) {
-    //this.put("enabled", enabled);
+    put("enabled", enabled);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.CONSOLE + ".setMonitoringXHREnabled";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

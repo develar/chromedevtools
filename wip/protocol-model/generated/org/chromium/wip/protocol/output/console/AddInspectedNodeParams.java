@@ -7,15 +7,15 @@ Enables console to refer to the node with given id via $x (see Command Line API 
  */
 public class AddInspectedNodeParams extends org.jetbrains.wip.protocol.WipParams {
   /**
-   @param nodeId DOM node id to be accessible by means of $x command line API.
+   * @param nodeId DOM node id to be accessible by means of $x command line API.
    */
   public AddInspectedNodeParams(long nodeId) {
-    //this.put("nodeId", nodeId);
+    put("nodeId", nodeId);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.CONSOLE + ".addInspectedNode";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

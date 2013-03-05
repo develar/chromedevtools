@@ -7,15 +7,15 @@ This method sends a new XMLHttpRequest which is identical to the original one. T
  */
 public class ReplayXHRParams extends org.jetbrains.wip.protocol.WipParams {
   /**
-   @param requestId Identifier of XHR to replay.
+   * @param requestId Identifier of XHR to replay.
    */
   public ReplayXHRParams(String requestId) {
-    //this.put("requestId", requestId);
+    put("requestId", requestId);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.NETWORK + ".replayXHR";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

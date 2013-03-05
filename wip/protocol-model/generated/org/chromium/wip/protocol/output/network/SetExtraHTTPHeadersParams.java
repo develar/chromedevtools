@@ -7,15 +7,15 @@ Specifies whether to always send extra HTTP headers with the requests from this 
  */
 public class SetExtraHTTPHeadersParams extends org.jetbrains.wip.protocol.WipParams {
   /**
-   @param headers Map with extra HTTP headers.
+   * @param headers Map with extra HTTP headers.
    */
   public SetExtraHTTPHeadersParams(org.chromium.wip.protocol.output.network.HeadersParam headers) {
-    //this.put("headers", headers);
+    put("headers", headers);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.NETWORK + ".setExtraHTTPHeaders";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

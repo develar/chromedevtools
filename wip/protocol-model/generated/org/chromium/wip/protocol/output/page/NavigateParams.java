@@ -7,15 +7,15 @@ Navigates current page to the given URL.
  */
 public class NavigateParams extends org.jetbrains.wip.protocol.WipParams {
   /**
-   @param url URL to navigate the page to.
+   * @param url URL to navigate the page to.
    */
   public NavigateParams(String url) {
-    //this.put("url", url);
+    put("url", url);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".navigate";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

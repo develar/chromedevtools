@@ -7,21 +7,22 @@ Compiles expression.
  */
 public class CompileScriptParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.CompileScriptData> {
   /**
-   @param expression Expression to compile.
-   @param sourceURL Source url to be set for the script.
+   * @param expression Expression to compile.
+   * @param sourceURL Source url to be set for the script.
    */
   public CompileScriptParams(String expression, String sourceURL) {
-    //this.put("expression", expression);
-    //this.put("sourceURL", sourceURL);
+    put("expression", expression);
+    put("sourceURL", sourceURL);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".compileScript";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.input.debugger.CompileScriptData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
+  @Override
+  public org.chromium.wip.protocol.input.debugger.CompileScriptData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseDebuggerCompileScriptData(data.getUnderlyingObject());
   }
 

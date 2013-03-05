@@ -6,20 +6,35 @@ package org.chromium.wip.protocol.output.page;
 Reloads given page optionally ignoring the cache.
  */
 public class ReloadParams extends org.jetbrains.wip.protocol.WipParams {
+
+
   /**
-   @param ignoreCacheOpt If true, browser cache is ignored (as if the user pressed Shift+refresh).
-   @param scriptToEvaluateOnLoadOpt If set, the script will be injected into all frames of the inspected page after reload.
-   @param scriptPreprocessorOpt Script body that should evaluate to function that will preprocess all the scripts before their compilation.
+   * @param v If true, browser cache is ignored (as if the user pressed Shift+refresh).
    */
-  public ReloadParams(boolean ignoreCacheOpt, String scriptToEvaluateOnLoadOpt, String scriptPreprocessorOpt) {
-    //this.put("ignoreCache", ignoreCacheOpt);
-    //this.put("scriptToEvaluateOnLoad", scriptToEvaluateOnLoadOpt);
-    //this.put("scriptPreprocessor", scriptPreprocessorOpt);
+  public ReloadParams ignoreCache(boolean v) {
+    put("ignoreCache", v);
+    return this;
   }
 
+  /**
+   * @param v If set, the script will be injected into all frames of the inspected page after reload.
+   */
+  public ReloadParams scriptToEvaluateOnLoad(String v) {
+    put("scriptToEvaluateOnLoad", v);
+    return this;
+  }
+
+  /**
+   * @param v Script body that should evaluate to function that will preprocess all the scripts before their compilation.
+   */
+  public ReloadParams scriptPreprocessor(String v) {
+    put("scriptPreprocessor", v);
+    return this;
+  }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".reload";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

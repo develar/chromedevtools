@@ -14,7 +14,6 @@ import java.io.IOException;
 public class DebuggerMessage extends OutMessage {
   private final int sequence;
   private final String command;
-  private boolean argumentsObjectStarted;
 
   public DebuggerMessage(String command) {
     sequence = SeqGenerator.getInstance().next();
@@ -44,19 +43,18 @@ public class DebuggerMessage extends OutMessage {
     return command;
   }
 
+  @Override
   protected final void addArgumentsName() throws IOException {
     if (!argumentsObjectStarted) {
-      argumentsObjectStarted = true;
       writer.name("arguments");
-      writer.beginObject();
+      super.addArgumentsName();
     }
   }
 
+  @Override
   public CharSequence toJson() {
     try {
-      if (argumentsObjectStarted) {
-        writer.endObject();
-      }
+      writer.endObject();
     }
     catch (IOException e) {
       throw new RuntimeException(e);

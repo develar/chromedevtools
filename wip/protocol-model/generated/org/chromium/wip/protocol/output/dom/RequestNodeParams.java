@@ -7,19 +7,20 @@ Requests that the node is sent to the caller given the JavaScript node object re
  */
 public class RequestNodeParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.RequestNodeData> {
   /**
-   @param objectId JavaScript object id to convert into node.
+   * @param objectId JavaScript object id to convert into node.
    */
   public RequestNodeParams(String objectId) {
-    //this.put("objectId", objectId);
+    put("objectId", objectId);
   }
-
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".requestNode";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.input.dom.RequestNodeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
+  @Override
+  public org.chromium.wip.protocol.input.dom.RequestNodeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseDOMRequestNodeData(data.getUnderlyingObject());
   }
 

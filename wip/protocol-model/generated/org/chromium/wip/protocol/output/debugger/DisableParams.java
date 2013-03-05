@@ -6,12 +6,11 @@ package org.chromium.wip.protocol.output.debugger;
 Disables debugger for given page.
  */
 public class DisableParams extends org.jetbrains.wip.protocol.WipParams {
-  public DisableParams() {
-  }
 
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".disable";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 

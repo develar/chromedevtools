@@ -6,20 +6,35 @@ package org.chromium.wip.protocol.output.page;
 Overrides the Geolocation Position or Error.
  */
 public class SetGeolocationOverrideParams extends org.jetbrains.wip.protocol.WipParams {
+
+
   /**
-   @param latitudeOpt Mock longitude
-   @param longitudeOpt Mock latitude
-   @param accuracyOpt Mock accuracy
+   * @param v Mock longitude
    */
-  public SetGeolocationOverrideParams(Number latitudeOpt, Number longitudeOpt, Number accuracyOpt) {
-    //this.put("latitude", latitudeOpt);
-    //this.put("longitude", longitudeOpt);
-    //this.put("accuracy", accuracyOpt);
+  public SetGeolocationOverrideParams latitude(Number v) {
+    put("latitude", v);
+    return this;
   }
 
+  /**
+   * @param v Mock latitude
+   */
+  public SetGeolocationOverrideParams longitude(Number v) {
+    put("longitude", v);
+    return this;
+  }
+
+  /**
+   * @param v Mock accuracy
+   */
+  public SetGeolocationOverrideParams accuracy(Number v) {
+    put("accuracy", v);
+    return this;
+  }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".setGeolocationOverride";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 
