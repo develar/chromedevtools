@@ -1,6 +1,6 @@
 package org.chromium.sdk.internal.wip.protocol.input;
 
-import org.chromium.sdk.internal.wip.protocol.WipParserAccess;
+import org.chromium.sdk.wip.WipParserAccess;
 import org.junit.Test;
 
 public class WipProtocolTest {

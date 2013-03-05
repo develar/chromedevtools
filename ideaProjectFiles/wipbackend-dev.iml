@@ -6,10 +6,15 @@
     <content url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.dev">
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/src" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../wip/protocol/generated">
+      <sourceFolder url="file://$MODULE_DIR$/../wip/protocol/generated" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="module" module-name="org.chromium.sdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="gson" level="project" />
+    <orderEntry type="module" module-name="wip-protocol-model" />
+    <orderEntry type="module" module-name="protocolParserRuntime" />
   </component>
 </module>
 

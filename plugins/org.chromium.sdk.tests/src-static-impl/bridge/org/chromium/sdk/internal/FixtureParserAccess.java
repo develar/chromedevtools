@@ -10,7 +10,6 @@ import org.chromium.sdk.internal.browserfixture.FixtureChromeStub.FixtureParser;
  * An accessor to generated implementation of a fixture parser.
  */
 public class FixtureParserAccess {
-
   public static FixtureParser get() {
     return PARSER;
   }

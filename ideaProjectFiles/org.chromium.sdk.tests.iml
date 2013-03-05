@@ -5,16 +5,20 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.tests">
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.tests/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.tests/src-dynamic-impl/bridge" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.tests/src-dynamic-impl/parser" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.tests/src-static-impl/generated" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.tests/src-wip" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.tests/src-static-impl/bridge" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="ECLIPSE" level="application" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="org.chromium.sdk" />
     <orderEntry type="module" module-name="protocolParserRuntime" />
+    <orderEntry type="module" module-name="v8-protocol" />
+    <orderEntry type="module" module-name="protocolParser" />
+    <orderEntry type="module" module-name="v8-protocol-reader-generator" />
+    <orderEntry type="module" module-name="wipbackend-dev" />
   </component>
 </module>
 

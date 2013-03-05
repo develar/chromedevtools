@@ -6,7 +6,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.JsonParseException;
 import java.io.IOException;
 
-public final class WipProtocolReaderImpl implements org.chromium.wip.protocolParser.WipProtocolReader {
+public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.WipProtocolReader {
   @Override
   public org.chromium.wip.protocol.inputpage.FrameStoppedLoadingEventData parsePageFrameStoppedLoadingEventData(com.google.gson.stream.JsonReader reader) throws IOException {
     return new M100(reader);
@@ -35,11 +35,6 @@ public final class WipProtocolReaderImpl implements org.chromium.wip.protocolPar
   @Override
   public org.chromium.wip.protocol.inputconsole.MessagesClearedEventData parseConsoleMessagesClearedEventData(com.google.gson.stream.JsonReader reader) throws IOException {
     return new M4(reader);
-  }
-
-  @Override
-  public org.jetbrains.wip.protocol.WipTabList parseTabList(com.google.gson.stream.JsonReader reader) throws IOException {
-    return new M132(reader);
   }
 
   @Override
@@ -133,8 +128,18 @@ public final class WipProtocolReaderImpl implements org.chromium.wip.protocolPar
   }
 
   @Override
+  public org.chromium.wip.protocol.inputruntime.RemoteObjectValue parseRemoteObjectValue(com.google.gson.stream.JsonReader reader) throws IOException {
+    return new M124(reader);
+  }
+
+  @Override
   public org.chromium.wip.protocol.inputpage.JavascriptDialogClosedEventData parsePageJavascriptDialogClosedEventData(com.google.gson.stream.JsonReader reader) throws IOException {
     return new M107(reader);
+  }
+
+  @Override
+  public org.jetbrains.wip.protocol.WipEvent parseWipEvent(com.google.gson.stream.JsonReader reader) throws IOException {
+    return new M130(reader);
   }
 
   @Override
@@ -183,6 +188,11 @@ public final class WipProtocolReaderImpl implements org.chromium.wip.protocolPar
   }
 
   @Override
+  public org.jetbrains.wip.protocol.WipTabList parseTabList(com.google.gson.stream.JsonReader reader) throws IOException {
+    return new M132(reader);
+  }
+
+  @Override
   public org.chromium.wip.protocol.inputruntime.CallFunctionOnData parseRuntimeCallFunctionOnData(com.google.gson.stream.JsonReader reader) throws IOException {
     return new M115(reader);
   }
@@ -213,11 +223,6 @@ public final class WipProtocolReaderImpl implements org.chromium.wip.protocolPar
   }
 
   @Override
-  public org.jetbrains.wip.protocol.WipEvent parseWipEvent(com.google.gson.stream.JsonReader reader) throws IOException {
-    return new M130(reader);
-  }
-
-  @Override
   public org.chromium.wip.protocol.inputpage.GetResourceContentData parsePageGetResourceContentData(com.google.gson.stream.JsonReader reader) throws IOException {
     return new M104(reader);
   }
@@ -240,11 +245,6 @@ public final class WipProtocolReaderImpl implements org.chromium.wip.protocolPar
   @Override
   public org.chromium.wip.protocol.inputpage.GetCompositingBordersVisibleData parsePageGetCompositingBordersVisibleData(com.google.gson.stream.JsonReader reader) throws IOException {
     return new M102(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.inputruntime.RemoteObjectValue parseRemoteObjectValue(com.google.gson.stream.JsonReader reader) throws IOException {
-    return new M124(reader);
   }
 
   @Override
@@ -320,6 +320,11 @@ public final class WipProtocolReaderImpl implements org.chromium.wip.protocolPar
   @Override
   public org.chromium.wip.protocol.inputpage.DomContentEventFiredEventData parsePageDomContentEventFiredEventData(com.google.gson.stream.JsonReader reader) throws IOException {
     return new M92(reader);
+  }
+
+  @Override
+  public org.jetbrains.wip.protocol.WipCommandResponse parseWipCommandResponse(com.google.gson.stream.JsonReader reader) throws IOException {
+    return new M125(reader);
   }
 
   @Override
@@ -445,11 +450,6 @@ public final class WipProtocolReaderImpl implements org.chromium.wip.protocolPar
   @Override
   public org.chromium.wip.protocol.inputnetwork.GetResponseBodyData parseNetworkGetResponseBodyData(com.google.gson.stream.JsonReader reader) throws IOException {
     return new M61(reader);
-  }
-
-  @Override
-  public org.jetbrains.wip.protocol.WipCommandResponse parseWipCommandResponse(com.google.gson.stream.JsonReader reader) throws IOException {
-    return new M125(reader);
   }
 
   @Override

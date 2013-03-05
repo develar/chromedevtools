@@ -2,19 +2,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.wip.protocol;
+package org.chromium.sdk.wip;
 
-import org.chromium.sdk.internal.wip.protocol.input.WipProtocolParser;
+import org.chromium.wip.protocol.WipProtocolReaderImpl;
+import org.jetbrains.wip.protocol.WipProtocolReader;
 
 /**
  * An accessor to generated implementation of a WIP parser.
  */
 public class WipParserAccess {
+  private static final WipProtocolReader PARSER = new WipProtocolReaderImpl();
 
-  public static WipProtocolParser get() {
+  public static WipProtocolReader get() {
     return PARSER;
   }
-
-  private static final WipProtocolParser PARSER = new GeneratedWipProtocolParser();
-
 }
