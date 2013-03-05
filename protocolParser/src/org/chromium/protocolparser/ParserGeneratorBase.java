@@ -22,7 +22,6 @@ public class ParserGeneratorBase {
     generateImpl(configuration, stringBuilder);
 
     String path = configuration.getPackageName().replace('.', '/');
-
     File directory = new File(params.outputDirectory() + "/" + path);
     //noinspection ResultOfMethodCallIgnored
     directory.mkdirs();

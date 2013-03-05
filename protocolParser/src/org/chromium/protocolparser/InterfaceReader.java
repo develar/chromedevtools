@@ -72,6 +72,10 @@ class InterfaceReader {
 
     typeTotypeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>(protocolInterfaces.length);
     for (Class typeClass : protocolInterfaces) {
+      if (!typeClass.isInterface()) {
+        continue;
+      }
+
       if (typeTotypeHandler.containsKey(typeClass)) {
         throw new IllegalArgumentException("Protocol interface duplicated " + typeClass.getName());
       }
