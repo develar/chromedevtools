@@ -39,11 +39,9 @@ public class V8ReaderGenerator extends ReaderGeneratorBase {
       AfterCompileBody.class,
       ChangeLiveBody.class,
       RestartFrameBody.class,
-      RestartFrameBody.ResultDescription.class,
       ListBreakpointsBody.class,
       ScriptCollectedBody.class,
       FlagsBody.class,
-      FlagsBody.FlagInfo.class,
 
       SomeHandle.class,
       ScriptHandle.class,
@@ -66,7 +64,7 @@ public class V8ReaderGenerator extends ReaderGeneratorBase {
     GeneratedCodeMap liveEditParserMap = buildParserMap(LiveEditReaderGenerator.createConfiguration());
     // LiveEditReaderGenerator.create()
     return new GenerateConfiguration("org.chromium.v8.protocol",
-        "V8ProtocolReader", new DynamicParserImpl<V8NativeProtocolParser>(true, V8NativeProtocolParser.class, interfaces),
+        "V8ProtocolReaderImpl", new DynamicParserImpl<V8ProtocolReader>(true, V8ProtocolReader.class, interfaces),
         Collections.singletonList(liveEditParserMap));
   }
 }

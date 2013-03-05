@@ -6,6 +6,7 @@ package org.jetbrains.v8.protocolParser;
 
 import org.chromium.protocolparser.DynamicParserImpl;
 import org.chromium.protocolparser.ReaderGeneratorBase;
+import org.chromium.sdk.internal.v8native.protocol.LiveEditProtocolReader;
 import org.chromium.sdk.internal.v8native.protocol.LiveEditResult;
 
 /**
@@ -17,8 +18,8 @@ public class LiveEditReaderGenerator extends ReaderGeneratorBase {
   }
 
   public static ReaderGeneratorBase.GenerateConfiguration createConfiguration() {
-    DynamicParserImpl<LiveEditProtocolParser> result = new DynamicParserImpl<LiveEditProtocolParser>(true, LiveEditProtocolParser.class,
+    DynamicParserImpl<LiveEditProtocolReader> result = new DynamicParserImpl<LiveEditProtocolReader>(true, LiveEditProtocolReader.class,
                                                                                                      new Class[]{LiveEditResult.class});
-    return new GenerateConfiguration("org.chromium.v8.liveeditProtocol", "LiveEditProtocolReader", result);
+    return new GenerateConfiguration("org.chromium.v8.protocol", "LiveEditProtocolReaderImpl", result);
   }
 }

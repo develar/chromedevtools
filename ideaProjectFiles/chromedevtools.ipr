@@ -295,7 +295,7 @@
   </component>
   <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="Generate V8 reader" type="Application" factoryName="Application" singleton="true">
-      <option name="MAIN_CLASS_NAME" value="org.jetbrains.v8.protocolParser.AllProtocolParsersGenerator" />
+      <option name="MAIN_CLASS_NAME" value="org.jetbrains.v8.protocolParser.AllProtocolReadersGenerator" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PROGRAM_PARAMETERS" value="--output-dir=plugins/org.chromium.sdk/src-static-impl/generated" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/.." />
@@ -304,7 +304,7 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="v8-protocol-parser-generator" />
+      <module name="v8-protocol-reader-generator" />
       <envs />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="" />

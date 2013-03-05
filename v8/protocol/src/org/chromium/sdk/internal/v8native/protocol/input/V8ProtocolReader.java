@@ -17,7 +17,7 @@ import java.io.IOException;
  * @see http://code.google.com/p/v8/wiki/DebuggerProtocol
  */
 @JsonParserRoot
-public interface V8NativeProtocolParser extends V8NativeProtocolParserTestAccess {
+public interface V8ProtocolReader extends V8NativeProtocolParserTestAccess {
 
   @JsonParseMethod
   IncomingMessage parseIncomingMessage(JsonReader reader) throws IOException;

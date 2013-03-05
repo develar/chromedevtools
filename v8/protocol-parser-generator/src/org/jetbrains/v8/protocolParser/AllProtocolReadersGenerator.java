@@ -7,7 +7,7 @@ package org.jetbrains.v8.protocolParser;
 /**
  * A main class that generates all protocol static parsers (except tests).
  */
-public class AllProtocolParsersGenerator {
+public class AllProtocolReadersGenerator {
   public static void main(String[] args) {
     LiveEditReaderGenerator.main(args);
     V8ReaderGenerator.main(args);

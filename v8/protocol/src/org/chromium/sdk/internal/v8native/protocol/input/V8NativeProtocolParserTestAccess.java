@@ -13,7 +13,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef;
 import java.io.IOException;
 
 /**
- * A part of {@link V8NativeProtocolParser} interface that is introduced specially for
+ * A part of {@link V8ProtocolReader} interface that is introduced specially for
  * test disposals.
  */
 @JsonParserRoot
