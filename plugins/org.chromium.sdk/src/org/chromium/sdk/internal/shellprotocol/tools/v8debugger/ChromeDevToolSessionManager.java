@@ -21,6 +21,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ContextData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 import org.chromium.sdk.util.MethodIsBlockingException;
+import org.chromium.v8.protocol.ProtocolService;
 import org.jetbrains.jsonProtocol.JsonUtil;
 
 import java.io.IOException;
@@ -91,7 +92,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
         JsonReader dataObject = (JsonReader) data;
         ContextData contextData;
         try {
-          contextData = V8ProtocolParserAccess.get().parseContextData(dataObject);
+          contextData = ProtocolService.PROTOCOL_READER.parseContextData(dataObject);
         } catch (IOException e) {
           throw new RuntimeException(e);
         }

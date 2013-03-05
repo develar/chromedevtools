@@ -9,7 +9,6 @@ import org.chromium.protocolparser.GeneratedCodeMap;
 import org.chromium.protocolparser.ParserGeneratorBase;
 import org.chromium.sdk.internal.v8native.protocol.input.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.*;
-import sun.jvm.hotspot.oops.BreakpointInfo;
 
 import java.util.Collections;
 
@@ -66,8 +65,8 @@ public class V8ParserGenerator extends ParserGeneratorBase {
 
     GeneratedCodeMap liveEditParserMap = buildParserMap(LiveEditParserGenerator.createConfiguration());
     // LiveEditParserGenerator.create()
-    return new GenerateConfiguration("org.chromium.sdk.internal.v8native.protocol.input",
-        "GeneratedV8ProtocolParser", new DynamicParserImpl<V8NativeProtocolParser>(true, V8NativeProtocolParser.class, interfaces),
+    return new GenerateConfiguration("org.chromium.v8.protocol",
+        "V8ProtocolReader", new DynamicParserImpl<V8NativeProtocolParser>(true, V8NativeProtocolParser.class, interfaces),
         Collections.singletonList(liveEditParserMap));
   }
 }

@@ -1,6 +1,7 @@
 package org.chromium.protocolparser;
 
 import com.google.gson.stream.JsonReader;
+import gnu.trove.THashSet;
 import org.chromium.protocolParser.*;
 import org.jetbrains.jsonProtocol.*;
 
@@ -85,7 +86,9 @@ class InterfaceReader {
   }
 
   public static TypeHandler createHandler(Map<Class<?>, TypeHandler<?>> typeToTypeHandler, Class<?> aClass) {
-    new InterfaceReader(typeToTypeHandler, true, true).go(new Class[]{aClass});
+    InterfaceReader reader = new InterfaceReader(typeToTypeHandler, true, false);
+    reader.processed.addAll(typeToTypeHandler.keySet());
+    reader.go(new Class[]{aClass});
     return typeToTypeHandler.get(aClass);
   }
 
@@ -139,11 +142,14 @@ class InterfaceReader {
     return typeTotypeHandler;
   }
 
+  private final Set<Class<?>> processed = new THashSet<Class<?>>();
+
   private void createIfNotExists(Class<?> typeClass) {
-    TypeHandler<?> typeHandler = typeTotypeHandler.get(typeClass);
-    if (typeHandler != null) {
+    if (processed.contains(typeClass)) {
       return;
     }
+
+    processed.add(typeClass);
 
     typeTotypeHandler.put(typeClass, null);
 
@@ -153,11 +159,13 @@ class InterfaceReader {
       }
     }
 
-    typeHandler = createTypeHandler(typeClass);
+    TypeHandler typeHandler = createTypeHandler(typeClass);
+    boolean found = false;
     for (RefImpl<?> ref : refs) {
       if (ref.typeClass == typeClass) {
         assert ref.get() == null;
         ref.set(typeHandler);
+        found = true;
         break;
       }
     }
@@ -279,10 +287,7 @@ class InterfaceReader {
     }
   }
 
-  private static <T> ObjectValueParser<T> createJsonParser(
-    RefToType<T> type, boolean isNullable,
-    boolean isSubtyping
-  ) {
+  private static <T> ObjectValueParser<T> createJsonParser(RefToType<T> type, boolean isNullable, boolean isSubtyping) {
     return new ObjectValueParser<T>(type, isNullable, isSubtyping);
   }
 
@@ -291,7 +296,7 @@ class InterfaceReader {
   }
 
   private <T> RefToType<T> getTypeRef(Class<T> typeClass) {
-    if (typeTotypeHandler.containsKey(typeClass)) {
+    if (typeClass.getAnnotation(JsonType.class) != null) {
       RefImpl<T> result = new RefImpl<T>(typeClass);
       refs.add(result);
       return result;

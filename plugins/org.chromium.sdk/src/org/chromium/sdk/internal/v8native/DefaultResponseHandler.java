@@ -1,16 +1,17 @@
 package org.chromium.sdk.internal.v8native;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.chromium.sdk.internal.v8native.processor.AfterCompileProcessor;
 import org.chromium.sdk.internal.v8native.processor.BreakpointProcessor;
 import org.chromium.sdk.internal.v8native.processor.ScriptCollectedProcessor;
 import org.chromium.sdk.internal.v8native.processor.V8EventProcessor;
+import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
 import org.chromium.sdk.internal.v8native.protocol.input.EventNotification;
 import org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DefaultResponseHandler {
 
@@ -37,7 +38,6 @@ public class DefaultResponseHandler {
   }
 
   /**
-   * @param type response type ("response" or "event")
    * @param response from the V8 VM debugger
    */
   public void handleResponseWithHandler(IncomingMessage response) {

@@ -5,7 +5,6 @@
 package org.jetbrains.v8.protocolParser;
 
 import org.chromium.protocolparser.DynamicParserImpl;
-import org.chromium.protocolparser.JsonProtocolModelParseException;
 import org.chromium.protocolparser.ParserGeneratorBase;
 import org.chromium.sdk.internal.v8native.protocol.LiveEditResult;
 
@@ -17,24 +16,9 @@ public class LiveEditParserGenerator extends ParserGeneratorBase {
     mainImpl(args, createConfiguration());
   }
 
-  public static DynamicParserImpl<LiveEditProtocolParser> create() {
-    try {
-      return new DynamicParserImpl<LiveEditProtocolParser>(true, LiveEditProtocolParser.class,
-                                                           new Class[]{
-                                                             LiveEditResult.class,
-                                                             LiveEditResult.OldTreeNode.class,
-                                                             LiveEditResult.NewTreeNode.class,
-                                                             LiveEditResult.Positions.class,
-                                                             LiveEditResult.TextualDiff.class,
-                                                           });
-    }
-    catch (JsonProtocolModelParseException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   public static ParserGeneratorBase.GenerateConfiguration createConfiguration() {
-    return new GenerateConfiguration("org.chromium.sdk.internal.liveeditprotocol",
-                                     "GeneratedLiveEditProtocolParser", create());
+    DynamicParserImpl<LiveEditProtocolParser> result = new DynamicParserImpl<LiveEditProtocolParser>(true, LiveEditProtocolParser.class,
+                                                                                                     new Class[]{LiveEditResult.class});
+    return new GenerateConfiguration("org.chromium.v8.liveeditProtocol", "LiveEditProtocolReader", result);
   }
 }

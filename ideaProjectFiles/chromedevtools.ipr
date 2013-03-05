@@ -261,8 +261,6 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/V8 dynamic protocol impl.iml" filepath="$PROJECT_DIR$/V8 dynamic protocol impl.iml" group="v8" />
-      <module fileurl="file://$PROJECT_DIR$/V8 static protocol impl.iml" filepath="$PROJECT_DIR$/V8 static protocol impl.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/../fake module.iml" filepath="$PROJECT_DIR$/../fake module.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.iml" filepath="$PROJECT_DIR$/org.chromium.debug.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.core.iml" filepath="$PROJECT_DIR$/org.chromium.debug.core.iml" />
@@ -278,8 +276,8 @@
       <module fileurl="file://$PROJECT_DIR$/org.chromium.source.iml" filepath="$PROJECT_DIR$/org.chromium.source.iml" />
       <module fileurl="file://$PROJECT_DIR$/../protocolParser/protocolParser.iml" filepath="$PROJECT_DIR$/../protocolParser/protocolParser.iml" />
       <module fileurl="file://$PROJECT_DIR$/../protocolParserRuntime/protocolParserRuntime.iml" filepath="$PROJECT_DIR$/../protocolParserRuntime/protocolParserRuntime.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" filepath="$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../v8/protocol-parser-generator/v8-protocol-parser-generator.iml" filepath="$PROJECT_DIR$/../v8/protocol-parser-generator/v8-protocol-parser-generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" filepath="$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" group="v8" />
+      <module fileurl="file://$PROJECT_DIR$/../v8/protocol-parser-generator/v8-protocol-parser-generator.iml" filepath="$PROJECT_DIR$/../v8/protocol-parser-generator/v8-protocol-parser-generator.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/wip-eclipse.iml" filepath="$PROJECT_DIR$/wip-eclipse.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../wip/protocol/wip-protocol.iml" filepath="$PROJECT_DIR$/../wip/protocol/wip-protocol.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../wip/protocol-model/wip-protocol-model.iml" filepath="$PROJECT_DIR$/../wip/protocol-model/wip-protocol-model.iml" group="wip" />

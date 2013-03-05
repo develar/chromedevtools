@@ -11,11 +11,8 @@ import org.chromium.sdk.internal.v8native.protocol.LiveEditResult;
 
 import java.io.IOException;
 
-/**
- * Interface to LiveEdit protocol parser.
- */
 @JsonParserRoot
 public interface LiveEditProtocolParser {
   @JsonParseMethod
-  LiveEditResult parseLiveEditResult(JsonReader underlyingObject) throws IOException;
+  LiveEditResult parseLiveEditResult(JsonReader reader) throws IOException;
 }

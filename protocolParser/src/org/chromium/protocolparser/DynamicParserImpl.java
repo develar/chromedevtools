@@ -10,8 +10,7 @@ import java.lang.reflect.Proxy;
 import java.util.*;
 
 /**
- * Java dynamic-proxy based implementation of {@_link JsonProtocolParser}. It analyses
- * interfaces with reflection and provides their implementation by {@link Proxy} factory.
+ * It analyses interfaces with reflection and provides their implementation by {@link Proxy} factory.
  * User-friendly 'root' interface is available by {@link #getParserRoot()} method.
  * @param <ROOT> root user-provided type (see {@link org.chromium.protocolParser.JsonParserRoot})
  */

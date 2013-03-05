@@ -14,7 +14,6 @@ import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.input.V8ProtocolParserAccess;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.RefWithDisplayData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
@@ -24,6 +23,7 @@ import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory
 import org.chromium.sdk.internal.v8native.protocol.output.LookupMessage;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
+import org.chromium.v8.protocol.V8ProtocolReader;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -301,6 +301,8 @@ public class ValueLoaderImpl extends ValueLoader {
     }
   }
 
+  private static final V8ProtocolReader PROTOCOL_READER = new V8ProtocolReader();
+
   private List<ValueMirror> readResponseFromLookup(SuccessCommandResponse successResponse, long[] propertyRefIds) {
     List<ValueMirror> result = new ArrayList<ValueMirror>(propertyRefIds.length);
     Map body;
@@ -316,7 +318,7 @@ public class ValueLoaderImpl extends ValueLoader {
       }
       ValueHandle valueHandle;
       try {
-        valueHandle = V8ProtocolParserAccess.get().parseValueHandle((JsonReader)value);
+        valueHandle = PROTOCOL_READER.parseValueHandle((JsonReader)value);
       }
       catch (IOException e) {
         throw new RuntimeException(e);
@@ -347,7 +349,7 @@ public class ValueLoaderImpl extends ValueLoader {
       }
       ValueHandle valueHandle;
       try {
-        valueHandle = V8ProtocolParserAccess.get().parseValueHandle((JsonReader)value);
+        valueHandle = PROTOCOL_READER.parseValueHandle((JsonReader)value);
       }
       catch (IOException e) {
         throw new ValueLoadException(e);
