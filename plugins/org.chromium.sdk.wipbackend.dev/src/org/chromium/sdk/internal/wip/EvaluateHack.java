@@ -33,6 +33,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * the protocol itself supports this operation. As it hopefully will.
  */
 public class EvaluateHack {
+  private static final String GLOBAL_VARIABLE_NAME = "_com_chromium_debug_helper";
 
   private final WipTabImpl tabImpl;
   private final AtomicInteger uniqueIdCounter = new AtomicInteger(0);
@@ -224,24 +225,18 @@ public class EvaluateHack {
     }
 
     private <EVAL_DATA> WipRelayRunner.Step<JsVariable> createEvaluateStep(
-        final EvaluateCommandHandler<EVAL_DATA> commandHandler) {
+      final EvaluateCommandHandler<EVAL_DATA> commandHandler) {
       return new WipRelayRunner.SendStepWithResponse<EVAL_DATA, JsVariable>() {
         @Override
         public WipParamsWithResponse<EVAL_DATA> getParams() {
-          String script = "with (" + GLOBAL_VARIABLE_NAME + ".data." + dataId +
-              ") { return (" + userExpression + "); }";
-          String wrappedExpression = "(function() {" + script +"})()";
-
-          WipParamsWithResponse<EVAL_DATA> paramsWithResponse = commandHandler.createRequest(
-              wrappedExpression, destinationValueLoader);
-
-          return paramsWithResponse;
+          String script = "with (" + GLOBAL_VARIABLE_NAME + ".data." + dataId + ") { return (" + userExpression + "); }";
+          return commandHandler.createRequest("(function() {" + script + "})()", destinationValueLoader);
         }
 
         @Override
         public Step<JsVariable> processResponse(EVAL_DATA response) {
           JsVariable jsVariable =
-              commandHandler.processResult(response, destinationValueLoader, valueNameBuidler);
+            commandHandler.processResult(response, destinationValueLoader, valueNameBuidler);
 
           clearTempObjectAsync();
 
@@ -315,11 +310,8 @@ public class EvaluateHack {
     // 'data' is for temporary objects.
     // 'code' is for utility methods.
     String injectedObjectText = "{ data: {}, code: {}}";
-    String expression = "(function() { " + GLOBAL_VARIABLE_NAME + " = " + injectedObjectText +
-        " ; })()";
-
+    String expression = "(function() { " + GLOBAL_VARIABLE_NAME + " = " + injectedObjectText + " ; })()";
     EvaluateParams evaluateParams = new EvaluateParams(expression, null, false, null, null, true);
-
     GenericCallback<EvaluateData> wrappedCallback = new GenericCallback<EvaluateData>() {
       @Override
       public void success(EvaluateData value) {
@@ -336,6 +328,4 @@ public class EvaluateHack {
 
     return tabImpl.getCommandProcessor().send(evaluateParams, wrappedCallback, syncCallback);
   }
-
-  private static final String GLOBAL_VARIABLE_NAME = "_com_chromium_debug_helper";
 }

@@ -25,14 +25,16 @@ public class EvaluateParams extends org.jetbrains.wip.protocol.WipParamsWithResp
     //this.put("generatePreview", generatePreviewOpt);
   }
 
+
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.RUNTIME + ".evaluate";
 
-  @Override protected String getRequestName() {
+  @Override
+  public String getCommand() {
     return METHOD_NAME;
   }
 
-  @Override public org.chromium.wip.protocol.input.runtime.EvaluateData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
+  @Override
+  public org.chromium.wip.protocol.input.runtime.EvaluateData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseRuntimeEvaluateData(data.getUnderlyingObject());
   }
-
 }

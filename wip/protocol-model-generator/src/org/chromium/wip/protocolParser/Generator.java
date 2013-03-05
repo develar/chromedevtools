@@ -68,53 +68,67 @@ class Generator {
   }
 
   <T> QualifiedTypeData resolveType(final T typedObject, final TypedObjectAccess<T> access,
-      final ResolveAndGenerateScope scope) {
-    UnqualifiedTypeData unqualifiedType =
-        switchByType(typedObject, access, new TypeVisitor<UnqualifiedTypeData>() {
-      @Override public UnqualifiedTypeData visitRef(String refName) {
-        BoxableType typeRef = resolveRefType(scope.getDomainName(), refName,
-            scope.getTypeDirection());
-        return new UnqualifiedTypeData(typeRef);
-      }
-      @Override public UnqualifiedTypeData visitBoolean() {
-        return UnqualifiedTypeData.BOOLEAN;
-      }
-
-      @Override public UnqualifiedTypeData visitEnum(List<String> enumConstants) {
-        BoxableType enumName = scope.generateEnum(getDescription(), enumConstants);
-        return new UnqualifiedTypeData(enumName);
-      }
-
-      @Override public UnqualifiedTypeData visitString() {
-        return UnqualifiedTypeData.STRING;
-      }
-      @Override public UnqualifiedTypeData visitInteger() {
-        return UnqualifiedTypeData.LONG;
-      }
-      @Override public UnqualifiedTypeData visitNumber() {
-        return UnqualifiedTypeData.NUMBER;
-      }
-      @Override public UnqualifiedTypeData visitArray(ArrayItemType items) {
-        QualifiedTypeData itemQualifiedType =
-            scope.resolveType(items, TypedObjectAccess.FOR_ARRAY_ITEM);
-        return new UnqualifiedTypeData(BoxableType.createList(itemQualifiedType.getJavaType()));
-      }
-      @Override public UnqualifiedTypeData visitObject(List<ObjectProperty> properties) {
-        BoxableType nestedObjectName;
-        try {
-          nestedObjectName = scope.generateNestedObject(getDescription(), properties);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
+                                    final ResolveAndGenerateScope scope) {
+    UnqualifiedTypeData unqualifiedType = switchByType(typedObject, access, new TypeVisitor<UnqualifiedTypeData>() {
+        @Override
+        public UnqualifiedTypeData visitRef(String refName) {
+          return new UnqualifiedTypeData(resolveRefType(scope.getDomainName(), refName, scope.getTypeDirection()));
         }
-        return new UnqualifiedTypeData(nestedObjectName, false);
-      }
-      @Override public UnqualifiedTypeData visitUnknown() {
-        return UnqualifiedTypeData.ANY;
-      }
-      private String getDescription() {
-        return access.getDescription(typedObject);
-      }
-    });
+
+        @Override
+        public UnqualifiedTypeData visitBoolean() {
+          return UnqualifiedTypeData.BOOLEAN;
+        }
+
+        @Override
+        public UnqualifiedTypeData visitEnum(List<String> enumConstants) {
+          BoxableType enumName = scope.generateEnum(getDescription(), enumConstants);
+          return new UnqualifiedTypeData(enumName);
+        }
+
+        @Override
+        public UnqualifiedTypeData visitString() {
+          return UnqualifiedTypeData.STRING;
+        }
+
+        @Override
+        public UnqualifiedTypeData visitInteger() {
+          return UnqualifiedTypeData.LONG;
+        }
+
+        @Override
+        public UnqualifiedTypeData visitNumber() {
+          return UnqualifiedTypeData.NUMBER;
+        }
+
+        @Override
+        public UnqualifiedTypeData visitArray(ArrayItemType items) {
+          QualifiedTypeData itemQualifiedType =
+            scope.resolveType(items, TypedObjectAccess.FOR_ARRAY_ITEM);
+          return new UnqualifiedTypeData(BoxableType.createList(itemQualifiedType.getJavaType()));
+        }
+
+        @Override
+        public UnqualifiedTypeData visitObject(List<ObjectProperty> properties) {
+          BoxableType nestedObjectName;
+          try {
+            nestedObjectName = scope.generateNestedObject(getDescription(), properties);
+          }
+          catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+          return new UnqualifiedTypeData(nestedObjectName, false);
+        }
+
+        @Override
+        public UnqualifiedTypeData visitUnknown() {
+          return UnqualifiedTypeData.ANY;
+        }
+
+        private String getDescription() {
+          return access.getDescription(typedObject);
+        }
+      });
 
     return unqualifiedType.getQualifiedType(access.getOptional(typedObject) == Boolean.TRUE);
   }
@@ -136,7 +150,8 @@ class Generator {
       BoxableType ref;
       if (optional) {
         ref = typeRef.convertToPureReference();
-      } else {
+      }
+      else {
         ref = typeRef;
       }
       return new QualifiedTypeData(ref, optional, nullable);
@@ -194,14 +209,15 @@ class Generator {
    * Resolve absolute (DOMAIN.TYPE) or relative (TYPE) typename.
    */
   private BoxableType resolveRefType(String scopeDomainName, String refName,
-      TypeData.Direction direction) {
+                                     TypeData.Direction direction) {
     int pos = refName.indexOf('.');
     String domainName;
     String shortName;
     if (pos == -1) {
       domainName = scopeDomainName;
       shortName = refName;
-    } else {
+    }
+    else {
       domainName = refName.substring(0, pos);
       shortName = refName.substring(pos + 1);
     }
@@ -213,7 +229,7 @@ class Generator {
       return originalName;
     }
     output.append("\t  @org.chromium.protocolParser.JsonField(jsonLiteralName=\"" +
-        originalName + "\")\n");
+                  originalName + "\")\n");
     return "get" + Character.toUpperCase(originalName.charAt(0)) + originalName.substring(1);
   }
 
@@ -224,8 +240,7 @@ class Generator {
     return str;
   }
 
-  JavaFileUpdater startJavaFile(ClassNameScheme nameScheme, Domain domain,
-                                String baseName) throws IOException {
+  JavaFileUpdater startJavaFile(ClassNameScheme nameScheme, Domain domain, String baseName) throws IOException {
     String packageName = nameScheme.getPackageNameVirtual(domain.domain());
     String fileName = nameScheme.getShortName(baseName) + ".java";
     return startJavaFile(packageName, fileName);
@@ -251,22 +266,29 @@ class Generator {
     String typeName = access.getType(typedObject);
     if (WipMetamodel.BOOLEAN_TYPE.equals(typeName)) {
       return visitor.visitBoolean();
-    } else if (WipMetamodel.STRING_TYPE.equals(typeName)) {
+    }
+    else if (WipMetamodel.STRING_TYPE.equals(typeName)) {
       if (access.getEnum(typedObject) != null) {
         return visitor.visitEnum(access.getEnum(typedObject));
       }
       return visitor.visitString();
-    } else if (WipMetamodel.INTEGER_TYPE.equals(typeName)) {
+    }
+    else if (WipMetamodel.INTEGER_TYPE.equals(typeName)) {
       return visitor.visitInteger();
-    } else if (WipMetamodel.NUMBER_TYPE.equals(typeName)) {
+    }
+    else if (WipMetamodel.NUMBER_TYPE.equals(typeName)) {
       return visitor.visitNumber();
-    } else if (WipMetamodel.ARRAY_TYPE.equals(typeName)) {
+    }
+    else if (WipMetamodel.ARRAY_TYPE.equals(typeName)) {
       return visitor.visitArray(access.getItems(typedObject));
-    } else if (WipMetamodel.OBJECT_TYPE.equals(typeName)) {
+    }
+    else if (WipMetamodel.OBJECT_TYPE.equals(typeName)) {
       return visitor.visitObject(access.getProperties(typedObject));
-    } else if (WipMetamodel.ANY_TYPE.equals(typeName)) {
+    }
+    else if (WipMetamodel.ANY_TYPE.equals(typeName)) {
       return visitor.visitUnknown();
-    } else if (WipMetamodel.UNKNOWN_TYPE.equals(typeName)) {
+    }
+    else if (WipMetamodel.UNKNOWN_TYPE.equals(typeName)) {
       return visitor.visitUnknown();
     }
     throw new RuntimeException("Unrecognized type " + typeName);
@@ -302,7 +324,8 @@ class Generator {
     private static void collectFilesRecursive(File file, Collection<File> list) {
       if (file.isFile()) {
         list.add(file);
-      } else if (file.isDirectory()) {
+      }
+      else if (file.isDirectory()) {
         //noinspection ConstantConditions
         for (File inner : file.listFiles()) {
           collectFilesRecursive(inner, list);
@@ -326,6 +349,6 @@ class Generator {
   }
 
   private static final Set<String> BAD_METHOD_NAMES = new HashSet<String>(Arrays.asList(
-      "this"
-      ));
+    "this"
+  ));
 }

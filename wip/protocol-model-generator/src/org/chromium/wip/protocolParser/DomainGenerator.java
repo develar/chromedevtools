@@ -1,6 +1,7 @@
 package org.chromium.wip.protocolParser;
 
 import org.chromium.protocolparser.EnumValueCondition;
+import org.chromium.protocolparser.TextOutput;
 import org.chromium.wip.schemaParser.WipMetamodel;
 
 import java.io.IOException;
@@ -9,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class DomainGenerator {
-  private final WipMetamodel.Domain domain;
-  private Generator generator;
+  final WipMetamodel.Domain domain;
+  final Generator generator;
 
   DomainGenerator(Generator generator, WipMetamodel.Domain domain) {
     this.generator = generator;
@@ -50,40 +51,34 @@ class DomainGenerator {
     StringBuilder baseTypeBuilder = new StringBuilder();
     baseTypeBuilder.append("org.jetbrains.wip.protocol.");
     if (hasResponse) {
-      baseTypeBuilder.append("WipParamsWithResponse<")
-        .append(Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText()).append(">");
-    } else {
+      baseTypeBuilder.append("WipParamsWithResponse<");
+      baseTypeBuilder.append(Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText());
+      baseTypeBuilder.append(">");
+    }
+    else {
       baseTypeBuilder.append("WipParams");
     }
 
-    DeferredWriter additionalMemberBuilder = new DeferredWriter();
-    additionalMemberBuilder.append("\t  public static final String METHOD_NAME = " +
-        "org.jetbrains.wip.protocol.BasicConstants.Domain." +
-        domain.domain().toUpperCase() + " + \"." + command.name() + "\";\n");
-    additionalMemberBuilder.append("\n");
-
-
-    additionalMemberBuilder.append("\t  @Override protected String getRequestName() {\n");
-    additionalMemberBuilder.append("\t    return METHOD_NAME;\n");
-    additionalMemberBuilder.append("\t  }\n");
-    additionalMemberBuilder.append("\t\n");
+    TextOutput memberBuilder = new TextOutput(new StringBuilder());
+    memberBuilder.indentIn().newLine();
+    memberBuilder.append("public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.");
+    memberBuilder.append(domain.domain().toUpperCase()).append(" + \".").append(command.name()).append("\";");
+    memberBuilder.newLine().newLine().append("@Override").newLine().append("public String getCommand()").openBlock();
+    memberBuilder.append("return METHOD_NAME;").closeBlock();
 
     if (hasResponse) {
-      String dataInterfaceFullname =
-          Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText();
-      additionalMemberBuilder.append(
-          "\t  @Override public " + dataInterfaceFullname + " parseResponse(" +
-          "org.jetbrains.wip.protocol.WipCommandResponse.Data data, " +
-          "org.chromium.wip.protocol.input." + Generator.READER_INTERFACE_NAME + " parser) throws java.io.IOException {\n");
-      additionalMemberBuilder.append("\t    return parser." +
-          Naming.COMMAND_DATA.getParseMethodName(domain.domain(), command.name()) +
-          "(data.getUnderlyingObject());\n");
-      additionalMemberBuilder.append("\t  }\n");
-      additionalMemberBuilder.append("\t\n");
+      String dataInterfaceFullname = Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText();
+      memberBuilder.newLine().newLine().append("@Override").newLine().append("public ").append(dataInterfaceFullname).append(" parseResponse(" +
+        "org.jetbrains.wip.protocol.WipCommandResponse.Data data, " +
+        "org.chromium.wip.protocol.input." + Generator.READER_INTERFACE_NAME + " parser) throws java.io.IOException").openBlock();
+      memberBuilder.append("return parser.").append(Naming.COMMAND_DATA.getParseMethodName(domain.domain(), command.name()));
+      memberBuilder.append("(data.getUnderlyingObject());");
+      memberBuilder.closeBlock();
     }
 
+    memberBuilder.indentOut().newLine();
     generateTopLevelOutputClass(Naming.PARAMS, command.name(), command.description(), baseTypeBuilder.toString(),
-                                additionalMemberBuilder, command.parameters(), PropertyLikeAccess.PARAMETER);
+                                memberBuilder, command.parameters(), PropertyLikeAccess.PARAMETER);
   }
 
   private void generateCommandAdditionalParam(WipMetamodel.StandaloneType type) throws IOException {
@@ -92,24 +87,19 @@ class DomainGenerator {
   }
 
   private <P> void generateTopLevelOutputClass(ClassNameScheme nameScheme, String baseName,
-      String description, String baseType, DeferredWriter additionalMemberText,
+      String description, String baseType, TextOutput additionalMemberText,
       List<P> properties, PropertyLikeAccess<P> propertyAccess) throws IOException {
     JavaFileUpdater fileUpdater = generator.startJavaFile(nameScheme, domain, baseName);
-
     Writer writer = fileUpdater.getWriter();
     IndentWriter indentWriter = new IndentWriterImpl(writer, "");
     NamePath classNamePath = nameScheme.getFullName(domain.domain(), baseName);
-
-    generateOutputClass(indentWriter, classNamePath, description, baseType, additionalMemberText,
-        properties, propertyAccess);
-
+    generateOutputClass(indentWriter, classNamePath, description, baseType, additionalMemberText, properties, propertyAccess);
     writer.close();
-
     fileUpdater.update();
   }
 
   private <P> void generateOutputClass(IndentWriter writer, NamePath classNamePath,
-      String description, String baseType, DeferredWriter additionalMemberText,
+      String description, String baseType, final TextOutput additionalMemberText,
       List<P> properties, PropertyLikeAccess<P> propertyAccess) throws IOException {
     if (description != null) {
       writer.append("\t/**\n" + description + "\n */\n");
@@ -120,17 +110,18 @@ class DomainGenerator {
     }
     writer.append(" {\n");
 
-    OutputClassScope classScope = new OutputClassScope(classNamePath);
-
+    OutputClassScope classScope = new OutputClassScope(this, classNamePath);
     if (additionalMemberText != null) {
-      classScope.addMember(additionalMemberText);
+      classScope.addMember(new DeferredWriter() {
+        @Override
+        void writeContent(IndentWriter output) {
+          output.append(additionalMemberText.getOut().toString());
+        }
+      });
     }
 
-    classScope.generateCommandParamsBody(writer, properties, propertyAccess
-    );
-
+    classScope.generateCommandParamsBody(writer, properties, propertyAccess);
     classScope.writeAdditionalMembers(writer);
-
     writer.append("\t}\n");
   }
 
@@ -305,7 +296,7 @@ class DomainGenerator {
         writer.append("\t@org.chromium.protocolParser.JsonType\n");
         writer.append("\tpublic interface " + className.getLastComponent() +" {\n");
 
-        InputClassScope classScope = new InputClassScope(className);
+        InputClassScope classScope = new InputClassScope(DomainGenerator.this, className);
         classScope.generateStandaloneTypeBody(writer, properties);
         classScope.writeAdditionalMembers(writer);
         writer.append("\t}\n");
@@ -372,6 +363,7 @@ class DomainGenerator {
       final ClassNameScheme nameScheme, final TypeData.Direction direction) {
     final String name = type.id();
     final NamePath typedefJavaName = nameScheme.getFullName(domain.domain(), name);
+    //noinspection UnusedDeclaration
     final BoxableType typedefJavaType = BoxableType.createReference(typedefJavaName);
 
     final List<DeferredWriter> deferredWriters = new ArrayList<DeferredWriter>(0);
@@ -394,8 +386,7 @@ class DomainGenerator {
             throw new RuntimeException("TODO");
           case OUTPUT:
             // "org.json.simple.JSONObject"
-            generateOutputClass(writer, classNamePath, description, null,
-                null, properties, PropertyLikeAccess.PROPERTY);
+            generateOutputClass(writer, classNamePath, description, null, null, properties, PropertyLikeAccess.PROPERTY);
             break;
           default:
             throw new RuntimeException();
@@ -414,42 +405,6 @@ class DomainGenerator {
     return new StandaloneTypeBinding() {
       @Override public BoxableType getJavaType() {
         return new DecoratedBoxableType(actualJavaType);
-      }
-
-      class DecoratedBoxableType extends BoxableType {
-        private final BoxableType original;
-
-        DecoratedBoxableType(BoxableType original) {
-          this.original = original;
-        }
-
-        @Override
-        String getFullText() {
-          return original.getFullText();
-          //return decorateTypeName(original.getFullText(), typedefJavaType.getFullText());
-        }
-
-        @Override
-        String getShortText(NamePath contextNamespace) {
-          return original.getShortText(contextNamespace);
-          //return decorateTypeName(original.getShortText(contextNamespace),
-          //                        typedefJavaType.getShortText(contextNamespace));
-        }
-
-        @Override
-        BoxableType convertToPureReference() {
-          BoxableType pureReference = original.convertToPureReference();
-          if (pureReference == original) {
-            return this;
-          }
-          else {
-            return new DecoratedBoxableType(pureReference);
-          }
-        }
-
-        private String decorateTypeName(String actualTypeName, String innerTypeName) {
-          return actualTypeName + "/*See " + innerTypeName + "*/";
-        }
       }
 
       @Override
@@ -531,334 +486,12 @@ class DomainGenerator {
     writer.append("\t@org.chromium.protocolParser.JsonType\n");
     writer.append("\tpublic interface " + className +" {\n");
 
-    InputClassScope classScope = new InputClassScope(new NamePath(className, new NamePath(ClassNameScheme.getPackageName(Generator.INPUT_PACKAGE, domain.domain()))));
+    InputClassScope classScope = new InputClassScope(this, new NamePath(className, new NamePath(ClassNameScheme.getPackageName(Generator.INPUT_PACKAGE, domain.domain()))));
     if (additionalMembersText != null) {
       classScope.addMember(additionalMembersText);
     }
     classScope.generateMainJsonProtocolInterfaceBody(writer, parameters);
     classScope.writeAdditionalMembers(writer);
     writer.append("\t}\n");
-  }
-
-  private abstract class ClassScope {
-    private final List<DeferredWriter> additionalMemberTexts = new ArrayList<DeferredWriter>(2);
-    private final NamePath contextNamespace;
-
-    ClassScope(NamePath classNamespace) {
-      contextNamespace = classNamespace;
-    }
-
-    protected String getShortClassName() {
-      return contextNamespace.getLastComponent();
-    }
-
-    String getFullName() {
-      return contextNamespace.getFullText();
-    }
-
-    NamePath getClassContextNamespace() {
-      return contextNamespace;
-    }
-
-    void addMember(DeferredWriter deferredWriter) {
-      additionalMemberTexts.add(deferredWriter);
-    }
-
-    void writeAdditionalMembers(IndentWriter writer) throws IOException {
-      for (DeferredWriter deferredWriter : additionalMemberTexts) {
-        deferredWriter.writeContent(writer);
-      }
-    }
-
-    protected abstract TypeData.Direction getTypeDirection();
-
-    /**
-     * Member scope is used to generate additional types that are used only from method.
-     * These types will be named after this method.
-     */
-    protected abstract class MemberScope implements ResolveAndGenerateScope {
-      private final String memberName;
-
-      protected MemberScope(String memberName) {
-        this.memberName = memberName;
-      }
-
-      private QualifiedTypeData resolveType(WipMetamodel.ObjectProperty objectProperty) {
-        return resolveType(objectProperty, TypedObjectAccess.FOR_OBJECT_PROPERTY);
-      }
-
-      private QualifiedTypeData resolveType(WipMetamodel.Parameter parameter) {
-        return resolveType(parameter, TypedObjectAccess.FOR_PARAMETER);
-      }
-
-      @Override
-      public <T> QualifiedTypeData resolveType(T typedObject, TypedObjectAccess<T> access) {
-        return generator.resolveType(typedObject, access, this);
-      }
-
-      protected String getMemberName() {
-        return memberName;
-      }
-
-      public abstract BoxableType generateEnum(String description, List<String> enumConstants);
-      public abstract BoxableType generateNestedObject(String description,
-          List<WipMetamodel.ObjectProperty> propertyList) throws IOException;
-
-      @Override
-      public String getDomainName() {
-        return domain.domain();
-      }
-
-      @Override
-      public TypeData.Direction getTypeDirection() {
-        return ClassScope.this.getTypeDirection();
-      }
-    }
-  }
-
-  class InputClassScope extends ClassScope {
-    InputClassScope(NamePath namePath) {
-      super(namePath);
-    }
-
-    public void generateMainJsonProtocolInterfaceBody(IndentWriter writer,
-        List<WipMetamodel.Parameter> parameters) throws IOException {
-      if (parameters != null) {
-        for (WipMetamodel.Parameter param : parameters) {
-          if (param.description() != null) {
-            writer.append("\t  /**\n   " + param.description() + "\n   */\n");
-          }
-
-          String methodName = Generator.generateMethodNameSubstitute(param.name(), writer);
-
-          MemberScope memberScope = newMemberScope(param.name());
-
-          QualifiedTypeData paramTypeData = memberScope.resolveType(param);
-
-          paramTypeData.writeAnnotations(writer, "  ");
-
-          writer.append("\t  " +
-              paramTypeData.getJavaType().getShortText(getClassContextNamespace()) + " " +
-              methodName + "();\n");
-          writer.append("\t\n");
-        }
-      }
-    }
-
-    void generateStandaloneTypeBody(IndentWriter writer, List<WipMetamodel.ObjectProperty> properties)
-        throws IOException {
-      if (properties != null) {
-        for (WipMetamodel.ObjectProperty objectProperty : properties) {
-          String propertyName = objectProperty.name();
-
-          if (objectProperty.description() != null) {
-            writer.append("\t  /**\n   " + objectProperty.description() + "\n   */\n");
-          }
-
-          String methodName = Generator.generateMethodNameSubstitute(propertyName, writer);
-
-          MemberScope memberScope = newMemberScope(propertyName);
-
-          QualifiedTypeData propertyTypeData = memberScope.resolveType(objectProperty);
-
-          propertyTypeData.writeAnnotations(writer, "  ");
-
-          writer.append("\t  " +
-              propertyTypeData.getJavaType().getShortText(getClassContextNamespace()) + " " +
-              methodName + "();\n");
-          writer.append("\t\n");
-        }
-      }
-    }
-
-    @Override
-    protected TypeData.Direction getTypeDirection() {
-      return TypeData.Direction.INPUT;
-    }
-
-    private MemberScope newMemberScope(String memberName) {
-      return new InputClassScope.InputMemberScope(memberName);
-    }
-
-    class InputMemberScope extends MemberScope {
-      InputMemberScope(String memberName) {
-        super(memberName);
-      }
-
-      @Override
-      public BoxableType generateEnum(String description, List<String> enumConstants) {
-        DeferredWriter builder = new DeferredWriter();
-        if (description != null) {
-          builder.append("\t  /**\n   " + description + "\n   */\n");
-        }
-
-        String enumName = Generator.capitalizeFirstChar(getMemberName());
-        builder.append("\t  public enum " + enumName + " {\n");
-        for (String constant : enumConstants) {
-          builder.append("\t    " +
-              EnumValueCondition.decorateEnumConstantName(constant) + ",\n");
-        }
-        builder.append("\t  }\n");
-        addMember(builder);
-
-        return BoxableType.createReference(new NamePath(enumName, getClassContextNamespace()));
-      }
-
-      @Override
-      public BoxableType generateNestedObject(String description, List<WipMetamodel.ObjectProperty> propertyList) throws IOException {
-        DeferredWriter builder = new DeferredWriter();
-        if (description != null) {
-          builder.append("\t  /**\n   " + description + "\n   */\n");
-        }
-
-        String objectName = Generator.capitalizeFirstChar(getMemberName());
-        if (propertyList == null) {
-          builder.append("\t  @org.chromium.protocolParser.JsonType(" +
-              "allowsOtherProperties=true)\n");
-          builder.append("\t  public interface " + objectName +
-              " extends org.chromium.protocolParser.JsonObjectBased {\n");
-          builder.append("\t  }\n");
-        } else {
-          builder.append("\t  @org.chromium.protocolParser.JsonType\n");
-          builder.append("\t  public interface " + objectName + " {\n");
-          for (WipMetamodel.ObjectProperty property : propertyList) {
-            if (property.description() != null) {
-              builder.append("\t    /**\n     " + property.description() + "\n     */\n");
-            }
-
-            String methodName = Generator.generateMethodNameSubstitute(property.name(), builder);
-            MemberScope memberScope = newMemberScope(property.name());
-            QualifiedTypeData propertyTypeData = memberScope.resolveType(property);
-            propertyTypeData.writeAnnotations(builder, "    ");
-
-            builder.append("\t    " +
-                propertyTypeData.getJavaType().getShortText(getClassContextNamespace()) + " " +
-                methodName +  "();\n");
-            builder.append("\t\n");
-          }
-          builder.append("\t  }\n");
-        }
-
-        addMember(builder);
-        generator.jsonProtocolParserClassNames.add(getFullName() + '.' + objectName);
-        return BoxableType.createReference(new NamePath(objectName, getClassContextNamespace()));
-      }
-    }
-  }
-
-  class OutputClassScope extends ClassScope {
-    OutputClassScope(NamePath classNamePath) {
-      super(classNamePath);
-    }
-
-    <P> void generateCommandParamsBody(IndentWriter writer, List<P> parameters,
-                                       PropertyLikeAccess<P> access) throws IOException {
-
-      if (parameters != null) {
-        boolean hasDoc = false;
-        for (P param : parameters) {
-          if (access.forTypedObject().getDescription(param) != null) {
-            hasDoc = true;
-            break;
-          }
-        }
-        if (hasDoc) {
-          writer.append("\t  /**\n");
-          for (P param : parameters) {
-            String propertyDescription = access.forTypedObject().getDescription(param);
-            if (propertyDescription != null) {
-              writer.append("\t   @param " + Generator.getParamName(param, access) + " " +
-                  propertyDescription + "\n");
-            }
-          }
-          writer.append("\t   */\n");
-        }
-      }
-      writer.append("\t  public " + getShortClassName() +"(");
-      {
-        boolean needComa = false;
-        if (parameters != null) {
-          for (P param : parameters) {
-            if (needComa) {
-              writer.append(", ");
-            }
-            String paramName = Generator.getParamName(param, access);
-            MemberScope memberScope = newMemberScope(paramName);
-            QualifiedTypeData paramTypeData =
-                memberScope.resolveType(param, access.forTypedObject());
-            writer.append(paramTypeData.getJavaType().getShortText(getClassContextNamespace()) +
-                " " + paramName);
-            needComa = true;
-          }
-        }
-      }
-      writer.append(") {\n");
-      if (parameters != null) {
-        for (P param : parameters) {
-          boolean isOptional = access.forTypedObject().getOptional(param) == Boolean.TRUE;
-          String paramName = Generator.getParamName(param, access);
-          //if (isOptional) {
-          //  writer.append("\t    if (" + paramName + " != null) {\n  ");
-          //}
-          writer.append("\t    //this.put(\"" + access.getName(param) + "\", " + paramName + ");\n");
-          if (isOptional) {
-            //writer.append("\t    }\n");
-          }
-        }
-      }
-      writer.append("\t  }\n");
-      writer.append("\n");
-    }
-
-    @Override
-    protected TypeData.Direction getTypeDirection() {
-      return TypeData.Direction.OUTPUT;
-    }
-
-    private MemberScope newMemberScope(String memberName) {
-      return new OutputClassScope.OutputMemberScope(memberName);
-    }
-
-    class OutputMemberScope extends MemberScope {
-      protected OutputMemberScope(String memberName) {
-        super(memberName);
-      }
-
-      @Override
-      public BoxableType generateEnum(String description, List<String> enumConstants) {
-        DeferredWriter builder = new DeferredWriter();
-        if (description != null) {
-          builder.append("\t  /**\n   " + description + "\n   */\n");
-        }
-        String enumName = Generator.capitalizeFirstChar(getMemberName());
-        // JSONAware
-        builder.append("\t  public enum " + enumName +
-            " {\n");
-        for (String constant : enumConstants) {
-          builder.append("\t    " + EnumValueCondition.decorateEnumConstantName(constant) +
-              "(\"" + constant + "\"),\n");
-        }
-        builder.append("\t    ;\n");
-        builder.append("\t    private final String protocolValue;\n");
-        builder.append("\t\n");
-        builder.append("\t    " + enumName + "(String protocolValue) {\n");
-        builder.append("\t      this.protocolValue = protocolValue;\n");
-        builder.append("\t    }\n");
-        builder.append("\t\n");
-        builder.append("\t    public String toJSONString() {\n");
-        builder.append("\t      return '\"' + protocolValue + '\"';\n");
-        builder.append("\t    }\n");
-        builder.append("\t  }\n");
-        addMember(builder);
-
-        return BoxableType.createReference(new NamePath(enumName, getClassContextNamespace()));
-      }
-
-      @Override
-      public BoxableType generateNestedObject(String description,
-          List<WipMetamodel.ObjectProperty> propertyList) throws IOException {
-        throw new UnsupportedOperationException();
-      }
-    }
   }
 }

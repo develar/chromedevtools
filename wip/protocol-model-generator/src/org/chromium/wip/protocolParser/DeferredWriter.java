@@ -1,6 +1,8 @@
 package org.chromium.wip.protocolParser;
 
-class DeferredWriter implements IndentWriter {
+import org.chromium.protocolparser.TextOutput;
+
+class DeferredWriter extends TextOutput implements IndentWriter {
   private final String indent;
   private final StringBuilder builder;
 
@@ -9,6 +11,7 @@ class DeferredWriter implements IndentWriter {
   }
 
   DeferredWriter(String indent, StringBuilder builder) {
+    super(builder);
     this.indent = indent;
     this.builder = builder;
   }

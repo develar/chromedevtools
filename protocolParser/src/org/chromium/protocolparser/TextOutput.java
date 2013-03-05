@@ -13,6 +13,10 @@ public class TextOutput {
     this.out = out;
   }
 
+  public StringBuilder getOut() {
+    return out;
+  }
+
   public TextOutput indentIn() {
     ++identLevel;
     if (identLevel >= indents.length) {

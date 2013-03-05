@@ -69,18 +69,19 @@ class WipCommandProcessor {
   <RESPONSE> RelayOk send(final WipParamsWithResponse<RESPONSE> params,
       final GenericCallback<RESPONSE> callback, SyncCallback syncCallback) {
     WipRequest request = new WipRequest(params);
-
     WipCommandCallback commandCallback;
     if (callback == null) {
       commandCallback = null;
-    } else {
+    }
+    else {
       commandCallback = new WipCommandCallback.Default() {
         @Override
         protected void onSuccess(Success success) {
           RESPONSE response;
           try {
             response = params.parseResponse(success.data(), WipParserAccess.get());
-          } catch (IOException e) {
+          }
+          catch (IOException e) {
             throw new RuntimeException(e);
           }
           callback.success(response);
