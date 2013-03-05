@@ -15,7 +15,7 @@ public interface WebSocketFrameSentEventData {
   /**
    Timestamp.
    */
-  Number timestamp();
+  double timestamp();
 
   /**
    WebSocket response data.

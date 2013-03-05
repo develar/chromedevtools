@@ -99,7 +99,7 @@ abstract class BoxableType {
 
   static final BoxableType STRING = createReference(new NamePath("String"));
   static final BoxableType OBJECT = createReference(new NamePath("Object"));
-  static final BoxableType NUMBER = createReference(new NamePath("Number"));
+  static final BoxableType NUMBER = createReference(new NamePath("double"));
   static final BoxableType LONG = createReference(new NamePath("long"));
   static final BoxableType BOOLEAN = createReference(new NamePath("boolean"));
 }

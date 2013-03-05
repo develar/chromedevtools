@@ -15,7 +15,7 @@ public interface WebSocketWillSendHandshakeRequestEventData {
   /**
    Timestamp.
    */
-  Number timestamp();
+  double timestamp();
 
   /**
    WebSocket request data.

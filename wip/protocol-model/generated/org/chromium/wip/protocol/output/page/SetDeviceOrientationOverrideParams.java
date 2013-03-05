@@ -11,7 +11,7 @@ public class SetDeviceOrientationOverrideParams extends org.jetbrains.wip.protoc
    * @param beta Mock beta
    * @param gamma Mock gamma
    */
-  public SetDeviceOrientationOverrideParams(Number alpha, Number beta, Number gamma) {
+  public SetDeviceOrientationOverrideParams(double alpha, double beta, double gamma) {
     put("alpha", alpha);
     put("beta", beta);
     put("gamma", gamma);

@@ -28,7 +28,7 @@ public interface InitiatorValue {
    Initiator line number, set for Parser type only.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  Number lineNumber();
+  double lineNumber();
 
   /**
    Type of this initiator.

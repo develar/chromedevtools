@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.page;
 
 @org.chromium.protocolParser.JsonType
 public interface LoadEventFiredEventData {
-  Number timestamp();
+  double timestamp();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.LoadEventFiredEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.LoadEventFiredEventData>("PageloadEventFired", org.chromium.wip.protocol.input.page.LoadEventFiredEventData.class) {

@@ -25,7 +25,7 @@ public interface ResponseReceivedEventData {
   /**
    Timestamp.
    */
-  Number timestamp();
+  double timestamp();
 
   /**
    Resource type.

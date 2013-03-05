@@ -10,7 +10,7 @@ public interface SearchMatchValue {
   /**
    Line number in resource content.
    */
-  Number lineNumber();
+  double lineNumber();
 
   /**
    Line with match content.

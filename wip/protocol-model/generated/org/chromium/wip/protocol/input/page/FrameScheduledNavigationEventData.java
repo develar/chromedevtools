@@ -15,7 +15,7 @@ public interface FrameScheduledNavigationEventData {
   /**
    Delay (in seconds) until the navigation is scheduled to begin. The navigation is not guaranteed to start.
    */
-  Number delay();
+  double delay();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameScheduledNavigationEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameScheduledNavigationEventData>("PageframeScheduledNavigation", org.chromium.wip.protocol.input.page.FrameScheduledNavigationEventData.class) {

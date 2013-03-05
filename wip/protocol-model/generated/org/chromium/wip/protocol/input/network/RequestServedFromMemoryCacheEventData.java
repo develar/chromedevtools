@@ -30,7 +30,7 @@ public interface RequestServedFromMemoryCacheEventData {
   /**
    Timestamp.
    */
-  Number timestamp();
+  double timestamp();
 
   /**
    Request initiator.

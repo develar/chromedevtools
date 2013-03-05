@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.page;
 
 @org.chromium.protocolParser.JsonType
 public interface DomContentEventFiredEventData {
-  Number timestamp();
+  double timestamp();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.DomContentEventFiredEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.DomContentEventFiredEventData>("PagedomContentEventFired", org.chromium.wip.protocol.input.page.DomContentEventFiredEventData.class) {

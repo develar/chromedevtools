@@ -35,7 +35,7 @@ public interface RequestWillBeSentEventData {
   /**
    Timestamp.
    */
-  Number timestamp();
+  double timestamp();
 
   /**
    Request initiator.

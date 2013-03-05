@@ -15,7 +15,7 @@ public interface LoadingFinishedEventData {
   /**
    Timestamp.
    */
-  Number timestamp();
+  double timestamp();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.LoadingFinishedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.LoadingFinishedEventData>("NetworkloadingFinished", org.chromium.wip.protocol.input.network.LoadingFinishedEventData.class) {

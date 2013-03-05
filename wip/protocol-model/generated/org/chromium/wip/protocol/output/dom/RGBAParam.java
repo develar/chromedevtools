@@ -20,7 +20,7 @@ public class RGBAParam extends org.jetbrains.jsonProtocol.OutMessage {
   /**
    * @param v The alpha component, in the [0-1] range (default: 1).
    */
-  public RGBAParam a(Number v) {
+  public RGBAParam a(double v) {
     put("a", v);
     return this;
   }

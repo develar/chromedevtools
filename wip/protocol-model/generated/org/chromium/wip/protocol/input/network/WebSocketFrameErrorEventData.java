@@ -15,7 +15,7 @@ public interface WebSocketFrameErrorEventData {
   /**
    Timestamp.
    */
-  Number timestamp();
+  double timestamp();
 
   /**
    WebSocket frame error message.

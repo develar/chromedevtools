@@ -15,7 +15,7 @@ public interface ResponseValue {
   /**
    HTTP response status code.
    */
-  Number status();
+  double status();
 
   /**
    HTTP response status text.
@@ -58,7 +58,7 @@ public interface ResponseValue {
   /**
    Physical connection id that was actually used for this request.
    */
-  Number connectionId();
+  double connectionId();
 
   /**
    Specifies that the request was served from the disk cache.

@@ -10,7 +10,7 @@ public interface WebSocketFrameValue {
   /**
    WebSocket frame opcode.
    */
-  Number opcode();
+  double opcode();
 
   /**
    WebSocke frame mask.

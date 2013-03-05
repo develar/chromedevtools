@@ -15,7 +15,7 @@ public interface WebSocketClosedEventData {
   /**
    Timestamp.
    */
-  Number timestamp();
+  double timestamp();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.WebSocketClosedEventData> TYPE
       = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.WebSocketClosedEventData>("NetworkwebSocketClosed", org.chromium.wip.protocol.input.network.WebSocketClosedEventData.class) {

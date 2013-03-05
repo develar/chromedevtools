@@ -10,7 +10,7 @@ public interface WebSocketResponseValue {
   /**
    HTTP response status code.
    */
-  Number status();
+  double status();
 
   /**
    HTTP response status text.

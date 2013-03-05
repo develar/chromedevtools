@@ -15,7 +15,7 @@ public interface DataReceivedEventData {
   /**
    Timestamp.
    */
-  Number timestamp();
+  double timestamp();
 
   /**
    Data chunk length.

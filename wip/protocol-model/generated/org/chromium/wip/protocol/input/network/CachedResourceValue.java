@@ -26,6 +26,6 @@ public interface CachedResourceValue {
   /**
    Cached response body size.
    */
-  Number bodySize();
+  double bodySize();
 
 }

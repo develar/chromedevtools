@@ -20,6 +20,6 @@ public interface SearchResultValue {
   /**
    Number of matches in the resource content.
    */
-  Number matchesCount();
+  double matchesCount();
 
 }

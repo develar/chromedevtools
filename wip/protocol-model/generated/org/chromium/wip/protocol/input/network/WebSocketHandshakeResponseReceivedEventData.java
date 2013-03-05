@@ -15,7 +15,7 @@ public interface WebSocketHandshakeResponseReceivedEventData {
   /**
    Timestamp.
    */
-  Number timestamp();
+  double timestamp();
 
   /**
    WebSocket response data.

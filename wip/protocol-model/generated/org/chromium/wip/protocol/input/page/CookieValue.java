@@ -30,7 +30,7 @@ public interface CookieValue {
   /**
    Cookie expires.
    */
-  Number expires();
+  double expires();
 
   /**
    Cookie size.

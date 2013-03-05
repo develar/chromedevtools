@@ -4,6 +4,7 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.List;
 
 public abstract class OutMessage {
   private final StringWriter stringWriter = new StringWriter();
@@ -40,7 +41,32 @@ public abstract class OutMessage {
     }
   }
 
+  protected final <E extends OutMessage> void put(String name, List<E> value) {
+    try {
+      addArgumentsName();
+      writer.name(name);
+      writer.beginArray();
+      for (E item : value) {
+        writer.value(v);
+      }
+      writer.endArray();
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   protected final void put(String name, long value) {
+    try {
+      addArgumentsName();
+      writer.name(name).value(value);
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  protected final void put(String name, double value) {
     try {
       addArgumentsName();
       writer.name(name).value(value);

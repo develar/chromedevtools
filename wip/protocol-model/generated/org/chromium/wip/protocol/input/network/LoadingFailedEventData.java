@@ -15,7 +15,7 @@ public interface LoadingFailedEventData {
   /**
    Timestamp.
    */
-  Number timestamp();
+  double timestamp();
 
   /**
    User friendly error message.

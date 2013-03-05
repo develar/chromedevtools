@@ -10,61 +10,61 @@ public interface ResourceTimingValue {
   /**
    Timing's requestTime is a baseline in seconds, while the other numbers are ticks in milliseconds relatively to this requestTime.
    */
-  Number requestTime();
+  double requestTime();
 
   /**
    Started resolving proxy.
    */
-  Number proxyStart();
+  double proxyStart();
 
   /**
    Finished resolving proxy.
    */
-  Number proxyEnd();
+  double proxyEnd();
 
   /**
    Started DNS address resolve.
    */
-  Number dnsStart();
+  double dnsStart();
 
   /**
    Finished DNS address resolve.
    */
-  Number dnsEnd();
+  double dnsEnd();
 
   /**
    Started connecting to the remote host.
    */
-  Number connectStart();
+  double connectStart();
 
   /**
    Connected to the remote host.
    */
-  Number connectEnd();
+  double connectEnd();
 
   /**
    Started SSL handshake.
    */
-  Number sslStart();
+  double sslStart();
 
   /**
    Finished SSL handshake.
    */
-  Number sslEnd();
+  double sslEnd();
 
   /**
    Started sending request.
    */
-  Number sendStart();
+  double sendStart();
 
   /**
    Finished sending request.
    */
-  Number sendEnd();
+  double sendEnd();
 
   /**
    Finished receiving response headers.
    */
-  Number receiveHeadersEnd();
+  double receiveHeadersEnd();
 
 }
