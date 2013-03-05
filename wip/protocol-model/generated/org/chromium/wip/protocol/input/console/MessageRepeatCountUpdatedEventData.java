@@ -1,0 +1,21 @@
+// Generated source.
+// Generator: org.chromium.wip.protocolParser.Generator
+package org.chromium.wip.protocol.input.console;
+
+/**
+ Issued when subsequent message(s) are equal to the previous one(s).
+ */
+@org.chromium.protocolParser.JsonType
+public interface MessageRepeatCountUpdatedEventData {
+  /**
+   New repeat count value.
+   */
+  long count();
+
+  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData> TYPE
+      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData>("ConsolemessageRepeatCountUpdated", org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData.class) {
+    @Override public org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+      return parser.parseConsoleMessageRepeatCountUpdatedEventData(reader);
+    }
+  };
+}

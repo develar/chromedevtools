@@ -4,16 +4,8 @@
 
 package org.chromium.sdk.internal.wip;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
-import java.net.URI;
-import java.util.AbstractList;
-import java.util.List;
-
 import org.chromium.sdk.ConnectionLogger;
 import org.chromium.sdk.TabDebugEventListener;
-import org.chromium.protocolParser.JsonProtocolParseException;
 import org.chromium.sdk.internal.transport.SocketWrapper;
 import org.chromium.sdk.internal.transport.SocketWrapper.LoggableInputStream;
 import org.chromium.sdk.internal.transport.SocketWrapper.LoggableOutputStream;
@@ -21,14 +13,20 @@ import org.chromium.sdk.internal.websocket.HandshakeUtil;
 import org.chromium.sdk.internal.websocket.Hybi00WsConnection;
 import org.chromium.sdk.internal.websocket.Hybi17WsConnection;
 import org.chromium.sdk.internal.websocket.WsConnection;
-import org.chromium.sdk.internal.wip.protocol.WipParserAccess;
-import org.chromium.sdk.internal.wip.protocol.input.WipTabList;
-import org.chromium.sdk.internal.wip.protocol.input.WipTabList.TabDescription;
 import org.chromium.sdk.wip.WipBrowser.WipTabConnector;
 import org.chromium.sdk.wip.WipBrowserFactory.LoggerFactory;
 import org.chromium.sdk.wip.WipBrowserTab;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.chromium.sdk.wip.WipParserAccess;
+import org.jetbrains.jsonProtocol.JsonUtil;
+import org.jetbrains.wip.protocol.WipTabList;
+import org.jetbrains.wip.protocol.WipTabList.TabDescription;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.util.AbstractList;
+import java.util.List;
 
 public class WipBackendImpl extends WipBackendBase {
   private static final int DEFAULT_CONNECTION_TIMEOUT_MS = 1000;
@@ -68,7 +66,7 @@ public class WipBackendImpl extends WipBackendBase {
     };
   }
 
-  private class TabConnectorImpl implements WipTabConnector {
+  private static class TabConnectorImpl implements WipTabConnector {
     private final TabDescription description;
     private final WipBrowserImpl browserImpl;
 
@@ -123,8 +121,8 @@ public class WipBackendImpl extends WipBackendBase {
     }
   }
 
-  private String readHttpResponseContent(InetSocketAddress socketAddress, String resource,
-      LoggerFactory loggerFactory) throws IOException {
+  private static String readHttpResponseContent(InetSocketAddress socketAddress, String resource,
+                                                LoggerFactory loggerFactory) throws IOException {
     ConnectionLogger browserConnectionLogger = loggerFactory.newBrowserConnectionLogger();
     final SocketWrapper socketWrapper = new SocketWrapper(
         socketAddress, DEFAULT_CONNECTION_TIMEOUT_MS, browserConnectionLogger,
@@ -194,21 +192,12 @@ public class WipBackendImpl extends WipBackendBase {
     stream.write(0xA);
   }
 
-  private static List<WipTabList.TabDescription> parseJsonReponse(String content)
-      throws IOException {
-    Object jsonValue;
+  private static List<WipTabList.TabDescription> parseJsonReponse(String content) throws IOException {
     try {
-      jsonValue = new JSONParser().parse(content);
-    } catch (ParseException e) {
-      throw new IOException("Failed to parse a JSON tab list response", e);
+      return WipParserAccess.get().parseTabList(JsonUtil.createReader(content)).asTabList();
     }
-
-    try {
-      WipTabList tabList = WipParserAccess.get().parseTabList(jsonValue);
-      return tabList.asTabList();
-    } catch (JsonProtocolParseException e) {
-      throw new IOException(
-          "Failed to parse tab list response (on protocol level)", e);
+    catch (IOException e) {
+      throw new IOException("Failed to parse tab list response (on protocol level)", e);
     }
   }
 }

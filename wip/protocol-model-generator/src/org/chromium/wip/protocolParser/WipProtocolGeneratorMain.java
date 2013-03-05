@@ -15,8 +15,8 @@ import java.net.URL;
 public class WipProtocolGeneratorMain {
   public static void main(String[] args) throws IOException {
     String outputDir = args.length == 0 ? "generated" : args[0];
-    Generator generator = new Generator(outputDir);
-    generator.go(new WipProtocolSchemaReader().parseRoot(
-      new JsonReader(new InputStreamReader(new URL("http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/inspector/Inspector.json").openStream()))));
+    new Generator(outputDir).go(new WipProtocolSchemaReader().parseRoot(
+      new JsonReader(new InputStreamReader(
+        new URL("http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/inspector/Inspector.json").openStream()))));
   }
 }

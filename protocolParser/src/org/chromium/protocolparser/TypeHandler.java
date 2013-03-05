@@ -221,7 +221,7 @@ class TypeHandler<T> {
 
     MethodHandler.writeMethodDeclarationJava(out, method);
     out.openBlock();
-    scope.append("return reader;");
+    scope.append("return new JsonReader(inputReader);");
     out.closeBlock();
   }
 

@@ -1105,7 +1105,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
     @Override
     public com.google.gson.stream.JsonReader getUnderlyingObject() {
-return reader;
+return new JsonReader(inputReader);
     }}
 
   public static final class M18 extends Message implements org.chromium.wip.protocol.inputdebugger.RestartFrameData {
@@ -1149,7 +1149,7 @@ return reader;
     }
     @Override
     public com.google.gson.stream.JsonReader getUnderlyingObject() {
-return reader;
+return new JsonReader(inputReader);
     }}
 
   public static final class M20 extends Message implements org.chromium.wip.protocol.inputdebugger.ResumedEventData {
@@ -1506,7 +1506,7 @@ return reader;
     }
     @Override
     public com.google.gson.stream.JsonReader getUnderlyingObject() {
-return reader;
+return new JsonReader(inputReader);
     }}
 
   public static final class M30 extends Message implements org.chromium.wip.protocol.inputdebugger.SupportsSeparateScriptCompilationAndExecutionData {
@@ -5188,7 +5188,7 @@ return reader;
     }
     @Override
     public com.google.gson.stream.JsonReader getUnderlyingObject() {
-return reader;
+return new JsonReader(inputReader);
     }}
 
   public static final class M127 extends Message implements org.jetbrains.wip.protocol.WipCommandResponse.Error {
@@ -5357,7 +5357,7 @@ return reader;
     }
     @Override
     public com.google.gson.stream.JsonReader getUnderlyingObject() {
-return reader;
+return new JsonReader(inputReader);
     }}
 
   public static final class M132 extends LazyReadMessage implements org.jetbrains.wip.protocol.WipTabList {

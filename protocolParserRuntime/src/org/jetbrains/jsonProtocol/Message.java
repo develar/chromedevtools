@@ -73,6 +73,11 @@ public abstract class Message {
     return reader.nextLong();
   }
 
+  protected static double readDouble(JsonReader reader, String fieldName) throws IOException {
+    checkIsNull(reader, fieldName);
+    return reader.nextDouble();
+  }
+
   protected static long readNullableLong(JsonReader reader) throws IOException {
     return reader.peek() == JsonToken.NULL ? -1 : reader.nextLong();
   }

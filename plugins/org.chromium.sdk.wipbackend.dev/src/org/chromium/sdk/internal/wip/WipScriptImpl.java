@@ -4,20 +4,22 @@
 
 package org.chromium.sdk.internal.wip;
 
-import java.util.List;
-
+import org.chromium.protocolParser.JsonProtocolParseException;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.Script;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.ScriptBase;
 import org.chromium.sdk.internal.liveeditprotocol.LiveEditProtocolParserAccess;
-import org.chromium.sdk.internal.liveeditprotocol.LiveEditResult;
-import org.chromium.protocolParser.JsonProtocolParseException;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.CallFrameValue;
-import org.chromium.sdk.internal.wip.protocol.input.debugger.SetScriptSourceData;
-import org.chromium.sdk.internal.wip.protocol.output.debugger.SetScriptSourceParams;
+import org.chromium.sdk.internal.v8native.protocol.LiveEditResult;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
+import org.chromium.v8.protocol.ProtocolService;
+import org.chromium.wip.protocol.inputdebugger.CallFrameValue;
+import org.chromium.wip.protocol.inputdebugger.SetScriptSourceData;
+import org.chromium.wip.protocol.outputdebugger.SetScriptSourceParams;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Wip implementation of {@link Script}.
@@ -93,22 +95,22 @@ class WipScriptImpl extends ScriptBase<String> {
         }
       };
       WipContextBuilder contextBuilder = scriptManager.getTabImpl().getContextBuilder();
-      return contextBuilder.updateStackTrace(callFrames, setFramesCallback,
-          relay.getUserSyncCallback());
+      return contextBuilder.updateStackTrace(callFrames, setFramesCallback, relay.getUserSyncCallback());
     }
   }
 
-  private void dispatchResult(SetScriptSourceData.Result result, UpdateCallback updateCallback) {
+  private static void dispatchResult(SetScriptSourceData.Result result, UpdateCallback updateCallback) {
     if (updateCallback != null) {
       LiveEditResult liveEditResult;
       try {
         liveEditResult =
-            LiveEditProtocolParserAccess.get().parseLiveEditResult(result.getUnderlyingObject());
-      } catch (JsonProtocolParseException e) {
+          ProtocolService.LIVE_EDIT.parseLiveEditResult(result.getUnderlyingObject());
+      }
+      catch (IOException e) {
         throw new RuntimeException("Failed to parse LiveEdit response", e);
       }
       ChangeDescription wrappedChangeDescription =
-          UpdateResultParser.wrapChangeDescription(liveEditResult);
+        UpdateResultParser.wrapChangeDescription(liveEditResult);
       updateCallback.success(null, wrappedChangeDescription);
     }
   }

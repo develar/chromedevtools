@@ -1,0 +1,18 @@
+// Generated source.
+// Generator: org.chromium.wip.protocolParser.Generator
+package org.chromium.wip.protocol.output.network;
+
+/**
+Disables network tracking, prevents network events from being sent to the client.
+ */
+public class DisableParams extends org.jetbrains.wip.protocol.WipParams {
+  public DisableParams() {
+  }
+
+  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.NETWORK + ".disable";
+
+  @Override protected String getRequestName() {
+    return METHOD_NAME;
+  }
+
+}
