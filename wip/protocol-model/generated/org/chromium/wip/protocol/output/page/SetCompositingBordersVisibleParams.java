@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Controls the visibility of compositing borders.
+ * Controls the visibility of compositing borders.
  */
 public class SetCompositingBordersVisibleParams extends org.jetbrains.wip.protocol.WipParams {
   /**

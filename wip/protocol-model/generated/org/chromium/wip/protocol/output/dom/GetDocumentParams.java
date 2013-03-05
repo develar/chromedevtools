@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Returns the root DOM node to the caller.
+ * Returns the root DOM node to the caller.
  */
 public class GetDocumentParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.GetDocumentData> {
 

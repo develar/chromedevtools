@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Sets node name for a node with given id.
+ * Sets node name for a node with given id.
  */
 public class SetNodeNameParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.SetNodeNameData> {
   /**

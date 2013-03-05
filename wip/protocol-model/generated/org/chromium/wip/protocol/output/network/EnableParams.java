@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.network;
 
 /**
-Enables network tracking, network events will now be delivered to the client.
+ * Enables network tracking, network events will now be delivered to the client.
  */
 public class EnableParams extends org.jetbrains.wip.protocol.WipParams {
 

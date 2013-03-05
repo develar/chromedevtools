@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Searches for a given string in the DOM tree. Use <code>getSearchResults</code> to access search results or <code>cancelSearch</code> to end this search session.
+ * Searches for a given string in the DOM tree. Use <code>getSearchResults</code> to access search results or <code>cancelSearch</code> to end this search session.
  */
 public class PerformSearchParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.PerformSearchData> {
   /**

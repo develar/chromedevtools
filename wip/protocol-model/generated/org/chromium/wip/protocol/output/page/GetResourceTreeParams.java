@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Returns present frame / resource tree structure.
+ * Returns present frame / resource tree structure.
  */
 public class GetResourceTreeParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.GetResourceTreeData> {
 

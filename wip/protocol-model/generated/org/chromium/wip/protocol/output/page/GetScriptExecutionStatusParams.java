@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Determines if scripts can be executed in the page.
+ * Determines if scripts can be executed in the page.
  */
 public class GetScriptExecutionStatusParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData> {
 

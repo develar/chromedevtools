@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Resumes JavaScript execution.
+ * Resumes JavaScript execution.
  */
 public class ResumeParams extends org.jetbrains.wip.protocol.WipParams {
 

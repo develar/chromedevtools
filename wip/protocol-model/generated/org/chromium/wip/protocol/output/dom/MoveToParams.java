@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Moves node into the new container, places it before the given anchor.
+ * Moves node into the new container, places it before the given anchor.
  */
 public class MoveToParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.MoveToData> {
   /**

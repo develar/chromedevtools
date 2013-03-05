@@ -4,16 +4,40 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public abstract class OutMessage {
+  private static final Method JSON_WRITE_DEFERED_NAME;
+
   private final StringWriter stringWriter = new StringWriter();
   protected final JsonWriter writer = new JsonWriter(stringWriter);
 
   protected boolean argumentsObjectStarted;
 
+  static {
+      try {
+        JSON_WRITE_DEFERED_NAME = JsonWriter.class.getDeclaredMethod("writeDeferredName");
+        JSON_WRITE_DEFERED_NAME.setAccessible(true);
+      }
+      catch (NoSuchMethodException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
   public  String getCommand() {
     throw new AbstractMethodError();
+  }
+
+  protected final void put(String name, Enum<?> value) {
+    try {
+      addArgumentsName();
+      writer.name(name).value(value.toString());
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   protected final void put(String name, int value) {
@@ -46,12 +70,52 @@ public abstract class OutMessage {
       addArgumentsName();
       writer.name(name);
       writer.beginArray();
+      boolean isNotFirst = false;
       for (E item : value) {
-        writer.value(v);
+        stringWriter.append(item.stringWriter.getBuffer());
+        if (isNotFirst) {
+          stringWriter.append(',').append(' ');
+        }
+        else {
+          isNotFirst = true;
+        }
       }
       writer.endArray();
     }
     catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  protected final void put(String name, List<String> value) {
+    try {
+      addArgumentsName();
+      writer.name(name);
+      writer.beginArray();
+      for (String item : value) {
+        writer.value(item);
+      }
+      writer.endArray();
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  protected final void put(String name, OutMessage value) {
+    try {
+      addArgumentsName();
+      writer.name(name);
+      JSON_WRITE_DEFERED_NAME.invoke(writer);
+      stringWriter.append(':').append(' ').append(value.stringWriter.getBuffer());
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    catch (InvocationTargetException e) {
+      throw new RuntimeException(e);
+    }
+    catch (IllegalAccessException e) {
       throw new RuntimeException(e);
     }
   }

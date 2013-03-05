@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Requests that backend shows debug borders on layers
+ * Requests that backend shows debug borders on layers
  */
 public class SetShowDebugBordersParams extends org.jetbrains.wip.protocol.WipParams {
   /**

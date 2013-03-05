@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Focuses the given element.
+ * Focuses the given element.
  */
 public class FocusParams extends org.jetbrains.wip.protocol.WipParams {
   /**

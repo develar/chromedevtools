@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Removes attribute with given name from an element with given id.
+ * Removes attribute with given name from an element with given id.
  */
 public class RemoveAttributeParams extends org.jetbrains.wip.protocol.WipParams {
   /**

@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Hides DOM node highlight.
+ * Hides DOM node highlight.
  */
 public class HideHighlightParams extends org.jetbrains.wip.protocol.WipParams {
 

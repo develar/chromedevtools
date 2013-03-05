@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.runtime;
 
 /**
-Releases remote object with given id.
+ * Releases remote object with given id.
  */
 public class ReleaseObjectParams extends org.jetbrains.wip.protocol.WipParams {
   /**

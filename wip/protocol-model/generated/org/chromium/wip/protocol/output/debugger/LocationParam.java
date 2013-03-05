@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Location in the source code.
+ * Location in the source code.
  */
 public class LocationParam extends org.jetbrains.jsonProtocol.OutMessage {
   /**

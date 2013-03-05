@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Tells if backend supports a FPS counter display
+ * Tells if backend supports a FPS counter display
  */
 public class CanShowFPSCounterParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.CanShowFPSCounterData> {
 

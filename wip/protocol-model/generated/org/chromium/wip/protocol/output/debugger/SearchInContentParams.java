@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Searches for given string in script content.
+ * Searches for given string in script content.
  */
 public class SearchInContentParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.SearchInContentData> {
   /**

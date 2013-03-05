@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.runtime;
 
 /**
-Calls function with given declaration on the given object. Object group of the result is inherited from the target object.
+ * Calls function with given declaration on the given object. Object group of the result is inherited from the target object.
  */
 public class CallFunctionOnParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.runtime.CallFunctionOnData> {
   /**

@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Sets files for the given file input element.
+ * Sets files for the given file input element.
  */
 public class SetFileInputFilesParams extends org.jetbrains.wip.protocol.WipParams {
   /**

@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Returns source for the script with given id.
+ * Returns source for the script with given id.
  */
 public class GetScriptSourceParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.GetScriptSourceData> {
   /**

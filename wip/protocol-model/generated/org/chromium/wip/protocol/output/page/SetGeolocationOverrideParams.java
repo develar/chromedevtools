@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Overrides the Geolocation Position or Error.
+ * Overrides the Geolocation Position or Error.
  */
 public class SetGeolocationOverrideParams extends org.jetbrains.wip.protocol.WipParams {
 

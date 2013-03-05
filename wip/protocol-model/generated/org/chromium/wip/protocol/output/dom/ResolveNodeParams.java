@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Resolves JavaScript node object for given node id.
+ * Resolves JavaScript node object for given node id.
  */
 public class ResolveNodeParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.ResolveNodeData> {
   /**

@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Sets given markup as the document's HTML.
+ * Sets given markup as the document's HTML.
  */
 public class SetDocumentContentParams extends org.jetbrains.wip.protocol.WipParams {
   /**

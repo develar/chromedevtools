@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
+ * Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
  */
 public class HighlightRectParams extends org.jetbrains.wip.protocol.WipParams {
   /**

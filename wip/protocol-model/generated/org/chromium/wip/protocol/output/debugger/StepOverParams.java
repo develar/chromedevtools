@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Steps over the statement.
+ * Steps over the statement.
  */
 public class StepOverParams extends org.jetbrains.wip.protocol.WipParams {
 

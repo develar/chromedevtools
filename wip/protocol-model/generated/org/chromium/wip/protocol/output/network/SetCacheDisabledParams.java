@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.network;
 
 /**
-Toggles ignoring cache for each request. If <code>true</code>, cache will not be used.
+ * Toggles ignoring cache for each request. If <code>true</code>, cache will not be used.
  */
 public class SetCacheDisabledParams extends org.jetbrains.wip.protocol.WipParams {
   /**

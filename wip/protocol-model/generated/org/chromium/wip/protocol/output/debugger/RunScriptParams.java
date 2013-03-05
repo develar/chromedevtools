@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Runs script with given id in a given context.
+ * Runs script with given id in a given context.
  */
 public class RunScriptParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.RunScriptData> {
   /**

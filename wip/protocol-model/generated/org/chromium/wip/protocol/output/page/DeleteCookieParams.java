@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Deletes browser cookie with given name, domain and path.
+ * Deletes browser cookie with given name, domain and path.
  */
 public class DeleteCookieParams extends org.jetbrains.wip.protocol.WipParams {
   /**

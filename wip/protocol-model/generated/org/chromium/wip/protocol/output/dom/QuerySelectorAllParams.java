@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Executes <code>querySelectorAll</code> on a given node.
+ * Executes <code>querySelectorAll</code> on a given node.
  */
 public class QuerySelectorAllParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.QuerySelectorAllData> {
   /**

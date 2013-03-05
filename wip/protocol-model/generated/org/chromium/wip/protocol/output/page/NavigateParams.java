@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Navigates current page to the given URL.
+ * Navigates current page to the given URL.
  */
 public class NavigateParams extends org.jetbrains.wip.protocol.WipParams {
   /**

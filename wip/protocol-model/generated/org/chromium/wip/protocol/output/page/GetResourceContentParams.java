@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Returns content of the given resource.
+ * Returns content of the given resource.
  */
 public class GetResourceContentParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.GetResourceContentData> {
   /**

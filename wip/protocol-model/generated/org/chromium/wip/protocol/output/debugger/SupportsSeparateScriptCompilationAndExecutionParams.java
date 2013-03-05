@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Tells whether debugger supports separate script compilation and execution.
+ * Tells whether debugger supports separate script compilation and execution.
  */
 public class SupportsSeparateScriptCompilationAndExecutionParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.SupportsSeparateScriptCompilationAndExecutionData> {
 

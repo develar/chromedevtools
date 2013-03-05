@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Disables debugger for given page.
+ * Disables debugger for given page.
  */
 public class DisableParams extends org.jetbrains.wip.protocol.WipParams {
 

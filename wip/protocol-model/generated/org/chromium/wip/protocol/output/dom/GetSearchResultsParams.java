@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Returns search results from given <code>fromIndex</code> to given <code>toIndex</code> from the sarch with the given identifier.
+ * Returns search results from given <code>fromIndex</code> to given <code>toIndex</code> from the sarch with the given identifier.
  */
 public class GetSearchResultsParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.GetSearchResultsData> {
   /**

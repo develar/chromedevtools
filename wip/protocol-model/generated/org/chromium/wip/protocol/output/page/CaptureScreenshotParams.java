@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Capture page screenshot.
+ * Capture page screenshot.
  */
 public class CaptureScreenshotParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.CaptureScreenshotData> {
 

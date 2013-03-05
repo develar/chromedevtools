@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Steps into the function call.
+ * Steps into the function call.
  */
 public class StepIntoParams extends org.jetbrains.wip.protocol.WipParams {
 

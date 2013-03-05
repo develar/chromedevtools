@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Continues execution until specific location is reached.
+ * Continues execution until specific location is reached.
  */
 public class ContinueToLocationParams extends org.jetbrains.wip.protocol.WipParams {
   /**

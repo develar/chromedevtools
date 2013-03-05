@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Removes node with given id.
+ * Removes node with given id.
  */
 public class RemoveNodeParams extends org.jetbrains.wip.protocol.WipParams {
   /**

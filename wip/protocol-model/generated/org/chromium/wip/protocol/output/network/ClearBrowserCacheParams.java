@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.network;
 
 /**
-Clears browser cache.
+ * Clears browser cache.
  */
 public class ClearBrowserCacheParams extends org.jetbrains.wip.protocol.WipParams {
 

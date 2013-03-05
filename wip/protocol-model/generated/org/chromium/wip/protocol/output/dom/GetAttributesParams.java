@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Returns attributes for the specified node.
+ * Returns attributes for the specified node.
  */
 public class GetAttributesParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.GetAttributesData> {
   /**

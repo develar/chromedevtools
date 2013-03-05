@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.runtime;
 
 /**
-Evaluates expression on global object.
+ * Evaluates expression on global object.
  */
 public class EvaluateParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.runtime.EvaluateData> {
   /**

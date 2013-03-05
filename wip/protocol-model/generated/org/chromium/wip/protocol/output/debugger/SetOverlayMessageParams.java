@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Sets overlay message.
+ * Sets overlay message.
  */
 public class SetOverlayMessageParams extends org.jetbrains.wip.protocol.WipParams {
 

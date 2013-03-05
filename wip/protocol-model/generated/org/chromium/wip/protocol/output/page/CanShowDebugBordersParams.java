@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Tells if backend supports debug borders on layers
+ * Tells if backend supports debug borders on layers
  */
 public class CanShowDebugBordersParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.CanShowDebugBordersData> {
 

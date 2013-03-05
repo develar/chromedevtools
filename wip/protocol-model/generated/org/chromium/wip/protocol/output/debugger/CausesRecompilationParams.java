@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Tells whether enabling debugger causes scripts recompilation.
+ * Tells whether enabling debugger causes scripts recompilation.
  */
 public class CausesRecompilationParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.CausesRecompilationData> {
 

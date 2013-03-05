@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Defines pause on exceptions state. Can be set to stop on all exceptions, uncaught exceptions or no exceptions. Initial pause on exceptions state is <code>none</code>.
+ * Defines pause on exceptions state. Can be set to stop on all exceptions, uncaught exceptions or no exceptions. Initial pause on exceptions state is <code>none</code>.
  */
 public class SetPauseOnExceptionsParams extends org.jetbrains.wip.protocol.WipParams {
   /**
@@ -18,23 +18,20 @@ public class SetPauseOnExceptionsParams extends org.jetbrains.wip.protocol.WipPa
   public String getCommand() {
     return METHOD_NAME;
   }
-  /**
-   Pause on exceptions mode.
-   */
-  public enum State {
-    NONE("none"),
-    UNCAUGHT("uncaught"),
-    ALL("all"),
-    ;
-    private final String protocolValue;
+/**
+ * Pause on exceptions mode.
+ */
+public enum State {
+  NONE("none"), UNCAUGHT("uncaught"), ALL("all");
 
-    State(String protocolValue) {
-      this.protocolValue = protocolValue;
-    }
+  private final String protocolValue;
 
-    public String toJSONString() {
-      return '"' + protocolValue + '"';
-    }
+  State(String protocolValue) {
+    this.protocolValue = protocolValue;
   }
 
+  public String toString() {
+    return protocolValue;
+  }
+}
 }

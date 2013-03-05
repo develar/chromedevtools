@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Searches for given string in resource content.
+ * Searches for given string in resource content.
  */
 public class SearchInResourceParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.SearchInResourceData> {
   /**

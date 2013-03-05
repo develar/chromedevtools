@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Sets attribute for an element with given id.
+ * Sets attribute for an element with given id.
  */
 public class SetAttributeValueParams extends org.jetbrains.wip.protocol.WipParams {
   /**

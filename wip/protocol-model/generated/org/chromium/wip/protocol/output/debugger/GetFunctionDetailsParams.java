@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Returns detailed informtation on given function.
+ * Returns detailed informtation on given function.
  */
 public class GetFunctionDetailsParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.GetFunctionDetailsData> {
   /**

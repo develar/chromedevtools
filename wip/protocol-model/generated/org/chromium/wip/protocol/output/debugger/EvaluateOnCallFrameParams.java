@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Evaluates expression on a given call frame.
+ * Evaluates expression on a given call frame.
  */
 public class EvaluateOnCallFrameParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData> {
   /**

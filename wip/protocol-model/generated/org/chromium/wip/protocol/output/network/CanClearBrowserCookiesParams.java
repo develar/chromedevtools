@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.network;
 
 /**
-Tells whether clearing browser cookies is supported.
+ * Tells whether clearing browser cookies is supported.
  */
 public class CanClearBrowserCookiesParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.network.CanClearBrowserCookiesData> {
 

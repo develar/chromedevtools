@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.network;
 
 /**
-Clears browser cookies.
+ * Clears browser cookies.
  */
 public class ClearBrowserCookiesParams extends org.jetbrains.wip.protocol.WipParams {
 

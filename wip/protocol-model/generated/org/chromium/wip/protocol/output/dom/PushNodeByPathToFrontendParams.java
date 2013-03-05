@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Requests that the node is sent to the caller given its path. // FIXME, use XPath
+ * Requests that the node is sent to the caller given its path. // FIXME, use XPath
  */
 public class PushNodeByPathToFrontendParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.PushNodeByPathToFrontendData> {
   /**

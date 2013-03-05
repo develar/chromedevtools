@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.debugger;
 
 /**
-Edits JavaScript source live.
+ * Edits JavaScript source live.
  */
 public class SetScriptSourceParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.SetScriptSourceData> {
   /**

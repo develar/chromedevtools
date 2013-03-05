@@ -104,7 +104,7 @@ class DomainGenerator {
       List<P> properties, PropertyLikeAccess<P> propertyAccess) {
     TextOutput out = new TextOutput(new StringBuilder());
     if (description != null) {
-      out.append("/**\n" + description + "\n */").newLine();
+      out.append("/**").newLine().append(" * ").append(description).newLine().append(" */").newLine();
     }
     out.append("public class ").append(classNamePath.getLastComponent());
     out.append(" extends ").append(baseType == null ? "org.jetbrains.jsonProtocol.OutMessage" : baseType);

@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.runtime;
 
 /**
-Returns properties of a given object. Object group of the result is inherited from the target object.
+ * Returns properties of a given object. Object group of the result is inherited from the target object.
  */
 public class GetPropertiesParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.runtime.GetPropertiesData> {
   /**

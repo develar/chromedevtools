@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Returns node's HTML markup.
+ * Returns node's HTML markup.
  */
 public class GetOuterHTMLParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.GetOuterHTMLData> {
   /**

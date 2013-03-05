@@ -107,31 +107,33 @@ class OutputClassScope extends ClassScope {
 
     @Override
     public BoxableType generateEnum(String description, List<String> enumConstants) {
-      DeferredWriter builder = new DeferredWriter();
+      final TextOutput out = new TextOutput(new StringBuilder());
       if (description != null) {
-        builder.append("\t  /**\n   " + description + "\n   */\n");
+        out.append("/**").newLine().append(" * ").append(description).newLine().append(" */").newLine();
       }
       String enumName = Generator.capitalizeFirstChar(getMemberName());
-      // JSONAware
-      builder.append("\t  public enum " + enumName +
-          " {\n");
+      out.append("public enum ").append(enumName).openBlock();
       for (String constant : enumConstants) {
-        builder.append("\t    " + EnumValueCondition.decorateEnumConstantName(constant) +
-            "(\"" + constant + "\"),\n");
+        out.append(EnumValueCondition.decorateEnumConstantName(constant)).append("(\"" + constant + "\")");
+        if (!enumConstants.get(enumConstants.size() - 1).equals(constant)) {
+          out.comma();
+        }
       }
-      builder.append("\t    ;\n");
-      builder.append("\t    private final String protocolValue;\n");
-      builder.append("\t\n");
-      builder.append("\t    " + enumName + "(String protocolValue) {\n");
-      builder.append("\t      this.protocolValue = protocolValue;\n");
-      builder.append("\t    }\n");
-      builder.append("\t\n");
-      builder.append("\t    public String toJSONString() {\n");
-      builder.append("\t      return '\"' + protocolValue + '\"';\n");
-      builder.append("\t    }\n");
-      builder.append("\t  }\n");
-      addMember(builder);
+      out.append(';').newLine();
+      out.newLine().append("private final String protocolValue;").newLine();
+      out.newLine().append(enumName).append("(String protocolValue)").openBlock();
+      out.append("this.protocolValue = protocolValue;").closeBlock();
 
+      out.newLine().newLine().append("public String toString()").openBlock();
+      out.append("return protocolValue;").closeBlock();
+      out.closeBlock();
+
+      addMember(new DeferredWriter() {
+        @Override
+        void writeContent(IndentWriter output) {
+          output.append(out.getOut().toString());
+        }
+      });
       return BoxableType.createReference(new NamePath(enumName, getClassContextNamespace()));
     }
 

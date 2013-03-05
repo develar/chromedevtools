@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Configuration data for the highlighting of page elements.
+ * Configuration data for the highlighting of page elements.
  */
 public class HighlightConfigParam extends org.jetbrains.jsonProtocol.OutMessage {
 

@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.console;
 
 /**
-Disables console domain, prevents further console messages from being reported to the client.
+ * Disables console domain, prevents further console messages from being reported to the client.
  */
 public class DisableParams extends org.jetbrains.wip.protocol.WipParams {
 

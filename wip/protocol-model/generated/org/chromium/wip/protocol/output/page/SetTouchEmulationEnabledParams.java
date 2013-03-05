@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Toggles mouse event-based touch event emulation.
+ * Toggles mouse event-based touch event emulation.
  */
 public class SetTouchEmulationEnabledParams extends org.jetbrains.wip.protocol.WipParams {
   /**

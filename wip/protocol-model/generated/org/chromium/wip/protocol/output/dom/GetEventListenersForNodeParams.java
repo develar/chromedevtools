@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Returns event listeners relevant to the node.
+ * Returns event listeners relevant to the node.
  */
 public class GetEventListenersForNodeParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.GetEventListenersForNodeData> {
   /**

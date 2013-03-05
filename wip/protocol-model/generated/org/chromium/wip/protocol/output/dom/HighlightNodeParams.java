@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or objectId must be specified.
+ * Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or objectId must be specified.
  */
 public class HighlightNodeParams extends org.jetbrains.wip.protocol.WipParams {
   /**

@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.network;
 
 /**
-Returns content served for the given request.
+ * Returns content served for the given request.
  */
 public class GetResponseBodyParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.network.GetResponseBodyData> {
   /**

@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Tells if backend supports continuous painting
+ * Tells if backend supports continuous painting
  */
 public class CanContinuouslyPaintParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.CanContinuouslyPaintData> {
 

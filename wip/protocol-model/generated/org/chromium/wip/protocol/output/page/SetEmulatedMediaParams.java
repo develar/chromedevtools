@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.page;
 
 /**
-Emulates the given media for CSS media queries.
+ * Emulates the given media for CSS media queries.
  */
 public class SetEmulatedMediaParams extends org.jetbrains.wip.protocol.WipParams {
   /**

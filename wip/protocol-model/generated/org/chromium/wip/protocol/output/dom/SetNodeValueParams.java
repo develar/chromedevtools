@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Sets node value for a node with given id.
+ * Sets node value for a node with given id.
  */
 public class SetNodeValueParams extends org.jetbrains.wip.protocol.WipParams {
   /**

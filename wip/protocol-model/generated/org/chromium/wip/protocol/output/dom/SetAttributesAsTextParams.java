@@ -3,7 +3,7 @@
 package org.chromium.wip.protocol.output.dom;
 
 /**
-Sets attributes on element with given id. This method is useful when user edits some existing attribute value and types in several attribute name/value pairs.
+ * Sets attributes on element with given id. This method is useful when user edits some existing attribute value and types in several attribute name/value pairs.
  */
 public class SetAttributesAsTextParams extends org.jetbrains.wip.protocol.WipParams {
   /**
