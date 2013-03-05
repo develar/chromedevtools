@@ -3,7 +3,7 @@ package org.chromium.wip.schemaParser;
 import org.chromium.protocolparser.DynamicParserImpl;
 import org.chromium.protocolparser.ParserGeneratorBase;
 
-public class WipSchemaParserGenerator extends ParserGeneratorBase {
+public class WipSchemaReaderGenerator extends ParserGeneratorBase {
   public static void main(String[] args) {
     Class<?>[] classes = {
       WipMetamodel.Root.class,
