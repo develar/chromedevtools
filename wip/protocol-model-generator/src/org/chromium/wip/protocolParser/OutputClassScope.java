@@ -132,7 +132,7 @@ class OutputClassScope extends ClassScope {
           output.append(out.getOut().toString());
         }
       });
-      return new Reference(new NamePath(enumName, getClassContextNamespace()));
+      return new StandaloneType(new NamePath(enumName, getClassContextNamespace()));
     }
 
     @Override

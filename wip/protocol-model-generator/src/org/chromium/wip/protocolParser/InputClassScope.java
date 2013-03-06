@@ -84,7 +84,7 @@ class InputClassScope extends ClassScope {
       builder.append("\t  }\n");
       addMember(builder);
 
-      return new Reference(new NamePath(enumName, getClassContextNamespace()));
+      return new StandaloneType(new NamePath(enumName, getClassContextNamespace()));
     }
 
     @Override
@@ -124,7 +124,7 @@ class InputClassScope extends ClassScope {
 
       addMember(builder);
       generator.generator.jsonProtocolParserClassNames.add(getFullName() + '.' + objectName);
-      return new Reference(new NamePath(objectName, getClassContextNamespace()));
+      return new StandaloneType(new NamePath(objectName, getClassContextNamespace()));
     }
   }
 }

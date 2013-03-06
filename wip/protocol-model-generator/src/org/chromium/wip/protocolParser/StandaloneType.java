@@ -1,9 +1,9 @@
 package org.chromium.wip.protocolParser;
 
-class Reference extends BoxableType {
+class StandaloneType extends BoxableType {
   private final NamePath namePath;
 
-  Reference(NamePath namePath) {
+  StandaloneType(NamePath namePath) {
     this.namePath = namePath;
   }
 
