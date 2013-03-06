@@ -274,7 +274,7 @@
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.source.iml" filepath="$PROJECT_DIR$/org.chromium.source.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../protocolParser/protocolParser.iml" filepath="$PROJECT_DIR$/../protocolParser/protocolParser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../protocolReader/protocolParser.iml" filepath="$PROJECT_DIR$/../protocolReader/protocolParser.iml" />
       <module fileurl="file://$PROJECT_DIR$/../protocolParserRuntime/protocolParserRuntime.iml" filepath="$PROJECT_DIR$/../protocolParserRuntime/protocolParserRuntime.iml" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" filepath="$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol-reader-generator/v8-protocol-reader-generator.iml" filepath="$PROJECT_DIR$/../v8/protocol-reader-generator/v8-protocol-reader-generator.iml" group="v8" />
@@ -283,7 +283,6 @@
       <module fileurl="file://$PROJECT_DIR$/../wip/protocol-model/wip-protocol-model.iml" filepath="$PROJECT_DIR$/../wip/protocol-model/wip-protocol-model.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../wip/protocol-model-generator/wip-protocol-model-generator.iml" filepath="$PROJECT_DIR$/../wip/protocol-model-generator/wip-protocol-model-generator.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../wip/protocol-reader-generator/wip-protocol-reader-generator.iml" filepath="$PROJECT_DIR$/../wip/protocol-reader-generator/wip-protocol-reader-generator.iml" group="wip" />
-      <module fileurl="file://$PROJECT_DIR$/../wip/protocol-parser-generator/src/wip-protocol-reader-generator.iml" filepath="$PROJECT_DIR$/../wip/protocol-parser-generator/src/wip-protocol-reader-generator.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../wip/schema-reader-generator/wip-schema-reader-generator.iml" filepath="$PROJECT_DIR$/../wip/schema-reader-generator/wip-schema-reader-generator.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/wip-source.iml" filepath="$PROJECT_DIR$/wip-source.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/wipbackend-dev.iml" filepath="$PROJECT_DIR$/wipbackend-dev.iml" group="wip" />
