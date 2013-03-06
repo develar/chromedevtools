@@ -9,7 +9,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="gson" level="project" />
-    <orderEntry type="module" module-name="protocolParser" />
+    <orderEntry type="module" module-name="protocolReader" />
     <orderEntry type="module" module-name="wip-protocol" />
   </component>
 </module>

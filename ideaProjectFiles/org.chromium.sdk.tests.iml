@@ -16,7 +16,7 @@
     <orderEntry type="module" module-name="org.chromium.sdk" />
     <orderEntry type="module" module-name="protocolParserRuntime" />
     <orderEntry type="module" module-name="v8-protocol" />
-    <orderEntry type="module" module-name="protocolParser" />
+    <orderEntry type="module" module-name="protocolReader" />
     <orderEntry type="module" module-name="v8-protocol-reader-generator" />
     <orderEntry type="module" module-name="wipbackend-dev" />
   </component>
