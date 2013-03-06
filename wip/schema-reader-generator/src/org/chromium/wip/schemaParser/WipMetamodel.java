@@ -106,7 +106,7 @@ public interface WipMetamodel {
   }
 
   @JsonType
-  interface StandaloneType extends ItemDescriptor {
+  interface StandaloneType extends ItemDescriptor.Type {
     String id();
 
     @JsonOptionalField
@@ -126,6 +126,33 @@ public interface WipMetamodel {
 
     @JsonOptionalField
     ArrayItemType items();
+  }
+
+
+  @JsonType
+  interface ArrayItemType extends ItemDescriptor.Type, ItemDescriptor.Referenceable {
+    @JsonOptionalField
+    String description();
+
+    @JsonOptionalField
+    boolean optional();
+
+    @JsonOptionalField
+    String type();
+
+    @JsonOptionalField
+    ArrayItemType items();
+
+    @JsonField(jsonLiteralName = "$ref")
+    @JsonOptionalField
+    String ref();
+
+    @JsonField(jsonLiteralName = "enum")
+    @JsonOptionalField
+    List<String> getEnum();
+
+    @JsonOptionalField
+    List<ObjectProperty> properties();
   }
 
   @JsonType
@@ -154,32 +181,6 @@ public interface WipMetamodel {
 
     @JsonOptionalField
     boolean hidden();
-  }
-
-  @JsonType
-  interface ArrayItemType extends ItemDescriptor.Referenceable {
-    @JsonOptionalField
-    String description();
-
-    @JsonOptionalField
-    boolean optional();
-
-    @JsonOptionalField
-    String type();
-
-    @JsonOptionalField
-    ArrayItemType items();
-
-    @JsonField(jsonLiteralName = "$ref")
-    @JsonOptionalField
-    String ref();
-
-    @JsonField(jsonLiteralName = "enum")
-    @JsonOptionalField
-    List<String> getEnum();
-
-    @JsonOptionalField
-    List<ObjectProperty> properties();
   }
 
   String STRING_TYPE = "string";

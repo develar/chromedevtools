@@ -9,7 +9,6 @@ import org.chromium.sdk.internal.shellprotocol.tools.ToolHandler;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolOutput;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.DevToolsServiceCommand;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsMessage;
-import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsProtocolParserAccess;
 import org.chromium.sdk.internal.transport.Message;
 import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.jsonProtocol.StringIntPair;
@@ -80,7 +79,8 @@ public class DevToolsServiceHandler implements ToolHandler {
     JsonReader reader = JsonReaders.createReader(message.getContent());
     ToolsMessage toolsResponse;
     try {
-      toolsResponse = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
+      //toolsResponse = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
+      toolsResponse = null;
     }
     catch (IOException e) {
       LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + message.getContent(), e);

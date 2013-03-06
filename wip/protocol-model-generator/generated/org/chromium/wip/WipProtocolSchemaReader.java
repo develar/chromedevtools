@@ -1,11 +1,12 @@
 // This is a generated source.
 package org.chromium.wip;
 
-import org.jetbrains.jsonProtocol.*;
+import com.google.gson.stream.JsonReader;
+import org.jetbrains.jsonProtocol.ObjectFactory;
+
+import java.io.IOException;
 
 import static org.jetbrains.jsonProtocol.JsonReaders.*;
-import com.google.gson.stream.JsonReader;
-import java.io.IOException;
 
 public final class WipProtocolSchemaReader implements org.chromium.wip.schemaParser.WipMetamodelParser {
   @Override
@@ -366,7 +367,6 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
     private String _name;
     private String _type;
     private String _$ref;
-    private java.util.List<org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty> _properties;
     private String _description;
     private boolean _optional;
     private org.chromium.wip.schemaParser.WipMetamodel.ArrayItemType _items;
@@ -385,9 +385,6 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
         }
         else if (name.equals("$ref")) {
           _$ref = readString(reader, name);
-        }
-        else if (name.equals("properties")) {
-          _properties = readObjectArray(reader, name, new M4F());
         }
         else if (name.equals("description")) {
           _description = readString(reader, name);
@@ -449,11 +446,6 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
     @Override
     public java.lang.String type() {
       return _type;
-    }
-
-    @Override
-    public java.util.List<org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty> properties() {
-      return _properties;
     }
   }
 
@@ -598,17 +590,31 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
     }
   }
 
-  static final class M3F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Event> {
-    @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.Event read(JsonReader reader) throws IOException {
-      return new M3(reader);
-    }
-  }
-
   static final class M4F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty> {
     @Override
     public org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty read(JsonReader reader) throws IOException {
       return new M4(reader);
+    }
+  }
+
+  static final class M5F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Parameter> {
+    @Override
+    public org.chromium.wip.schemaParser.WipMetamodel.Parameter read(JsonReader reader) throws IOException {
+      return new M5(reader);
+    }
+  }
+
+  static final class M2F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Domain> {
+    @Override
+    public org.chromium.wip.schemaParser.WipMetamodel.Domain read(JsonReader reader) throws IOException {
+      return new M2(reader);
+    }
+  }
+
+  static final class M3F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Event> {
+    @Override
+    public org.chromium.wip.schemaParser.WipMetamodel.Event read(JsonReader reader) throws IOException {
+      return new M3(reader);
     }
   }
 
@@ -623,20 +629,6 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
     @Override
     public org.chromium.wip.schemaParser.WipMetamodel.Command read(JsonReader reader) throws IOException {
       return new M1(reader);
-    }
-  }
-
-  static final class M2F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Domain> {
-    @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.Domain read(JsonReader reader) throws IOException {
-      return new M2(reader);
-    }
-  }
-
-  static final class M5F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Parameter> {
-    @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.Parameter read(JsonReader reader) throws IOException {
-      return new M5(reader);
     }
   }
 

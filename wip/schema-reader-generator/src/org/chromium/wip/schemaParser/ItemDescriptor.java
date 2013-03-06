@@ -20,4 +20,8 @@ public interface ItemDescriptor {
   interface Referenceable extends ItemDescriptor {
     String ref();
   }
+
+  interface Type extends ItemDescriptor {
+    List<WipMetamodel.ObjectProperty> properties();
+  }
 }

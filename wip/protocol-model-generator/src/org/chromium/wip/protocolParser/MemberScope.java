@@ -19,14 +19,6 @@ abstract class MemberScope implements ResolveAndGenerateScope {
     this.memberName = memberName;
   }
 
-  public QualifiedTypeData resolveType(WipMetamodel.ObjectProperty objectProperty) {
-    return resolveType(objectProperty);
-  }
-
-  public QualifiedTypeData resolveType(WipMetamodel.Parameter parameter) {
-    return resolveType(parameter);
-  }
-
   @Override
   public <T extends ItemDescriptor> QualifiedTypeData resolveType(T typedObject) {
     return classScope.generator.generator.resolveType(typedObject, this);
@@ -37,8 +29,7 @@ abstract class MemberScope implements ResolveAndGenerateScope {
   }
 
   public abstract BoxableType generateEnum(String description, List<String> enumConstants);
-  public abstract BoxableType generateNestedObject(String description,
-      List<WipMetamodel.ObjectProperty> propertyList) throws IOException;
+  public abstract BoxableType generateNestedObject(String description, List<WipMetamodel.ObjectProperty> propertyList) throws IOException;
 
   @Override
   public String getDomainName() {

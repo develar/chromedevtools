@@ -2,11 +2,11 @@ package org.chromium.wip.protocolParser;
 
 import org.chromium.wip.schemaParser.WipMetamodel;
 
-abstract class CreateStandalonTypeBindingVisitorBase implements TypeVisitor<StandaloneTypeBinding> {
+abstract class CreateStandaloneTypeBindingVisitorBase implements TypeVisitor<StandaloneTypeBinding> {
   private final WipMetamodel.StandaloneType type;
   private DomainGenerator generator;
 
-  CreateStandalonTypeBindingVisitorBase(DomainGenerator generator, WipMetamodel.StandaloneType type) {
+  CreateStandaloneTypeBindingVisitorBase(DomainGenerator generator, WipMetamodel.StandaloneType type) {
     this.generator = generator;
     this.type = type;
   }

@@ -6,11 +6,11 @@ import org.chromium.wip.schemaParser.WipMetamodel;
 import java.io.IOException;
 import java.util.List;
 
-class MyCreateStandalonTypeBindingVisitorBase extends CreateStandalonTypeBindingVisitorBase {
+class MyCreateStandaloneTypeBindingVisitorBase extends CreateStandaloneTypeBindingVisitorBase {
   private final String name;
   private DomainGenerator generator;
 
-  public MyCreateStandalonTypeBindingVisitorBase(DomainGenerator generator, WipMetamodel.StandaloneType type, String name) {
+  public MyCreateStandaloneTypeBindingVisitorBase(DomainGenerator generator, WipMetamodel.StandaloneType type, String name) {
     super(generator, type);
     this.generator = generator;
     this.name = name;

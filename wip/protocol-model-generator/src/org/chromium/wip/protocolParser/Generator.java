@@ -198,7 +198,7 @@ class Generator {
   }
 
   /**
-   * Resolve absolute (DOMAIN.TYPE) or relative (TYPE) typename.
+   * Resolve absolute (DOMAIN.TYPE) or relative (TYPE) type name
    */
   private BoxableType resolveRefType(String scopeDomainName, String refName,
                                      TypeData.Direction direction) {
@@ -274,7 +274,10 @@ class Generator {
       return visitor.visitArray(typedObject.items());
     }
     else if (WipMetamodel.OBJECT_TYPE.equals(typeName)) {
-      return visitor.visitObject(access.getProperties(typedObject));
+      if (!(typedObject instanceof ItemDescriptor.Type)) {
+        return visitor.visitObject(null);
+      }
+      return visitor.visitObject(((ItemDescriptor.Type)typedObject).properties());
     }
     else if (WipMetamodel.ANY_TYPE.equals(typeName)) {
       return visitor.visitUnknown();
