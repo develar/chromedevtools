@@ -59,7 +59,7 @@ class LazyCachedMethodHandler extends MethodHandler {
       if (parser.isThrowsIOException()) {
         out.closeBlock();
         out.newLine().append("catch (IOException e)").openBlock();
-        out.append("throw new JsonParseException(e);").closeBlock();
+        out.append("throw new com.google.gson.JsonParseException(e);").closeBlock();
       }
       out.newLine().append(Util.PENDING_INPUT_READER_NAME).append(" = null;");
     }

@@ -4,17 +4,17 @@
 
 package org.chromium.sdk.internal.websocket;
 
+import org.chromium.sdk.ConnectionLogger;
+import org.chromium.sdk.internal.transport.SocketWrapper;
+import org.chromium.sdk.internal.transport.SocketWrapper.LoggableInputStream;
+import org.chromium.sdk.internal.transport.SocketWrapper.LoggableOutputStream;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.Random;
-
-import org.chromium.sdk.ConnectionLogger;
-import org.chromium.sdk.internal.transport.SocketWrapper;
-import org.chromium.sdk.internal.transport.SocketWrapper.LoggableInputStream;
-import org.chromium.sdk.internal.transport.SocketWrapper.LoggableOutputStream;
 
 /**
  * WebSocket connection. Sends and receives messages. Implements HyBi-00 protocol specification.
@@ -54,8 +54,8 @@ public class Hybi00WsConnection
   }
 
   @Override
-  public void sendTextualMessage(String message) throws IOException {
-    byte[] bytes = message.getBytes(UTF_8_CHARSET);
+  public void sendTextualMessage(CharSequence message) throws IOException {
+    byte[] bytes = message.toString().getBytes(UTF_8_CHARSET);
     LoggableOutputStream loggableWriter = getSocketWrapper().getLoggableOutput();
     OutputStream output = loggableWriter.getOutputStream();
     synchronized (this) {

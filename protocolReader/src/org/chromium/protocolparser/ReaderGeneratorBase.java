@@ -35,7 +35,7 @@ public class ReaderGeneratorBase {
   protected static class GenerateConfiguration {
     private final String packageName;
     private final String className;
-    private final DynamicParserImpl parserImpl;
+    private final DynamicParserImpl<?> parserImpl;
     private final Collection<GeneratedCodeMap> basePackagesMap;
 
     public GenerateConfiguration(String packageName, String className, DynamicParserImpl parserImpl) {
@@ -57,7 +57,7 @@ public class ReaderGeneratorBase {
       return className;
     }
 
-    public DynamicParserImpl getParserImpl() {
+    public DynamicParserImpl<?> getParserImpl() {
       return parserImpl;
     }
 

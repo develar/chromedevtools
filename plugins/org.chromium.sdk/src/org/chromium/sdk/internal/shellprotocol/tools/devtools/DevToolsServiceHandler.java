@@ -11,7 +11,7 @@ import org.chromium.sdk.internal.shellprotocol.tools.protocol.DevToolsServiceCom
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsMessage;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsProtocolParserAccess;
 import org.chromium.sdk.internal.transport.Message;
-import org.jetbrains.jsonProtocol.JsonUtil;
+import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.jsonProtocol.StringIntPair;
 
 import java.io.IOException;
@@ -77,7 +77,7 @@ public class DevToolsServiceHandler implements ToolHandler {
   }
 
   public void handleMessage(Message message) {
-    JsonReader reader = JsonUtil.createReader(message.getContent());
+    JsonReader reader = JsonReaders.createReader(message.getContent());
     ToolsMessage toolsResponse;
     try {
       toolsResponse = ToolsProtocolParserAccess.get().parseToolsMessage(reader);

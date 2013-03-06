@@ -20,17 +20,6 @@
     </content>
     <orderEntry type="library" name="ECLIPSE" level="application" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
-      <library name="json_simple-1.1.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../plugins/org.chromium.sdk/lib/json_simple/json_simple-1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://org.chromium.sdksrc.zip" />
-        </SOURCES>
-      </library>
-    </orderEntry>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="trove4j" level="project" />
     <orderEntry type="library" name="gson" level="project" />

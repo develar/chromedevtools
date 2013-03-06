@@ -259,6 +259,17 @@
       </value>
     </option>
   </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="develar">
+      <words>
+        <w>boxable</w>
+        <w>enqueued</w>
+        <w>metamodel</w>
+        <w>referenceable</w>
+        <w>unparsable</w>
+      </words>
+    </dictionary>
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../fake module.iml" filepath="$PROJECT_DIR$/../fake module.iml" />

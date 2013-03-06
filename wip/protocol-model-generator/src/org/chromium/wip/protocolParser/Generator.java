@@ -4,6 +4,7 @@
 
 package org.chromium.wip.protocolParser;
 
+import org.chromium.wip.schemaParser.ItemDescriptor;
 import org.chromium.wip.schemaParser.WipMetamodel;
 
 import java.io.File;
@@ -67,9 +68,8 @@ class Generator {
     fileSet.deleteOtherFiles();
   }
 
-  <T> QualifiedTypeData resolveType(final T typedObject, final TypedObjectAccess<T> access,
-                                    final ResolveAndGenerateScope scope) {
-    UnqualifiedTypeData unqualifiedType = switchByType(typedObject, access, new TypeVisitor<UnqualifiedTypeData>() {
+  QualifiedTypeData resolveType(final ItemDescriptor typedObject, final ResolveAndGenerateScope scope) {
+    UnqualifiedTypeData unqualifiedType = switchByType(typedObject, new TypeVisitor<UnqualifiedTypeData>() {
         @Override
         public UnqualifiedTypeData visitRef(String refName) {
           return new UnqualifiedTypeData(resolveRefType(scope.getDomainName(), refName, scope.getTypeDirection()));
@@ -104,7 +104,7 @@ class Generator {
         @Override
         public UnqualifiedTypeData visitArray(ArrayItemType items) {
           QualifiedTypeData itemQualifiedType =
-            scope.resolveType(items, TypedObjectAccess.FOR_ARRAY_ITEM);
+            scope.resolveType(items);
           return new UnqualifiedTypeData(BoxableType.createList(itemQualifiedType.getJavaType()));
         }
 
@@ -126,11 +126,11 @@ class Generator {
         }
 
         private String getDescription() {
-          return access.getDescription(typedObject);
+          return typedObject.description();
         }
       });
 
-    return unqualifiedType.getQualifiedType(access.getOptional(typedObject) == Boolean.TRUE);
+    return unqualifiedType.getQualifiedType(typedObject instanceof ItemDescriptor.Named && ((ItemDescriptor.Named)typedObject).optional());
   }
 
   private static class UnqualifiedTypeData {
@@ -249,19 +249,18 @@ class Generator {
     return fileUpdater;
   }
 
-  static <R, T> R switchByType(T typedObject, TypedObjectAccess<T> access,
-                               TypeVisitor<R> visitor) {
-    String refName = access.getRef(typedObject);
+  static <R> R switchByType(ItemDescriptor typedObject, TypeVisitor<R> visitor) {
+    String refName = typedObject instanceof ItemDescriptor.Referenceable ? ((ItemDescriptor.Referenceable)typedObject).ref() : null;
     if (refName != null) {
       return visitor.visitRef(refName);
     }
-    String typeName = access.getType(typedObject);
+    String typeName = typedObject.type();
     if (WipMetamodel.BOOLEAN_TYPE.equals(typeName)) {
       return visitor.visitBoolean();
     }
     else if (WipMetamodel.STRING_TYPE.equals(typeName)) {
-      if (access.getEnum(typedObject) != null) {
-        return visitor.visitEnum(access.getEnum(typedObject));
+      if (typedObject.getEnum() != null) {
+        return visitor.visitEnum(typedObject.getEnum());
       }
       return visitor.visitString();
     }
@@ -272,7 +271,7 @@ class Generator {
       return visitor.visitNumber();
     }
     else if (WipMetamodel.ARRAY_TYPE.equals(typeName)) {
-      return visitor.visitArray(access.getItems(typedObject));
+      return visitor.visitArray(typedObject.items());
     }
     else if (WipMetamodel.OBJECT_TYPE.equals(typeName)) {
       return visitor.visitObject(access.getProperties(typedObject));

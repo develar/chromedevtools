@@ -4,13 +4,11 @@
 
 package org.jetbrains.wip.protocol;
 
-public class WipRequest {
-  public WipRequest(WipParams params) {
-    put(BasicConstants.Property.METHOD, params.getRequestName());
-    put(BasicConstants.Property.PARAMS, params);
-  }
+import org.jetbrains.jsonProtocol.OutMessage;
 
-  protected void put(String name, Object value) {
-    throw new UnsupportedOperationException();
+public class WipRequest extends OutMessage {
+  public WipRequest(WipParams params) {
+    put(BasicConstants.Property.METHOD, params.getCommand());
+    put(BasicConstants.Property.PARAMS, params);
   }
 }

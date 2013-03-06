@@ -2,6 +2,7 @@ package org.chromium.wip.protocolParser;
 
 import org.chromium.protocolparser.EnumValueCondition;
 import org.chromium.protocolparser.TextOutput;
+import org.chromium.wip.schemaParser.ItemDescriptor;
 import org.chromium.wip.schemaParser.WipMetamodel;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,8 +69,8 @@ class DomainGenerator {
     memberBuilder.append("return METHOD_NAME;").closeBlock();
 
     if (hasResponse) {
-      String dataInterfaceFullname = Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText();
-      memberBuilder.newLine().newLine().append("@Override").newLine().append("public ").append(dataInterfaceFullname).append(" parseResponse(" +
+      String dataInterfaceFullName = Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText();
+      memberBuilder.newLine().newLine().append("@Override").newLine().append("public ").append(dataInterfaceFullName).append(" parseResponse(" +
         "org.jetbrains.wip.protocol.WipCommandResponse.Data data, " +
         "org.chromium.wip.protocol.input." + Generator.READER_INTERFACE_NAME + " parser) throws java.io.IOException").openBlock();
       memberBuilder.append("return parser.").append(Naming.COMMAND_DATA.getParseMethodName(domain.domain(), command.name()));
@@ -87,7 +88,7 @@ class DomainGenerator {
         null, null, type.properties(), PropertyLikeAccess.PROPERTY);
   }
 
-  private <P> void generateTopLevelOutputClass(ClassNameScheme nameScheme, String baseName,
+  private <P extends ItemDescriptor.Named> void generateTopLevelOutputClass(ClassNameScheme nameScheme, String baseName,
       String description, String baseType, TextOutput additionalMemberText,
       List<P> properties, PropertyLikeAccess<P> propertyAccess) throws IOException {
     JavaFileUpdater fileUpdater = generator.startJavaFile(nameScheme, domain, baseName);
@@ -99,7 +100,7 @@ class DomainGenerator {
     fileUpdater.update();
   }
 
-  private <P> void generateOutputClass(IndentWriter writer, NamePath classNamePath,
+  private <P extends ItemDescriptor.Named> void generateOutputClass(IndentWriter writer, NamePath classNamePath,
       String description, @Nullable String baseType, final TextOutput additionalMemberText,
       List<P> properties, PropertyLikeAccess<P> propertyAccess) {
     TextOutput out = new TextOutput(new StringBuilder());
@@ -128,12 +129,11 @@ class DomainGenerator {
 
   StandaloneTypeBinding createStandaloneOutputTypeBinding(WipMetamodel.StandaloneType type,
       final String name) {
-    return Generator.switchByType(type, TypedObjectAccess.FOR_STANDALONE,
-                                  new MyCreateStandalonTypeBindingVisitorBase(this, type, name));
+    return Generator.switchByType(type, new MyCreateStandalonTypeBindingVisitorBase(this, type, name));
   }
 
   StandaloneTypeBinding createStandaloneInputTypeBinding(WipMetamodel.StandaloneType type) {
-    return Generator.switchByType(type, TypedObjectAccess.FOR_STANDALONE,
+    return Generator.switchByType(type,
                                   new CreateStandalonTypeBindingVisitorBase(this, type) {
                                     @Override
                                     public StandaloneTypeBinding visitObject(List<WipMetamodel.ObjectProperty> properties) {
@@ -169,7 +169,7 @@ class DomainGenerator {
                                         }
 
                                         @Override
-                                        public <T> QualifiedTypeData resolveType(T typedObject, TypedObjectAccess<T> access) {
+                                        public <T extends ItemDescriptor> QualifiedTypeData resolveType(T typedObject) {
                                           throw new UnsupportedOperationException();
                                         }
 
@@ -180,7 +180,7 @@ class DomainGenerator {
                                         }
                                       };
                                       QualifiedTypeData itemTypeData =
-                                        generator.resolveType(items, TypedObjectAccess.FOR_ARRAY_ITEM, resolveAndGenerateScope);
+                                        generator.resolveType(items, resolveAndGenerateScope);
                                       BoxableType itemBoxableType = itemTypeData.getJavaType();
 
                                       final BoxableType arrayType = BoxableType.createList(itemBoxableType);

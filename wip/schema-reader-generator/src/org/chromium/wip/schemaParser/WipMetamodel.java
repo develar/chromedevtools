@@ -7,14 +7,14 @@ import org.chromium.protocolParser.JsonType;
 import java.util.List;
 
 /**
- * Defines schema of WIP metamodel defined in
- * "http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/inspector/Inspector.json".
+ * Defines schema of WIP metamodel defined in http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/inspector/Inspector.json
  */
 public interface WipMetamodel {
   @JsonType
   interface Root {
     @JsonOptionalField
     Version version();
+
     List<Domain> domains();
   }
 
@@ -36,25 +36,35 @@ public interface WipMetamodel {
     @JsonOptionalField
     List<Event> events();
 
-    @JsonOptionalField String description();
+    @JsonOptionalField
+    String description();
 
-    @JsonOptionalField boolean hidden();
+    @JsonOptionalField
+    boolean hidden();
   }
 
   @JsonType
   interface Command {
     String name();
-    @JsonOptionalField List<Parameter> parameters();
-    @JsonOptionalField List<Parameter> returns();
 
-    @JsonOptionalField String description();
+    @JsonOptionalField
+    List<Parameter> parameters();
 
-    @JsonOptionalField boolean hidden();
-    @JsonOptionalField boolean async();
+    @JsonOptionalField
+    List<Parameter> returns();
+
+    @JsonOptionalField
+    String description();
+
+    @JsonOptionalField
+    boolean hidden();
+
+    @JsonOptionalField
+    boolean async();
   }
 
   @JsonType
-  interface Parameter {
+  interface Parameter extends ItemDescriptor.Named {
     String name();
 
     @JsonOptionalField
@@ -63,47 +73,54 @@ public interface WipMetamodel {
     @JsonOptionalField
     ArrayItemType items();
 
-    @JsonField(jsonLiteralName="enum")
+    @JsonField(jsonLiteralName = "enum")
     @JsonOptionalField
     List<String> getEnum();
 
-    // This is unparsable.
+    @JsonOptionalField
+    @JsonField(jsonLiteralName = "$ref")
+    String ref();
+
+    @JsonOptionalField
+    boolean optional();
+
+    @JsonOptionalField
+    String description();
+
+    @JsonOptionalField
+    boolean hidden();
+  }
+
+  @JsonType
+  interface Event {
+    String name();
+
+    @JsonOptionalField
+    List<Parameter> parameters();
+
+    @JsonOptionalField
+    String description();
+
+    @JsonOptionalField
+    boolean hidden();
+  }
+
+  @JsonType
+  interface StandaloneType extends ItemDescriptor {
+    String id();
+
+    @JsonOptionalField
+    String description();
+
+    String type();
+
+    @JsonOptionalField
+    boolean hidden();
+
     @JsonOptionalField
     List<ObjectProperty> properties();
 
-    @JsonOptionalField
-    @JsonField(jsonLiteralName="$ref")
-    String ref();
-
-    @JsonOptionalField
-    boolean optional();
-
-    @JsonOptionalField String description();
-
-    @JsonOptionalField boolean hidden();
-  }
-
-  @JsonType interface Event {
-    String name();
-    @JsonOptionalField List<Parameter> parameters();
-
-    @JsonOptionalField String description();
-
-    @JsonOptionalField boolean hidden();
-  }
-
-  @JsonType interface StandaloneType {
-    String id();
-
-    @JsonOptionalField String description();
-
-    String type();
-
-    @JsonOptionalField boolean hidden();
-
-    @JsonOptionalField List<ObjectProperty> properties();
-
-    @JsonField(jsonLiteralName="enum")
+    @JsonField(jsonLiteralName = "enum")
     @JsonOptionalField
     List<String> getEnum();
 
@@ -111,7 +128,8 @@ public interface WipMetamodel {
     ArrayItemType items();
   }
 
-  @JsonType interface ObjectProperty {
+  @JsonType
+  interface ObjectProperty extends ItemDescriptor.Named {
     String name();
 
     @JsonOptionalField
@@ -126,18 +144,20 @@ public interface WipMetamodel {
     @JsonOptionalField
     ArrayItemType items();
 
-    @JsonField(jsonLiteralName="$ref")
+    @JsonField(jsonLiteralName = "$ref")
     @JsonOptionalField
     String ref();
 
-    @JsonField(jsonLiteralName="enum")
+    @JsonField(jsonLiteralName = "enum")
     @JsonOptionalField
     List<String> getEnum();
 
-    @JsonOptionalField boolean hidden();
+    @JsonOptionalField
+    boolean hidden();
   }
 
-  @JsonType interface ArrayItemType {
+  @JsonType
+  interface ArrayItemType extends ItemDescriptor.Referenceable {
     @JsonOptionalField
     String description();
 
@@ -150,11 +170,11 @@ public interface WipMetamodel {
     @JsonOptionalField
     ArrayItemType items();
 
-    @JsonField(jsonLiteralName="$ref")
+    @JsonField(jsonLiteralName = "$ref")
     @JsonOptionalField
     String ref();
 
-    @JsonField(jsonLiteralName="enum")
+    @JsonField(jsonLiteralName = "enum")
     @JsonOptionalField
     List<String> getEnum();
 

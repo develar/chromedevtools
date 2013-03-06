@@ -63,8 +63,8 @@ public class DynamicParserImpl<ROOT> {
     out.append("// This is a generated source.");
     out.newLine().append("package ").append(packageName).append(';');
     out.newLine().newLine().append("import org.jetbrains.jsonProtocol.*;");
+    out.newLine().newLine().append("import static org.jetbrains.jsonProtocol.JsonReaders.*;");
     out.newLine().append("import com.google.gson.stream.JsonReader;");
-    out.newLine().append("import com.google.gson.JsonParseException;");
     out.newLine().append("import java.io.IOException;");
     out.newLine().newLine().append("public final class ").append(className);
     out.append(" implements ").append(rootImpl.getType().getCanonicalName()).openBlock(false);

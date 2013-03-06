@@ -5,7 +5,6 @@
 package org.chromium.sdk.internal.wip;
 
 import org.chromium.sdk.*;
-import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.websocket.WsConnection;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
@@ -16,10 +15,9 @@ import org.chromium.sdk.wip.*;
 import org.chromium.wip.protocol.output.debugger.PauseParams;
 import org.chromium.wip.protocol.output.debugger.SetBreakpointsActiveParams;
 import org.chromium.wip.protocol.output.debugger.SetPauseOnExceptionsParams;
+import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.wip.protocol.WipCommandResponse.Success;
 import org.jetbrains.wip.protocol.WipParams;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -76,13 +74,7 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
     WsConnection.Listener socketListener = new WsConnection.Listener() {
       @Override
       public void textMessageRecieved(String text) {
-        JSONObject json;
-        try {
-          json = JsonUtil.jsonObjectFromJson(text);
-        } catch (ParseException e) {
-          throw new RuntimeException(e);
-        }
-        commandProcessor.acceptResponse(json);
+        commandProcessor.acceptResponse(JsonReaders.createReader(text));
       }
 
       @Override

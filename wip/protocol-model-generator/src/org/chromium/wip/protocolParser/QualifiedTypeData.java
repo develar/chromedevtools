@@ -16,21 +16,21 @@ class QualifiedTypeData {
   boolean isOptional() {
     return optional;
   }
+
   boolean isNullable() {
     return nullable;
   }
+
   BoxableType getJavaType() {
     return typeRef;
   }
 
   void writeAnnotations(IndentWriter appendable, String indent) throws IOException {
     if (isOptional()) {
-      appendable.append("\t" + indent +
-          "@org.chromium.protocolParser.JsonOptionalField\n");
+      appendable.append("\t" + indent + "@org.chromium.protocolParser.JsonOptionalField\n");
     }
     if (isNullable()) {
-      appendable.append("\t" + indent +
-          "@org.chromium.protocolParser.JsonNullable\n");
+      appendable.append("\t" + indent + "@org.chromium.protocolParser.JsonNullable\n");
     }
   }
 }

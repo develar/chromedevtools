@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Message {
+public final class JsonReaders {
   private static final long[] EMPTY_LONG_ARRAY = {};
   private static final int[] EMPTY_INT_ARRAY = {};
   private static final Field JSON_READER_POSITION_FIELD;
@@ -34,64 +34,67 @@ public abstract class Message {
     }
   }
 
+  private JsonReaders() {
+  }
+
   private static void checkIsNull(JsonReader reader, String fieldName) throws IOException {
     if (reader.peek() == JsonToken.NULL) {
       throw new IOException("Field is not optional" + (fieldName == null ? "" : (" " + fieldName)));
     }
   }
 
-  protected static String readString(JsonReader reader, String fieldName) throws IOException {
+  public static String readString(JsonReader reader, String fieldName) throws IOException {
     checkIsNull(reader, fieldName);
     return reader.nextString();
   }
 
-  protected static String readNullableString(JsonReader reader) throws IOException {
+  public static String readNullableString(JsonReader reader) throws IOException {
     return reader.peek() == JsonToken.NULL ? null : reader.nextString();
   }
 
-  protected static boolean readBoolean(JsonReader reader, String fieldName) throws IOException {
+  public static boolean readBoolean(JsonReader reader, String fieldName) throws IOException {
     checkIsNull(reader, fieldName);
     return reader.nextBoolean();
   }
 
-  protected static boolean readNullableBoolean(JsonReader reader) throws IOException {
+  public static boolean readNullableBoolean(JsonReader reader) throws IOException {
     //noinspection SimplifiableConditionalExpression
     return reader.peek() == JsonToken.NULL ? false : reader.nextBoolean();
   }
 
-  protected static int readInt(JsonReader reader, String fieldName) throws IOException {
+  public static int readInt(JsonReader reader, String fieldName) throws IOException {
     checkIsNull(reader, fieldName);
     return reader.nextInt();
   }
 
-  protected static long readNullableInt(JsonReader reader) throws IOException {
+  public static long readNullableInt(JsonReader reader) throws IOException {
     return reader.peek() == JsonToken.NULL ? -1 : reader.nextInt();
   }
 
-  protected static long readLong(JsonReader reader, String fieldName) throws IOException {
+  public static long readLong(JsonReader reader, String fieldName) throws IOException {
     checkIsNull(reader, fieldName);
     return reader.nextLong();
   }
 
-  protected static double readDouble(JsonReader reader, String fieldName) throws IOException {
+  public static double readDouble(JsonReader reader, String fieldName) throws IOException {
     checkIsNull(reader, fieldName);
     return reader.nextDouble();
   }
 
-  protected static long readNullableLong(JsonReader reader) throws IOException {
+  public static long readNullableLong(JsonReader reader) throws IOException {
     return reader.peek() == JsonToken.NULL ? -1 : reader.nextLong();
   }
 
-  protected static <T extends Enum<T>> T readEnum(JsonReader reader, String fieldName, Class<T> enumClass) throws IOException {
+  public static <T extends Enum<T>> T readEnum(JsonReader reader, String fieldName, Class<T> enumClass) throws IOException {
     checkIsNull(reader, fieldName);
     return Enum.valueOf(enumClass, reader.nextString());
   }
 
-  protected static <T extends Enum<T>> T readNullableEnum(JsonReader reader, Class<T> enumClass) throws IOException {
+  public static <T extends Enum<T>> T readNullableEnum(JsonReader reader, Class<T> enumClass) throws IOException {
     return reader.peek() == JsonToken.NULL ? null : Enum.valueOf(enumClass, reader.nextString());
   }
 
-  protected static <T> List<T> readObjectArray(JsonReader reader, String fieldName, ObjectFactory<T> factory) throws IOException {
+  public static <T> List<T> readObjectArray(JsonReader reader, String fieldName, ObjectFactory<T> factory) throws IOException {
     checkIsNull(reader, fieldName);
     reader.beginArray();
     if (!reader.hasNext()) {
@@ -108,7 +111,7 @@ public abstract class Message {
     return result;
   }
 
-  protected static Map readMap(JsonReader reader, String fieldName) throws IOException {
+  public static Map readMap(JsonReader reader, String fieldName) throws IOException {
     checkIsNull(reader, fieldName);
     reader.beginObject();
     if (!reader.hasNext()) {
@@ -119,7 +122,7 @@ public abstract class Message {
     return nextObject(reader);
   }
 
-  private static Object read(JsonReader reader) throws IOException {
+  public static Object read(JsonReader reader) throws IOException {
     switch (reader.peek()) {
       case BEGIN_ARRAY:
         return nextList(reader);
@@ -145,7 +148,7 @@ public abstract class Message {
     }
   }
 
-  private static Map<String, Object> nextObject(JsonReader reader) throws IOException {
+  public static Map<String, Object> nextObject(JsonReader reader) throws IOException {
     Map<String, Object> map = new THashMap<String, Object>();
     while (reader.hasNext()) {
       map.put(reader.nextName(), read(reader));
@@ -154,7 +157,7 @@ public abstract class Message {
     return map;
   }
 
-  protected static <T> List<T> nextList(JsonReader reader) throws IOException {
+  public static <T> List<T> nextList(JsonReader reader) throws IOException {
     reader.beginArray();
     if (!reader.hasNext()) {
       reader.endArray();
@@ -171,7 +174,7 @@ public abstract class Message {
     return list;
   }
 
-  protected static long[] readLongArray(JsonReader reader) throws IOException {
+  public static long[] readLongArray(JsonReader reader) throws IOException {
     checkIsNull(reader, null);
     reader.beginArray();
     if (!reader.hasNext()) {
@@ -188,7 +191,7 @@ public abstract class Message {
     return result.toNativeArray();
   }
 
-  protected static int[] readIntArray(JsonReader reader) throws IOException {
+  public static int[] readIntArray(JsonReader reader) throws IOException {
     checkIsNull(reader, null);
     reader.beginArray();
     if (!reader.hasNext()) {
@@ -205,7 +208,7 @@ public abstract class Message {
     return result.toNativeArray();
   }
 
-  protected static List<StringIntPair> readIntStringPairs(JsonReader reader) throws IOException {
+  public static List<StringIntPair> readIntStringPairs(JsonReader reader) throws IOException {
     checkIsNull(reader, null);
     reader.beginArray();
     if (!reader.hasNext()) {
@@ -224,7 +227,7 @@ public abstract class Message {
     return result;
   }
 
-  protected static Reader createValueReader(JsonReader reader) {
+  public static Reader createValueReader(JsonReader reader) {
     try {
       int start = JSON_READER_POSITION_FIELD.getInt(reader);
       reader.skipValue();
@@ -239,8 +242,12 @@ public abstract class Message {
     }
   }
 
-  protected static void skipValue(String name, JsonReader reader) throws IOException {
+  public static void skipValue(String name, JsonReader reader) throws IOException {
     System.err.append("Unknown field ").append(name).append(" ").append(reader.toString()).append('\n');
     reader.skipValue();
+  }
+
+  public static JsonReader createReader(String string) {
+    return new JsonReader(new StringReader(string));
   }
 }

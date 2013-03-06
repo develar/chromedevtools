@@ -4,11 +4,11 @@
 
 package org.chromium.sdk.internal.websocket;
 
-import java.io.IOException;
-
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.util.SignalRelay;
+
+import java.io.IOException;
 
 /**
  * Abstract interface to WebSocket implementation that hides a particular specification
@@ -18,7 +18,7 @@ public interface WsConnection {
 
   void startListening(Listener listener);
 
-  void sendTextualMessage(String message) throws IOException;
+  void sendTextualMessage(CharSequence message) throws IOException;
 
   RelayOk runInDispatchThread(Runnable runnable, SyncCallback syncCallback);
 

@@ -11,11 +11,6 @@ import org.chromium.protocolParser.JsonType;
 import java.lang.reflect.Method;
 import java.util.*;
 
-/**
- * The instance of this class corresponds to a particular json type. Primarily it serves
- * as a factory for dynamic proxy/{@_link ObjectData}, but also plays a role of type
- * descriptor object.
- */
 class TypeHandler<T> {
   private final Class<T> typeClass;
 
@@ -162,7 +157,9 @@ class TypeHandler<T> {
     TextOutput out = fileScope.getOutput();
     String valueImplClassName = fileScope.getTypeImplShortName(this);
     out.append("public static final class ").append(valueImplClassName);
-    out.append(" extends ").append(lazyRead ? "LazyReadMessage" : "Message");
+    if (lazyRead) {
+      out.append(" extends LazyReadMessage");
+    }
 
     out.append(" implements ").append(getTypeClass().getCanonicalName()).openBlock();
 

@@ -4,6 +4,14 @@
 
 package org.chromium.sdk.internal.websocket;
 
+import org.chromium.sdk.ConnectionLogger;
+import org.chromium.sdk.RelayOk;
+import org.chromium.sdk.SyncCallback;
+import org.chromium.sdk.internal.transport.AbstractSocketWrapper;
+import org.chromium.sdk.util.SignalRelay;
+import org.chromium.sdk.util.SignalRelay.AlreadySignalledException;
+import org.chromium.sdk.util.SignalRelay.SignalConverter;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -15,14 +23,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.chromium.sdk.ConnectionLogger;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.internal.transport.AbstractSocketWrapper;
-import org.chromium.sdk.util.SignalRelay;
-import org.chromium.sdk.util.SignalRelay.AlreadySignalledException;
-import org.chromium.sdk.util.SignalRelay.SignalConverter;
 
 public abstract class AbstractWsConnection<INPUT, OUTPUT> implements WsConnection {
   protected static final Charset UTF_8_CHARSET = Charset.forName("UTF-8");
@@ -63,7 +63,7 @@ public abstract class AbstractWsConnection<INPUT, OUTPUT> implements WsConnectio
     INPUT_STREAM_PROBLEM,
 
     /**
-     * Closed as requested by {@link WsConnection#close()}.
+     * Closed as requested by {@link WsConnection# close()}.
      */
     USER_REQUEST,
 
@@ -177,7 +177,7 @@ public abstract class AbstractWsConnection<INPUT, OUTPUT> implements WsConnectio
   }
 
   @Override
-  public abstract void sendTextualMessage(String message) throws IOException;
+  public abstract void sendTextualMessage(CharSequence message) throws IOException;
 
   protected abstract CloseReason runListenLoop(INPUT loggableReader)
       throws IOException, InterruptedException;

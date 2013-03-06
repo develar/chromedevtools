@@ -20,7 +20,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.v8.protocol.ProtocolService;
-import org.jetbrains.jsonProtocol.JsonUtil;
+import org.jetbrains.jsonProtocol.JsonReaders;
 
 import java.io.IOException;
 import java.util.EnumSet;
@@ -138,7 +138,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
   }
 
   private void handleChromeDevToolMessage(final Message message) {
-    JsonReader reader = JsonUtil.createReader(message.getContent());
+    JsonReader reader = JsonReaders.createReader(message.getContent());
     ToolsMessage devToolsMessage;
     //try {
       //devToolsMessage = ToolsProtocolParserAccess.get().parseToolsMessage(reader);

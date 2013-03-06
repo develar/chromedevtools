@@ -17,7 +17,7 @@ import org.chromium.sdk.wip.WipBrowser.WipTabConnector;
 import org.chromium.sdk.wip.WipBrowserFactory.LoggerFactory;
 import org.chromium.sdk.wip.WipBrowserTab;
 import org.chromium.sdk.wip.WipParserAccess;
-import org.jetbrains.jsonProtocol.JsonUtil;
+import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.wip.protocol.WipTabList;
 import org.jetbrains.wip.protocol.WipTabList.TabDescription;
 
@@ -194,7 +194,7 @@ public class WipBackendImpl extends WipBackendBase {
 
   private static List<WipTabList.TabDescription> parseJsonReponse(String content) throws IOException {
     try {
-      return WipParserAccess.get().parseTabList(JsonUtil.createReader(content)).asTabList();
+      return WipParserAccess.get().parseTabList(JsonReaders.createReader(content)).asTabList();
     }
     catch (IOException e) {
       throw new IOException("Failed to parse tab list response (on protocol level)", e);

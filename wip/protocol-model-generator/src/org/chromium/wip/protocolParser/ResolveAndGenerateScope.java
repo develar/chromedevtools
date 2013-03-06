@@ -1,5 +1,6 @@
 package org.chromium.wip.protocolParser;
 
+import org.chromium.wip.schemaParser.ItemDescriptor;
 import org.chromium.wip.schemaParser.WipMetamodel;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ interface ResolveAndGenerateScope {
   String getDomainName();
   TypeData.Direction getTypeDirection();
 
-  <T> QualifiedTypeData resolveType(T typedObject, TypedObjectAccess<T> access);
+  <T extends ItemDescriptor> QualifiedTypeData resolveType(T typedObject);
 
   BoxableType generateEnum(String description, List<String> enumConstants);
   BoxableType generateNestedObject(String description,

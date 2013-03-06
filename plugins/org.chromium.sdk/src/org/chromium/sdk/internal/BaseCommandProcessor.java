@@ -4,12 +4,12 @@
 
 package org.chromium.sdk.internal;
 
+import org.chromium.sdk.RelayOk;
+import org.chromium.sdk.SyncCallback;
+
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.SyncCallback;
 
 /**
  * Provides basic command processor functionality: sends/receives commands/events and
@@ -46,32 +46,33 @@ public class BaseCommandProcessor<SEQ_KEY, OUTGOING, INCOMING, INCOMING_WITH_SEQ
       CloseableMap.newLinkedMap();
   private final Handler<SEQ_KEY, OUTGOING, INCOMING, INCOMING_WITH_SEQ> handler;
 
-  public BaseCommandProcessor(
-      Handler<SEQ_KEY, OUTGOING, INCOMING, INCOMING_WITH_SEQ> handler) {
+  public BaseCommandProcessor(Handler<SEQ_KEY, OUTGOING, INCOMING, INCOMING_WITH_SEQ> handler) {
     this.handler = handler;
   }
 
   public RelayOk send(OUTGOING message, boolean isImmediate,
-      Callback<? super INCOMING_WITH_SEQ> callback, SyncCallback syncCallback) {
+                      Callback<? super INCOMING_WITH_SEQ> callback, SyncCallback syncCallback) {
     SEQ_KEY seq = handler.getUpdatedSeq(message);
     boolean callbackAdded;
     if (callback != null || syncCallback != null) {
       String commandName = handler.getCommandName(message);
 
       try {
-        callbackMap.put(seq,
-            new CallbackEntry<INCOMING_WITH_SEQ>(callback, syncCallback, commandName));
-      } catch (IllegalStateException e) {
+        callbackMap.put(seq, new CallbackEntry<INCOMING_WITH_SEQ>(callback, syncCallback, commandName));
+      }
+      catch (IllegalStateException e) {
         throw new IllegalStateException("Connection is closed", e);
       }
       callbackAdded = true;
       reportVmStatus();
-    } else {
+    }
+    else {
       callbackAdded = false;
     }
     try {
       handler.send(message, isImmediate);
-    } catch (RuntimeException e) {
+    }
+    catch (RuntimeException e) {
       if (callbackAdded) {
         callbackMap.remove(seq);
       }

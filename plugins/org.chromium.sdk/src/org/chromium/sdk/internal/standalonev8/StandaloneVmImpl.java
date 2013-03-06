@@ -17,7 +17,7 @@ import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 import org.chromium.sdk.util.MethodIsBlockingException;
-import org.jetbrains.jsonProtocol.JsonUtil;
+import org.jetbrains.jsonProtocol.JsonReaders;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -102,7 +102,7 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
       }
 
       public void messageReceived(Message message) {
-        JsonReader jsonReader = JsonUtil.createReader(message.getContent());
+        JsonReader jsonReader = JsonReaders.createReader(message.getContent());
         debugSession.getV8CommandProcessor().processIncomingJson(jsonReader);
       }
     };

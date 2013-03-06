@@ -1,5 +1,6 @@
 package org.chromium.wip.protocolParser;
 
+import org.chromium.wip.schemaParser.ItemDescriptor;
 import org.chromium.wip.schemaParser.WipMetamodel;
 
 import java.io.IOException;
@@ -19,16 +20,16 @@ abstract class MemberScope implements ResolveAndGenerateScope {
   }
 
   public QualifiedTypeData resolveType(WipMetamodel.ObjectProperty objectProperty) {
-    return resolveType(objectProperty, TypedObjectAccess.FOR_OBJECT_PROPERTY);
+    return resolveType(objectProperty);
   }
 
   public QualifiedTypeData resolveType(WipMetamodel.Parameter parameter) {
-    return resolveType(parameter, TypedObjectAccess.FOR_PARAMETER);
+    return resolveType(parameter);
   }
 
   @Override
-  public <T> QualifiedTypeData resolveType(T typedObject, TypedObjectAccess<T> access) {
-    return classScope.generator.generator.resolveType(typedObject, access, this);
+  public <T extends ItemDescriptor> QualifiedTypeData resolveType(T typedObject) {
+    return classScope.generator.generator.resolveType(typedObject, this);
   }
 
   protected String getMemberName() {

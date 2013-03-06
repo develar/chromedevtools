@@ -1,5 +1,6 @@
 package org.chromium.wip.protocolParser;
 
+import org.chromium.wip.schemaParser.ItemDescriptor;
 import org.chromium.wip.schemaParser.WipMetamodel;
 
 import java.io.IOException;
@@ -62,25 +63,22 @@ class MyCreateStandalonTypeBindingVisitorBase extends CreateStandalonTypeBinding
             }
 
             @Override
-            public BoxableType generateEnum(String description,
-                                            List<String> enumConstants) {
+            public BoxableType generateEnum(String description, List<String> enumConstants) {
               throw new UnsupportedOperationException();
             }
 
             @Override
-            public <T> QualifiedTypeData resolveType(T typedObject, TypedObjectAccess<T> access) {
+            public <T extends ItemDescriptor> QualifiedTypeData resolveType(T typedObject) {
               throw new UnsupportedOperationException();
             }
 
             @Override
-            public BoxableType generateNestedObject(String description,
-                                                    List<WipMetamodel.ObjectProperty> properties)
+            public BoxableType generateNestedObject(String description, List<WipMetamodel.ObjectProperty> properties)
               throws IOException {
               return context.generateNestedObject("Item", description, properties);
             }
           };
-        return BoxableType.createList(generator.generator.resolveType(items, TypedObjectAccess.FOR_ARRAY_ITEM, resolveAndGenerateScope)
-          .getJavaType());
+        return BoxableType.createList(generator.generator.resolveType(items, resolveAndGenerateScope).getJavaType());
       }
     };
 

@@ -2,6 +2,7 @@ package org.chromium.wip.protocolParser;
 
 import org.chromium.protocolparser.EnumValueCondition;
 import org.chromium.protocolparser.TextOutput;
+import org.chromium.wip.schemaParser.ItemDescriptor;
 import org.chromium.wip.schemaParser.WipMetamodel;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ class OutputClassScope extends ClassScope {
     super(generator, classNamePath);
   }
 
-  <P> void generate(TextOutput out, List<P> parameters, PropertyLikeAccess<P> access) {
+  <P extends ItemDescriptor.Named> void generate(TextOutput out, List<P> parameters, PropertyLikeAccess<P> access) {
     if (parameters == null) {
       return;
     }
@@ -21,7 +22,7 @@ class OutputClassScope extends ClassScope {
     List<P> mandatoryParameters = new ArrayList<P>();
     List<P> optionalParameters = new ArrayList<P>();
     for (P parameter : parameters) {
-      if (access.forTypedObject().getOptional(parameter)) {
+      if (parameter.optional()) {
         optionalParameters.add(parameter);
       }
       else {
@@ -33,31 +34,29 @@ class OutputClassScope extends ClassScope {
       generateConstructor(out, access, mandatoryParameters);
     }
     for (P parameter : optionalParameters) {
-      String description = access.forTypedObject().getDescription(parameter);
       out.newLine().newLine();
-      if (description != null) {
-        out.append("/**").newLine().append(" * @param v ").append(description).newLine().append(" */").newLine();
+      if (parameter.description() != null) {
+        out.append("/**").newLine().append(" * @param v ").append(parameter.description()).newLine().append(" */").newLine();
       }
-      String paramName = access.getName(parameter);
 
-      String type = newMemberScope(paramName).resolveType(parameter, access.forTypedObject()).getJavaType().getShortText(getClassContextNamespace());
+      String type = new OutputMemberScope(parameter.name()).resolveType(parameter).getJavaType().getShortText(getClassContextNamespace());
       if (type.equals("Object")) {
         type = "String";
       }
 
       out.append("public ").append(getShortClassName());
-      out.space().append(paramName).append("(").append(type);
+      out.space().append(parameter.name()).append("(").append(type);
       out.space().append("v").append(")").openBlock();
-      out.append("put(").quoute(paramName).comma().append("v);");
+      appendWriteValueInvocation(out, parameter.name(), "v");
       out.newLine().append("return this;");
       out.closeBlock();
     }
   }
 
-  private <P> void generateConstructor(TextOutput out, PropertyLikeAccess<P> access, List<P> mandatoryParameters) {
+  private <P extends ItemDescriptor.Named> void generateConstructor(TextOutput out, PropertyLikeAccess<P> access, List<P> mandatoryParameters) {
     boolean hasDoc = false;
     for (P parameter : mandatoryParameters) {
-      if (access.forTypedObject().getDescription(parameter) != null) {
+      if (parameter.description() != null) {
         hasDoc = true;
         break;
       }
@@ -65,9 +64,8 @@ class OutputClassScope extends ClassScope {
     if (hasDoc) {
       out.append("/**").newLine();
       for (P parameter : mandatoryParameters) {
-        String propertyDescription = access.forTypedObject().getDescription(parameter);
-        if (propertyDescription != null) {
-          out.append(" * @param " + access.getName(parameter) + " " + propertyDescription).newLine();
+        if (parameter.description() != null) {
+          out.append(" * @param " + parameter.name() + " " + parameter.description()).newLine();
         }
       }
       out.append(" */").newLine();
@@ -79,25 +77,25 @@ class OutputClassScope extends ClassScope {
       if (needComa) {
         out.comma();
       }
-      String paramName = access.getName(parameter);
-      out.append(newMemberScope(paramName).resolveType(parameter, access.forTypedObject()).getJavaType().getShortText(getClassContextNamespace()));
-      out.space().append(paramName);
+      out.append(new OutputMemberScope(parameter.name()).resolveType(parameter).getJavaType().getShortText(getClassContextNamespace()));
+      out.space().append(parameter.name());
       needComa = true;
     }
     out.append(")").openBlock(false);
-    for (P param : mandatoryParameters) {
-      out.newLine().append("put(").quoute(access.getName(param)).comma().append(access.getName(param)).append(");");
+    for (P parameter : mandatoryParameters) {
+      out.newLine();
+      appendWriteValueInvocation(out, parameter.name(), parameter.name());
     }
     out.closeBlock();
+  }
+
+  private void appendWriteValueInvocation(TextOutput out, String name, String valueRefName) {
+    out.append("put(").quoute(name).comma().append(valueRefName).append(");");
   }
 
   @Override
   protected TypeData.Direction getTypeDirection() {
     return TypeData.Direction.OUTPUT;
-  }
-
-  private MemberScope newMemberScope(String memberName) {
-    return new OutputMemberScope(memberName);
   }
 
   class OutputMemberScope extends MemberScope {

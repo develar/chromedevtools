@@ -4,20 +4,20 @@
 
 package org.chromium.sdk.internal.websocket;
 
+import org.chromium.sdk.ConnectionLogger;
+import org.chromium.sdk.internal.websocket.ManualLoggingSocketWrapper.LoggableInput;
+import org.chromium.sdk.internal.websocket.ManualLoggingSocketWrapper.LoggableOutput;
+import org.chromium.sdk.util.BasicUtil;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.chromium.sdk.ConnectionLogger;
-import org.chromium.sdk.internal.websocket.ManualLoggingSocketWrapper.LoggableInput;
-import org.chromium.sdk.internal.websocket.ManualLoggingSocketWrapper.LoggableOutput;
-import org.chromium.sdk.util.BasicUtil;
-
 /**
  * WebSocket connection. Sends and receives messages. Implements HyBi-17 protocol specification.
- * @see http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-17
+ * @ see http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-17
  */
 public class Hybi17WsConnection extends AbstractWsConnection<LoggableInput, LoggableOutput> {
   private static final Logger LOGGER = Logger.getLogger(Hybi17WsConnection.class.getName());
@@ -119,12 +119,13 @@ public class Hybi17WsConnection extends AbstractWsConnection<LoggableInput, Logg
   }
 
   @Override
-  public void sendTextualMessage(final String message) throws IOException {
-    final byte[] bytes = message.getBytes(UTF_8_CHARSET);
+  public void sendTextualMessage(CharSequence message) throws IOException {
+    final String s = message.toString();
+    final byte[] bytes = s.getBytes(UTF_8_CHARSET);
 
     LoggablePayload payload = new LoggablePayload() {
       @Override void send(LoggableOutput output, byte[] maskBytes) throws IOException {
-        output.writeToLog(message, "utf-8 demasked");
+        output.writeToLog(s, "utf-8 demasked");
         if (maskBytes != null) {
           for (int i = 0; i < bytes.length; i++) {
             bytes[i] = (byte) (bytes[i] ^ maskBytes[i % 4]);

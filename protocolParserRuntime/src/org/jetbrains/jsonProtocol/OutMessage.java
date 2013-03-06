@@ -40,7 +40,7 @@ public abstract class OutMessage {
     }
   }
 
-  protected final void put(String name, int value) {
+  public final void put(String name, int value) {
     try {
       addArgumentsName();
       writer.name(name).value(value);
@@ -87,15 +87,10 @@ public abstract class OutMessage {
     }
   }
 
-  protected final void put(String name, List<String> value) {
+  protected final void writeStringList(String name, List<String> value) {
     try {
       addArgumentsName();
-      writer.name(name);
-      writer.beginArray();
-      for (String item : value) {
-        writer.value(item);
-      }
-      writer.endArray();
+      JsonWriters.writeStringList(writer, name, value);
     }
     catch (IOException e) {
       throw new RuntimeException(e);
