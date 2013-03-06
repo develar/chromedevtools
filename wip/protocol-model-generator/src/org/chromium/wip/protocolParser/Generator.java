@@ -103,9 +103,7 @@ class Generator {
 
         @Override
         public UnqualifiedTypeData visitArray(ArrayItemType items) {
-          QualifiedTypeData itemQualifiedType =
-            scope.resolveType(items);
-          return new UnqualifiedTypeData(BoxableType.createList(itemQualifiedType.getJavaType()));
+          return new UnqualifiedTypeData(BoxableType.createList(scope.resolveType(items).getJavaType()));
         }
 
         @Override

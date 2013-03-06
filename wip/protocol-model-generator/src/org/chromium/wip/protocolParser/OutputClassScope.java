@@ -132,12 +132,11 @@ class OutputClassScope extends ClassScope {
           output.append(out.getOut().toString());
         }
       });
-      return BoxableType.createReference(new NamePath(enumName, getClassContextNamespace()));
+      return new Reference(new NamePath(enumName, getClassContextNamespace()));
     }
 
     @Override
-    public BoxableType generateNestedObject(String description,
-        List<WipMetamodel.ObjectProperty> propertyList) throws IOException {
+    public BoxableType generateNestedObject(String description, List<WipMetamodel.ObjectProperty> propertyList) throws IOException {
       throw new UnsupportedOperationException();
     }
   }

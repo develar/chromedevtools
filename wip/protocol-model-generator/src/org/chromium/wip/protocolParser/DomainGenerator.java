@@ -204,7 +204,7 @@ class DomainGenerator {
 
     return new StandaloneTypeBinding() {
       @Override public BoxableType getJavaType() {
-        return BoxableType.createReference(fullTypeName);
+        return new Reference(fullTypeName);
       }
 
       @Override
@@ -240,7 +240,7 @@ class DomainGenerator {
     final String name = type.id();
     return new StandaloneTypeBinding() {
       @Override public BoxableType getJavaType() {
-        return BoxableType.createReference(Naming.INPUT_ENUM.getFullName(domain.domain(), name));
+        return new Reference(Naming.INPUT_ENUM.getFullName(domain.domain(), name));
       }
 
       @Override
@@ -318,7 +318,7 @@ class DomainGenerator {
 
         deferredWriters.add(writer);
 
-        return BoxableType.createReference(new NamePath(shortName, typedefJavaName));
+        return new Reference(new NamePath(shortName, typedefJavaName));
       }
     }
 

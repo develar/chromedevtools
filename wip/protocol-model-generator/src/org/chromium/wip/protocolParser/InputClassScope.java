@@ -84,7 +84,7 @@ class InputClassScope extends ClassScope {
       builder.append("\t  }\n");
       addMember(builder);
 
-      return BoxableType.createReference(new NamePath(enumName, getClassContextNamespace()));
+      return new Reference(new NamePath(enumName, getClassContextNamespace()));
     }
 
     @Override
@@ -124,7 +124,7 @@ class InputClassScope extends ClassScope {
 
       addMember(builder);
       generator.generator.jsonProtocolParserClassNames.add(getFullName() + '.' + objectName);
-      return BoxableType.createReference(new NamePath(objectName, getClassContextNamespace()));
+      return new Reference(new NamePath(objectName, getClassContextNamespace()));
     }
   }
 }
