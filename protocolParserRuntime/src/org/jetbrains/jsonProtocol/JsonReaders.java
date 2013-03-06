@@ -10,10 +10,7 @@ import gnu.trove.TLongArrayList;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class JsonReaders {
   private static final long[] EMPTY_LONG_ARRAY = {};
@@ -87,11 +84,40 @@ public final class JsonReaders {
 
   public static <T extends Enum<T>> T readEnum(JsonReader reader, String fieldName, Class<T> enumClass) throws IOException {
     checkIsNull(reader, fieldName);
-    return Enum.valueOf(enumClass, reader.nextString());
+    return Enum.valueOf(enumClass, readEnumName(reader));
+  }
+
+  public static String convertRawEnumName(String enumValue) {
+    StringBuilder builder = new StringBuilder(enumValue.length() + 4);
+    boolean prevIsLowerCase = false;
+    for (int i = 0; i < enumValue.length(); i++) {
+      char c = enumValue.charAt(i);
+      if (c == '-') {
+        builder.append('_');
+        continue;
+      }
+
+      if (Character.isUpperCase(c)) {
+        // second check handle "CSPViolation" (transform to CSP_VIOLATION)
+        if (prevIsLowerCase || ((i + 1) < enumValue.length() && Character.isLowerCase(enumValue.charAt(i + 1)))) {
+          builder.append('_');
+        }
+        builder.append(c);
+      }
+      else {
+        builder.append(Character.toUpperCase(c));
+        prevIsLowerCase = true;
+      }
+    }
+    return builder.toString();
+  }
+
+  private static String readEnumName(JsonReader reader) throws IOException {
+    return convertRawEnumName(reader.nextString());
   }
 
   public static <T extends Enum<T>> T readNullableEnum(JsonReader reader, Class<T> enumClass) throws IOException {
-    return reader.peek() == JsonToken.NULL ? null : Enum.valueOf(enumClass, reader.nextString());
+    return reader.peek() == JsonToken.NULL ? null : Enum.valueOf(enumClass, readEnumName(reader));
   }
 
   public static <T> List<T> readObjectArray(JsonReader reader, String fieldName, ObjectFactory<T> factory) throws IOException {

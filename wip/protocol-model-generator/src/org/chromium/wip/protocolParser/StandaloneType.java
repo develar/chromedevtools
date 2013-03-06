@@ -7,7 +7,12 @@ class StandaloneType extends BoxableType {
     this.namePath = namePath;
   }
 
-  String getFullText() {
+  @Override
+  String getWriteMethodName() {
+    return "put";
+  }
+
+  CharSequence getFullText() {
     return namePath.getFullText();
   }
 
@@ -25,15 +30,15 @@ class StandaloneType extends BoxableType {
 
   private static StringBuilder subtractContextRecursively(NamePath namePos, int count, NamePath prefix) {
     if (count > 1) {
-      StringBuilder result =
-          subtractContextRecursively(namePos.getParent(), count - 1, prefix);
+      StringBuilder result = subtractContextRecursively(namePos.getParent(), count - 1, prefix);
       if (result == null) {
         return null;
       }
       result.append('.');
       result.append(namePos.getLastComponent());
       return result;
-    } else {
+    }
+    else {
       String nameComponent = namePos.getLastComponent();
       namePos = namePos.getParent();
       do {
@@ -42,15 +47,12 @@ class StandaloneType extends BoxableType {
         }
         namePos = namePos.getParent();
         prefix = prefix.getParent();
-      } while (namePos != null);
+      }
+      while (namePos != null);
 
       StringBuilder result = new StringBuilder();
       result.append(nameComponent);
       return result;
     }
-  }
-
-  BoxableType convertToPureReference() {
-    return this;
   }
 }

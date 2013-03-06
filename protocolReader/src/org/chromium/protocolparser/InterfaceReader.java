@@ -225,7 +225,7 @@ class InterfaceReader {
         nullableIsNotSupported(declaredNullable);
         return FLOAT_PARSER;
       }
-      else if (type == Number.class) {
+      else if (type == Number.class || type == Double.TYPE) {
         return declaredNullable ? NULLABLE_NUMBER_PARSER : NUMBER_PARSER;
       }
       else if (type == Void.TYPE) {

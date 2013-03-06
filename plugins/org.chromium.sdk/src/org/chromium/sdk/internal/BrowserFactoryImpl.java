@@ -8,10 +8,12 @@ import org.chromium.sdk.Browser;
 import org.chromium.sdk.BrowserFactory;
 import org.chromium.sdk.ConnectionLogger;
 import org.chromium.sdk.StandaloneVm;
+import org.chromium.sdk.internal.shellprotocol.BrowserImpl;
+import org.chromium.sdk.internal.shellprotocol.ConnectionFactory;
+import org.chromium.sdk.internal.shellprotocol.SocketConnectionFactory;
 import org.chromium.sdk.internal.standalonev8.StandaloneVmImpl;
 import org.chromium.sdk.internal.transport.Handshaker;
 import org.chromium.sdk.internal.transport.SocketConnection;
-import org.osgi.service.io.ConnectionFactory;
 
 import java.net.SocketAddress;
 

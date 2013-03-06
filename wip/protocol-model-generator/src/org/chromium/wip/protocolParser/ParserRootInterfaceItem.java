@@ -1,7 +1,8 @@
 package org.chromium.wip.protocolParser;
 
+import org.chromium.protocolparser.TextOutput;
+
 import java.io.IOException;
-import java.io.Writer;
 
 class ParserRootInterfaceItem implements Comparable<ParserRootInterfaceItem> {
   private final String domain;
@@ -16,11 +17,10 @@ class ParserRootInterfaceItem implements Comparable<ParserRootInterfaceItem> {
     fullName = nameScheme.getFullName(domain, name).getFullText();
   }
 
-  void writeCode(Writer writer) throws IOException {
-    writer.write("  @org.chromium.protocolParser.JsonParseMethod\n");
-    writer.write("  " + fullName + " " + nameScheme.getParseMethodName(domain, name) +
-        "(com.google.gson.stream.JsonReader reader) throws java.io.IOException;\n");
-    writer.write("\n");
+  void writeCode(TextOutput out) throws IOException {
+    out.append("@org.chromium.protocolParser.JsonParseMethod").newLine();
+    out.append(fullName).space().append(nameScheme.getParseMethodName(domain, name));
+    out.append("(com.google.gson.stream.JsonReader reader) throws java.io.IOException;").newLine();
   }
 
   @Override

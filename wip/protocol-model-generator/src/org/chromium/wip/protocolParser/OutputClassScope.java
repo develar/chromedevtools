@@ -1,6 +1,6 @@
 package org.chromium.wip.protocolParser;
 
-import org.chromium.protocolparser.EnumValueCondition;
+import org.chromium.protocolparser.Enums;
 import org.chromium.protocolparser.TextOutput;
 import org.chromium.wip.schemaParser.ItemDescriptor;
 import org.chromium.wip.schemaParser.WipMetamodel;
@@ -14,7 +14,7 @@ class OutputClassScope extends ClassScope {
     super(generator, classNamePath);
   }
 
-  <P extends ItemDescriptor.Named> void generate(TextOutput out, List<P> parameters, PropertyLikeAccess<P> access) {
+  <P extends ItemDescriptor.Named> void generate(TextOutput out, List<P> parameters) {
     if (parameters == null) {
       return;
     }
@@ -31,7 +31,7 @@ class OutputClassScope extends ClassScope {
     }
 
     if (!mandatoryParameters.isEmpty()) {
-      generateConstructor(out, access, mandatoryParameters);
+      generateConstructor(out, mandatoryParameters);
     }
     for (P parameter : optionalParameters) {
       out.newLine().newLine();
@@ -39,7 +39,7 @@ class OutputClassScope extends ClassScope {
         out.append("/**").newLine().append(" * @param v ").append(parameter.description()).newLine().append(" */").newLine();
       }
 
-      String type = new OutputMemberScope(parameter.name()).resolveType(parameter).getJavaType().getShortText(getClassContextNamespace());
+      CharSequence type = new OutputMemberScope(parameter.name()).resolveType(parameter).getJavaType().getShortText(getClassContextNamespace());
       if (type.equals("Object")) {
         type = "String";
       }
@@ -47,13 +47,13 @@ class OutputClassScope extends ClassScope {
       out.append("public ").append(getShortClassName());
       out.space().append(parameter.name()).append("(").append(type);
       out.space().append("v").append(")").openBlock();
-      appendWriteValueInvocation(out, parameter.name(), "v");
+      appendWriteValueInvocation(out, parameter, "v");
       out.newLine().append("return this;");
       out.closeBlock();
     }
   }
 
-  private <P extends ItemDescriptor.Named> void generateConstructor(TextOutput out, PropertyLikeAccess<P> access, List<P> mandatoryParameters) {
+  private <P extends ItemDescriptor.Named> void generateConstructor(TextOutput out, List<P> mandatoryParameters) {
     boolean hasDoc = false;
     for (P parameter : mandatoryParameters) {
       if (parameter.description() != null) {
@@ -84,13 +84,14 @@ class OutputClassScope extends ClassScope {
     out.append(")").openBlock(false);
     for (P parameter : mandatoryParameters) {
       out.newLine();
-      appendWriteValueInvocation(out, parameter.name(), parameter.name());
+      appendWriteValueInvocation(out, parameter, parameter.name());
     }
     out.closeBlock();
   }
 
-  private void appendWriteValueInvocation(TextOutput out, String name, String valueRefName) {
-    out.append("put(").quoute(name).comma().append(valueRefName).append(");");
+  private void appendWriteValueInvocation(TextOutput out, ItemDescriptor.Named parameter, String valueRefName) {
+    out.append(new OutputMemberScope(parameter.name()).resolveType(parameter).getJavaType().getWriteMethodName()).append("(").quoute(
+      parameter.name()).comma().append(valueRefName).append(");");
   }
 
   @Override
@@ -104,32 +105,20 @@ class OutputClassScope extends ClassScope {
     }
 
     @Override
-    public BoxableType generateEnum(String description, List<String> enumConstants) {
-      final TextOutput out = new TextOutput(new StringBuilder());
-      if (description != null) {
-        out.append("/**").newLine().append(" * ").append(description).newLine().append(" */").newLine();
-      }
-      String enumName = Generator.capitalizeFirstChar(getMemberName());
-      out.append("public enum ").append(enumName).openBlock();
-      for (String constant : enumConstants) {
-        out.append(EnumValueCondition.decorateEnumConstantName(constant)).append("(\"" + constant + "\")");
-        if (!enumConstants.get(enumConstants.size() - 1).equals(constant)) {
-          out.comma();
-        }
-      }
-      out.append(';').newLine();
-      out.newLine().append("private final String protocolValue;").newLine();
-      out.newLine().append(enumName).append("(String protocolValue)").openBlock();
-      out.append("this.protocolValue = protocolValue;").closeBlock();
-
-      out.newLine().newLine().append("public String toString()").openBlock();
-      out.append("return protocolValue;").closeBlock();
-      out.closeBlock();
-
-      addMember(new DeferredWriter() {
+    public BoxableType generateEnum(final String description, final List<String> enumConstants) {
+      final String enumName = Generator.capitalizeFirstChar(getMemberName());
+      addMember(new TextOutConsumer() {
         @Override
-        void writeContent(IndentWriter output) {
-          output.append(out.getOut().toString());
+        public void append(TextOutput out) throws IOException {
+          out.doc(description);
+          Enums.appendEnums(enumConstants, enumName, false, out);
+          out.newLine().append("private final String protocolValue;").newLine();
+          out.newLine().append(enumName).append("(String protocolValue)").openBlock();
+          out.append("this.protocolValue = protocolValue;").closeBlock();
+
+          out.newLine().newLine().append("public String toString()").openBlock();
+          out.append("return protocolValue;").closeBlock();
+          out.closeBlock();
         }
       });
       return new StandaloneType(new NamePath(enumName, getClassContextNamespace()));

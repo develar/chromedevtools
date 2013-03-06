@@ -1,5 +1,7 @@
 package org.chromium.protocolparser;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Arrays;
 
 public class TextOutput {
@@ -96,6 +98,13 @@ public class TextOutput {
 
   public TextOutput semi() {
     return append(';');
+  }
+
+  public TextOutput doc(@Nullable String description) {
+    if (description == null) {
+      return this;
+    }
+    return append("/**").newLine().append(" * ").append(description).newLine().append(" */").newLine();
   }
 
   public TextOutput quoute(CharSequence s) {

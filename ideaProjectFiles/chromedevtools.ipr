@@ -392,6 +392,13 @@
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
   </component>
   <component name="libraryTable">
+    <library name="annotations">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/annotations.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
     <library name="gson">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/gson-2.2.2.jar!/" />

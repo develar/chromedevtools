@@ -78,14 +78,14 @@ public class DevToolsServiceHandler implements ToolHandler {
   public void handleMessage(Message message) {
     JsonReader reader = JsonReaders.createReader(message.getContent());
     ToolsMessage toolsResponse;
-    try {
+    //try {
       //toolsResponse = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
       toolsResponse = null;
-    }
-    catch (IOException e) {
-      LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + message.getContent(), e);
-      return;
-    }
+    //}
+    //catch (IOException e) {
+    //  LOGGER.log(Level.SEVERE, "Unexpected JSON data: " + message.getContent(), e);
+    //  return;
+    //}
 
     DevToolsServiceCommand command = DevToolsServiceCommand.forString(toolsResponse.command());
     if (command == null) {

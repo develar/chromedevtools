@@ -10,6 +10,7 @@
     <orderEntry type="module" module-name="org.chromium.sdk" />
     <orderEntry type="library" name="ECLIPSE" level="application" />
     <orderEntry type="inheritedJdk" />
+    <orderEntry type="library" name="gson" level="project" />
   </component>
 </module>
 

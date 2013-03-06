@@ -4,12 +4,14 @@
 
 package org.chromium.debug.core.model;
 
+import com.google.gson.stream.JsonWriter;
+import org.eclipse.osgi.util.NLS;
+
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
-import org.eclipse.osgi.util.NLS;
-import org.json.simple.JSONObject;
 
 /**
  * Provides a set of standard known source wrappers (for example for Node.JS).
@@ -35,12 +37,14 @@ public class HardcodedSourceWrapProvider implements IPredefinedSourceWrapProvide
 
     @Override
     public String getHumanDescription() {
-      JSONObject object = new JSONObject();
-      object.put("prefix", prefix); //$NON-NLS-1$
-      object.put("suffix", SUFFIX); //$NON-NLS-1$
-
-      return NLS.bind(Messages.HardcodedSourceWrapProvider_DESCRIPTION, getSpecialization(),
-          object.toJSONString());
+      StringWriter stringWriter = new StringWriter();
+      try {
+        new JsonWriter(stringWriter).beginObject().name("prefix").value(prefix).name("suffix").value(SUFFIX).endObject();
+      }
+      catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      return NLS.bind(Messages.HardcodedSourceWrapProvider_DESCRIPTION, getSpecialization(), stringWriter.toString());
     }
 
     protected abstract String getSpecialization();

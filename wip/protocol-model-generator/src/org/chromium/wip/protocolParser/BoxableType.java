@@ -8,12 +8,12 @@ abstract class BoxableType {
   static final BoxableType BOOLEAN = new StandaloneType(new NamePath("boolean"));
 
   public static BoxableType createList(BoxableType itemType) {
-    return new ListType(itemType.convertToPureReference());
+    return new ListType(itemType);
   }
 
-  abstract String getFullText();
+  abstract CharSequence getFullText();
 
   abstract String getShortText(NamePath contextNamespace);
 
-  abstract BoxableType convertToPureReference();
+  abstract String getWriteMethodName();
 }

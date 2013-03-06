@@ -1,6 +1,7 @@
 package org.chromium.wip.protocolParser;
 
-import org.chromium.protocolparser.EnumValueCondition;
+import org.chromium.protocolparser.Enums;
+import org.chromium.protocolparser.TextOutput;
 import org.chromium.wip.schemaParser.WipMetamodel;
 
 import java.io.IOException;
@@ -11,45 +12,36 @@ class InputClassScope extends ClassScope {
     super(generator, namePath);
   }
 
-  public void generateMainJsonProtocolInterfaceBody(IndentWriter writer,
-      List<WipMetamodel.Parameter> parameters) throws IOException {
+  public void generateMainJsonProtocolInterfaceBody(TextOutput out, List<WipMetamodel.Parameter> parameters) throws IOException {
     if (parameters != null) {
       for (WipMetamodel.Parameter param : parameters) {
         if (param.description() != null) {
-          writer.append("\t  /**\n   " + param.description() + "\n   */\n");
+          out.doc(param.description());
         }
 
-        String methodName = Generator.generateMethodNameSubstitute(param.name(), writer);
-        MemberScope memberScope = newMemberScope(param.name());
-        QualifiedTypeData paramTypeData = memberScope.resolveType(param);
-        paramTypeData.writeAnnotations(writer, "  ");
-        writer.append("\t  " +
-            paramTypeData.getJavaType().getShortText(getClassContextNamespace()) + " " +
-            methodName + "();\n");
-        writer.append("\t\n");
+        String methodName = Generator.generateMethodNameSubstitute(param.name(), out);
+        QualifiedTypeData paramTypeData = newMemberScope(param.name()).resolveType(param);
+        paramTypeData.writeAnnotations(out);
+        out.append(paramTypeData.getJavaType().getShortText(getClassContextNamespace())).space().append(methodName).append("();").newLine();
       }
     }
   }
 
-  void generateStandaloneTypeBody(IndentWriter writer, List<WipMetamodel.ObjectProperty> properties)
-      throws IOException {
+  void generateStandaloneTypeBody(TextOutput out, List<WipMetamodel.ObjectProperty> properties) throws IOException {
     if (properties != null) {
       for (WipMetamodel.ObjectProperty objectProperty : properties) {
         String propertyName = objectProperty.name();
 
         if (objectProperty.description() != null) {
-          writer.append("\t  /**\n   " + objectProperty.description() + "\n   */\n");
+          out.doc(objectProperty.description());
         }
 
-        String methodName = Generator.generateMethodNameSubstitute(propertyName, writer);
+        String methodName = Generator.generateMethodNameSubstitute(propertyName, out);
         MemberScope memberScope = newMemberScope(propertyName);
         QualifiedTypeData propertyTypeData = memberScope.resolveType(objectProperty);
-        propertyTypeData.writeAnnotations(writer, "  ");
+        propertyTypeData.writeAnnotations(out);
 
-        writer.append("\t  " +
-            propertyTypeData.getJavaType().getShortText(getClassContextNamespace()) + " " +
-            methodName + "();\n");
-        writer.append("\t\n");
+        out.append(propertyTypeData.getJavaType().getShortText(getClassContextNamespace()) + " " + methodName + "();").newLine();
       }
     }
   }
@@ -69,61 +61,46 @@ class InputClassScope extends ClassScope {
     }
 
     @Override
-    public BoxableType generateEnum(String description, List<String> enumConstants) {
-      DeferredWriter builder = new DeferredWriter();
-      if (description != null) {
-        builder.append("\t  /**\n   " + description + "\n   */\n");
-      }
-
-      String enumName = Generator.capitalizeFirstChar(getMemberName());
-      builder.append("\t  public enum " + enumName + " {\n");
-      for (String constant : enumConstants) {
-        builder.append("\t    " +
-            EnumValueCondition.decorateEnumConstantName(constant) + ",\n");
-      }
-      builder.append("\t  }\n");
-      addMember(builder);
-
+    public BoxableType generateEnum(final String description, final List<String> enumConstants) {
+      final String enumName = Generator.capitalizeFirstChar(getMemberName());
+      addMember(new TextOutConsumer() {
+        @Override
+        public void append(TextOutput out) {
+          out.newLine().doc(description);
+          Enums.appendEnums(enumConstants, enumName, true, out);
+        }
+      });
       return new StandaloneType(new NamePath(enumName, getClassContextNamespace()));
     }
 
     @Override
-    public BoxableType generateNestedObject(String description, List<WipMetamodel.ObjectProperty> propertyList) throws IOException {
-      DeferredWriter builder = new DeferredWriter();
-      if (description != null) {
-        builder.append("\t  /**\n   " + description + "\n   */\n");
-      }
-
-      String objectName = Generator.capitalizeFirstChar(getMemberName());
-      if (propertyList == null) {
-        builder.append("\t  @org.chromium.protocolParser.JsonType(" +
-            "allowsOtherProperties=true)\n");
-        builder.append("\t  public interface " + objectName +
-            " extends org.chromium.protocolParser.JsonObjectBased {\n");
-        builder.append("\t  }\n");
-      } else {
-        builder.append("\t  @org.chromium.protocolParser.JsonType\n");
-        builder.append("\t  public interface " + objectName + " {\n");
-        for (WipMetamodel.ObjectProperty property : propertyList) {
-          if (property.description() != null) {
-            builder.append("\t    /**\n     " + property.description() + "\n     */\n");
+    public BoxableType generateNestedObject(final String description, final List<WipMetamodel.ObjectProperty> propertyList) throws IOException {
+      final String objectName = Generator.capitalizeFirstChar(getMemberName());
+      addMember(new TextOutConsumer() {
+        @Override
+        public void append(TextOutput out) throws IOException {
+          out.newLine().doc(description);
+          if (propertyList == null) {
+            out.append("@org.chromium.protocolParser.JsonType(allowsOtherProperties=true)").newLine();
+            out.append("public interface ").append(objectName).append(" extends org.chromium.protocolParser.JsonObjectBased").openBlock();
           }
+          else {
+            out.append("@org.chromium.protocolParser.JsonType").newLine();
+            out.append("public interface ").append(objectName).openBlock();
+            for (WipMetamodel.ObjectProperty property : propertyList) {
+              out.doc(property.description());
 
-          String methodName = Generator.generateMethodNameSubstitute(property.name(), builder);
-          MemberScope memberScope = newMemberScope(property.name());
-          QualifiedTypeData propertyTypeData = memberScope.resolveType(property);
-          propertyTypeData.writeAnnotations(builder, "    ");
+              String methodName = Generator.generateMethodNameSubstitute(property.name(), out);
+              MemberScope memberScope = newMemberScope(property.name());
+              QualifiedTypeData propertyTypeData = memberScope.resolveType(property);
+              propertyTypeData.writeAnnotations(out);
 
-          builder.append("\t    " +
-              propertyTypeData.getJavaType().getShortText(getClassContextNamespace()) + " " +
-              methodName +  "();\n");
-          builder.append("\t\n");
+              out.append(propertyTypeData.getJavaType().getShortText(getClassContextNamespace()) + " " + methodName + "();").newLine();
+            }
+          }
+          out.closeBlock();
         }
-        builder.append("\t  }\n");
-      }
-
-      addMember(builder);
-      generator.generator.jsonProtocolParserClassNames.add(getFullName() + '.' + objectName);
+      });
       return new StandaloneType(new NamePath(objectName, getClassContextNamespace()));
     }
   }

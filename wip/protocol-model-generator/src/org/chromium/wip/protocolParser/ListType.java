@@ -8,8 +8,16 @@ class ListType extends BoxableType {
   }
 
   @Override
+  String getWriteMethodName() {
+    if (itemType == STRING) {
+      return "writeStringList";
+    }
+    return "put";
+  }
+
+  @Override
   String getFullText() {
-    if (itemType.getFullText().equals(LONG.getFullText())) {
+    if (itemType == LONG) {
       return "long[]";
     }
     return "java.util.List<" + itemType.getFullText() + ">";
@@ -17,14 +25,9 @@ class ListType extends BoxableType {
 
   @Override
   String getShortText(NamePath contextNamespace) {
-    if (itemType.getFullText().equals(LONG.getFullText())) {
+    if (itemType == LONG) {
       return "long[]";
     }
     return "java.util.List<" + itemType.getShortText(contextNamespace) + ">";
-  }
-
-  @Override
-  BoxableType convertToPureReference() {
-    return this;
   }
 }

@@ -1,13 +1,12 @@
 package org.chromium.wip.protocolParser;
 
-import org.chromium.protocolparser.EnumValueCondition;
+import org.chromium.protocolparser.Enums;
 import org.chromium.protocolparser.TextOutput;
 import org.chromium.wip.schemaParser.ItemDescriptor;
 import org.chromium.wip.schemaParser.WipMetamodel;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +32,10 @@ class DomainGenerator {
       boolean hasResponse = command.returns() != null;
       generateCommandParams(command, hasResponse);
       if (hasResponse) {
-        generateCommandData(command);
+        String className = Naming.COMMAND_DATA.getShortName(command.name());
+        JavaFileUpdater fileUpdater = generator.startJavaFile(Naming.COMMAND_DATA, domain, command.name());
+        generateJsonProtocolInterface(fileUpdater.out, className, command.description(), command.returns(), null);
+        fileUpdater.update();
         String dataFullName = Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText();
         generator.jsonProtocolParserClassNames.add(dataFullName);
         generator.parserRootInterfaceItems.add(new ParserRootInterfaceItem(domain.domain(), command.name(), Naming.COMMAND_DATA));
@@ -49,7 +51,7 @@ class DomainGenerator {
     }
   }
 
-  private void generateCommandParams(WipMetamodel.Command command, boolean hasResponse) throws IOException {
+  private void generateCommandParams(final WipMetamodel.Command command, final boolean hasResponse) throws IOException {
     StringBuilder baseTypeBuilder = new StringBuilder();
     baseTypeBuilder.append("org.jetbrains.wip.protocol.");
     if (hasResponse) {
@@ -61,70 +63,69 @@ class DomainGenerator {
       baseTypeBuilder.append("WipParams");
     }
 
-    TextOutput memberBuilder = new TextOutput(new StringBuilder());
-    memberBuilder.indentIn().newLine();
-    memberBuilder.append("public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.");
-    memberBuilder.append(domain.domain().toUpperCase()).append(" + \".").append(command.name()).append("\";");
-    memberBuilder.newLine().newLine().append("@Override").newLine().append("public String getCommand()").openBlock();
-    memberBuilder.append("return METHOD_NAME;").closeBlock();
+    TextOutConsumer memberBuilder = new TextOutConsumer() {
+      @Override
+      public void append(TextOutput out) {
+        out.newLine();
+        out.append("public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.");
+        out.append(domain.domain().toUpperCase()).append(" + \".").append(command.name()).append("\";");
+        out.newLine().newLine().append("@Override").newLine().append("public String getCommand()").openBlock();
+        out.append("return METHOD_NAME;").closeBlock();
 
-    if (hasResponse) {
-      String dataInterfaceFullName = Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText();
-      memberBuilder.newLine().newLine().append("@Override").newLine().append("public ").append(dataInterfaceFullName).append(" parseResponse(" +
-        "org.jetbrains.wip.protocol.WipCommandResponse.Data data, " +
-        "org.chromium.wip.protocol.input." + Generator.READER_INTERFACE_NAME + " parser) throws java.io.IOException").openBlock();
-      memberBuilder.append("return parser.").append(Naming.COMMAND_DATA.getParseMethodName(domain.domain(), command.name()));
-      memberBuilder.append("(data.getUnderlyingObject());");
-      memberBuilder.closeBlock();
-    }
-
-    memberBuilder.indentOut().newLine();
+        if (hasResponse) {
+          CharSequence dataInterfaceFullName = Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText();
+          out.newLine().newLine().append("@Override").newLine().append("public ").append(dataInterfaceFullName)
+            .append(" parseResponse(" +
+                    "org.jetbrains.wip.protocol.WipCommandResponse.Data data, " +
+                    "org.chromium.wip.protocol.input." + Generator.READER_INTERFACE_NAME + " parser) throws java.io.IOException")
+            .openBlock();
+          out.append("return parser.").append(Naming.COMMAND_DATA.getParseMethodName(domain.domain(), command.name()));
+          out.append("(data.getUnderlyingObject());");
+          out.closeBlock();
+        }
+      }
+    };
     generateTopLevelOutputClass(Naming.PARAMS, command.name(), command.description(), baseTypeBuilder.toString(),
-                                memberBuilder, command.parameters(), PropertyLikeAccess.PARAMETER);
+                                memberBuilder, command.parameters());
   }
 
   void generateCommandAdditionalParam(WipMetamodel.StandaloneType type) throws IOException {
     generateTopLevelOutputClass(Naming.ADDITIONAL_PARAM, type.id(), type.description(),
-        null, null, type.properties(), PropertyLikeAccess.PROPERTY);
+        null, null, type.properties());
   }
 
-  private <P extends ItemDescriptor.Named> void generateTopLevelOutputClass(ClassNameScheme nameScheme, String baseName,
-      String description, String baseType, TextOutput additionalMemberText,
-      List<P> properties, PropertyLikeAccess<P> propertyAccess) throws IOException {
+  private <P extends ItemDescriptor.Named> void generateTopLevelOutputClass(ClassNameScheme nameScheme,
+                                                                            String baseName,
+                                                                            String description,
+                                                                            String baseType,
+                                                                            TextOutConsumer additionalMemberText,
+                                                                            List<P> properties) throws IOException {
     JavaFileUpdater fileUpdater = generator.startJavaFile(nameScheme, domain, baseName);
-    Writer writer = fileUpdater.getWriter();
-    IndentWriter indentWriter = new IndentWriterImpl(writer, "");
+    TextOutput out = fileUpdater.out;
     NamePath classNamePath = nameScheme.getFullName(domain.domain(), baseName);
-    generateOutputClass(indentWriter, classNamePath, description, baseType, additionalMemberText, properties, propertyAccess);
-    writer.close();
+    generateOutputClass(out, classNamePath, description, baseType, additionalMemberText, properties);
     fileUpdater.update();
   }
 
-  private <P extends ItemDescriptor.Named> void generateOutputClass(IndentWriter writer, NamePath classNamePath,
-      String description, @Nullable String baseType, final TextOutput additionalMemberText,
-      List<P> properties, PropertyLikeAccess<P> propertyAccess) {
-    TextOutput out = new TextOutput(new StringBuilder());
-    if (description != null) {
-      out.append("/**").newLine().append(" * ").append(description).newLine().append(" */").newLine();
-    }
+  private <P extends ItemDescriptor.Named> void generateOutputClass(TextOutput out,
+                                                                    NamePath classNamePath,
+                                                                    String description,
+                                                                    @Nullable String baseType,
+                                                                    TextOutConsumer additionalMemberText,
+                                                                    List<P> properties) throws IOException {
+    out.doc(description);
     out.append("public class ").append(classNamePath.getLastComponent());
     out.append(" extends ").append(baseType == null ? "org.jetbrains.jsonProtocol.OutMessage" : baseType);
 
     OutputClassScope classScope = new OutputClassScope(this, classNamePath);
     if (additionalMemberText != null) {
-      classScope.addMember(new DeferredWriter() {
-        @Override
-        void writeContent(IndentWriter output) {
-          output.append(additionalMemberText.getOut().toString());
-        }
-      });
+      classScope.addMember(additionalMemberText);
     }
 
     out.openBlock();
-    classScope.generate(out, properties, propertyAccess);
-    classScope.writeAdditionalMembers(new IndentWriterImpl(out.getOut(), ""));
+    classScope.generate(out, properties);
+    classScope.writeAdditionalMembers(out);
     out.closeBlock();
-    writer.append(out.getOut().toString());
   }
 
   StandaloneTypeBinding createStandaloneOutputTypeBinding(WipMetamodel.StandaloneType type, String name) {
@@ -172,8 +173,7 @@ class DomainGenerator {
           }
 
           @Override
-          public BoxableType generateNestedObject(String description,
-                                                  List<WipMetamodel.ObjectProperty> properties) {
+          public BoxableType generateNestedObject(String description, List<WipMetamodel.ObjectProperty> properties) {
             throw new UnsupportedOperationException();
           }
         };
@@ -190,8 +190,7 @@ class DomainGenerator {
           }
         };
 
-        return createTypedefTypeBinding(getType(), target,
-                                        Naming.INPUT_TYPEDEF, TypeData.Direction.INPUT);
+        return createTypedefTypeBinding(getType(), target, Naming.INPUT_TYPEDEF, TypeData.Direction.INPUT);
       }
     });
   }
@@ -209,23 +208,19 @@ class DomainGenerator {
 
       @Override
       public void generate() throws IOException {
-        String description = type.description();
-
         NamePath className = Naming.INPUT_VALUE.getFullName(domain.domain(), name);
         JavaFileUpdater fileUpdater = generator.startJavaFile(Naming.INPUT_VALUE, domain, name);
-
-        IndentWriter writer = new IndentWriterImpl(fileUpdater.getWriter(), "");
-        if (description != null) {
-          writer.append("\t/**\n " + description + "\n */\n");
+        TextOutput out = fileUpdater.out;
+        if (type.description() != null) {
+          out.doc(type.description());
         }
 
-        writer.append("\t@org.chromium.protocolParser.JsonType\n");
-        writer.append("\tpublic interface " + className.getLastComponent() +" {\n");
-
+        out.append("@org.chromium.protocolParser.JsonType").newLine();
+        out.append("public interface ").append(className.getLastComponent()).openBlock();
         InputClassScope classScope = new InputClassScope(DomainGenerator.this, className);
-        classScope.generateStandaloneTypeBody(writer, properties);
-        classScope.writeAdditionalMembers(writer);
-        writer.append("\t}\n");
+        classScope.generateStandaloneTypeBody(out, properties);
+        classScope.writeAdditionalMembers(out);
+        out.closeBlock();
         fileUpdater.update();
       }
 
@@ -236,46 +231,24 @@ class DomainGenerator {
   }
 
   StandaloneTypeBinding createStandaloneEnumInputTypeBinding(final WipMetamodel.StandaloneType type,
-      final List<String> enumConstants, final TypeData.Direction direction) {
+                                                             final List<String> enumConstants, final TypeData.Direction direction) {
     final String name = type.id();
     return new StandaloneTypeBinding() {
-      @Override public BoxableType getJavaType() {
+      @Override
+      public BoxableType getJavaType() {
         return new StandaloneType(Naming.INPUT_ENUM.getFullName(domain.domain(), name));
       }
 
       @Override
       public void generate() throws IOException {
-        String description = type.description();
-
-        String className = Naming.INPUT_ENUM.getShortName(name);
         JavaFileUpdater fileUpdater = generator.startJavaFile(Naming.INPUT_ENUM, domain, name);
-
-        Writer writer = fileUpdater.getWriter();
-
-        if (description != null) {
-          writer.write("/**\n " + description + "\n */\n");
-        }
-
-        writer.write("public enum " + className +" {\n");
-
-        boolean first = true;
-        for (String constName : enumConstants) {
-          if (first) {
-            writer.write("\n  ");
-          } else {
-            writer.write(",\n  ");
-          }
-          writer.write(EnumValueCondition.decorateEnumConstantName(constName));
-          first = false;
-        }
-        writer.write("\n");
-
-        writer.write("}\n");
-
+        fileUpdater.out.doc(type.description());
+        Enums.appendEnums(enumConstants, Naming.INPUT_ENUM.getShortName(name), true, fileUpdater.out);
         fileUpdater.update();
       }
 
-      @Override public TypeData.Direction getDirection() {
+      @Override
+      public TypeData.Direction getDirection() {
         return direction;
       }
     };
@@ -289,69 +262,53 @@ class DomainGenerator {
        final ClassNameScheme nameScheme, final TypeData.Direction direction) {
     final String name = type.id();
     final NamePath typedefJavaName = nameScheme.getFullName(domain.domain(), name);
-    final List<DeferredWriter> deferredWriters = new ArrayList<DeferredWriter>(0);
+    final List<TextOutput> deferredWriters = new ArrayList<TextOutput>();
 
     class ResolveContextImpl implements StandaloneTypeBinding.Target.ResolveContext {
       @Override
-      public BoxableType generateNestedObject(String shortName,
-          String description, List<WipMetamodel.ObjectProperty> properties)
-          throws IOException {
-
-        DeferredWriter writer = new DeferredWriter();
-
+      public BoxableType generateNestedObject(String shortName, String description, List<WipMetamodel.ObjectProperty> properties) throws IOException {
         NamePath classNamePath = new NamePath(shortName, typedefJavaName);
-
         if (direction == null) {
           throw new RuntimeException("Unsupported");
-        } else {
-          switch (direction) {
+        }
+
+        switch (direction) {
           case INPUT:
             throw new RuntimeException("TODO");
           case OUTPUT:
             // "org.json.simple.JSONObject"
-            generateOutputClass(writer, classNamePath, description, null, null, properties, PropertyLikeAccess.PROPERTY);
+            TextOutput out = new TextOutput(new StringBuilder());
+            generateOutputClass(out, classNamePath, description, null, null, properties);
+            deferredWriters.add(out);
             break;
           default:
             throw new RuntimeException();
-          }
         }
-
-        deferredWriters.add(writer);
-
         return new StandaloneType(new NamePath(shortName, typedefJavaName));
       }
     }
 
     ResolveContextImpl resolveContext = new ResolveContextImpl();
-
     final BoxableType actualJavaType = target.resolve(resolveContext);
     return new StandaloneTypeBinding() {
-      @Override public BoxableType getJavaType() {
-        return new DecoratedBoxableType(actualJavaType);
+      @Override
+      public BoxableType getJavaType() {
+        return actualJavaType;
       }
 
       @Override
       public void generate() throws IOException {
         String className = nameScheme.getShortName(name);
         JavaFileUpdater fileUpdater = generator.startJavaFile(nameScheme, domain, name);
-        IndentWriter writer = new IndentWriterImpl(fileUpdater.getWriter(), "");
-        if (type.description() != null) {
-          writer.append("\t/**\n " + type.description() + "\n */\n");
+        TextOutput out = fileUpdater.out;
+        out.doc(type.description());
+        out.append("public class ").append(className).openBlock();
+        out.doc("The class is 'typedef'. It merely holds a type javadoc and its only field refers to an actual type");
+        out.append(actualJavaType.getShortText(typedefJavaName) + " actualType;").newLine();
+        for (TextOutput memberWriter : deferredWriters) {
+          out.getOut().append(memberWriter.getOut());
         }
-
-        writer.append("\tpublic class " + className + " {\n");
-        writer.append("\t  /*\n   The class is 'typedef'.\n" +
-            "\t   It merely holds a type javadoc and its only field refers to an " +
-            "actual type.\n" +
-            "\t   */\n");
-        writer.append("\t  " + actualJavaType.getShortText(typedefJavaName) + " actualType;\n");
-
-        IndentWriter innerWriter = writer.createInner();
-        for (DeferredWriter memberWriter : deferredWriters) {
-          memberWriter.writeContent(innerWriter);
-        }
-
-        writer.append("\t}\n");
+        out.closeBlock();
         fileUpdater.update();
       }
 
@@ -362,56 +319,40 @@ class DomainGenerator {
     };
   }
 
-  private void generateCommandData(WipMetamodel.Command command) throws IOException {
-    String className = Naming.COMMAND_DATA.getShortName(command.name());
-    JavaFileUpdater fileUpdater = generator.startJavaFile(Naming.COMMAND_DATA, domain, command.name());
-    IndentWriter writer = new IndentWriterImpl(fileUpdater.getWriter(), "");
-    generateJsonProtocolInterface(writer, className, command.description(), command.returns(), null);
-    fileUpdater.update();
-  }
-
-  private void generateEvenData(WipMetamodel.Event event) throws IOException {
+  private void generateEvenData(final WipMetamodel.Event event) throws IOException {
     String className = Naming.EVENT_DATA.getShortName(event.name());
     JavaFileUpdater fileUpdater = generator.startJavaFile(Naming.EVENT_DATA, domain, event.name());
-    String domainName = domain.domain();
-    String fullName = Naming.EVENT_DATA.getFullName(domainName, event.name()).getFullText();
-
-    DeferredWriter eventTypeMemberText = new DeferredWriter();
-    eventTypeMemberText.append(
-        "\t  public static final org.jetbrains.wip.protocol.WipEventType<" +
-        fullName +
-        "> TYPE\n\t      = new org.jetbrains.wip.protocol.WipEventType<" +
-        fullName +
-        ">(\"" + domainName + "" + event.name() + "\", " + fullName + ".class) {\n" +
-        "\t    @Override public " + fullName + " parse(" + Generator.INPUT_PACKAGE + "." +
-        Generator.READER_INTERFACE_NAME + " parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {\n" +
-        "\t      return parser." +
-        Naming.EVENT_DATA.getParseMethodName(domainName, event.name()) +
-        "(reader);\n" +
-        "\t    }\n" +
-        "\t  };\n");
-
-    IndentWriter writer = new IndentWriterImpl(fileUpdater.getWriter(), "");
-    generateJsonProtocolInterface(writer, className, event.description(), event.parameters(), eventTypeMemberText);
+    final String domainName = domain.domain();
+    final CharSequence fullName = Naming.EVENT_DATA.getFullName(domainName, event.name()).getFullText();
+    generateJsonProtocolInterface(fileUpdater.out, className, event.description(), event.parameters(), new TextOutConsumer() {
+      @Override
+      public void append(TextOutput out) {
+        out.newLine().append("public static final org.jetbrains.wip.protocol.WipEventType<").append(fullName).append("> TYPE").newLine();
+        out.append("\t= new org.jetbrains.wip.protocol.WipEventType<").append(fullName).append(">");
+        out.append("(\"" + domainName + "" + event.name() + "\", ").append(fullName).append(".class)").openBlock();
+        {
+          out.append("@Override").newLine().append("public ").append(fullName).append(" parse(");
+          out.append(Generator.INPUT_PACKAGE).append('.').append(Generator.READER_INTERFACE_NAME + " parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException").openBlock();
+          out.append("return parser.").append(Naming.EVENT_DATA.getParseMethodName(domainName, event.name())).append("(reader);").closeBlock();
+        }
+        out.closeBlock();
+        out.semi();
+      }
+    });
     fileUpdater.update();
   }
 
-  private void generateJsonProtocolInterface(IndentWriter writer, String className,
-      String description, List<WipMetamodel.Parameter> parameters, DeferredWriter additionalMembersText)
-      throws IOException {
+  private void generateJsonProtocolInterface(TextOutput out, String className, String description, List<WipMetamodel.Parameter> parameters, TextOutConsumer additionalMembersText) throws IOException {
     if (description != null) {
-      writer.append("\t/**\n " + description + "\n */\n");
+      out.doc(description);
     }
-
-    writer.append("\t@org.chromium.protocolParser.JsonType\n");
-    writer.append("\tpublic interface " + className +" {\n");
-
+    out.append("@org.chromium.protocolParser.JsonType").newLine().append("public interface ").append(className).openBlock();
     InputClassScope classScope = new InputClassScope(this, new NamePath(className, new NamePath(ClassNameScheme.getPackageName(Generator.INPUT_PACKAGE, domain.domain()))));
     if (additionalMembersText != null) {
       classScope.addMember(additionalMembersText);
     }
-    classScope.generateMainJsonProtocolInterfaceBody(writer, parameters);
-    classScope.writeAdditionalMembers(writer);
-    writer.append("\t}\n");
+    classScope.generateMainJsonProtocolInterfaceBody(out, parameters);
+    classScope.writeAdditionalMembers(out);
+    out.closeBlock();
   }
 }

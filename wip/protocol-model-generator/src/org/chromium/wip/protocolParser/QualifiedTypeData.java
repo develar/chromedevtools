@@ -1,5 +1,7 @@
 package org.chromium.wip.protocolParser;
 
+import org.chromium.protocolparser.TextOutput;
+
 import java.io.IOException;
 
 class QualifiedTypeData {
@@ -25,12 +27,12 @@ class QualifiedTypeData {
     return typeRef;
   }
 
-  void writeAnnotations(IndentWriter appendable, String indent) throws IOException {
+  void writeAnnotations(TextOutput out) throws IOException {
     if (isOptional()) {
-      appendable.append("\t" + indent + "@org.chromium.protocolParser.JsonOptionalField\n");
+      out.append("@org.chromium.protocolParser.JsonOptionalField").newLine();
     }
     if (isNullable()) {
-      appendable.append("\t" + indent + "@org.chromium.protocolParser.JsonNullable\n");
+      out.append("@org.chromium.protocolParser.JsonNullable").newLine();
     }
   }
 }

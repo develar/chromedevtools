@@ -1,12 +1,11 @@
 // This is a generated source.
 package org.chromium.wip;
 
-import com.google.gson.stream.JsonReader;
-import org.jetbrains.jsonProtocol.ObjectFactory;
-
-import java.io.IOException;
+import org.jetbrains.jsonProtocol.*;
 
 import static org.jetbrains.jsonProtocol.JsonReaders.*;
+import com.google.gson.stream.JsonReader;
+import java.io.IOException;
 
 public final class WipProtocolSchemaReader implements org.chromium.wip.schemaParser.WipMetamodelParser {
   @Override

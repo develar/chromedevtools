@@ -1,10 +1,13 @@
 package org.chromium.wip.protocolParser;
 
+import org.chromium.protocolparser.TextOutput;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 abstract class ClassScope {
-  private final List<DeferredWriter> additionalMemberTexts = new ArrayList<DeferredWriter>(2);
+  private final List<TextOutConsumer> additionalMemberTexts = new ArrayList<TextOutConsumer>(2);
   private final NamePath contextNamespace;
   final DomainGenerator generator;
 
@@ -25,13 +28,13 @@ abstract class ClassScope {
     return contextNamespace;
   }
 
-  void addMember(DeferredWriter deferredWriter) {
-    additionalMemberTexts.add(deferredWriter);
+  void addMember(TextOutConsumer out) {
+    additionalMemberTexts.add(out);
   }
 
-  void writeAdditionalMembers(IndentWriter writer) {
-    for (DeferredWriter deferredWriter : additionalMemberTexts) {
-      deferredWriter.writeContent(writer);
+  void writeAdditionalMembers(TextOutput out) throws IOException {
+    for (TextOutConsumer deferredWriter : additionalMemberTexts) {
+      deferredWriter.append(out);
     }
   }
 

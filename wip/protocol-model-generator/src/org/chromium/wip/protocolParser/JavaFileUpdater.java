@@ -4,14 +4,9 @@
 
 package org.chromium.wip.protocolParser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
-import java.io.Writer;
+import org.chromium.protocolparser.TextOutput;
+
+import java.io.*;
 
 /**
  * A class that makes accurate java source file update. If only header
@@ -21,30 +16,24 @@ import java.io.Writer;
  */
 class JavaFileUpdater {
   private final File file;
-  private final StringWriter writer;
+  final StringBuilder builder;
+  final TextOutput out;
 
   JavaFileUpdater(File file) {
     this.file = file;
-    writer = new StringWriter();
-  }
-
-  Writer getWriter() {
-    return writer;
+    builder = new StringBuilder();
+    out = new TextOutput(builder);
   }
 
   void update() throws IOException {
-    writer.close();
-
-    String newContent = writer.getBuffer().toString();
-
+    String newContent = builder.toString();
     if (file.isFile()) {
-      String oldContent =
-          StreamUtil.readStringFromStream(new FileInputStream(file), StreamUtil.UTF8_CHARSET);
-
+      String oldContent = StreamUtil.readStringFromStream(new FileInputStream(file), StreamUtil.UTF8_CHARSET);
       if (stripHeader(oldContent).equals(stripHeader(newContent))) {
         return;
       }
-    } else {
+    }
+    else {
       File dir = file.getParentFile();
       boolean dirCreated = dir.mkdirs();
       if (!dirCreated && !dir.isDirectory()) {

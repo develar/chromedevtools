@@ -4,12 +4,12 @@
 
 package org.chromium.wip.protocolParser;
 
+import org.chromium.protocolparser.TextOutput;
 import org.chromium.wip.schemaParser.ItemDescriptor;
 import org.chromium.wip.schemaParser.WipMetamodel;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.*;
 
 import static org.chromium.wip.schemaParser.WipMetamodel.*;
@@ -145,14 +145,7 @@ class Generator {
     }
 
     QualifiedTypeData getQualifiedType(boolean optional) {
-      BoxableType ref;
-      if (optional) {
-        ref = typeRef.convertToPureReference();
-      }
-      else {
-        ref = typeRef;
-      }
-      return new QualifiedTypeData(ref, optional, nullable);
+      return new QualifiedTypeData(typeRef, optional, nullable);
     }
 
     static final UnqualifiedTypeData BOOLEAN = new UnqualifiedTypeData(BoxableType.BOOLEAN, false);
@@ -164,19 +157,18 @@ class Generator {
 
   private void generateParserInterfaceList() throws IOException {
     JavaFileUpdater fileUpdater = startJavaFile(INPUT_PACKAGE, PARSER_INTERFACE_LIST_CLASS_NAME + ".java");
-
     // Write classes in stable order.
     Collections.sort(jsonProtocolParserClassNames);
 
-    Writer writer = fileUpdater.getWriter();
-    writer.write("public class " + PARSER_INTERFACE_LIST_CLASS_NAME + " {\n");
-    writer.write("\tpublic static final Class<?>[] LIST = {\n");
+    TextOutput out = fileUpdater.out;
+    out.append("public class ").append(PARSER_INTERFACE_LIST_CLASS_NAME).openBlock();
+    out.append("public static final Class<?>[] LIST =").openBlock();
     for (String name : jsonProtocolParserClassNames) {
-      writer.write("\t\t" + name + ".class" + ",\n");
+      out.append(name).append(".class,").newLine();
     }
-    writer.write("\t};\n");
-    writer.write("}\n");
-
+    out.closeBlock();
+    out.semi();
+    out.closeBlock();
     fileUpdater.update();
   }
 
@@ -185,13 +177,13 @@ class Generator {
     // Write classes in stable order.
     Collections.sort(parserRootInterfaceItems);
 
-    Writer writer = fileUpdater.getWriter();
-    writer.write("@org.chromium.protocolParser.JsonParserRoot\n");
-    writer.write("public interface " + READER_INTERFACE_NAME + " {\n");
+    TextOutput out = fileUpdater.out;
+    out.append("@org.chromium.protocolParser.JsonParserRoot").newLine();
+    out.append("public interface ").append(READER_INTERFACE_NAME).openBlock();
     for (ParserRootInterfaceItem item : parserRootInterfaceItems) {
-      item.writeCode(writer);
+      item.writeCode(out);
     }
-    writer.write("}\n");
+    out.closeBlock();
     fileUpdater.update();
   }
 
@@ -214,12 +206,11 @@ class Generator {
     return typeMap.resolve(domainName, shortName, direction);
   }
 
-  static String generateMethodNameSubstitute(String originalName, IndentWriter output) {
+  static String generateMethodNameSubstitute(String originalName, TextOutput out) {
     if (!BAD_METHOD_NAMES.contains(originalName)) {
       return originalName;
     }
-    output.append("\t  @org.chromium.protocolParser.JsonField(jsonLiteralName=\"" +
-                  originalName + "\")\n");
+    out.append("@org.chromium.protocolParser.JsonField(jsonLiteralName=\"").append(originalName).append("\")").newLine();
     return "get" + Character.toUpperCase(originalName.charAt(0)) + originalName.substring(1);
   }
 
@@ -231,19 +222,12 @@ class Generator {
   }
 
   JavaFileUpdater startJavaFile(ClassNameScheme nameScheme, Domain domain, String baseName) throws IOException {
-    String packageName = nameScheme.getPackageNameVirtual(domain.domain());
-    String fileName = nameScheme.getShortName(baseName) + ".java";
-    return startJavaFile(packageName, fileName);
+    return startJavaFile(nameScheme.getPackageNameVirtual(domain.domain()), nameScheme.getShortName(baseName) + ".java");
   }
 
   private JavaFileUpdater startJavaFile(String packageName, String filename) throws IOException {
-    String filePath = packageName.replace('.', '/');
-
-    JavaFileUpdater fileUpdater = fileSet.createFileUpdater(filePath + "/" + filename);
-    Writer writer = fileUpdater.getWriter();
-    writer.write("// Generated source.\n");
-    writer.write("// Generator: " + getClass().getCanonicalName() + "\n");
-    writer.write("package " + packageName + ";\n\n");
+    JavaFileUpdater fileUpdater = fileSet.createFileUpdater(packageName.replace('.', '/') + "/" + filename);
+    fileUpdater.out.append("// Generated source").newLine().append("package ").append(packageName).semi().newLine().newLine();
     return fileUpdater;
   }
 
