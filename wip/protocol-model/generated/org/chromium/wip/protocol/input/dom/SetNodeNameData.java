@@ -3,12 +3,12 @@
 package org.chromium.wip.protocol.input.dom;
 
 /**
- Sets node name for a node with given id.
+ * Sets node name for a node with given id.
  */
 @org.chromium.protocolParser.JsonType
 public interface SetNodeNameData {
   /**
-   New node's id.
+   * New node's id.
    */
   long nodeId();
 

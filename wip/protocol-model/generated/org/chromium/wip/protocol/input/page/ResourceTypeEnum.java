@@ -1,18 +1,9 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.page;
 
 /**
- Resource type as it was perceived by the rendering engine.
+ * Resource type as it was perceived by the rendering engine.
  */
 public enum ResourceTypeEnum {
-
-  DOCUMENT,
-  STYLESHEET,
-  IMAGE,
-  FONT,
-  SCRIPT,
-  XHR,
-  WEBSOCKET,
-  OTHER
+  _DOCUMENT, _STYLESHEET, _IMAGE, _FONT, _SCRIPT, XHR, _WEB_SOCKET, _OTHER
 }

@@ -3,17 +3,16 @@
 package org.chromium.wip.protocol.input.page;
 
 /**
- Search match for resource.
+ * Search match for resource.
  */
 @org.chromium.protocolParser.JsonType
 public interface SearchMatchValue {
   /**
-   Line number in resource content.
+   * Line number in resource content.
    */
   double lineNumber();
-
   /**
-   Line with match content.
+   * Line with match content.
    */
   String lineContent();
 

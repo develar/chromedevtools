@@ -1,56 +1,42 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.runtime;
 
 @org.chromium.protocolParser.JsonType
 public interface PropertyPreviewValue {
   /**
-   Property name.
+   * Property name.
    */
   String name();
-
   /**
-   Object type.
+   * Object type.
    */
   Type type();
-
   /**
-   User-friendly property value string.
+   * User-friendly property value string.
    */
   @org.chromium.protocolParser.JsonOptionalField
   String value();
-
   /**
-   Nested value preview.
+   * Nested value preview.
    */
   @org.chromium.protocolParser.JsonOptionalField
   org.chromium.wip.protocol.input.runtime.ObjectPreviewValue valuePreview();
-
   /**
-   Object subtype hint. Specified for <code>object</code> type values only.
+   * Object subtype hint. Specified for <code>object</code> type values only.
    */
   @org.chromium.protocolParser.JsonOptionalField
   Subtype subtype();
 
   /**
-   Object type.
+   * Object type.
    */
   public enum Type {
-    OBJECT,
-    FUNCTION,
-    UNDEFINED,
-    STRING,
-    NUMBER,
-    BOOLEAN,
+    OBJECT, FUNCTION, UNDEFINED, STRING, NUMBER, BOOLEAN
   }
   /**
-   Object subtype hint. Specified for <code>object</code> type values only.
+   * Object subtype hint. Specified for <code>object</code> type values only.
    */
   public enum Subtype {
-    ARRAY,
-    NULL,
-    NODE,
-    REGEXP,
-    DATE,
+    ARRAY, NULL, NODE, REGEXP, DATE
   }
 }

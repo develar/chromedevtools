@@ -3,71 +3,60 @@
 package org.chromium.wip.protocol.input.network;
 
 /**
- HTTP response data.
+ * HTTP response data.
  */
 @org.chromium.protocolParser.JsonType
 public interface ResponseValue {
   /**
-   Response URL. This URL can be different from CachedResource.url in case of redirect.
+   * Response URL. This URL can be different from CachedResource.url in case of redirect.
    */
   String url();
-
   /**
-   HTTP response status code.
+   * HTTP response status code.
    */
   double status();
-
   /**
-   HTTP response status text.
+   * HTTP response status text.
    */
   String statusText();
-
   /**
-   HTTP response headers.
+   * HTTP response headers.
    */
   org.chromium.wip.protocol.input.network.HeadersValue headers();
-
   /**
-   HTTP response headers text.
+   * HTTP response headers text.
    */
   @org.chromium.protocolParser.JsonOptionalField
   String headersText();
-
   /**
-   Resource mimeType as determined by the browser.
+   * Resource mimeType as determined by the browser.
    */
   String mimeType();
-
   /**
-   Refined HTTP request headers that were actually transmitted over the network.
+   * Refined HTTP request headers that were actually transmitted over the network.
    */
   @org.chromium.protocolParser.JsonOptionalField
   org.chromium.wip.protocol.input.network.HeadersValue requestHeaders();
-
   /**
-   HTTP request headers text.
+   * HTTP request headers text.
    */
   @org.chromium.protocolParser.JsonOptionalField
   String requestHeadersText();
-
   /**
-   Specifies whether physical connection was actually reused for this request.
+   * Specifies whether physical connection was actually reused for this request.
    */
   boolean connectionReused();
-
   /**
-   Physical connection id that was actually used for this request.
+   * Physical connection id that was actually used for this request.
    */
   double connectionId();
-
   /**
-   Specifies that the request was served from the disk cache.
+   * Specifies that the request was served from the disk cache.
    */
   @org.chromium.protocolParser.JsonOptionalField
   boolean fromDiskCache();
-
   /**
-   Timing information for the given request.
+   * Timing information for the given request.
    */
   @org.chromium.protocolParser.JsonOptionalField
   org.chromium.wip.protocol.input.network.ResourceTimingValue timing();

@@ -3,12 +3,12 @@
 package org.chromium.wip.protocol.input.dom;
 
 /**
- Executes <code>querySelector</code> on a given node.
+ * Executes <code>querySelector</code> on a given node.
  */
 @org.chromium.protocolParser.JsonType
 public interface QuerySelectorData {
   /**
-   Query selector result.
+   * Query selector result.
    */
   long nodeId();
 

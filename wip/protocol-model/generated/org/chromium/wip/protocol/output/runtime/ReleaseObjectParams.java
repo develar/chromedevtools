@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.runtime;
 
 /**
@@ -18,5 +17,4 @@ public class ReleaseObjectParams extends org.jetbrains.wip.protocol.WipParams {
   public String getCommand() {
     return METHOD_NAME;
   }
-
 }

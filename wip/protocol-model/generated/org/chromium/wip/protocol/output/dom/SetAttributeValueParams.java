@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.dom;
 
 /**
@@ -22,5 +21,4 @@ public class SetAttributeValueParams extends org.jetbrains.wip.protocol.WipParam
   public String getCommand() {
     return METHOD_NAME;
   }
-
 }

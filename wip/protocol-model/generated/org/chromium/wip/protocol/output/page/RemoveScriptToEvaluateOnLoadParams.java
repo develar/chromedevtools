@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.page;
 
 public class RemoveScriptToEvaluateOnLoadParams extends org.jetbrains.wip.protocol.WipParams {
@@ -12,5 +11,4 @@ public class RemoveScriptToEvaluateOnLoadParams extends org.jetbrains.wip.protoc
   public String getCommand() {
     return METHOD_NAME;
   }
-
 }

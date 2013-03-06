@@ -3,52 +3,44 @@
 package org.chromium.wip.protocol.input.page;
 
 /**
- Cookie object
+ * Cookie object
  */
 @org.chromium.protocolParser.JsonType
 public interface CookieValue {
   /**
-   Cookie name.
+   * Cookie name.
    */
   String name();
-
   /**
-   Cookie value.
+   * Cookie value.
    */
   String value();
-
   /**
-   Cookie domain.
+   * Cookie domain.
    */
   String domain();
-
   /**
-   Cookie path.
+   * Cookie path.
    */
   String path();
-
   /**
-   Cookie expires.
+   * Cookie expires.
    */
   double expires();
-
   /**
-   Cookie size.
+   * Cookie size.
    */
   long size();
-
   /**
-   True if cookie is http-only.
+   * True if cookie is http-only.
    */
   boolean httpOnly();
-
   /**
-   True if cookie is secure.
+   * True if cookie is secure.
    */
   boolean secure();
-
   /**
-   True in case of session cookie.
+   * True in case of session cookie.
    */
   boolean session();
 

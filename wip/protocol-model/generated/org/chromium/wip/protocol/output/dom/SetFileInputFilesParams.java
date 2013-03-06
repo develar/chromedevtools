@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.dom;
 
 /**
@@ -12,7 +11,7 @@ public class SetFileInputFilesParams extends org.jetbrains.wip.protocol.WipParam
    */
   public SetFileInputFilesParams(long nodeId, java.util.List<String> files) {
     put("nodeId", nodeId);
-    put("files", files);
+    writeStringList("files", files);
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".setFileInputFiles";
 
@@ -20,5 +19,4 @@ public class SetFileInputFilesParams extends org.jetbrains.wip.protocol.WipParam
   public String getCommand() {
     return METHOD_NAME;
   }
-
 }

@@ -3,27 +3,24 @@
 package org.chromium.wip.protocol.input.network;
 
 /**
- HTTP request data.
+ * HTTP request data.
  */
 @org.chromium.protocolParser.JsonType
 public interface RequestValue {
   /**
-   Request URL.
+   * Request URL.
    */
   String url();
-
   /**
-   HTTP request method.
+   * HTTP request method.
    */
   String method();
-
   /**
-   HTTP request headers.
+   * HTTP request headers.
    */
   org.chromium.wip.protocol.input.network.HeadersValue headers();
-
   /**
-   HTTP POST request data.
+   * HTTP POST request data.
    */
   @org.chromium.protocolParser.JsonOptionalField
   String postData();

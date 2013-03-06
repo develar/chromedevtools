@@ -1,56 +1,49 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.network;
 
 /**
- Fired when page is about to send HTTP request.
+ * Fired when page is about to send HTTP request.
  */
 @org.chromium.protocolParser.JsonType
 public interface RequestWillBeSentEventData {
   /**
-   Request identifier.
+   * Request identifier.
    */
   String requestId();
-
   /**
-   Frame identifier.
+   * Frame identifier.
    */
   String frameId();
-
   /**
-   Loader identifier.
+   * Loader identifier.
    */
   String loaderId();
-
   /**
-   URL of the document this request is loaded for.
+   * URL of the document this request is loaded for.
    */
   String documentURL();
-
   /**
-   Request data.
+   * Request data.
    */
   org.chromium.wip.protocol.input.network.RequestValue request();
-
   /**
-   Timestamp.
+   * Timestamp.
    */
   double timestamp();
-
   /**
-   Request initiator.
+   * Request initiator.
    */
   org.chromium.wip.protocol.input.network.InitiatorValue initiator();
-
   /**
-   Redirect response data.
+   * Redirect response data.
    */
   @org.chromium.protocolParser.JsonOptionalField
   org.chromium.wip.protocol.input.network.ResponseValue redirectResponse();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestWillBeSentEventData> TYPE
-      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestWillBeSentEventData>("NetworkrequestWillBeSent", org.chromium.wip.protocol.input.network.RequestWillBeSentEventData.class) {
-    @Override public org.chromium.wip.protocol.input.network.RequestWillBeSentEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+  	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestWillBeSentEventData>("NetworkrequestWillBeSent", org.chromium.wip.protocol.input.network.RequestWillBeSentEventData.class) {
+    @Override
+    public org.chromium.wip.protocol.input.network.RequestWillBeSentEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseNetworkRequestWillBeSentEventData(reader);
     }
   };

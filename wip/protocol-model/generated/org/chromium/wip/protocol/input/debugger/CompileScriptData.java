@@ -3,18 +3,17 @@
 package org.chromium.wip.protocol.input.debugger;
 
 /**
- Compiles expression.
+ * Compiles expression.
  */
 @org.chromium.protocolParser.JsonType
 public interface CompileScriptData {
   /**
-   Id of the script.
+   * Id of the script.
    */
   @org.chromium.protocolParser.JsonOptionalField
   String scriptId();
-
   /**
-   Syntax error message if compilation failed.
+   * Syntax error message if compilation failed.
    */
   @org.chromium.protocolParser.JsonOptionalField
   String syntaxErrorMessage();

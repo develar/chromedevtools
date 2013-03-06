@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.debugger;
 
 /**
@@ -41,5 +40,4 @@ public class SearchInContentParams extends org.jetbrains.wip.protocol.WipParamsW
   public org.chromium.wip.protocol.input.debugger.SearchInContentData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseDebuggerSearchInContentData(data.getUnderlyingObject());
   }
-
 }

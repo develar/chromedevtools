@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.debugger;
 
 /**
@@ -21,5 +20,4 @@ public class SetOverlayMessageParams extends org.jetbrains.wip.protocol.WipParam
   public String getCommand() {
     return METHOD_NAME;
   }
-
 }

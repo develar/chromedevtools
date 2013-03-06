@@ -3,12 +3,12 @@
 package org.chromium.wip.protocol.input.dom;
 
 /**
- Returns node's HTML markup.
+ * Returns node's HTML markup.
  */
 @org.chromium.protocolParser.JsonType
 public interface GetOuterHTMLData {
   /**
-   Outer HTML markup.
+   * Outer HTML markup.
    */
   String outerHTML();
 

@@ -1,53 +1,46 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.page;
 
 /**
- Information about the Frame hierarchy along with their cached resources.
+ * Information about the Frame hierarchy along with their cached resources.
  */
 @org.chromium.protocolParser.JsonType
 public interface FrameResourceTreeValue {
   /**
-   Frame information for this tree item.
+   * Frame information for this tree item.
    */
   org.chromium.wip.protocol.input.page.FrameValue frame();
-
   /**
-   Child frames.
+   * Child frames.
    */
   @org.chromium.protocolParser.JsonOptionalField
   java.util.List<org.chromium.wip.protocol.input.page.FrameResourceTreeValue> childFrames();
-
   /**
-   Information about frame resources.
+   * Information about frame resources.
    */
   java.util.List<Resources> resources();
 
   @org.chromium.protocolParser.JsonType
   public interface Resources {
     /**
-     Resource URL.
+     * Resource URL.
      */
     String url();
-
     /**
-     Type of this resource.
+     * Type of this resource.
      */
     org.chromium.wip.protocol.input.page.ResourceTypeEnum type();
-
     /**
-     Resource mimeType as determined by the browser.
+     * Resource mimeType as determined by the browser.
      */
     String mimeType();
-
     /**
-     True if the resource failed to load.
+     * True if the resource failed to load.
      */
     @org.chromium.protocolParser.JsonOptionalField
     boolean failed();
-
     /**
-     True if the resource was canceled during loading.
+     * True if the resource was canceled during loading.
      */
     @org.chromium.protocolParser.JsonOptionalField
     boolean canceled();

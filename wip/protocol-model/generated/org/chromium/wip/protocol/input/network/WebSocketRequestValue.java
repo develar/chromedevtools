@@ -3,12 +3,12 @@
 package org.chromium.wip.protocol.input.network;
 
 /**
- WebSocket request data.
+ * WebSocket request data.
  */
 @org.chromium.protocolParser.JsonType
 public interface WebSocketRequestValue {
   /**
-   HTTP response headers.
+   * HTTP response headers.
    */
   org.chromium.wip.protocol.input.network.HeadersValue headers();
 

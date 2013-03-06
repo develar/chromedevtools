@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.debugger;
 
 /**
@@ -18,5 +17,4 @@ public class ContinueToLocationParams extends org.jetbrains.wip.protocol.WipPara
   public String getCommand() {
     return METHOD_NAME;
   }
-
 }

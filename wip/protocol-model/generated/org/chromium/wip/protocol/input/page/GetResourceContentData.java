@@ -3,17 +3,16 @@
 package org.chromium.wip.protocol.input.page;
 
 /**
- Returns content of the given resource.
+ * Returns content of the given resource.
  */
 @org.chromium.protocolParser.JsonType
 public interface GetResourceContentData {
   /**
-   Resource content.
+   * Resource content.
    */
   String content();
-
   /**
-   True, if content was served as base64.
+   * True, if content was served as base64.
    */
   boolean base64Encoded();
 

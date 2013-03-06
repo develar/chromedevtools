@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.dom;
 
 /**
@@ -25,5 +24,4 @@ public class SetNodeNameParams extends org.jetbrains.wip.protocol.WipParamsWithR
   public org.chromium.wip.protocol.input.dom.SetNodeNameData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseDOMSetNodeNameData(data.getUnderlyingObject());
   }
-
 }

@@ -3,22 +3,20 @@
 package org.chromium.wip.protocol.input.network;
 
 /**
- WebSocket response data.
+ * WebSocket response data.
  */
 @org.chromium.protocolParser.JsonType
 public interface WebSocketResponseValue {
   /**
-   HTTP response status code.
+   * HTTP response status code.
    */
   double status();
-
   /**
-   HTTP response status text.
+   * HTTP response status text.
    */
   String statusText();
-
   /**
-   HTTP response headers.
+   * HTTP response headers.
    */
   org.chromium.wip.protocol.input.network.HeadersValue headers();
 

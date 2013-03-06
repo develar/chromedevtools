@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.debugger;
 
 /**
@@ -23,5 +22,4 @@ public class GetScriptSourceParams extends org.jetbrains.wip.protocol.WipParamsW
   public org.chromium.wip.protocol.input.debugger.GetScriptSourceData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseDebuggerGetScriptSourceData(data.getUnderlyingObject());
   }
-
 }

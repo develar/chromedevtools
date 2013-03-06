@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.runtime;
 
 /**
@@ -57,5 +56,4 @@ public class CallFunctionOnParams extends org.jetbrains.wip.protocol.WipParamsWi
   public org.chromium.wip.protocol.input.runtime.CallFunctionOnData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseRuntimeCallFunctionOnData(data.getUnderlyingObject());
   }
-
 }

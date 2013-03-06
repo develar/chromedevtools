@@ -3,12 +3,12 @@
 package org.chromium.wip.protocol.input.page;
 
 /**
- Tells if backend supports continuous painting
+ * Tells if backend supports continuous painting
  */
 @org.chromium.protocolParser.JsonType
 public interface CanContinuouslyPaintData {
   /**
-   True if continuous painting is available
+   * True if continuous painting is available
    */
   boolean value();
 

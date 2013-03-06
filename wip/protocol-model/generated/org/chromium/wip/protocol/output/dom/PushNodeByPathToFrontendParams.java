@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.dom;
 
 /**
@@ -23,5 +22,4 @@ public class PushNodeByPathToFrontendParams extends org.jetbrains.wip.protocol.W
   public org.chromium.wip.protocol.input.dom.PushNodeByPathToFrontendData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseDOMPushNodeByPathToFrontendData(data.getUnderlyingObject());
   }
-
 }

@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.dom;
 
 /**
@@ -13,5 +12,4 @@ public class HideHighlightParams extends org.jetbrains.wip.protocol.WipParams {
   public String getCommand() {
     return METHOD_NAME;
   }
-
 }

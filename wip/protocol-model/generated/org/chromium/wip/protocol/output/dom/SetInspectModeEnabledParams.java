@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.dom;
 
 /**
@@ -26,5 +25,4 @@ public class SetInspectModeEnabledParams extends org.jetbrains.wip.protocol.WipP
   public String getCommand() {
     return METHOD_NAME;
   }
-
 }

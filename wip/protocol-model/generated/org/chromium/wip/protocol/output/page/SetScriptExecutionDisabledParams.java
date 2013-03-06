@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.page;
 
 /**
@@ -18,5 +17,4 @@ public class SetScriptExecutionDisabledParams extends org.jetbrains.wip.protocol
   public String getCommand() {
     return METHOD_NAME;
   }
-
 }

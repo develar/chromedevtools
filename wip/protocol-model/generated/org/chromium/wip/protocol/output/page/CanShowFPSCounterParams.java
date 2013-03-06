@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.page;
 
 /**
@@ -18,5 +17,4 @@ public class CanShowFPSCounterParams extends org.jetbrains.wip.protocol.WipParam
   public org.chromium.wip.protocol.input.page.CanShowFPSCounterData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parsePageCanShowFPSCounterData(data.getUnderlyingObject());
   }
-
 }

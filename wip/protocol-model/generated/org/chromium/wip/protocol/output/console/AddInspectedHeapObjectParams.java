@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.console;
 
 public class AddInspectedHeapObjectParams extends org.jetbrains.wip.protocol.WipParams {
@@ -12,5 +11,4 @@ public class AddInspectedHeapObjectParams extends org.jetbrains.wip.protocol.Wip
   public String getCommand() {
     return METHOD_NAME;
   }
-
 }

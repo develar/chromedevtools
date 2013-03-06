@@ -1,25 +1,24 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.debugger;
 
 /**
- Fired when breakpoint is resolved to an actual script and location.
+ * Fired when breakpoint is resolved to an actual script and location.
  */
 @org.chromium.protocolParser.JsonType
 public interface BreakpointResolvedEventData {
   /**
-   Breakpoint unique identifier.
+   * Breakpoint unique identifier.
    */
   String breakpointId();
-
   /**
-   Actual breakpoint location.
+   * Actual breakpoint location.
    */
   org.chromium.wip.protocol.input.debugger.LocationValue location();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData> TYPE
-      = new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData>("DebuggerbreakpointResolved", org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData.class) {
-    @Override public org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+  	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData>("DebuggerbreakpointResolved", org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData.class) {
+    @Override
+    public org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
       return parser.parseDebuggerBreakpointResolvedEventData(reader);
     }
   };

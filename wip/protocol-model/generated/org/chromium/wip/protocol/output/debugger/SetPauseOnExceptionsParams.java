@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.debugger;
 
 /**
@@ -17,21 +16,35 @@ public class SetPauseOnExceptionsParams extends org.jetbrains.wip.protocol.WipPa
   @Override
   public String getCommand() {
     return METHOD_NAME;
-  }
-/**
- * Pause on exceptions mode.
- */
-public enum State {
-  NONE("none"), UNCAUGHT("uncaught"), ALL("all");
+  }/**
+   * Pause on exceptions mode.
+   */
+  public enum State {
+    NONE("none"), UNCAUGHT("uncaught"), ALL("all");
 
-  private final String protocolValue;
+    private final String protocolValue;
 
-  State(String protocolValue) {
-    this.protocolValue = protocolValue;
-  }
+    State(String protocolValue) {
+      this.protocolValue = protocolValue;
+    }
 
-  public String toString() {
-    return protocolValue;
+    public String toString() {
+      return protocolValue;
+    }
+  }/**
+   * Pause on exceptions mode.
+   */
+  public enum State {
+    NONE("none"), UNCAUGHT("uncaught"), ALL("all");
+
+    private final String protocolValue;
+
+    State(String protocolValue) {
+      this.protocolValue = protocolValue;
+    }
+
+    public String toString() {
+      return protocolValue;
+    }
   }
-}
 }

@@ -3,67 +3,56 @@
 package org.chromium.wip.protocol.input.network;
 
 /**
- Timing information for the request.
+ * Timing information for the request.
  */
 @org.chromium.protocolParser.JsonType
 public interface ResourceTimingValue {
   /**
-   Timing's requestTime is a baseline in seconds, while the other numbers are ticks in milliseconds relatively to this requestTime.
+   * Timing's requestTime is a baseline in seconds, while the other numbers are ticks in milliseconds relatively to this requestTime.
    */
   double requestTime();
-
   /**
-   Started resolving proxy.
+   * Started resolving proxy.
    */
   double proxyStart();
-
   /**
-   Finished resolving proxy.
+   * Finished resolving proxy.
    */
   double proxyEnd();
-
   /**
-   Started DNS address resolve.
+   * Started DNS address resolve.
    */
   double dnsStart();
-
   /**
-   Finished DNS address resolve.
+   * Finished DNS address resolve.
    */
   double dnsEnd();
-
   /**
-   Started connecting to the remote host.
+   * Started connecting to the remote host.
    */
   double connectStart();
-
   /**
-   Connected to the remote host.
+   * Connected to the remote host.
    */
   double connectEnd();
-
   /**
-   Started SSL handshake.
+   * Started SSL handshake.
    */
   double sslStart();
-
   /**
-   Finished SSL handshake.
+   * Finished SSL handshake.
    */
   double sslEnd();
-
   /**
-   Started sending request.
+   * Started sending request.
    */
   double sendStart();
-
   /**
-   Finished sending request.
+   * Finished sending request.
    */
   double sendEnd();
-
   /**
-   Finished receiving response headers.
+   * Finished receiving response headers.
    */
   double receiveHeadersEnd();
 

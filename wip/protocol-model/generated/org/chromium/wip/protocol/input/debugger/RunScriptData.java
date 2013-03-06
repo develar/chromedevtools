@@ -3,17 +3,16 @@
 package org.chromium.wip.protocol.input.debugger;
 
 /**
- Runs script with given id in a given context.
+ * Runs script with given id in a given context.
  */
 @org.chromium.protocolParser.JsonType
 public interface RunScriptData {
   /**
-   Run result.
+   * Run result.
    */
   org.chromium.wip.protocol.input.runtime.RemoteObjectValue result();
-
   /**
-   True if the result was thrown during the script run.
+   * True if the result was thrown during the script run.
    */
   @org.chromium.protocolParser.JsonOptionalField
   boolean wasThrown();

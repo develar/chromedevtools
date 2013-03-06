@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.runtime;
 
 /**
@@ -71,5 +70,4 @@ public class EvaluateParams extends org.jetbrains.wip.protocol.WipParamsWithResp
   public org.chromium.wip.protocol.input.runtime.EvaluateData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
     return parser.parseRuntimeEvaluateData(data.getUnderlyingObject());
   }
-
 }
