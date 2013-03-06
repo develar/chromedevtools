@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.page;
 
 /**
@@ -30,7 +29,7 @@ public interface CookieValue {
   /**
    * Cookie size.
    */
-  long size();
+  int size();
   /**
    * True if cookie is http-only.
    */

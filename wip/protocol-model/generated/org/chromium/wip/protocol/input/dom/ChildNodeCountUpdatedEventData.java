@@ -9,11 +9,11 @@ public interface ChildNodeCountUpdatedEventData {
   /**
    * Id of the node that has changed.
    */
-  long nodeId();
+  int nodeId();
   /**
    * New node count.
    */
-  long childNodeCount();
+  int childNodeCount();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ChildNodeCountUpdatedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ChildNodeCountUpdatedEventData>("DOMchildNodeCountUpdated", org.chromium.wip.protocol.input.dom.ChildNodeCountUpdatedEventData.class) {

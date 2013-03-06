@@ -9,7 +9,7 @@ public class MoveToParams extends org.jetbrains.wip.protocol.WipParamsWithRespon
    * @param nodeId Id of the node to drop.
    * @param targetNodeId Id of the element to drop into.
    */
-  public MoveToParams(long nodeId, long targetNodeId) {
+  public MoveToParams(int nodeId, int targetNodeId) {
     put("nodeId", nodeId);
     put("targetNodeId", targetNodeId);
   }
@@ -17,7 +17,7 @@ public class MoveToParams extends org.jetbrains.wip.protocol.WipParamsWithRespon
   /**
    * @param v Drop node before given one.
    */
-  public MoveToParams insertBeforeNodeId(long v) {
+  public MoveToParams insertBeforeNodeId(int v) {
     put("insertBeforeNodeId", v);
     return this;
   }

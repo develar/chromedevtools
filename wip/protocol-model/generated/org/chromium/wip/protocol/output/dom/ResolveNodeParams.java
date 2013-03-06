@@ -8,7 +8,7 @@ public class ResolveNodeParams extends org.jetbrains.wip.protocol.WipParamsWithR
   /**
    * @param nodeId Id of the node to resolve.
    */
-  public ResolveNodeParams(long nodeId) {
+  public ResolveNodeParams(int nodeId) {
     put("nodeId", nodeId);
   }
 
@@ -16,7 +16,9 @@ public class ResolveNodeParams extends org.jetbrains.wip.protocol.WipParamsWithR
    * @param v Symbolic group name that can be used to release multiple objects.
    */
   public ResolveNodeParams objectGroup(String v) {
-    put("objectGroup", v);
+    if (v != null) {
+      put("objectGroup", v);
+    }
     return this;
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".resolveNode";

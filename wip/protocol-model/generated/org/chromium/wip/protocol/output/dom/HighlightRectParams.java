@@ -11,7 +11,7 @@ public class HighlightRectParams extends org.jetbrains.wip.protocol.WipParams {
    * @param width Rectangle width
    * @param height Rectangle height
    */
-  public HighlightRectParams(long x, long y, long width, long height) {
+  public HighlightRectParams(int x, int y, int width, int height) {
     put("x", x);
     put("y", y);
     put("width", width);

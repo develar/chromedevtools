@@ -9,11 +9,11 @@ public interface ShadowRootPoppedEventData {
   /**
    * Host element id.
    */
-  long hostId();
+  int hostId();
   /**
    * Shadow root id.
    */
-  long rootId();
+  int rootId();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ShadowRootPoppedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ShadowRootPoppedEventData>("DOMshadowRootPopped", org.chromium.wip.protocol.input.dom.ShadowRootPoppedEventData.class) {

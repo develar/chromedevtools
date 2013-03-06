@@ -9,7 +9,7 @@ public interface ShadowRootPushedEventData {
   /**
    * Host element id.
    */
-  long hostId();
+  int hostId();
   /**
    * Shadow root.
    */

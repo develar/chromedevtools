@@ -9,7 +9,7 @@ public interface AttributeModifiedEventData {
   /**
    * Id of the node that has changed.
    */
-  long nodeId();
+  int nodeId();
   /**
    * Attribute name.
    */

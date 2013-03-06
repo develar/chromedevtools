@@ -8,7 +8,7 @@ public class GetAttributesParams extends org.jetbrains.wip.protocol.WipParamsWit
   /**
    * @param nodeId Id of the node to retrieve attibutes for.
    */
-  public GetAttributesParams(long nodeId) {
+  public GetAttributesParams(int nodeId) {
     put("nodeId", nodeId);
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".getAttributes";

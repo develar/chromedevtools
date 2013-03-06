@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.dom;
 
 /**
@@ -10,6 +9,6 @@ public interface QuerySelectorAllData {
   /**
    * Query selector result.
    */
-  long[] nodeIds();
+  java.util.List<int> nodeIds();
 
 }

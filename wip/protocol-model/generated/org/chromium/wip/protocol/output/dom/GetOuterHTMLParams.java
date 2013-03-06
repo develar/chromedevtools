@@ -8,7 +8,7 @@ public class GetOuterHTMLParams extends org.jetbrains.wip.protocol.WipParamsWith
   /**
    * @param nodeId Id of the node to get markup for.
    */
-  public GetOuterHTMLParams(long nodeId) {
+  public GetOuterHTMLParams(int nodeId) {
     put("nodeId", nodeId);
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".getOuterHTML";

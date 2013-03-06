@@ -10,7 +10,7 @@ public class SetVariableValueParams extends org.jetbrains.wip.protocol.WipParams
    * @param variableName Variable name.
    * @param newValue New variable value.
    */
-  public SetVariableValueParams(long scopeNumber, String variableName, org.chromium.wip.protocol.output.runtime.CallArgumentParam newValue) {
+  public SetVariableValueParams(int scopeNumber, String variableName, org.chromium.wip.protocol.output.runtime.CallArgumentParam newValue) {
     put("scopeNumber", scopeNumber);
     put("variableName", variableName);
     put("newValue", newValue);
@@ -20,7 +20,9 @@ public class SetVariableValueParams extends org.jetbrains.wip.protocol.WipParams
    * @param v Id of callframe that holds variable.
    */
   public SetVariableValueParams callFrameId(String v) {
-    put("callFrameId", v);
+    if (v != null) {
+      put("callFrameId", v);
+    }
     return this;
   }
 
@@ -28,7 +30,9 @@ public class SetVariableValueParams extends org.jetbrains.wip.protocol.WipParams
    * @param v Object id of closure (function) that holds variable.
    */
   public SetVariableValueParams functionObjectId(String v) {
-    put("functionObjectId", v);
+    if (v != null) {
+      put("functionObjectId", v);
+    }
     return this;
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setVariableValue";

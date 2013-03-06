@@ -9,7 +9,7 @@ public interface MessageRepeatCountUpdatedEventData {
   /**
    * New repeat count value.
    */
-  long count();
+  int count();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData>("ConsolemessageRepeatCountUpdated", org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData.class) {

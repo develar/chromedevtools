@@ -8,7 +8,7 @@ public class FocusParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    * @param nodeId Id of the node to focus.
    */
-  public FocusParams(long nodeId) {
+  public FocusParams(int nodeId) {
     put("nodeId", nodeId);
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".focus";

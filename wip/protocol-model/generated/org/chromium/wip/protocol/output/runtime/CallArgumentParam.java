@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.runtime;
 
 /**
@@ -20,7 +19,9 @@ public class CallArgumentParam extends org.jetbrains.jsonProtocol.OutMessage {
    * @param v Remote object handle.
    */
   public CallArgumentParam objectId(String v) {
-    put("objectId", v);
+    if (v != null) {
+      put("objectId", v);
+    }
     return this;
   }
 }

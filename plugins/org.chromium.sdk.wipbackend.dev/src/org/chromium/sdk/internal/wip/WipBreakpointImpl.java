@@ -392,8 +392,7 @@ public class WipBreakpointImpl implements Breakpoint {
 
     abstract Collection<LocationValue> getActualLocations(DATA data);
 
-    static abstract class ForUrlOrRegExp
-        extends RequestHandler<String, SetBreakpointByUrlData, SetBreakpointByUrlParams> {
+    static abstract class ForUrlOrRegExp extends RequestHandler<String, SetBreakpointByUrlData, SetBreakpointByUrlParams> {
       @Override
       String getBreakpointId(SetBreakpointByUrlData data) {
         return data.breakpointId();
@@ -407,8 +406,8 @@ public class WipBreakpointImpl implements Breakpoint {
 
     static final ForUrlOrRegExp FOR_URL = new ForUrlOrRegExp() {
       @Override
-      SetBreakpointByUrlParams createRequestParams(String url, long lineNumber, Long columnNumber, String condition) {
-        return new SetBreakpointByUrlParams(lineNumber, url, null, columnNumber, condition);
+      SetBreakpointByUrlParams createRequestParams(String url, long lineNumber, long columnNumber, String condition) {
+        return new SetBreakpointByUrlParams(lineNumber).url(url).columnNumber(columnNumber).condition(condition);
       }
     };
 

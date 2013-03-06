@@ -9,7 +9,7 @@ public class SetNodeNameParams extends org.jetbrains.wip.protocol.WipParamsWithR
    * @param nodeId Id of the node to set name for.
    * @param name New node's name.
    */
-  public SetNodeNameParams(long nodeId, String name) {
+  public SetNodeNameParams(int nodeId, String name) {
     put("nodeId", nodeId);
     put("name", name);
   }

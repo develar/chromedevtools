@@ -9,7 +9,7 @@ public class RemoveAttributeParams extends org.jetbrains.wip.protocol.WipParams 
    * @param nodeId Id of the element to remove attribute from.
    * @param name Name of the attribute to remove.
    */
-  public RemoveAttributeParams(long nodeId, String name) {
+  public RemoveAttributeParams(int nodeId, String name) {
     put("nodeId", nodeId);
     put("name", name);
   }

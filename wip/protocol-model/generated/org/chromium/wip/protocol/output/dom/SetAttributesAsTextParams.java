@@ -9,7 +9,7 @@ public class SetAttributesAsTextParams extends org.jetbrains.wip.protocol.WipPar
    * @param nodeId Id of the element to set attributes for.
    * @param text Text with a number of attributes. Will parse this text using HTML parser.
    */
-  public SetAttributesAsTextParams(long nodeId, String text) {
+  public SetAttributesAsTextParams(int nodeId, String text) {
     put("nodeId", nodeId);
     put("text", text);
   }
@@ -18,7 +18,9 @@ public class SetAttributesAsTextParams extends org.jetbrains.wip.protocol.WipPar
    * @param v Attribute name to replace with new attributes derived from text in case text parsed successfully.
    */
   public SetAttributesAsTextParams name(String v) {
-    put("name", v);
+    if (v != null) {
+      put("name", v);
+    }
     return this;
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".setAttributesAsText";

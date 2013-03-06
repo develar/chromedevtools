@@ -18,7 +18,9 @@ public class EvaluateOnCallFrameParams extends org.jetbrains.wip.protocol.WipPar
    * @param v String object group name to put result into (allows rapid releasing resulting object handles using <code>releaseObjectGroup</code>).
    */
   public EvaluateOnCallFrameParams objectGroup(String v) {
-    put("objectGroup", v);
+    if (v != null) {
+      put("objectGroup", v);
+    }
     return this;
   }
 

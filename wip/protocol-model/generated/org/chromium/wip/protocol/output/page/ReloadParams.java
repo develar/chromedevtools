@@ -19,7 +19,9 @@ public class ReloadParams extends org.jetbrains.wip.protocol.WipParams {
    * @param v If set, the script will be injected into all frames of the inspected page after reload.
    */
   public ReloadParams scriptToEvaluateOnLoad(String v) {
-    put("scriptToEvaluateOnLoad", v);
+    if (v != null) {
+      put("scriptToEvaluateOnLoad", v);
+    }
     return this;
   }
 
@@ -27,7 +29,9 @@ public class ReloadParams extends org.jetbrains.wip.protocol.WipParams {
    * @param v Script body that should evaluate to function that will preprocess all the scripts before their compilation.
    */
   public ReloadParams scriptPreprocessor(String v) {
-    put("scriptPreprocessor", v);
+    if (v != null) {
+      put("scriptPreprocessor", v);
+    }
     return this;
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".reload";

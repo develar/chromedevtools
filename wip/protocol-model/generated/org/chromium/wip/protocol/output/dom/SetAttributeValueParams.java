@@ -10,7 +10,7 @@ public class SetAttributeValueParams extends org.jetbrains.wip.protocol.WipParam
    * @param name Attribute name.
    * @param value Attribute value.
    */
-  public SetAttributeValueParams(long nodeId, String name, String value) {
+  public SetAttributeValueParams(int nodeId, String name, String value) {
     put("nodeId", nodeId);
     put("name", name);
     put("value", value);

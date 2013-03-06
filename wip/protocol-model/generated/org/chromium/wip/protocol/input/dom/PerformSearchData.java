@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.dom;
 
 /**
@@ -14,6 +13,6 @@ public interface PerformSearchData {
   /**
    * Number of search results.
    */
-  long resultCount();
+  int resultCount();
 
 }

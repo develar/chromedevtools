@@ -9,11 +9,11 @@ public interface ChildNodeInsertedEventData {
   /**
    * Id of the node that has changed.
    */
-  long parentNodeId();
+  int parentNodeId();
   /**
    * If of the previous siblint.
    */
-  long previousNodeId();
+  int previousNodeId();
   /**
    * Inserted node data.
    */

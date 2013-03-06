@@ -16,7 +16,9 @@ public class EvaluateParams extends org.jetbrains.wip.protocol.WipParamsWithResp
    * @param v Symbolic group name that can be used to release multiple objects.
    */
   public EvaluateParams objectGroup(String v) {
-    put("objectGroup", v);
+    if (v != null) {
+      put("objectGroup", v);
+    }
     return this;
   }
 
@@ -39,7 +41,7 @@ public class EvaluateParams extends org.jetbrains.wip.protocol.WipParamsWithResp
   /**
    * @param v Specifies in which isolated context to perform evaluation. Each content script lives in an isolated context and this parameter may be used to specify one of those contexts. If the parameter is omitted or 0 the evaluation will be performed in the context of the inspected page.
    */
-  public EvaluateParams contextId(long v) {
+  public EvaluateParams contextId(int v) {
     put("contextId", v);
     return this;
   }

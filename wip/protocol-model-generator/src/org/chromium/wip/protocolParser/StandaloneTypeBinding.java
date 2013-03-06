@@ -33,7 +33,7 @@ interface StandaloneTypeBinding {
     }
 
     public static final PredefinedTarget STRING = new PredefinedTarget(BoxableType.STRING);
-    public static final PredefinedTarget LONG = new PredefinedTarget(BoxableType.LONG);
+    public static final PredefinedTarget INT = new PredefinedTarget(BoxableType.INT);
     public static final PredefinedTarget NUMBER = new PredefinedTarget(BoxableType.NUMBER);
   }
 

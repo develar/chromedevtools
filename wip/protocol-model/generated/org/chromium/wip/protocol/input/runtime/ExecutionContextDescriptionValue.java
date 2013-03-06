@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.runtime;
 
 /**
@@ -10,7 +9,7 @@ public interface ExecutionContextDescriptionValue {
   /**
    * Unique id of the execution context. It can be used to specify in which execution context script evaluation should be performed.
    */
-  long id();
+  int id();
   /**
    * True if this is a context where inpspected web page scripts run. False if it is a content script isolated context.
    */

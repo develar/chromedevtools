@@ -21,7 +21,7 @@ abstract class CreateStandaloneTypeBindingVisitorBase implements TypeVisitor<Sta
   }
   @Override
   public StandaloneTypeBinding visitInteger() {
-    return generator.createTypedefTypeBinding(type, StandaloneTypeBinding.PredefinedTarget.LONG, Naming.COMMON_TYPEDEF, null);
+    return generator.createTypedefTypeBinding(type, StandaloneTypeBinding.PredefinedTarget.INT, Naming.COMMON_TYPEDEF, null);
   }
   @Override
   public StandaloneTypeBinding visitRef(String refName) {

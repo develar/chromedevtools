@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.debugger;
 
 /**
@@ -14,11 +13,11 @@ public interface LocationValue {
   /**
    * Line number in the script.
    */
-  long lineNumber();
+  int lineNumber();
   /**
    * Column number in the script.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  long columnNumber();
+  int columnNumber();
 
 }

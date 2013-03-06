@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.dom;
 
 /**
@@ -22,7 +21,7 @@ public interface EventListenerValue {
   /**
    * Target <code>DOMNode</code> id.
    */
-  long nodeId();
+  int nodeId();
   /**
    * Event handler function body.
    */

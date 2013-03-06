@@ -9,7 +9,7 @@ public class SetFileInputFilesParams extends org.jetbrains.wip.protocol.WipParam
    * @param nodeId Id of the file input node to set files for.
    * @param files Array of file paths to set.
    */
-  public SetFileInputFilesParams(long nodeId, java.util.List<String> files) {
+  public SetFileInputFilesParams(int nodeId, java.util.List<String> files) {
     put("nodeId", nodeId);
     writeStringList("files", files);
   }

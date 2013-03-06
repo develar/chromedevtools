@@ -17,11 +17,11 @@ public interface ScriptFailedToParseEventData {
   /**
    * Line offset of the script within the resource.
    */
-  long startLine();
+  int startLine();
   /**
    * Line with error.
    */
-  long errorLine();
+  int errorLine();
   /**
    * Parse error message.
    */

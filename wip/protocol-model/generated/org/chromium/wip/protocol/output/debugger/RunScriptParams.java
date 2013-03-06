@@ -15,7 +15,7 @@ public class RunScriptParams extends org.jetbrains.wip.protocol.WipParamsWithRes
   /**
    * @param v Specifies in which isolated context to perform script run. Each content script lives in an isolated context and this parameter may be used to specify one of those contexts. If the parameter is omitted or 0 the evaluation will be performed in the context of the inspected page.
    */
-  public RunScriptParams contextId(long v) {
+  public RunScriptParams contextId(int v) {
     put("contextId", v);
     return this;
   }
@@ -24,7 +24,9 @@ public class RunScriptParams extends org.jetbrains.wip.protocol.WipParamsWithRes
    * @param v Symbolic group name that can be used to release multiple objects.
    */
   public RunScriptParams objectGroup(String v) {
-    put("objectGroup", v);
+    if (v != null) {
+      put("objectGroup", v);
+    }
     return this;
   }
 

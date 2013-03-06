@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.debugger;
 
 /**
@@ -10,7 +9,7 @@ public class LocationParam extends org.jetbrains.jsonProtocol.OutMessage {
    * @param scriptId Script identifier as reported in the <code>Debugger.scriptParsed</code>.
    * @param lineNumber Line number in the script.
    */
-  public LocationParam(String scriptId, long lineNumber) {
+  public LocationParam(String scriptId, int lineNumber) {
     put("scriptId", scriptId);
     put("lineNumber", lineNumber);
   }
@@ -18,7 +17,7 @@ public class LocationParam extends org.jetbrains.jsonProtocol.OutMessage {
   /**
    * @param v Column number in the script.
    */
-  public LocationParam columnNumber(long v) {
+  public LocationParam columnNumber(int v) {
     put("columnNumber", v);
     return this;
   }

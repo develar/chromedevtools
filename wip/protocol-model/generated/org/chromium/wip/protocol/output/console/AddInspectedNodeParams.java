@@ -8,7 +8,7 @@ public class AddInspectedNodeParams extends org.jetbrains.wip.protocol.WipParams
   /**
    * @param nodeId DOM node id to be accessible by means of $x command line API.
    */
-  public AddInspectedNodeParams(long nodeId) {
+  public AddInspectedNodeParams(int nodeId) {
     put("nodeId", nodeId);
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.CONSOLE + ".addInspectedNode";

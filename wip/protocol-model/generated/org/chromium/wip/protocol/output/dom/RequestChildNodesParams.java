@@ -8,14 +8,14 @@ public class RequestChildNodesParams extends org.jetbrains.wip.protocol.WipParam
   /**
    * @param nodeId Id of the node to get children for.
    */
-  public RequestChildNodesParams(long nodeId) {
+  public RequestChildNodesParams(int nodeId) {
     put("nodeId", nodeId);
   }
 
   /**
    * @param v The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the entire subtree or provide an integer larger than 0.
    */
-  public RequestChildNodesParams depth(long v) {
+  public RequestChildNodesParams depth(int v) {
     put("depth", v);
     return this;
   }

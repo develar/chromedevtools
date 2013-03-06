@@ -9,7 +9,7 @@ public class QuerySelectorParams extends org.jetbrains.wip.protocol.WipParamsWit
    * @param nodeId Id of the node to query upon.
    * @param selector Selector string.
    */
-  public QuerySelectorParams(long nodeId, String selector) {
+  public QuerySelectorParams(int nodeId, String selector) {
     put("nodeId", nodeId);
     put("selector", selector);
   }

@@ -99,8 +99,17 @@ class OutputClassScope extends ClassScope {
   }
 
   private void appendWriteValueInvocation(TextOutput out, ItemDescriptor.Named parameter, String valueRefName) {
-    out.append(new OutputMemberScope(parameter.name()).resolveType(parameter).getJavaType().getWriteMethodName()).append("(");
+    BoxableType type = new OutputMemberScope(parameter.name()).resolveType(parameter).getJavaType();
+    boolean blockOpened = false;
+    if (parameter.optional() && type == BoxableType.STRING) {
+      blockOpened = true;
+      out.append("if (v != null)").openBlock();
+    }
+    out.append(type.getWriteMethodName()).append("(");
     out.quoute(parameter.name()).comma().append(valueRefName).append(");");
+    if (blockOpened) {
+      out.closeBlock();
+    }
   }
 
   @Override

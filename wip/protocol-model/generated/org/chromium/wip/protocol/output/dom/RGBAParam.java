@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.dom;
 
 /**
@@ -11,7 +10,7 @@ public class RGBAParam extends org.jetbrains.jsonProtocol.OutMessage {
    * @param g The green component, in the [0-255] range.
    * @param b The blue component, in the [0-255] range.
    */
-  public RGBAParam(long r, long g, long b) {
+  public RGBAParam(int r, int g, int b) {
     put("r", r);
     put("g", g);
     put("b", b);

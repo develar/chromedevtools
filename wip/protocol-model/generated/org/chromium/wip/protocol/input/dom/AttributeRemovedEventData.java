@@ -9,7 +9,7 @@ public interface AttributeRemovedEventData {
   /**
    * Id of the node that has changed.
    */
-  long nodeId();
+  int nodeId();
   /**
    * A ttribute name.
    */

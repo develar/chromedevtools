@@ -9,7 +9,7 @@ public interface CharacterDataModifiedEventData {
   /**
    * Id of the node that has changed.
    */
-  long nodeId();
+  int nodeId();
   /**
    * New text value.
    */

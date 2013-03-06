@@ -17,11 +17,11 @@ public interface DataReceivedEventData {
   /**
    * Data chunk length.
    */
-  long dataLength();
+  int dataLength();
   /**
    * Actual bytes received (might be less than dataLength for compressed encodings).
    */
-  long encodedDataLength();
+  int encodedDataLength();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.DataReceivedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.DataReceivedEventData>("NetworkdataReceived", org.chromium.wip.protocol.input.network.DataReceivedEventData.class) {

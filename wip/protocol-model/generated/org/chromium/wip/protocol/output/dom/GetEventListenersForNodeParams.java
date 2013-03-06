@@ -8,7 +8,7 @@ public class GetEventListenersForNodeParams extends org.jetbrains.wip.protocol.W
   /**
    * @param nodeId Id of the node to get listeners for.
    */
-  public GetEventListenersForNodeParams(long nodeId) {
+  public GetEventListenersForNodeParams(int nodeId) {
     put("nodeId", nodeId);
   }
 
@@ -16,7 +16,9 @@ public class GetEventListenersForNodeParams extends org.jetbrains.wip.protocol.W
    * @param v Symbolic group name for handler value. Handler value is not returned without this parameter specified.
    */
   public GetEventListenersForNodeParams objectGroup(String v) {
-    put("objectGroup", v);
+    if (v != null) {
+      put("objectGroup", v);
+    }
     return this;
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".getEventListenersForNode";

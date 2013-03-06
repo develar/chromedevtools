@@ -4,6 +4,7 @@ abstract class BoxableType {
   static final BoxableType STRING = new StandaloneType(new NamePath("String"));
   static final BoxableType OBJECT = new StandaloneType(new NamePath("Object"));
   static final BoxableType NUMBER = new StandaloneType(new NamePath("double"));
+  static final BoxableType INT = new StandaloneType(new NamePath("int"));
   static final BoxableType LONG = new StandaloneType(new NamePath("long"));
   static final BoxableType BOOLEAN = new StandaloneType(new NamePath("boolean"));
 

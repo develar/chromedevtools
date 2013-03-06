@@ -11,7 +11,7 @@ public class SetDeviceMetricsOverrideParams extends org.jetbrains.wip.protocol.W
    * @param fontScaleFactor Overriding font scale factor value (must be positive). 1 disables the override.
    * @param fitWindow Whether a view that exceeds the available browser window area should be scaled down to fit.
    */
-  public SetDeviceMetricsOverrideParams(long width, long height, double fontScaleFactor, boolean fitWindow) {
+  public SetDeviceMetricsOverrideParams(int width, int height, double fontScaleFactor, boolean fitWindow) {
     put("width", width);
     put("height", height);
     put("fontScaleFactor", fontScaleFactor);

@@ -9,7 +9,7 @@ public class SetNodeValueParams extends org.jetbrains.wip.protocol.WipParams {
    * @param nodeId Id of the node to set value for.
    * @param value New node's value.
    */
-  public SetNodeValueParams(long nodeId, String value) {
+  public SetNodeValueParams(int nodeId, String value) {
     put("nodeId", nodeId);
     put("value", value);
   }

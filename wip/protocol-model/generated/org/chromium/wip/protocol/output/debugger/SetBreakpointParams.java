@@ -16,7 +16,9 @@ public class SetBreakpointParams extends org.jetbrains.wip.protocol.WipParamsWit
    * @param v Expression to use as a breakpoint condition. When specified, debugger will only stop on the breakpoint if this expression evaluates to true.
    */
   public SetBreakpointParams condition(String v) {
-    put("condition", v);
+    if (v != null) {
+      put("condition", v);
+    }
     return this;
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setBreakpoint";

@@ -17,19 +17,19 @@ public interface ScriptParsedEventData {
   /**
    * Line offset of the script within the resource with given URL (for script tags).
    */
-  long startLine();
+  int startLine();
   /**
    * Column offset of the script within the resource with given URL.
    */
-  long startColumn();
+  int startColumn();
   /**
    * Last line of the script.
    */
-  long endLine();
+  int endLine();
   /**
    * Length of the last line of the script.
    */
-  long endColumn();
+  int endColumn();
   /**
    * Determines whether this script is a user extension script.
    */

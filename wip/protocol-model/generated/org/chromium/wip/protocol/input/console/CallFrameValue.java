@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.console;
 
 /**
@@ -18,10 +17,10 @@ public interface CallFrameValue {
   /**
    * JavaScript script line number.
    */
-  long lineNumber();
+  int lineNumber();
   /**
    * JavaScript script column number.
    */
-  long columnNumber();
+  int columnNumber();
 
 }

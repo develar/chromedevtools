@@ -10,7 +10,7 @@ public class GetSearchResultsParams extends org.jetbrains.wip.protocol.WipParams
    * @param fromIndex Start index of the search result to be returned.
    * @param toIndex End index of the search result to be returned.
    */
-  public GetSearchResultsParams(String searchId, long fromIndex, long toIndex) {
+  public GetSearchResultsParams(String searchId, int fromIndex, int toIndex) {
     put("searchId", searchId);
     put("fromIndex", fromIndex);
     put("toIndex", toIndex);

@@ -9,7 +9,7 @@ public interface SetChildNodesEventData {
   /**
    * Parent node id to populate with children.
    */
-  long parentId();
+  int parentId();
   /**
    * Child nodes array.
    */

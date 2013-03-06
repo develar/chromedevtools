@@ -15,7 +15,7 @@ public class HighlightNodeParams extends org.jetbrains.wip.protocol.WipParams {
   /**
    * @param v Identifier of the node to highlight.
    */
-  public HighlightNodeParams nodeId(long v) {
+  public HighlightNodeParams nodeId(int v) {
     put("nodeId", v);
     return this;
   }
@@ -24,7 +24,9 @@ public class HighlightNodeParams extends org.jetbrains.wip.protocol.WipParams {
    * @param v JavaScript object id of the node to be highlighted.
    */
   public HighlightNodeParams objectId(String v) {
-    put("objectId", v);
+    if (v != null) {
+      put("objectId", v);
+    }
     return this;
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".highlightNode";

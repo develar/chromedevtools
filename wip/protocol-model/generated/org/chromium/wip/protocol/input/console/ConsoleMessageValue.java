@@ -32,12 +32,12 @@ public interface ConsoleMessageValue {
    * Line number in the resource that generated this message.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  long line();
+  int line();
   /**
    * Repeat count for repeated messages.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  long repeatCount();
+  int repeatCount();
   /**
    * Message parameters in case of the formatted message.
    */

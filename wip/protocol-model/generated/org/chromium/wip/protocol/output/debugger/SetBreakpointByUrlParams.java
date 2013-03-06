@@ -8,7 +8,7 @@ public class SetBreakpointByUrlParams extends org.jetbrains.wip.protocol.WipPara
   /**
    * @param lineNumber Line number to set breakpoint at.
    */
-  public SetBreakpointByUrlParams(long lineNumber) {
+  public SetBreakpointByUrlParams(int lineNumber) {
     put("lineNumber", lineNumber);
   }
 
@@ -16,7 +16,9 @@ public class SetBreakpointByUrlParams extends org.jetbrains.wip.protocol.WipPara
    * @param v URL of the resources to set breakpoint on.
    */
   public SetBreakpointByUrlParams url(String v) {
-    put("url", v);
+    if (v != null) {
+      put("url", v);
+    }
     return this;
   }
 
@@ -24,14 +26,16 @@ public class SetBreakpointByUrlParams extends org.jetbrains.wip.protocol.WipPara
    * @param v Regex pattern for the URLs of the resources to set breakpoints on. Either <code>url</code> or <code>urlRegex</code> must be specified.
    */
   public SetBreakpointByUrlParams urlRegex(String v) {
-    put("urlRegex", v);
+    if (v != null) {
+      put("urlRegex", v);
+    }
     return this;
   }
 
   /**
    * @param v Offset in the line to set breakpoint at.
    */
-  public SetBreakpointByUrlParams columnNumber(long v) {
+  public SetBreakpointByUrlParams columnNumber(int v) {
     put("columnNumber", v);
     return this;
   }
@@ -40,7 +44,9 @@ public class SetBreakpointByUrlParams extends org.jetbrains.wip.protocol.WipPara
    * @param v Expression to use as a breakpoint condition. When specified, debugger will only stop on the breakpoint if this expression evaluates to true.
    */
   public SetBreakpointByUrlParams condition(String v) {
-    put("condition", v);
+    if (v != null) {
+      put("condition", v);
+    }
     return this;
   }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setBreakpointByUrl";

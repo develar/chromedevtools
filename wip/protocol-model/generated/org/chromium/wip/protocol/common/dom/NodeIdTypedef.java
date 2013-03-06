@@ -8,6 +8,6 @@ public class NodeIdTypedef {
   /**
    * The class is 'typedef'. It merely holds a type javadoc and its only field refers to an actual type
    */
-  long actualType;
+  int actualType;
 
 }

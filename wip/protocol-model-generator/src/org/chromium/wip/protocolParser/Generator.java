@@ -93,7 +93,7 @@ class Generator {
 
         @Override
         public UnqualifiedTypeData visitInteger() {
-          return UnqualifiedTypeData.LONG;
+          return UnqualifiedTypeData.INT;
         }
 
         @Override
@@ -146,6 +146,7 @@ class Generator {
 
     static final UnqualifiedTypeData BOOLEAN = new UnqualifiedTypeData(BoxableType.BOOLEAN, false);
     static final UnqualifiedTypeData STRING = new UnqualifiedTypeData(BoxableType.STRING, false);
+    static final UnqualifiedTypeData INT = new UnqualifiedTypeData(BoxableType.INT, false);
     static final UnqualifiedTypeData LONG = new UnqualifiedTypeData(BoxableType.LONG, false);
     static final UnqualifiedTypeData NUMBER = new UnqualifiedTypeData(BoxableType.NUMBER, false);
     static final UnqualifiedTypeData ANY = new UnqualifiedTypeData(BoxableType.OBJECT, true);

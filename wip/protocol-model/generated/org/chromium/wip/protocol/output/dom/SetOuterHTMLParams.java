@@ -9,7 +9,7 @@ public class SetOuterHTMLParams extends org.jetbrains.wip.protocol.WipParams {
    * @param nodeId Id of the node to set markup for.
    * @param outerHTML Outer HTML markup to set.
    */
-  public SetOuterHTMLParams(long nodeId, String outerHTML) {
+  public SetOuterHTMLParams(int nodeId, String outerHTML) {
     put("nodeId", nodeId);
     put("outerHTML", outerHTML);
   }

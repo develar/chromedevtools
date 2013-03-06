@@ -1,5 +1,4 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.input.dom;
 
 /**
@@ -10,11 +9,11 @@ public interface NodeValue {
   /**
    * Node identifier that is passed into the rest of the DOM messages as the <code>nodeId</code>. Backend will only push node with given <code>id</code> once. It is aware of all requested nodes and will only fire DOM events for nodes known to the client.
    */
-  long nodeId();
+  int nodeId();
   /**
    * <code>Node</code>'s nodeType.
    */
-  long nodeType();
+  int nodeType();
   /**
    * <code>Node</code>'s nodeName.
    */
@@ -31,7 +30,7 @@ public interface NodeValue {
    * Child count for <code>Container</code> nodes.
    */
   @org.chromium.protocolParser.JsonOptionalField
-  long childNodeCount();
+  int childNodeCount();
   /**
    * Child nodes of this node when requested with children.
    */
