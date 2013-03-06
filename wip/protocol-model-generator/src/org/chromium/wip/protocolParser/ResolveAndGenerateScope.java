@@ -12,7 +12,6 @@ interface ResolveAndGenerateScope {
 
   <T extends ItemDescriptor> QualifiedTypeData resolveType(T typedObject);
 
-  BoxableType generateEnum(String description, List<String> enumConstants);
   BoxableType generateNestedObject(String description,
                                    List<WipMetamodel.ObjectProperty> properties) throws IOException;
 }

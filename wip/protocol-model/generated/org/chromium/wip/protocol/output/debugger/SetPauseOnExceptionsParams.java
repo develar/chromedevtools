@@ -11,40 +11,27 @@ public class SetPauseOnExceptionsParams extends org.jetbrains.wip.protocol.WipPa
   public SetPauseOnExceptionsParams(State state) {
     put("state", state);
   }
+
+  /**
+   * Pause on exceptions mode.
+   */
+  public enum State {
+    NONE("none"), UNCAUGHT("uncaught"), ALL("all");
+
+    private final String protocolValue;
+
+    State(String protocolValue) {
+      this.protocolValue = protocolValue;
+    }
+
+    public String toString() {
+      return protocolValue;
+    }
+  }
   public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setPauseOnExceptions";
 
   @Override
   public String getCommand() {
     return METHOD_NAME;
-  }/**
-   * Pause on exceptions mode.
-   */
-  public enum State {
-    NONE("none"), UNCAUGHT("uncaught"), ALL("all");
-
-    private final String protocolValue;
-
-    State(String protocolValue) {
-      this.protocolValue = protocolValue;
-    }
-
-    public String toString() {
-      return protocolValue;
-    }
-  }/**
-   * Pause on exceptions mode.
-   */
-  public enum State {
-    NONE("none"), UNCAUGHT("uncaught"), ALL("all");
-
-    private final String protocolValue;
-
-    State(String protocolValue) {
-      this.protocolValue = protocolValue;
-    }
-
-    public String toString() {
-      return protocolValue;
-    }
   }
 }

@@ -12,7 +12,7 @@ import org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData;
 import org.chromium.wip.protocol.input.debugger.SetBreakpointData;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
-import org.chromium.wip.protocol.output.WipParamsWithResponse;
+import org.jetbrains.wip.protocol.WipParamsWithResponse;
 import org.chromium.wip.protocol.output.debugger.LocationParam;
 import org.chromium.wip.protocol.output.debugger.RemoveBreakpointParams;
 import org.chromium.wip.protocol.output.debugger.SetBreakpointByUrlParams;
@@ -407,16 +407,14 @@ public class WipBreakpointImpl implements Breakpoint {
 
     static final ForUrlOrRegExp FOR_URL = new ForUrlOrRegExp() {
       @Override
-      SetBreakpointByUrlParams createRequestParams(String url,
-          long lineNumber, Long columnNumber, String condition) {
+      SetBreakpointByUrlParams createRequestParams(String url, long lineNumber, Long columnNumber, String condition) {
         return new SetBreakpointByUrlParams(lineNumber, url, null, columnNumber, condition);
       }
     };
 
     static final ForUrlOrRegExp FOR_REGEXP = new ForUrlOrRegExp() {
       @Override
-      SetBreakpointByUrlParams createRequestParams(String url,
-          long lineNumber, Long columnNumber, String condition) {
+      SetBreakpointByUrlParams createRequestParams(String url, long lineNumber, Long columnNumber, String condition) {
         return new SetBreakpointByUrlParams(lineNumber, null, url, columnNumber, condition);
       }
     };

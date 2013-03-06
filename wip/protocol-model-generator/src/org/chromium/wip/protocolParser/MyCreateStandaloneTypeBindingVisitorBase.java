@@ -62,11 +62,6 @@ class MyCreateStandaloneTypeBindingVisitorBase extends CreateStandaloneTypeBindi
             }
 
             @Override
-            public BoxableType generateEnum(String description, List<String> enumConstants) {
-              throw new UnsupportedOperationException();
-            }
-
-            @Override
             public <T extends ItemDescriptor> QualifiedTypeData resolveType(T typedObject) {
               throw new UnsupportedOperationException();
             }

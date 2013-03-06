@@ -33,6 +33,15 @@ class OutputClassScope extends ClassScope {
     if (!mandatoryParameters.isEmpty()) {
       generateConstructor(out, mandatoryParameters);
     }
+
+    // generate enum classes after constructor
+    for (P parameter : parameters) {
+      if (parameter.getEnum() != null) {
+        out.newLine().newLine();
+        appendEnumClass(out, parameter.description(), parameter.getEnum(), Generator.capitalizeFirstChar((parameter.name())));
+      }
+    }
+
     for (P parameter : optionalParameters) {
       out.newLine().newLine();
       if (parameter.description() != null) {
@@ -90,8 +99,8 @@ class OutputClassScope extends ClassScope {
   }
 
   private void appendWriteValueInvocation(TextOutput out, ItemDescriptor.Named parameter, String valueRefName) {
-    out.append(new OutputMemberScope(parameter.name()).resolveType(parameter).getJavaType().getWriteMethodName()).append("(").quoute(
-      parameter.name()).comma().append(valueRefName).append(");");
+    out.append(new OutputMemberScope(parameter.name()).resolveType(parameter).getJavaType().getWriteMethodName()).append("(");
+    out.quoute(parameter.name()).comma().append(valueRefName).append(");");
   }
 
   @Override
@@ -106,27 +115,31 @@ class OutputClassScope extends ClassScope {
 
     @Override
     public BoxableType generateEnum(final String description, final List<String> enumConstants) {
-      final String enumName = Generator.capitalizeFirstChar(getMemberName());
-      addMember(new TextOutConsumer() {
-        @Override
-        public void append(TextOutput out) throws IOException {
-          out.doc(description);
-          Enums.appendEnums(enumConstants, enumName, false, out);
-          out.newLine().append("private final String protocolValue;").newLine();
-          out.newLine().append(enumName).append("(String protocolValue)").openBlock();
-          out.append("this.protocolValue = protocolValue;").closeBlock();
-
-          out.newLine().newLine().append("public String toString()").openBlock();
-          out.append("return protocolValue;").closeBlock();
-          out.closeBlock();
-        }
-      });
-      return new StandaloneType(new NamePath(enumName, getClassContextNamespace()));
+      //final String enumName = Generator.capitalizeFirstChar(getMemberName());
+      //addMember(new TextOutConsumer() {
+      //  @Override
+      //  public void append(TextOutput out) throws IOException {
+      //    appendEnumClass(out, description, enumConstants, enumName);
+      //  }
+      //});
+      return new StandaloneType(new NamePath(Generator.capitalizeFirstChar(getMemberName()), getClassContextNamespace()));
     }
 
     @Override
     public BoxableType generateNestedObject(String description, List<WipMetamodel.ObjectProperty> propertyList) throws IOException {
       throw new UnsupportedOperationException();
     }
+  }
+
+  private void appendEnumClass(TextOutput out, String description, List<String> enumConstants, String enumName) {
+    out.doc(description);
+    Enums.appendEnums(enumConstants, enumName, false, out);
+    out.newLine().append("private final String protocolValue;").newLine();
+    out.newLine().append(enumName).append("(String protocolValue)").openBlock();
+    out.append("this.protocolValue = protocolValue;").closeBlock();
+
+    out.newLine().newLine().append("public String toString()").openBlock();
+    out.append("return protocolValue;").closeBlock();
+    out.closeBlock();
   }
 }

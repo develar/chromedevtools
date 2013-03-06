@@ -82,8 +82,8 @@ class Generator {
 
         @Override
         public UnqualifiedTypeData visitEnum(List<String> enumConstants) {
-          BoxableType enumName = scope.generateEnum(getDescription(), enumConstants);
-          return new UnqualifiedTypeData(enumName);
+          assert scope instanceof MemberScope;
+          return new UnqualifiedTypeData(((MemberScope)scope).generateEnum(typedObject.description(), enumConstants));
         }
 
         @Override
@@ -110,7 +110,7 @@ class Generator {
         public UnqualifiedTypeData visitObject(List<ObjectProperty> properties) {
           BoxableType nestedObjectName;
           try {
-            nestedObjectName = scope.generateNestedObject(getDescription(), properties);
+            nestedObjectName = scope.generateNestedObject(typedObject.description(), properties);
           }
           catch (IOException e) {
             throw new RuntimeException(e);
@@ -122,11 +122,7 @@ class Generator {
         public UnqualifiedTypeData visitUnknown() {
           return UnqualifiedTypeData.ANY;
         }
-
-        private String getDescription() {
-          return typedObject.description();
-        }
-      });
+    });
 
     return unqualifiedType.getQualifiedType(typedObject instanceof ItemDescriptor.Named && ((ItemDescriptor.Named)typedObject).optional());
   }

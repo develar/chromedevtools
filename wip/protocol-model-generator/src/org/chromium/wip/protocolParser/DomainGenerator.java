@@ -162,12 +162,6 @@ class DomainGenerator {
           }
 
           @Override
-          public BoxableType generateEnum(String description,
-                                          List<String> enumConstants) {
-            throw new UnsupportedOperationException();
-          }
-
-          @Override
           public <T extends ItemDescriptor> QualifiedTypeData resolveType(T typedObject) {
             throw new UnsupportedOperationException();
           }
@@ -177,8 +171,7 @@ class DomainGenerator {
             throw new UnsupportedOperationException();
           }
         };
-        QualifiedTypeData itemTypeData =
-          generator.resolveType(items, resolveAndGenerateScope);
+        QualifiedTypeData itemTypeData = generator.resolveType(items, resolveAndGenerateScope);
         BoxableType itemBoxableType = itemTypeData.getJavaType();
 
         final BoxableType arrayType = BoxableType.createList(itemBoxableType);
