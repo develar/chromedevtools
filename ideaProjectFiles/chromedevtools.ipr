@@ -4,50 +4,51 @@
     <defaultAnt bundledAnt="true" />
   </component>
   <component name="ArtifactManager">
-    <artifact type="jar" build-on-make="true" name="chromium-wip">
+    <artifact type="jar" name="chromium-wip">
       <output-path>$PROJECT_DIR$/../out/artifacts</output-path>
       <root id="archive" name="chromium-wip.jar">
         <element id="module-output" name="wipbackend-dev" />
-        <element id="library" level="project" name="gson" />
-        <element id="module-output" name="org.chromium.sdk" />
-        <element id="library" level="application" name="ECLIPSE" />
-        <element id="library" level="project" name="trove4j" />
-        <element id="module-output" name="protocol-reader-runtime" />
-        <element id="module-output" name="v8-protocol" />
         <element id="module-output" name="wip-protocol-model" />
-        <element id="module-output" name="protocolReader" />
-        <element id="library" level="project" name="annotations" />
         <element id="module-output" name="wip-protocol" />
       </root>
     </artifact>
-    <artifact type="jar" build-on-make="true" name="chromium-sdk-0.3.8.1">
+    <artifact type="jar" build-on-make="true" name="chromium-sdk">
       <output-path>$PROJECT_DIR$/../out/artifacts</output-path>
-      <root id="archive" name="chromium-sdk-0.3.8.1.jar">
+      <root id="archive" name="chromium-sdk.jar">
         <element id="module-output" name="org.chromium.sdk" />
+        <element id="module-output" name="v8-protocol" />
+        <element id="module-output" name="liveedit-protocol" />
       </root>
     </artifact>
-    <artifact type="jar" build-on-make="true" name="chromium-sdk-0.3.8.1 src">
+    <artifact type="jar" build-on-make="true" name="chromium-sdk-src">
       <output-path>$PROJECT_DIR$/../out/artifacts/src</output-path>
-      <root id="archive" name="chromium-sdk-0.3.8.1-src.jar">
+      <root id="archive" name="chromium-sdk-src.jar">
+        <element id="dir-copy" path="$PROJECT_DIR$/../v8/liveedit-protocol/src" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk/generated" />
         <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk/src" />
-        <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk/src-static-impl/bridge" />
-        <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk/src-static-impl/generated" />
-        <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk/src-wip" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../v8/protocol/src" />
       </root>
     </artifact>
-    <artifact type="jar" build-on-make="true" name="chromium-wipbackend.protocol src">
+    <artifact type="jar" build-on-make="true" name="chromium-wip-src">
       <output-path>$PROJECT_DIR$/../out/artifacts/src</output-path>
-      <root id="archive" name="chromium-wipbackend.protocol-1.0-src.jar">
-        <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.protocol_1_0/src" />
-        <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.protocol_1_0/src-wip-generated" />
-        <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.protocol_1_0/src-static-impl/bridge" />
-        <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.protocol_1_0/src-static-impl/generated" />
+      <root id="archive" name="chromium-wip-src.jar">
+        <element id="dir-copy" path="$PROJECT_DIR$/../wip/protocol-model/generated" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../wip/protocol-model/src" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../wip/protocol/generated" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../wip/protocol/src" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/src" />
       </root>
     </artifact>
     <artifact type="jar" name="protocol-reader-runtime">
       <output-path>$PROJECT_DIR$/../out/artifacts</output-path>
       <root id="archive" name="protocol-reader-runtime.jar">
         <element id="module-output" name="protocol-reader-runtime" />
+      </root>
+    </artifact>
+    <artifact type="jar" name="protocol-reader-runtime-src">
+      <output-path>$PROJECT_DIR$/../out/artifacts/src</output-path>
+      <root id="archive" name="protocol-reader-runtime-src.jar">
+        <element id="dir-copy" path="$PROJECT_DIR$/../protocol-reader-runtime/src" />
       </root>
     </artifact>
   </component>
@@ -290,6 +291,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../fake module.iml" filepath="$PROJECT_DIR$/../fake module.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../v8/liveedit-protocol/liveedit-protocol.iml" filepath="$PROJECT_DIR$/../v8/liveedit-protocol/liveedit-protocol.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.iml" filepath="$PROJECT_DIR$/org.chromium.debug.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.core.iml" filepath="$PROJECT_DIR$/org.chromium.debug.core.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.core.tests.iml" filepath="$PROJECT_DIR$/org.chromium.debug.core.tests.iml" />
@@ -323,7 +325,7 @@
     <configuration default="false" name="Generate V8 reader" type="Application" factoryName="Application" singleton="true">
       <option name="MAIN_CLASS_NAME" value="org.jetbrains.v8.protocolParser.AllProtocolReadersGenerator" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PROGRAM_PARAMETERS" value="--output-dir=plugins/org.chromium.sdk/src-static-impl/generated" />
+      <option name="PROGRAM_PARAMETERS" value="--output-dir=plugins/org.chromium.sdk/generated" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/.." />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />

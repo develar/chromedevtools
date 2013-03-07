@@ -4,14 +4,14 @@
 
 package org.chromium.sdk.util;
 
+import org.chromium.sdk.CallbackSemaphore;
+import org.chromium.sdk.RelayOk;
+import org.chromium.sdk.SyncCallback;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
-
-import org.chromium.sdk.CallbackSemaphore;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.SyncCallback;
 
 /**
  * Represents a result of asynchronous operation. Unlike {@link Future}, the result may be obtained
@@ -283,7 +283,7 @@ public abstract class AsyncFuture<T> {
       CallbackSemaphore callbackSemaphore = new CallbackSemaphore();
       RelayOk relayOk = getAsync(callback, callbackSemaphore);
       callbackSemaphore.acquireDefault(relayOk);
-      return callback.get();
+      return ((T)callback.get());
     }
 
     @Override

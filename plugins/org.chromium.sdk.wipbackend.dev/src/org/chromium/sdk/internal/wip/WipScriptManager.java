@@ -4,33 +4,18 @@
 
 package org.chromium.sdk.internal.wip;
 
-import static org.chromium.sdk.util.BasicUtil.containsKeySafe;
-import static org.chromium.sdk.util.BasicUtil.getSafe;
-
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-
-import org.chromium.sdk.DebugEventListener;
-import org.chromium.sdk.JavascriptVm;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.Script;
-import org.chromium.sdk.SyncCallback;
+import org.chromium.sdk.*;
 import org.chromium.sdk.internal.ScriptBase;
+import org.chromium.sdk.util.*;
+import org.chromium.sdk.util.AsyncFuture.Callback;
 import org.chromium.wip.protocol.input.debugger.GetScriptSourceData;
 import org.chromium.wip.protocol.input.debugger.ScriptParsedEventData;
 import org.chromium.wip.protocol.output.debugger.GetScriptSourceParams;
-import org.chromium.sdk.util.AsyncFuture;
-import org.chromium.sdk.util.AsyncFuture.Callback;
-import org.chromium.sdk.util.AsyncFutureMerger;
-import org.chromium.sdk.util.AsyncFutureRef;
-import org.chromium.sdk.util.GenericCallback;
-import org.chromium.sdk.util.RelaySyncCallback;
+
+import java.util.*;
+
+import static org.chromium.sdk.util.BasicUtil.containsKeySafe;
+import static org.chromium.sdk.util.BasicUtil.getSafe;
 
 /**
  * Keeps all current scripts for the debug session and handles script source loading.
@@ -130,8 +115,7 @@ class WipScriptManager {
       url = null;
     }
 
-    ScriptBase.Descriptor<String> descriptor = new ScriptBase.Descriptor<String>(Script.Type.NORMAL,
-        sourceID, url, (int) data.startLine(), (int) data.startColumn(), -1);
+    ScriptBase.Descriptor<String> descriptor = new ScriptBase.Descriptor<String>(Script.Type.NORMAL, sourceID, url, data.startLine(), data.startColumn(), -1);
     final WipScriptImpl script = new WipScriptImpl(this, descriptor);
     final ScriptData scriptData = new ScriptData(script);
 
@@ -255,7 +239,7 @@ class WipScriptManager {
   }
 
   static String convertAlienSourceId(Object sourceIdObj) {
-    if (sourceIdObj instanceof String == false) {
+    if (!(sourceIdObj instanceof String)) {
       throw new IllegalArgumentException("Script id must be string");
     }
     return (String) sourceIdObj;

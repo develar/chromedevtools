@@ -5,13 +5,13 @@ import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.ScriptBase;
-import org.chromium.sdk.internal.v8native.protocol.LiveEditResult;
 import org.chromium.sdk.internal.v8native.protocol.input.ChangeLiveBody;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.ChangeLiveMessage;
 import org.chromium.sdk.internal.v8native.value.HandleManager;
+import org.chromium.v8.liveEditProtocol.LiveEditResult;
 
 import java.io.IOException;
 import java.util.logging.Level;

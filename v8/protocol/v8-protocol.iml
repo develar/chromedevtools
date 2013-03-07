@@ -10,6 +10,7 @@
     <orderEntry type="module" module-name="protocol-reader-runtime" />
     <orderEntry type="library" name="gson" level="project" />
     <orderEntry type="library" name="trove4j" level="project" />
+    <orderEntry type="module" module-name="liveedit-protocol" />
   </component>
 </module>
 

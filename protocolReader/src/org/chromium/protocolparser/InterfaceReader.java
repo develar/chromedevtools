@@ -58,7 +58,7 @@ class InterfaceReader {
     }
   };
 
-  private final Map<Class<?>, TypeHandler<?>> typeTotypeHandler;
+  private final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;
   private final boolean strictMode;
 
   private final boolean isStatic;
@@ -70,23 +70,23 @@ class InterfaceReader {
     this.isStatic = isStatic;
     this.strictMode = strictMode;
 
-    typeTotypeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>(protocolInterfaces.length);
+    typeToTypeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>(protocolInterfaces.length);
     for (Class typeClass : protocolInterfaces) {
       if (!typeClass.isInterface()) {
         continue;
       }
 
-      if (typeTotypeHandler.containsKey(typeClass)) {
+      if (typeToTypeHandler.containsKey(typeClass)) {
         throw new IllegalArgumentException("Protocol interface duplicated " + typeClass.getName());
       }
-      typeTotypeHandler.put(typeClass, null);
+      typeToTypeHandler.put(typeClass, null);
     }
   }
 
-  private InterfaceReader(Map<Class<?>, TypeHandler<?>> typeTotypeHandler, boolean isStatic, boolean strictMode) {
+  private InterfaceReader(Map<Class<?>, TypeHandler<?>> typeToTypeHandler, boolean isStatic, boolean strictMode) {
     this.isStatic = isStatic;
     this.strictMode = strictMode;
-    this.typeTotypeHandler = typeTotypeHandler;
+    this.typeToTypeHandler = typeToTypeHandler;
   }
 
   public static TypeHandler createHandler(Map<Class<?>, TypeHandler<?>> typeToTypeHandler, Class<?> aClass) {
@@ -115,7 +115,7 @@ class InterfaceReader {
   }
 
   Map<Class<?>, TypeHandler<?>> go() {
-    return go(typeTotypeHandler.keySet().toArray(new Class[typeTotypeHandler.size()]));
+    return go(typeToTypeHandler.keySet().toArray(new Class[typeToTypeHandler.size()]));
   }
 
   private Map<Class<?>, TypeHandler<?>> go(Class<?>[] classes) {
@@ -125,7 +125,7 @@ class InterfaceReader {
 
     // Resolve cross-references.
     for (RefImpl<?> ref : refs) {
-      TypeHandler<?> type = typeTotypeHandler.get(ref.typeClass);
+      TypeHandler<?> type = typeToTypeHandler.get(ref.typeClass);
       if (type == null) {
         throw new RuntimeException();
       }
@@ -138,12 +138,12 @@ class InterfaceReader {
     }
 
     if (strictMode) {
-      for (TypeHandler<?> type : typeTotypeHandler.values()) {
+      for (TypeHandler<?> type : typeToTypeHandler.values()) {
         type.buildClosedNameSet();
       }
     }
 
-    return typeTotypeHandler;
+    return typeToTypeHandler;
   }
 
   private final Set<Class<?>> processed = new THashSet<Class<?>>();
@@ -155,7 +155,7 @@ class InterfaceReader {
 
     processed.add(typeClass);
 
-    typeTotypeHandler.put(typeClass, null);
+    typeToTypeHandler.put(typeClass, null);
 
     for (Class<?> aClass : typeClass.getDeclaredClasses()) {
       if (aClass.isInterface()) {
@@ -164,16 +164,14 @@ class InterfaceReader {
     }
 
     TypeHandler typeHandler = createTypeHandler(typeClass);
-    boolean found = false;
     for (RefImpl<?> ref : refs) {
       if (ref.typeClass == typeClass) {
         assert ref.get() == null;
         ref.set(typeHandler);
-        found = true;
         break;
       }
     }
-    typeTotypeHandler.put(typeClass, typeHandler);
+    typeToTypeHandler.put(typeClass, typeHandler);
   }
 
   private <T> TypeHandler<T> createTypeHandler(Class<T> typeClass) {
@@ -196,7 +194,7 @@ class InterfaceReader {
       methodHandlerMap.putAll(BaseHandlersLibrary.INSTANCE.getAllHandlers());
     }
 
-    TypeHandler.EagerFieldParser eagerFieldParser = new DynamicParserImpl.EagerFieldParserImpl(fields.getOnDemandHanlers());
+    TypeHandler.EagerFieldParser eagerFieldParser = new DynamicParserImpl.EagerFieldParserImpl(fields.getOnDemandHandlers());
     boolean lazyRead = fields.lazyRead || JsonObjectBased.class.isAssignableFrom(typeClass);
     return new TypeHandler<T>(typeClass, getSuperclassRef(typeClass),
                               fields.getVolatileFields(), methodHandlerMap,
@@ -255,7 +253,7 @@ class InterfaceReader {
         Class<RetentionPolicy> enumTypeClass = (Class<RetentionPolicy>)typeClass;
         return EnumParser.create(enumTypeClass, declaredNullable);
       }
-      else if (typeTotypeHandler.containsKey(typeClass)) {
+      else if (typeToTypeHandler.containsKey(typeClass)) {
       }
       RefToType<?> ref = getTypeRef(typeClass);
       if (ref != null) {
@@ -318,11 +316,11 @@ class InterfaceReader {
   private RefToType<?> getSuperclassRef(Class<?> typeClass)
     throws JsonProtocolModelParseException {
     RefToType<?> result = null;
-    for (Type interfc : typeClass.getGenericInterfaces()) {
-      if (!(interfc instanceof ParameterizedType)) {
+    for (Type interfaceGeneric : typeClass.getGenericInterfaces()) {
+      if (!(interfaceGeneric instanceof ParameterizedType)) {
         continue;
       }
-      ParameterizedType parameterizedType = (ParameterizedType)interfc;
+      ParameterizedType parameterizedType = (ParameterizedType)interfaceGeneric;
       if (parameterizedType.getRawType() != JsonSubtype.class) {
         continue;
       }
@@ -346,9 +344,9 @@ class InterfaceReader {
   private class FieldProcessor<T> {
     private final Class<T> typeClass;
 
-    private final JsonType jsonTypeAnnotation;
+
     private final List<FieldLoader> fieldLoaders = new ArrayList<FieldLoader>(2);
-    private final List<DynamicParserImpl.LazyHandler> onDemandHanlers = new ArrayList<DynamicParserImpl.LazyHandler>();
+    private final List<DynamicParserImpl.LazyHandler> onDemandHandlers = new ArrayList<DynamicParserImpl.LazyHandler>();
     private final Map<Method, MethodHandler> methodHandlerMap = new HashMap<Method, MethodHandler>();
     private final DynamicParserImpl.FieldMap fieldMap = new DynamicParserImpl.FieldMap();
     private ManualAlgebraicCasesData manualAlgCasesData;
@@ -359,8 +357,7 @@ class InterfaceReader {
 
     FieldProcessor(Class<T> typeClass) throws JsonProtocolModelParseException {
       this.typeClass = typeClass;
-      jsonTypeAnnotation = typeClass.getAnnotation(JsonType.class);
-      if (jsonTypeAnnotation == null) {
+      if (typeClass.getAnnotation(JsonType.class) == null) {
         throw new JsonProtocolModelParseException("Not a json model type: " + typeClass);
       }
     }
@@ -410,20 +407,18 @@ class InterfaceReader {
         }
       }
       else {
-        methodHandler = processFieldGetterMethod(m, overrideFieldAnnotation, fieldName);
+        methodHandler = processFieldGetterMethod(m, overrideFieldAnnotation != null, fieldName);
       }
       methodHandlerMap.put(m, methodHandler);
     }
 
-    private MethodHandler processFieldGetterMethod(Method m,
-                                                   JsonOverrideField overrideFieldAnn,
-                                                   String fieldName) throws JsonProtocolModelParseException {
+    private MethodHandler processFieldGetterMethod(Method m, boolean hasOverrideFieldAnnotation, String fieldName) throws JsonProtocolModelParseException {
       ValueParser fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), m.getAnnotation(JsonNullable.class) != null, false);
-      if (overrideFieldAnn == null) {
-        fieldMap.localNames.add(fieldName);
+      if (hasOverrideFieldAnnotation) {
+        fieldMap.overridenNames.add(fieldName);
       }
       else {
-        fieldMap.overridenNames.add(fieldName);
+        fieldMap.localNames.add(fieldName);
       }
       return createEagerLoadGetterHandler(fieldName, fieldTypeParser);
     }
@@ -461,8 +456,7 @@ class InterfaceReader {
       }
     }
 
-    private MethodHandler processManualSubtypeMethod(final Method m, JsonSubtypeCasting jsonSubtypeCaseAnn)
-      throws JsonProtocolModelParseException {
+    private MethodHandler processManualSubtypeMethod(final Method m, JsonSubtypeCasting jsonSubtypeCaseAnn) throws JsonProtocolModelParseException {
       ValueParser fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret());
       VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
       final LazyCachedMethodHandler handler = new LazyCachedMethodHandler(fieldTypeParser, fieldInfo);
@@ -493,8 +487,8 @@ class InterfaceReader {
       return fieldLoaders;
     }
 
-    List<DynamicParserImpl.LazyHandler> getOnDemandHanlers() {
-      return onDemandHanlers;
+    List<DynamicParserImpl.LazyHandler> getOnDemandHandlers() {
+      return onDemandHandlers;
     }
 
     Map<Method, MethodHandler> getMethodHandlerMap() {

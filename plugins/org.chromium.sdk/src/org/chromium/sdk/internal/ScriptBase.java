@@ -6,7 +6,7 @@ package org.chromium.sdk.internal;
 
 import org.chromium.sdk.Script;
 import org.chromium.sdk.UpdatableScript;
-import org.chromium.sdk.internal.v8native.protocol.LiveEditResult;
+import org.chromium.v8.liveEditProtocol.LiveEditResult;
 
 import java.util.AbstractList;
 import java.util.HashMap;

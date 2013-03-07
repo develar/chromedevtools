@@ -1,4 +1,4 @@
-package org.chromium.sdk.internal.v8native.protocol;
+package org.chromium.v8.liveEditProtocol;
 
 import org.chromium.protocolParser.JsonOptionalField;
 import org.chromium.protocolParser.JsonType;
