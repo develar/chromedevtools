@@ -282,7 +282,6 @@
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.ui.iml" filepath="$PROJECT_DIR$/org.chromium.debug.ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.feature.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.feature.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.source.iml" filepath="$PROJECT_DIR$/org.chromium.source.iml" />
