@@ -14,7 +14,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="gson" level="project" />
     <orderEntry type="module" module-name="wip-protocol-model" />
-    <orderEntry type="module" module-name="protocolParserRuntime" />
+    <orderEntry type="module" module-name="protocol-reader-runtime" />
     <orderEntry type="module" module-name="v8-protocol" />
     <orderEntry type="module" module-name="wip-protocol" />
   </component>

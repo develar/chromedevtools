@@ -23,7 +23,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="trove4j" level="project" />
     <orderEntry type="library" name="gson" level="project" />
-    <orderEntry type="module" module-name="protocolParserRuntime" />
+    <orderEntry type="module" module-name="protocol-reader-runtime" />
     <orderEntry type="module" module-name="v8-protocol" />
   </component>
 </module>

@@ -285,7 +285,7 @@
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.source.iml" filepath="$PROJECT_DIR$/org.chromium.source.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../protocolParserRuntime/protocolParserRuntime.iml" filepath="$PROJECT_DIR$/../protocolParserRuntime/protocolParserRuntime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../protocol-reader-runtime/protocol-reader-runtime.iml" filepath="$PROJECT_DIR$/../protocol-reader-runtime/protocol-reader-runtime.iml" />
       <module fileurl="file://$PROJECT_DIR$/../protocolReader/protocolReader.iml" filepath="$PROJECT_DIR$/../protocolReader/protocolReader.iml" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" filepath="$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol-reader-generator/v8-protocol-reader-generator.iml" filepath="$PROJECT_DIR$/../v8/protocol-reader-generator/v8-protocol-reader-generator.iml" group="v8" />
