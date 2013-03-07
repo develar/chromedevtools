@@ -8,14 +8,13 @@ import org.chromium.protocolParser.JsonField;
 import org.chromium.protocolParser.JsonOptionalField;
 import org.chromium.protocolParser.JsonType;
 import org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject;
-import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * A frame mirror object type. Technically it is almost subtype of {@link SomeHandle}:
+ * A frame mirror object type. Technically it is almost subtype of {@link org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle}:
  * it gets serialized from the same code; however, it never gets handle field so
  * we have to treat it as a separate type. Hopefully frame object will never
  * get mixed with other objects on remote side.

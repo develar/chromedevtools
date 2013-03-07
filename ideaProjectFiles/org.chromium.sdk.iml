@@ -18,7 +18,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src-wip" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src-static-impl/generated" isTestSource="false" />
     </content>
-    <orderEntry type="library" name="ECLIPSE" level="application" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="library" name="trove4j" level="project" />

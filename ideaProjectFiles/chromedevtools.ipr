@@ -4,10 +4,20 @@
     <defaultAnt bundledAnt="true" />
   </component>
   <component name="ArtifactManager">
-    <artifact type="jar" build-on-make="true" name="chromium-wipbackend.protocol-1.0">
+    <artifact type="jar" build-on-make="true" name="chromium-wip">
       <output-path>$PROJECT_DIR$/../out/artifacts</output-path>
-      <root id="archive" name="chromium-wipbackend.protocol-1.0.jar">
-        <element id="module-output" name="org.chromium.sdk.wipbackend.protocol_1_0" />
+      <root id="archive" name="chromium-wip.jar">
+        <element id="module-output" name="wipbackend-dev" />
+        <element id="library" level="project" name="gson" />
+        <element id="module-output" name="org.chromium.sdk" />
+        <element id="library" level="application" name="ECLIPSE" />
+        <element id="library" level="project" name="trove4j" />
+        <element id="module-output" name="protocol-reader-runtime" />
+        <element id="module-output" name="v8-protocol" />
+        <element id="module-output" name="wip-protocol-model" />
+        <element id="module-output" name="protocolReader" />
+        <element id="library" level="project" name="annotations" />
+        <element id="module-output" name="wip-protocol" />
       </root>
     </artifact>
     <artifact type="jar" build-on-make="true" name="chromium-sdk-0.3.8.1">
@@ -25,13 +35,19 @@
         <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk/src-wip" />
       </root>
     </artifact>
-    <artifact type="jar" build-on-make="true" name="chromium-wipbackend.protocol-1.0 src">
+    <artifact type="jar" build-on-make="true" name="chromium-wipbackend.protocol src">
       <output-path>$PROJECT_DIR$/../out/artifacts/src</output-path>
       <root id="archive" name="chromium-wipbackend.protocol-1.0-src.jar">
         <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.protocol_1_0/src" />
         <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.protocol_1_0/src-wip-generated" />
         <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.protocol_1_0/src-static-impl/bridge" />
         <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.protocol_1_0/src-static-impl/generated" />
+      </root>
+    </artifact>
+    <artifact type="jar" name="protocol-reader-runtime">
+      <output-path>$PROJECT_DIR$/../out/artifacts</output-path>
+      <root id="archive" name="protocol-reader-runtime.jar">
+        <element id="module-output" name="protocol-reader-runtime" />
       </root>
     </artifact>
   </component>

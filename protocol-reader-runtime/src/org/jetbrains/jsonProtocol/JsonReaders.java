@@ -137,14 +137,13 @@ public final class JsonReaders {
     return result;
   }
 
-  public static Map readMap(JsonReader reader, String fieldName) throws IOException {
+  public static Map<?, ?> readMap(JsonReader reader, String fieldName) throws IOException {
     checkIsNull(reader, fieldName);
     reader.beginObject();
     if (!reader.hasNext()) {
       reader.endObject();
       return Collections.emptyMap();
     }
-
     return nextObject(reader);
   }
 

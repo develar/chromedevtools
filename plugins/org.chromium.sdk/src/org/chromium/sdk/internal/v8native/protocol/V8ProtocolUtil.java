@@ -279,15 +279,15 @@ public class V8ProtocolUtil {
   public static ScriptHandle validScript(ScriptHandle script, List<SomeHandle> refs,
       V8ContextFilter contextFilter) {
     Long contextRef = V8ProtocolUtil.getObjectRef(script.context());
-    for (int i = 0, size = refs.size(); i < size; i++) {
-      SomeHandle ref = refs.get(i);
-      if (ref.handle() != contextRef.longValue()) {
+    for (SomeHandle ref : refs) {
+      if (ref.handle() != contextRef) {
         continue;
       }
       ContextHandle contextHandle;
       try {
         contextHandle = ref.asContextHandle();
-      } catch (IOException e) {
+      }
+      catch (IOException e) {
         throw new RuntimeException(e);
       }
       if (!contextFilter.isContextOurs(contextHandle)) {

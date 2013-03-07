@@ -4,17 +4,9 @@
 
 package org.chromium.sdk.internal;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONStreamAware;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  * A utility for JSON-related data conversion.
@@ -22,74 +14,6 @@ import org.json.simple.parser.ParseException;
 public class JsonUtil {
 
   private static final Logger LOGGER = Logger.getLogger(JsonUtil.class.getName());
-
-  /**
-   * Converts a JSONStreamAware into a String.
-   *
-   * @param object the object to convert
-   * @return a JSON String representation of the object
-   */
-  public static String streamAwareToJson(JSONStreamAware object) {
-    StringWriter out = new StringWriter();
-    try {
-      object.writeJSONString(out);
-    } catch (IOException e) {
-      return null;
-    }
-    return out.toString();
-  }
-
-  /**
-   * @param json a JSON representation of an object (rather than an array or any
-   *        other type)
-   * @return a JSONObject represented by json, or null if json does not
-   *         represent a valid JSONObject
-   * @throws ParseException
-   */
-  public static JSONObject jsonObjectFromJson(String json) throws ParseException {
-    JSONParser p = new JSONParser();
-    Object parsed = p.parse(json);
-    if (!(parsed instanceof JSONObject)) {
-      LOGGER.log(Level.SEVERE, "Not a JSON object: {0}", json);
-      return null;
-    }
-    return (JSONObject) parsed;
-  }
-
-  /**
-   * Helper function to rip out an integer number from a JSON payload.
-   *
-   * @param obj JSON payload
-   * @param key to look up
-   * @return null if key not found or bad type
-   */
-  public static Long getAsLong(JSONObject obj, CharSequence key) {
-    String keyString = key.toString();
-    Object v = obj.get(keyString);
-    if (v instanceof Long || v == null) {
-      return (Long) v;
-    }
-
-    LOGGER.log(Level.SEVERE, "Key: {0}, found value: {1}", new Object[] {keyString, v});
-    return null;
-  }
-
-  /**
-   * Helper function to rip out a double from a JSON payload.
-   *
-   * @param obj JSON payload
-   * @param key to look up
-   * @return null if key not found or bad type
-   */
-  public static Double getAsDouble(JSONObject obj, CharSequence key) {
-    String keyString = key.toString();
-    Object v = obj.get(keyString);
-    if (v instanceof Double || v == null) {
-      return (Double) v;
-    }
-    LOGGER.log(Level.SEVERE, "Key: {0}, found value: {1}", new Object[] {keyString, v});
-    return null;
-  }
 
   /**
    * Helper function to rip out a string from a JSON payload.
@@ -108,26 +32,6 @@ public class JsonUtil {
   }
 
   /**
-   * Helper function to rip out a Boolean from a JSON payload.
-   *
-   * @param obj JSON payload
-   * @param key to look up
-   * @return Boolean.FALSE if key not found
-   */
-  public static Boolean getAsBoolean(JSONObject obj, CharSequence key) {
-    String keyString = key.toString();
-    Object v = obj.get(keyString);
-    if (v instanceof Boolean || v == null) {
-      return v != null
-          ? (Boolean) v
-          : false;
-    }
-
-    LOGGER.log(Level.SEVERE, "Key: {0}, found value: {1}", new Object[] {keyString, v});
-    return false;
-  }
-
-  /**
    * Helper function to rip out a nested JSON object from the payload.
    *
    * @param obj JSON payload
@@ -143,72 +47,6 @@ public class JsonUtil {
 
     LOGGER.log(Level.SEVERE, "Key: {0}, found value: {1}", new Object[] {keyString, v});
     return null;
-  }
-
-  /**
-   * Helper function to rip out a nested JSON object from the payload or throw an exception.
-   * @param obj JSON payload
-   * @param key to look up
-   * @return not null
-   * @throws JsonException if failed to rip out the object
-   */
-  public static Map getAsJSONStrict(JSONObject obj, CharSequence key) {
-    Map result = getAsJSON(obj, key);
-    if (result == null) {
-      throw new JsonException("Failed to find property '" + key);
-    }
-    return result;
-  }
-
-  /**
-   * Helper function to rip out a JSONArray from the payload.
-   *
-   * @param obj JSON payload
-   * @param key to look up
-   * @return null if key not found
-   */
-  public static JSONArray getAsJSONArray(JSONObject obj, CharSequence key) {
-    String keyString = key.toString();
-    Object v = obj.get(keyString);
-    if (v instanceof JSONArray || v == null) {
-      return (JSONArray) v;
-    }
-
-    LOGGER.log(Level.SEVERE, "Key: {0}, found value: {1}", new Object[] {keyString, v});
-    return null;
-  }
-
-  /**
-   * Helper function to rip out a JSONArray from the payload or throw an exception.
-   *
-   * @param obj JSON payload
-   * @param key to look up
-   * @return not null
-   * @throws JsonException if failed to rip out the array
-   */
-  public static JSONArray getAsJSONArrayStrict(JSONObject obj, CharSequence key) {
-    JSONArray result = getAsJSONArray(obj, key);
-    if (result == null) {
-      throw new JsonException("Failed to find property '" + key + "' of array type");
-    }
-    return result;
-  }
-
-  /**
-   * @param value to check
-   * @return whether the value can be parsed as an integer
-   */
-  public static boolean isInteger(String value) {
-    try {
-      Integer.parseInt(value);
-      return true;
-    } catch (NumberFormatException e) {
-      return false;
-    }
-  }
-
-  public static String quoteString(String string) {
-    return "\"" + string + "\"";
   }
 
   private JsonUtil() {

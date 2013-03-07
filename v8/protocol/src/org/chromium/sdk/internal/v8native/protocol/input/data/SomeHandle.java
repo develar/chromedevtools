@@ -7,13 +7,12 @@ package org.chromium.sdk.internal.v8native.protocol.input.data;
 import org.chromium.protocolParser.JsonSubtype;
 import org.chromium.protocolParser.JsonSubtypeCasting;
 import org.chromium.protocolParser.JsonType;
-import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
 
 import java.io.IOException;
 
 /**
  * A serialized form of object when it is fully (though shallowly) described. Object always
- * has a type and a handle. (See {@link FrameObject} as a case that makes it a bit more messy).
+ * has a type and a handle. (See {@link org.chromium.sdk.internal.v8native.protocol.input.FrameObject} as a case that makes it a bit more messy).
  * <p>Gets serialized in mirror-delay.js,
  * JSONProtocolSerializer.prototype.serialize_, main part.
  */

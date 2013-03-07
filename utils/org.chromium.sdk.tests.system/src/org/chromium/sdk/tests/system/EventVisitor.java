@@ -5,12 +5,10 @@
 package org.chromium.sdk.tests.system;
 
 import org.chromium.sdk.DebugContext;
-import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.Script;
-import org.chromium.sdk.TabDebugEventListener;
 
 /**
- * A visitor for events from {@link DebugEventListener} and {@link TabDebugEventListener}.
+ * A visitor for events from {@link org.chromium.sdk.DebugEventListener} and {@link org.chromium.sdk.TabDebugEventListener}.
  */
 interface EventVisitor<RES> {
   RES visitClosed() throws SmokeException;
