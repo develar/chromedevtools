@@ -49,13 +49,11 @@ class WipScriptImpl extends ScriptBase<String> {
     RelaySyncCallback relay = new RelaySyncCallback(syncCallback);
     final RelaySyncCallback.Guard guard = relay.newGuard();
 
-    SetScriptSourceParams params = new SetScriptSourceParams(getId(), newSource, preview);
-    GenericCallback<SetScriptSourceData> commandCallback =
-        new GenericCallback<SetScriptSourceData>() {
+    SetScriptSourceParams params = new SetScriptSourceParams(getId(), newSource).preview(preview);
+    GenericCallback<SetScriptSourceData> commandCallback = new GenericCallback<SetScriptSourceData>() {
       @Override
       public void success(SetScriptSourceData value) {
-        RelayOk relayOk =
-            possiblyUpdateCallFrames(preview, value, updateCallback, guard.getRelay());
+        RelayOk relayOk = possiblyUpdateCallFrames(preview, value, updateCallback, guard.getRelay());
         guard.discharge(relayOk);
       }
 
@@ -101,7 +99,7 @@ class WipScriptImpl extends ScriptBase<String> {
       LiveEditResult liveEditResult;
       try {
         liveEditResult =
-          ProtocolService.LIVE_EDIT.parseLiveEditResult(result.getUnderlyingObject());
+          ProtocolService.LIVE_EDIT.parseLiveEditResult(result.getDeferredReader());
       }
       catch (IOException e) {
         throw new RuntimeException("Failed to parse LiveEdit response", e);

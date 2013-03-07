@@ -20,6 +20,6 @@ public class RestartFrameParams extends org.jetbrains.wip.protocol.WipParamsWith
 
   @Override
   public org.chromium.wip.protocol.input.debugger.RestartFrameData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerRestartFrameData(data.getUnderlyingObject());
+    return parser.parseDebuggerRestartFrameData(data.getDeferredReader());
   }
 }

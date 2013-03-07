@@ -30,6 +30,6 @@ public class SetBreakpointParams extends org.jetbrains.wip.protocol.WipParamsWit
 
   @Override
   public org.chromium.wip.protocol.input.debugger.SetBreakpointData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerSetBreakpointData(data.getUnderlyingObject());
+    return parser.parseDebuggerSetBreakpointData(data.getDeferredReader());
   }
 }

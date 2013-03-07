@@ -36,6 +36,6 @@ public class SearchInResourcesParams extends org.jetbrains.wip.protocol.WipParam
 
   @Override
   public org.chromium.wip.protocol.input.page.SearchInResourcesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageSearchInResourcesData(data.getUnderlyingObject());
+    return parser.parsePageSearchInResourcesData(data.getDeferredReader());
   }
 }

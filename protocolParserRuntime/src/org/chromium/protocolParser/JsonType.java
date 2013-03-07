@@ -13,14 +13,10 @@ import java.lang.annotation.Target;
  * Marks an interface as interface to json type object. This way user may hold JSON object in
  * form of statically typed Java interface. The interface provides methods for reading properties
  * (here called fields, because we imply there are "types" in JSON) and for accessing subtypes.
- * <p>
+ * <p/>
  * In this design casting to subtypes means getting a different object of the subtype interface.
  * For a type interface, a set of subtypes is defined by its methods
  * with {@link JsonSubtypeCasting} annotation. These methods provide access to subtype objects.
- *
- * To provide access to underlying {@_link JSONObject} the type interface may extend
- * {@link JsonObjectBased} interface. To provide access to underlying object
- * (not necessarily JSONObject) type interface may extend {@link AnyObjectBased} interface.
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

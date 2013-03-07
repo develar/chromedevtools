@@ -263,7 +263,7 @@ class WipCommandProcessor {
           data = null;
         } else {
           try {
-            data = type.parse(WipParserAccess.get(), genericData.getUnderlyingObject());
+            data = type.parse(WipParserAccess.get(), genericData.getDeferredReader());
           } catch (IOException e) {
             throw new RuntimeException(e);
           }

@@ -64,6 +64,6 @@ public class EvaluateOnCallFrameParams extends org.jetbrains.wip.protocol.WipPar
 
   @Override
   public org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerEvaluateOnCallFrameData(data.getUnderlyingObject());
+    return parser.parseDebuggerEvaluateOnCallFrameData(data.getDeferredReader());
   }
 }

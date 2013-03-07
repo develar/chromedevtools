@@ -38,6 +38,6 @@ public class SearchInContentParams extends org.jetbrains.wip.protocol.WipParamsW
 
   @Override
   public org.chromium.wip.protocol.input.debugger.SearchInContentData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerSearchInContentData(data.getUnderlyingObject());
+    return parser.parseDebuggerSearchInContentData(data.getDeferredReader());
   }
 }

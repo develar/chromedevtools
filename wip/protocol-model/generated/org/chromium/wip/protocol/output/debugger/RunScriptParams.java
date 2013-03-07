@@ -46,6 +46,6 @@ public class RunScriptParams extends org.jetbrains.wip.protocol.WipParamsWithRes
 
   @Override
   public org.chromium.wip.protocol.input.debugger.RunScriptData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerRunScriptData(data.getUnderlyingObject());
+    return parser.parseDebuggerRunScriptData(data.getDeferredReader());
   }
 }

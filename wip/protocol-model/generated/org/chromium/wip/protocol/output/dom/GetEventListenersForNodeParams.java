@@ -30,6 +30,6 @@ public class GetEventListenersForNodeParams extends org.jetbrains.wip.protocol.W
 
   @Override
   public org.chromium.wip.protocol.input.dom.GetEventListenersForNodeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMGetEventListenersForNodeData(data.getUnderlyingObject());
+    return parser.parseDOMGetEventListenersForNodeData(data.getDeferredReader());
   }
 }

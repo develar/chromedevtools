@@ -22,6 +22,6 @@ public class CompileScriptParams extends org.jetbrains.wip.protocol.WipParamsWit
 
   @Override
   public org.chromium.wip.protocol.input.debugger.CompileScriptData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerCompileScriptData(data.getUnderlyingObject());
+    return parser.parseDebuggerCompileScriptData(data.getDeferredReader());
   }
 }

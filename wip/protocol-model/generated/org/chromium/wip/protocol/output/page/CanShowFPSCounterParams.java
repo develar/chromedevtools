@@ -15,6 +15,6 @@ public class CanShowFPSCounterParams extends org.jetbrains.wip.protocol.WipParam
 
   @Override
   public org.chromium.wip.protocol.input.page.CanShowFPSCounterData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageCanShowFPSCounterData(data.getUnderlyingObject());
+    return parser.parsePageCanShowFPSCounterData(data.getDeferredReader());
   }
 }

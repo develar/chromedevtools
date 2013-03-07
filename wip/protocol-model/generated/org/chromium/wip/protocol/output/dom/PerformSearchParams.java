@@ -20,6 +20,6 @@ public class PerformSearchParams extends org.jetbrains.wip.protocol.WipParamsWit
 
   @Override
   public org.chromium.wip.protocol.input.dom.PerformSearchData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMPerformSearchData(data.getUnderlyingObject());
+    return parser.parseDOMPerformSearchData(data.getDeferredReader());
   }
 }

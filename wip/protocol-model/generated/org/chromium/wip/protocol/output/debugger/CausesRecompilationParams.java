@@ -15,6 +15,6 @@ public class CausesRecompilationParams extends org.jetbrains.wip.protocol.WipPar
 
   @Override
   public org.chromium.wip.protocol.input.debugger.CausesRecompilationData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerCausesRecompilationData(data.getUnderlyingObject());
+    return parser.parseDebuggerCausesRecompilationData(data.getDeferredReader());
   }
 }

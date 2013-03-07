@@ -15,6 +15,6 @@ public class CaptureScreenshotParams extends org.jetbrains.wip.protocol.WipParam
 
   @Override
   public org.chromium.wip.protocol.input.page.CaptureScreenshotData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageCaptureScreenshotData(data.getUnderlyingObject());
+    return parser.parsePageCaptureScreenshotData(data.getDeferredReader());
   }
 }

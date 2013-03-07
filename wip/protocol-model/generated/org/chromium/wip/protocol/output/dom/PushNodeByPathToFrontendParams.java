@@ -20,6 +20,6 @@ public class PushNodeByPathToFrontendParams extends org.jetbrains.wip.protocol.W
 
   @Override
   public org.chromium.wip.protocol.input.dom.PushNodeByPathToFrontendData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMPushNodeByPathToFrontendData(data.getUnderlyingObject());
+    return parser.parseDOMPushNodeByPathToFrontendData(data.getDeferredReader());
   }
 }

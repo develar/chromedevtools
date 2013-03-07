@@ -22,6 +22,6 @@ public class QuerySelectorAllParams extends org.jetbrains.wip.protocol.WipParams
 
   @Override
   public org.chromium.wip.protocol.input.dom.QuerySelectorAllData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMQuerySelectorAllData(data.getUnderlyingObject());
+    return parser.parseDOMQuerySelectorAllData(data.getDeferredReader());
   }
 }

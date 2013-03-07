@@ -80,7 +80,7 @@ class DomainGenerator {
                     "org.chromium.wip.protocol.input." + Generator.READER_INTERFACE_NAME + " parser) throws java.io.IOException")
             .openBlock();
           out.append("return parser.").append(Naming.COMMAND_DATA.getParseMethodName(domain.domain(), command.name()));
-          out.append("(data.getUnderlyingObject());");
+          out.append("(data.getDeferredReader());");
           out.closeBlock();
         }
       }

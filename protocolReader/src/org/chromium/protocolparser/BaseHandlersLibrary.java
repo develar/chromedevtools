@@ -4,7 +4,6 @@
 
 package org.chromium.protocolparser;
 
-import org.chromium.protocolParser.AnyObjectBased;
 import org.chromium.protocolParser.JsonObjectBased;
 import org.chromium.protocolParser.JsonSubtype;
 
@@ -27,9 +26,9 @@ class BaseHandlersLibrary {
   private BaseHandlersLibrary(Method[] objectMethods) throws NoSuchMethodException {
     methodToHandler = new HashMap<Method, MethodHandler>();
     for (Method m : objectMethods) {
-      methodToHandler.put(m, new SelfCallMethodHanlder(m));
+      methodToHandler.put(m, new SelfCallMethodHandler(m));
     }
-    fill(methodToHandler, new GetJsonObjectMethodHaldler(), new GetAnyObjectMethodHaldler(), new GetSuperMethodHaldler());
+    fill(methodToHandler, new GetJsonObjectMethodHandler(), new GetSuperMethodHandler());
   }
 
   private static void fill(Map<Method, MethodHandler> map, MethodHandlerBase ... handlers) {
@@ -48,26 +47,20 @@ class BaseHandlersLibrary {
     }
   }
 
-  private static class SelfCallMethodHanlder extends NativeMethodHandler {
-    SelfCallMethodHanlder(Method method) {
+  private static class SelfCallMethodHandler extends NativeMethodHandler {
+    SelfCallMethodHandler(Method method) {
       super(method);
     }
   }
 
-  private static class GetJsonObjectMethodHaldler extends NativeMethodHandler {
-    GetJsonObjectMethodHaldler() throws NoSuchMethodException {
-      super(JsonObjectBased.class.getMethod("getUnderlyingObject"));
+  private static class GetJsonObjectMethodHandler extends NativeMethodHandler {
+    GetJsonObjectMethodHandler() throws NoSuchMethodException {
+      super(JsonObjectBased.class.getMethod("getDeferredReader"));
     }
   }
 
-  private static class GetAnyObjectMethodHaldler extends NativeMethodHandler {
-    GetAnyObjectMethodHaldler() throws NoSuchMethodException {
-      super(AnyObjectBased.class.getMethod("getUnderlyingObject"));
-    }
-  }
-
-  private static class GetSuperMethodHaldler extends NativeMethodHandler {
-    GetSuperMethodHaldler() throws NoSuchMethodException {
+  private static class GetSuperMethodHandler extends NativeMethodHandler {
+    GetSuperMethodHandler() throws NoSuchMethodException {
       super(JsonSubtype.class.getMethod("getSuper"));
     }
   }

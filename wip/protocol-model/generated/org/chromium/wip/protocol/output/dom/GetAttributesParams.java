@@ -20,6 +20,6 @@ public class GetAttributesParams extends org.jetbrains.wip.protocol.WipParamsWit
 
   @Override
   public org.chromium.wip.protocol.input.dom.GetAttributesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMGetAttributesData(data.getUnderlyingObject());
+    return parser.parseDOMGetAttributesData(data.getDeferredReader());
   }
 }

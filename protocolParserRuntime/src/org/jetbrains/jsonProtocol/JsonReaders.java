@@ -276,4 +276,21 @@ public final class JsonReaders {
   public static JsonReader createReader(String string) {
     return new JsonReader(new StringReader(string));
   }
+
+  public static boolean findBooleanField(String name, JsonReader reader) {
+    try {
+      while (reader.hasNext()) {
+        if (reader.nextName().equals(name)) {
+          return reader.nextBoolean();
+        }
+        else {
+          reader.skipValue();
+        }
+      }
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return false;
+  }
 }

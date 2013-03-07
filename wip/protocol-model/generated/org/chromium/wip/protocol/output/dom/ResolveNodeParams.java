@@ -30,6 +30,6 @@ public class ResolveNodeParams extends org.jetbrains.wip.protocol.WipParamsWithR
 
   @Override
   public org.chromium.wip.protocol.input.dom.ResolveNodeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMResolveNodeData(data.getUnderlyingObject());
+    return parser.parseDOMResolveNodeData(data.getDeferredReader());
   }
 }

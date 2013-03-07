@@ -15,6 +15,6 @@ public class GetCompositingBordersVisibleParams extends org.jetbrains.wip.protoc
 
   @Override
   public org.chromium.wip.protocol.input.page.GetCompositingBordersVisibleData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageGetCompositingBordersVisibleData(data.getUnderlyingObject());
+    return parser.parsePageGetCompositingBordersVisibleData(data.getDeferredReader());
   }
 }

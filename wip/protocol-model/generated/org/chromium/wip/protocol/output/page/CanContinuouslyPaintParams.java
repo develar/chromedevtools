@@ -15,6 +15,6 @@ public class CanContinuouslyPaintParams extends org.jetbrains.wip.protocol.WipPa
 
   @Override
   public org.chromium.wip.protocol.input.page.CanContinuouslyPaintData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageCanContinuouslyPaintData(data.getUnderlyingObject());
+    return parser.parsePageCanContinuouslyPaintData(data.getDeferredReader());
   }
 }

@@ -10,6 +10,6 @@ import com.google.gson.stream.JsonReader;
  * Optional base interface for JSON type interface. Underlying JSON object becomes available
  * to user this way.
  */
-public interface JsonObjectBased extends AnyObjectBased {
-  JsonReader getUnderlyingObject();
+public interface JsonObjectBased {
+  JsonReader getDeferredReader();
 }

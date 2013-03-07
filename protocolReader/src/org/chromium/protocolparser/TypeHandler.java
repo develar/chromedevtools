@@ -22,7 +22,7 @@ class TypeHandler<T> {
   /** Loaders that should read values and save them in field array on parse time. */
   private final List<FieldLoader> fieldLoaders;
 
-  /** Set of parsers that non-lazyly check that all fields read OK. */
+  /** Set of parsers that non-lazily check that all fields read OK. */
   private final EagerFieldParser eagerFieldParser;
 
   /** Holds the data about recognizing subtypes. */
@@ -198,15 +198,13 @@ class TypeHandler<T> {
 
   /**
    * Generates Java implementation of standard methods of JSON type class (if needed):
-   * {@link org.chromium.protocolParser.JsonObjectBased#getUnderlyingObject()},
-   * {@link org.chromium.protocolParser.AnyObjectBased#getUnderlyingObject()} and {@link org.chromium.protocolParser.JsonSubtype#getSuper()}
+   * {@link org.chromium.protocolParser.JsonObjectBased#getDeferredReader()}, {@link org.chromium.protocolParser.JsonSubtype#getSuper()}
    */
   private void writeBaseMethods(ClassScope scope, TextOutput out) {
     Class<?> typeClass = getTypeClass();
-    // Generated getUnderlyingObject method if it's in interface.
     Method method;
     try {
-      method = typeClass.getMethod("getUnderlyingObject");
+      method = typeClass.getMethod("getDeferredReader");
     }
     catch (SecurityException e) {
       throw new RuntimeException(e);

@@ -149,10 +149,7 @@ public class WipBreakpointManager {
     int line = position.getLine();
     int column = position.getColumn();
 
-    String scriptId = topFrame.getSourceId();
-    final WipBreakpointImpl.ActualLocation location =
-        new WipBreakpointImpl.ActualLocation(scriptId, line, Long.valueOf(column));
-
+    final WipBreakpointImpl.ActualLocation location = new WipBreakpointImpl.ActualLocation(topFrame.getSourceId(), line, column);
     return db.visitAllBreakpoints(new Db.Visitor<List<Breakpoint>>() {
       @Override
       public List<Breakpoint> visitAllBreakpoints(Set<WipBreakpointImpl> breakpoints) {

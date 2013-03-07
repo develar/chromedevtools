@@ -15,6 +15,6 @@ public class CanClearBrowserCookiesParams extends org.jetbrains.wip.protocol.Wip
 
   @Override
   public org.chromium.wip.protocol.input.network.CanClearBrowserCookiesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseNetworkCanClearBrowserCookiesData(data.getUnderlyingObject());
+    return parser.parseNetworkCanClearBrowserCookiesData(data.getDeferredReader());
   }
 }

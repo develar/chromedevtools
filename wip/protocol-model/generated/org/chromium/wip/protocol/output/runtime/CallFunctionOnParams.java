@@ -54,6 +54,6 @@ public class CallFunctionOnParams extends org.jetbrains.wip.protocol.WipParamsWi
 
   @Override
   public org.chromium.wip.protocol.input.runtime.CallFunctionOnData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseRuntimeCallFunctionOnData(data.getUnderlyingObject());
+    return parser.parseRuntimeCallFunctionOnData(data.getDeferredReader());
   }
 }

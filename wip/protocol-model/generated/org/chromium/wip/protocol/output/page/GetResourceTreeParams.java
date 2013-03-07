@@ -15,6 +15,6 @@ public class GetResourceTreeParams extends org.jetbrains.wip.protocol.WipParamsW
 
   @Override
   public org.chromium.wip.protocol.input.page.GetResourceTreeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageGetResourceTreeData(data.getUnderlyingObject());
+    return parser.parsePageGetResourceTreeData(data.getDeferredReader());
   }
 }

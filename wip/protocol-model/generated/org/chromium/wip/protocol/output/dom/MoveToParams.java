@@ -30,6 +30,6 @@ public class MoveToParams extends org.jetbrains.wip.protocol.WipParamsWithRespon
 
   @Override
   public org.chromium.wip.protocol.input.dom.MoveToData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMMoveToData(data.getUnderlyingObject());
+    return parser.parseDOMMoveToData(data.getDeferredReader());
   }
 }

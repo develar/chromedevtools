@@ -17,6 +17,7 @@ import org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue;
 import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
 import org.chromium.wip.protocol.output.debugger.*;
 import org.chromium.wip.protocol.output.runtime.EvaluateParams;
+import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.wip.protocol.WipCommandResponse;
 import org.jetbrains.wip.protocol.WipParams;
 import org.jetbrains.wip.protocol.WipParamsWithResponse;
@@ -107,7 +108,7 @@ class WipContextBuilder {
       if (data.reason() == PausedEventData.Reason.EXCEPTION && additionalData != null) {
         RemoteObjectValue exceptionRemoteObject;
         try {
-          exceptionRemoteObject = WipParserAccess.get().parseRemoteObjectValue(additionalData.getUnderlyingObject());
+          exceptionRemoteObject = WipParserAccess.get().parseRemoteObjectValue(additionalData.getDeferredReader());
         }
         catch (IOException e) {
           throw new RuntimeException("Failed to parse exception data", e);
@@ -303,36 +304,15 @@ class WipContextBuilder {
         if (thisObjectData == null) {
           LOGGER.log(Level.SEVERE, "Missing local scope", new Exception());
           thisObject = null;
-        } else {
+        }
+        else {
           thisObject = createSimpleNameVariable("this", thisObjectData);
         }
 
-        // 0-based.
-        final int line = (int) frameData.location().lineNumber();
-
-        // 0-based.
-        // TODO: check documentation, whether it's 0-based
-        Long columnObject = frameData.location().columnNumber();
-        final int column;
-        if (columnObject == null) {
-          column = 0;
-        } else {
-          column = columnObject.intValue();
-        }
-        streamPosition = new TextStreamPosition() {
-          @Override
-          public int getOffset() {
-            throw new UnsupportedOperationException();
-          }
-
-          @Override
-          public int getLine() {
-            return line;
-          }
-
+        streamPosition = new LocationBackedTextStreamPosition(frameData.location()) {
           @Override
           public int getColumn() {
-            return column;
+            return super.getColumn() == NO_POSITION ? 0 : super.getColumn();
           }
         };
       }
@@ -375,26 +355,24 @@ class WipContextBuilder {
         return evaluateContext;
       }
 
-      private JsVariable createSimpleNameVariable(final String name,
-          RemoteObjectValue thisObjectData) {
-        ValueNameBuilder valueNameBuidler = WipExpressionBuilder.createRootName(name, false);
-        return valueLoader.getValueBuilder().createVariable(thisObjectData, valueNameBuidler);
+      private JsVariable createSimpleNameVariable(final String name, RemoteObjectValue thisObjectData) {
+        return valueLoader.getValueBuilder().createVariable(thisObjectData, WipExpressionBuilder.createRootName(name, false));
       }
 
-      private final WipEvaluateContextBase<?> evaluateContext =
-          new WipEvaluateContextBase<EvaluateOnCallFrameData>(getValueLoader()) {
+      private final WipEvaluateContextBase<?> evaluateContext = new WipEvaluateContextBase<EvaluateOnCallFrameData>(getValueLoader()) {
         @Override
-        protected WipParamsWithResponse<EvaluateOnCallFrameData> createRequestParams(
-            String expression, WipValueLoader destinationValueLoader) {
-          return new EvaluateOnCallFrameParams(id, expression,
-              destinationValueLoader.getObjectGroupId(), false, null, false);
+        protected WipParamsWithResponse<EvaluateOnCallFrameData> createRequestParams(String expression,
+                                                                                     WipValueLoader destinationValueLoader) {
+          return new EvaluateOnCallFrameParams(id, expression).objectGroup(destinationValueLoader.getObjectGroupId());
         }
 
-        @Override protected RemoteObjectValue getRemoteObjectValue(EvaluateOnCallFrameData data) {
+        @Override
+        protected RemoteObjectValue getRemoteObjectValue(EvaluateOnCallFrameData data) {
           return data.result();
         }
 
-        @Override protected Boolean getWasThrown(EvaluateOnCallFrameData data) {
+        @Override
+        protected Boolean getWasThrown(EvaluateOnCallFrameData data) {
           return data.wasThrown();
         }
       };
@@ -426,14 +404,12 @@ class WipContextBuilder {
         return commandProcessor.send(params, commandCallback, guard.asSyncCallback());
       }
 
-      private RelayOk handleRestartFrameData(RestartFrameData data,
-          final GenericCallback<Boolean> callback, RelaySyncCallback relay) {
+      private RelayOk handleRestartFrameData(RestartFrameData data, final GenericCallback<Boolean> callback, RelaySyncCallback relay) {
         // We are in Dispatch thread.
         if (currentContext != WipDebugContextImpl.this) {
           return finishSuccessfulRestart(false, callback, relay);
         }
-        if (data.result().getUnderlyingObject().get("stack_update_needs_step_in") ==
-            Boolean.TRUE) {
+        if (JsonReaders.findBooleanField("stack_update_needs_step_in", data.result().getDeferredReader())) {
           final RelaySyncCallback.Guard guard = relay.newGuard();
           final ContinueCallback continueCallback = new ContinueCallback() {
             @Override
@@ -449,9 +425,9 @@ class WipContextBuilder {
               }
             }
           };
-          return currentContext.continueVm(StepAction.IN, 1,
-              continueCallback, guard.asSyncCallback());
-        } else {
+          return currentContext.continueVm(StepAction.IN, 1, continueCallback, guard.asSyncCallback());
+        }
+        else {
           resetFrames(data.callFrames());
           return finishSuccessfulRestart(false, callback, relay);
         }
@@ -755,23 +731,23 @@ class WipContextBuilder {
   }
 
   static final class GlobalEvaluateContext extends WipEvaluateContextBase<EvaluateData> {
-
     GlobalEvaluateContext(WipValueLoader valueLoader) {
       super(valueLoader);
     }
 
-    @Override protected WipParamsWithResponse<EvaluateData> createRequestParams(String expression,
-        WipValueLoader destinationValueLoader) {
-      boolean doNotPauseOnExceptions = true;
-      return new EvaluateParams(expression, destinationValueLoader.getObjectGroupId(),
-          false, doNotPauseOnExceptions, null, false);
+    @Override
+    protected WipParamsWithResponse<EvaluateData> createRequestParams(String expression, WipValueLoader destinationValueLoader) {
+      return new EvaluateParams(expression).objectGroup(destinationValueLoader.getObjectGroupId()).doNotPauseOnExceptionsAndMuteConsole(
+        true);
     }
 
-    @Override protected RemoteObjectValue getRemoteObjectValue(EvaluateData data) {
+    @Override
+    protected RemoteObjectValue getRemoteObjectValue(EvaluateData data) {
       return data.result();
     }
 
-    @Override protected Boolean getWasThrown(EvaluateData data) {
+    @Override
+    protected Boolean getWasThrown(EvaluateData data) {
       return data.wasThrown();
     }
   }
@@ -789,17 +765,10 @@ class WipContextBuilder {
     assert WIP_TO_SDK_SCOPE_TYPE.size() == ScopeValue.Type.values().length;
   }
 
-  private static final ValueNameBuilder EXCEPTION_NAME =
-      WipExpressionBuilder.createRootNameNoDerived("exception");
-
-  private static final ValueNameBuilder WITH_OBJECT_NAME =
-      WipExpressionBuilder.createRootNameNoDerived("<with object>");
-
-  private static final ValueNameBuilder EVALUATE_EXCEPTION_INNER_NAME =
-      WipExpressionBuilder.createRootNameNoDerived("<exception>");
-
-  private static final ValueNameBuilder EVALUATE_EXCEPTION_NAME =
-      WipExpressionBuilder.createRootNameNoDerived("<thrown exception>");
+  private static final ValueNameBuilder EXCEPTION_NAME = WipExpressionBuilder.createRootNameNoDerived("exception");
+  private static final ValueNameBuilder WITH_OBJECT_NAME = WipExpressionBuilder.createRootNameNoDerived("<with object>");
+  private static final ValueNameBuilder EVALUATE_EXCEPTION_INNER_NAME = WipExpressionBuilder.createRootNameNoDerived("<exception>");
+  private static final ValueNameBuilder EVALUATE_EXCEPTION_NAME = WipExpressionBuilder.createRootNameNoDerived("<thrown exception>");
 
   private static class ScopeVariables {
     final List<JsVariable> variables;

@@ -15,6 +15,6 @@ public class CanSetScriptSourceParams extends org.jetbrains.wip.protocol.WipPara
 
   @Override
   public org.chromium.wip.protocol.input.debugger.CanSetScriptSourceData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerCanSetScriptSourceData(data.getUnderlyingObject());
+    return parser.parseDebuggerCanSetScriptSourceData(data.getDeferredReader());
   }
 }

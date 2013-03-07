@@ -14,6 +14,6 @@ public class AddScriptToEvaluateOnLoadParams extends org.jetbrains.wip.protocol.
 
   @Override
   public org.chromium.wip.protocol.input.page.AddScriptToEvaluateOnLoadData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageAddScriptToEvaluateOnLoadData(data.getUnderlyingObject());
+    return parser.parsePageAddScriptToEvaluateOnLoadData(data.getDeferredReader());
   }
 }

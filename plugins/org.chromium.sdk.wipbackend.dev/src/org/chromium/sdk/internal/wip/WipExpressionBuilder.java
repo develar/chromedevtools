@@ -4,9 +4,9 @@
 
 package org.chromium.sdk.internal.wip;
 
-import java.util.regex.Pattern;
+import org.jetbrains.jsonProtocol.JsonWriters;
 
-import org.json.simple.JSONValue;
+import java.util.regex.Pattern;
 
 /**
  * Builder for fully qualified name strings.
@@ -54,30 +54,33 @@ public class WipExpressionBuilder {
   /**
    * Combines property name with a {@link PropertyNameBuilder}.
    */
-  static ValueNameBuilder createValueOfPropertyNameBuilder(final String propertyName,
-      final PropertyNameBuilder propertyNameBuilder) {
-
+  static ValueNameBuilder createValueOfPropertyNameBuilder(final String propertyName, final PropertyNameBuilder propertyNameBuilder) {
     final QualifiedNameBuilder qualifiedNameBuilder;
     if (propertyNameBuilder == null) {
       qualifiedNameBuilder = null;
-    } else {
+    }
+    else {
       qualifiedNameBuilder = new QualifiedNameBuilder() {
-        @Override public boolean needsParentheses() {
+        @Override
+        public boolean needsParentheses() {
           return propertyNameBuilder.needsParentheses();
         }
 
-        @Override public void append(StringBuilder output) {
+        @Override
+        public void append(StringBuilder output) {
           propertyNameBuilder.build(propertyName, output);
         }
       };
     }
 
     return new ValueNameBuilder() {
-      @Override public String getShortName() {
+      @Override
+      public String getShortName() {
         return propertyName;
       }
 
-      @Override public QualifiedNameBuilder getQualifiedNameBuilder() {
+      @Override
+      public QualifiedNameBuilder getQualifiedNameBuilder() {
         return qualifiedNameBuilder;
       }
     };
@@ -133,13 +136,17 @@ public class WipExpressionBuilder {
       buildParentRef(output);
       if (ALL_DIGITS.matcher(name).matches()) {
         output.append("[").append(name).append("]");
-      } else {
+      }
+      else {
         // TODO(peter.rybin): check that name is really a valid identifier.
         boolean isNameSimple = name.indexOf(' ') != -1;
         if (isNameSimple) {
-          output.append(".").append(name);
-        } else {
-          output.append("[\"").append(JSONValue.escape(name)).append("\"]");
+          output.append('.').append(name);
+        }
+        else {
+          output.append('[');
+          JsonWriters.escapeString(output, name);
+          output.append(']');
         }
       }
     }

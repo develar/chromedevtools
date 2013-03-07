@@ -20,6 +20,6 @@ public class GetFunctionDetailsParams extends org.jetbrains.wip.protocol.WipPara
 
   @Override
   public org.chromium.wip.protocol.input.debugger.GetFunctionDetailsData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerGetFunctionDetailsData(data.getUnderlyingObject());
+    return parser.parseDebuggerGetFunctionDetailsData(data.getDeferredReader());
   }
 }

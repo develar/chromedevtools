@@ -15,6 +15,6 @@ public class GetScriptExecutionStatusParams extends org.jetbrains.wip.protocol.W
 
   @Override
   public org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageGetScriptExecutionStatusData(data.getUnderlyingObject());
+    return parser.parsePageGetScriptExecutionStatusData(data.getDeferredReader());
   }
 }

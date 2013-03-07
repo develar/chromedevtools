@@ -16,7 +16,6 @@ import org.chromium.sdk.internal.wip.WipValueLoader.ObjectProperties;
 import org.chromium.sdk.util.AsyncFutureRef;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.wip.protocol.input.debugger.FunctionDetailsValue;
-import org.chromium.wip.protocol.input.debugger.LocationValue;
 import org.chromium.wip.protocol.input.debugger.ScopeValue;
 import org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue;
 import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
@@ -114,10 +113,11 @@ class WipValueBuilder {
     };
   }
 
-  private static QualifiedNameBuilder createPseudoPropertyNameBuilder(
-      final QualifiedNameBuilder propertyValueNameBuilder, final String symbolicName) {
+  private static QualifiedNameBuilder createPseudoPropertyNameBuilder(final QualifiedNameBuilder propertyValueNameBuilder,
+                                                                      final String symbolicName) {
     return new QualifiedNameBuilder() {
-      @Override public boolean needsParentheses() {
+      @Override
+      public boolean needsParentheses() {
         return false;
       }
 
@@ -530,27 +530,8 @@ class WipValueBuilder {
       }
 
       @Override
-      public TextStreamPosition getOpenParenPosition()
-          throws MethodIsBlockingException {
-        final LocationValue functionPosition = getFunctionDetails().location();
-        return new TextStreamPosition() {
-          @Override public int getOffset() {
-            throw new UnsupportedOperationException();
-          }
-
-          @Override public int getLine() {
-            return (int) functionPosition.lineNumber();
-          }
-
-          @Override
-          public int getColumn() {
-            Long columnObject = functionPosition.columnNumber();
-            if (columnObject == null) {
-              return NO_POSITION;
-            }
-            return columnObject.intValue();
-          }
-        };
+      public TextStreamPosition getOpenParenPosition() throws MethodIsBlockingException {
+        return new LocationBackedTextStreamPosition(getFunctionDetails().location());
       }
 
       @Override

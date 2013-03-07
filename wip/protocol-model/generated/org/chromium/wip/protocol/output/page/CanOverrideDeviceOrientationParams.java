@@ -15,6 +15,6 @@ public class CanOverrideDeviceOrientationParams extends org.jetbrains.wip.protoc
 
   @Override
   public org.chromium.wip.protocol.input.page.CanOverrideDeviceOrientationData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageCanOverrideDeviceOrientationData(data.getUnderlyingObject());
+    return parser.parsePageCanOverrideDeviceOrientationData(data.getDeferredReader());
   }
 }

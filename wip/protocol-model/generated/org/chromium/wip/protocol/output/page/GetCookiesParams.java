@@ -15,6 +15,6 @@ public class GetCookiesParams extends org.jetbrains.wip.protocol.WipParamsWithRe
 
   @Override
   public org.chromium.wip.protocol.input.page.GetCookiesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageGetCookiesData(data.getUnderlyingObject());
+    return parser.parsePageGetCookiesData(data.getDeferredReader());
   }
 }

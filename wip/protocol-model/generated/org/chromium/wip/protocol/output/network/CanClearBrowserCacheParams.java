@@ -15,6 +15,6 @@ public class CanClearBrowserCacheParams extends org.jetbrains.wip.protocol.WipPa
 
   @Override
   public org.chromium.wip.protocol.input.network.CanClearBrowserCacheData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseNetworkCanClearBrowserCacheData(data.getUnderlyingObject());
+    return parser.parseNetworkCanClearBrowserCacheData(data.getDeferredReader());
   }
 }

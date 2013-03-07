@@ -20,6 +20,6 @@ public class RequestNodeParams extends org.jetbrains.wip.protocol.WipParamsWithR
 
   @Override
   public org.chromium.wip.protocol.input.dom.RequestNodeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMRequestNodeData(data.getUnderlyingObject());
+    return parser.parseDOMRequestNodeData(data.getDeferredReader());
   }
 }

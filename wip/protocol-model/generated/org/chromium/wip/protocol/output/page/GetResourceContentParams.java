@@ -22,6 +22,6 @@ public class GetResourceContentParams extends org.jetbrains.wip.protocol.WipPara
 
   @Override
   public org.chromium.wip.protocol.input.page.GetResourceContentData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageGetResourceContentData(data.getUnderlyingObject());
+    return parser.parsePageGetResourceContentData(data.getDeferredReader());
   }
 }

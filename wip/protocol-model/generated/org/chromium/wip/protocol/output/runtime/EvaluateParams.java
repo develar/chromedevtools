@@ -70,6 +70,6 @@ public class EvaluateParams extends org.jetbrains.wip.protocol.WipParamsWithResp
 
   @Override
   public org.chromium.wip.protocol.input.runtime.EvaluateData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseRuntimeEvaluateData(data.getUnderlyingObject());
+    return parser.parseRuntimeEvaluateData(data.getDeferredReader());
   }
 }
