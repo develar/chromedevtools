@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Compiles expression.
  */
-public class CompileScriptParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.CompileScriptData> {
+public class CompileScriptParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.CompileScriptData> {
   /**
    * @param expression Expression to compile.
    * @param sourceURL Source url to be set for the script.
@@ -13,11 +13,9 @@ public class CompileScriptParams extends org.jetbrains.wip.protocol.WipParamsWit
     put("expression", expression);
     put("sourceURL", sourceURL);
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".compileScript";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Debugger.compileScript";
   }
 
   @Override

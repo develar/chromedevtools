@@ -12,7 +12,7 @@ import org.chromium.sdk.internal.JsEvaluateContextBase;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
+import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.value.JsObjectBase;
 import org.chromium.sdk.internal.v8native.value.JsVariableImpl;
@@ -37,7 +37,7 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
     int frameIdentifier = getFrameIdentifier();
 
     List<StringIntPair> internalAdditionalContext = convertAdditionalContextList(additionalContext);
-    DebuggerMessage message = DebuggerMessageFactory.evaluate(expression, frameIdentifier, true, internalAdditionalContext);
+    V8Request message = DebuggerMessageFactory.evaluate(expression, frameIdentifier, true, internalAdditionalContext);
     V8CommandProcessor.V8HandlerCallback commandCallback = callback == null
         ? null
         : new V8CommandCallbackBase() {

@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Sets JavaScript breakpoint at a given location.
  */
-public class SetBreakpointParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.SetBreakpointData> {
+public class SetBreakpointParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.SetBreakpointData> {
   /**
    * @param location Location to set breakpoint in.
    */
@@ -21,11 +21,9 @@ public class SetBreakpointParams extends org.jetbrains.wip.protocol.WipParamsWit
     }
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setBreakpoint";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Debugger.setBreakpoint";
   }
 
   @Override

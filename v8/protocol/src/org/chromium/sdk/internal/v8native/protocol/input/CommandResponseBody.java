@@ -40,7 +40,7 @@ public interface CommandResponseBody {
   ScopeBody asScopeBody() throws IOException;
 
   @JsonSubtypeCasting
-  VersionBody asVersionBody() throws IOException;
+  VersionBody asVersionBody();
 
   @JsonSubtypeCasting
   ChangeLiveBody asChangeLiveBody() throws IOException;

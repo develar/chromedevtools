@@ -11,7 +11,7 @@ import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.sdk.wip.EvaluateToMappingExtension;
 import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
-import org.jetbrains.wip.protocol.WipParamsWithResponse;
+import org.jetbrains.wip.protocol.WipRequestWithResponse;
 
 import java.util.Map;
 
@@ -62,7 +62,7 @@ abstract class WipEvaluateContextBase<DATA> extends JsEvaluateContextBase {
           destinationValueLoader, evaluateHackHelper, callback, syncCallback);
     }
 
-    WipParamsWithResponse<DATA> params = createRequestParams(expression, destinationValueLoader);
+    WipRequestWithResponse<DATA> params = createRequestParams(expression, destinationValueLoader);
 
     GenericCallback<DATA> commandCallback;
     if (callback == null) {
@@ -100,7 +100,7 @@ abstract class WipEvaluateContextBase<DATA> extends JsEvaluateContextBase {
   private final EvaluateHack.EvaluateCommandHandler<DATA> evaluateHackHelper =
       new EvaluateHack.EvaluateCommandHandler<DATA>() {
     @Override
-    public WipParamsWithResponse<DATA> createRequest(
+    public WipRequestWithResponse<DATA> createRequest(
         String patchedUserExpression, WipValueLoader destinationValueLoader) {
       return createRequestParams(patchedUserExpression, destinationValueLoader);
     }
@@ -117,7 +117,7 @@ abstract class WipEvaluateContextBase<DATA> extends JsEvaluateContextBase {
     }
   };
 
-  protected abstract WipParamsWithResponse<DATA> createRequestParams(String expression,
+  protected abstract WipRequestWithResponse<DATA> createRequestParams(String expression,
       WipValueLoader destinationValueLoader);
 
   protected abstract RemoteObjectValue getRemoteObjectValue(DATA data);

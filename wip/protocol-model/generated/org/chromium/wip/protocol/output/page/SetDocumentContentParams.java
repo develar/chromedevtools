@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Sets given markup as the document's HTML.
  */
-public class SetDocumentContentParams extends org.jetbrains.wip.protocol.WipParams {
+public class SetDocumentContentParams extends org.jetbrains.wip.protocol.WipRequest {
   /**
    * @param frameId Frame id to set HTML for.
    * @param html HTML content to set.
@@ -13,10 +13,8 @@ public class SetDocumentContentParams extends org.jetbrains.wip.protocol.WipPara
     put("frameId", frameId);
     put("html", html);
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".setDocumentContent";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Page.setDocumentContent";
   }
 }

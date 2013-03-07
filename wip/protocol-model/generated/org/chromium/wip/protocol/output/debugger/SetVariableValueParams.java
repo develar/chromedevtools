@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Changes value of variable in a callframe or a closure. Either callframe or function must be specified. Object-based scopes are not supported and must be mutated manually.
  */
-public class SetVariableValueParams extends org.jetbrains.wip.protocol.WipParams {
+public class SetVariableValueParams extends org.jetbrains.wip.protocol.WipRequest {
   /**
    * @param scopeNumber 0-based number of scope as was listed in scope chain. Only 'local', 'closure' and 'catch' scope types are allowed. Other scopes could be manipulated manually.
    * @param variableName Variable name.
@@ -35,10 +35,8 @@ public class SetVariableValueParams extends org.jetbrains.wip.protocol.WipParams
     }
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setVariableValue";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Debugger.setVariableValue";
   }
 }

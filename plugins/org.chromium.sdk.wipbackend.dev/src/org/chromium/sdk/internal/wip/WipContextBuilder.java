@@ -19,8 +19,8 @@ import org.chromium.wip.protocol.output.debugger.*;
 import org.chromium.wip.protocol.output.runtime.EvaluateParams;
 import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.wip.protocol.WipCommandResponse;
-import org.jetbrains.wip.protocol.WipParams;
-import org.jetbrains.wip.protocol.WipParamsWithResponse;
+import org.jetbrains.wip.protocol.WipRequest;
+import org.jetbrains.wip.protocol.WipRequestWithResponse;
 
 import java.io.IOException;
 import java.util.*;
@@ -230,7 +230,7 @@ class WipContextBuilder {
         }
       }
 
-      WipParams params = sdkStepToProtocolStep(stepAction);
+      WipRequest params = sdkStepToProtocolStep(stepAction);
 
       WipCommandCallback commandCallback;
       if (callback == null) {
@@ -361,7 +361,7 @@ class WipContextBuilder {
 
       private final WipEvaluateContextBase<?> evaluateContext = new WipEvaluateContextBase<EvaluateOnCallFrameData>(getValueLoader()) {
         @Override
-        protected WipParamsWithResponse<EvaluateOnCallFrameData> createRequestParams(String expression,
+        protected WipRequestWithResponse<EvaluateOnCallFrameData> createRequestParams(String expression,
                                                                                      WipValueLoader destinationValueLoader) {
           return new EvaluateOnCallFrameParams(id, expression).objectGroup(destinationValueLoader.getObjectGroupId());
         }
@@ -736,7 +736,7 @@ class WipContextBuilder {
     }
 
     @Override
-    protected WipParamsWithResponse<EvaluateData> createRequestParams(String expression, WipValueLoader destinationValueLoader) {
+    protected WipRequestWithResponse<EvaluateData> createRequestParams(String expression, WipValueLoader destinationValueLoader) {
       return new EvaluateParams(expression).objectGroup(destinationValueLoader.getObjectGroupId()).doNotPauseOnExceptionsAndMuteConsole(
         true);
     }
@@ -791,7 +791,7 @@ class WipContextBuilder {
       };
 
 
-  private WipParams sdkStepToProtocolStep(StepAction stepAction) {
+  private WipRequest sdkStepToProtocolStep(StepAction stepAction) {
     switch (stepAction) {
     case CONTINUE:
       return RESUME_PARAMS;

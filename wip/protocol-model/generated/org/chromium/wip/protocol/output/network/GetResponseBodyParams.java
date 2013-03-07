@@ -4,18 +4,16 @@ package org.chromium.wip.protocol.output.network;
 /**
  * Returns content served for the given request.
  */
-public class GetResponseBodyParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.network.GetResponseBodyData> {
+public class GetResponseBodyParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.network.GetResponseBodyData> {
   /**
    * @param requestId Identifier of the network request to get content for.
    */
   public GetResponseBodyParams(String requestId) {
     put("requestId", requestId);
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.NETWORK + ".getResponseBody";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Network.getResponseBody";
   }
 
   @Override

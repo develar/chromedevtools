@@ -299,7 +299,8 @@ public class SocketConnection implements Connection {
   void sendMessage(Message message) {
     try {
       outboundQueue.put(message);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
   }

@@ -103,15 +103,16 @@ public class Version implements Comparable<Version> {
       components.add(num);
       if (i < text.length() && text.charAt(i) == '.') {
         i++;
-        continue;
-      } else {
+      }
+      else {
         break;
       }
     }
     String suffix;
     if (i < text.length()) {
       suffix = text.substring(i);
-    } else {
+    }
+    else {
       suffix = null;
     }
     if (components.isEmpty()) {

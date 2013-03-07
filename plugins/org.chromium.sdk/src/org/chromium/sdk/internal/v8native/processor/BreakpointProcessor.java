@@ -16,7 +16,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.BreakEventBody;
 import org.chromium.sdk.internal.v8native.protocol.input.EventNotification;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
+import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.value.ExceptionDataImpl;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
@@ -77,8 +77,7 @@ public class BreakpointProcessor extends V8EventProcessor {
   public static void processNextStep(ContextBuilder.ExpectingBacktraceStep step2) {
     BacktraceProcessor backtraceProcessor = new BacktraceProcessor(step2);
     InternalContext internalContext = step2.getInternalContext();
-
-    DebuggerMessage message = DebuggerMessageFactory.backtrace(null, null, true);
+    V8Request message = DebuggerMessageFactory.backtrace(null, null, true);
     try {
       // Command is not immediate because we are supposed to be suspended.
       internalContext.sendV8CommandAsync(message, false, backtraceProcessor, null);

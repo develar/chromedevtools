@@ -55,22 +55,19 @@ class DomainGenerator {
     StringBuilder baseTypeBuilder = new StringBuilder();
     baseTypeBuilder.append("org.jetbrains.wip.protocol.");
     if (hasResponse) {
-      baseTypeBuilder.append("WipParamsWithResponse<");
+      baseTypeBuilder.append("WipRequestWithResponse<");
       baseTypeBuilder.append(Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText());
       baseTypeBuilder.append(">");
     }
     else {
-      baseTypeBuilder.append("WipParams");
+      baseTypeBuilder.append("WipRequest");
     }
 
     TextOutConsumer memberBuilder = new TextOutConsumer() {
       @Override
       public void append(TextOutput out) {
-        out.newLine();
-        out.append("public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.");
-        out.append(domain.domain().toUpperCase()).append(" + \".").append(command.name()).append("\";");
-        out.newLine().newLine().append("@Override").newLine().append("public String getCommand()").openBlock();
-        out.append("return METHOD_NAME;").closeBlock();
+        out.newLine().append("@Override").newLine().append("public String getMethodName()").openBlock();
+        out.append("return \"").append(domain.domain()).append('.').append(command.name()).append("\";").closeBlock();
 
         if (hasResponse) {
           CharSequence dataInterfaceFullName = Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText();

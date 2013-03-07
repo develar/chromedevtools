@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Reloads given page optionally ignoring the cache.
  */
-public class ReloadParams extends org.jetbrains.wip.protocol.WipParams {
+public class ReloadParams extends org.jetbrains.wip.protocol.WipRequest {
 
 
   /**
@@ -34,10 +34,8 @@ public class ReloadParams extends org.jetbrains.wip.protocol.WipParams {
     }
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".reload";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Page.reload";
   }
 }

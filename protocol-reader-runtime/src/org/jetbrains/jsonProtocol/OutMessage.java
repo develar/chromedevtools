@@ -5,34 +5,24 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 public abstract class OutMessage {
-  private static final Method JSON_WRITE_DEFERED_NAME;
-
   private final StringWriter stringWriter = new StringWriter();
   protected final JsonWriter writer = new JsonWriter(stringWriter);
 
-  protected boolean argumentsObjectStarted;
-
-  static {
-      try {
-        JSON_WRITE_DEFERED_NAME = JsonWriter.class.getDeclaredMethod("writeDeferredName");
-        JSON_WRITE_DEFERED_NAME.setAccessible(true);
-      }
-      catch (NoSuchMethodException e) {
-        throw new RuntimeException(e);
-      }
+  protected OutMessage() {
+    try {
+      writer.beginObject();
     }
-
-  public  String getCommand() {
-    throw new AbstractMethodError();
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   protected final void put(String name, Enum<?> value) {
     try {
-      addArgumentsName();
+      beginArguments();
       writer.name(name).value(value.toString());
     }
     catch (IOException e) {
@@ -42,7 +32,7 @@ public abstract class OutMessage {
 
   public final void put(String name, int value) {
     try {
-      addArgumentsName();
+      beginArguments();
       writer.name(name).value(value);
     }
     catch (IOException e) {
@@ -52,7 +42,7 @@ public abstract class OutMessage {
 
   protected final void put(String name, long[] value) {
     try {
-      addArgumentsName();
+      beginArguments();
       writer.name(name);
       writer.beginArray();
       for (long v : value) {
@@ -67,7 +57,7 @@ public abstract class OutMessage {
 
   protected final <E extends OutMessage> void put(String name, List<E> value) {
     try {
-      addArgumentsName();
+      beginArguments();
       writer.name(name);
       writer.beginArray();
       boolean isNotFirst = false;
@@ -89,7 +79,7 @@ public abstract class OutMessage {
 
   protected final void writeStringList(String name, List<String> value) {
     try {
-      addArgumentsName();
+      beginArguments();
       JsonWriters.writeStringList(writer, name, value);
     }
     catch (IOException e) {
@@ -99,9 +89,9 @@ public abstract class OutMessage {
 
   protected final void put(String name, OutMessage value) {
     try {
-      addArgumentsName();
+      beginArguments();
       writer.name(name);
-      JSON_WRITE_DEFERED_NAME.invoke(writer);
+      JsonWriters.JSON_WRITE_DEFERED_NAME.invoke(writer);
       stringWriter.append(':').append(' ').append(value.stringWriter.getBuffer());
     }
     catch (IOException e) {
@@ -117,7 +107,7 @@ public abstract class OutMessage {
 
   protected final void put(String name, long value) {
     try {
-      addArgumentsName();
+      beginArguments();
       writer.name(name).value(value);
     }
     catch (IOException e) {
@@ -127,7 +117,7 @@ public abstract class OutMessage {
 
   protected final void put(String name, double value) {
     try {
-      addArgumentsName();
+      beginArguments();
       writer.name(name).value(value);
     }
     catch (IOException e) {
@@ -137,7 +127,7 @@ public abstract class OutMessage {
 
   protected final void doPutArgument(String name, String value) {
     try {
-      addArgumentsName();
+      beginArguments();
       writer.name(name).value(value);
     }
     catch (IOException e) {
@@ -147,7 +137,7 @@ public abstract class OutMessage {
 
   protected final void put(String name, boolean value) {
     try {
-      addArgumentsName();
+      beginArguments();
       writer.name(name).value(value);
     }
     catch (IOException e) {
@@ -155,12 +145,7 @@ public abstract class OutMessage {
     }
   }
 
-  protected void addArgumentsName() throws IOException {
-    if (!argumentsObjectStarted) {
-      argumentsObjectStarted = true;
-      writer.name("arguments");
-      writer.beginObject();
-    }
+  protected void beginArguments() throws IOException {
   }
 
   protected final void put(String name, String value) {
@@ -173,16 +158,7 @@ public abstract class OutMessage {
     doPutArgument(key, value);
   }
 
-  public CharSequence toJson() {
-    try {
-      if (argumentsObjectStarted) {
-        writer.endObject();
-      }
-      writer.close();
-    }
-    catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  public final CharSequence toJson() {
     return stringWriter.getBuffer();
   }
 }

@@ -4,13 +4,11 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Check the backend if Web Inspector can override the device orientation.
  */
-public class CanOverrideDeviceOrientationParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.CanOverrideDeviceOrientationData> {
-
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".canOverrideDeviceOrientation";
+public class CanOverrideDeviceOrientationParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.CanOverrideDeviceOrientationData> {
 
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Page.canOverrideDeviceOrientation";
   }
 
   @Override

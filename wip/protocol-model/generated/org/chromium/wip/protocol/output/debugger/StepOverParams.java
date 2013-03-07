@@ -4,12 +4,10 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Steps over the statement.
  */
-public class StepOverParams extends org.jetbrains.wip.protocol.WipParams {
-
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".stepOver";
+public class StepOverParams extends org.jetbrains.wip.protocol.WipRequest {
 
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Debugger.stepOver";
   }
 }

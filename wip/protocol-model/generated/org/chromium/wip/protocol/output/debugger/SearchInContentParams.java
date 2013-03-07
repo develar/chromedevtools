@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Searches for given string in script content.
  */
-public class SearchInContentParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.SearchInContentData> {
+public class SearchInContentParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.SearchInContentData> {
   /**
    * @param scriptId Id of the script to search in.
    * @param query String to search for.
@@ -29,11 +29,9 @@ public class SearchInContentParams extends org.jetbrains.wip.protocol.WipParamsW
     put("isRegex", v);
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".searchInContent";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Debugger.searchInContent";
   }
 
   @Override

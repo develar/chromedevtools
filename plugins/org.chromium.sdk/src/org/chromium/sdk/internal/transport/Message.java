@@ -55,18 +55,13 @@ public class Message {
 
   private final HashMap<String, String> headers;
 
-  private final String content;
+  private final CharSequence content;
 
-  public Message(Map<String, String> headers, String content) {
+  public Message(Map<String, String> headers, CharSequence content) {
     this.headers = new HashMap<String, String>(headers);
     this.content = content;
   }
 
-  /**
-   * Sends a message through the specified writer.
-   *
-   * @throws IOException
-   */
   public void sendThrough(OutputStream outputStream, Charset charset) throws IOException {
     for (Map.Entry<String, String> entry : headers.entrySet()) {
       String headerValue = entry.getValue();
@@ -76,13 +71,10 @@ public class Message {
       writeHeaderField(entry.getKey(), headerValue, outputStream, charset);
     }
 
-    String content = maskNull(this.content);
-    byte[] contentBytes = content.getBytes(charset);
-
+    CharSequence content = maskNull(this.content);
+    byte[] contentBytes = content.toString().getBytes(charset);
     writeHeaderField(CONTENT_LENGTH, String.valueOf(contentBytes.length), outputStream, charset);
-
     outputStream.write(HEADER_TERMINATOR_BYTES);
-
     outputStream.write(contentBytes);
   }
 
@@ -162,7 +154,7 @@ public class Message {
    * @return the message content. Never {@code null} (for no content, returns an
    *         empty String)
    */
-  public String getContent() {
+  public CharSequence getContent() {
     return content;
   }
 
@@ -185,10 +177,8 @@ public class Message {
     return value;
   }
 
-  private static String maskNull(String string) {
-    return string == null
-        ? ""
-        : string;
+  private static CharSequence maskNull(CharSequence string) {
+    return string == null ? "" : string;
   }
 
   @Override
@@ -203,8 +193,7 @@ public class Message {
     return new String(stream.toByteArray(), TO_STRING_CHARSET);
   }
 
-  private static void writeHeaderField(String name, String value, OutputStream outputStream,
-      Charset charset) throws IOException {
+  private static void writeHeaderField(String name, String value, OutputStream outputStream, Charset charset) throws IOException {
     outputStream.write(name.getBytes(charset));
     outputStream.write(FIELD_SEPARATOR_BYTES);
     outputStream.write(value.getBytes(charset));

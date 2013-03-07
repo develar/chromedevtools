@@ -9,7 +9,7 @@ import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
 /**
  * Represents a "backtrace" V8 request message.
  */
-public class BacktraceMessage extends DebuggerMessage {
+public class BacktraceMessage extends V8Request {
   /**
    * @param fromFrame nullable frame range start (0 by default)
    * @param toFrame nullable frame range end (last frame by default)

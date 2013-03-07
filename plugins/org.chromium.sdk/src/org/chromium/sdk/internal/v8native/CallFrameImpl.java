@@ -12,7 +12,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
 import org.chromium.sdk.internal.v8native.protocol.input.RestartFrameBody;
 import org.chromium.sdk.internal.v8native.protocol.input.ScopeRef;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
+import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.protocol.output.RestartFrameMessage;
 import org.chromium.sdk.internal.v8native.value.*;
@@ -318,7 +318,7 @@ public class CallFrameImpl implements CallFrame {
         }
       };
 
-      DebuggerMessage message = DebuggerMessageFactory.backtrace(null, null, true);
+      V8Request message = DebuggerMessageFactory.backtrace(null, null, true);
       try {
         // Command is not immediate because we are supposed to be suspended.
         return debugContext.getInternalContext().sendV8CommandAsync(message, false,

@@ -11,8 +11,10 @@ import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.BaseCommandProcessor;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
+import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.v8.protocol.ProtocolService;
+import org.jetbrains.jsonProtocol.Request;
+import org.jetbrains.rpc.MessageHandler;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -23,7 +25,7 @@ import java.util.logging.Logger;
  * via {@code V8CommandOutput}. Response is passed back to callback if it was provided.
  * Also all responses and events are dispatched to group of dedicated processors.
  */
-public class V8CommandProcessor implements V8CommandSender<DebuggerMessage, RuntimeException> {
+public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeException> {
   /**
    * A callback to handle V8 debugger responses.
    */
@@ -42,15 +44,6 @@ public class V8CommandProcessor implements V8CommandSender<DebuggerMessage, Runt
      * @param message containing the failure reason
      */
     void failure(String message);
-
-    /** A no-op callback implementation. */
-    V8HandlerCallback NULL_CALLBACK = new V8HandlerCallback() {
-      public void failure(String message) {
-      }
-
-      public void messageReceived(CommandResponse response) {
-      }
-    };
   }
 
   /** The class logger. */
@@ -62,7 +55,7 @@ public class V8CommandProcessor implements V8CommandSender<DebuggerMessage, Runt
 
   private final DebugSession debugSession;
 
-  private final BaseCommandProcessor<Integer, DebuggerMessage, IncomingMessage, CommandResponse>
+  private final BaseCommandProcessor<Request, IncomingMessage, CommandResponse>
       baseCommandProcessor;
 
 
@@ -71,14 +64,11 @@ public class V8CommandProcessor implements V8CommandSender<DebuggerMessage, Runt
     this.messageOutput = messageOutput;
     this.defaultResponseHandler = defaultResponseHandler;
     this.debugSession = debugSession;
-    baseCommandProcessor =
-        new BaseCommandProcessor<Integer, DebuggerMessage, IncomingMessage, CommandResponse>(
-            new HandlerImpl());
+    baseCommandProcessor = new BaseCommandProcessor<Request, IncomingMessage, CommandResponse>(new HandlerImpl());
   }
 
   @Override
-  public RelayOk sendV8CommandAsync(DebuggerMessage message, boolean isImmediate,
-      V8HandlerCallback v8HandlerCallback, SyncCallback syncCallback) {
+  public RelayOk sendV8CommandAsync(V8Request message, boolean isImmediate, V8HandlerCallback v8HandlerCallback, SyncCallback syncCallback) {
     return baseCommandProcessor.send(message, isImmediate, v8HandlerCallback, syncCallback);
   }
 
@@ -106,7 +96,8 @@ public class V8CommandProcessor implements V8CommandSender<DebuggerMessage, Runt
     IncomingMessage response;
     try {
       response = ProtocolService.PROTOCOL_READER.parseIncomingMessage(jsonReader);
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       LOGGER.log(Level.SEVERE, "JSON message does not conform to the protocol", e);
       return;
     }
@@ -117,26 +108,17 @@ public class V8CommandProcessor implements V8CommandSender<DebuggerMessage, Runt
     baseCommandProcessor.processEos();
   }
 
-  private class HandlerImpl implements
-      BaseCommandProcessor.Handler<Integer, DebuggerMessage, IncomingMessage, CommandResponse> {
-    public Integer getUpdatedSeq(DebuggerMessage message) {
-      return message.getSeq();
-    }
-
-    public String getCommandName(DebuggerMessage message) {
-      return message.getCommand();
-    }
-
-    public void send(DebuggerMessage message, boolean isImmediate) {
+  private class HandlerImpl extends MessageHandler<IncomingMessage, CommandResponse> {
+    public void send(Request message, boolean isImmediate) {
       messageOutput.send(message, isImmediate);
     }
 
-    public CommandResponse parseWithSeq(IncomingMessage incoming) {
+    public CommandResponse tryParseWithSequence(IncomingMessage incoming) {
       return incoming.asCommandResponse();
     }
 
-    public Integer getSeq(CommandResponse incomingWithSeq) {
-      return (int) incomingWithSeq.requestSeq();
+    public int getSequence(CommandResponse incomingWithSeq) {
+      return incomingWithSeq.requestSeq();
     }
 
     public void acceptNonSeq(IncomingMessage incoming) {
@@ -144,8 +126,7 @@ public class V8CommandProcessor implements V8CommandSender<DebuggerMessage, Runt
     }
 
     public void reportVmStatus(String currentRequest, int numberOfEnqueued) {
-      DebugEventListener.VmStatusListener statusListener =
-              debugSession.getDebugEventListener().getVmStatusListener();
+      DebugEventListener.VmStatusListener statusListener = debugSession.getDebugEventListener().getVmStatusListener();
       if (statusListener == null) {
         return;
       }

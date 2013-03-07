@@ -4,18 +4,16 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Returns source for the script with given id.
  */
-public class GetScriptSourceParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.GetScriptSourceData> {
+public class GetScriptSourceParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.GetScriptSourceData> {
   /**
    * @param scriptId Id of the script to get source for.
    */
   public GetScriptSourceParams(String scriptId) {
     put("scriptId", scriptId);
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".getScriptSource";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Debugger.getScriptSource";
   }
 
   @Override

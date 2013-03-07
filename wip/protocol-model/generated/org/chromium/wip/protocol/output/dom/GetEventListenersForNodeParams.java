@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Returns event listeners relevant to the node.
  */
-public class GetEventListenersForNodeParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.GetEventListenersForNodeData> {
+public class GetEventListenersForNodeParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetEventListenersForNodeData> {
   /**
    * @param nodeId Id of the node to get listeners for.
    */
@@ -21,11 +21,9 @@ public class GetEventListenersForNodeParams extends org.jetbrains.wip.protocol.W
     }
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".getEventListenersForNode";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.getEventListenersForNode";
   }
 
   @Override

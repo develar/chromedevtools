@@ -22,14 +22,11 @@ import java.net.SocketAddress;
  * TODO: rename it somehow. It's not only a browser factory.
  */
 public class BrowserFactoryImpl extends BrowserFactory {
-
   private static final int DEFAULT_CONNECTION_TIMEOUT_MS = 1000;
 
   @Override
-  public Browser create(SocketAddress socketAddress,
-      ConnectionLogger.Factory connectionLoggerFactory) {
-    SocketConnectionFactory socketConnectionFactory = new SocketConnectionFactory(socketAddress,
-        getTimeout(), connectionLoggerFactory, Handshaker.CHROMIUM);
+  public Browser create(SocketAddress socketAddress, ConnectionLogger.Factory connectionLoggerFactory) {
+    SocketConnectionFactory socketConnectionFactory = new SocketConnectionFactory(socketAddress, getTimeout(), connectionLoggerFactory, Handshaker.CHROMIUM);
     return new BrowserImpl(socketConnectionFactory);
   }
 
@@ -39,12 +36,9 @@ public class BrowserFactoryImpl extends BrowserFactory {
   }
 
   @Override
-  public StandaloneVm createStandalone(SocketAddress socketAddress,
-      ConnectionLogger connectionLogger) {
+  public StandaloneVm createStandalone(SocketAddress socketAddress, ConnectionLogger connectionLogger) {
     Handshaker.StandaloneV8 handshaker = new Handshaker.StandaloneV8();
-    SocketConnection connection =
-        new SocketConnection(socketAddress, getTimeout(), connectionLogger, handshaker);
-    return new StandaloneVmImpl(connection, handshaker);
+    return new StandaloneVmImpl(new SocketConnection(socketAddress, getTimeout(), connectionLogger, handshaker), handshaker);
   }
 
   private int getTimeout() {

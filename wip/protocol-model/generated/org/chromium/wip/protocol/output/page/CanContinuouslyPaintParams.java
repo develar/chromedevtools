@@ -4,13 +4,11 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Tells if backend supports continuous painting
  */
-public class CanContinuouslyPaintParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.CanContinuouslyPaintData> {
-
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".canContinuouslyPaint";
+public class CanContinuouslyPaintParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.CanContinuouslyPaintData> {
 
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Page.canContinuouslyPaint";
   }
 
   @Override

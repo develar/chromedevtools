@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Overrides the Geolocation Position or Error.
  */
-public class SetGeolocationOverrideParams extends org.jetbrains.wip.protocol.WipParams {
+public class SetGeolocationOverrideParams extends org.jetbrains.wip.protocol.WipRequest {
 
 
   /**
@@ -30,10 +30,8 @@ public class SetGeolocationOverrideParams extends org.jetbrains.wip.protocol.Wip
     put("accuracy", v);
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".setGeolocationOverride";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Page.setGeolocationOverride";
   }
 }

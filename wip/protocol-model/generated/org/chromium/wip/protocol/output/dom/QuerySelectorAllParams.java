@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Executes <code>querySelectorAll</code> on a given node.
  */
-public class QuerySelectorAllParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.QuerySelectorAllData> {
+public class QuerySelectorAllParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.QuerySelectorAllData> {
   /**
    * @param nodeId Id of the node to query upon.
    * @param selector Selector string.
@@ -13,11 +13,9 @@ public class QuerySelectorAllParams extends org.jetbrains.wip.protocol.WipParams
     put("nodeId", nodeId);
     put("selector", selector);
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".querySelectorAll";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.querySelectorAll";
   }
 
   @Override

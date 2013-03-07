@@ -17,10 +17,10 @@ import org.chromium.sdk.internal.transport.Message;
 import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.v8.protocol.ProtocolService;
 import org.jetbrains.jsonProtocol.JsonReaders;
+import org.jetbrains.jsonProtocol.OutMessage;
 
 import java.io.IOException;
 import java.util.EnumSet;
@@ -138,7 +138,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
   }
 
   private void handleChromeDevToolMessage(final Message message) {
-    JsonReader reader = JsonReaders.createReader(message.getContent());
+    JsonReader reader = JsonReaders.createReader(message.getContent().toString());
     ToolsMessage devToolsMessage;
     //try {
       //devToolsMessage = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
@@ -430,7 +430,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
       this.toolOutput = toolOutput;
     }
 
-    public void send(DebuggerMessage debuggerMessage, boolean isImmediate) {
+    public void send(OutMessage debuggerMessage, boolean isImmediate) {
       toolOutput.send(V8DebuggerToolMessageFactory.debuggerCommand(debuggerMessage.toJson()));
       if (isImmediate) {
         toolOutput.send(V8DebuggerToolMessageFactory.evaluateJavascript(V8Helper.JAVASCRIPT_VOID));

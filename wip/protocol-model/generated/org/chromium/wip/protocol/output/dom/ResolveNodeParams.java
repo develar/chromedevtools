@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Resolves JavaScript node object for given node id.
  */
-public class ResolveNodeParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.ResolveNodeData> {
+public class ResolveNodeParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.ResolveNodeData> {
   /**
    * @param nodeId Id of the node to resolve.
    */
@@ -21,11 +21,9 @@ public class ResolveNodeParams extends org.jetbrains.wip.protocol.WipParamsWithR
     }
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".resolveNode";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.resolveNode";
   }
 
   @Override

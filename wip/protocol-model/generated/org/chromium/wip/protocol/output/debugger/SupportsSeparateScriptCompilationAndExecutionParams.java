@@ -4,13 +4,11 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Tells whether debugger supports separate script compilation and execution.
  */
-public class SupportsSeparateScriptCompilationAndExecutionParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.SupportsSeparateScriptCompilationAndExecutionData> {
-
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".supportsSeparateScriptCompilationAndExecution";
+public class SupportsSeparateScriptCompilationAndExecutionParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.SupportsSeparateScriptCompilationAndExecutionData> {
 
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Debugger.supportsSeparateScriptCompilationAndExecution";
   }
 
   @Override

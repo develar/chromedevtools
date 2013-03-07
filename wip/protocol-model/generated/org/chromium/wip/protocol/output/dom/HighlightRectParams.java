@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
  */
-public class HighlightRectParams extends org.jetbrains.wip.protocol.WipParams {
+public class HighlightRectParams extends org.jetbrains.wip.protocol.WipRequest {
   /**
    * @param x X coordinate
    * @param y Y coordinate
@@ -33,10 +33,8 @@ public class HighlightRectParams extends org.jetbrains.wip.protocol.WipParams {
     put("outlineColor", v);
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".highlightRect";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.highlightRect";
   }
 }

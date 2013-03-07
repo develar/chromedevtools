@@ -9,7 +9,7 @@ import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
 /**
  * Represents a "frame" V8 request message.
  */
-public class FrameMessage extends DebuggerMessage {
+public class FrameMessage extends V8Request {
 
   /**
    * @param frame number (top is 0)

@@ -18,7 +18,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.RefWithDisplayData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
+import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.protocol.output.LookupMessage;
 import org.chromium.sdk.util.GenericCallback;
@@ -174,7 +174,7 @@ public class ValueLoaderImpl extends ValueLoader {
    */
   public ObjectValueHandle loadScopeFields(int scopeNumber,
       DebuggerMessageFactory.ScopeHostParameter host) throws MethodIsBlockingException {
-    DebuggerMessage message = DebuggerMessageFactory.scope(scopeNumber, host);
+    V8Request message = DebuggerMessageFactory.scope(scopeNumber, host);
 
     V8BlockingCallback<ObjectValueHandle> callback = new V8BlockingCallback<ObjectValueHandle>() {
       @Override
@@ -283,7 +283,7 @@ public class ValueLoaderImpl extends ValueLoader {
       return Collections.emptyList();
     }
 
-    DebuggerMessage message = DebuggerMessageFactory.lookup(propertyRefIds, false);
+    V8Request message = DebuggerMessageFactory.lookup(propertyRefIds, false);
 
     V8BlockingCallback<List<ValueMirror>> callback = new V8BlockingCallback<List<ValueMirror>>() {
       @Override
@@ -362,7 +362,7 @@ public class ValueLoaderImpl extends ValueLoader {
 
   private RelayOk relookupValue(long handleId, Long maxLength, final GenericCallback<ValueHandle> callback, SyncCallback syncCallback) throws ContextDismissedCheckedException {
     final long[] handles = {handleId};
-    DebuggerMessage message = new LookupMessage(handles, false, maxLength);
+    V8Request message = new LookupMessage(handles, false, maxLength);
 
     V8CommandCallbackBase innerCallback = new V8CommandCallbackBase() {
       @Override

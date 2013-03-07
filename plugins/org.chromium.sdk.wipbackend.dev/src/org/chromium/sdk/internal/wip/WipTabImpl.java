@@ -17,7 +17,8 @@ import org.chromium.wip.protocol.output.debugger.SetBreakpointsActiveParams;
 import org.chromium.wip.protocol.output.debugger.SetPauseOnExceptionsParams;
 import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.wip.protocol.WipCommandResponse.Success;
-import org.jetbrains.wip.protocol.WipParams;
+import org.jetbrains.wip.protocol.WipRequest;
+import org.jetbrains.wip.protocol.WipRequest;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -69,7 +70,7 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
       throw new IOException("Connection is closed", e);
     }
 
-    commandProcessor = new WipCommandProcessor(this, socket);
+    commandProcessor = new WipCommandProcessor(this);
 
     WsConnection.Listener socketListener = new WsConnection.Listener() {
       @Override
@@ -177,7 +178,7 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
         variable.setValue(vmState, value);
         newValue = value;
       }
-      WipParams params = variable.createRequestParams(vmState);
+      WipRequest params = variable.createRequestParams(vmState);
       WipCommandCallback wrappedCallback;
       if (callback == null) {
         wrappedCallback = null;
@@ -345,7 +346,7 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
     static abstract class Variable<T> {
       abstract T getValue(VmState vmState);
       abstract void setValue(VmState vmState, T value);
-      abstract WipParams createRequestParams(VmState vmState);
+      abstract WipRequest createRequestParams(VmState vmState);
     }
 
     static final Variable<Boolean> BREAKPOINTS_ACTIVE = new Variable<Boolean>() {
@@ -355,7 +356,8 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
       @Override void setValue(VmState vmState, Boolean value) {
         vmState.breakpointsActive = value;
       }
-      @Override WipParams createRequestParams(VmState vmState) {
+      @Override
+      WipRequest createRequestParams(VmState vmState) {
         return new SetBreakpointsActiveParams(vmState.breakpointsActive);
       }
     };
@@ -368,7 +370,8 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
       @Override void setValue(VmState vmState, ExceptionCatchMode value) {
         vmState.breakOnExceptionMode = value;
       }
-      @Override WipParams createRequestParams(VmState vmState) {
+      @Override
+      WipRequest createRequestParams(VmState vmState) {
         return vmState.createPauseOnExceptionRequest();
       }
     };

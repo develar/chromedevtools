@@ -9,7 +9,7 @@ import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
 /**
  * Represents a "restartframe" experimental V8 request message.
  */
-public class RestartFrameMessage extends DebuggerMessage {
+public class RestartFrameMessage extends V8Request {
   /**
    * @param frame number (top is 0).
    */

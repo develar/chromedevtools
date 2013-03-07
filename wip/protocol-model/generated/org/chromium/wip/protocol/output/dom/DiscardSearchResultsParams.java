@@ -4,17 +4,15 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Discards search results from the session with the given id. <code>getSearchResults</code> should no longer be called for that search.
  */
-public class DiscardSearchResultsParams extends org.jetbrains.wip.protocol.WipParams {
+public class DiscardSearchResultsParams extends org.jetbrains.wip.protocol.WipRequest {
   /**
    * @param searchId Unique search session identifier.
    */
   public DiscardSearchResultsParams(String searchId) {
     put("searchId", searchId);
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".discardSearchResults";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.discardSearchResults";
   }
 }

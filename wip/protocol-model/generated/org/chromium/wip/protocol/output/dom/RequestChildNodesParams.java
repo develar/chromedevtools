@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Requests that children of the node with given id are returned to the caller in form of <code>setChildNodes</code> events where not only immediate children are retrieved, but all children down to the specified depth.
  */
-public class RequestChildNodesParams extends org.jetbrains.wip.protocol.WipParams {
+public class RequestChildNodesParams extends org.jetbrains.wip.protocol.WipRequest {
   /**
    * @param nodeId Id of the node to get children for.
    */
@@ -19,10 +19,8 @@ public class RequestChildNodesParams extends org.jetbrains.wip.protocol.WipParam
     put("depth", v);
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".requestChildNodes";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.requestChildNodes";
   }
 }

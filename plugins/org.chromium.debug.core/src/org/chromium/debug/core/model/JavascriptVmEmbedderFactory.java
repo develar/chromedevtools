@@ -4,7 +4,19 @@
 
 package org.chromium.debug.core.model;
 
-import static org.chromium.sdk.util.BasicUtil.join;
+import org.chromium.debug.core.ChromiumDebugPlugin;
+import org.chromium.debug.core.ScriptNameManipulator;
+import org.chromium.debug.core.util.JavaScriptRegExpSupport;
+import org.chromium.sdk.*;
+import org.chromium.sdk.Browser.TabConnector;
+import org.chromium.sdk.Browser.TabFetcher;
+import org.chromium.sdk.wip.WipBackend;
+import org.chromium.sdk.wip.WipBrowser;
+import org.chromium.sdk.wip.WipBrowser.WipTabConnector;
+import org.chromium.sdk.wip.WipBrowserFactory;
+import org.chromium.sdk.wip.WipBrowserTab;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Status;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -17,27 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.chromium.debug.core.ChromiumDebugPlugin;
-import org.chromium.debug.core.ScriptNameManipulator;
-import org.chromium.debug.core.util.JavaScriptRegExpSupport;
-import org.chromium.sdk.Browser;
-import org.chromium.sdk.Browser.TabConnector;
-import org.chromium.sdk.Browser.TabFetcher;
-import org.chromium.sdk.BrowserFactory;
-import org.chromium.sdk.BrowserTab;
-import org.chromium.sdk.ConnectionLogger;
-import org.chromium.sdk.DebugEventListener;
-import org.chromium.sdk.JavascriptVm;
-import org.chromium.sdk.StandaloneVm;
-import org.chromium.sdk.TabDebugEventListener;
-import org.chromium.sdk.UnsupportedVersionException;
-import org.chromium.sdk.wip.WipBackend;
-import org.chromium.sdk.wip.WipBrowser;
-import org.chromium.sdk.wip.WipBrowser.WipTabConnector;
-import org.chromium.sdk.wip.WipBrowserFactory;
-import org.chromium.sdk.wip.WipBrowserTab;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Status;
+import static org.chromium.sdk.util.BasicUtil.join;
 
 public class JavascriptVmEmbedderFactory {
   public static JavascriptVmEmbedder.ConnectionToRemote connectToChromeDevTools(String host,
@@ -51,10 +43,9 @@ public class JavascriptVmEmbedderFactory {
   }
 
   public static JavascriptVmEmbedder.ConnectionToRemote connectToWipBrowser(String host, int port,
-      WipBackend backend,
-      final NamedConnectionLoggerFactory browserLoggerFactory,
-      final NamedConnectionLoggerFactory tabLoggerFactory,
-      WipTabSelector tabSelector) throws CoreException {
+                                                                            WipBackend backend,
+                                                                            final NamedConnectionLoggerFactory browserLoggerFactory,
+                                                                            WipTabSelector tabSelector) throws CoreException {
 
     InetSocketAddress address = new InetSocketAddress(host, port);
     WipBrowserFactory.LoggerFactory factory = new WipBrowserFactory.LoggerFactory() {
@@ -390,8 +381,7 @@ public class JavascriptVmEmbedderFactory {
       }
       return result;
     }
-    private Browser createBrowserImpl(SocketAddress address,
-        ConnectionLogger.Factory connectionLoggerFactory) {
+    private Browser createBrowserImpl(SocketAddress address, ConnectionLogger.Factory connectionLoggerFactory) {
       return BrowserFactory.getInstance().create(address, connectionLoggerFactory);
     }
 

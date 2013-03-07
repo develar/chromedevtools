@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.runtime;
 /**
  * Evaluates expression on global object.
  */
-public class EvaluateParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.runtime.EvaluateData> {
+public class EvaluateParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.runtime.EvaluateData> {
   /**
    * @param expression Expression to evaluate.
    */
@@ -61,11 +61,9 @@ public class EvaluateParams extends org.jetbrains.wip.protocol.WipParamsWithResp
     put("generatePreview", v);
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.RUNTIME + ".evaluate";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Runtime.evaluate";
   }
 
   @Override

@@ -140,23 +140,21 @@ public class V8Helper {
     return type;
   }
 
-  public static <MESSAGE, RES, EX extends Exception> RES callV8Sync(
-      V8CommandSender<MESSAGE, EX> commandSender, MESSAGE message,
-      V8BlockingCallback<RES> callback) throws EX, MethodIsBlockingException {
-    return callV8Sync(commandSender, message, callback,
-        CallbackSemaphore.OPERATION_TIMEOUT_MS);
+  public static <MESSAGE, RES, EX extends Exception> RES callV8Sync(V8CommandSender<MESSAGE, EX> commandSender,
+                                                                    MESSAGE message,
+                                                                    V8BlockingCallback<RES> callback) throws EX, MethodIsBlockingException {
+    return callV8Sync(commandSender, message, callback, CallbackSemaphore.OPERATION_TIMEOUT_MS);
   }
 
-  public static <MESSAGE, RES, EX extends Exception> RES callV8Sync(
-      V8CommandSender<MESSAGE, EX> commandSender,
-      MESSAGE message, final V8BlockingCallback<RES> callback, long timeoutMs)
-      throws EX, MethodIsBlockingException {
+  public static <MESSAGE, RES, EX extends Exception> RES callV8Sync(V8CommandSender<MESSAGE, EX> commandSender,
+                                                                    MESSAGE message,
+                                                                    final V8BlockingCallback<RES> callback,
+                                                                    long timeoutMs) throws EX, MethodIsBlockingException {
     CallbackSemaphore syncCallback = new CallbackSemaphore();
-    final Exception [] exBuff = { null };
+    final Exception[] exBuff = {null};
     // A long way of creating buffer for generic type without warnings.
     final List<RES> resBuff = new ArrayList<RES>(Collections.nCopies(1, (RES)null));
-    V8CommandProcessor.V8HandlerCallback callbackWrapper =
-        new V8CommandProcessor.V8HandlerCallback() {
+    V8CommandProcessor.V8HandlerCallback callbackWrapper = new V8CommandProcessor.V8HandlerCallback() {
       @Override
       public void failure(String message) {
         exBuff[0] = new Exception("Failure: " + message);
@@ -173,7 +171,8 @@ public class V8Helper {
     boolean waitRes;
     try {
       waitRes = syncCallback.tryAcquire(timeoutMs, TimeUnit.MILLISECONDS);
-    } catch (RuntimeException e) {
+    }
+    catch (RuntimeException e) {
       throw new CallbackException(e);
     }
 

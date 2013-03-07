@@ -4,8 +4,6 @@
 
 package org.chromium.debug.core.model;
 
-import java.util.Collection;
-
 import org.chromium.debug.core.ChromiumDebugPlugin;
 import org.chromium.debug.core.model.DebugTargetImpl.ListenerBlock;
 import org.chromium.debug.core.model.DebugTargetImpl.State;
@@ -18,19 +16,11 @@ import org.chromium.sdk.JavascriptVm;
 import org.chromium.sdk.Script;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.debug.core.DebugEvent;
-import org.eclipse.debug.core.DebugException;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.IBreakpointListener;
-import org.eclipse.debug.core.IBreakpointManager;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchListener;
-import org.eclipse.debug.core.model.IBreakpoint;
-import org.eclipse.debug.core.model.IDisconnect;
-import org.eclipse.debug.core.model.ISuspendResume;
-import org.eclipse.debug.core.model.ITerminate;
-import org.eclipse.debug.core.model.IThread;
+import org.eclipse.debug.core.*;
+import org.eclipse.debug.core.model.*;
 import org.eclipse.osgi.util.NLS;
+
+import java.util.Collection;
 
 /**
  * Contains state and behavior of 'connected' {@link DebugTargetImpl}. Its inner implementation of
@@ -119,7 +109,7 @@ public class ConnectedTargetData {
   private final VmStatusListenerImpl vmStatusListener = new VmStatusListenerImpl();
 
   private class VmStatusListenerImpl implements DebugEventListener.VmStatusListener {
-    private String currentRequest = null;
+    private String currentRequest;
     private int numberOfEnqueued;
 
     public synchronized void busyStatusChanged(String currentRequest, int numberOfEnqueued) {

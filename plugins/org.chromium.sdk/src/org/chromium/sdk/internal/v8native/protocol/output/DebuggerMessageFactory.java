@@ -11,25 +11,25 @@ import org.jetbrains.jsonProtocol.StringIntPair;
 import java.util.List;
 
 /**
- * A factory for {@link DebuggerMessage}s. Static methods are used to construct
+ * A factory for {@link V8Request}s. Static methods are used to construct
  * commands to be sent to the remote V8 debugger.
  */
 public class DebuggerMessageFactory {
 
-  public static DebuggerMessage backtrace(Integer fromFrame, Integer toFrame,
+  public static V8Request backtrace(Integer fromFrame, Integer toFrame,
       boolean compactFormat) {
     return new BacktraceMessage(fromFrame, toFrame, compactFormat);
   }
 
-  public static DebuggerMessage goOn(StepAction stepAction, Integer stepCount) {
+  public static V8Request goOn(StepAction stepAction, Integer stepCount) {
     return new ContinueMessage(stepAction, stepCount);
   }
 
-  public static DebuggerMessage evaluate(String expression, int frame, boolean disableBreak, List<StringIntPair> additionalContext) {
+  public static V8Request evaluate(String expression, int frame, boolean disableBreak, List<StringIntPair> additionalContext) {
     return new EvaluateMessage(expression, frame, disableBreak, additionalContext);
   }
 
-  public static DebuggerMessage frame(Integer frameNumber) {
+  public static V8Request frame(Integer frameNumber) {
     return new FrameMessage(frameNumber);
   }
 
@@ -54,7 +54,7 @@ public class DebuggerMessageFactory {
     return new ClearBreakpointMessage(id);
   }
 
-  public static DebuggerMessage lookup(long[] refs, Boolean inlineRefs) {
+  public static V8Request lookup(long[] refs, Boolean inlineRefs) {
     return new LookupMessage(refs, inlineRefs);
   }
 
@@ -67,11 +67,12 @@ public class DebuggerMessageFactory {
    * It is either a stack frame or a function.
    */
   public static abstract class ScopeHostParameter {
-    abstract DebuggerMessage create(int scopeNumber);
+    abstract V8Request create(int scopeNumber);
 
     public static ScopeHostParameter forFrame(final int frameNumber) {
       return new ScopeHostParameter() {
-        @Override DebuggerMessage create(int scopeNumber) {
+        @Override
+        V8Request create(int scopeNumber) {
           return new ScopeMessage(scopeNumber, frameNumber, null);
         }
       };
@@ -79,18 +80,15 @@ public class DebuggerMessageFactory {
 
     public static ScopeHostParameter forFunction(final long functionHandle) {
       return new ScopeHostParameter() {
-        @Override DebuggerMessage create(int scopeNumber) {
+        @Override
+        V8Request create(int scopeNumber) {
           return new ScopeMessage(scopeNumber, null, functionHandle);
         }
       };
     }
   }
 
-  public static DebuggerMessage scope(int scopeNumber, ScopeHostParameter hostParameter) {
+  public static V8Request scope(int scopeNumber, ScopeHostParameter hostParameter) {
     return hostParameter.create(scopeNumber);
-  }
-
-  public static ContextlessDebuggerMessage version() {
-    return new VersionMessage();
   }
 }

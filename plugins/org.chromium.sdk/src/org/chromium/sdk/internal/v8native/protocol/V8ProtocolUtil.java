@@ -10,7 +10,6 @@ import org.chromium.sdk.Version;
 import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.v8native.V8ContextFilter;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.input.VersionBody;
 import org.chromium.sdk.internal.v8native.protocol.input.data.*;
 import org.chromium.sdk.internal.v8native.protocol.output.ScriptsMessage;
 import org.chromium.sdk.internal.v8native.value.DataWithRef;
@@ -299,17 +298,8 @@ public class V8ProtocolUtil {
   }
 
   public static Version parseVersionResponse(SuccessCommandResponse versionResponse) {
-    VersionBody body;
-    try {
-      body = versionResponse.body().asVersionBody();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-    String versionString = body.getV8Version();
-    if (versionString == null) {
-      return null;
-    }
-    return Version.parseString(versionString);
+    String versionString = versionResponse.body().asVersionBody().getV8Version();
+    return versionString == null ? null : Version.parseString(versionString);
   }
 
   private static String getNameOrInferred(Map obj, V8Protocol nameProperty) {

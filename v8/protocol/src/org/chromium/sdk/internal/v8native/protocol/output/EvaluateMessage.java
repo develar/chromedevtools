@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Represents an "evaluate" V8 request message.
  */
-public class EvaluateMessage extends DebuggerMessage {
+public class EvaluateMessage extends V8Request {
   /**
    * @param expression to evaluate
    * @param frame number (top is 0).
@@ -34,7 +34,7 @@ public class EvaluateMessage extends DebuggerMessage {
     put("inlineRefs", true);
     if (additionalContext != null) {
       try {
-        addArgumentsName();
+        beginArguments();
         writer.name("additional_context");
         writer.beginArray();
         for (StringIntPair entry : additionalContext) {

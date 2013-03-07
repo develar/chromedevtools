@@ -4,13 +4,11 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Checks whether <code>setDeviceMetricsOverride</code> can be invoked.
  */
-public class CanOverrideDeviceMetricsParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.CanOverrideDeviceMetricsData> {
-
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".canOverrideDeviceMetrics";
+public class CanOverrideDeviceMetricsParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.CanOverrideDeviceMetricsData> {
 
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Page.canOverrideDeviceMetrics";
   }
 
   @Override

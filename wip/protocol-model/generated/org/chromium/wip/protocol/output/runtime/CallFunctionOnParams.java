@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.runtime;
 /**
  * Calls function with given declaration on the given object. Object group of the result is inherited from the target object.
  */
-public class CallFunctionOnParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.runtime.CallFunctionOnData> {
+public class CallFunctionOnParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.runtime.CallFunctionOnData> {
   /**
    * @param objectId Identifier of the object to call function on.
    * @param functionDeclaration Declaration of the function to call.
@@ -45,11 +45,9 @@ public class CallFunctionOnParams extends org.jetbrains.wip.protocol.WipParamsWi
     put("generatePreview", v);
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.RUNTIME + ".callFunctionOn";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Runtime.callFunctionOn";
   }
 
   @Override

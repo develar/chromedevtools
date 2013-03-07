@@ -4,18 +4,16 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Requests that the node is sent to the caller given its path. // FIXME, use XPath
  */
-public class PushNodeByPathToFrontendParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.PushNodeByPathToFrontendData> {
+public class PushNodeByPathToFrontendParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.PushNodeByPathToFrontendData> {
   /**
    * @param path Path to node in the proprietary format.
    */
   public PushNodeByPathToFrontendParams(String path) {
     put("path", path);
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".pushNodeByPathToFrontend";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.pushNodeByPathToFrontend";
   }
 
   @Override

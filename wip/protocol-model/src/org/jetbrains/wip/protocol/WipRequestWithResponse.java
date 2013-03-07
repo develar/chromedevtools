@@ -10,6 +10,6 @@ import org.chromium.wip.protocol.input.GeneratedWipProtocolReader;
  * A base class for all method parameter classes that implies non-empty responses.
  * @param <R> a type of the corresponding response
  */
-public abstract class WipParamsWithResponse<R> extends WipParams {
+public abstract class WipRequestWithResponse<R> extends WipRequest {
   public abstract R parseResponse(WipCommandResponse.Data success, GeneratedWipProtocolReader parser) throws java.io.IOException;
 }

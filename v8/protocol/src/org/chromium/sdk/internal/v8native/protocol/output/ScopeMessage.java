@@ -9,7 +9,7 @@ import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
 /**
  * Represents a "scope" request message.
  */
-public class ScopeMessage extends DebuggerMessage {
+public class ScopeMessage extends V8Request {
 
   public ScopeMessage(int scopeNumber, Integer frameNumber, Long functionHandle) {
     super(DebuggerCommand.SCOPE.value);

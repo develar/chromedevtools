@@ -5,23 +5,23 @@
   </component>
   <component name="ArtifactManager">
     <artifact type="jar" name="chromium-wip">
-      <output-path>$PROJECT_DIR$/../out/artifacts</output-path>
+      <output-path>$PROJECT_DIR$/../../idea/plugins/JavaScriptDebugger/ChromeConnector/lib</output-path>
       <root id="archive" name="chromium-wip.jar">
         <element id="module-output" name="wipbackend-dev" />
         <element id="module-output" name="wip-protocol-model" />
         <element id="module-output" name="wip-protocol" />
       </root>
     </artifact>
-    <artifact type="jar" build-on-make="true" name="chromium-sdk">
-      <output-path>$PROJECT_DIR$/../out/artifacts</output-path>
+    <artifact type="jar" name="chromium-sdk">
+      <output-path>$PROJECT_DIR$/../../idea/plugins/JavaScriptDebugger/ChromeConnector/lib</output-path>
       <root id="archive" name="chromium-sdk.jar">
         <element id="module-output" name="org.chromium.sdk" />
         <element id="module-output" name="v8-protocol" />
         <element id="module-output" name="liveedit-protocol" />
       </root>
     </artifact>
-    <artifact type="jar" build-on-make="true" name="chromium-sdk-src">
-      <output-path>$PROJECT_DIR$/../out/artifacts/src</output-path>
+    <artifact type="jar" name="chromium-sdk-src">
+      <output-path>$PROJECT_DIR$/../../idea/plugins/JavaScriptDebugger/ChromeConnector/lib/src</output-path>
       <root id="archive" name="chromium-sdk-src.jar">
         <element id="dir-copy" path="$PROJECT_DIR$/../v8/liveedit-protocol/src" />
         <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk/generated" />
@@ -29,8 +29,8 @@
         <element id="dir-copy" path="$PROJECT_DIR$/../v8/protocol/src" />
       </root>
     </artifact>
-    <artifact type="jar" build-on-make="true" name="chromium-wip-src">
-      <output-path>$PROJECT_DIR$/../out/artifacts/src</output-path>
+    <artifact type="jar" name="chromium-wip-src">
+      <output-path>$PROJECT_DIR$/../../idea/plugins/JavaScriptDebugger/ChromeConnector/lib/src</output-path>
       <root id="archive" name="chromium-wip-src.jar">
         <element id="dir-copy" path="$PROJECT_DIR$/../wip/protocol-model/generated" />
         <element id="dir-copy" path="$PROJECT_DIR$/../wip/protocol-model/src" />
@@ -40,13 +40,13 @@
       </root>
     </artifact>
     <artifact type="jar" name="protocol-reader-runtime">
-      <output-path>$PROJECT_DIR$/../out/artifacts</output-path>
+      <output-path>$PROJECT_DIR$/../../idea/plugins/JavaScriptDebugger/ChromeConnector/lib</output-path>
       <root id="archive" name="protocol-reader-runtime.jar">
         <element id="module-output" name="protocol-reader-runtime" />
       </root>
     </artifact>
     <artifact type="jar" name="protocol-reader-runtime-src">
-      <output-path>$PROJECT_DIR$/../out/artifacts/src</output-path>
+      <output-path>$PROJECT_DIR$/../../idea/plugins/JavaScriptDebugger/ChromeConnector/lib/src</output-path>
       <root id="archive" name="protocol-reader-runtime-src.jar">
         <element id="dir-copy" path="$PROJECT_DIR$/../protocol-reader-runtime/src" />
       </root>
@@ -280,8 +280,10 @@
     <dictionary name="develar">
       <words>
         <w>boxable</w>
+        <w>contextless</w>
         <w>enqueued</w>
         <w>loggable</w>
+        <w>loopback</w>
         <w>metamodel</w>
         <w>referenceable</w>
         <w>rybin</w>

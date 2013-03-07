@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Highlights owner element of the frame with given id.
  */
-public class HighlightFrameParams extends org.jetbrains.wip.protocol.WipParams {
+public class HighlightFrameParams extends org.jetbrains.wip.protocol.WipRequest {
   /**
    * @param frameId Identifier of the frame to highlight.
    */
@@ -27,10 +27,8 @@ public class HighlightFrameParams extends org.jetbrains.wip.protocol.WipParams {
     put("contentOutlineColor", v);
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".highlightFrame";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.highlightFrame";
   }
 }

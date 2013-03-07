@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Runs script with given id in a given context.
  */
-public class RunScriptParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.RunScriptData> {
+public class RunScriptParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.RunScriptData> {
   /**
    * @param scriptId Id of the script to run.
    */
@@ -37,11 +37,9 @@ public class RunScriptParams extends org.jetbrains.wip.protocol.WipParamsWithRes
     put("doNotPauseOnExceptionsAndMuteConsole", v);
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".runScript";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Debugger.runScript";
   }
 
   @Override

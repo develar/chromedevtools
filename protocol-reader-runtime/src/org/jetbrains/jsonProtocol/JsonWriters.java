@@ -3,10 +3,12 @@ package org.jetbrains.jsonProtocol;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 public final class JsonWriters {
   private static final String[] REPLACEMENT_CHARS;
+  public static final Method JSON_WRITE_DEFERED_NAME;
 
   static {
     REPLACEMENT_CHARS = new String[128];
@@ -20,6 +22,14 @@ public final class JsonWriters {
     REPLACEMENT_CHARS['\n'] = "\\n";
     REPLACEMENT_CHARS['\r'] = "\\r";
     REPLACEMENT_CHARS['\f'] = "\\f";
+
+    try {
+      JSON_WRITE_DEFERED_NAME = JsonWriter.class.getDeclaredMethod("writeDeferredName");
+      JSON_WRITE_DEFERED_NAME.setAccessible(true);
+    }
+    catch (NoSuchMethodException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private JsonWriters() {

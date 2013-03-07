@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Highlights DOM node with given id or with the given JavaScript object wrapper. Either nodeId or objectId must be specified.
  */
-public class HighlightNodeParams extends org.jetbrains.wip.protocol.WipParams {
+public class HighlightNodeParams extends org.jetbrains.wip.protocol.WipRequest {
   /**
    * @param highlightConfig A descriptor for the highlight appearance.
    */
@@ -29,10 +29,8 @@ public class HighlightNodeParams extends org.jetbrains.wip.protocol.WipParams {
     }
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".highlightNode";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.highlightNode";
   }
 }

@@ -4,37 +4,16 @@
 
 package org.chromium.sdk.tests.system;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.chromium.sdk.Breakpoint;
-import org.chromium.sdk.Browser;
-import org.chromium.sdk.BrowserFactory;
-import org.chromium.sdk.CallFrame;
-import org.chromium.sdk.CallbackSemaphore;
-import org.chromium.sdk.ConnectionLogger;
+import org.chromium.sdk.*;
 import org.chromium.sdk.ConnectionLogger.Factory;
-import org.chromium.sdk.DebugContext;
-import org.chromium.sdk.JavascriptVm;
-import org.chromium.sdk.JsEvaluateContext;
-import org.chromium.sdk.JsObject;
-import org.chromium.sdk.JsScope;
-import org.chromium.sdk.JsValue;
-import org.chromium.sdk.JsVariable;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.Script;
-import org.chromium.sdk.UnsupportedVersionException;
-import org.chromium.sdk.internal.wip.WipBackendImpl;
 import org.chromium.sdk.wip.WipBackend;
 import org.chromium.sdk.wip.WipBackendFactory;
 import org.chromium.sdk.wip.WipBrowser;
 import org.chromium.sdk.wip.WipBrowserFactory;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.util.*;
 
 /**
  * A small automatic test that connects to Chromium browser using ChromeDevTools SDK and try some
@@ -238,7 +217,7 @@ public class Main {
 
       String host;
       int port;
-      ProtocolType protocolType = ProtocolType.SHELL;
+      ProtocolType protocolType = ProtocolType.DEBUGGING;
     }
 
     CommandLineArgsImpl result = new CommandLineArgsImpl();
@@ -260,33 +239,6 @@ public class Main {
   }
 
   private enum ProtocolType {
-    // Old protocol enabled by --remote-shell-port parameter
-    SHELL {
-      @Override
-      public JavascriptVm connect(InetSocketAddress address,
-          StateManager stateManager, Factory connectionLoggerFactory)
-          throws SmokeException, IOException {
-
-        Browser browser = BrowserFactory.getInstance().create(address, connectionLoggerFactory);
-
-        Browser.TabFetcher tabFetcher;
-        try {
-          tabFetcher = browser.createTabFetcher();
-        } catch (UnsupportedVersionException e) {
-          throw new SmokeException(e);
-        }
-        List<? extends Browser.TabConnector> tabs = tabFetcher.getTabs();
-        if (tabs.isEmpty()) {
-          throw new SmokeException("No tabs");
-        }
-        Browser.TabConnector firstTab = tabs.get(0);
-        String url = firstTab.getUrl();
-        if (url == null || !url.endsWith(TAB_URL_SUFFIX)) {
-          throw new SmokeException("Unexpected URL: " + url);
-        }
-        return firstTab.attach(stateManager.getTabListener());
-      }
-    },
     // WIP (new) protocol enabled by --remote-debugging-port parameter
     DEBUGGING {
       @Override

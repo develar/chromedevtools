@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Searches for given string in resource content.
  */
-public class SearchInResourceParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.SearchInResourceData> {
+public class SearchInResourceParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.SearchInResourceData> {
   /**
    * @param frameId Frame id for resource to search in.
    * @param url URL of the resource to search in.
@@ -31,11 +31,9 @@ public class SearchInResourceParams extends org.jetbrains.wip.protocol.WipParams
     put("isRegex", v);
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".searchInResource";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Page.searchInResource";
   }
 
   @Override

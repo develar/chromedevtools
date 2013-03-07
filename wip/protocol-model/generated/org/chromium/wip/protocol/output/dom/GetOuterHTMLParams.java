@@ -4,18 +4,16 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Returns node's HTML markup.
  */
-public class GetOuterHTMLParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.GetOuterHTMLData> {
+public class GetOuterHTMLParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetOuterHTMLData> {
   /**
    * @param nodeId Id of the node to get markup for.
    */
   public GetOuterHTMLParams(int nodeId) {
     put("nodeId", nodeId);
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".getOuterHTML";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.getOuterHTML";
   }
 
   @Override

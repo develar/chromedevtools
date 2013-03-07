@@ -4,7 +4,6 @@
 
 package org.chromium.sdk.internal.standalonev8;
 
-import com.google.gson.stream.JsonReader;
 import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.StandaloneVm;
 import org.chromium.sdk.UnsupportedVersionException;
@@ -15,9 +14,9 @@ import org.chromium.sdk.internal.transport.Message;
 import org.chromium.sdk.internal.transport.SocketConnection;
 import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.jetbrains.jsonProtocol.JsonReaders;
+import org.jetbrains.jsonProtocol.OutMessage;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -68,18 +67,20 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
     debugSession = new DebugSession(sessionManager, CONTEXT_FILTER, v8CommandOutput, this);
   }
 
-  public void attach(DebugEventListener listener)
-      throws IOException, UnsupportedVersionException, MethodIsBlockingException {
+  public void attach(DebugEventListener listener) throws IOException, UnsupportedVersionException, MethodIsBlockingException {
     Exception errorCause = null;
     try {
       attachImpl(listener);
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       errorCause = e;
       throw e;
-    } catch (UnsupportedVersionException e) {
+    }
+    catch (UnsupportedVersionException e) {
       errorCause = e;
       throw e;
-    } finally {
+    }
+    finally {
       if (errorCause != null) {
         disconnectReason = errorCause;
         connectionState = ConnectionState.DETACHED;
@@ -88,8 +89,7 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
     }
   }
 
-  private void attachImpl(DebugEventListener listener) throws IOException,
-      UnsupportedVersionException, MethodIsBlockingException {
+  private void attachImpl(DebugEventListener listener) throws IOException, UnsupportedVersionException, MethodIsBlockingException {
     connectionState = ConnectionState.CONNECTING;
 
     NetListener netListener = new NetListener() {
@@ -102,25 +102,24 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
       }
 
       public void messageReceived(Message message) {
-        JsonReader jsonReader = JsonReaders.createReader(message.getContent());
-        debugSession.getV8CommandProcessor().processIncomingJson(jsonReader);
+        debugSession.getV8CommandProcessor().processIncomingJson(JsonReaders.createReader(message.getContent().toString()));
       }
     };
     connection.setNetListener(netListener);
-
     connection.start();
-
     connectionState = ConnectionState.EXPECTING_HANDSHAKE;
 
     Handshaker.StandaloneV8.RemoteInfo remoteInfo;
     try {
-      remoteInfo = handshaker.getRemoteInfo().get(WAIT_FOR_HANDSHAKE_TIMEOUT_MS,
-          TimeUnit.MILLISECONDS);
-    } catch (InterruptedException e) {
+      remoteInfo = handshaker.getRemoteInfo().get(WAIT_FOR_HANDSHAKE_TIMEOUT_MS, TimeUnit.MILLISECONDS);
+    }
+    catch (InterruptedException e) {
       throw new RuntimeException(e);
-    } catch (ExecutionException e) {
+    }
+    catch (ExecutionException e) {
       throw newIOException("Failed to get version", e);
-    } catch (TimeoutException e) {
+    }
+    catch (TimeoutException e) {
       throw newIOException("Timed out waiting for handshake", e);
     }
 
@@ -131,11 +130,8 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
     }
 
     savedRemoteInfo = remoteInfo;
-
     debugEventListener = listener;
-
     debugSession.startCommunication();
-
     connectionState = ConnectionState.CONNECTED;
   }
 
@@ -222,8 +218,8 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
     V8CommandOutputImpl(Connection outputConnection) {
       this.outputConnection = outputConnection;
     }
-    public void send(DebuggerMessage debuggerMessage, boolean immediate) {
-      outputConnection.send(new Message(Collections.<String, String>emptyMap(), debuggerMessage.toJson().toString()));
+    public void send(OutMessage debuggerMessage, boolean immediate) {
+      outputConnection.send(new Message(Collections.<String, String>emptyMap(), debuggerMessage.toJson()));
       // TODO(peter.rybin): support {@code immediate} in protocol
     }
     public void runInDispatchThread(Runnable callback) {

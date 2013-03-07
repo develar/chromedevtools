@@ -19,7 +19,7 @@ public interface CommandResponse extends JsonSubtype<IncomingMessage> {
    * Id of the corresponding request sent to debugger.
    */
   @JsonField(jsonLiteralName="request_seq")
-  long requestSeq();
+  int requestSeq();
 
   @JsonOptionalField
   String command();

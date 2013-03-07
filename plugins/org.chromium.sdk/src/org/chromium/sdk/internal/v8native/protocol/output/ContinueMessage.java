@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Represents a "continue" V8 request message.
  */
-public class ContinueMessage extends DebuggerMessage {
+public class ContinueMessage extends V8Request {
 
   private static final Map<StepAction, String> stepActionToV8 =
       new EnumMap<StepAction, String>(StepAction.class);

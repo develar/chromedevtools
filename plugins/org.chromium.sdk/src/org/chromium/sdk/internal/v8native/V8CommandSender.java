@@ -14,6 +14,5 @@ import org.chromium.sdk.internal.v8native.V8CommandProcessor.V8HandlerCallback;
  * @param <EX> exception that may be thrown synchronously.
  */
 public interface V8CommandSender<MESSAGE, EX extends Exception> {
-  RelayOk sendV8CommandAsync(MESSAGE message, boolean isImmediate,
-      V8HandlerCallback v8HandlerCallback, SyncCallback syncCallback) throws EX;
+  RelayOk sendV8CommandAsync(MESSAGE message, boolean isImmediate, V8HandlerCallback v8HandlerCallback, SyncCallback syncCallback) throws EX;
 }

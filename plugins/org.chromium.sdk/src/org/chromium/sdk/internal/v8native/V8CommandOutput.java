@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native;
 
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
+import org.jetbrains.jsonProtocol.OutMessage;
 
 /**
  * Abstract sink for DebuggerMessage v8 messages. It is responsible for sending them to a
@@ -12,7 +12,7 @@ import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
  * be reformatted.
  */
 public interface V8CommandOutput {
-  void send(DebuggerMessage debuggerMessage, boolean immediate);
+  void send(OutMessage debuggerMessage, boolean immediate);
 
   /**
    * Asynchronously runs the callback in Connection's Dispatch thread.

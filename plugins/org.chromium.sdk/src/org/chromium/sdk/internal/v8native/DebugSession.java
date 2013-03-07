@@ -4,31 +4,26 @@
 
 package org.chromium.sdk.internal.v8native;
 
-import java.util.Collections;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.chromium.sdk.Breakpoint;
-import org.chromium.sdk.DebugContext;
-import org.chromium.sdk.DebugEventListener;
-import org.chromium.sdk.InvalidContextException;
-import org.chromium.sdk.JavascriptVm;
+import org.chromium.sdk.*;
 import org.chromium.sdk.JavascriptVm.ScriptsCallback;
 import org.chromium.sdk.JavascriptVm.SuspendCallback;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.Version;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
+import org.chromium.sdk.internal.v8native.processor.BreakpointProcessor;
 import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.output.ContextlessDebuggerMessage;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
+import org.chromium.sdk.internal.v8native.protocol.output.VersionMessage;
 import org.chromium.sdk.util.AsyncFuture;
 import org.chromium.sdk.util.AsyncFuture.Callback;
 import org.chromium.sdk.util.AsyncFutureRef;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.sdk.util.RelaySyncCallback;
+
+import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A class that holds and administers main parts of debug protocol implementation.
@@ -262,10 +257,7 @@ public class DebugSession {
             ContextBuilder.ExpectingBreakEventStep step1 = contextBuilder.buildNewContextWhenIdle();
             // If step is not null -- we are already in process of building a context.
             if (step1 != null) {
-              ContextBuilder.ExpectingBacktraceStep step2 =
-                  step1.setContextState(Collections.<Breakpoint>emptyList(), null);
-
-              defaultResponseHandler.getBreakpointProcessor().processNextStep(step2);
+              BreakpointProcessor.processNextStep(step1.setContextState(Collections.<Breakpoint>emptyList(), null));
             }
           }
         }
@@ -278,14 +270,14 @@ public class DebugSession {
       }
     };
 
-    V8Helper.callV8Sync(this.v8CommandProcessor, DebuggerMessageFactory.version(), callback);
+    V8Helper.callV8Sync(v8CommandProcessor, new VersionMessage(), callback);
   }
 
   public RelayOk sendLoopbackMessage(Runnable callback, SyncCallback syncCallback) {
     return this.v8CommandProcessor.runInDispatchThread(callback, syncCallback);
   }
 
-  public void maybeRethrowContextException(ContextDismissedCheckedException e) {
+  public static void maybeRethrowContextException(ContextDismissedCheckedException e) {
     // TODO(peter.rybin): make some kind of option out of this
     final boolean strictPolicy = true;
     if (strictPolicy) {

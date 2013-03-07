@@ -4,13 +4,11 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Tells if backend supports a FPS counter display
  */
-public class CanShowFPSCounterParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.CanShowFPSCounterData> {
-
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".canShowFPSCounter";
+public class CanShowFPSCounterParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.CanShowFPSCounterData> {
 
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Page.canShowFPSCounter";
   }
 
   @Override

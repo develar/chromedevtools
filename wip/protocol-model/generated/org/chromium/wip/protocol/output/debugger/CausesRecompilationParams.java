@@ -4,13 +4,11 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Tells whether enabling debugger causes scripts recompilation.
  */
-public class CausesRecompilationParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.CausesRecompilationData> {
-
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".causesRecompilation";
+public class CausesRecompilationParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.CausesRecompilationData> {
 
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Debugger.causesRecompilation";
   }
 
   @Override

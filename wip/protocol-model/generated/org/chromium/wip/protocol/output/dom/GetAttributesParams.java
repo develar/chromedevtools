@@ -4,18 +4,16 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Returns attributes for the specified node.
  */
-public class GetAttributesParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.GetAttributesData> {
+public class GetAttributesParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetAttributesData> {
   /**
    * @param nodeId Id of the node to retrieve attibutes for.
    */
   public GetAttributesParams(int nodeId) {
     put("nodeId", nodeId);
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".getAttributes";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.getAttributes";
   }
 
   @Override

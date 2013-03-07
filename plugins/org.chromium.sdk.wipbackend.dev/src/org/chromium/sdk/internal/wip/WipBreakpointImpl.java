@@ -12,7 +12,7 @@ import org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData;
 import org.chromium.wip.protocol.input.debugger.SetBreakpointData;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
-import org.jetbrains.wip.protocol.WipParamsWithResponse;
+import org.jetbrains.wip.protocol.WipRequestWithResponse;
 import org.chromium.wip.protocol.output.debugger.LocationParam;
 import org.chromium.wip.protocol.output.debugger.RemoveBreakpointParams;
 import org.chromium.wip.protocol.output.debugger.SetBreakpointByUrlParams;
@@ -336,7 +336,7 @@ public class WipBreakpointImpl implements Breakpoint {
         throw new IllegalArgumentException();
       }
 
-      private <T, DATA, PARAMS extends WipParamsWithResponse<DATA>> RelayOk sendRequest(T parameter, final RequestHandler<T, DATA, PARAMS> handler) {
+      private <T, DATA, PARAMS extends WipRequestWithResponse<DATA>> RelayOk sendRequest(T parameter, final RequestHandler<T, DATA, PARAMS> handler) {
         PARAMS requestParams = handler.createRequestParams(parameter, lineNumber, columnNumber, condition);
         GenericCallback<DATA> wrappedCallback;
         if (callback == null) {
@@ -367,7 +367,7 @@ public class WipBreakpointImpl implements Breakpoint {
     });
   }
 
-  private static abstract class RequestHandler<T, DATA, PARAMS extends WipParamsWithResponse<DATA>> {
+  private static abstract class RequestHandler<T, DATA, PARAMS extends WipRequestWithResponse<DATA>> {
     abstract PARAMS createRequestParams(T parameter, int lineNumber, int columnNumber, String condition);
 
     abstract String getBreakpointId(DATA data);

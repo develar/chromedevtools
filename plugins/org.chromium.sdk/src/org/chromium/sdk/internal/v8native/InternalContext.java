@@ -7,7 +7,7 @@ package org.chromium.sdk.internal.v8native;
 import org.chromium.sdk.DebugContext;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
+import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.sdk.internal.v8native.value.ValueLoader;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
 
@@ -17,7 +17,7 @@ import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
  * DebugContext to this interface -- technically they might be different
  * objects.
  */
-public interface InternalContext extends V8CommandSender<DebuggerMessage,
+public interface InternalContext extends V8CommandSender<V8Request,
     InternalContext.ContextDismissedCheckedException> {
   /**
    * Context belongs to a particular {@code DebugSession}.
@@ -38,7 +38,7 @@ public interface InternalContext extends V8CommandSender<DebuggerMessage,
    * @throws ContextDismissedCheckedException if context is not valid anymore
    */
   @Override
-  RelayOk sendV8CommandAsync(DebuggerMessage message, boolean isImmediate,
+  RelayOk sendV8CommandAsync(V8Request message, boolean isImmediate,
       V8CommandProcessor.V8HandlerCallback commandCallback, SyncCallback syncCallback)
       throws ContextDismissedCheckedException;
 

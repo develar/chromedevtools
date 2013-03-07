@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Overrides the values of device screen dimensions (window.screen.width, window.screen.height, window.innerWidth, window.innerHeight, and "device-width"/"device-height"-related CSS media query results) and the font scale factor.
  */
-public class SetDeviceMetricsOverrideParams extends org.jetbrains.wip.protocol.WipParams {
+public class SetDeviceMetricsOverrideParams extends org.jetbrains.wip.protocol.WipRequest {
   /**
    * @param width Overriding width value in pixels (minimum 0, maximum 10000000). 0 disables the override.
    * @param height Overriding height value in pixels (minimum 0, maximum 10000000). 0 disables the override.
@@ -17,10 +17,8 @@ public class SetDeviceMetricsOverrideParams extends org.jetbrains.wip.protocol.W
     put("fontScaleFactor", fontScaleFactor);
     put("fitWindow", fitWindow);
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".setDeviceMetricsOverride";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Page.setDeviceMetricsOverride";
   }
 }

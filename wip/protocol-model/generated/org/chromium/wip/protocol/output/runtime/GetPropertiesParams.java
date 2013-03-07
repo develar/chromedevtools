@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.runtime;
 /**
  * Returns properties of a given object. Object group of the result is inherited from the target object.
  */
-public class GetPropertiesParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.runtime.GetPropertiesData> {
+public class GetPropertiesParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.runtime.GetPropertiesData> {
   /**
    * @param objectId Identifier of the object to return properties for.
    */
@@ -19,11 +19,9 @@ public class GetPropertiesParams extends org.jetbrains.wip.protocol.WipParamsWit
     put("ownProperties", v);
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.RUNTIME + ".getProperties";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Runtime.getProperties";
   }
 
   @Override

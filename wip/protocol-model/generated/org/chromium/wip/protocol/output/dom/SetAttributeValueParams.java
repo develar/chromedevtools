@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Sets attribute for an element with given id.
  */
-public class SetAttributeValueParams extends org.jetbrains.wip.protocol.WipParams {
+public class SetAttributeValueParams extends org.jetbrains.wip.protocol.WipRequest {
   /**
    * @param nodeId Id of the element to set attribute for.
    * @param name Attribute name.
@@ -15,10 +15,8 @@ public class SetAttributeValueParams extends org.jetbrains.wip.protocol.WipParam
     put("name", name);
     put("value", value);
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".setAttributeValue";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.setAttributeValue";
   }
 }

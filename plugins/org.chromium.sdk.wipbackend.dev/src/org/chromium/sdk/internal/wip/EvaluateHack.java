@@ -19,7 +19,7 @@ import org.chromium.sdk.util.RelaySyncCallback;
 import org.chromium.wip.protocol.input.runtime.CallFunctionOnData;
 import org.chromium.wip.protocol.output.runtime.CallArgumentParam;
 import org.chromium.wip.protocol.output.runtime.CallFunctionOnParams;
-import org.jetbrains.wip.protocol.WipParamsWithResponse;
+import org.jetbrains.wip.protocol.WipRequestWithResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +86,7 @@ public class EvaluateHack {
    * @param <DATA> type of request's response
    */
   public interface EvaluateCommandHandler<DATA> {
-    WipParamsWithResponse<DATA> createRequest(String patchedUserExpression,
+    WipRequestWithResponse<DATA> createRequest(String patchedUserExpression,
         WipValueLoader destinationValueLoader);
 
     JsVariable processResult(DATA response, WipValueLoader destinationValueLoader,
@@ -196,7 +196,7 @@ public class EvaluateHack {
 
       return new WipRelayRunner.SendStepWithResponse<CallFunctionOnData, JsVariable>() {
         @Override
-        public WipParamsWithResponse<CallFunctionOnData> getParams() {
+        public WipRequestWithResponse<CallFunctionOnData> getParams() {
           CallFunctionOnParams params = new CallFunctionOnParams(thisObjectIdFinal, functionText);
           if (!additionalObjectIds.isEmpty()) {
             List<CallArgumentParam> arguments = new ArrayList<CallArgumentParam>(additionalObjectIds.size());
@@ -227,7 +227,7 @@ public class EvaluateHack {
       final EvaluateCommandHandler<EVAL_DATA> commandHandler) {
       return new WipRelayRunner.SendStepWithResponse<EVAL_DATA, JsVariable>() {
         @Override
-        public WipParamsWithResponse<EVAL_DATA> getParams() {
+        public WipRequestWithResponse<EVAL_DATA> getParams() {
           String script = "with (" + GLOBAL_VARIABLE_NAME + ".data." + dataId + ") { return (" + userExpression + "); }";
           return commandHandler.createRequest("(function() {" + script + "})()", destinationValueLoader);
         }
@@ -266,7 +266,7 @@ public class EvaluateHack {
     private Step<JsVariable> createHandleErrorStep(final RemoteObjectValue remoteObjectValue) {
       return new WipRelayRunner.SendStepWithResponse<CallFunctionOnData, JsVariable>() {
         @Override
-        public WipParamsWithResponse<CallFunctionOnData> getParams() {
+        public WipRequestWithResponse<CallFunctionOnData> getParams() {
           String functionText = "function() { return String(this.message); }";
           return new CallFunctionOnParams(remoteObjectValue.objectId(), functionText);
         }

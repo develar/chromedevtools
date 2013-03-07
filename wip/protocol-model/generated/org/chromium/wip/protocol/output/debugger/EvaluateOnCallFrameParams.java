@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Evaluates expression on a given call frame.
  */
-public class EvaluateOnCallFrameParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData> {
+public class EvaluateOnCallFrameParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData> {
   /**
    * @param callFrameId Call frame identifier to evaluate on.
    * @param expression Expression to evaluate.
@@ -55,11 +55,9 @@ public class EvaluateOnCallFrameParams extends org.jetbrains.wip.protocol.WipPar
     put("generatePreview", v);
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".evaluateOnCallFrame";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Debugger.evaluateOnCallFrame";
   }
 
   @Override

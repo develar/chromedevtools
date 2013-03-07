@@ -18,7 +18,7 @@ public class FlagsMessage extends ContextlessDebuggerMessage {
 
     if (flags != null) {
       try {
-        addArgumentsName();
+        beginArguments();
         writer.name("flags");
         writer.beginArray();
         for (Map.Entry<String, Boolean> en : flags.entrySet()) {

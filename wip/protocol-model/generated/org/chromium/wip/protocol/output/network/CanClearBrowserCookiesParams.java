@@ -4,13 +4,11 @@ package org.chromium.wip.protocol.output.network;
 /**
  * Tells whether clearing browser cookies is supported.
  */
-public class CanClearBrowserCookiesParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.network.CanClearBrowserCookiesData> {
-
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.NETWORK + ".canClearBrowserCookies";
+public class CanClearBrowserCookiesParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.network.CanClearBrowserCookiesData> {
 
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Network.canClearBrowserCookies";
   }
 
   @Override

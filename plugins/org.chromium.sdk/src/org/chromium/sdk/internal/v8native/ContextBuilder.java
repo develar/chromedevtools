@@ -21,7 +21,7 @@ import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.v8native.V8CommandProcessor.V8HandlerCallback;
 import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessage;
+import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
 
@@ -215,7 +215,7 @@ public class ContextBuilder {
     }
 
     @Override
-    public RelayOk sendV8CommandAsync(DebuggerMessage message, boolean isImmediate,
+    public RelayOk sendV8CommandAsync(V8Request message, boolean isImmediate,
         V8HandlerCallback commandCallback, SyncCallback syncCallback)
         throws ContextDismissedCheckedException {
       synchronized (sendContextCommandsMonitor) {
@@ -227,7 +227,7 @@ public class ContextBuilder {
       }
     }
 
-    private RelayOk sendMessageAsyncAndInvalidate(DebuggerMessage message,
+    private RelayOk sendMessageAsyncAndInvalidate(V8Request message,
         V8CommandProcessor.V8HandlerCallback commandCallback, boolean isImmediate,
         SyncCallback syncCallback) {
       synchronized (sendContextCommandsMonitor) {
@@ -313,7 +313,7 @@ public class ContextBuilder {
           throw new NullPointerException();
         }
 
-        DebuggerMessage message = DebuggerMessageFactory.goOn(stepAction, stepCount);
+        V8Request message = DebuggerMessageFactory.goOn(stepAction, stepCount);
         V8CommandProcessor.V8HandlerCallback commandCallback
             = new V8CommandCallbackBase() {
           @Override

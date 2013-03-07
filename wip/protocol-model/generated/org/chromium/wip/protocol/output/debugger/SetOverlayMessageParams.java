@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Sets overlay message.
  */
-public class SetOverlayMessageParams extends org.jetbrains.wip.protocol.WipParams {
+public class SetOverlayMessageParams extends org.jetbrains.wip.protocol.WipRequest {
 
 
   /**
@@ -16,10 +16,8 @@ public class SetOverlayMessageParams extends org.jetbrains.wip.protocol.WipParam
     }
     return this;
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DEBUGGER + ".setOverlayMessage";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Debugger.setOverlayMessage";
   }
 }

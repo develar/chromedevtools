@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Sets node name for a node with given id.
  */
-public class SetNodeNameParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.dom.SetNodeNameData> {
+public class SetNodeNameParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.SetNodeNameData> {
   /**
    * @param nodeId Id of the node to set name for.
    * @param name New node's name.
@@ -13,11 +13,9 @@ public class SetNodeNameParams extends org.jetbrains.wip.protocol.WipParamsWithR
     put("nodeId", nodeId);
     put("name", name);
   }
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.DOM + ".setNodeName";
-
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "DOM.setNodeName";
   }
 
   @Override

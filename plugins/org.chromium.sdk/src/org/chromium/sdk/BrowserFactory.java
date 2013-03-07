@@ -4,16 +4,15 @@
 
 package org.chromium.sdk;
 
+import org.chromium.sdk.internal.BrowserFactoryImpl;
+
 import java.net.SocketAddress;
 import java.util.logging.Logger;
-
-import org.chromium.sdk.internal.BrowserFactoryImpl;
 
 /**
  * A factory for Browser instances.
  */
 public abstract class BrowserFactory {
-
   private static BrowserFactory instance;
 
   /**
@@ -40,8 +39,7 @@ public abstract class BrowserFactory {
    *        traffic; may be null
    * @return a Browser instance for the {@code socketAddress}
    */
-  public abstract Browser create(SocketAddress socketAddress,
-      ConnectionLogger.Factory connectionLoggerFactory);
+  public abstract Browser create(SocketAddress socketAddress, ConnectionLogger.Factory connectionLoggerFactory);
 
   /**
    * Constructs StandaloneVm instance that talks to a V8 JavaScript VM via
@@ -50,8 +48,7 @@ public abstract class BrowserFactory {
    * @param connectionLogger provides facility for listening to network
    *        traffic; may be null
    */
-  public abstract StandaloneVm createStandalone(SocketAddress socketAddress,
-      ConnectionLogger connectionLogger);
+  public abstract StandaloneVm createStandalone(SocketAddress socketAddress, ConnectionLogger connectionLogger);
 
   /**
    * @return SDK root logger that can be used to add handlers or to adjust log level

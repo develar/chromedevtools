@@ -9,8 +9,8 @@ import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
 import org.jetbrains.wip.protocol.WipCommandResponse;
-import org.jetbrains.wip.protocol.WipParams;
-import org.jetbrains.wip.protocol.WipParamsWithResponse;
+import org.jetbrains.wip.protocol.WipRequest;
+import org.jetbrains.wip.protocol.WipRequestWithResponse;
 
 /**
  * A utility class that helps running a chain of asynchronous commands in a safe manner.
@@ -60,7 +60,7 @@ public class WipRelayRunner {
    * @param <RES> a type that the entire relay should return
    */
   public static abstract class SendStepSimple<RES> implements Step<RES> {
-    public abstract WipParams getParams();
+    public abstract WipRequest getParams();
 
     /**
      * Handles normal response and returns a next step (or throws {@link ProcessException}).
@@ -80,7 +80,7 @@ public class WipRelayRunner {
   }
 
   public static abstract class SendStepWithResponse<DATA, RES> implements Step<RES> {
-    public abstract WipParamsWithResponse<DATA> getParams();
+    public abstract WipRequestWithResponse<DATA> getParams();
 
     /**
      * Handles normal response and returns a next step (or throws {@link ProcessException}).

@@ -10,7 +10,6 @@ import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.TabDebugEventListener;
 import org.chromium.sdk.internal.BaseCommandProcessor;
-import org.chromium.sdk.internal.websocket.WsConnection;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.wip.WipParserAccess;
 import org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData;
@@ -19,14 +18,14 @@ import org.chromium.wip.protocol.input.debugger.ResumedEventData;
 import org.chromium.wip.protocol.input.debugger.ScriptParsedEventData;
 import org.chromium.wip.protocol.input.page.FrameDetachedEventData;
 import org.chromium.wip.protocol.input.page.FrameNavigatedEventData;
-import org.jetbrains.jsonProtocol.OutMessage;
+import org.jetbrains.jsonProtocol.Request;
+import org.jetbrains.rpc.MessageHandler;
 import org.jetbrains.wip.protocol.*;
 import org.jetbrains.wip.protocol.WipCommandResponse.Success;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,20 +36,19 @@ class WipCommandProcessor {
   private static final Logger LOGGER = Logger.getLogger(WipCommandProcessor.class.getName());
 
   private final WipTabImpl tabImpl;
-  private final BaseCommandProcessor<Integer, OutMessage, JsonReader, WipCommandResponse> baseProcessor;
+  private final BaseCommandProcessor<Request, JsonReader, WipCommandResponse> baseProcessor;
 
-  WipCommandProcessor(WipTabImpl tabImpl, WsConnection wsSocket) {
+  WipCommandProcessor(WipTabImpl tabImpl) {
     this.tabImpl = tabImpl;
-    baseProcessor = new BaseCommandProcessor<Integer, OutMessage, JsonReader, WipCommandResponse>(new WipMessageTypeHandler());
+    baseProcessor = new BaseCommandProcessor<Request, JsonReader, WipCommandResponse>(new WipMessageTypeHandler());
   }
 
-  RelayOk sendRaw(OutMessage message, WipCommandCallback callback, SyncCallback syncCallback) {
+  RelayOk sendRaw(Request message, WipCommandCallback callback, SyncCallback syncCallback) {
     return baseProcessor.send(message, false, callback, syncCallback);
   }
 
-  RelayOk send(WipParams params, WipCommandCallback callback, SyncCallback syncCallback) {
-    WipRequest request = new WipRequest(params);
-    return sendRaw(request, callback, syncCallback);
+  RelayOk send(WipRequest params, WipCommandCallback callback, SyncCallback syncCallback) {
+    return sendRaw(params, callback, syncCallback);
   }
 
   /**
@@ -59,9 +57,7 @@ class WipCommandProcessor {
    * @param callback a callback that accepts method-specific response or null
    * @param syncCallback may be null
    */
-  <RESPONSE> RelayOk send(final WipParamsWithResponse<RESPONSE> params,
-      final GenericCallback<RESPONSE> callback, SyncCallback syncCallback) {
-    WipRequest request = new WipRequest(params);
+  <RESPONSE> RelayOk send(final WipRequestWithResponse<RESPONSE> params, final GenericCallback<RESPONSE> callback, SyncCallback syncCallback) {
     WipCommandCallback commandCallback;
     if (callback == null) {
       commandCallback = null;
@@ -86,8 +82,7 @@ class WipCommandProcessor {
         }
       };
     }
-
-    return sendRaw(request, commandCallback, syncCallback);
+    return sendRaw(params, commandCallback, syncCallback);
   }
 
   void acceptResponse(JsonReader message) {
@@ -109,36 +104,14 @@ class WipCommandProcessor {
     EVENT_MAP.handleEvent(event, this);
   }
 
-  /**
-   * Handles all operations specific to Wip messages.
-   */
-  private class WipMessageTypeHandler implements BaseCommandProcessor.Handler<Integer, OutMessage, JsonReader, WipCommandResponse> {
-    private final AtomicInteger currentSequence = new AtomicInteger(0);
-
+  private class WipMessageTypeHandler extends MessageHandler<JsonReader, WipCommandResponse> {
     @Override
-    public Integer getUpdatedSeq(OutMessage message) {
-      int sequence = currentSequence.addAndGet(1);
-      message.put(BasicConstants.Property.ID, sequence);
-      return sequence;
+    public void send(Request message, boolean isImmediate) throws IOException {
+      tabImpl.getWsSocket().sendTextualMessage(message.toJson());
     }
 
     @Override
-    public String getCommandName(OutMessage message) {
-      return message.getCommand();
-    }
-
-    @Override
-    public void send(OutMessage message, boolean isImmediate) {
-      try {
-        tabImpl.getWsSocket().sendTextualMessage(message.toJson());
-      }
-      catch (IOException e) {
-        LOGGER.log(Level.SEVERE, "Failed to send", e);
-      }
-    }
-
-    @Override
-    public WipCommandResponse parseWithSeq(JsonReader incoming) {
+    public WipCommandResponse tryParseWithSequence(JsonReader incoming) {
       //if (!incoming.containsKey(BasicConstants.Property.ID)) {
       //  return null;
       //}
@@ -151,10 +124,10 @@ class WipCommandProcessor {
     }
 
     @Override
-    public Integer getSeq(WipCommandResponse incomingWithSeq) {
+    public int getSequence(WipCommandResponse incomingWithSeq) {
       Object seqObject = incomingWithSeq.id();
       if (seqObject == null) {
-        return null;
+        return -1;
       }
       Number number = (Number) seqObject;
       return number.intValue();

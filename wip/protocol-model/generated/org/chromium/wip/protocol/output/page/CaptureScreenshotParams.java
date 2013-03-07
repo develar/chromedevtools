@@ -4,13 +4,11 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Capture page screenshot.
  */
-public class CaptureScreenshotParams extends org.jetbrains.wip.protocol.WipParamsWithResponse<org.chromium.wip.protocol.input.page.CaptureScreenshotData> {
-
-  public static final String METHOD_NAME = org.jetbrains.wip.protocol.BasicConstants.Domain.PAGE + ".captureScreenshot";
+public class CaptureScreenshotParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.CaptureScreenshotData> {
 
   @Override
-  public String getCommand() {
-    return METHOD_NAME;
+  public String getMethodName() {
+    return "Page.captureScreenshot";
   }
 
   @Override
