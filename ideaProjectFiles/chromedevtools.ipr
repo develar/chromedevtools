@@ -281,6 +281,7 @@
       <words>
         <w>boxable</w>
         <w>enqueued</w>
+        <w>loggable</w>
         <w>metamodel</w>
         <w>referenceable</w>
         <w>rybin</w>

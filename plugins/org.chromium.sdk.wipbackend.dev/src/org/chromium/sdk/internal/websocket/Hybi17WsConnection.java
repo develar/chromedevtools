@@ -286,7 +286,7 @@ public class Hybi17WsConnection extends AbstractWsConnection<LoggableInput, Logg
         hybiWsConnection.getDispatchQueue().add(new MessageDispatcher() {
           @Override
           boolean dispatch(Listener userListener) {
-            userListener.textMessageRecieved(text);
+            userListener.textMessageReceived(text);
             return false;
           }
         });

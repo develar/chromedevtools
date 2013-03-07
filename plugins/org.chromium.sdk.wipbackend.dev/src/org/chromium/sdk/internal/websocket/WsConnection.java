@@ -25,7 +25,7 @@ public interface WsConnection {
   SignalRelay<?> getCloser();
 
   interface Listener {
-    void textMessageRecieved(String text);
+    void textMessageReceived(String text);
 
     /**
      * Some non-fatal error happened.

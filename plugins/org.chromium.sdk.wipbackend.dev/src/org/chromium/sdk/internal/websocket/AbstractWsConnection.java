@@ -176,9 +176,6 @@ public abstract class AbstractWsConnection<INPUT, OUTPUT> implements WsConnectio
     dispatchThread.start();
   }
 
-  @Override
-  public abstract void sendTextualMessage(CharSequence message) throws IOException;
-
   protected abstract CloseReason runListenLoop(INPUT loggableReader)
       throws IOException, InterruptedException;
 

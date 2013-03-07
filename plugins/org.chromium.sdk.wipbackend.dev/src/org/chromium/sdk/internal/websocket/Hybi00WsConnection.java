@@ -108,7 +108,7 @@ public class Hybi00WsConnection
         getDispatchQueue().put(new MessageDispatcher() {
           @Override
           public boolean dispatch(Listener userListener) {
-            userListener.textMessageRecieved(text);
+            userListener.textMessageReceived(text);
             return false;
           }
         });
