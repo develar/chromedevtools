@@ -17,16 +17,16 @@ class ListType extends BoxableType {
 
   @Override
   String getFullText() {
-    if (itemType == LONG) {
-      return "long[]";
+    if (itemType == LONG || itemType == INT) {
+      return itemType.getFullText() + "[]";
     }
     return "java.util.List<" + itemType.getFullText() + ">";
   }
 
   @Override
   String getShortText(NamePath contextNamespace) {
-    if (itemType == LONG) {
-      return "long[]";
+    if (itemType == LONG || itemType == INT) {
+      return itemType.getFullText() + "[]";
     }
     return "java.util.List<" + itemType.getShortText(contextNamespace) + ">";
   }

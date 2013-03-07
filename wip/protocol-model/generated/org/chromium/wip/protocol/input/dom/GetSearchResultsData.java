@@ -9,6 +9,6 @@ public interface GetSearchResultsData {
   /**
    * Ids of the search result nodes.
    */
-  java.util.List<int> nodeIds();
+  int[] nodeIds();
 
 }

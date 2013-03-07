@@ -9,6 +9,6 @@ public interface QuerySelectorAllData {
   /**
    * Query selector result.
    */
-  java.util.List<int> nodeIds();
+  int[] nodeIds();
 
 }

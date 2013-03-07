@@ -36,7 +36,9 @@ public class SetBreakpointByUrlParams extends org.jetbrains.wip.protocol.WipPara
    * @param v Offset in the line to set breakpoint at.
    */
   public SetBreakpointByUrlParams columnNumber(int v) {
-    put("columnNumber", v);
+    if (v != -1) {
+      put("columnNumber", v);
+    }
     return this;
   }
 

@@ -228,10 +228,10 @@ public class WipBreakpointImpl implements Breakpoint {
 
   static class ActualLocation {
     private final String sourceId;
-    private final long lineNumber;
-    private final Long columnNumber;
+    private final int lineNumber;
+    private final int columnNumber;
 
-    ActualLocation(String sourceId, long lineNumber, Long columnNumber) {
+    ActualLocation(String sourceId, int lineNumber, int columnNumber) {
       this.sourceId = sourceId;
       this.lineNumber = lineNumber;
       this.columnNumber = columnNumber;
@@ -239,21 +239,18 @@ public class WipBreakpointImpl implements Breakpoint {
 
     @Override
     public boolean equals(Object obj) {
-      ActualLocation other = (ActualLocation) obj;
+      if (!(obj instanceof ActualLocation)) {
+        return false;
+      }
+      ActualLocation other = (ActualLocation)obj;
       return this.sourceId.equals(other.sourceId) &&
-          this.lineNumber == other.lineNumber &&
-          eq(this.columnNumber, other.columnNumber);
+             this.lineNumber == other.lineNumber &&
+             eq(this.columnNumber, other.columnNumber);
     }
 
     @Override
     public int hashCode() {
-      int column;
-      if (columnNumber == null) {
-        column = 0;
-      } else {
-        column = columnNumber.intValue();
-      }
-      return sourceId.hashCode() + 31 * (int) lineNumber + column;
+      return sourceId.hashCode() + 31 * lineNumber + (columnNumber == -1 ? 0 : columnNumber);
     }
 
     @Override
@@ -312,20 +309,11 @@ public class WipBreakpointImpl implements Breakpoint {
 
   /**
    * @param callback a generic callback that receives breakpoint protocol id
-   * @return
    */
   static RelayOk sendSetBreakpointRequest(Target target, final int lineNumber,
-      int columnNumber, final String condition,
-      final SetBreakpointCallback callback, final SyncCallback syncCallback,
-      final WipCommandProcessor commandProcessor) {
-
-    final Long columnNumberParam;
-    if (columnNumber == Breakpoint.EMPTY_VALUE) {
-      columnNumberParam = null;
-    } else {
-      columnNumberParam = Long.valueOf(columnNumber);
-    }
-
+                                          final int columnNumber, final String condition,
+                                          final SetBreakpointCallback callback, final SyncCallback syncCallback,
+                                          final WipCommandProcessor commandProcessor) {
     return target.accept(new BreakpointTypeExtension.ScriptRegExpSupport.Visitor<RelayOk>() {
       @Override
       public RelayOk visitScriptName(String scriptName) {
@@ -348,22 +336,20 @@ public class WipBreakpointImpl implements Breakpoint {
         throw new IllegalArgumentException();
       }
 
-      private <T, DATA, PARAMS extends WipParamsWithResponse<DATA>> RelayOk sendRequest(
-          T parameter, final RequestHandler<T, DATA, PARAMS> handler) {
-        PARAMS requestParams =
-            handler.createRequestParams(parameter, lineNumber, columnNumberParam, condition);
-
+      private <T, DATA, PARAMS extends WipParamsWithResponse<DATA>> RelayOk sendRequest(T parameter, final RequestHandler<T, DATA, PARAMS> handler) {
+        PARAMS requestParams = handler.createRequestParams(parameter, lineNumber, columnNumber, condition);
         GenericCallback<DATA> wrappedCallback;
         if (callback == null) {
           wrappedCallback = null;
-        } else {
+        }
+        else {
           wrappedCallback = new GenericCallback<DATA>() {
             @Override
             public void success(DATA data) {
               String breakpointId = handler.getBreakpointId(data);
               Collection<LocationValue> locationValues = handler.getActualLocations(data);
               List<ActualLocation> locationList =
-                  new ArrayList<ActualLocation>(locationValues.size());
+                new ArrayList<ActualLocation>(locationValues.size());
               for (LocationValue value : locationValues) {
                 locationList.add(locationFromProtocol(value));
               }
@@ -376,17 +362,13 @@ public class WipBreakpointImpl implements Breakpoint {
             }
           };
         }
-
         return commandProcessor.send(requestParams, wrappedCallback, syncCallback);
       }
     });
   }
 
-  private static abstract class RequestHandler<T,
-      DATA, PARAMS extends WipParamsWithResponse<DATA>> {
-
-    abstract PARAMS createRequestParams(T parameter, long lineNumber, Long columnNumberOpt,
-        String conditionOpt);
+  private static abstract class RequestHandler<T, DATA, PARAMS extends WipParamsWithResponse<DATA>> {
+    abstract PARAMS createRequestParams(T parameter, int lineNumber, int columnNumber, String condition);
 
     abstract String getBreakpointId(DATA data);
 
@@ -406,43 +388,39 @@ public class WipBreakpointImpl implements Breakpoint {
 
     static final ForUrlOrRegExp FOR_URL = new ForUrlOrRegExp() {
       @Override
-      SetBreakpointByUrlParams createRequestParams(String url, long lineNumber, long columnNumber, String condition) {
+      SetBreakpointByUrlParams createRequestParams(String url, int lineNumber, int columnNumber, String condition) {
         return new SetBreakpointByUrlParams(lineNumber).url(url).columnNumber(columnNumber).condition(condition);
       }
     };
 
     static final ForUrlOrRegExp FOR_REGEXP = new ForUrlOrRegExp() {
       @Override
-      SetBreakpointByUrlParams createRequestParams(String url, long lineNumber, Long columnNumber, String condition) {
-        return new SetBreakpointByUrlParams(lineNumber, null, url, columnNumber, condition);
+      SetBreakpointByUrlParams createRequestParams(String url, int lineNumber, int columnNumber, String condition) {
+        return new SetBreakpointByUrlParams(lineNumber).url(url).columnNumber(columnNumber).condition(condition);
       }
     };
 
     static final RequestHandler<String, SetBreakpointData, SetBreakpointParams> FOR_ID =
-        new RequestHandler<String, SetBreakpointData, SetBreakpointParams>() {
-          @Override
-          SetBreakpointParams createRequestParams(String sourceId,
-              long lineNumber, Long columnNumber, String condition) {
-            LocationParam locationParam =
-                new LocationParam(sourceId, lineNumber, columnNumber);
-            return new SetBreakpointParams(locationParam, condition);
-          }
+      new RequestHandler<String, SetBreakpointData, SetBreakpointParams>() {
+        @Override
+        SetBreakpointParams createRequestParams(String sourceId, int lineNumber, int columnNumber, String condition) {
+          return new SetBreakpointParams(new LocationParam(sourceId, lineNumber).columnNumber(columnNumber)).condition(condition);
+        }
 
-          @Override
-          String getBreakpointId(SetBreakpointData data) {
-            return data.breakpointId();
-          }
+        @Override
+        String getBreakpointId(SetBreakpointData data) {
+          return data.breakpointId();
+        }
 
-          @Override
-          Collection<LocationValue> getActualLocations(SetBreakpointData data) {
-            return Collections.singletonList(data.actualLocation());
-          }
-        };
+        @Override
+        Collection<LocationValue> getActualLocations(SetBreakpointData data) {
+          return Collections.singletonList(data.actualLocation());
+        }
+      };
   }
 
   private static ActualLocation locationFromProtocol(LocationValue locationValue) {
-    return new ActualLocation(locationValue.scriptId(), locationValue.lineNumber(),
-        locationValue.columnNumber());
+    return new ActualLocation(locationValue.scriptId(), locationValue.lineNumber(), locationValue.columnNumber());
   }
 
   private static <T> boolean eq(T left, T right) {

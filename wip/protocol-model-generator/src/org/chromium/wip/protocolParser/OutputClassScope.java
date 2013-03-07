@@ -101,9 +101,23 @@ class OutputClassScope extends ClassScope {
   private void appendWriteValueInvocation(TextOutput out, ItemDescriptor.Named parameter, String valueRefName) {
     BoxableType type = new OutputMemberScope(parameter.name()).resolveType(parameter).getJavaType();
     boolean blockOpened = false;
-    if (parameter.optional() && type == BoxableType.STRING) {
-      blockOpened = true;
-      out.append("if (v != null)").openBlock();
+    if (parameter.optional()) {
+      String nullValue;
+      if (type == BoxableType.STRING) {
+        nullValue = "null";
+      }
+      else if (parameter.name().equals("columnNumber")) {
+        // todo generic solution
+        nullValue = "-1";
+      }
+      else {
+        nullValue = null;
+      }
+
+      if (nullValue != null) {
+        blockOpened = true;
+        out.append("if (v != ").append(nullValue).append(")").openBlock();
+      }
     }
     out.append(type.getWriteMethodName()).append("(");
     out.quoute(parameter.name()).comma().append(valueRefName).append(");");

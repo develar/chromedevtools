@@ -58,13 +58,13 @@ public interface ConsoleMessageValue {
    * Message source.
    */
   public enum Source {
-    HTML, WML, XML, JAVASCRIPT, NETWORK, CONSOLE_API, OTHER
+    XML, JAVASCRIPT, NETWORK, CONSOLE_API, STORAGE, APPCACHE, RENDERING, CSS, SECURITY, OTHER
   }
   /**
    * Message severity.
    */
   public enum Level {
-    TIP, LOG, WARNING, ERROR, DEBUG
+    LOG, WARNING, ERROR, DEBUG
   }
   /**
    * Console message type.

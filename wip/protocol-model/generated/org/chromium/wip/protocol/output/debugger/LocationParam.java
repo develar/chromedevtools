@@ -18,7 +18,9 @@ public class LocationParam extends org.jetbrains.jsonProtocol.OutMessage {
    * @param v Column number in the script.
    */
   public LocationParam columnNumber(int v) {
-    put("columnNumber", v);
+    if (v != -1) {
+      put("columnNumber", v);
+    }
     return this;
   }
 }
