@@ -309,7 +309,7 @@
       <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-model-generator/protocol-model-generator.iml" filepath="$PROJECT_DIR$/../protocol/protocol-model-generator/protocol-model-generator.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-reader/protocol-reader.iml" filepath="$PROJECT_DIR$/../protocol/protocol-reader/protocol-reader.iml" />
       <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-reader-runtime/protocol-reader-runtime.iml" filepath="$PROJECT_DIR$/../protocol/protocol-reader-runtime/protocol-reader-runtime.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../schema-reader-generator/schema-reader-generator.iml" filepath="$PROJECT_DIR$/../schema-reader-generator/schema-reader-generator.iml" group="wip" />
+      <module fileurl="file://$PROJECT_DIR$/../protocol/schema-reader-generator/schema-reader-generator.iml" filepath="$PROJECT_DIR$/../protocol/schema-reader-generator/schema-reader-generator.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" filepath="$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol-reader-generator/v8-protocol-reader-generator.iml" filepath="$PROJECT_DIR$/../v8/protocol-reader-generator/v8-protocol-reader-generator.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/wip-eclipse.iml" filepath="$PROJECT_DIR$/wip-eclipse.iml" group="wip" />
@@ -373,7 +373,7 @@
       <option name="MAIN_CLASS_NAME" value="org.jetbrains.jsonProtocol.SchemaReaderGenerator" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PROGRAM_PARAMETERS" value="--output-dir=protocol-model-generator/generated" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/.." />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../protocol" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
