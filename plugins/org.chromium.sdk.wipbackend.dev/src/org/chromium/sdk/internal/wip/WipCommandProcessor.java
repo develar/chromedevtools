@@ -100,7 +100,7 @@ class WipCommandProcessor {
     }
 
     @Override
-    public WipCommandResponse tryParseWithSequence(JsonReader incoming) {
+    public WipCommandResponse readIfHasSequence(JsonReader incoming) {
       //if (!incoming.containsKey(BasicConstants.Property.ID)) {
       //  return null;
       //}

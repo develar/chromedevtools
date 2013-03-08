@@ -37,9 +37,6 @@ public class DefaultResponseHandler {
     return bpp;
   }
 
-  /**
-   * @param response from the V8 VM debugger
-   */
   public void handleResponseWithHandler(IncomingMessage response) {
     EventNotification eventResponse = response.asEventNotification();
     if (eventResponse == null) {

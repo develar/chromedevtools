@@ -11,6 +11,7 @@ import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.BaseCommandProcessor;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage;
+import org.chromium.sdk.internal.v8native.protocol.input.MessageType;
 import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.v8.protocol.ProtocolService;
 import org.jetbrains.jsonProtocol.Request;
@@ -64,7 +65,7 @@ public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeExc
     this.messageOutput = messageOutput;
     this.defaultResponseHandler = defaultResponseHandler;
     this.debugSession = debugSession;
-    baseCommandProcessor = new BaseCommandProcessor<Request, IncomingMessage, CommandResponse>(new HandlerImpl());
+    baseCommandProcessor = new BaseCommandProcessor<Request, IncomingMessage, CommandResponse>(new V8MessageHandler());
   }
 
   @Override
@@ -108,13 +109,13 @@ public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeExc
     baseCommandProcessor.processEos();
   }
 
-  private class HandlerImpl extends MessageHandler<IncomingMessage, CommandResponse> {
+  private class V8MessageHandler extends MessageHandler<IncomingMessage, CommandResponse> {
     public void send(Request message, boolean isImmediate) {
       messageOutput.send(message, isImmediate);
     }
 
-    public CommandResponse tryParseWithSequence(IncomingMessage incoming) {
-      return incoming.asCommandResponse();
+    public CommandResponse readIfHasSequence(IncomingMessage incoming) {
+      return incoming.type() == MessageType.RESPONSE ? incoming.asCommandResponse() : null;
     }
 
     public int getSequence(CommandResponse incomingWithSeq) {

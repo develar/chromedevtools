@@ -28,15 +28,12 @@ public class BaseCommandProcessor<OUTGOING, INCOMING, INCOMING_WITH_SEQ> {
     int getUpdatedSequence(OUTGOING message);
     String getMethodName(OUTGOING message);
     void send(OUTGOING message, boolean isImmediate) throws IOException;
-    INCOMING_WITH_SEQ tryParseWithSequence(INCOMING incoming);
+    INCOMING_WITH_SEQ readIfHasSequence(INCOMING incoming);
     int getSequence(INCOMING_WITH_SEQ incomingWithSeq);
     void acceptNonSequence(INCOMING incoming);
     void reportVmStatus(String currentRequest, int numberOfEnqueued);
   }
 
-  /**
-   * @param <INCOMING_WITH_SEQ>
-   */
   public interface Callback<INCOMING_WITH_SEQ> {
     void messageReceived(INCOMING_WITH_SEQ response);
     void failure(String message);
@@ -47,10 +44,6 @@ public class BaseCommandProcessor<OUTGOING, INCOMING, INCOMING_WITH_SEQ> {
 
   public BaseCommandProcessor(Handler<OUTGOING, INCOMING, INCOMING_WITH_SEQ> handler) {
     this.handler = handler;
-  }
-
-  public BaseCommandProcessor create(Handler<OUTGOING, INCOMING, INCOMING_WITH_SEQ> handler) {
-    return new BaseCommandProcessor<OUTGOING, INCOMING, INCOMING_WITH_SEQ>(handler);
   }
 
   public RelayOk send(OUTGOING message, boolean isImmediate, Callback<? super INCOMING_WITH_SEQ> callback, SyncCallback syncCallback) {
@@ -87,30 +80,32 @@ public class BaseCommandProcessor<OUTGOING, INCOMING, INCOMING_WITH_SEQ> {
   }
 
   public void processIncoming(INCOMING incomingParsed) {
-    final INCOMING_WITH_SEQ commandResponse = handler.tryParseWithSequence(incomingParsed);
+    final INCOMING_WITH_SEQ commandResponse = handler.readIfHasSequence(incomingParsed);
     if (commandResponse == null) {
       handler.acceptNonSequence(incomingParsed);
+      return;
     }
-    else {
-      int key = handler.getSequence(commandResponse);
-      CallbackEntry<INCOMING_WITH_SEQ> callbackEntry = callbackMap.removeIfContains(key);
-      if (callbackEntry != null) {
-        LOGGER.log(Level.FINE, "Request-response roundtrip: {0}ms", getCurrentMillis() - callbackEntry.commitMillis);
-        reportVmStatus();
 
-        CallbackCaller<Callback<? super INCOMING_WITH_SEQ>> caller = new CallbackCaller<Callback<? super INCOMING_WITH_SEQ>>() {
-          @Override
-          void call(Callback<? super INCOMING_WITH_SEQ> handlerCallback) {
-            handlerCallback.messageReceived(commandResponse);
-          }
-        };
-        try {
-          callThemBack(callbackEntry, caller, key);
-        }
-        catch (RuntimeException e) {
-          LOGGER.log(Level.SEVERE, "Failed to dispatch response to callback", e);
-        }
+    int key = handler.getSequence(commandResponse);
+    CallbackEntry<INCOMING_WITH_SEQ> callbackEntry = callbackMap.removeIfContains(key);
+    if (callbackEntry == null) {
+      return;
+    }
+
+    LOGGER.log(Level.FINE, "Request-response roundtrip: {0}ms", getCurrentMillis() - callbackEntry.commitMillis);
+    reportVmStatus();
+
+    CallbackCaller<Callback<? super INCOMING_WITH_SEQ>> caller = new CallbackCaller<Callback<? super INCOMING_WITH_SEQ>>() {
+      @Override
+      void call(Callback<? super INCOMING_WITH_SEQ> handlerCallback) {
+        handlerCallback.messageReceived(commandResponse);
       }
+    };
+    try {
+      callThemBack(callbackEntry, caller, key);
+    }
+    catch (RuntimeException e) {
+      LOGGER.log(Level.SEVERE, "Failed to dispatch response to callback", e);
     }
   }
 
@@ -167,7 +162,7 @@ public class BaseCommandProcessor<OUTGOING, INCOMING, INCOMING_WITH_SEQ> {
 
     CallbackEntry(Callback<? super INCOMING_WITH_SEQ> callback, SyncCallback syncCallback, String requestName) {
       this.callback = callback;
-      this.commitMillis = getCurrentMillis();
+      commitMillis = getCurrentMillis();
       this.syncCallback = syncCallback;
       this.requestName = requestName;
     }
