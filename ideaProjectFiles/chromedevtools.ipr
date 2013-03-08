@@ -75,10 +75,10 @@
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
-    <file url="file://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/gson-2.2.2-sources.jar" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/gson-2.2.2.jar" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/trove4j.jar" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/trove4j_src.jar" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../lib/gson-2.2.2-sources.jar" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../lib/gson-2.2.2.jar" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../lib/trove4j.jar" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../lib/trove4j_src.jar" charset="UTF-8" />
   </component>
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
@@ -415,28 +415,28 @@
   <component name="libraryTable">
     <library name="annotations">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/annotations.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../lib/annotations.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
     </library>
     <library name="gson">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/gson-2.2.2.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../lib/gson-2.2.2.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/gson-2.2.2-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../lib/gson-2.2.2-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="trove4j">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/trove4j.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../lib/trove4j.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/trove4j_src.jar!/src" />
-        <root url="jar://$PROJECT_DIR$/../plugins/org.chromium.sdk/lib/trove4j_src.jar!/util/src" />
+        <root url="jar://$PROJECT_DIR$/../lib/trove4j_src.jar!/src" />
+        <root url="jar://$PROJECT_DIR$/../lib/trove4j_src.jar!/util/src" />
       </SOURCES>
     </library>
   </component>
