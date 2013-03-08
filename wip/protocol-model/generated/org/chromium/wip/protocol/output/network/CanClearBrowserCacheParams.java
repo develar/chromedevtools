@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.network;
 /**
  * Tells whether clearing browser cache is supported.
  */
-public class CanClearBrowserCacheParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.network.CanClearBrowserCacheData> {
+public final class CanClearBrowserCacheParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.network.CanClearBrowserCacheData> {
 
   @Override
   public String getMethodName() {

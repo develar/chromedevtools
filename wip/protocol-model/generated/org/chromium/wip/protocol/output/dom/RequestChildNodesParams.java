@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Requests that children of the node with given id are returned to the caller in form of <code>setChildNodes</code> events where not only immediate children are retrieved, but all children down to the specified depth.
  */
-public class RequestChildNodesParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class RequestChildNodesParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param nodeId Id of the node to get children for.
    */

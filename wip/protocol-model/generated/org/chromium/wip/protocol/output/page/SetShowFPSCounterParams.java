@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Requests that backend shows the FPS counter
  */
-public class SetShowFPSCounterParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class SetShowFPSCounterParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param show True for showing the FPS counter
    */

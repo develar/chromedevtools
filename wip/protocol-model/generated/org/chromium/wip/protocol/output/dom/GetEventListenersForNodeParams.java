@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Returns event listeners relevant to the node.
  */
-public class GetEventListenersForNodeParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetEventListenersForNodeData> {
+public final class GetEventListenersForNodeParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetEventListenersForNodeData> {
   /**
    * @param nodeId Id of the node to get listeners for.
    */

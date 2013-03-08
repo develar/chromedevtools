@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Executes <code>querySelector</code> on a given node.
  */
-public class QuerySelectorParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.QuerySelectorData> {
+public final class QuerySelectorParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.QuerySelectorData> {
   /**
    * @param nodeId Id of the node to query upon.
    * @param selector Selector string.

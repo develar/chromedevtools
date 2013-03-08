@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.network;
 /**
  * Enables network tracking, network events will now be delivered to the client.
  */
-public class EnableParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class EnableParams extends org.jetbrains.wip.WipRequest {
 
   @Override
   public String getMethodName() {

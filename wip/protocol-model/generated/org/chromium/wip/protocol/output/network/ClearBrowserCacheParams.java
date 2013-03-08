@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.network;
 /**
  * Clears browser cache.
  */
-public class ClearBrowserCacheParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class ClearBrowserCacheParams extends org.jetbrains.wip.WipRequest {
 
   @Override
   public String getMethodName() {

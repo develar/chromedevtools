@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Returns attributes for the specified node.
  */
-public class GetAttributesParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetAttributesData> {
+public final class GetAttributesParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetAttributesData> {
   /**
    * @param nodeId Id of the node to retrieve attibutes for.
    */

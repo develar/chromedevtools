@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Re-does the last undone action.
  */
-public class RedoParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class RedoParams extends org.jetbrains.wip.WipRequest {
 
   @Override
   public String getMethodName() {

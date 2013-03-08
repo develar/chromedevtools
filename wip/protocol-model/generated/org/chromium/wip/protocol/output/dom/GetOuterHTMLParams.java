@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Returns node's HTML markup.
  */
-public class GetOuterHTMLParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetOuterHTMLData> {
+public final class GetOuterHTMLParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetOuterHTMLData> {
   /**
    * @param nodeId Id of the node to get markup for.
    */

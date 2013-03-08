@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Determines if scripts can be executed in the page.
  */
-public class GetScriptExecutionStatusParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData> {
+public final class GetScriptExecutionStatusParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData> {
 
   @Override
   public String getMethodName() {

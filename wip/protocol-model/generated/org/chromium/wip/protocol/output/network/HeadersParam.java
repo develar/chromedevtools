@@ -1,10 +1,9 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.network;
 
 /**
  * Request / response headers as keys / values of JSON object.
  */
-public class HeadersParam extends org.jetbrains.jsonProtocol.OutMessage {
+public final class HeadersParam extends org.jetbrains.jsonProtocol.OutMessage {
 
 }

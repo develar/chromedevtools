@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Runs script with given id in a given context.
  */
-public class RunScriptParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.RunScriptData> {
+public final class RunScriptParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.RunScriptData> {
   /**
    * @param scriptId Id of the script to run.
    */

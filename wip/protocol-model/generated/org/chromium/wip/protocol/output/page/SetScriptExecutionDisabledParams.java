@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Switches script execution in the page.
  */
-public class SetScriptExecutionDisabledParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class SetScriptExecutionDisabledParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param value Whether script execution should be disabled in the page.
    */

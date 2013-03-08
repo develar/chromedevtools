@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Sets overlay message.
  */
-public class SetOverlayMessageParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class SetOverlayMessageParams extends org.jetbrains.wip.WipRequest {
 
 
   /**

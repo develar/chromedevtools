@@ -7,9 +7,9 @@ package org.chromium.sdk.internal.v8native;
 import org.chromium.sdk.DebugContext;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.sdk.internal.v8native.value.ValueLoader;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
+import org.jetbrains.v8.protocol.V8Request;
 
 /**
  * Internal API to DebugContext implementation. The actual object might

@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Returns present frame / resource tree structure.
  */
-public class GetResourceTreeParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.GetResourceTreeData> {
+public final class GetResourceTreeParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.page.GetResourceTreeData> {
 
   @Override
   public String getMethodName() {

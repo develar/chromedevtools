@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.network;
 /**
  * Returns content served for the given request.
  */
-public class GetResponseBodyParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.network.GetResponseBodyData> {
+public final class GetResponseBodyParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.network.GetResponseBodyData> {
   /**
    * @param requestId Identifier of the network request to get content for.
    */

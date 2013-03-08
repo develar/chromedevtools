@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Clears the overridden Device Orientation.
  */
-public class ClearDeviceOrientationOverrideParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class ClearDeviceOrientationOverrideParams extends org.jetbrains.wip.WipRequest {
 
   @Override
   public String getMethodName() {

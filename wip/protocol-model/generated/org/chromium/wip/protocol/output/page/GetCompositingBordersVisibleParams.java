@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Indicates the visibility of compositing borders.
  */
-public class GetCompositingBordersVisibleParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.GetCompositingBordersVisibleData> {
+public final class GetCompositingBordersVisibleParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.page.GetCompositingBordersVisibleData> {
 
   @Override
   public String getMethodName() {

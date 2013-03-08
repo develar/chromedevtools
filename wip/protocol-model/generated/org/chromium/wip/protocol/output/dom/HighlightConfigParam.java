@@ -1,11 +1,10 @@
-// Generated source.
-// Generator: org.chromium.wip.protocolParser.Generator
+// Generated source
 package org.chromium.wip.protocol.output.dom;
 
 /**
  * Configuration data for the highlighting of page elements.
  */
-public class HighlightConfigParam extends org.jetbrains.jsonProtocol.OutMessage {
+public final class HighlightConfigParam extends org.jetbrains.jsonProtocol.OutMessage {
 
 
   /**

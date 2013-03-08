@@ -18,11 +18,7 @@ import static org.jetbrains.jsonProtocol.ProtocolMetaModel.*;
  * Read metamodel and generates set of files with Java classes/interfaces for the protocol.
  */
 class Generator {
-  private static final String ROOT_PACKAGE = "org.chromium.wip.protocol";
-  static final String OUTPUT_PACKAGE = ROOT_PACKAGE + ".output";
-  static final String INPUT_PACKAGE = ROOT_PACKAGE + ".input";
-  static final String COMMON_PACKAGE = ROOT_PACKAGE + ".common";
-  private static final String PARSER_INTERFACE_LIST_CLASS_NAME = "GeneratedParserInterfaceList";
+  private static final String PARSER_INTERFACE_LIST_CLASS_NAME = "GeneratedReaderInterfaceList";
   static final String READER_INTERFACE_NAME = "GeneratedWipProtocolReader";
 
   final List<String> jsonProtocolParserClassNames = new ArrayList<String>();
@@ -30,19 +26,59 @@ class Generator {
   final TypeMap typeMap = new TypeMap();
 
   private final FileSet fileSet;
+  private final Naming naming;
 
-  Generator(String outputDir) {
+  Generator(String outputDir, String rootPackage, String requestClassName) {
     fileSet = new FileSet(new File(outputDir));
+    naming = new Naming(rootPackage, requestClassName);
+  }
+
+  public Naming getNaming() {
+    return naming;
+  }
+
+  public static final class Naming {
+    public final ClassNameScheme params;
+    public final ClassNameScheme additionalParam;
+    public final ClassNameScheme outputTypedef;
+
+    public final ClassNameScheme.Input commandData;
+    public final ClassNameScheme.Input eventData;
+    public final ClassNameScheme inputValue;
+    public final ClassNameScheme inputEnum;
+    public final ClassNameScheme inputTypedef;
+
+    public final ClassNameScheme commonTypedef;
+
+    public final String inputPackage;
+    public final String requestClassName;
+
+    private Naming(String rootPackage, String requestClassName) {
+      this.requestClassName = requestClassName;
+
+      String outputPackage = rootPackage + ".output";
+      params = new ClassNameScheme.Output("Params", outputPackage);
+      additionalParam = new ClassNameScheme.Output("Param", outputPackage);
+      outputTypedef = new ClassNameScheme.Output("Typedef", outputPackage);
+      commonTypedef = new ClassNameScheme.Common("Typedef", rootPackage);
+
+      inputPackage = rootPackage + ".input";
+      commandData = new ClassNameScheme.Input("Data", inputPackage);
+      eventData = new ClassNameScheme.Input("EventData", inputPackage);
+      inputValue = new ClassNameScheme.Input("Value", inputPackage);
+      inputEnum = new ClassNameScheme.Input("Enum", inputPackage);
+      inputTypedef = new ClassNameScheme.Input("Typedef", inputPackage);
+    }
   }
 
   void go(Root metamodel) throws IOException {
     initializeKnownTypes();
 
-    Set<String> domainTodoList = new HashSet<String>(Arrays.asList(DOMAIN_WHITE_LIST));
     List<Domain> domainList = metamodel.domains();
     Map<String, DomainGenerator> domainGeneratorMap = new HashMap<String, DomainGenerator>();
     for (Domain domain : domainList) {
-      if (!domainTodoList.remove(domain.domain())) {
+      // todo DOMDebugger
+      if (domain.hidden() || domain.domain().equals("DOMDebugger")) {
         System.out.println("Domain skipped: " + domain.domain());
         continue;
       }
@@ -53,10 +89,6 @@ class Generator {
     }
 
     typeMap.setDomainGeneratorMap(domainGeneratorMap);
-
-    if (!domainTodoList.isEmpty()) {
-      throw new RuntimeException("Domains expected but not found: " + domainTodoList);
-    }
 
     for (DomainGenerator domainGenerator : domainGeneratorMap.values()) {
       domainGenerator.generateCommandsAndEvents();
@@ -152,7 +184,7 @@ class Generator {
   }
 
   private void generateParserInterfaceList() throws IOException {
-    JavaFileUpdater fileUpdater = startJavaFile(INPUT_PACKAGE, PARSER_INTERFACE_LIST_CLASS_NAME + ".java");
+    JavaFileUpdater fileUpdater = startJavaFile(getNaming().inputPackage, PARSER_INTERFACE_LIST_CLASS_NAME + ".java");
     // Write classes in stable order.
     Collections.sort(jsonProtocolParserClassNames);
 
@@ -169,7 +201,7 @@ class Generator {
   }
 
   private void generateParserRoot(List<ParserRootInterfaceItem> parserRootInterfaceItems) throws IOException {
-    JavaFileUpdater fileUpdater = startJavaFile(INPUT_PACKAGE, READER_INTERFACE_NAME + ".java");
+    JavaFileUpdater fileUpdater = startJavaFile(getNaming().inputPackage, READER_INTERFACE_NAME + ".java");
     // Write classes in stable order.
     Collections.sort(parserRootInterfaceItems);
 
@@ -305,15 +337,6 @@ class Generator {
       }
     }
   }
-
-  private static final String[] DOMAIN_WHITE_LIST = {
-    "Debugger",
-    "Runtime",
-    "Page",
-    "Network",
-    "Console",
-    "DOM",
-  };
 
   private static void initializeKnownTypes() {
     // Code example:

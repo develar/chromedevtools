@@ -17,10 +17,7 @@ import org.chromium.sdk.internal.v8native.BreakpointImpl.FunctionTarget;
 import org.chromium.sdk.internal.v8native.protocol.input.*;
 import org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo;
 import org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo;
-import org.chromium.sdk.internal.v8native.protocol.output.ChangeBreakpointMessage;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
-import org.chromium.sdk.internal.v8native.protocol.output.FlagsMessage;
-import org.chromium.sdk.internal.v8native.protocol.output.ListBreakpointsMessage;
+import org.chromium.sdk.internal.v8native.protocol.output.*;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
 
@@ -60,41 +57,36 @@ public class BreakpointManager {
   }
 
   RelayOk setBreakpoint(final Breakpoint.Target target, final int line, int column,
-      final boolean enabled, final String condition, final int ignoreCount,
-      final JavascriptVm.BreakpointCallback callback, SyncCallback syncCallback) {
-    return debugSession.sendMessageAsync(
-        DebuggerMessageFactory.setBreakpoint(target, toNullableInteger(line),
-            toNullableInteger(column), enabled, condition,
-            toNullableInteger(ignoreCount)),
-        true,
-        new V8CommandCallbackBase() {
-          @Override
-          public void success(SuccessCommandResponse successResponse) {
-            BreakpointBody body;
-            try {
-              body = successResponse.body().asBreakpointBody();
-            } catch (IOException e) {
-              throw new RuntimeException(e);
-            }
-            long id = body.breakpoint();
-
-            final BreakpointImpl breakpoint =
-                new BreakpointImpl(id, target, line, enabled,
-                    condition, BreakpointManager.this);
-
-            idToBreakpoint.put(breakpoint.getId(), breakpoint);
-            if (callback != null) {
-              callback.success(breakpoint);
-            }
+                        final boolean enabled, final String condition, final int ignoreCount,
+                        final JavascriptVm.BreakpointCallback callback, SyncCallback syncCallback) {
+    return debugSession.sendMessageAsync(new SetBreakpointMessage(target, toNullableInteger(line), toNullableInteger(column), enabled, condition, toNullableInteger(ignoreCount)),
+      true,
+      new V8CommandCallbackBase() {
+        @Override
+        public void success(SuccessCommandResponse successResponse) {
+          BreakpointBody body;
+          try {
+            body = successResponse.body().asBreakpointBody();
           }
-          @Override
-          public void failure(String message) {
-            if (callback != null) {
-              callback.failure(message);
-            }
+          catch (IOException e) {
+            throw new RuntimeException(e);
           }
-        },
-        syncCallback);
+          long id = body.breakpoint();
+          BreakpointImpl breakpoint = new BreakpointImpl(id, target, line, enabled, condition, BreakpointManager.this);
+          idToBreakpoint.put(breakpoint.getId(), breakpoint);
+          if (callback != null) {
+            callback.success(breakpoint);
+          }
+        }
+
+        @Override
+        public void failure(String message) {
+          if (callback != null) {
+            callback.failure(message);
+          }
+        }
+      },
+      syncCallback);
   }
 
   public Breakpoint getBreakpoint(long id) {

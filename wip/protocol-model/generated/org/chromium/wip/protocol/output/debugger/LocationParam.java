@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Location in the source code.
  */
-public class LocationParam extends org.jetbrains.jsonProtocol.OutMessage {
+public final class LocationParam extends org.jetbrains.jsonProtocol.OutMessage {
   /**
    * @param scriptId Script identifier as reported in the <code>Debugger.scriptParsed</code>.
    * @param lineNumber Line number in the script.

@@ -106,7 +106,7 @@ class OutputClassScope extends ClassScope {
       if (type == BoxableType.STRING) {
         nullValue = "null";
       }
-      else if (parameter.name().equals("columnNumber")) {
+      else if (parameter.name().equals("columnNumber") || parameter.name().equals("column")) {
         // todo generic solution
         nullValue = "-1";
       }

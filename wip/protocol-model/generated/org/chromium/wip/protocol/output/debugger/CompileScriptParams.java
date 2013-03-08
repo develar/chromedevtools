@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Compiles expression.
  */
-public class CompileScriptParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.CompileScriptData> {
+public final class CompileScriptParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.CompileScriptData> {
   /**
    * @param expression Expression to compile.
    * @param sourceURL Source url to be set for the script.

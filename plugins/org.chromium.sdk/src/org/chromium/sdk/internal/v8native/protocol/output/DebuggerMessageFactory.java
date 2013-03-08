@@ -4,7 +4,6 @@
 
 package org.chromium.sdk.internal.v8native.protocol.output;
 
-import org.chromium.sdk.Breakpoint;
 import org.chromium.sdk.DebugContext.StepAction;
 import org.jetbrains.jsonProtocol.StringIntPair;
 
@@ -43,11 +42,6 @@ public class DebuggerMessageFactory {
 
   public static ContextlessDebuggerMessage source(Integer frame, Integer fromLine, Integer toLine) {
     return new SourceMessage(frame, fromLine, toLine);
-  }
-
-  public static ContextlessDebuggerMessage setBreakpoint(Breakpoint.Target target,
-      Integer line, Integer column, Boolean enabled, String condition, Integer ignoreCount) {
-    return new SetBreakpointMessage(target, line, column, enabled, condition, ignoreCount);
   }
 
   public static ContextlessDebuggerMessage clearBreakpoint(long id) {

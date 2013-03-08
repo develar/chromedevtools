@@ -389,7 +389,7 @@
     <configuration default="false" name="Generate WIP model" type="Application" factoryName="Application" singleton="true">
       <option name="MAIN_CLASS_NAME" value="org.chromium.wip.protocolParser.ProtocolModelGenerator" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="protocol-model/generated http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/inspector/Inspector.json" />
+      <option name="PROGRAM_PARAMETERS" value="protocol-model/generated http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/inspector/Inspector.json org.chromium.wip.protocol org.jetbrains.wip.WipRequest" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../wip" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />

@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Highlights owner element of the frame with given id.
  */
-public class HighlightFrameParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class HighlightFrameParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param frameId Identifier of the frame to highlight.
    */

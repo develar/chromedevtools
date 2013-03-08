@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Steps out of the function call.
  */
-public class StepOutParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class StepOutParams extends org.jetbrains.wip.WipRequest {
 
   @Override
   public String getMethodName() {

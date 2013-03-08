@@ -17,7 +17,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.EventNotification;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
-import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
+import org.jetbrains.v8.protocol.V8Request;
 import org.chromium.sdk.internal.v8native.value.ExceptionDataImpl;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
 import org.chromium.sdk.internal.v8native.value.ValueMirror;

@@ -4,45 +4,19 @@
 
 package org.chromium.sdk.internal.v8native.protocol.output;
 
-import org.jetbrains.jsonProtocol.Request;
-
-import java.io.IOException;
-
 /**
  * Represents a generic V8 request message (so that it can serialize itself into JSON.)
  */
-public class V8Request extends Request {
+abstract class V8Request extends org.jetbrains.v8.protocol.V8Request {
   private final String command;
 
   public V8Request(String command) {
-    super();
-
+    super(command);
     this.command = command;
-    try {
-      writer.name("type").value(V8MessageType.REQUEST.value);
-      writer.name("command").value(command);
-    }
-    catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   @Override
   public String getMethodName() {
     return command;
-  }
-
-  @Override
-  protected String getIdKeyName() {
-    return "seq";
-  }
-
-  @Override
-  protected String argumentsKeyName() {
-    return "arguments";
-  }
-
-  public String getType() {
-    return V8MessageType.REQUEST.value;
   }
 }

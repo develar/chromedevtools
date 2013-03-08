@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Navigates current page to the given URL.
  */
-public class NavigateParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class NavigateParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param url URL to navigate the page to.
    */

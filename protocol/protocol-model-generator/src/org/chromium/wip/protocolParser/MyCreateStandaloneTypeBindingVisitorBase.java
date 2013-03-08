@@ -21,7 +21,7 @@ class MyCreateStandaloneTypeBindingVisitorBase extends CreateStandaloneTypeBindi
     return new StandaloneTypeBinding() {
       @Override
       public BoxableType getJavaType() {
-        return new StandaloneType(Naming.ADDITIONAL_PARAM.getFullName(generator.domain.domain(), name));
+        return new StandaloneType(generator.generator.getNaming().additionalParam.getFullName(generator.domain.domain(), name));
       }
 
       @Override
@@ -76,6 +76,6 @@ class MyCreateStandaloneTypeBindingVisitorBase extends CreateStandaloneTypeBindi
       }
     };
 
-    return generator.createTypedefTypeBinding(getType(), target, Naming.OUTPUT_TYPEDEF, TypeData.Direction.OUTPUT);
+    return generator.createTypedefTypeBinding(getType(), target, generator.generator.getNaming().outputTypedef, TypeData.Direction.OUTPUT);
   }
 }

@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Marks last undoable state.
  */
-public class MarkUndoableStateParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class MarkUndoableStateParams extends org.jetbrains.wip.WipRequest {
 
   @Override
   public String getMethodName() {

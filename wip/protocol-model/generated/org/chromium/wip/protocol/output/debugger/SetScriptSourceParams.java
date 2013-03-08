@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Edits JavaScript source live.
  */
-public class SetScriptSourceParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.SetScriptSourceData> {
+public final class SetScriptSourceParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.SetScriptSourceData> {
   /**
    * @param scriptId Id of the script to edit.
    * @param scriptSource New content of the script.

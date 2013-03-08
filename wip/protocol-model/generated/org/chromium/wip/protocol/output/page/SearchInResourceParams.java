@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Searches for given string in resource content.
  */
-public class SearchInResourceParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.SearchInResourceData> {
+public final class SearchInResourceParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.page.SearchInResourceData> {
   /**
    * @param frameId Frame id for resource to search in.
    * @param url URL of the resource to search in.

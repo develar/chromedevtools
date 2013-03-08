@@ -9,9 +9,31 @@
           "parameters": [
             {
               "name": "type",
+              "type": "string"
+            },
+            {
+              "name": "line",
+              "type": "integer"
+            },
+            {
+              "name": "column",
+              "type": "integer",
+              "optional": true
+            },
+            {
+              "name": "enabled",
               "type": "boolean",
-              "optional": true,
-              "description": "Whether native memory graph should be reported in addition to aggregated statistics."
+              "optional": true
+            },
+            {
+              "name": "condition",
+              "type": "string",
+              "optional": true
+            },
+            {
+              "name": "ignoreCount",
+              "type": "integer",
+              "optional": true
             }
           ]
         }

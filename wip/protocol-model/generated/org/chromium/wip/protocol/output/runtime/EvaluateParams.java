@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.runtime;
 /**
  * Evaluates expression on global object.
  */
-public class EvaluateParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.runtime.EvaluateData> {
+public final class EvaluateParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.runtime.EvaluateData> {
   /**
    * @param expression Expression to evaluate.
    */

@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Evaluates expression on a given call frame.
  */
-public class EvaluateOnCallFrameParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData> {
+public final class EvaluateOnCallFrameParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData> {
   /**
    * @param callFrameId Call frame identifier to evaluate on.
    * @param expression Expression to evaluate.

@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Searches for given string in script content.
  */
-public class SearchInContentParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.SearchInContentData> {
+public final class SearchInContentParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.SearchInContentData> {
   /**
    * @param scriptId Id of the script to search in.
    * @param query String to search for.

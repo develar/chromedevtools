@@ -1,7 +1,7 @@
 // Generated source
 package org.chromium.wip.protocol.output.page;
 
-public class AddScriptToEvaluateOnLoadParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.AddScriptToEvaluateOnLoadData> {
+public final class AddScriptToEvaluateOnLoadParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.page.AddScriptToEvaluateOnLoadData> {
   public AddScriptToEvaluateOnLoadParams(String scriptSource) {
     put("scriptSource", scriptSource);
   }

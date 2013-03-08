@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * A structure holding an RGBA color.
  */
-public class RGBAParam extends org.jetbrains.jsonProtocol.OutMessage {
+public final class RGBAParam extends org.jetbrains.jsonProtocol.OutMessage {
   /**
    * @param r The red component, in the [0-255] range.
    * @param g The green component, in the [0-255] range.

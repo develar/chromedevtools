@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Sets files for the given file input element.
  */
-public class SetFileInputFilesParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class SetFileInputFilesParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param nodeId Id of the file input node to set files for.
    * @param files Array of file paths to set.

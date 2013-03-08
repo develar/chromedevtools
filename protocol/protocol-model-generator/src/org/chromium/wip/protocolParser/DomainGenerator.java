@@ -32,62 +32,63 @@ class DomainGenerator {
       boolean hasResponse = command.returns() != null;
       generateCommandParams(command, hasResponse);
       if (hasResponse) {
-        String className = Naming.COMMAND_DATA.getShortName(command.name());
-        JavaFileUpdater fileUpdater = generator.startJavaFile(Naming.COMMAND_DATA, domain, command.name());
+        String className = generator.getNaming().commandData.getShortName(command.name());
+        JavaFileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().commandData, domain, command.name());
         generateJsonProtocolInterface(fileUpdater.out, className, command.description(), command.returns(), null);
         fileUpdater.update();
-        String dataFullName = Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText();
+        String dataFullName = generator.getNaming().commandData.getFullName(domain.domain(), command.name()).getFullText();
         generator.jsonProtocolParserClassNames.add(dataFullName);
-        generator.parserRootInterfaceItems.add(new ParserRootInterfaceItem(domain.domain(), command.name(), Naming.COMMAND_DATA));
+        generator.parserRootInterfaceItems.add(new ParserRootInterfaceItem(domain.domain(), command.name(), generator.getNaming().commandData));
       }
     }
 
     if (domain.events() != null) {
       for (ProtocolMetaModel.Event event : domain.events()) {
         generateEvenData(event);
-        generator.jsonProtocolParserClassNames.add(Naming.EVENT_DATA.getFullName(domain.domain(), event.name()).getFullText());
-        generator.parserRootInterfaceItems.add(new ParserRootInterfaceItem(domain.domain(), event.name(), Naming.EVENT_DATA));
+        generator.jsonProtocolParserClassNames.add(generator.getNaming().eventData.getFullName(domain.domain(), event.name()).getFullText());
+        generator.parserRootInterfaceItems.add(new ParserRootInterfaceItem(domain.domain(), event.name(), generator.getNaming().eventData));
       }
     }
   }
 
   private void generateCommandParams(final ProtocolMetaModel.Command command, final boolean hasResponse) throws IOException {
     StringBuilder baseTypeBuilder = new StringBuilder();
-    baseTypeBuilder.append("org.jetbrains.wip.protocol.");
+    baseTypeBuilder.append(generator.getNaming().requestClassName);
     if (hasResponse) {
-      baseTypeBuilder.append("WipRequestWithResponse<");
-      baseTypeBuilder.append(Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText());
+      baseTypeBuilder.append("WithResponse<");
+      baseTypeBuilder.append(generator.getNaming().commandData.getFullName(domain.domain(), command.name()).getFullText());
       baseTypeBuilder.append(">");
-    }
-    else {
-      baseTypeBuilder.append("WipRequest");
     }
 
     TextOutConsumer memberBuilder = new TextOutConsumer() {
       @Override
       public void append(TextOutput out) {
         out.newLine().append("@Override").newLine().append("public String getMethodName()").openBlock();
-        out.append("return \"").append(domain.domain()).append('.').append(command.name()).append("\";").closeBlock();
+        out.append("return \"");
+        if (!domain.domain().isEmpty()) {
+          out.append(domain.domain()).append('.');
+        }
+        out.append(command.name()).append("\";").closeBlock();
 
         if (hasResponse) {
-          CharSequence dataInterfaceFullName = Naming.COMMAND_DATA.getFullName(domain.domain(), command.name()).getFullText();
+          CharSequence dataInterfaceFullName = generator.getNaming().commandData.getFullName(domain.domain(), command.name()).getFullText();
           out.newLine().newLine().append("@Override").newLine().append("public ").append(dataInterfaceFullName)
             .append(" parseResponse(" +
                     "org.jetbrains.wip.protocol.WipCommandResponse.Data data, " +
                     "org.chromium.wip.protocol.input." + Generator.READER_INTERFACE_NAME + " parser) throws java.io.IOException")
             .openBlock();
-          out.append("return parser.").append(Naming.COMMAND_DATA.getParseMethodName(domain.domain(), command.name()));
+          out.append("return parser.").append(generator.getNaming().commandData.getParseMethodName(domain.domain(), command.name()));
           out.append("(data.getDeferredReader());");
           out.closeBlock();
         }
       }
     };
-    generateTopLevelOutputClass(Naming.PARAMS, command.name(), command.description(), baseTypeBuilder.toString(),
+    generateTopLevelOutputClass(generator.getNaming().params, command.name(), command.description(), baseTypeBuilder.toString(),
                                 memberBuilder, command.parameters());
   }
 
   void generateCommandAdditionalParam(ProtocolMetaModel.StandaloneType type) throws IOException {
-    generateTopLevelOutputClass(Naming.ADDITIONAL_PARAM, type.id(), type.description(),
+    generateTopLevelOutputClass(generator.getNaming().additionalParam, type.id(), type.description(),
         null, null, type.properties());
   }
 
@@ -111,7 +112,7 @@ class DomainGenerator {
                                                                     TextOutConsumer additionalMemberText,
                                                                     List<P> properties) throws IOException {
     out.doc(description);
-    out.append("public class ").append(classNamePath.getLastComponent());
+    out.append("public final class ").append(classNamePath.getLastComponent());
     out.append(" extends ").append(baseType == null ? "org.jetbrains.jsonProtocol.OutMessage" : baseType);
 
     OutputClassScope classScope = new OutputClassScope(this, classNamePath);
@@ -180,7 +181,7 @@ class DomainGenerator {
           }
         };
 
-        return createTypedefTypeBinding(getType(), target, Naming.INPUT_TYPEDEF, TypeData.Direction.INPUT);
+        return createTypedefTypeBinding(getType(), target, generator.getNaming().inputTypedef, TypeData.Direction.INPUT);
       }
     });
   }
@@ -188,7 +189,7 @@ class DomainGenerator {
   StandaloneTypeBinding createStandaloneObjectInputTypeBinding(final ProtocolMetaModel.StandaloneType type,
       final List<ProtocolMetaModel.ObjectProperty> properties) {
     final String name = type.id();
-    final NamePath fullTypeName = Naming.INPUT_VALUE.getFullName(domain.domain(), name);
+    final NamePath fullTypeName = generator.getNaming().inputValue.getFullName(domain.domain(), name);
     generator.jsonProtocolParserClassNames.add(fullTypeName.getFullText());
 
     return new StandaloneTypeBinding() {
@@ -198,8 +199,8 @@ class DomainGenerator {
 
       @Override
       public void generate() throws IOException {
-        NamePath className = Naming.INPUT_VALUE.getFullName(domain.domain(), name);
-        JavaFileUpdater fileUpdater = generator.startJavaFile(Naming.INPUT_VALUE, domain, name);
+        NamePath className = generator.getNaming().inputValue.getFullName(domain.domain(), name);
+        JavaFileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().inputValue, domain, name);
         TextOutput out = fileUpdater.out;
         if (type.description() != null) {
           out.doc(type.description());
@@ -226,14 +227,14 @@ class DomainGenerator {
     return new StandaloneTypeBinding() {
       @Override
       public BoxableType getJavaType() {
-        return new StandaloneType(Naming.INPUT_ENUM.getFullName(domain.domain(), name));
+        return new StandaloneType(generator.getNaming().inputEnum.getFullName(domain.domain(), name));
       }
 
       @Override
       public void generate() throws IOException {
-        JavaFileUpdater fileUpdater = generator.startJavaFile(Naming.INPUT_ENUM, domain, name);
+        JavaFileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().inputEnum, domain, name);
         fileUpdater.out.doc(type.description());
-        Enums.appendEnums(enumConstants, Naming.INPUT_ENUM.getShortName(name), true, fileUpdater.out);
+        Enums.appendEnums(enumConstants, generator.getNaming().inputEnum.getShortName(name), true, fileUpdater.out);
         fileUpdater.update();
       }
 
@@ -310,10 +311,10 @@ class DomainGenerator {
   }
 
   private void generateEvenData(final ProtocolMetaModel.Event event) throws IOException {
-    String className = Naming.EVENT_DATA.getShortName(event.name());
-    JavaFileUpdater fileUpdater = generator.startJavaFile(Naming.EVENT_DATA, domain, event.name());
+    String className = generator.getNaming().eventData.getShortName(event.name());
+    JavaFileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().eventData, domain, event.name());
     final String domainName = domain.domain();
-    final CharSequence fullName = Naming.EVENT_DATA.getFullName(domainName, event.name()).getFullText();
+    final CharSequence fullName = generator.getNaming().eventData.getFullName(domainName, event.name()).getFullText();
     generateJsonProtocolInterface(fileUpdater.out, className, event.description(), event.parameters(), new TextOutConsumer() {
       @Override
       public void append(TextOutput out) {
@@ -322,8 +323,8 @@ class DomainGenerator {
         out.append("(\"" + domainName + "" + event.name() + "\", ").append(fullName).append(".class)").openBlock();
         {
           out.append("@Override").newLine().append("public ").append(fullName).append(" parse(");
-          out.append(Generator.INPUT_PACKAGE).append('.').append(Generator.READER_INTERFACE_NAME + " parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException").openBlock();
-          out.append("return parser.").append(Naming.EVENT_DATA.getParseMethodName(domainName, event.name())).append("(reader);").closeBlock();
+          out.append(generator.getNaming().inputPackage).append('.').append(Generator.READER_INTERFACE_NAME + " parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException").openBlock();
+          out.append("return parser.").append(generator.getNaming().eventData.getParseMethodName(domainName, event.name())).append("(reader);").closeBlock();
         }
         out.closeBlock();
         out.semi();
@@ -337,7 +338,7 @@ class DomainGenerator {
       out.doc(description);
     }
     out.append("@org.chromium.protocolReader.JsonType").newLine().append("public interface ").append(className).openBlock();
-    InputClassScope classScope = new InputClassScope(this, new NamePath(className, new NamePath(ClassNameScheme.getPackageName(Generator.INPUT_PACKAGE, domain.domain()))));
+    InputClassScope classScope = new InputClassScope(this, new NamePath(className, new NamePath(ClassNameScheme.getPackageName(generator.getNaming().inputPackage, domain.domain()))));
     if (additionalMembersText != null) {
       classScope.addMember(additionalMembersText);
     }

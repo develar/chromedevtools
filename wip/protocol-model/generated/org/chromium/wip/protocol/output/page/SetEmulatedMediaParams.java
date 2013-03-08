@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Emulates the given media for CSS media queries.
  */
-public class SetEmulatedMediaParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class SetEmulatedMediaParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param media Media type to emulate. Empty string disables the override.
    */

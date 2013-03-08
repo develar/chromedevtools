@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Tells whether <code>setScriptSource</code> is supported.
  */
-public class CanSetScriptSourceParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.CanSetScriptSourceData> {
+public final class CanSetScriptSourceParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.CanSetScriptSourceData> {
 
   @Override
   public String getMethodName() {

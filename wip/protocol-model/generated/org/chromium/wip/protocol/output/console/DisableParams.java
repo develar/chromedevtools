@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.console;
 /**
  * Disables console domain, prevents further console messages from being reported to the client.
  */
-public class DisableParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class DisableParams extends org.jetbrains.wip.WipRequest {
 
   @Override
   public String getMethodName() {

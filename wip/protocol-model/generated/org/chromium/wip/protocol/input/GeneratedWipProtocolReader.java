@@ -189,5 +189,11 @@ public interface GeneratedWipProtocolReader {
   org.chromium.wip.protocol.input.runtime.ExecutionContextCreatedEventData parseRuntimeExecutionContextCreatedEventData(com.google.gson.stream.JsonReader reader) throws java.io.IOException;
   @org.chromium.protocolReader.JsonParseMethod
   org.chromium.wip.protocol.input.runtime.GetPropertiesData parseRuntimeGetPropertiesData(com.google.gson.stream.JsonReader reader) throws java.io.IOException;
+  @org.chromium.protocolReader.JsonParseMethod
+  org.chromium.wip.protocol.input.timeline.CanMonitorMainThreadData parseTimelineCanMonitorMainThreadData(com.google.gson.stream.JsonReader reader) throws java.io.IOException;
+  @org.chromium.protocolReader.JsonParseMethod
+  org.chromium.wip.protocol.input.timeline.EventRecordedEventData parseTimelineEventRecordedEventData(com.google.gson.stream.JsonReader reader) throws java.io.IOException;
+  @org.chromium.protocolReader.JsonParseMethod
+  org.chromium.wip.protocol.input.timeline.SupportsFrameInstrumentationData parseTimelineSupportsFrameInstrumentationData(com.google.gson.stream.JsonReader reader) throws java.io.IOException;
 
 }

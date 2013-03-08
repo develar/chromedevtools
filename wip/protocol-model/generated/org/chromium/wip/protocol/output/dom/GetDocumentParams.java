@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Returns the root DOM node to the caller.
  */
-public class GetDocumentParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetDocumentData> {
+public final class GetDocumentParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetDocumentData> {
 
   @Override
   public String getMethodName() {

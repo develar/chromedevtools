@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Reloads given page optionally ignoring the cache.
  */
-public class ReloadParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class ReloadParams extends org.jetbrains.wip.WipRequest {
 
 
   /**

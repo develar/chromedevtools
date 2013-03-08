@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.network;
 /**
  * Allows overriding user agent with the given string.
  */
-public class SetUserAgentOverrideParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class SetUserAgentOverrideParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param userAgent User agent to use.
    */

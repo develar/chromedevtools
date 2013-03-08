@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Returns content of the given resource.
  */
-public class GetResourceContentParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.GetResourceContentData> {
+public final class GetResourceContentParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.page.GetResourceContentData> {
   /**
    * @param frameId Frame id to get resource for.
    * @param url URL of the resource to get content for.

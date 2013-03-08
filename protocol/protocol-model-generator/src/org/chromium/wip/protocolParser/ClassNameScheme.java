@@ -22,12 +22,15 @@ abstract class ClassNameScheme {
   }
 
   public static String getPackageName(String rootPackage, String domain) {
+    if (domain.isEmpty()) {
+      return rootPackage;
+    }
     return rootPackage + '.' + domain.toLowerCase();
   }
 
   static class Input extends ClassNameScheme {
-    Input(String suffix) {
-      super(suffix, Generator.INPUT_PACKAGE);
+    Input(String suffix, String rootPackage) {
+      super(suffix, rootPackage);
     }
 
     String getParseMethodName(String domain, String name) {
@@ -36,14 +39,14 @@ abstract class ClassNameScheme {
   }
 
   static class Output extends ClassNameScheme {
-    Output(String suffix) {
-      super(suffix, Generator.OUTPUT_PACKAGE);
+    Output(String suffix, String rootPackage) {
+      super(suffix, rootPackage);
     }
   }
 
   static class Common extends ClassNameScheme {
-    Common(String suffix) {
-      super(suffix, Generator.COMMON_PACKAGE);
+    Common(String suffix, String rootPackage) {
+      super(suffix, rootPackage);
     }
   }
 }

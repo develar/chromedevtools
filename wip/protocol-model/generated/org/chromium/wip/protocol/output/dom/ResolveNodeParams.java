@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Resolves JavaScript node object for given node id.
  */
-public class ResolveNodeParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.ResolveNodeData> {
+public final class ResolveNodeParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.ResolveNodeData> {
   /**
    * @param nodeId Id of the node to resolve.
    */

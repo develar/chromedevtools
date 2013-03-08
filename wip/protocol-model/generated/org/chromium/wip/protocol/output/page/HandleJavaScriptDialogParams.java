@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Accepts or dismisses a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload).
  */
-public class HandleJavaScriptDialogParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class HandleJavaScriptDialogParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param accept Whether to accept or dismiss the dialog.
    */

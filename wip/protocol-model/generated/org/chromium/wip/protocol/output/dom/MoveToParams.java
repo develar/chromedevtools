@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Moves node into the new container, places it before the given anchor.
  */
-public class MoveToParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.MoveToData> {
+public final class MoveToParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.MoveToData> {
   /**
    * @param nodeId Id of the node to drop.
    * @param targetNodeId Id of the element to drop into.

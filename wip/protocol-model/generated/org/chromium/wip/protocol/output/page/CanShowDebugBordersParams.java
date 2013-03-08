@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Tells if backend supports debug borders on layers
  */
-public class CanShowDebugBordersParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.CanShowDebugBordersData> {
+public final class CanShowDebugBordersParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.page.CanShowDebugBordersData> {
 
   @Override
   public String getMethodName() {

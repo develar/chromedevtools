@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Returns search results from given <code>fromIndex</code> to given <code>toIndex</code> from the sarch with the given identifier.
  */
-public class GetSearchResultsParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetSearchResultsData> {
+public final class GetSearchResultsParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetSearchResultsData> {
   /**
    * @param searchId Unique search session identifier.
    * @param fromIndex Start index of the search result to be returned.

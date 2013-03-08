@@ -1,7 +1,7 @@
 // Generated source
 package org.chromium.wip.protocol.output.console;
 
-public class AddInspectedHeapObjectParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class AddInspectedHeapObjectParams extends org.jetbrains.wip.WipRequest {
   public AddInspectedHeapObjectParams(int heapObjectId) {
     put("heapObjectId", heapObjectId);
   }

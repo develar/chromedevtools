@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.runtime;
 /**
  * Represents function call argument. Either remote object id <code>objectId</code> or primitive <code>value</code> or neither of (for undefined) them should be specified.
  */
-public class CallArgumentParam extends org.jetbrains.jsonProtocol.OutMessage {
+public final class CallArgumentParam extends org.jetbrains.jsonProtocol.OutMessage {
 
 
   /**

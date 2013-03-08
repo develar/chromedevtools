@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Overrides the Device Orientation.
  */
-public class SetDeviceOrientationOverrideParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class SetDeviceOrientationOverrideParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param alpha Mock alpha
    * @param beta Mock beta

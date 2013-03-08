@@ -1,7 +1,7 @@
 // Generated source
 package org.chromium.wip.protocol.output.page;
 
-public class RemoveScriptToEvaluateOnLoadParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class RemoveScriptToEvaluateOnLoadParams extends org.jetbrains.wip.WipRequest {
   public RemoveScriptToEvaluateOnLoadParams(String identifier) {
     put("identifier", identifier);
   }

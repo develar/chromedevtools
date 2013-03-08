@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Requests that backend enables continuous painting
  */
-public class SetContinuousPaintingEnabledParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class SetContinuousPaintingEnabledParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param enabled True for enabling cointinuous painting
    */

@@ -24,9 +24,7 @@ public class SetBreakpointMessage extends ContextlessDebuggerMessage {
    * @param ignoreCount nullable number specifying the amount of break point hits to ignore.
    *        Default is 0
    */
-  public SetBreakpointMessage(Breakpoint.Target target,
-      Integer line, Integer column, Boolean enabled, String condition,
-      Integer ignoreCount) {
+  public SetBreakpointMessage(Breakpoint.Target target, int line, int column, boolean enabled, String condition, int ignoreCount) {
     super(DebuggerCommand.SETBREAKPOINT.value);
     put("type", target.accept(GET_TYPE_VISITOR));
 

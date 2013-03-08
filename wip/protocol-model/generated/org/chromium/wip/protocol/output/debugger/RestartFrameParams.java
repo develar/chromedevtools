@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Restarts particular call frame from the beginning.
  */
-public class RestartFrameParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.RestartFrameData> {
+public final class RestartFrameParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.RestartFrameData> {
   /**
    * @param callFrameId Call frame identifier to evaluate on.
    */

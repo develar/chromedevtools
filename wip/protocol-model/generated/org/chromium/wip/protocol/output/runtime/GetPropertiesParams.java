@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.runtime;
 /**
  * Returns properties of a given object. Object group of the result is inherited from the target object.
  */
-public class GetPropertiesParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.runtime.GetPropertiesData> {
+public final class GetPropertiesParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.runtime.GetPropertiesData> {
   /**
    * @param objectId Identifier of the object to return properties for.
    */

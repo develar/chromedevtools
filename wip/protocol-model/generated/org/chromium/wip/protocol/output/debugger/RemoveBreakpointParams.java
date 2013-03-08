@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Removes JavaScript breakpoint.
  */
-public class RemoveBreakpointParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class RemoveBreakpointParams extends org.jetbrains.wip.WipRequest {
   public RemoveBreakpointParams(String breakpointId) {
     put("breakpointId", breakpointId);
   }

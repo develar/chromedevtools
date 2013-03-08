@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Undoes the last performed action.
  */
-public class UndoParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class UndoParams extends org.jetbrains.wip.WipRequest {
 
   @Override
   public String getMethodName() {

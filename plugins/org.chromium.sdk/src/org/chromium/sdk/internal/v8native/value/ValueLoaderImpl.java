@@ -19,7 +19,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.RefWithDisplayData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
-import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
+import org.jetbrains.v8.protocol.V8Request;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.protocol.output.LookupMessage;
 import org.chromium.sdk.util.GenericCallback;

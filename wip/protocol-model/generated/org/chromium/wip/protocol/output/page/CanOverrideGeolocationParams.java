@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Checks if Geolocation can be overridden.
  */
-public class CanOverrideGeolocationParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.CanOverrideGeolocationData> {
+public final class CanOverrideGeolocationParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.page.CanOverrideGeolocationData> {
 
   @Override
   public String getMethodName() {

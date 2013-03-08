@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Continues execution until specific location is reached.
  */
-public class ContinueToLocationParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class ContinueToLocationParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param location Location to continue to.
    */

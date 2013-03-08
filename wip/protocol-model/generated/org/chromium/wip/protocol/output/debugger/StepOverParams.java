@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Steps over the statement.
  */
-public class StepOverParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class StepOverParams extends org.jetbrains.wip.WipRequest {
 
   @Override
   public String getMethodName() {

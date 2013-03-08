@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Returns detailed informtation on given function.
  */
-public class GetFunctionDetailsParams extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.GetFunctionDetailsData> {
+public final class GetFunctionDetailsParams extends org.jetbrains.wip.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.GetFunctionDetailsData> {
   /**
    * @param functionId Id of the function to get location for.
    */

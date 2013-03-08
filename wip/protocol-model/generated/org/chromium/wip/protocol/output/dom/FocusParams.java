@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Focuses the given element.
  */
-public class FocusParams extends org.jetbrains.wip.protocol.WipRequest {
+public final class FocusParams extends org.jetbrains.wip.WipRequest {
   /**
    * @param nodeId Id of the node to focus.
    */
