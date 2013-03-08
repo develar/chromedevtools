@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.wip.schemaParser;
+package org.jetbrains.jsonProtocol.readerGenerator;
 
 import com.google.gson.stream.JsonReader;
 import org.chromium.protocolReader.JsonParseMethod;
 import org.chromium.protocolReader.JsonParserRoot;
-import org.chromium.wip.schemaParser.WipMetamodel.Root;
+import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel.Root;
 
 import java.io.IOException;
 

@@ -1,6 +1,6 @@
 package org.chromium.wip.protocolParser;
 
-import org.chromium.wip.schemaParser.WipMetamodel;
+import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
 
 import java.util.List;
 

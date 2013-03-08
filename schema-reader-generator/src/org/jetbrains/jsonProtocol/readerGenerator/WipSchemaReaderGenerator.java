@@ -1,4 +1,4 @@
-package org.chromium.wip.schemaParser;
+package org.jetbrains.jsonProtocol.readerGenerator;
 
 import org.chromium.protocolparser.DynamicParserImpl;
 import org.chromium.protocolparser.ReaderGeneratorBase;

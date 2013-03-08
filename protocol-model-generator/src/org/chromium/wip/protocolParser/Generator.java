@@ -5,14 +5,14 @@
 package org.chromium.wip.protocolParser;
 
 import org.chromium.protocolparser.TextOutput;
-import org.chromium.wip.schemaParser.ItemDescriptor;
-import org.chromium.wip.schemaParser.WipMetamodel;
+import org.jetbrains.jsonProtocol.readerGenerator.ItemDescriptor;
+import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static org.chromium.wip.schemaParser.WipMetamodel.*;
+import static org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel.*;
 
 /**
  * Read metamodel and generates set of files with Java classes/interfaces for the protocol.

@@ -1,4 +1,4 @@
-package org.chromium.wip.schemaParser;
+package org.jetbrains.jsonProtocol.readerGenerator;
 
 import org.chromium.protocolReader.JsonField;
 import org.chromium.protocolReader.JsonOptionalField;

@@ -309,13 +309,13 @@
       <module fileurl="file://$PROJECT_DIR$/../protocol-model-generator/protocol-model-generator.iml" filepath="$PROJECT_DIR$/../protocol-model-generator/protocol-model-generator.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../protocol-reader/protocol-reader.iml" filepath="$PROJECT_DIR$/../protocol-reader/protocol-reader.iml" />
       <module fileurl="file://$PROJECT_DIR$/../protocol-reader-runtime/protocol-reader-runtime.iml" filepath="$PROJECT_DIR$/../protocol-reader-runtime/protocol-reader-runtime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../schema-reader-generator/schema-reader-generator.iml" filepath="$PROJECT_DIR$/../schema-reader-generator/schema-reader-generator.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" filepath="$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol-reader-generator/v8-protocol-reader-generator.iml" filepath="$PROJECT_DIR$/../v8/protocol-reader-generator/v8-protocol-reader-generator.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/wip-eclipse.iml" filepath="$PROJECT_DIR$/wip-eclipse.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../wip/protocol/wip-protocol.iml" filepath="$PROJECT_DIR$/../wip/protocol/wip-protocol.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../wip/protocol-model/wip-protocol-model.iml" filepath="$PROJECT_DIR$/../wip/protocol-model/wip-protocol-model.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../wip/protocol-reader-generator/wip-protocol-reader-generator.iml" filepath="$PROJECT_DIR$/../wip/protocol-reader-generator/wip-protocol-reader-generator.iml" group="wip" />
-      <module fileurl="file://$PROJECT_DIR$/../schema-reader-generator/wip-schema-reader-generator.iml" filepath="$PROJECT_DIR$/../schema-reader-generator/wip-schema-reader-generator.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/wip-source.iml" filepath="$PROJECT_DIR$/wip-source.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/wipbackend-dev.iml" filepath="$PROJECT_DIR$/wipbackend-dev.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/wipbackends-feature.iml" filepath="$PROJECT_DIR$/wipbackends-feature.iml" group="wip" />
@@ -370,7 +370,7 @@
       <method />
     </configuration>
     <configuration default="false" name="Generate WIP schema reader " type="Application" factoryName="Application" singleton="true">
-      <option name="MAIN_CLASS_NAME" value="org.chromium.wip.schemaParser.WipSchemaReaderGenerator" />
+      <option name="MAIN_CLASS_NAME" value="org.jetbrains.jsonProtocol.readerGenerator.WipSchemaReaderGenerator" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PROGRAM_PARAMETERS" value="--output-dir=protocol-model-generator/generated" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../wip" />
@@ -379,7 +379,7 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="wip-schema-reader-generator" />
+      <module name="schema-reader-generator" />
       <envs />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />

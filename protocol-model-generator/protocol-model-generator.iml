@@ -9,7 +9,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="gson" level="project" />
-    <orderEntry type="module" module-name="wip-schema-reader-generator" />
+    <orderEntry type="module" module-name="schema-reader-generator" />
     <orderEntry type="module" module-name="protocol-reader" />
     <orderEntry type="library" name="annotations" level="project" />
   </component>

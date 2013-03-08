@@ -2,7 +2,7 @@ package org.chromium.wip.protocolParser;
 
 import org.chromium.protocolparser.Enums;
 import org.chromium.protocolparser.TextOutput;
-import org.chromium.wip.schemaParser.WipMetamodel;
+import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
 
 import java.io.IOException;
 import java.util.List;
