@@ -46,18 +46,9 @@ public interface JavaCodeGenerator {
   interface MethodScope extends ClassScope {
   }
 
-  interface ElementData {
-    void generateCode(ClassScope classScope);
-  }
-
-  interface ElementFactory<T extends ElementData> {
-    T create(int code);
-  }
-
   class Impl implements JavaCodeGenerator {
     @Override
-    public GlobalScope newGlobalScope(Collection<TypeHandler<?>> typeHandlers,
-        Collection<GeneratedCodeMap> basePackages) {
+    public GlobalScope newGlobalScope(Collection<TypeHandler<?>> typeHandlers, Collection<GeneratedCodeMap> basePackages) {
       return new GlobalScopeImpl(typeHandlers, basePackages);
     }
 

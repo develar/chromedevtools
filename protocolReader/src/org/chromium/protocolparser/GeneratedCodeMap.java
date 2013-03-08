@@ -10,13 +10,13 @@ import java.util.Map;
  * Maps json type interfaces to full class name of their generated implementations.
  */
 public class GeneratedCodeMap {
-  private final Map<Class<?>, String> type2ImplClassName;
+  private final Map<Class<?>, String> typeToImplClassName;
 
-  public GeneratedCodeMap(Map<Class<?>, String> type2ImplClassName) {
-    this.type2ImplClassName = type2ImplClassName;
+  public GeneratedCodeMap(Map<Class<?>, String> typeToImplClassName) {
+    this.typeToImplClassName = typeToImplClassName;
   }
 
   String getTypeImplementationReference(Class<?> type) {
-    return type2ImplClassName.get(type);
+    return typeToImplClassName.get(type);
   }
 }

@@ -2,7 +2,6 @@ package org.chromium.protocolparser;
 
 import gnu.trove.THashMap;
 import gnu.trove.THashSet;
-import gnu.trove.TObjectObjectProcedure;
 import gnu.trove.TObjectProcedure;
 
 import java.util.*;
@@ -46,6 +45,7 @@ public class GlobalScopeImpl implements JavaCodeGenerator.GlobalScope {
   private static class State {
     private final Map<TypeHandler<?>, String> typeToName;
     private final Collection<GeneratedCodeMap> basePackages;
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private final THashSet<TypeHandler> typesWithFactories = new THashSet<TypeHandler>();
 
     State(Collection<TypeHandler<?>> typeHandlers, Collection<GeneratedCodeMap> basePackages) {

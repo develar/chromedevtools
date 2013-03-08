@@ -5,7 +5,6 @@
 package org.chromium.sdk.internal.v8native.protocol.input;
 
 import org.chromium.protocolParser.JsonOptionalField;
-import org.chromium.protocolParser.JsonSubtype;
 import org.chromium.protocolParser.JsonType;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 
@@ -16,7 +15,7 @@ import java.util.List;
  * to {@link SuccessCommandResponse}.
  */
 @JsonType
-public interface EventNotification extends JsonSubtype<IncomingMessage> {
+public interface EventNotification {
   String event();
 
   EventNotificationBody body();

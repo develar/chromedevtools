@@ -52,12 +52,9 @@ public class DynamicParserImpl<ROOT> {
     final List<String> overridenNames = new ArrayList<String>(1);
   }
 
-  public GeneratedCodeMap generateStaticParser(StringBuilder stringBuilder, String packageName,
-      String className, Collection<GeneratedCodeMap> basePackages) {
+  public GeneratedCodeMap generateStaticParser(StringBuilder stringBuilder, String packageName, String className, Collection<GeneratedCodeMap> basePackages) {
     JavaCodeGenerator generator = new JavaCodeGenerator.Impl();
-
     final JavaCodeGenerator.GlobalScope globalScope = generator.newGlobalScope(typeToTypeHandler.values(), basePackages);
-
     JavaCodeGenerator.FileScope fileScope = globalScope.newFileScope(stringBuilder);
     final TextOutput out = fileScope.getOutput();
     out.append("// This is a generated source.");

@@ -46,7 +46,7 @@ class ObjectValueParser<T> extends ValueParser {
     refToType.get().writeInstantiateCode(scope.getRootClassScope(), deferredReading, out);
     out.append('(');
     addReaderParameter(deferredReading, out);
-    if (deferredReading) {
+    if (deferredReading && refToType.get().getSubtypeSupport() instanceof ExistingSubtypeAspect) {
       out.comma().append("this");
     }
     out.append(')');

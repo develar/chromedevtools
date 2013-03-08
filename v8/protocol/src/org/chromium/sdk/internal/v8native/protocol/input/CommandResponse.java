@@ -11,7 +11,7 @@ import org.chromium.protocolParser.*;
  * success responses and one for failure responses.
  */
 @JsonType
-public interface CommandResponse extends JsonSubtype<IncomingMessage> {
+public interface CommandResponse {
   /**
    * Id of the corresponding request sent to debugger.
    */

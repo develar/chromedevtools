@@ -143,7 +143,7 @@ public class ReaderGeneratorBase {
 
   private static GeneratedCodeMap generateImpl(GenerateConfiguration configuration, StringBuilder stringBuilder) {
     return configuration.getParserImpl().generateStaticParser(stringBuilder,
-        configuration.getPackageName(), configuration.getClassName(),
-        configuration.getBasePackagesMap());
+                                                              configuration.getPackageName(), configuration.getClassName(),
+                                                              configuration.getBasePackagesMap());
   }
 }

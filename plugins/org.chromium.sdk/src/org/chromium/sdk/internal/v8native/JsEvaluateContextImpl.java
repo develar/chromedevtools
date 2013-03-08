@@ -46,13 +46,13 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
             ValueHandle body;
             try {
               body = successResponse.body().asEvaluateBody();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
               throw new RuntimeException(e);
             }
             InternalContext internalContext = getInternalContext();
             ValueMirror mirror = internalContext.getValueLoader().addDataToMap(body);
-            JsVariable variable = new JsVariableImpl(internalContext.getValueLoader(),
-                mirror, expression);
+            JsVariable variable = new JsVariableImpl(internalContext.getValueLoader(), mirror, expression);
             callback.success(variable);
           }
           @Override
@@ -61,8 +61,7 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
           }
         };
 
-    return getInternalContext().sendV8CommandAsync(message, true, commandCallback,
-        syncCallback);
+    return getInternalContext().sendV8CommandAsync(message, true, commandCallback, syncCallback);
   }
 
   @Override

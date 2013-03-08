@@ -313,8 +313,7 @@ class InterfaceReader {
     return null;
   }
 
-  private RefToType<?> getSuperclassRef(Class<?> typeClass)
-    throws JsonProtocolModelParseException {
+  private RefToType<?> getSuperclassRef(Class<?> typeClass) {
     RefToType<?> result = null;
     for (Type interfaceGeneric : typeClass.getGenericInterfaces()) {
       if (!(interfaceGeneric instanceof ParameterizedType)) {
@@ -471,7 +470,6 @@ class InterfaceReader {
         manualAlgCasesData.subtypes.add(parserAsObjectValueParser.getType());
         subtypeCasters.add(subtypeCaster);
       }
-
       return handler;
     }
 
