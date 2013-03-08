@@ -6,11 +6,10 @@ package org.chromium.sdk.internal.v8native.protocol.input.data;
 
 import com.google.gson.stream.JsonReader;
 import org.chromium.protocolParser.JsonOptionalField;
-import org.chromium.protocolParser.JsonSubtype;
 import org.chromium.protocolParser.JsonType;
 
 @JsonType
-public interface ScriptHandle extends JsonSubtype<SomeHandle> {
+public interface ScriptHandle {
   long id();
   long lineOffset();
   long columnOffset();

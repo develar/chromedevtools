@@ -63,12 +63,12 @@ public class BacktraceProcessor implements V8CommandProcessor.V8HandlerCallback 
     debugSession.getScriptManagerProxy().getAllScripts(afterScriptsAreLoaded, null);
   }
 
-  public static DebugContext setFrames(SuccessCommandResponse response,
-      ContextBuilder.ExpectingBacktraceStep step2) {
+  public static DebugContext setFrames(SuccessCommandResponse response, ContextBuilder.ExpectingBacktraceStep step2) {
     BacktraceCommandBody body;
     try {
       body = response.body().asBacktraceCommandBody();
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       throw new RuntimeException(e);
     }
     List<FrameObject> jsonFrames = body.frames();
@@ -80,7 +80,6 @@ public class BacktraceProcessor implements V8CommandProcessor.V8HandlerCallback 
     for (SomeHandle handle : response.refs()) {
       valueLoader.addHandleFromRefs(handle);
     }
-
     return step2.setFrames(jsonFrames);
   }
 

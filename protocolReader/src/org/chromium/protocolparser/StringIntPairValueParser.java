@@ -15,7 +15,7 @@ public class StringIntPairValueParser extends ValueParser {
   }
 
   @Override
-  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
+  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out, boolean nullable) {
     out.append("read").append("IntStringPairs").append('(');
     addReaderParameter(subtyping, out);
     out.append(')');

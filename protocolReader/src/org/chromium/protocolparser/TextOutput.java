@@ -44,9 +44,16 @@ public class TextOutput {
     return this;
   }
 
-  public void append(double value) {
+  public TextOutput append(double value) {
     maybeIndent();
     out.append(value);
+    return this;
+  }
+
+  public TextOutput append(boolean value) {
+    maybeIndent();
+    out.append(value);
+    return this;
   }
 
   public TextOutput append(int value) {

@@ -6,9 +6,9 @@ package org.chromium.sdk.internal.v8native.protocol.input.data;
 
 import org.chromium.protocolParser.JsonOptionalField;
 import org.chromium.protocolParser.JsonOverrideField;
-import org.chromium.protocolParser.JsonSubtype;
 import org.chromium.protocolParser.JsonSubtypeCasting;
 import org.chromium.protocolParser.JsonType;
+import org.jetbrains.v8.protocol.input.Handle;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ import java.io.IOException;
  * JSONProtocolSerializer.prototype.serialize_, main part
  */
 @JsonType
-public interface ValueHandle extends JsonSubtype<SomeHandle>  {
+public interface ValueHandle extends Handle {
   @JsonOverrideField
   long handle();
 

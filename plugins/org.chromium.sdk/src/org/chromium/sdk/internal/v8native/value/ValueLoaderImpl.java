@@ -7,6 +7,7 @@ package org.chromium.sdk.internal.v8native.value;
 import com.google.gson.stream.JsonReader;
 import gnu.trove.TLongIntHashMap;
 import gnu.trove.TLongObjectHashMap;
+import org.chromium.sdk.InvalidContextException;
 import org.chromium.sdk.JsValue;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
@@ -24,6 +25,7 @@ import org.chromium.sdk.internal.v8native.protocol.output.LookupMessage;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.v8.protocol.ProtocolService;
+import org.jetbrains.v8.protocol.input.Handle;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,15 +82,22 @@ public class ValueLoaderImpl extends ValueLoader {
     return context;
   }
 
-  public void addHandleFromRefs(SomeHandle handle) {
+  public void addHandleFromRefs(Handle handle) {
     if (HandleManager.isSpecialType(handle.type())) {
-      specialHandleManager.put(handle.handle(), handle);
-    } else {
+      specialHandleManager.put(handle.handle(), (SomeHandle)handle);
+    }
+    else {
       ValueHandle valueHandle;
-      try {
-        valueHandle = handle.asValueHandle();
-      } catch (IOException e) {
-        throw new RuntimeException(e);
+      if (handle instanceof ValueHandle) {
+        valueHandle = (ValueHandle)handle;
+      }
+      else {
+        try {
+          valueHandle = ((SomeHandle)handle).asValueHandle();
+        }
+        catch (IOException e) {
+          throw new RuntimeException(e);
+        }
       }
       addDataToMap(valueHandle);
     }
@@ -103,7 +112,7 @@ public class ValueLoaderImpl extends ValueLoader {
     return putValueMirrorIntoMapRecursive(ValueMirror.create(valueHandle, getLoadableStringFactory()));
   }
 
-  public ValueMirror addDataToMap(Long ref, JsValue.Type type, String className,
+  public ValueMirror addDataToMap(long ref, JsValue.Type type, String className,
       LoadableString loadableString, SubpropertiesMirror subpropertiesMirror) {
     return putValueMirrorIntoMapRecursive(ValueMirror.create(ref, type, className, loadableString, subpropertiesMirror));
   }
@@ -194,14 +203,14 @@ public class ValueLoaderImpl extends ValueLoader {
   }
 
   private ObjectValueHandle readFromScopeResponse(SuccessCommandResponse response) {
-    List<SomeHandle> refs = response.refs();
-    for (SomeHandle handle : refs) {
+    for (SomeHandle handle : response.refs()) {
       addHandleFromRefs(handle);
     }
 
     try {
       return response.body().asScopeBody().object();
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       throw new ValueLoadException(e);
     }
   }
@@ -277,14 +286,12 @@ public class ValueLoaderImpl extends ValueLoader {
    * @param propertyRefIds list of ref ids we need to look up
    * @return loaded value mirrors in the same order as in propertyRefIds
    */
-  public List<ValueMirror> loadValuesFromRemote(final long[] propertyRefIds)
-      throws MethodIsBlockingException {
+  public List<ValueMirror> loadValuesFromRemote(final long[] propertyRefIds) throws MethodIsBlockingException {
     if (propertyRefIds.length == 0) {
       return Collections.emptyList();
     }
 
     V8Request message = DebuggerMessageFactory.lookup(propertyRefIds, false);
-
     V8BlockingCallback<List<ValueMirror>> callback = new V8BlockingCallback<List<ValueMirror>>() {
       @Override
       protected List<ValueMirror> handleSuccessfulResponse(SuccessCommandResponse response) {
@@ -294,10 +301,9 @@ public class ValueLoaderImpl extends ValueLoader {
 
     try {
       return V8Helper.callV8Sync(context, message, callback);
-    } catch (ContextDismissedCheckedException e) {
-      context.getDebugSession().maybeRethrowContextException(e);
-      // or
-      throw new ValueLoadException("Invalid context", e);
+    }
+    catch (ContextDismissedCheckedException e) {
+      throw new InvalidContextException(e);
     }
   }
 

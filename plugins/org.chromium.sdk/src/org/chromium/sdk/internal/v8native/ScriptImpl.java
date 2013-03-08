@@ -110,7 +110,8 @@ public class ScriptImpl extends ScriptBase<Long> {
     ScriptHandle scriptHandle;
     try {
       scriptHandle = handle.asScriptHandle();
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       throw new RuntimeException(e);
     }
     return scriptHandle.id();

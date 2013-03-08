@@ -20,7 +20,7 @@ class SimpleCastValueParser<T> extends ValueParser {
   }
 
   @Override
-  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
+  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out, boolean nullable) {
     throw new UnsupportedOperationException();
   }
 

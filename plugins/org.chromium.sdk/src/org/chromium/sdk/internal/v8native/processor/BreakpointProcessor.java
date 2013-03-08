@@ -16,8 +16,8 @@ import org.chromium.sdk.internal.v8native.protocol.input.BreakEventBody;
 import org.chromium.sdk.internal.v8native.protocol.input.EventNotification;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
-import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
+import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.sdk.internal.v8native.value.ExceptionDataImpl;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
 import org.chromium.sdk.internal.v8native.value.ValueMirror;
@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Handles the suspension-related V8 command replies and events.
@@ -106,25 +105,16 @@ public class BreakpointProcessor extends V8EventProcessor {
 
   private static ExceptionData createException(EventNotification response, BreakEventBody body,
                                                InternalContext internalContext) {
-    List<SomeHandle> refs = response.refs();
     ValueHandle exception = body.exception();
     ValueLoaderImpl valueLoader = internalContext.getValueLoader();
-    for (SomeHandle handle : refs) {
+    for (SomeHandle handle : response.refs()) {
       valueLoader.addHandleFromRefs(handle);
     }
-    valueLoader.addHandleFromRefs(exception.getSuper());
+    valueLoader.addHandleFromRefs(exception);
 
     // source column is not exposed ("sourceColumn" in "body")
     String sourceText = body.sourceLineText();
-
     ValueMirror mirror = valueLoader.addDataToMap(exception);
-
-    return new ExceptionDataImpl(internalContext,
-        mirror,
-        EXCEPTION_NAME,
-        body.uncaught(),
-        sourceText,
-        exception.text());
+    return new ExceptionDataImpl(internalContext, mirror, EXCEPTION_NAME, body.uncaught(), sourceText, exception.text());
   }
-
 }

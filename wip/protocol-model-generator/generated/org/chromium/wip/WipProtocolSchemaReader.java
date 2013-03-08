@@ -1,12 +1,11 @@
 // This is a generated source.
 package org.chromium.wip;
 
-import com.google.gson.stream.JsonReader;
-import org.jetbrains.jsonProtocol.ObjectFactory;
-
-import java.io.IOException;
+import org.jetbrains.jsonProtocol.*;
 
 import static org.jetbrains.jsonProtocol.JsonReaders.*;
+import com.google.gson.stream.JsonReader;
+import java.io.IOException;
 
 public final class WipProtocolSchemaReader implements org.chromium.wip.schemaParser.WipMetamodelParser {
   @Override
@@ -34,7 +33,7 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
           _$ref = readString(reader, name);
         }
         else if (name.equals("properties")) {
-          _properties = readObjectArray(reader, name, new M4F());
+          _properties = readObjectArray(reader, name, new M4F(), true);
         }
         else if (name.equals("description")) {
           _description = readString(reader, name);
@@ -110,10 +109,10 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
           _description = readString(reader, name);
         }
         else if (name.equals("parameters")) {
-          _parameters = readObjectArray(reader, name, new M5F());
+          _parameters = readObjectArray(reader, name, new M5F(), true);
         }
         else if (name.equals("returns")) {
-          _returns = readObjectArray(reader, name, new M5F());
+          _returns = readObjectArray(reader, name, new M5F(), true);
         }
         else if (name.equals("hidden")) {
           _hidden = readBoolean(reader, name);
@@ -181,13 +180,13 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
           _hidden = readBoolean(reader, name);
         }
         else if (name.equals("types")) {
-          _types = readObjectArray(reader, name, new M7F());
+          _types = readObjectArray(reader, name, new M7F(), true);
         }
         else if (name.equals("commands")) {
-          _commands = readObjectArray(reader, name, new M1F());
+          _commands = readObjectArray(reader, name, new M1F(), false);
         }
         else if (name.equals("events")) {
-          _events = readObjectArray(reader, name, new M3F());
+          _events = readObjectArray(reader, name, new M3F(), true);
         }
         else {
           reader.skipValue();
@@ -244,7 +243,7 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
           _description = readString(reader, name);
         }
         else if (name.equals("parameters")) {
-          _parameters = readObjectArray(reader, name, new M5F());
+          _parameters = readObjectArray(reader, name, new M5F(), true);
         }
         else if (name.equals("hidden")) {
           _hidden = readBoolean(reader, name);
@@ -458,7 +457,7 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("domains")) {
-          _domains = readObjectArray(reader, name, new M2F());
+          _domains = readObjectArray(reader, name, new M2F(), false);
         }
         else if (name.equals("version")) {
           _version = new M8(reader);
@@ -501,7 +500,7 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
           _id = readString(reader, name);
         }
         else if (name.equals("properties")) {
-          _properties = readObjectArray(reader, name, new M4F());
+          _properties = readObjectArray(reader, name, new M4F(), true);
         }
         else if (name.equals("description")) {
           _description = readString(reader, name);
@@ -590,24 +589,10 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
     }
   }
 
-  static final class M3F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Event> {
-    @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.Event read(JsonReader reader) throws IOException {
-      return new M3(reader);
-    }
-  }
-
   static final class M2F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Domain> {
     @Override
     public org.chromium.wip.schemaParser.WipMetamodel.Domain read(JsonReader reader) throws IOException {
       return new M2(reader);
-    }
-  }
-
-  static final class M7F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.StandaloneType> {
-    @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.StandaloneType read(JsonReader reader) throws IOException {
-      return new M7(reader);
     }
   }
 
@@ -618,17 +603,31 @@ public final class WipProtocolSchemaReader implements org.chromium.wip.schemaPar
     }
   }
 
-  static final class M4F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty> {
-    @Override
-    public org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty read(JsonReader reader) throws IOException {
-      return new M4(reader);
-    }
-  }
-
   static final class M5F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Parameter> {
     @Override
     public org.chromium.wip.schemaParser.WipMetamodel.Parameter read(JsonReader reader) throws IOException {
       return new M5(reader);
+    }
+  }
+
+  static final class M7F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.StandaloneType> {
+    @Override
+    public org.chromium.wip.schemaParser.WipMetamodel.StandaloneType read(JsonReader reader) throws IOException {
+      return new M7(reader);
+    }
+  }
+
+  static final class M3F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.Event> {
+    @Override
+    public org.chromium.wip.schemaParser.WipMetamodel.Event read(JsonReader reader) throws IOException {
+      return new M3(reader);
+    }
+  }
+
+  static final class M4F extends ObjectFactory<org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty> {
+    @Override
+    public org.chromium.wip.schemaParser.WipMetamodel.ObjectProperty read(JsonReader reader) throws IOException {
+      return new M4(reader);
     }
   }
 

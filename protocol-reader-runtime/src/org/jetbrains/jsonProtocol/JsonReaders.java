@@ -121,12 +121,25 @@ public final class JsonReaders {
     return reader.peek() == JsonToken.NULL ? null : Enum.valueOf(enumClass, readEnumName(reader));
   }
 
-  public static <T> List<T> readObjectArray(JsonReader reader, String fieldName, ObjectFactory<T> factory) throws IOException {
-    checkIsNull(reader, fieldName);
+  public static <T> List<T> readObjectArray(JsonReader reader, String fieldName, ObjectFactory<T> factory, boolean nullable) throws IOException {
+    if (reader.peek() == JsonToken.NULL) {
+      if (nullable) {
+        return null;
+      }
+      else {
+        checkIsNull(reader, fieldName);
+      }
+    }
+
     reader.beginArray();
     if (!reader.hasNext()) {
       reader.endArray();
-      return Collections.emptyList();
+      if (nullable) {
+        return null;
+      }
+      else {
+        return Collections.emptyList();
+      }
     }
 
     List<T> result = new ArrayList<T>();

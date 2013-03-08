@@ -38,7 +38,7 @@ abstract class ValueParser {
     return nullable;
   }
 
-  abstract void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out);
+  abstract void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out, boolean nullable);
 
   protected void beginReadCall(String readPostfix, boolean subtyping, TextOutput out) {
     out.append("read");

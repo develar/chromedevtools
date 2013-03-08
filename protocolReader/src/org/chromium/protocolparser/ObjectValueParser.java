@@ -53,9 +53,9 @@ class ObjectValueParser<T> extends ValueParser {
   }
 
   @Override
-  public void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out) {
+  public void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out, boolean nullable) {
     beginReadCall("ObjectArray", subtyping, out);
     out.comma().append("new ").append(scope.requireFactoryGenerationAndGetName(refToType.get())).append(Util.TYPE_FACTORY_NAME_POSTFIX).append("()");
-    out.append(')');
+    out.comma().append(nullable).append(')');
   }
 }

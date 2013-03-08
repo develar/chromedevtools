@@ -5,11 +5,10 @@
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
 import org.chromium.protocolParser.JsonOptionalField;
-import org.chromium.protocolParser.JsonSubtype;
 import org.chromium.protocolParser.JsonType;
 
 @JsonType
-public interface ContextHandle extends JsonSubtype<SomeHandle> {
+public interface ContextHandle {
   /**
    * Any value, provided by V8 embedding application. For Chrome it may be {@link ContextData}
    * as well as its stringified form (as "type,in").

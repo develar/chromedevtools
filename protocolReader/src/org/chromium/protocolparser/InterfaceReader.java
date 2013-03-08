@@ -3,7 +3,8 @@ package org.chromium.protocolparser;
 import com.google.gson.stream.JsonReader;
 import gnu.trove.THashSet;
 import org.chromium.protocolParser.*;
-import org.jetbrains.jsonProtocol.*;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.jsonProtocol.StringIntPair;
 
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Method;
@@ -44,7 +45,7 @@ class InterfaceReader {
     }
 
     @Override
-    void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
+    void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out, boolean nullable) {
       throw new UnsupportedOperationException();
     }
   };
@@ -203,7 +204,7 @@ class InterfaceReader {
                               lazyRead);
   }
 
-  private ValueParser getFieldTypeParser(Type type, boolean declaredNullable, boolean isSubtyping)
+  private ValueParser getFieldTypeParser(Type type, boolean declaredNullable, boolean isSubtyping, @Nullable Method method)
     throws JsonProtocolModelParseException {
     if (type instanceof Class) {
       Class<?> typeClass = (Class<?>)type;
@@ -246,7 +247,8 @@ class InterfaceReader {
         return STRING_INT_PAIR_PARSER;
       }
       else if (typeClass.isArray()) {
-        return createArrayParser(getFieldTypeParser(typeClass.getComponentType(), false, false), false, declaredNullable);
+        return new ArrayParser(getFieldTypeParser(typeClass.getComponentType(), false, false, null), false,
+                               isComplexNullable(declaredNullable, method));
       }
       else if (typeClass.isEnum()) {
         @SuppressWarnings("unchecked")
@@ -271,7 +273,7 @@ class InterfaceReader {
             argumentType = wildcard.getUpperBounds()[0];
           }
         }
-        return createArrayParser(getFieldTypeParser(argumentType, false, false), true, declaredNullable);
+        return new ArrayParser(getFieldTypeParser(argumentType, false, false, null), true, isComplexNullable(declaredNullable, method));
       }
       else {
         throw new JsonProtocolModelParseException("Method return type " + type + " (generic) not supported");
@@ -280,6 +282,10 @@ class InterfaceReader {
     else {
       throw new JsonProtocolModelParseException("Method return type " + type + " not supported");
     }
+  }
+
+  private static boolean isComplexNullable(boolean declaredNullable, Method method) {
+    return declaredNullable || (method != null && method.getAnnotation(JsonOptionalField.class) != null);
   }
 
   private static void nullableIsNotSupported(boolean declaredNullable)
@@ -291,10 +297,6 @@ class InterfaceReader {
 
   private static <T> ObjectValueParser<T> createJsonParser(RefToType<T> type, boolean isNullable, boolean isSubtyping) {
     return new ObjectValueParser<T>(type, isNullable, isSubtyping);
-  }
-
-  private static ArrayParser createArrayParser(ValueParser componentParser, boolean isList, boolean isNullable) {
-    return new ArrayParser(componentParser, isList, isNullable);
   }
 
   private <T> RefToType<T> getTypeRef(Class<T> typeClass) {
@@ -412,7 +414,8 @@ class InterfaceReader {
     }
 
     private MethodHandler processFieldGetterMethod(Method m, boolean hasOverrideFieldAnnotation, String fieldName) throws JsonProtocolModelParseException {
-      ValueParser fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), m.getAnnotation(JsonNullable.class) != null, false);
+      Type genericReturnType = m.getGenericReturnType();
+      ValueParser fieldTypeParser = getFieldTypeParser(genericReturnType, m.getAnnotation(JsonNullable.class) != null, false, m);
       if (hasOverrideFieldAnnotation) {
         fieldMap.overridenNames.add(fieldName);
       }
@@ -456,7 +459,7 @@ class InterfaceReader {
     }
 
     private MethodHandler processManualSubtypeMethod(final Method m, JsonSubtypeCasting jsonSubtypeCaseAnn) throws JsonProtocolModelParseException {
-      ValueParser fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret());
+      ValueParser fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret(), null);
       VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
       final LazyCachedMethodHandler handler = new LazyCachedMethodHandler(fieldTypeParser, fieldInfo);
       ObjectValueParser<?> parserAsObjectValueParser = fieldTypeParser.asJsonTypeParser();
