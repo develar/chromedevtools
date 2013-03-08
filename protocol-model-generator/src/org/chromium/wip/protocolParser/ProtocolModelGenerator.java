@@ -12,11 +12,11 @@ import java.net.URL;
  * specification available at
  * "http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/inspector/Inspector.json".
  */
-public class WipProtocolGeneratorMain {
+public class ProtocolModelGenerator {
   public static void main(String[] args) throws IOException {
-    String outputDir = args.length == 0 ? "generated" : args[0];
-    new Generator(outputDir).go(new ProtocolSchemaReaderImpl().parseRoot(
-      new JsonReader(new InputStreamReader(
-        new URL("http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/inspector/Inspector.json").openStream()))));
+    String outputDir = args[0];
+    String schemaUrl = args[1];
+    JsonReader reader = new JsonReader(new InputStreamReader(new URL(schemaUrl).openStream()));
+    new Generator(outputDir).go(new ProtocolSchemaReaderImpl().parseRoot(reader));
   }
 }
