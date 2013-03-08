@@ -45,8 +45,5 @@ public interface ValueHandle extends JsonSubtype<SomeHandle>  {
 
   @JsonSubtypeCasting
   ObjectValueHandle asObject() throws IOException;
-
-  //@JsonSubtypeCasting
-  //void asNotObject();
 }
 

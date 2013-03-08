@@ -32,7 +32,7 @@ abstract class ValueParser {
     appendFinishedValueTypeName(scope.getOutput());
   }
 
-  abstract void writeReadCode(MethodScope methodScope, boolean subtyping, TextOutput out);
+  abstract void writeReadCode(MethodScope methodScope, boolean deferredReading, TextOutput out);
 
   public boolean isNullable() {
     return nullable;
@@ -54,7 +54,7 @@ abstract class ValueParser {
 
   protected static void addReaderParameter(boolean subtyping, TextOutput out) {
     if (subtyping) {
-      out.append("new JsonReader(").append(Util.PENDING_INPUT_READER_NAME).append(')');
+      out.append(Util.PENDING_INPUT_READER_NAME);
     }
     else {
       out.append(Util.READER_NAME);

@@ -4,10 +4,6 @@
 
 package org.chromium.protocolparser;
 
-/**
- * This classs is responsible for parsing field values and saving them in {@_link ObjectData}
- * for future use.
- */
 class FieldLoader {
   public static final char FIELD_PREFIX = '_';
 

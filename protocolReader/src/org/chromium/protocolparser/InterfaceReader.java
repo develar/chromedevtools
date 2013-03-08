@@ -39,7 +39,7 @@ class InterfaceReader {
     }
 
     @Override
-    void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, TextOutput out) {
+    void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean deferredReading, TextOutput out) {
       out.append("null");
     }
 

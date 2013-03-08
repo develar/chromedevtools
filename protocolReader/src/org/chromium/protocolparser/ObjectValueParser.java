@@ -42,10 +42,13 @@ class ObjectValueParser<T> extends ValueParser {
   }
 
   @Override
-  void writeReadCode(MethodScope scope, boolean subtyping, TextOutput out) {
-    refToType.get().writeInstantiateCode(scope.getRootClassScope(), out);
+  void writeReadCode(MethodScope scope, boolean deferredReading, TextOutput out) {
+    refToType.get().writeInstantiateCode(scope.getRootClassScope(), deferredReading, out);
     out.append('(');
-    addReaderParameter(subtyping, out);
+    addReaderParameter(deferredReading, out);
+    if (deferredReading) {
+      out.comma().append("this");
+    }
     out.append(')');
   }
 

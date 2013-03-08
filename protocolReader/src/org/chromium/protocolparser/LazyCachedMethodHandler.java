@@ -4,8 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 
 /**
- * Basic implementation of the method that parses value on demand and store it for
- * a future use.
+ * Basic implementation of the method that parses value on demand and store it for a future use
  */
 class LazyCachedMethodHandler extends MethodHandler {
   private final ValueParser parser;
@@ -14,14 +13,6 @@ class LazyCachedMethodHandler extends MethodHandler {
   LazyCachedMethodHandler(ValueParser parser, VolatileFieldBinding fieldBinding) {
     this.parser = parser;
     this.fieldBinding = fieldBinding;
-  }
-
-  protected VolatileFieldBinding getFieldBinding() {
-    return fieldBinding;
-  }
-
-  protected void writeReadCode(JavaCodeGenerator.MethodScope scope) {
-    parser.writeReadCode(scope, true, scope.getOutput());
   }
 
   protected void writeReturnTypeJava(ClassScope scope, Method m, TextOutput out) {
@@ -44,16 +35,16 @@ class LazyCachedMethodHandler extends MethodHandler {
     JavaCodeGenerator.MethodScope scope = classScope.newMethodScope();
     out.openBlock();
     out.append("if (");
-    getFieldBinding().writeGetExpression(out);
+    fieldBinding.writeGetExpression(out);
     out.append(" == null)").openBlock();
     {
       if (parser.isThrowsIOException()) {
         out.append("try").openBlock();
       }
       {
-        getFieldBinding().writeGetExpression(out);
+        fieldBinding.writeGetExpression(out);
         out.append(" = ");
-        writeReadCode(scope);
+        parser.writeReadCode(scope, true, scope.getOutput());
         out.semi();
       }
       if (parser.isThrowsIOException()) {
@@ -66,7 +57,7 @@ class LazyCachedMethodHandler extends MethodHandler {
     out.closeBlock();
 
     out.newLine().append("return ");
-    getFieldBinding().writeGetExpression(out);
+    fieldBinding.writeGetExpression(out);
     out.semi();
 
     out.closeBlock();

@@ -10,8 +10,8 @@ class SimpleCastValueParser<T> extends ValueParser {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, TextOutput out) {
-    addReaderParameter(subtyping, out);
+  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean deferredReading, TextOutput out) {
+    addReaderParameter(deferredReading, out);
   }
 
   @Override

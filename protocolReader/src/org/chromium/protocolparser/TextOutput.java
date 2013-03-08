@@ -72,8 +72,9 @@ public class TextOutput {
     return this;
   }
 
-  public void openBlock() {
+  public TextOutput openBlock() {
     openBlock(true);
+    return this;
   }
 
   public void openBlock(boolean addNewLine) {

@@ -516,7 +516,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _columnNumber = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -590,7 +590,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _networkRequestId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -658,7 +658,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _message = new M1(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -681,7 +681,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _count = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -716,7 +716,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _breakpointId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -760,7 +760,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _this = new M124(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -803,7 +803,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -826,7 +826,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -853,7 +853,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _syntaxErrorMessage = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -885,7 +885,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _wasThrown = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -929,7 +929,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _inferredName = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -972,7 +972,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _details = new M11(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -995,7 +995,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _scriptSource = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1034,7 +1034,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _scriptId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1075,7 +1075,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _reason = readEnum(reader, name, org.chromium.wip.protocol.input.debugger.PausedEventData.Reason.class);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1112,7 +1112,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _callFrames = readObjectArray(reader, name, new M6F());
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1152,7 +1152,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _wasThrown = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1184,7 +1184,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _object = new M124(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1228,7 +1228,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _errorMessage = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1303,7 +1303,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _hasSourceURL = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1366,7 +1366,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readObjectArray(reader, name, new M113F());
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1393,7 +1393,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _locations = readObjectArray(reader, name, new M15F());
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1425,7 +1425,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _actualLocation = new M15(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1457,7 +1457,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _callFrames = readObjectArray(reader, name, new M6F());
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1485,7 +1485,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1516,7 +1516,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _nodeId = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1553,7 +1553,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _nodeId = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1585,7 +1585,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _characterData = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1617,7 +1617,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _childNodeCount = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1653,7 +1653,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _previousNodeId = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1690,7 +1690,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _parentNodeId = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1754,7 +1754,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _sourceName = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1812,7 +1812,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _attributes = nextList(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1835,7 +1835,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _root = new M46(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1858,7 +1858,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _listeners = readObjectArray(reader, name, new M38F());
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1881,7 +1881,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _outerHTML = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1904,7 +1904,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _nodeIds = readIntArray(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1927,7 +1927,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _nodeIds = readIntArray(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1950,7 +1950,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _nodeId = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2049,7 +2049,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _templateContent = new M46(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2171,7 +2171,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _resultCount = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2199,7 +2199,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _nodeId = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2222,7 +2222,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _nodeIds = readIntArray(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2245,7 +2245,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _nodeId = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2268,7 +2268,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _nodeId = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2291,7 +2291,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _object = new M124(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2318,7 +2318,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _nodes = readObjectArray(reader, name, new M46F());
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2346,7 +2346,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _nodeId = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2373,7 +2373,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _rootId = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2405,7 +2405,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _hostId = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2445,7 +2445,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _bodySize = readDouble(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2483,7 +2483,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2506,7 +2506,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2541,7 +2541,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _encodedDataLength = readInt(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2583,7 +2583,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _base64Encoded = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2631,7 +2631,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _url = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2681,7 +2681,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _canceled = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2723,7 +2723,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _requestId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2751,7 +2751,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _requestId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2798,7 +2798,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _resource = new M57(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2863,7 +2863,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _postData = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2929,7 +2929,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _redirectResponse = new M72(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3031,7 +3031,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _receiveHeadersEnd = readDouble(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3129,7 +3129,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _loaderId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3221,7 +3221,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _timing = new M70(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3303,7 +3303,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _requestId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3335,7 +3335,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _requestId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3371,7 +3371,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _requestId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3412,7 +3412,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _requestId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3453,7 +3453,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _requestId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3494,7 +3494,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _payloadData = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3535,7 +3535,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _requestId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3568,7 +3568,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _headers = new M62(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3599,7 +3599,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _statusText = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3640,7 +3640,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _request = new M80(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3673,7 +3673,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _identifier = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3696,7 +3696,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _value = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3719,7 +3719,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3742,7 +3742,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3765,7 +3765,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3788,7 +3788,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _show = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3811,7 +3811,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _show = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3834,7 +3834,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _data = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3889,7 +3889,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _session = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3952,7 +3952,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _timestamp = readDouble(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3975,7 +3975,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _frameId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -3998,7 +3998,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _frameId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4021,7 +4021,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _frame = new M101(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4052,7 +4052,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _resources = readObjectArray(reader, name, new M97F());
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4089,7 +4089,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _delay = readDouble(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4117,7 +4117,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _frameId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4140,7 +4140,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _frameId = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4187,7 +4187,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _securityOrigin = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4240,7 +4240,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4267,7 +4267,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _cookiesString = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4299,7 +4299,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _base64Encoded = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4327,7 +4327,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _frameTree = new M96(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4350,7 +4350,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readEnum(reader, name, org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData.Result.class);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4381,7 +4381,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _message = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4404,7 +4404,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _timestamp = readDouble(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4427,7 +4427,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _isEnabled = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4450,7 +4450,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readObjectArray(reader, name, new M113F());
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4473,7 +4473,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = readObjectArray(reader, name, new M114F());
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4500,7 +4500,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _lineContent = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4536,7 +4536,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _matchesCount = readDouble(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4573,7 +4573,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _wasThrown = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4605,7 +4605,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _wasThrown = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4633,7 +4633,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _context = new M118(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4668,7 +4668,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _isPageContext = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4710,7 +4710,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _internalProperties = readObjectArray(reader, name, new M120F());
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4742,7 +4742,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _value = new M124(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4778,7 +4778,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _lossless = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4843,7 +4843,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _isOwn = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4922,7 +4922,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _subtype = readEnum(reader, name, org.chromium.wip.protocol.input.runtime.PropertyPreviewValue.Subtype.class);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -4989,7 +4989,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _preview = new M121(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -5031,36 +5031,36 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  public static final class M17 extends LazyReadMessage implements org.chromium.wip.protocol.input.debugger.PausedEventData.Data {
+  public static final class M17 implements org.chromium.wip.protocol.input.debugger.PausedEventData.Data {
+    private JsonReader inputReader;
 
     public M17(JsonReader reader) throws IOException {
       reader.beginObject();
-      inputReader = createValueReader(reader);
-      reader.endObject();
+      inputReader = resetReader(reader);
     }
     @Override
     public com.google.gson.stream.JsonReader getDeferredReader() {
 return new JsonReader(inputReader);
     }}
 
-  public static final class M19 extends LazyReadMessage implements org.chromium.wip.protocol.input.debugger.RestartFrameData.Result {
+  public static final class M19 implements org.chromium.wip.protocol.input.debugger.RestartFrameData.Result {
+    private JsonReader inputReader;
 
     public M19(JsonReader reader) throws IOException {
       reader.beginObject();
-      inputReader = createValueReader(reader);
-      reader.endObject();
+      inputReader = resetReader(reader);
     }
     @Override
     public com.google.gson.stream.JsonReader getDeferredReader() {
 return new JsonReader(inputReader);
     }}
 
-  public static final class M29 extends LazyReadMessage implements org.chromium.wip.protocol.input.debugger.SetScriptSourceData.Result {
+  public static final class M29 implements org.chromium.wip.protocol.input.debugger.SetScriptSourceData.Result {
+    private JsonReader inputReader;
 
     public M29(JsonReader reader) throws IOException {
       reader.beginObject();
-      inputReader = createValueReader(reader);
-      reader.endObject();
+      inputReader = resetReader(reader);
     }
     @Override
     public com.google.gson.stream.JsonReader getDeferredReader() {
@@ -5094,7 +5094,7 @@ return new JsonReader(inputReader);
           _failed = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -5126,31 +5126,39 @@ return new JsonReader(inputReader);
     }
   }
 
-  public static final class M125 extends LazyReadMessage implements org.jetbrains.wip.protocol.WipCommandResponse {
+  public static final class M125 implements org.jetbrains.wip.protocol.WipCommandResponse {
+    private JsonReader inputReader;
     private M129 lazy_0;
     private M127 lazy_1;
     private long _id;
 
     public M125(JsonReader reader) throws IOException {
       reader.beginObject();
+      int i = 0;
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("id")) {
           _id = readLong(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
+        }
+
+        if (i == 0) {
+          break;
+        }
+        else {
+          i++;
         }
       }
-      inputReader = createValueReader(reader);
-      reader.endObject();
+      inputReader = resetReader(reader);
     }
 
     @Override
     public M127 asError() {
       if (lazy_1 == null) {
         try {
-          lazy_1 = M127.parse(new JsonReader(inputReader));
+          lazy_1 = M127.parse(inputReader);
         }
         catch (IOException e) {
           throw new com.google.gson.JsonParseException(e);
@@ -5169,7 +5177,7 @@ return new JsonReader(inputReader);
     public M129 asSuccess() {
       if (lazy_0 == null) {
         try {
-          lazy_0 = M129.parse(new JsonReader(inputReader));
+          lazy_0 = M129.parse(inputReader);
         }
         catch (IOException e) {
           throw new com.google.gson.JsonParseException(e);
@@ -5180,12 +5188,12 @@ return new JsonReader(inputReader);
     }
   }
 
-  public static final class M126 extends LazyReadMessage implements org.jetbrains.wip.protocol.WipCommandResponse.Data {
+  public static final class M126 implements org.jetbrains.wip.protocol.WipCommandResponse.Data {
+    private JsonReader inputReader;
 
     public M126(JsonReader reader) throws IOException {
       reader.beginObject();
-      inputReader = createValueReader(reader);
-      reader.endObject();
+      inputReader = resetReader(reader);
     }
     @Override
     public com.google.gson.stream.JsonReader getDeferredReader() {
@@ -5211,7 +5219,7 @@ return new JsonReader(inputReader);
           _result = new M126(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -5255,7 +5263,7 @@ return new JsonReader(inputReader);
           _code = readLong(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -5292,7 +5300,7 @@ return new JsonReader(inputReader);
           _result = new M126(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -5332,7 +5340,7 @@ return new JsonReader(inputReader);
           _params = new M131(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -5349,32 +5357,32 @@ return new JsonReader(inputReader);
     }
   }
 
-  public static final class M131 extends LazyReadMessage implements org.jetbrains.wip.protocol.WipEvent.Data {
+  public static final class M131 implements org.jetbrains.wip.protocol.WipEvent.Data {
+    private JsonReader inputReader;
 
     public M131(JsonReader reader) throws IOException {
       reader.beginObject();
-      inputReader = createValueReader(reader);
-      reader.endObject();
+      inputReader = resetReader(reader);
     }
     @Override
     public com.google.gson.stream.JsonReader getDeferredReader() {
 return new JsonReader(inputReader);
     }}
 
-  public static final class M132 extends LazyReadMessage implements org.jetbrains.wip.protocol.WipTabList {
+  public static final class M132 implements org.jetbrains.wip.protocol.WipTabList {
+    private JsonReader inputReader;
     private java.util.List<org.jetbrains.wip.protocol.WipTabList.TabDescription> lazy_0;
 
     public M132(JsonReader reader) throws IOException {
       reader.beginObject();
-      inputReader = createValueReader(reader);
-      reader.endObject();
+      inputReader = resetReader(reader);
     }
 
     @Override
     public java.util.List<org.jetbrains.wip.protocol.WipTabList.TabDescription> asTabList() {
       if (lazy_0 == null) {
         try {
-          lazy_0 = readObjectArray(new JsonReader(inputReader), null, new M133F());
+          lazy_0 = readObjectArray(inputReader, null, new M133F());
         }
         catch (IOException e) {
           throw new com.google.gson.JsonParseException(e);
@@ -5416,7 +5424,7 @@ return new JsonReader(inputReader);
           _webSocketDebuggerUrl = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -5453,10 +5461,17 @@ return new JsonReader(inputReader);
     }
   }
 
-  static final class M46F extends ObjectFactory<org.chromium.wip.protocol.input.dom.NodeValue> {
+  static final class M133F extends ObjectFactory<org.jetbrains.wip.protocol.WipTabList.TabDescription> {
     @Override
-    public org.chromium.wip.protocol.input.dom.NodeValue read(JsonReader reader) throws IOException {
-      return new M46(reader);
+    public org.jetbrains.wip.protocol.WipTabList.TabDescription read(JsonReader reader) throws IOException {
+      return new M133(reader);
+    }
+  }
+
+  static final class M22F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.ScopeValue> {
+    @Override
+    public org.chromium.wip.protocol.input.debugger.ScopeValue read(JsonReader reader) throws IOException {
+      return new M22(reader);
     }
   }
 
@@ -5467,52 +5482,24 @@ return new JsonReader(inputReader);
     }
   }
 
-  static final class M15F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.LocationValue> {
+  static final class M0F extends ObjectFactory<org.chromium.wip.protocol.input.console.CallFrameValue> {
     @Override
-    public org.chromium.wip.protocol.input.debugger.LocationValue read(JsonReader reader) throws IOException {
-      return new M15(reader);
+    public org.chromium.wip.protocol.input.console.CallFrameValue read(JsonReader reader) throws IOException {
+      return new M0(reader);
     }
   }
 
-  static final class M120F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue> {
+  static final class M96F extends ObjectFactory<org.chromium.wip.protocol.input.page.FrameResourceTreeValue> {
     @Override
-    public org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue read(JsonReader reader) throws IOException {
-      return new M120(reader);
+    public org.chromium.wip.protocol.input.page.FrameResourceTreeValue read(JsonReader reader) throws IOException {
+      return new M96(reader);
     }
   }
 
-  static final class M91F extends ObjectFactory<org.chromium.wip.protocol.input.page.CookieValue> {
+  static final class M6F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.CallFrameValue> {
     @Override
-    public org.chromium.wip.protocol.input.page.CookieValue read(JsonReader reader) throws IOException {
-      return new M91(reader);
-    }
-  }
-
-  static final class M113F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchMatchValue> {
-    @Override
-    public org.chromium.wip.protocol.input.page.SearchMatchValue read(JsonReader reader) throws IOException {
-      return new M113(reader);
-    }
-  }
-
-  static final class M133F extends ObjectFactory<org.jetbrains.wip.protocol.WipTabList.TabDescription> {
-    @Override
-    public org.jetbrains.wip.protocol.WipTabList.TabDescription read(JsonReader reader) throws IOException {
-      return new M133(reader);
-    }
-  }
-
-  static final class M124F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.RemoteObjectValue> {
-    @Override
-    public org.chromium.wip.protocol.input.runtime.RemoteObjectValue read(JsonReader reader) throws IOException {
-      return new M124(reader);
-    }
-  }
-
-  static final class M123F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.PropertyPreviewValue> {
-    @Override
-    public org.chromium.wip.protocol.input.runtime.PropertyPreviewValue read(JsonReader reader) throws IOException {
-      return new M123(reader);
+    public org.chromium.wip.protocol.input.debugger.CallFrameValue read(JsonReader reader) throws IOException {
+      return new M6(reader);
     }
   }
 
@@ -5530,17 +5517,24 @@ return new JsonReader(inputReader);
     }
   }
 
-  static final class M6F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.CallFrameValue> {
+  static final class M15F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.LocationValue> {
     @Override
-    public org.chromium.wip.protocol.input.debugger.CallFrameValue read(JsonReader reader) throws IOException {
-      return new M6(reader);
+    public org.chromium.wip.protocol.input.debugger.LocationValue read(JsonReader reader) throws IOException {
+      return new M15(reader);
     }
   }
 
-  static final class M96F extends ObjectFactory<org.chromium.wip.protocol.input.page.FrameResourceTreeValue> {
+  static final class M124F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.RemoteObjectValue> {
     @Override
-    public org.chromium.wip.protocol.input.page.FrameResourceTreeValue read(JsonReader reader) throws IOException {
-      return new M96(reader);
+    public org.chromium.wip.protocol.input.runtime.RemoteObjectValue read(JsonReader reader) throws IOException {
+      return new M124(reader);
+    }
+  }
+
+  static final class M113F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchMatchValue> {
+    @Override
+    public org.chromium.wip.protocol.input.page.SearchMatchValue read(JsonReader reader) throws IOException {
+      return new M113(reader);
     }
   }
 
@@ -5551,17 +5545,31 @@ return new JsonReader(inputReader);
     }
   }
 
-  static final class M22F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.ScopeValue> {
+  static final class M46F extends ObjectFactory<org.chromium.wip.protocol.input.dom.NodeValue> {
     @Override
-    public org.chromium.wip.protocol.input.debugger.ScopeValue read(JsonReader reader) throws IOException {
-      return new M22(reader);
+    public org.chromium.wip.protocol.input.dom.NodeValue read(JsonReader reader) throws IOException {
+      return new M46(reader);
     }
   }
 
-  static final class M0F extends ObjectFactory<org.chromium.wip.protocol.input.console.CallFrameValue> {
+  static final class M123F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.PropertyPreviewValue> {
     @Override
-    public org.chromium.wip.protocol.input.console.CallFrameValue read(JsonReader reader) throws IOException {
-      return new M0(reader);
+    public org.chromium.wip.protocol.input.runtime.PropertyPreviewValue read(JsonReader reader) throws IOException {
+      return new M123(reader);
+    }
+  }
+
+  static final class M120F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue> {
+    @Override
+    public org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue read(JsonReader reader) throws IOException {
+      return new M120(reader);
+    }
+  }
+
+  static final class M91F extends ObjectFactory<org.chromium.wip.protocol.input.page.CookieValue> {
+    @Override
+    public org.chromium.wip.protocol.input.page.CookieValue read(JsonReader reader) throws IOException {
+      return new M91(reader);
     }
   }
 

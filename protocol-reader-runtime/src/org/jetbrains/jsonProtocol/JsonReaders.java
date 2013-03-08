@@ -15,6 +15,7 @@ import java.util.*;
 public final class JsonReaders {
   private static final long[] EMPTY_LONG_ARRAY = {};
   private static final int[] EMPTY_INT_ARRAY = {};
+
   private static final Field JSON_READER_POSITION_FIELD;
   private static final Field JSON_READER_IN_FIELD;
 
@@ -267,13 +268,21 @@ public final class JsonReaders {
     }
   }
 
-  public static void skipValue(String name, JsonReader reader) throws IOException {
-    System.err.append("Unknown field ").append(name).append(" ").append(reader.toString()).append('\n');
-    reader.skipValue();
-  }
-
   public static JsonReader createReader(String string) {
     return new JsonReader(new StringReader(string));
+  }
+
+  public static JsonReader resetReader(JsonReader reader) {
+    StringReader stringReader;
+    try {
+      stringReader = (StringReader)JSON_READER_IN_FIELD.get(reader);
+    }
+    catch (IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+    stringReader.reset();
+    // todo don't create new instance of JsonReader, reuse exising
+    return new JsonReader(stringReader);
   }
 
   public static boolean findBooleanField(String name, JsonReader reader) {

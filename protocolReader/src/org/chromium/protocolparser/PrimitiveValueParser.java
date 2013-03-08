@@ -21,8 +21,8 @@ class PrimitiveValueParser extends ValueParser {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, TextOutput out) {
-    beginReadCall(readPostfix, subtyping, out);
+  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean deferredReading, TextOutput out) {
+    beginReadCall(readPostfix, deferredReading, out);
     out.append(')');
   }
 

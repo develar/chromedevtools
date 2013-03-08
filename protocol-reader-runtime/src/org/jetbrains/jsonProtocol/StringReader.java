@@ -18,6 +18,10 @@ public final class StringReader extends Reader {
     position = start;
   }
 
+  public void reset() {
+    position = 0;
+  }
+
   public StringReader subReader(int start, int end) {
     return new StringReader(string, start, end);
   }

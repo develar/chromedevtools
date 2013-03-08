@@ -22,8 +22,8 @@ class EnumParser<T extends Enum<T>> extends ValueParser {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, TextOutput out) {
-    beginReadCall("Enum", subtyping, out);
+  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean deferredReading, TextOutput out) {
+    beginReadCall("Enum", deferredReading, out);
     out.comma().append(enumClass.getCanonicalName()).append(".class").append(')');
   }
 

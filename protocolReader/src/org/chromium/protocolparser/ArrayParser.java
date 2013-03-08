@@ -30,8 +30,8 @@ class ArrayParser extends ValueParser {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out) {
-    componentParser.writeArrayReadCode(scope, subtyping, out);
+  void writeReadCode(JavaCodeGenerator.MethodScope scope, boolean deferredReading, TextOutput out) {
+    componentParser.writeArrayReadCode(scope, deferredReading, out);
   }
 
   @Override

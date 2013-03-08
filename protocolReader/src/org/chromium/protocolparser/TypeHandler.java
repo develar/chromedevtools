@@ -88,64 +88,21 @@ class TypeHandler<T> {
     }
   }
 
-  public SubtypeSupport getSubtypeSupport() {
+  public SubtypeAspect getSubtypeSupport() {
     return subtypeAspect;
   }
 
   public void writeInstantiateCode(ClassScope scope, TextOutput out) {
-    subtypeAspect.writeInstantiateCode(scope.getTypeImplReference(this), out);
+    writeInstantiateCode(scope, false, out);
   }
 
-  static abstract class SubtypeSupport {
-    abstract void writeGetSuperMethodJava(TextOutput out);
-
-    public void setSubtypeCaster(SubtypeCaster subtypeCaster) {
-    }
-  }
-
-  /**
-   * Encapsulate subtype aspects of the type.
-   */
-  static abstract class SubtypeAspect extends SubtypeSupport {
-    abstract boolean isRoot();
-    abstract void writeSuperFieldJava(TextOutput out);
-    abstract void writeSuperConstructorParamJava(TextOutput out);
-    abstract void writeSuperConstructorInitialization(TextOutput out);
-
-    abstract void writeParseMethod(String className, ClassScope scope, TextOutput out);
-
-    public abstract void writeInstantiateCode(String className, TextOutput out);
-  }
-
-  private static class AbsentSubtypeAspect extends SubtypeAspect {
-    @Override
-    boolean isRoot() {
-      return true;
-    }
-
-    @Override
-    void writeGetSuperMethodJava(TextOutput out) {
-    }
-
-    @Override
-    void writeSuperFieldJava(TextOutput out) {
-    }
-
-    @Override
-    void writeSuperConstructorParamJava(TextOutput out) {
-    }
-
-    @Override
-    void writeSuperConstructorInitialization(TextOutput out) {
-    }
-
-    @Override
-    void writeParseMethod(String className, ClassScope scope, TextOutput out) {
-    }
-
-    @Override
-    public void writeInstantiateCode(String className, TextOutput out) {
+  public void writeInstantiateCode(ClassScope scope, boolean deferredReading, TextOutput out) {
+    String className = scope.getTypeImplReference(this);
+    if (deferredReading) {
       out.append("new ").append(className);
+    }
+    else {
+      subtypeAspect.writeInstantiateCode(className, out);
     }
   }
 
@@ -157,11 +114,12 @@ class TypeHandler<T> {
     TextOutput out = fileScope.getOutput();
     String valueImplClassName = fileScope.getTypeImplShortName(this);
     out.append("public static final class ").append(valueImplClassName);
-    if (lazyRead) {
-      out.append(" extends LazyReadMessage");
-    }
 
     out.append(" implements ").append(getTypeClass().getCanonicalName()).openBlock();
+
+    if (lazyRead) {
+      out.append("private JsonReader inputReader;").newLine();
+    }
 
     ClassScope classScope = fileScope.newClassScope();
     for (VolatileFieldBinding field : volatileFields) {
@@ -234,17 +192,24 @@ class TypeHandler<T> {
     }
 
     if (lazyRead) {
-      out.newLine().append(Util.PENDING_INPUT_READER_NAME).append(" = ").append("createValueReader(").append(Util.READER_NAME).append(");");
+      out.newLine().append(Util.PENDING_INPUT_READER_NAME).append(" = ").append("resetReader(").append(Util.READER_NAME).append(");");
     }
 
     if (algebraicCasesData != null) {
       algebraicCasesData.writeConstructorCodeJava(methodScope, out);
     }
-    out.newLine().append(Util.READER_NAME).append(".endObject();");
+    if (!lazyRead) {
+      out.newLine().append(Util.READER_NAME).append(".endObject();");
+    }
     out.closeBlock();
   }
 
   private void writeReadFields(TextOutput out, MethodScope methodScope) {
+    boolean stopIfAllFieldsWereRead = lazyRead || subtypeAspect instanceof ExistingSubtypeAspect;
+    if (stopIfAllFieldsWereRead) {
+      out.newLine().append("int i = 0").semi();
+    }
+
     out.newLine().append("while (reader.hasNext())").openBlock();
     out.append("String name = reader.nextName();");
     boolean isFirst = true;
@@ -255,7 +220,7 @@ class TypeHandler<T> {
       {
         assignField(out, fieldName);
         fieldLoader.valueParser.writeReadCode(methodScope, false, out);
-        out.append(';');
+        out.semi();
       }
       out.closeBlock();
 
@@ -265,8 +230,11 @@ class TypeHandler<T> {
       }
     }
 
-    out.newLine().append("else").openBlock();
-    out.append("skipValue(name, reader);").closeBlock();
+    out.newLine().append("else").openBlock().append("reader.skipValue();").closeBlock();
+    if (stopIfAllFieldsWereRead) {
+      out.newLine().newLine().append("if (i == ").append(fieldLoaders.size() - 1).append(")").openBlock().append("break").semi().closeBlock();
+      out.newLine().append("else").openBlock().append("i++").semi().closeBlock();
+    }
 
     out.closeBlock();
   }

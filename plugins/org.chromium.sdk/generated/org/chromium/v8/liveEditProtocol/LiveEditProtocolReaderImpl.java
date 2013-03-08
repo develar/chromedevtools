@@ -40,7 +40,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
           _updated = readBoolean(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -91,7 +91,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
           _children = readObjectArray(reader, name, new M1F());
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -128,7 +128,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
           _end_position = readLong(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -180,7 +180,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
           _status_explanation = readString(reader, name);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -233,7 +233,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
           _chunks = readIntArray(reader);
         }
         else {
-          skipValue(name, reader);
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -245,17 +245,17 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     }
   }
 
-  static final class M2F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> {
-    @Override
-    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode read(JsonReader reader) throws IOException {
-      return new M2(reader);
-    }
-  }
-
   static final class M1F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> {
     @Override
     public org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode read(JsonReader reader) throws IOException {
       return new M1(reader);
+    }
+  }
+
+  static final class M2F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> {
+    @Override
+    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode read(JsonReader reader) throws IOException {
+      return new M2(reader);
     }
   }
 

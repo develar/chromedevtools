@@ -11,8 +11,8 @@ public class MapParser extends ValueParser {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, TextOutput out) {
-    beginReadCall("Map", subtyping, out);
+  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean deferredReading, TextOutput out) {
+    beginReadCall("Map", deferredReading, out);
     out.append(')');
   }
 
