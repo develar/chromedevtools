@@ -48,7 +48,7 @@
     <artifact type="jar" name="protocol-reader-runtime-src">
       <output-path>$PROJECT_DIR$/../../idea/plugins/JavaScriptDebugger/ChromeConnector/lib/src</output-path>
       <root id="archive" name="protocol-reader-runtime-src.jar">
-        <element id="dir-copy" path="$PROJECT_DIR$/../protocol-reader-runtime/src" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../protocol/protocol-reader-runtime/src" />
       </root>
     </artifact>
   </component>
@@ -306,9 +306,9 @@
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.source.iml" filepath="$PROJECT_DIR$/org.chromium.source.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../protocol-model-generator/protocol-model-generator.iml" filepath="$PROJECT_DIR$/../protocol-model-generator/protocol-model-generator.iml" group="wip" />
-      <module fileurl="file://$PROJECT_DIR$/../protocol-reader/protocol-reader.iml" filepath="$PROJECT_DIR$/../protocol-reader/protocol-reader.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../protocol-reader-runtime/protocol-reader-runtime.iml" filepath="$PROJECT_DIR$/../protocol-reader-runtime/protocol-reader-runtime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-model-generator/protocol-model-generator.iml" filepath="$PROJECT_DIR$/../protocol/protocol-model-generator/protocol-model-generator.iml" group="wip" />
+      <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-reader/protocol-reader.iml" filepath="$PROJECT_DIR$/../protocol/protocol-reader/protocol-reader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-reader-runtime/protocol-reader-runtime.iml" filepath="$PROJECT_DIR$/../protocol/protocol-reader-runtime/protocol-reader-runtime.iml" />
       <module fileurl="file://$PROJECT_DIR$/../schema-reader-generator/schema-reader-generator.iml" filepath="$PROJECT_DIR$/../schema-reader-generator/schema-reader-generator.iml" group="wip" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" filepath="$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol-reader-generator/v8-protocol-reader-generator.iml" filepath="$PROJECT_DIR$/../v8/protocol-reader-generator/v8-protocol-reader-generator.iml" group="v8" />
