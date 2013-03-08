@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.debugger;
 /**
  * Fired when the virtual machine resumed execution.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface ResumedEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.ResumedEventData> TYPE

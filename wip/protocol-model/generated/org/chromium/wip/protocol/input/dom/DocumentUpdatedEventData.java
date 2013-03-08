@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.dom;
 /**
  * Fired when <code>Document</code> has been totally updated. Node ids are no longer valid.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface DocumentUpdatedEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData> TYPE

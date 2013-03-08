@@ -29,10 +29,10 @@ class QualifiedTypeData {
 
   void writeAnnotations(TextOutput out) throws IOException {
     if (isOptional()) {
-      out.append("@org.chromium.protocolParser.JsonOptionalField").newLine();
+      out.append("@org.chromium.protocolReader.JsonOptionalField").newLine();
     }
     if (isNullable()) {
-      out.append("@org.chromium.protocolParser.JsonNullable").newLine();
+      out.append("@org.chromium.protocolReader.JsonNullable").newLine();
     }
   }
 }

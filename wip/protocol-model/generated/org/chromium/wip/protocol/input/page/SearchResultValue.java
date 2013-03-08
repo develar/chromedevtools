@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Search result for resource.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface SearchResultValue {
   /**
    * Resource URL.

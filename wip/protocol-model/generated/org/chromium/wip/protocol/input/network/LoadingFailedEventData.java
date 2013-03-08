@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.network;
 /**
  * Fired when HTTP request has failed to load.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface LoadingFailedEventData {
   /**
    * Request identifier.
@@ -21,7 +21,7 @@ public interface LoadingFailedEventData {
   /**
    * True if loading was canceled.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   boolean canceled();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.LoadingFailedEventData> TYPE

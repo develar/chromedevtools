@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Fired when a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload) is about to open.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface JavascriptDialogOpeningEventData {
   /**
    * Message that will be displayed by the dialog.

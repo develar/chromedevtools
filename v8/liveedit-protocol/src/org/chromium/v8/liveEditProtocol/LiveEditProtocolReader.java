@@ -5,8 +5,8 @@
 package org.chromium.v8.liveEditProtocol;
 
 import com.google.gson.stream.JsonReader;
-import org.chromium.protocolParser.JsonParseMethod;
-import org.chromium.protocolParser.JsonParserRoot;
+import org.chromium.protocolReader.JsonParseMethod;
+import org.chromium.protocolReader.JsonParserRoot;
 
 import java.io.IOException;
 

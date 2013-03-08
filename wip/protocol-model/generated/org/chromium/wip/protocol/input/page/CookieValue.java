@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Cookie object
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface CookieValue {
   /**
    * Cookie name.

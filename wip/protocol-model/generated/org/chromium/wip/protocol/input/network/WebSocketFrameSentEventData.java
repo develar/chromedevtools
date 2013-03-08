@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.network;
 /**
  * Fired when WebSocket frame is sent.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface WebSocketFrameSentEventData {
   /**
    * Request identifier.

@@ -6,7 +6,7 @@ package org.chromium.sdk.internal.protocolparser.test;
 
 import java.util.Arrays;
 
-import org.chromium.protocolParser.JsonProtocolModelParseException;
+import org.chromium.protocolReader.JsonProtocolModelParseException;
 import org.chromium.sdk.internal.protocolparser.dynamicimpl.DynamicParserImpl;
 
 /**

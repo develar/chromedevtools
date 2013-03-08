@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.network;
 /**
  * Fired when HTTP request has finished loading.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface LoadingFinishedEventData {
   /**
    * Request identifier.

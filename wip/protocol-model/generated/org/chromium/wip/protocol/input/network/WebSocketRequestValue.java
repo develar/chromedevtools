@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.network;
 /**
  * WebSocket request data.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface WebSocketRequestValue {
   /**
    * HTTP response headers.

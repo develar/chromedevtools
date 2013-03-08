@@ -4,9 +4,9 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import org.chromium.protocolParser.JsonField;
-import org.chromium.protocolParser.JsonSubtype;
-import org.chromium.protocolParser.JsonType;
+import org.chromium.protocolReader.JsonField;
+import org.chromium.protocolReader.JsonSubtype;
+import org.chromium.protocolReader.JsonType;
 
 @JsonType
 public interface VersionBody extends JsonSubtype<CommandResponseBody> {

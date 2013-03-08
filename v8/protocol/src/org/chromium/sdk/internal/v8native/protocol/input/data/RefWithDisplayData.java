@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
-import org.chromium.protocolParser.*;
+import org.chromium.protocolReader.*;
 
 /**
  * A reference (a pointer) to an object, that prefetches some of its key properties.

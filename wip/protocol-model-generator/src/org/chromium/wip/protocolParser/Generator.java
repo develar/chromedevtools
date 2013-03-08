@@ -174,7 +174,7 @@ class Generator {
     Collections.sort(parserRootInterfaceItems);
 
     TextOutput out = fileUpdater.out;
-    out.append("@org.chromium.protocolParser.JsonParserRoot").newLine();
+    out.append("@org.chromium.protocolReader.JsonParserRoot").newLine();
     out.append("public interface ").append(READER_INTERFACE_NAME).openBlock();
     for (ParserRootInterfaceItem item : parserRootInterfaceItems) {
       item.writeCode(out);
@@ -206,7 +206,7 @@ class Generator {
     if (!BAD_METHOD_NAMES.contains(originalName)) {
       return originalName;
     }
-    out.append("@org.chromium.protocolParser.JsonField(jsonLiteralName=\"").append(originalName).append("\")").newLine();
+    out.append("@org.chromium.protocolReader.JsonField(jsonLiteralName=\"").append(originalName).append("\")").newLine();
     return "get" + Character.toUpperCase(originalName.charAt(0)) + originalName.substring(1);
   }
 
@@ -221,7 +221,7 @@ class Generator {
     return startJavaFile(nameScheme.getPackageNameVirtual(domain.domain()), nameScheme.getShortName(baseName) + ".java");
   }
 
-  private JavaFileUpdater startJavaFile(String packageName, String filename) throws IOException {
+  private JavaFileUpdater startJavaFile(String packageName, String filename) {
     JavaFileUpdater fileUpdater = fileSet.createFileUpdater(packageName.replace('.', '/') + "/" + filename);
     fileUpdater.out.append("// Generated source").newLine().append("package ").append(packageName).semi().newLine().newLine();
     return fileUpdater;

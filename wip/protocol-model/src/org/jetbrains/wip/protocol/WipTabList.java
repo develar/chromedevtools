@@ -4,9 +4,9 @@
 
 package org.jetbrains.wip.protocol;
 
-import org.chromium.protocolParser.JsonOptionalField;
-import org.chromium.protocolParser.JsonSubtypeCasting;
-import org.chromium.protocolParser.JsonType;
+import org.chromium.protocolReader.JsonOptionalField;
+import org.chromium.protocolReader.JsonSubtypeCasting;
+import org.chromium.protocolReader.JsonType;
 
 import java.util.List;
 

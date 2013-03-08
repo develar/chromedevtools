@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Information about the Frame hierarchy along with their cached resources.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface FrameResourceTreeValue {
   /**
    * Frame information for this tree item.
@@ -13,14 +13,14 @@ public interface FrameResourceTreeValue {
   /**
    * Child frames.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   java.util.List<org.chromium.wip.protocol.input.page.FrameResourceTreeValue> childFrames();
   /**
    * Information about frame resources.
    */
   java.util.List<Resources> resources();
 
-  @org.chromium.protocolParser.JsonType
+  @org.chromium.protocolReader.JsonType
   public interface Resources {
     /**
      * Resource URL.
@@ -37,12 +37,12 @@ public interface FrameResourceTreeValue {
     /**
      * True if the resource failed to load.
      */
-    @org.chromium.protocolParser.JsonOptionalField
+    @org.chromium.protocolReader.JsonOptionalField
     boolean failed();
     /**
      * True if the resource was canceled during loading.
      */
-    @org.chromium.protocolParser.JsonOptionalField
+    @org.chromium.protocolReader.JsonOptionalField
     boolean canceled();
 
   }

@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.network;
 /**
  * Fired when WebSocket frame error occurs.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface WebSocketFrameErrorEventData {
   /**
    * Request identifier.

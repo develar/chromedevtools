@@ -5,8 +5,8 @@
 package org.chromium.sdk.internal.v8native.protocol.input;
 
 import com.google.gson.stream.JsonReader;
-import org.chromium.protocolParser.JsonParseMethod;
-import org.chromium.protocolParser.JsonParserRoot;
+import org.chromium.protocolReader.JsonParseMethod;
+import org.chromium.protocolReader.JsonParserRoot;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef;
 

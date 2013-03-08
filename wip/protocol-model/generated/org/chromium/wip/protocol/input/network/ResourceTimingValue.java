@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.network;
 /**
  * Timing information for the request.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface ResourceTimingValue {
   /**
    * Timing's requestTime is a baseline in seconds, while the other numbers are ticks in milliseconds relatively to this requestTime.

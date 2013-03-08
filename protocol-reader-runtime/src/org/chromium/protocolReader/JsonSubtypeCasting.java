@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.protocolParser;
+package org.chromium.protocolReader;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,10 +10,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * For field-reading method specifies that the field is optional and may safely be absent in
- * JSON object. By default fields are not optional.
+ * Marks method as method casting to a subtype. Normally the method return type should be
+ * some other json type, which serves as subtype; the subtype interface must extend
+ * {@link JsonSubtype} (with correct generic parameter).
  */
-@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JsonOptionalField {
+@Target({ ElementType.METHOD })
+public @interface JsonSubtypeCasting {
+  boolean reinterpret() default false;
 }

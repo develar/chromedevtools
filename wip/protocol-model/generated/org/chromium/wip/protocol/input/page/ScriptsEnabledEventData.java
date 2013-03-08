@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Fired when the JavaScript is enabled/disabled on the page
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface ScriptsEnabledEventData {
   /**
    * Whether script execution is enabled or disabled on the page.

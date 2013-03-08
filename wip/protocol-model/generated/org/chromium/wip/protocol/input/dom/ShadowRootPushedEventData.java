@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.dom;
 /**
  * Called when shadow root is pushed into the element.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface ShadowRootPushedEventData {
   /**
    * Host element id.

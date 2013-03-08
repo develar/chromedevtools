@@ -1,7 +1,7 @@
 package org.chromium.v8.liveEditProtocol;
 
-import org.chromium.protocolParser.JsonOptionalField;
-import org.chromium.protocolParser.JsonType;
+import org.chromium.protocolReader.JsonOptionalField;
+import org.chromium.protocolReader.JsonType;
 
 import java.util.List;
 

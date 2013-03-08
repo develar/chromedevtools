@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.debugger;
 /**
  * Fired when breakpoint is resolved to an actual script and location.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface BreakpointResolvedEventData {
   /**
    * Breakpoint unique identifier.

@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.dom;
 /**
  * Fired when <code>Element</code>'s attribute is removed.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface AttributeRemovedEventData {
   /**
    * Id of the node that has changed.

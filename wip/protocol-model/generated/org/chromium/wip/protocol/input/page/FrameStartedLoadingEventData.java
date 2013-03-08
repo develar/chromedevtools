@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Fired when frame has started loading.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface FrameStartedLoadingEventData {
   /**
    * Id of the frame that has started loading.

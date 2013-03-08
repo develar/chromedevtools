@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.debugger;
 /**
  * Location in the source code.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface LocationValue {
   /**
    * Script identifier as reported in the <code>Debugger.scriptParsed</code>.
@@ -17,7 +17,7 @@ public interface LocationValue {
   /**
    * Column number in the script.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   int columnNumber();
 
 }

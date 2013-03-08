@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.runtime;
 /**
  * Mirror object referencing original JavaScript object.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface RemoteObjectValue {
   /**
    * Object type.
@@ -13,33 +13,33 @@ public interface RemoteObjectValue {
   /**
    * Object subtype hint. Specified for <code>object</code> type values only.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   Subtype subtype();
   /**
    * Object class (constructor) name. Specified for <code>object</code> type values only.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   String className();
   /**
    * Remote object value (in case of primitive values or JSON values if it was requested).
    */
-  @org.chromium.protocolParser.JsonOptionalField
-  @org.chromium.protocolParser.JsonNullable
+  @org.chromium.protocolReader.JsonOptionalField
+  @org.chromium.protocolReader.JsonNullable
   Object value();
   /**
    * String representation of the object.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   String description();
   /**
    * Unique object identifier (for non-primitive values).
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   String objectId();
   /**
    * Preview containsing abbreviated property values.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   org.chromium.wip.protocol.input.runtime.ObjectPreviewValue preview();
 
   /**

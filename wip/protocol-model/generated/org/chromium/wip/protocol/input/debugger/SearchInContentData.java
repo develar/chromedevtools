@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.debugger;
 /**
  * Searches for given string in script content.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface SearchInContentData {
   /**
    * List of search matches.

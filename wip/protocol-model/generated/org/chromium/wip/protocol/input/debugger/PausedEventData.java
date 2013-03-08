@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.debugger;
 /**
  * Fired when the virtual machine stopped on breakpoint or exception or any other stop criteria.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface PausedEventData {
   /**
    * Call stack the virtual machine stopped on.
@@ -17,7 +17,7 @@ public interface PausedEventData {
   /**
    * Object containing break-specific auxiliary properties.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   Data data();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.PausedEventData> TYPE
@@ -36,8 +36,8 @@ public interface PausedEventData {
   /**
    * Object containing break-specific auxiliary properties.
    */
-  @org.chromium.protocolParser.JsonType(allowsOtherProperties=true)
-  public interface Data extends org.chromium.protocolParser.JsonObjectBased {
+  @org.chromium.protocolReader.JsonType(allowsOtherProperties=true)
+  public interface Data extends org.jetbrains.jsonProtocol.JsonObjectBased {
 
   }
 }

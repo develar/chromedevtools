@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.dom;
 /**
  * Fired when <code>Container</code>'s child node count has changed.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface ChildNodeCountUpdatedEventData {
   /**
    * Id of the node that has changed.

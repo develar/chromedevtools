@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import org.chromium.protocolParser.JsonType;
+import org.chromium.protocolReader.JsonType;
 
 @JsonType
 public interface ScopeRef {

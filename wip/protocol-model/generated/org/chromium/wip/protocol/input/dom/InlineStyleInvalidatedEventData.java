@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.dom;
 /**
  * Fired when <code>Element</code>'s inline style is modified via a CSS property modification.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface InlineStyleInvalidatedEventData {
   /**
    * Ids of the nodes for which the inline styles have been invalidated.

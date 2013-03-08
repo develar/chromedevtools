@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * It analyses interfaces with reflection and provides their implementation by {@link Proxy} factory.
  * User-friendly 'root' interface is available by {@link #getParserRoot()} method.
- * @param <ROOT> root user-provided type (see {@link org.chromium.protocolParser.JsonParserRoot})
+ * @param <ROOT> root user-provided type (see {@link org.chromium.protocolReader.JsonParserRoot})
  */
 public class DynamicParserImpl<ROOT> {
   final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;

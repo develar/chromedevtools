@@ -5,8 +5,8 @@
 package org.jetbrains.wip.protocol;
 
 import com.google.gson.stream.JsonReader;
-import org.chromium.protocolParser.JsonParseMethod;
-import org.chromium.protocolParser.JsonParserRoot;
+import org.chromium.protocolReader.JsonParseMethod;
+import org.chromium.protocolReader.JsonParserRoot;
 import org.chromium.wip.protocol.input.GeneratedWipProtocolReader;
 import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
 

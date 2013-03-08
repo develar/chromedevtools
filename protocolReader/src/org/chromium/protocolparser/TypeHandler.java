@@ -6,7 +6,7 @@ package org.chromium.protocolparser;
 
 import org.chromium.protocolparser.JavaCodeGenerator.FileScope;
 import org.chromium.protocolparser.JavaCodeGenerator.MethodScope;
-import org.chromium.protocolParser.JsonType;
+import org.chromium.protocolReader.JsonType;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -156,7 +156,7 @@ class TypeHandler<T> {
 
   /**
    * Generates Java implementation of standard methods of JSON type class (if needed):
-   * {@link org.chromium.protocolParser.JsonObjectBased#getDeferredReader()}, {@link org.chromium.protocolParser.JsonSubtype#getSuper()}
+   * {@link org.jetbrains.jsonProtocol.JsonObjectBased#getDeferredReader()}, {@link org.chromium.protocolReader.JsonSubtype#getSuper()}
    */
   private void writeBaseMethods(ClassScope scope, TextOutput out) {
     Class<?> typeClass = getTypeClass();

@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.console;
 /**
  * Issued when subsequent message(s) are equal to the previous one(s).
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface MessageRepeatCountUpdatedEventData {
   /**
    * New repeat count value.

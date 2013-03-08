@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Fired once navigation of the frame has completed. Frame is now associated with the new loader.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface FrameNavigatedEventData {
   /**
    * Frame object.

@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.network;
 /**
  * WebSocket frame data.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface WebSocketFrameValue {
   /**
    * WebSocket frame opcode.

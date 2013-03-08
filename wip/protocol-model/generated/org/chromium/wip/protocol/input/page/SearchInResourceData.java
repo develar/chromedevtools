@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Searches for given string in resource content.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface SearchInResourceData {
   /**
    * List of search matches.

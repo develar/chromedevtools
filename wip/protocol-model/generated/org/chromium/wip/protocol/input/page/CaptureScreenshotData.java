@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Capture page screenshot.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface CaptureScreenshotData {
   /**
    * Base64-encoded image data (PNG).

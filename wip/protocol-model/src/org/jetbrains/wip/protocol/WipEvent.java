@@ -4,10 +4,10 @@
 
 package org.jetbrains.wip.protocol;
 
-import org.chromium.protocolParser.JsonField;
-import org.chromium.protocolParser.JsonObjectBased;
-import org.chromium.protocolParser.JsonOptionalField;
-import org.chromium.protocolParser.JsonType;
+import org.chromium.protocolReader.JsonField;
+import org.jetbrains.jsonProtocol.JsonObjectBased;
+import org.chromium.protocolReader.JsonOptionalField;
+import org.chromium.protocolReader.JsonType;
 
 @JsonType
 public interface WipEvent {

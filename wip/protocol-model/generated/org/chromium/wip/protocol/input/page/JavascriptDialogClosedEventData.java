@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Fired when a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload) has been closed.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface JavascriptDialogClosedEventData {
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData> TYPE

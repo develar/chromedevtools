@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.protocolParser;
+package org.chromium.protocolReader;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,12 +10,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Marks method as method casting to a subtype. Normally the method return type should be
- * some other json type, which serves as subtype; the subtype interface must extend
- * {@link JsonSubtype} (with correct generic parameter).
+ * For field-reading method, specifies that it is overridden. Generally, field should not be
+ * declared both in type and subtype. However this might be needed for declaring field in
+ * base type for general use and in subtype for specifying subtype conditions.
  */
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.METHOD })
-public @interface JsonSubtypeCasting {
-  boolean reinterpret() default false;
+public @interface JsonOverrideField {
 }

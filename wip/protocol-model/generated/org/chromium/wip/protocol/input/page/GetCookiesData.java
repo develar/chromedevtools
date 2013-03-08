@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Returns all browser cookies. Depending on the backend support, will either return detailed cookie information in the <code>cookie</code> field or string cookie representation using <code>cookieString</code>.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface GetCookiesData {
   /**
    * Array of cookie objects.

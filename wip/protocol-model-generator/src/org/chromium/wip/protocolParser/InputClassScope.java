@@ -81,11 +81,11 @@ class InputClassScope extends ClassScope {
         public void append(TextOutput out) throws IOException {
           out.newLine().doc(description);
           if (propertyList == null) {
-            out.append("@org.chromium.protocolParser.JsonType(allowsOtherProperties=true)").newLine();
-            out.append("public interface ").append(objectName).append(" extends org.chromium.protocolParser.JsonObjectBased").openBlock();
+            out.append("@org.chromium.protocolReader.JsonType(allowsOtherProperties=true)").newLine();
+            out.append("public interface ").append(objectName).append(" extends org.jetbrains.jsonProtocol.JsonObjectBased").openBlock();
           }
           else {
-            out.append("@org.chromium.protocolParser.JsonType").newLine();
+            out.append("@org.chromium.protocolReader.JsonType").newLine();
             out.append("public interface ").append(objectName).openBlock();
             for (WipMetamodel.ObjectProperty property : propertyList) {
               out.doc(property.description());

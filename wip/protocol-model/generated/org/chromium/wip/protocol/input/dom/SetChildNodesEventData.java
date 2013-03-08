@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.dom;
 /**
  * Fired when backend wants to provide client with the missing DOM structure. This happens upon most of the calls requesting node ids.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface SetChildNodesEventData {
   /**
    * Parent node id to populate with children.

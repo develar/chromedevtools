@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Information about the Frame on the page.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface FrameValue {
   /**
    * Frame unique identifier.
@@ -14,7 +14,7 @@ public interface FrameValue {
   /**
    * Parent frame identifier.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   String parentId();
   /**
    * Identifier of the loader associated with this frame.
@@ -23,7 +23,7 @@ public interface FrameValue {
   /**
    * Frame's name as specified in the tag.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   String name();
   /**
    * Frame document's URL.

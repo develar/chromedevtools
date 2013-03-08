@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Fired when frame has stopped loading.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface FrameStoppedLoadingEventData {
   /**
    * Id of the frame that has stopped loading.

@@ -4,7 +4,8 @@
 
 package org.jetbrains.wip.protocol;
 
-import org.chromium.protocolParser.*;
+import org.chromium.protocolReader.*;
+import org.jetbrains.jsonProtocol.JsonObjectBased;
 
 import java.util.List;
 

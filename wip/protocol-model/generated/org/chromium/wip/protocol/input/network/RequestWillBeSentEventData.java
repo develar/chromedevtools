@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.network;
 /**
  * Fired when page is about to send HTTP request.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface RequestWillBeSentEventData {
   /**
    * Request identifier.
@@ -37,7 +37,7 @@ public interface RequestWillBeSentEventData {
   /**
    * Redirect response data.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   org.chromium.wip.protocol.input.network.ResponseValue redirectResponse();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestWillBeSentEventData> TYPE

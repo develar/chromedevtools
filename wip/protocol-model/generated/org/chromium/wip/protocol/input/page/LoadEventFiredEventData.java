@@ -1,7 +1,7 @@
 // Generated source
 package org.chromium.wip.protocol.input.page;
 
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface LoadEventFiredEventData {
   double timestamp();
 

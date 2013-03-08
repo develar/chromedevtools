@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Returns content of the given resource.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface GetResourceContentData {
   /**
    * Resource content.

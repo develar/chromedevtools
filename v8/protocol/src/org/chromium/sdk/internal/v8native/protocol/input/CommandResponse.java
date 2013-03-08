@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import org.chromium.protocolParser.*;
+import org.chromium.protocolReader.*;
 
 /**
  * A generic type for all command responses. There are 2 subtypes; one for

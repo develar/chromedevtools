@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.debugger;
 /**
  * Sets JavaScript breakpoint at a given location.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface SetBreakpointData {
   /**
    * Id of the created breakpoint for further reference.

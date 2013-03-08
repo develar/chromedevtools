@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Fired when frame no longer has a scheduled navigation.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface FrameClearedScheduledNavigationEventData {
   /**
    * Id of the frame that has cleared its scheduled navigation.

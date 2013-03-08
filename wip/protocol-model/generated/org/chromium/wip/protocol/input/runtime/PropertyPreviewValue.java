@@ -1,7 +1,7 @@
 // Generated source
 package org.chromium.wip.protocol.input.runtime;
 
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface PropertyPreviewValue {
   /**
    * Property name.
@@ -14,17 +14,17 @@ public interface PropertyPreviewValue {
   /**
    * User-friendly property value string.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   String value();
   /**
    * Nested value preview.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   org.chromium.wip.protocol.input.runtime.ObjectPreviewValue valuePreview();
   /**
    * Object subtype hint. Specified for <code>object</code> type values only.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   Subtype subtype();
 
   /**

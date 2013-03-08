@@ -1,12 +1,11 @@
 // This is a generated source.
 package org.chromium.v8.protocol;
 
-import com.google.gson.stream.JsonReader;
-import org.jetbrains.jsonProtocol.ObjectFactory;
-
-import java.io.IOException;
+import org.jetbrains.jsonProtocol.*;
 
 import static org.jetbrains.jsonProtocol.JsonReaders.*;
+import com.google.gson.stream.JsonReader;
+import java.io.IOException;
 
 public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8native.protocol.input.V8ProtocolReader {
   @Override

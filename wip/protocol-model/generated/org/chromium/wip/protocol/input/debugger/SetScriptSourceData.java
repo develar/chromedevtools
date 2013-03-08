@@ -4,24 +4,24 @@ package org.chromium.wip.protocol.input.debugger;
 /**
  * Edits JavaScript source live.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface SetScriptSourceData {
   /**
    * New stack trace in case editing has happened while VM was stopped.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   java.util.List<org.chromium.wip.protocol.input.debugger.CallFrameValue> callFrames();
   /**
    * VM-specific description of the changes applied.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   Result result();
 
   /**
    * VM-specific description of the changes applied.
    */
-  @org.chromium.protocolParser.JsonType(allowsOtherProperties=true)
-  public interface Result extends org.chromium.protocolParser.JsonObjectBased {
+  @org.chromium.protocolReader.JsonType(allowsOtherProperties=true)
+  public interface Result extends org.jetbrains.jsonProtocol.JsonObjectBased {
 
   }
 }

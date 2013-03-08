@@ -4,8 +4,8 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
-import org.chromium.protocolParser.JsonOptionalField;
-import org.chromium.protocolParser.JsonType;
+import org.chromium.protocolReader.JsonOptionalField;
+import org.chromium.protocolReader.JsonType;
 
 @JsonType
 public interface ContextHandle {

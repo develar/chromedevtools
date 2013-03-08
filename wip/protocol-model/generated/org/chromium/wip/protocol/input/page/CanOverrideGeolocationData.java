@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Checks if Geolocation can be overridden.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface CanOverrideGeolocationData {
   /**
    * True if browser can ovrride Geolocation.

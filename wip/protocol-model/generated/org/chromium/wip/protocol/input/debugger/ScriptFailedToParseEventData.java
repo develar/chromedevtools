@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.debugger;
 /**
  * Fired when virtual machine fails to parse the script.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface ScriptFailedToParseEventData {
   /**
    * URL of the script that failed to parse.

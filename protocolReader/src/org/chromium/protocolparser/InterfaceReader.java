@@ -2,8 +2,9 @@ package org.chromium.protocolparser;
 
 import com.google.gson.stream.JsonReader;
 import gnu.trove.THashSet;
-import org.chromium.protocolParser.*;
+import org.chromium.protocolReader.*;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.jsonProtocol.JsonObjectBased;
 import org.jetbrains.jsonProtocol.StringIntPair;
 
 import java.lang.annotation.RetentionPolicy;

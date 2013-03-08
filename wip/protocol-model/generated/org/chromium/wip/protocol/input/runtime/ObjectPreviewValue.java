@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.runtime;
 /**
  * Object containing abbreviated remote object value.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface ObjectPreviewValue {
   /**
    * Determines whether preview is lossless (contains all information of the original object).

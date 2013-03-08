@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.console;
 /**
  * Issued when new console message is added.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface MessageAddedEventData {
   /**
    * Console message that has been added.

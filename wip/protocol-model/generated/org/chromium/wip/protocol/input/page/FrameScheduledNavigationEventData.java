@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.page;
 /**
  * Fired when frame schedules a potential navigation.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface FrameScheduledNavigationEventData {
   /**
    * Id of the frame that has scheduled a navigation.

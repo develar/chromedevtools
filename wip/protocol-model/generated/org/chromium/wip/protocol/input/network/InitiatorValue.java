@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.network;
 /**
  * Information about the request initiator.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface InitiatorValue {
   /**
    * Type of this initiator.
@@ -13,17 +13,17 @@ public interface InitiatorValue {
   /**
    * Initiator JavaScript stack trace, set for Script only.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   java.util.List<org.chromium.wip.protocol.input.console.CallFrameValue> stackTrace();
   /**
    * Initiator URL, set for Parser type only.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   String url();
   /**
    * Initiator line number, set for Parser type only.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   double lineNumber();
 
   /**

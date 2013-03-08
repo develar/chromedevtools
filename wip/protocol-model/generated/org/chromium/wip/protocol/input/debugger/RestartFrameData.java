@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.debugger;
 /**
  * Restarts particular call frame from the beginning.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface RestartFrameData {
   /**
    * New stack trace.
@@ -18,8 +18,8 @@ public interface RestartFrameData {
   /**
    * VM-specific description.
    */
-  @org.chromium.protocolParser.JsonType(allowsOtherProperties=true)
-  public interface Result extends org.chromium.protocolParser.JsonObjectBased {
+  @org.chromium.protocolReader.JsonType(allowsOtherProperties=true)
+  public interface Result extends org.jetbrains.jsonProtocol.JsonObjectBased {
 
   }
 }

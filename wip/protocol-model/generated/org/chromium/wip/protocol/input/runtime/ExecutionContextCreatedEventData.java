@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.runtime;
 /**
  * Issued when new execution context is created.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface ExecutionContextCreatedEventData {
   /**
    * A newly created execution contex.

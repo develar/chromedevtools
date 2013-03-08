@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.input.debugger;
 /**
  * Fired when virtual machine parses script. This event is also fired for all known and uncollected scripts upon enabling debugger.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface ScriptParsedEventData {
   /**
    * Identifier of the script parsed.
@@ -33,17 +33,17 @@ public interface ScriptParsedEventData {
   /**
    * Determines whether this script is a user extension script.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   boolean isContentScript();
   /**
    * URL of source map associated with script (if any).
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   String sourceMapURL();
   /**
    * True, if this script has sourceURL.
    */
-  @org.chromium.protocolParser.JsonOptionalField
+  @org.chromium.protocolReader.JsonOptionalField
   boolean hasSourceURL();
 
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.ScriptParsedEventData> TYPE

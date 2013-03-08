@@ -4,11 +4,11 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import java.util.List;
+import org.chromium.protocolReader.JsonOptionalField;
+import org.chromium.protocolReader.JsonSubtype;
+import org.chromium.protocolReader.JsonType;
 
-import org.chromium.protocolParser.JsonOptionalField;
-import org.chromium.protocolParser.JsonSubtype;
-import org.chromium.protocolParser.JsonType;
+import java.util.List;
 
 @JsonType
 public interface BacktraceCommandBody extends JsonSubtype<CommandResponseBody> {

@@ -4,8 +4,8 @@
 
 package org.chromium.protocolparser;
 
-import org.chromium.protocolParser.JsonObjectBased;
-import org.chromium.protocolParser.JsonSubtype;
+import org.jetbrains.jsonProtocol.JsonObjectBased;
+import org.chromium.protocolReader.JsonSubtype;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;

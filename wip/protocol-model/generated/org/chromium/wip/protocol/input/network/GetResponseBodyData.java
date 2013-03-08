@@ -5,7 +5,7 @@ package org.chromium.wip.protocol.input.network;
 /**
  * Returns content served for the given request.
  */
-@org.chromium.protocolParser.JsonType
+@org.chromium.protocolReader.JsonType
 public interface GetResponseBodyData {
   /**
    * Response body.
