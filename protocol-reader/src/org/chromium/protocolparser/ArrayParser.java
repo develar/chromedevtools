@@ -25,8 +25,8 @@ class ArrayParser extends ValueParser {
   }
 
   @Override
-  public void appendInternalValueTypeName(JavaCodeGenerator.FileScope scope) {
-    appendFinishedValueTypeName(scope.getOutput());
+  public void appendInternalValueTypeName(FileScope scope, TextOutput out) {
+    appendFinishedValueTypeName(out);
   }
 
   @Override

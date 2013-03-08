@@ -23,7 +23,7 @@ class VolatileFieldBinding {
 
   void writeFieldDeclaration(ClassScope scope, TextOutput out) {
     out.append("private ");
-    fieldTypeInfo.appendValueTypeNameJava(scope);
+    fieldTypeInfo.appendValueTypeNameJava(scope, out);
     out.space();
     writeGetExpression(out);
     out.semi();

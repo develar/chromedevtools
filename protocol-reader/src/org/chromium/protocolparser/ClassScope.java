@@ -1,11 +1,11 @@
 package org.chromium.protocolparser;
 
-public interface ClassScope extends JavaCodeGenerator.FileScope {
+public interface ClassScope extends FileScope {
   ClassScope getRootClassScope();
 
   /**
    * @return new {@link ClassScope} that has different out as {@link ClassScope},
-   *     but shares the out with this as {@link org.chromium.protocolparser.JavaCodeGenerator.FileScope}
+   *     but shares the out with this as {@link FileScope}
    */
   @Override
   ClassScope newClassScope();

@@ -22,6 +22,10 @@ public final class StringReader extends Reader {
     position = 0;
   }
 
+  public StringReader subReader(int start) {
+    return subReader(start, end);
+  }
+
   public StringReader subReader(int start, int end) {
     return new StringReader(string, start, end);
   }

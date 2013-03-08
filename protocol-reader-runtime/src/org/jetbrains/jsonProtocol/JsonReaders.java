@@ -269,14 +269,9 @@ public final class JsonReaders {
   public static Reader createValueReader(JsonReader reader) {
     try {
       int start = JSON_READER_POSITION_FIELD.getInt(reader);
-      reader.skipValue();
-      int end = JSON_READER_POSITION_FIELD.getInt(reader);
-      return ((StringReader)JSON_READER_IN_FIELD.get(reader)).subReader(start, end);
+      return ((StringReader)JSON_READER_IN_FIELD.get(reader)).subReader(start);
     }
     catch (IllegalAccessException e) {
-      throw new JsonParseException(e);
-    }
-    catch (IOException e) {
       throw new JsonParseException(e);
     }
   }
@@ -300,6 +295,7 @@ public final class JsonReaders {
 
   public static boolean findBooleanField(String name, JsonReader reader) {
     try {
+      reader.beginObject();
       while (reader.hasNext()) {
         if (reader.nextName().equals(name)) {
           return reader.nextBoolean();

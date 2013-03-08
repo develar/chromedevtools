@@ -4,7 +4,6 @@
 
 package org.chromium.protocolparser;
 
-import org.chromium.protocolparser.JavaCodeGenerator.FileScope;
 import org.chromium.protocolparser.JavaCodeGenerator.MethodScope;
 
 /**
@@ -28,8 +27,8 @@ abstract class ValueParser {
 
   abstract void appendFinishedValueTypeName(TextOutput out);
 
-  void appendInternalValueTypeName(FileScope scope) {
-    appendFinishedValueTypeName(scope.getOutput());
+  void appendInternalValueTypeName(FileScope scope, TextOutput out) {
+    appendFinishedValueTypeName(out);
   }
 
   abstract void writeReadCode(MethodScope methodScope, boolean deferredReading, TextOutput out);

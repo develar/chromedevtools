@@ -8,5 +8,5 @@ package org.chromium.protocolparser;
  * Information about a field type that is used in Java code generation.
  */
 interface FieldTypeInfo {
-  void appendValueTypeNameJava(JavaCodeGenerator.FileScope scope);
+  void appendValueTypeNameJava(FileScope scope, TextOutput out);
 }

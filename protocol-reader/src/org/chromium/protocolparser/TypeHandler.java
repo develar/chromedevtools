@@ -4,9 +4,9 @@
 
 package org.chromium.protocolparser;
 
-import org.chromium.protocolparser.JavaCodeGenerator.FileScope;
 import org.chromium.protocolparser.JavaCodeGenerator.MethodScope;
 import org.chromium.protocolReader.JsonType;
+import org.jetbrains.jsonProtocol.JsonObjectBased;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -120,6 +120,9 @@ class TypeHandler<T> {
     if (lazyRead) {
       out.append("private JsonReader inputReader;").newLine();
     }
+    else if (JsonObjectBased.class.isAssignableFrom(typeClass)) {
+      out.append("private java.io.Reader inputReader;").newLine();
+    }
 
     ClassScope classScope = fileScope.newClassScope();
     for (VolatileFieldBinding field : volatileFields) {
@@ -156,7 +159,7 @@ class TypeHandler<T> {
 
   /**
    * Generates Java implementation of standard methods of JSON type class (if needed):
-   * {@link org.jetbrains.jsonProtocol.JsonObjectBased#getDeferredReader()}, {@link org.chromium.protocolReader.JsonSubtype#getSuper()}
+   * {@link org.jetbrains.jsonProtocol.JsonObjectBased#getDeferredReader()}
    */
   private void writeBaseMethods(ClassScope scope, TextOutput out) {
     Class<?> typeClass = getTypeClass();
@@ -172,9 +175,10 @@ class TypeHandler<T> {
       return;
     }
 
+    out.newLine();
     MethodHandler.writeMethodDeclarationJava(out, method);
     out.openBlock();
-    scope.append("return new JsonReader(inputReader);");
+    out.append("return new JsonReader(inputReader);");
     out.closeBlock();
   }
 
@@ -185,6 +189,16 @@ class TypeHandler<T> {
 
     MethodScope methodScope = classScope.newMethodScope();
     subtypeAspect.writeSuperConstructorInitialization(out);
+
+    if (JsonObjectBased.class.isAssignableFrom(typeClass)) {
+      out.append(Util.PENDING_INPUT_READER_NAME).append(" = ").append("createValueReader(").append(Util.READER_NAME).append(");");
+      if (fieldLoaders.isEmpty()) {
+        // just skip value
+        out.newLine().append(Util.READER_NAME).append(".skipValue()").semi();
+        out.closeBlock();
+        return;
+      }
+    }
 
     out.append(Util.READER_NAME).append(".beginObject();");
     if (!fieldLoaders.isEmpty()) {

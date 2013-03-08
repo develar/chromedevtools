@@ -4,7 +4,6 @@ import com.google.gson.stream.JsonReader;
 import gnu.trove.THashSet;
 import org.chromium.protocolReader.*;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.jsonProtocol.JsonObjectBased;
 import org.jetbrains.jsonProtocol.StringIntPair;
 
 import java.lang.annotation.RetentionPolicy;
@@ -197,7 +196,7 @@ class InterfaceReader {
     }
 
     TypeHandler.EagerFieldParser eagerFieldParser = new DynamicParserImpl.EagerFieldParserImpl(fields.getOnDemandHandlers());
-    boolean lazyRead = fields.lazyRead || JsonObjectBased.class.isAssignableFrom(typeClass);
+    boolean lazyRead = fields.lazyRead;
     return new TypeHandler<T>(typeClass, getSuperclassRef(typeClass),
                               fields.getVolatileFields(), methodHandlerMap,
                               fields.getFieldLoaders(),
@@ -497,23 +496,22 @@ class InterfaceReader {
       return methodHandlerMap;
     }
 
-    private VolatileFieldBinding allocateVolatileField(final ValueParser fieldTypeParser,
-                                                                         boolean internalType) {
+    private VolatileFieldBinding allocateVolatileField(final ValueParser fieldTypeParser, boolean internalType) {
       int position = volatileFields.size();
       FieldTypeInfo fieldTypeInfo;
       if (internalType) {
         fieldTypeInfo = new FieldTypeInfo() {
           @Override
-          public void appendValueTypeNameJava(JavaCodeGenerator.FileScope scope) {
-            fieldTypeParser.appendInternalValueTypeName(scope);
+          public void appendValueTypeNameJava(FileScope scope, TextOutput out) {
+            fieldTypeParser.appendInternalValueTypeName(scope, out);
           }
         };
       }
       else {
         fieldTypeInfo = new FieldTypeInfo() {
           @Override
-          public void appendValueTypeNameJava(JavaCodeGenerator.FileScope scope) {
-            fieldTypeParser.appendFinishedValueTypeName(scope.getOutput());
+          public void appendValueTypeNameJava(FileScope scope, TextOutput out) {
+            fieldTypeParser.appendFinishedValueTypeName(out);
           }
         };
       }

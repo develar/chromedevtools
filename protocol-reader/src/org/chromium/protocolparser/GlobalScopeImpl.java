@@ -33,7 +33,7 @@ public class GlobalScopeImpl implements JavaCodeGenerator.GlobalScope {
   }
 
   @Override
-  public JavaCodeGenerator.FileScope newFileScope(StringBuilder output) {
+  public FileScope newFileScope(StringBuilder output) {
     return new JavaCodeGenerator.Impl.FileScopeImpl(this, output);
   }
 

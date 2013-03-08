@@ -4,7 +4,6 @@
 
 package org.chromium.protocolparser;
 
-import org.chromium.protocolparser.JavaCodeGenerator.FileScope;
 import org.chromium.protocolparser.JavaCodeGenerator.MethodScope;
 
 class ObjectValueParser<T> extends ValueParser {
@@ -37,8 +36,8 @@ class ObjectValueParser<T> extends ValueParser {
   }
 
   @Override
-  public void appendInternalValueTypeName(FileScope classScope) {
-    classScope.append(classScope.getTypeImplReference(refToType.get()));
+  public void appendInternalValueTypeName(FileScope classScope, TextOutput out) {
+    out.append(classScope.getTypeImplReference(refToType.get()));
   }
 
   @Override

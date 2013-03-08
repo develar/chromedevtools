@@ -12,9 +12,7 @@ import java.util.Collection;
  * A set of interfaces and classes used to generate Java code of parser implementation.
  */
 public interface JavaCodeGenerator {
-
-  GlobalScope newGlobalScope(Collection<TypeHandler<?>> typeHandlers,
-      Collection<GeneratedCodeMap> basePackages);
+  GlobalScope newGlobalScope(Collection<TypeHandler<?>> typeHandlers, Collection<GeneratedCodeMap> basePackages);
 
   interface GlobalScope {
     String getTypeImplReference(TypeHandler<?> typeHandler);
@@ -30,19 +28,6 @@ public interface JavaCodeGenerator {
     void forEachTypeFactory(TObjectProcedure<TypeHandler> procedure);
   }
 
-  interface FileScope extends GlobalScope {
-    TextOutput getOutput();
-
-    FileScope append(String line);
-    FileScope append(char c);
-
-    /**
-     * @return new {@link ClassScope} that extends {@link FileScope} and shares the out
-     *     with this {@link FileScope}
-     */
-    ClassScope newClassScope();
-  }
-
   interface MethodScope extends ClassScope {
   }
 
@@ -54,35 +39,20 @@ public interface JavaCodeGenerator {
 
     static class FileScopeImpl extends GlobalScopeImpl implements FileScope {
       private final TextOutput out;
-      private final Out2 out2;
 
       FileScopeImpl(GlobalScopeImpl globalScopeImpl, StringBuilder stringBuilder) {
         super(globalScopeImpl);
         out = new TextOutput(stringBuilder);
-        out2 = new Out2(stringBuilder);
       }
 
       FileScopeImpl(FileScopeImpl fileScopeImpl) {
         super(fileScopeImpl);
         out = fileScopeImpl.out;
-        out2 = fileScopeImpl.out2;
       }
 
       @Override
       public TextOutput getOutput() {
         return out;
-      }
-
-      @Override
-      public FileScope append(String line) {
-        out2.append(line);
-        return this;
-      }
-
-      @Override
-      public FileScope append(char line) {
-        out2.append(line);
-        return this;
       }
 
       @Override
@@ -92,22 +62,6 @@ public interface JavaCodeGenerator {
 
       protected ClassScopeImpl asClassScopeImpl() {
         return null;
-      }
-
-      private static class Out2 {
-        private final StringBuilder builder;
-
-        Out2(StringBuilder builder) {
-          this.builder = builder;
-        }
-
-        void append(String line) {
-          builder.append(line);
-        }
-
-        void append(char line) {
-          builder.append(line);
-        }
       }
     }
 
