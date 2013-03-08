@@ -8,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -38,9 +37,6 @@ public class Message {
     }
   }
 
-  /**
-   * The class logger.
-   */
   private static final Logger LOGGER = Logger.getLogger(Message.class.getName());
 
   /**
@@ -53,12 +49,12 @@ public class Message {
 
   private static final String CONTENT_LENGTH = "Content-Length";
 
-  private final HashMap<String, String> headers;
+  private final Map<String, String> headers;
 
   private final CharSequence content;
 
   public Message(Map<String, String> headers, CharSequence content) {
-    this.headers = new HashMap<String, String>(headers);
+    this.headers = headers;
     this.content = content;
   }
 
@@ -86,12 +82,9 @@ public class Message {
    *         or bad message format)
    * @throws IOException
    */
-  public static Message fromBufferedReader(LineReader reader, Charset charset)
-      throws IOException {
+  public static Message fromBufferedReader(LineReader reader, Charset charset) throws IOException {
     Map<String, String> headers = new LinkedHashMap<String, String>();
-
     String contentLengthValue = null;
-
     while (true) { // read headers
       String line = reader.readLine(charset);
       if (line == null) {
@@ -111,7 +104,8 @@ public class Message {
       String trimmedValue = value.trim();
       if (CONTENT_LENGTH.equals(name)) {
         contentLengthValue = trimmedValue;
-      } else {
+      }
+      else {
         headers.put(name, trimmedValue);
       }
     }
@@ -130,10 +124,7 @@ public class Message {
       }
       totalRead += readBytes;
     }
-
-    // Construct response message
-    String contentString = new String(contentBytes, charset);
-    return new Message(headers, contentString);
+    return new Message(headers, new String(contentBytes, charset));
   }
 
   /**

@@ -93,17 +93,6 @@ class WipCommandProcessor {
     baseProcessor.processEos();
   }
 
-  private void processEvent(JsonReader jsonObject) {
-    WipEvent event;
-    try {
-      event = WipParserAccess.get().parseWipEvent(jsonObject);
-    } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, "Failed to parse event", e);
-      return;
-    }
-    EVENT_MAP.handleEvent(event, this);
-  }
-
   private class WipMessageTypeHandler extends MessageHandler<JsonReader, WipCommandResponse> {
     @Override
     public void send(Request message, boolean isImmediate) throws IOException {
@@ -134,8 +123,15 @@ class WipCommandProcessor {
     }
 
     @Override
-    public void acceptNonSeq(JsonReader incoming) {
-      processEvent(incoming);
+    public void acceptNonSequence(JsonReader incoming) {
+      WipEvent event;
+      try {
+        event = WipParserAccess.get().parseWipEvent(incoming);
+      } catch (IOException e) {
+        LOGGER.log(Level.SEVERE, "Failed to parse event", e);
+        return;
+      }
+      EVENT_MAP.handleEvent(event, WipCommandProcessor.this);
     }
 
     @Override

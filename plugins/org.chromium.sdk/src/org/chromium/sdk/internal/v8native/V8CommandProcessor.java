@@ -121,7 +121,7 @@ public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeExc
       return incomingWithSeq.requestSeq();
     }
 
-    public void acceptNonSeq(IncomingMessage incoming) {
+    public void acceptNonSequence(IncomingMessage incoming) {
       defaultResponseHandler.handleResponseWithHandler(incoming);
     }
 

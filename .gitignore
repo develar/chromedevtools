@@ -11,18 +11,6 @@ plugins/org.chromium.sdk/bin
 plugins/org.chromium.sdk/build-output
 plugins/org.chromium.sdk.wip.eclipse/.settings
 plugins/org.chromium.sdk.wip.eclipse/bin
-plugins/org.chromium.sdk.wipbackend.wk93101/.settings
-plugins/org.chromium.sdk.wipbackend.wk93101/bin
-plugins/org.chromium.sdk.wipbackend.wk97678/.settings
-plugins/org.chromium.sdk.wipbackend.wk97678/bin
-plugins/org.chromium.sdk.wipbackend.wk102439/.settings
-plugins/org.chromium.sdk.wipbackend.wk102439/bin
-plugins/org.chromium.sdk.wipbackend.wk118685/.settings
-plugins/org.chromium.sdk.wipbackend.wk118685/bin
-plugins/org.chromium.sdk.wipbackend.wk120709/.settings
-plugins/org.chromium.sdk.wipbackend.wk120709/bin
-plugins/org.chromium.sdk.wipbackend.protocol_1_0/.settings
-plugins/org.chromium.sdk.wipbackend.protocol_1_0/bin
 plugins/org.chromium.sdk.wipbackend.dev/.settings
 plugins/org.chromium.sdk.wipbackend.dev/bin
 plugins/org.chromium.debug.jsdtbridge/.settings
@@ -32,3 +20,4 @@ utils/org.chromium.sdk.tests.system/bin
 utils/org.chromium.sdk.tests.system/build-output
 utils/org.chromium.sdk.tests.system.runner/.settings
 utils/org.chromium.sdk.tests.system.runner/bin
+.DS_Store

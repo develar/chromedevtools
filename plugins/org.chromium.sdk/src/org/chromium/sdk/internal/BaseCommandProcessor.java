@@ -30,7 +30,7 @@ public class BaseCommandProcessor<OUTGOING, INCOMING, INCOMING_WITH_SEQ> {
     void send(OUTGOING message, boolean isImmediate) throws IOException;
     INCOMING_WITH_SEQ tryParseWithSequence(INCOMING incoming);
     int getSequence(INCOMING_WITH_SEQ incomingWithSeq);
-    void acceptNonSeq(INCOMING incoming);
+    void acceptNonSequence(INCOMING incoming);
     void reportVmStatus(String currentRequest, int numberOfEnqueued);
   }
 
@@ -89,7 +89,7 @@ public class BaseCommandProcessor<OUTGOING, INCOMING, INCOMING_WITH_SEQ> {
   public void processIncoming(INCOMING incomingParsed) {
     final INCOMING_WITH_SEQ commandResponse = handler.tryParseWithSequence(incomingParsed);
     if (commandResponse == null) {
-      handler.acceptNonSeq(incomingParsed);
+      handler.acceptNonSequence(incomingParsed);
     }
     else {
       int key = handler.getSequence(commandResponse);

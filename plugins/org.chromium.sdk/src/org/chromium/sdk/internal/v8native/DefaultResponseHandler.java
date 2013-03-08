@@ -1,5 +1,6 @@
 package org.chromium.sdk.internal.v8native;
 
+import gnu.trove.THashMap;
 import org.chromium.sdk.internal.v8native.processor.AfterCompileProcessor;
 import org.chromium.sdk.internal.v8native.processor.BreakpointProcessor;
 import org.chromium.sdk.internal.v8native.processor.ScriptCollectedProcessor;
@@ -8,7 +9,6 @@ import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
 import org.chromium.sdk.internal.v8native.protocol.input.EventNotification;
 import org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,11 +49,10 @@ public class DefaultResponseHandler {
     String commandString = eventResponse.event();
     DebuggerCommand command = DebuggerCommand.forString(commandString);
     if (command == null) {
-      LOGGER.log(Level.WARNING,
-          "Unknown command in V8 debugger reply JSON: {0}", commandString);
+      LOGGER.log(Level.WARNING, "Unknown command in V8 debugger reply JSON: {0}", commandString);
       return;
     }
-    final ProcessorGetter handlerGetter = command2EventProcessorGetter.get(command);
+    ProcessorGetter handlerGetter = commandToEventProcessorGetter.get(command);
     if (handlerGetter == null) {
       return;
     }
@@ -67,31 +66,31 @@ public class DefaultResponseHandler {
   /**
    * The handlers that should be invoked when certain command responses arrive.
    */
-  private static final Map<DebuggerCommand, ProcessorGetter> command2EventProcessorGetter;
+  private static final Map<DebuggerCommand, ProcessorGetter> commandToEventProcessorGetter;
+
   static {
-    command2EventProcessorGetter = new HashMap<DebuggerCommand, ProcessorGetter>();
+    commandToEventProcessorGetter = new THashMap<DebuggerCommand, ProcessorGetter>();
     ProcessorGetter bppGetter = new ProcessorGetter() {
       @Override
       BreakpointProcessor get(DefaultResponseHandler instance) {
         return instance.bpp;
       }
     };
-    command2EventProcessorGetter.put(DebuggerCommand.BREAK /* event */, bppGetter);
-    command2EventProcessorGetter.put(DebuggerCommand.EXCEPTION /* event */, bppGetter);
-
-    command2EventProcessorGetter.put(DebuggerCommand.AFTER_COMPILE /* event */,
-        new ProcessorGetter() {
-      @Override
-      AfterCompileProcessor get(DefaultResponseHandler instance) {
-        return instance.afterCompileProcessor;
-      }
-    });
-    command2EventProcessorGetter.put(DebuggerCommand.SCRIPT_COLLECTED /* event */,
-        new ProcessorGetter() {
-      @Override
-      ScriptCollectedProcessor get(DefaultResponseHandler instance) {
-        return instance.scriptCollectedProcessor;
-      }
-    });
+    commandToEventProcessorGetter.put(DebuggerCommand.BREAK /* event */, bppGetter);
+    commandToEventProcessorGetter.put(DebuggerCommand.EXCEPTION /* event */, bppGetter);
+    commandToEventProcessorGetter.put(DebuggerCommand.AFTER_COMPILE /* event */,
+                                      new ProcessorGetter() {
+                                        @Override
+                                        AfterCompileProcessor get(DefaultResponseHandler instance) {
+                                          return instance.afterCompileProcessor;
+                                        }
+                                      });
+    commandToEventProcessorGetter.put(DebuggerCommand.SCRIPT_COLLECTED /* event */,
+                                      new ProcessorGetter() {
+                                        @Override
+                                        ScriptCollectedProcessor get(DefaultResponseHandler instance) {
+                                          return instance.scriptCollectedProcessor;
+                                        }
+                                      });
   }
 }

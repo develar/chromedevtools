@@ -46,15 +46,13 @@ public class BreakpointProcessor extends V8EventProcessor {
     DebugSession debugSession = getDebugSession();
 
     ContextBuilder contextBuilder = debugSession.getContextBuilder();
-
     ContextBuilder.ExpectingBreakEventStep step1 = contextBuilder.buildNewContext();
-
     InternalContext internalContext = step1.getInternalContext();
-
     BreakEventBody breakEventBody;
     try {
       breakEventBody = eventMessage.body().asBreakEventBody();
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       throw new RuntimeException(e);
     }
 
@@ -62,11 +60,13 @@ public class BreakpointProcessor extends V8EventProcessor {
     if (V8Protocol.EVENT_BREAK.key.equals(event)) {
       Collection<Breakpoint> breakpointsHit = getBreakpointsHit(breakEventBody);
       step2 = step1.setContextState(breakpointsHit, null);
-    } else if (V8Protocol.EVENT_EXCEPTION.key.equals(event)) {
+    }
+    else if (V8Protocol.EVENT_EXCEPTION.key.equals(event)) {
       ExceptionData exception = createException(eventMessage, breakEventBody,
-          internalContext);
-      step2 = step1.setContextState(Collections.<Breakpoint> emptySet(), exception);
-    } else {
+                                                internalContext);
+      step2 = step1.setContextState(Collections.<Breakpoint>emptySet(), exception);
+    }
+    else {
       ContextBuilder.buildSequenceFailure();
       throw new RuntimeException();
     }

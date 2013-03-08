@@ -25,7 +25,6 @@ public class ScriptCollectedProcessor extends V8EventProcessor {
   @Override
   public void messageReceived(EventNotification eventMessage) {
     EventNotificationBody body = eventMessage.body();
-
     ScriptCollectedBody scriptCollectedBody;
     try {
       scriptCollectedBody = body.asScriptCollectedBody();
@@ -33,8 +32,6 @@ public class ScriptCollectedProcessor extends V8EventProcessor {
       throw new RuntimeException(e);
     }
 
-    long scriptId = scriptCollectedBody.script().id();
-
-    getDebugSession().getScriptManager().scriptCollected(scriptId);
+    getDebugSession().getScriptManager().scriptCollected(scriptCollectedBody.script().id());
   }
 }

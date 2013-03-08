@@ -56,7 +56,7 @@ public final class StringReader extends Reader {
   }
 
   @Override
-  public void close() throws IOException {
+  public void close() {
     string = null;
   }
 }

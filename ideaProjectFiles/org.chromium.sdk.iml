@@ -16,7 +16,6 @@
     <content url="file://$MODULE_DIR$/../plugins/org.chromium.sdk">
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src-wip" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src-static-impl/generated" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/generated" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
