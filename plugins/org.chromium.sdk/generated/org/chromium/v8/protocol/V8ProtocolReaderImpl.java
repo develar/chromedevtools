@@ -63,6 +63,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 1) {
@@ -238,6 +239,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 3) {
@@ -308,6 +310,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 3) {
@@ -373,6 +376,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 2) {
@@ -474,6 +478,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 7) {
@@ -738,6 +743,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 3) {
@@ -961,6 +967,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 4) {
@@ -1040,6 +1047,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 4) {
@@ -1127,21 +1135,14 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       this.baseMessage = baseMessage;
 
       reader.beginObject();
-      int i = 0;
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("V8Version")) {
           _V8Version = readString(reader, name);
-        }
-        else {
-          reader.skipValue();
-        }
-
-        if (i == 0) {
           break;
         }
         else {
-          i++;
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1170,21 +1171,14 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       this.baseMessage = baseMessage;
 
       reader.beginObject();
-      int i = 0;
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("script")) {
           _script = M31.parse(reader);
-        }
-        else {
-          reader.skipValue();
-        }
-
-        if (i == 0) {
           break;
         }
         else {
-          i++;
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1229,6 +1223,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 2) {
@@ -1274,21 +1269,14 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       this.baseMessage = baseMessage;
 
       reader.beginObject();
-      int i = 0;
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("result")) {
           _result = new M16(reader);
-        }
-        else {
-          reader.skipValue();
-        }
-
-        if (i == 0) {
           break;
         }
         else {
-          i++;
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1317,21 +1305,14 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       this.baseMessage = baseMessage;
 
       reader.beginObject();
-      int i = 0;
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("breakpoints")) {
           _breakpoints = readObjectArray(reader, name, new M22F());
-        }
-        else {
-          reader.skipValue();
-        }
-
-        if (i == 0) {
           break;
         }
         else {
-          i++;
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1360,21 +1341,14 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       this.baseMessage = baseMessage;
 
       reader.beginObject();
-      int i = 0;
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("script")) {
           _script = new M32(reader);
-        }
-        else {
-          reader.skipValue();
-        }
-
-        if (i == 0) {
           break;
         }
         else {
-          i++;
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1403,21 +1377,14 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       this.baseMessage = baseMessage;
 
       reader.beginObject();
-      int i = 0;
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("flags")) {
           _flags = readObjectArray(reader, name, new M11F());
-        }
-        else {
-          reader.skipValue();
-        }
-
-        if (i == 0) {
           break;
         }
         else {
-          i++;
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -1462,6 +1429,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 1) {
@@ -1608,6 +1576,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 14) {
@@ -1751,6 +1720,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 7) {
@@ -1863,6 +1833,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 5) {
@@ -1922,21 +1893,14 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
 
     public M27(JsonReader reader) throws IOException {
       reader.beginObject();
-      int i = 0;
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
           _name = reader;
-        }
-        else {
-          reader.skipValue();
-        }
-
-        if (i == 0) {
           break;
         }
         else {
-          i++;
+          reader.skipValue();
         }
       }
       inputReader = resetReader(reader);
@@ -2001,6 +1965,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 2) {
@@ -2051,21 +2016,14 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       this.baseMessage = baseMessage;
 
       reader.beginObject();
-      int i = 0;
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("value")) {
           _value = M34.parse(reader);
-        }
-        else {
-          reader.skipValue();
-        }
-
-        if (i == 0) {
           break;
         }
         else {
-          i++;
+          reader.skipValue();
         }
       }
       reader.endObject();
@@ -2124,6 +2082,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 5) {
@@ -2242,6 +2201,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
+          continue;
         }
 
         if (i == 9) {
@@ -2324,21 +2284,14 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       this.baseMessage = baseMessage;
 
       reader.beginObject();
-      int i = 0;
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("ref")) {
           _ref = readLong(reader, name);
-        }
-        else {
-          reader.skipValue();
-        }
-
-        if (i == 0) {
           break;
         }
         else {
-          i++;
+          reader.skipValue();
         }
       }
       inputReader = resetReader(reader);
@@ -2420,21 +2373,14 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       this.baseMessage = baseMessage;
 
       reader.beginObject();
-      int i = 0;
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("data")) {
           _data = reader;
-        }
-        else {
-          reader.skipValue();
-        }
-
-        if (i == 0) {
           break;
         }
         else {
-          i++;
+          reader.skipValue();
         }
       }
       reader.endObject();

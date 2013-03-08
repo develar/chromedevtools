@@ -206,7 +206,8 @@ class TypeHandler<T> {
 
   private void writeReadFields(TextOutput out, MethodScope methodScope) {
     boolean stopIfAllFieldsWereRead = lazyRead || subtypeAspect instanceof ExistingSubtypeAspect;
-    if (stopIfAllFieldsWereRead) {
+    boolean isTracedStop = stopIfAllFieldsWereRead && fieldLoaders.size() > 1;
+    if (isTracedStop) {
       out.newLine().append("int i = 0").semi();
     }
 
@@ -221,6 +222,9 @@ class TypeHandler<T> {
         assignField(out, fieldName);
         fieldLoader.valueParser.writeReadCode(methodScope, false, out);
         out.semi();
+        if (stopIfAllFieldsWereRead && !isTracedStop) {
+          out.newLine().append("break").semi();
+        }
       }
       out.closeBlock();
 
@@ -230,9 +234,14 @@ class TypeHandler<T> {
       }
     }
 
-    out.newLine().append("else").openBlock().append("reader.skipValue();").closeBlock();
-    if (stopIfAllFieldsWereRead) {
-      out.newLine().newLine().append("if (i == ").append(fieldLoaders.size() - 1).append(")").openBlock().append("break").semi().closeBlock();
+    out.newLine().append("else").openBlock().append("reader.skipValue();");
+    if (isTracedStop) {
+      out.newLine().append("continue").semi();
+    }
+    out.closeBlock();
+    if (isTracedStop) {
+      out.newLine().newLine().append("if (i == ").append(fieldLoaders.size() - 1).append(")").openBlock().append(
+        "break").semi().closeBlock();
       out.newLine().append("else").openBlock().append("i++").semi().closeBlock();
     }
 
