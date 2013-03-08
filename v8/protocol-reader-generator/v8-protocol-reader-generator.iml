@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="protocolReader" />
+    <orderEntry type="module" module-name="protocol-reader" />
     <orderEntry type="module" module-name="v8-protocol" />
     <orderEntry type="library" name="gson" level="project" />
     <orderEntry type="module" module-name="liveedit-protocol" />
