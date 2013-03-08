@@ -60,9 +60,7 @@ public class V8ReaderGenerator extends ReaderGeneratorBase {
       ScriptWithId.class
     };
 
-
     GeneratedCodeMap liveEditParserMap = buildParserMap(LiveEditReaderGenerator.createConfiguration());
-    // LiveEditReaderGenerator.create()
     return new GenerateConfiguration("org.chromium.v8.protocol",
         "V8ProtocolReaderImpl", new DynamicParserImpl<V8ProtocolReader>(true, V8ProtocolReader.class, interfaces),
         Collections.singletonList(liveEditParserMap));

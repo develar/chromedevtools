@@ -1,0 +1,21 @@
+{
+  "domains": [
+    {
+      "domain": "",
+      "commands": [
+        {
+          "name": "setbreakpoint",
+          "description": "Creates a new break point",
+          "parameters": [
+            {
+              "name": "type",
+              "type": "boolean",
+              "optional": true,
+              "description": "Whether native memory graph should be reported in addition to aggregated statistics."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
