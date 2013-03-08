@@ -1,28 +1,25 @@
 // This is a generated source.
-package org.chromium.wip;
+package org.jetbrains.jsonProtocol;
 
 import org.jetbrains.jsonProtocol.*;
 
 import static org.jetbrains.jsonProtocol.JsonReaders.*;
 import com.google.gson.stream.JsonReader;
-import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
-import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodelParser;
-
 import java.io.IOException;
 
-public final class WipProtocolSchemaReader implements WipMetamodelParser {
+public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtocol.ProtocolSchemaReader {
   @Override
-  public WipMetamodel.Root parseRoot(com.google.gson.stream.JsonReader reader) throws IOException {
+  public org.jetbrains.jsonProtocol.ProtocolMetaModel.Root parseRoot(com.google.gson.stream.JsonReader reader) throws IOException {
     return new M6(reader);
   }
 
-  public static final class M0 implements WipMetamodel.ArrayItemType {
+  public static final class M0 implements org.jetbrains.jsonProtocol.ProtocolMetaModel.ArrayItemType {
     private String _type;
     private String _$ref;
-    private java.util.List<WipMetamodel.ObjectProperty> _properties;
+    private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty> _properties;
     private String _description;
     private boolean _optional;
-    private WipMetamodel.ArrayItemType _items;
+    private org.jetbrains.jsonProtocol.ProtocolMetaModel.ArrayItemType _items;
     private java.util.List<String> _enum;
 
     public M0(JsonReader reader) throws IOException {
@@ -58,6 +55,21 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
+    public java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty> properties() {
+      return _properties;
+    }
+
+    @Override
+    public java.lang.String type() {
+      return _type;
+    }
+
+    @Override
+    public java.lang.String ref() {
+      return _$ref;
+    }
+
+    @Override
     public java.util.List<java.lang.String> getEnum() {
       return _enum;
     }
@@ -73,31 +85,16 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
-    public WipMetamodel.ArrayItemType items() {
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.ArrayItemType items() {
       return _items;
-    }
-
-    @Override
-    public java.lang.String ref() {
-      return _$ref;
-    }
-
-    @Override
-    public java.lang.String type() {
-      return _type;
-    }
-
-    @Override
-    public java.util.List<WipMetamodel.ObjectProperty> properties() {
-      return _properties;
     }
   }
 
-  public static final class M1 implements WipMetamodel.Command {
+  public static final class M1 implements org.jetbrains.jsonProtocol.ProtocolMetaModel.Command {
     private String _name;
     private String _description;
-    private java.util.List<WipMetamodel.Parameter> _parameters;
-    private java.util.List<WipMetamodel.Parameter> _returns;
+    private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> _parameters;
+    private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> _returns;
     private boolean _hidden;
     private boolean _async;
 
@@ -131,6 +128,11 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
+    public java.lang.String name() {
+      return _name;
+    }
+
+    @Override
     public boolean hidden() {
       return _hidden;
     }
@@ -141,17 +143,12 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
-    public java.lang.String name() {
-      return _name;
-    }
-
-    @Override
-    public java.util.List<WipMetamodel.Parameter> returns() {
+    public java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> returns() {
       return _returns;
     }
 
     @Override
-    public java.util.List<WipMetamodel.Parameter> parameters() {
+    public java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> parameters() {
       return _parameters;
     }
 
@@ -161,13 +158,13 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
   }
 
-  public static final class M2 implements WipMetamodel.Domain {
+  public static final class M2 implements org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain {
     private String _domain;
     private String _description;
     private boolean _hidden;
-    private java.util.List<WipMetamodel.StandaloneType> _types;
-    private java.util.List<WipMetamodel.Command> _commands;
-    private java.util.List<WipMetamodel.Event> _events;
+    private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType> _types;
+    private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Command> _commands;
+    private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Event> _events;
 
     public M2(JsonReader reader) throws IOException {
       reader.beginObject();
@@ -199,12 +196,17 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
-    public java.util.List<WipMetamodel.Command> commands() {
-      return _commands;
+    public java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType> types() {
+      return _types;
     }
 
     @Override
-    public java.util.List<WipMetamodel.Event> events() {
+    public java.lang.String domain() {
+      return _domain;
+    }
+
+    @Override
+    public java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Event> events() {
       return _events;
     }
 
@@ -219,20 +221,15 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
-    public java.lang.String domain() {
-      return _domain;
-    }
-
-    @Override
-    public java.util.List<WipMetamodel.StandaloneType> types() {
-      return _types;
+    public java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Command> commands() {
+      return _commands;
     }
   }
 
-  public static final class M3 implements WipMetamodel.Event {
+  public static final class M3 implements org.jetbrains.jsonProtocol.ProtocolMetaModel.Event {
     private String _name;
     private String _description;
-    private java.util.List<WipMetamodel.Parameter> _parameters;
+    private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> _parameters;
     private boolean _hidden;
 
     public M3(JsonReader reader) throws IOException {
@@ -259,8 +256,13 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
-    public java.util.List<WipMetamodel.Parameter> parameters() {
+    public java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> parameters() {
       return _parameters;
+    }
+
+    @Override
+    public java.lang.String name() {
+      return _name;
     }
 
     @Override
@@ -272,20 +274,15 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     public java.lang.String description() {
       return _description;
     }
-
-    @Override
-    public java.lang.String name() {
-      return _name;
-    }
   }
 
-  public static final class M4 implements WipMetamodel.ObjectProperty {
+  public static final class M4 implements org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty {
     private String _name;
     private String _type;
     private String _$ref;
     private String _description;
     private boolean _optional;
-    private WipMetamodel.ArrayItemType _items;
+    private org.jetbrains.jsonProtocol.ProtocolMetaModel.ArrayItemType _items;
     private java.util.List<String> _enum;
     private boolean _hidden;
 
@@ -325,18 +322,18 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
-    public java.util.List<java.lang.String> getEnum() {
-      return _enum;
+    public java.lang.String type() {
+      return _type;
     }
 
     @Override
-    public boolean optional() {
-      return _optional;
+    public java.lang.String ref() {
+      return _$ref;
     }
 
     @Override
-    public java.lang.String name() {
-      return _name;
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.ArrayItemType items() {
+      return _items;
     }
 
     @Override
@@ -350,28 +347,28 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
-    public WipMetamodel.ArrayItemType items() {
-      return _items;
+    public java.util.List<java.lang.String> getEnum() {
+      return _enum;
     }
 
     @Override
-    public java.lang.String ref() {
-      return _$ref;
+    public boolean optional() {
+      return _optional;
     }
 
     @Override
-    public java.lang.String type() {
-      return _type;
+    public java.lang.String name() {
+      return _name;
     }
   }
 
-  public static final class M5 implements WipMetamodel.Parameter {
+  public static final class M5 implements org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter {
     private String _name;
     private String _type;
     private String _$ref;
     private String _description;
     private boolean _optional;
-    private WipMetamodel.ArrayItemType _items;
+    private org.jetbrains.jsonProtocol.ProtocolMetaModel.ArrayItemType _items;
     private java.util.List<String> _enum;
     private boolean _hidden;
 
@@ -411,11 +408,6 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
-    public WipMetamodel.ArrayItemType items() {
-      return _items;
-    }
-
-    @Override
     public java.util.List<java.lang.String> getEnum() {
       return _enum;
     }
@@ -441,6 +433,11 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.ArrayItemType items() {
+      return _items;
+    }
+
+    @Override
     public java.lang.String ref() {
       return _$ref;
     }
@@ -451,9 +448,9 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
   }
 
-  public static final class M6 implements WipMetamodel.Root {
-    private java.util.List<WipMetamodel.Domain> _domains;
-    private WipMetamodel.Version _version;
+  public static final class M6 implements org.jetbrains.jsonProtocol.ProtocolMetaModel.Root {
+    private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain> _domains;
+    private org.jetbrains.jsonProtocol.ProtocolMetaModel.Version _version;
 
     public M6(JsonReader reader) throws IOException {
       reader.beginObject();
@@ -473,22 +470,22 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
-    public java.util.List<WipMetamodel.Domain> domains() {
+    public java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain> domains() {
       return _domains;
     }
 
     @Override
-    public WipMetamodel.Version version() {
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Version version() {
       return _version;
     }
   }
 
-  public static final class M7 implements WipMetamodel.StandaloneType {
+  public static final class M7 implements org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType {
     private String _type;
     private String _id;
-    private java.util.List<WipMetamodel.ObjectProperty> _properties;
+    private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty> _properties;
     private String _description;
-    private WipMetamodel.ArrayItemType _items;
+    private org.jetbrains.jsonProtocol.ProtocolMetaModel.ArrayItemType _items;
     private java.util.List<String> _enum;
     private boolean _hidden;
 
@@ -530,6 +527,11 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.ArrayItemType items() {
+      return _items;
+    }
+
+    @Override
     public boolean hidden() {
       return _hidden;
     }
@@ -545,12 +547,7 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
-    public WipMetamodel.ArrayItemType items() {
-      return _items;
-    }
-
-    @Override
-    public java.util.List<WipMetamodel.ObjectProperty> properties() {
+    public java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty> properties() {
       return _properties;
     }
 
@@ -560,7 +557,7 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
   }
 
-  public static final class M8 implements WipMetamodel.Version {
+  public static final class M8 implements org.jetbrains.jsonProtocol.ProtocolMetaModel.Version {
     private String _major;
     private String _minor;
 
@@ -582,55 +579,55 @@ public final class WipProtocolSchemaReader implements WipMetamodelParser {
     }
 
     @Override
-    public java.lang.String major() {
-      return _major;
-    }
-
-    @Override
     public java.lang.String minor() {
       return _minor;
     }
-  }
 
-  static final class M4F extends ObjectFactory<WipMetamodel.ObjectProperty> {
     @Override
-    public WipMetamodel.ObjectProperty read(JsonReader reader) throws IOException {
-      return new M4(reader);
+    public java.lang.String major() {
+      return _major;
     }
   }
 
-  static final class M3F extends ObjectFactory<WipMetamodel.Event> {
+  static final class M2F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain> {
     @Override
-    public WipMetamodel.Event read(JsonReader reader) throws IOException {
-      return new M3(reader);
-    }
-  }
-
-  static final class M7F extends ObjectFactory<WipMetamodel.StandaloneType> {
-    @Override
-    public WipMetamodel.StandaloneType read(JsonReader reader) throws IOException {
-      return new M7(reader);
-    }
-  }
-
-  static final class M5F extends ObjectFactory<WipMetamodel.Parameter> {
-    @Override
-    public WipMetamodel.Parameter read(JsonReader reader) throws IOException {
-      return new M5(reader);
-    }
-  }
-
-  static final class M2F extends ObjectFactory<WipMetamodel.Domain> {
-    @Override
-    public WipMetamodel.Domain read(JsonReader reader) throws IOException {
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain read(JsonReader reader) throws IOException {
       return new M2(reader);
     }
   }
 
-  static final class M1F extends ObjectFactory<WipMetamodel.Command> {
+  static final class M1F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Command> {
     @Override
-    public WipMetamodel.Command read(JsonReader reader) throws IOException {
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Command read(JsonReader reader) throws IOException {
       return new M1(reader);
+    }
+  }
+
+  static final class M5F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter read(JsonReader reader) throws IOException {
+      return new M5(reader);
+    }
+  }
+
+  static final class M7F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType read(JsonReader reader) throws IOException {
+      return new M7(reader);
+    }
+  }
+
+  static final class M3F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Event> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Event read(JsonReader reader) throws IOException {
+      return new M3(reader);
+    }
+  }
+
+  static final class M4F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty read(JsonReader reader) throws IOException {
+      return new M4(reader);
     }
   }
 

@@ -1,4 +1,4 @@
-package org.jetbrains.jsonProtocol.readerGenerator;
+package org.jetbrains.jsonProtocol;
 
 import org.chromium.protocolReader.JsonField;
 import org.chromium.protocolReader.JsonOptionalField;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Defines schema of WIP metamodel defined in http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/inspector/Inspector.json
  */
-public interface WipMetamodel {
+public interface ProtocolMetaModel {
   @JsonType
   interface Root {
     @JsonOptionalField

@@ -2,7 +2,7 @@ package org.chromium.wip.protocolParser;
 
 import org.chromium.protocolparser.Enums;
 import org.chromium.protocolparser.TextOutput;
-import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
+import org.jetbrains.jsonProtocol.ProtocolMetaModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,9 +12,9 @@ class InputClassScope extends ClassScope {
     super(generator, namePath);
   }
 
-  public void generateMainJsonProtocolInterfaceBody(TextOutput out, List<WipMetamodel.Parameter> parameters) throws IOException {
+  public void generateMainJsonProtocolInterfaceBody(TextOutput out, List<ProtocolMetaModel.Parameter> parameters) throws IOException {
     if (parameters != null) {
-      for (WipMetamodel.Parameter param : parameters) {
+      for (ProtocolMetaModel.Parameter param : parameters) {
         if (param.description() != null) {
           out.doc(param.description());
         }
@@ -27,9 +27,9 @@ class InputClassScope extends ClassScope {
     }
   }
 
-  void generateStandaloneTypeBody(TextOutput out, List<WipMetamodel.ObjectProperty> properties) throws IOException {
+  void generateStandaloneTypeBody(TextOutput out, List<ProtocolMetaModel.ObjectProperty> properties) throws IOException {
     if (properties != null) {
-      for (WipMetamodel.ObjectProperty objectProperty : properties) {
+      for (ProtocolMetaModel.ObjectProperty objectProperty : properties) {
         String propertyName = objectProperty.name();
 
         if (objectProperty.description() != null) {
@@ -74,7 +74,7 @@ class InputClassScope extends ClassScope {
     }
 
     @Override
-    public BoxableType generateNestedObject(final String description, final List<WipMetamodel.ObjectProperty> propertyList) throws IOException {
+    public BoxableType generateNestedObject(final String description, final List<ProtocolMetaModel.ObjectProperty> propertyList) throws IOException {
       final String objectName = Generator.capitalizeFirstChar(getMemberName());
       addMember(new TextOutConsumer() {
         @Override
@@ -87,7 +87,7 @@ class InputClassScope extends ClassScope {
           else {
             out.append("@org.chromium.protocolReader.JsonType").newLine();
             out.append("public interface ").append(objectName).openBlock();
-            for (WipMetamodel.ObjectProperty property : propertyList) {
+            for (ProtocolMetaModel.ObjectProperty property : propertyList) {
               out.doc(property.description());
 
               String methodName = Generator.generateMethodNameSubstitute(property.name(), out);

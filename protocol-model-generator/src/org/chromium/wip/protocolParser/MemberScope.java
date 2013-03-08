@@ -1,7 +1,7 @@
 package org.chromium.wip.protocolParser;
 
-import org.jetbrains.jsonProtocol.readerGenerator.ItemDescriptor;
-import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
+import org.jetbrains.jsonProtocol.ItemDescriptor;
+import org.jetbrains.jsonProtocol.ProtocolMetaModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +29,7 @@ abstract class MemberScope implements ResolveAndGenerateScope {
   }
 
   public abstract BoxableType generateEnum(String description, List<String> enumConstants);
-  public abstract BoxableType generateNestedObject(String description, List<WipMetamodel.ObjectProperty> propertyList) throws IOException;
+  public abstract BoxableType generateNestedObject(String description, List<ProtocolMetaModel.ObjectProperty> propertyList) throws IOException;
 
   @Override
   public String getDomainName() {

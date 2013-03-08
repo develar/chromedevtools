@@ -1,6 +1,6 @@
 package org.chromium.wip.protocolParser;
 
-import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
+import org.jetbrains.jsonProtocol.ProtocolMetaModel;
 
 class TypeData {
   private final String name;
@@ -8,14 +8,14 @@ class TypeData {
   private Input input = null;
   private Output output = null;
 
-  private WipMetamodel.StandaloneType type = null;
+  private ProtocolMetaModel.StandaloneType type = null;
   private StandaloneTypeBinding commonBinding = null;
 
   TypeData(String name) {
     this.name = name;
   }
 
-  void setType(WipMetamodel.StandaloneType type) {
+  void setType(ProtocolMetaModel.StandaloneType type) {
     this.type = type;
   }
 

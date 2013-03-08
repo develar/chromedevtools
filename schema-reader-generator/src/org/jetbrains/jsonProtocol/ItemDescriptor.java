@@ -1,4 +1,4 @@
-package org.jetbrains.jsonProtocol.readerGenerator;
+package org.jetbrains.jsonProtocol;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ public interface ItemDescriptor {
 
   List<String> getEnum();
 
-  WipMetamodel.ArrayItemType items();
+  ProtocolMetaModel.ArrayItemType items();
 
   interface Named extends Referenceable {
     String name();
@@ -22,6 +22,6 @@ public interface ItemDescriptor {
   }
 
   interface Type extends ItemDescriptor {
-    List<WipMetamodel.ObjectProperty> properties();
+    List<ProtocolMetaModel.ObjectProperty> properties();
   }
 }

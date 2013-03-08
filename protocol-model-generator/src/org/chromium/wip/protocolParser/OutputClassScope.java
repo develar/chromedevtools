@@ -2,8 +2,8 @@ package org.chromium.wip.protocolParser;
 
 import org.chromium.protocolparser.Enums;
 import org.chromium.protocolparser.TextOutput;
-import org.jetbrains.jsonProtocol.readerGenerator.ItemDescriptor;
-import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
+import org.jetbrains.jsonProtocol.ItemDescriptor;
+import org.jetbrains.jsonProtocol.ProtocolMetaModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -149,7 +149,7 @@ class OutputClassScope extends ClassScope {
     }
 
     @Override
-    public BoxableType generateNestedObject(String description, List<WipMetamodel.ObjectProperty> propertyList) throws IOException {
+    public BoxableType generateNestedObject(String description, List<ProtocolMetaModel.ObjectProperty> propertyList) throws IOException {
       throw new UnsupportedOperationException();
     }
   }

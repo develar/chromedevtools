@@ -1,7 +1,7 @@
 package org.chromium.wip.protocolParser;
 
-import org.jetbrains.jsonProtocol.readerGenerator.ItemDescriptor;
-import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
+import org.jetbrains.jsonProtocol.ItemDescriptor;
+import org.jetbrains.jsonProtocol.ProtocolMetaModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,14 +10,14 @@ class MyCreateStandaloneTypeBindingVisitorBase extends CreateStandaloneTypeBindi
   private final String name;
   private DomainGenerator generator;
 
-  public MyCreateStandaloneTypeBindingVisitorBase(DomainGenerator generator, WipMetamodel.StandaloneType type, String name) {
+  public MyCreateStandaloneTypeBindingVisitorBase(DomainGenerator generator, ProtocolMetaModel.StandaloneType type, String name) {
     super(generator, type);
     this.generator = generator;
     this.name = name;
   }
 
   @Override
-  public StandaloneTypeBinding visitObject(List<WipMetamodel.ObjectProperty> properties) {
+  public StandaloneTypeBinding visitObject(List<ProtocolMetaModel.ObjectProperty> properties) {
     return new StandaloneTypeBinding() {
       @Override
       public BoxableType getJavaType() {
@@ -42,7 +42,7 @@ class MyCreateStandaloneTypeBindingVisitorBase extends CreateStandaloneTypeBindi
   }
 
   @Override
-  public StandaloneTypeBinding visitArray(final WipMetamodel.ArrayItemType items) {
+  public StandaloneTypeBinding visitArray(final ProtocolMetaModel.ArrayItemType items) {
     StandaloneTypeBinding.Target target = new StandaloneTypeBinding.Target() {
       @Override
       public BoxableType resolve(final ResolveContext context) {
@@ -67,7 +67,7 @@ class MyCreateStandaloneTypeBindingVisitorBase extends CreateStandaloneTypeBindi
             }
 
             @Override
-            public BoxableType generateNestedObject(String description, List<WipMetamodel.ObjectProperty> properties)
+            public BoxableType generateNestedObject(String description, List<ProtocolMetaModel.ObjectProperty> properties)
               throws IOException {
               return context.generateNestedObject("Item", description, properties);
             }

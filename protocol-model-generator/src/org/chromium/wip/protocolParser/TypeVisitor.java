@@ -1,6 +1,6 @@
 package org.chromium.wip.protocolParser;
 
-import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
+import org.jetbrains.jsonProtocol.ProtocolMetaModel;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ interface TypeVisitor<R> {
 
   R visitNumber();
 
-  R visitArray(WipMetamodel.ArrayItemType items);
+  R visitArray(ProtocolMetaModel.ArrayItemType items);
 
-  R visitObject(List<WipMetamodel.ObjectProperty> properties);
+  R visitObject(List<ProtocolMetaModel.ObjectProperty> properties);
 
   R visitUnknown();
 }

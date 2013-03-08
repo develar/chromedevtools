@@ -5,14 +5,14 @@
 package org.chromium.wip.protocolParser;
 
 import org.chromium.protocolparser.TextOutput;
-import org.jetbrains.jsonProtocol.readerGenerator.ItemDescriptor;
-import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
+import org.jetbrains.jsonProtocol.ItemDescriptor;
+import org.jetbrains.jsonProtocol.ProtocolMetaModel;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel.*;
+import static org.jetbrains.jsonProtocol.ProtocolMetaModel.*;
 
 /**
  * Read metamodel and generates set of files with Java classes/interfaces for the protocol.
@@ -233,34 +233,34 @@ class Generator {
       return visitor.visitRef(refName);
     }
     String typeName = typedObject.type();
-    if (WipMetamodel.BOOLEAN_TYPE.equals(typeName)) {
+    if (ProtocolMetaModel.BOOLEAN_TYPE.equals(typeName)) {
       return visitor.visitBoolean();
     }
-    else if (WipMetamodel.STRING_TYPE.equals(typeName)) {
+    else if (ProtocolMetaModel.STRING_TYPE.equals(typeName)) {
       if (typedObject.getEnum() != null) {
         return visitor.visitEnum(typedObject.getEnum());
       }
       return visitor.visitString();
     }
-    else if (WipMetamodel.INTEGER_TYPE.equals(typeName)) {
+    else if (ProtocolMetaModel.INTEGER_TYPE.equals(typeName)) {
       return visitor.visitInteger();
     }
-    else if (WipMetamodel.NUMBER_TYPE.equals(typeName)) {
+    else if (ProtocolMetaModel.NUMBER_TYPE.equals(typeName)) {
       return visitor.visitNumber();
     }
-    else if (WipMetamodel.ARRAY_TYPE.equals(typeName)) {
+    else if (ProtocolMetaModel.ARRAY_TYPE.equals(typeName)) {
       return visitor.visitArray(typedObject.items());
     }
-    else if (WipMetamodel.OBJECT_TYPE.equals(typeName)) {
+    else if (ProtocolMetaModel.OBJECT_TYPE.equals(typeName)) {
       if (!(typedObject instanceof ItemDescriptor.Type)) {
         return visitor.visitObject(null);
       }
       return visitor.visitObject(((ItemDescriptor.Type)typedObject).properties());
     }
-    else if (WipMetamodel.ANY_TYPE.equals(typeName)) {
+    else if (ProtocolMetaModel.ANY_TYPE.equals(typeName)) {
       return visitor.visitUnknown();
     }
-    else if (WipMetamodel.UNKNOWN_TYPE.equals(typeName)) {
+    else if (ProtocolMetaModel.UNKNOWN_TYPE.equals(typeName)) {
       return visitor.visitUnknown();
     }
     throw new RuntimeException("Unrecognized type " + typeName);

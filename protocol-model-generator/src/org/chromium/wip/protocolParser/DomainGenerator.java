@@ -2,8 +2,8 @@ package org.chromium.wip.protocolParser;
 
 import org.chromium.protocolparser.Enums;
 import org.chromium.protocolparser.TextOutput;
-import org.jetbrains.jsonProtocol.readerGenerator.ItemDescriptor;
-import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
+import org.jetbrains.jsonProtocol.ItemDescriptor;
+import org.jetbrains.jsonProtocol.ProtocolMetaModel;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -11,24 +11,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 class DomainGenerator {
-  final WipMetamodel.Domain domain;
+  final ProtocolMetaModel.Domain domain;
   final Generator generator;
 
-  DomainGenerator(Generator generator, WipMetamodel.Domain domain) {
+  DomainGenerator(Generator generator, ProtocolMetaModel.Domain domain) {
     this.generator = generator;
     this.domain = domain;
   }
 
   void registerTypes() {
     if (domain.types() != null) {
-      for (WipMetamodel.StandaloneType type : domain.types()) {
+      for (ProtocolMetaModel.StandaloneType type : domain.types()) {
         generator.typeMap.getTypeData(domain.domain(), type.id()).setType(type);
       }
     }
   }
 
   void generateCommandsAndEvents() throws IOException {
-    for (WipMetamodel.Command command : domain.commands()) {
+    for (ProtocolMetaModel.Command command : domain.commands()) {
       boolean hasResponse = command.returns() != null;
       generateCommandParams(command, hasResponse);
       if (hasResponse) {
@@ -43,7 +43,7 @@ class DomainGenerator {
     }
 
     if (domain.events() != null) {
-      for (WipMetamodel.Event event : domain.events()) {
+      for (ProtocolMetaModel.Event event : domain.events()) {
         generateEvenData(event);
         generator.jsonProtocolParserClassNames.add(Naming.EVENT_DATA.getFullName(domain.domain(), event.name()).getFullText());
         generator.parserRootInterfaceItems.add(new ParserRootInterfaceItem(domain.domain(), event.name(), Naming.EVENT_DATA));
@@ -51,7 +51,7 @@ class DomainGenerator {
     }
   }
 
-  private void generateCommandParams(final WipMetamodel.Command command, final boolean hasResponse) throws IOException {
+  private void generateCommandParams(final ProtocolMetaModel.Command command, final boolean hasResponse) throws IOException {
     StringBuilder baseTypeBuilder = new StringBuilder();
     baseTypeBuilder.append("org.jetbrains.wip.protocol.");
     if (hasResponse) {
@@ -86,7 +86,7 @@ class DomainGenerator {
                                 memberBuilder, command.parameters());
   }
 
-  void generateCommandAdditionalParam(WipMetamodel.StandaloneType type) throws IOException {
+  void generateCommandAdditionalParam(ProtocolMetaModel.StandaloneType type) throws IOException {
     generateTopLevelOutputClass(Naming.ADDITIONAL_PARAM, type.id(), type.description(),
         null, null, type.properties());
   }
@@ -125,14 +125,14 @@ class DomainGenerator {
     out.closeBlock();
   }
 
-  StandaloneTypeBinding createStandaloneOutputTypeBinding(WipMetamodel.StandaloneType type, String name) {
+  StandaloneTypeBinding createStandaloneOutputTypeBinding(ProtocolMetaModel.StandaloneType type, String name) {
     return Generator.switchByType(type, new MyCreateStandaloneTypeBindingVisitorBase(this, type, name));
   }
 
-  StandaloneTypeBinding createStandaloneInputTypeBinding(WipMetamodel.StandaloneType type) {
+  StandaloneTypeBinding createStandaloneInputTypeBinding(ProtocolMetaModel.StandaloneType type) {
     return Generator.switchByType(type, new CreateStandaloneTypeBindingVisitorBase(this, type) {
       @Override
-      public StandaloneTypeBinding visitObject(List<WipMetamodel.ObjectProperty> properties) {
+      public StandaloneTypeBinding visitObject(List<ProtocolMetaModel.ObjectProperty> properties) {
         return createStandaloneObjectInputTypeBinding(getType(), properties);
       }
 
@@ -143,7 +143,7 @@ class DomainGenerator {
       }
 
       @Override
-      public StandaloneTypeBinding visitArray(WipMetamodel.ArrayItemType items) {
+      public StandaloneTypeBinding visitArray(ProtocolMetaModel.ArrayItemType items) {
         ResolveAndGenerateScope resolveAndGenerateScope = new ResolveAndGenerateScope() {
           // This class is responsible for generating ad hoc type.
           // If we ever are to do it, we should generate into string buffer and put strings
@@ -164,7 +164,7 @@ class DomainGenerator {
           }
 
           @Override
-          public BoxableType generateNestedObject(String description, List<WipMetamodel.ObjectProperty> properties) {
+          public BoxableType generateNestedObject(String description, List<ProtocolMetaModel.ObjectProperty> properties) {
             throw new UnsupportedOperationException();
           }
         };
@@ -185,8 +185,8 @@ class DomainGenerator {
     });
   }
 
-  StandaloneTypeBinding createStandaloneObjectInputTypeBinding(final WipMetamodel.StandaloneType type,
-      final List<WipMetamodel.ObjectProperty> properties) {
+  StandaloneTypeBinding createStandaloneObjectInputTypeBinding(final ProtocolMetaModel.StandaloneType type,
+      final List<ProtocolMetaModel.ObjectProperty> properties) {
     final String name = type.id();
     final NamePath fullTypeName = Naming.INPUT_VALUE.getFullName(domain.domain(), name);
     generator.jsonProtocolParserClassNames.add(fullTypeName.getFullText());
@@ -220,7 +220,7 @@ class DomainGenerator {
     };
   }
 
-  StandaloneTypeBinding createStandaloneEnumInputTypeBinding(final WipMetamodel.StandaloneType type,
+  StandaloneTypeBinding createStandaloneEnumInputTypeBinding(final ProtocolMetaModel.StandaloneType type,
                                                              final List<String> enumConstants, final TypeData.Direction direction) {
     final String name = type.id();
     return new StandaloneTypeBinding() {
@@ -248,7 +248,7 @@ class DomainGenerator {
    * Typedef is an empty class that just holds description and
    * refers to an actual type (such as String).
    */
-  StandaloneTypeBinding createTypedefTypeBinding(final WipMetamodel.StandaloneType type, StandaloneTypeBinding.Target target,
+  StandaloneTypeBinding createTypedefTypeBinding(final ProtocolMetaModel.StandaloneType type, StandaloneTypeBinding.Target target,
        final ClassNameScheme nameScheme, final TypeData.Direction direction) {
     final String name = type.id();
     final NamePath typedefJavaName = nameScheme.getFullName(domain.domain(), name);
@@ -256,7 +256,7 @@ class DomainGenerator {
 
     class ResolveContextImpl implements StandaloneTypeBinding.Target.ResolveContext {
       @Override
-      public BoxableType generateNestedObject(String shortName, String description, List<WipMetamodel.ObjectProperty> properties) throws IOException {
+      public BoxableType generateNestedObject(String shortName, String description, List<ProtocolMetaModel.ObjectProperty> properties) throws IOException {
         NamePath classNamePath = new NamePath(shortName, typedefJavaName);
         if (direction == null) {
           throw new RuntimeException("Unsupported");
@@ -309,7 +309,7 @@ class DomainGenerator {
     };
   }
 
-  private void generateEvenData(final WipMetamodel.Event event) throws IOException {
+  private void generateEvenData(final ProtocolMetaModel.Event event) throws IOException {
     String className = Naming.EVENT_DATA.getShortName(event.name());
     JavaFileUpdater fileUpdater = generator.startJavaFile(Naming.EVENT_DATA, domain, event.name());
     final String domainName = domain.domain();
@@ -332,7 +332,7 @@ class DomainGenerator {
     fileUpdater.update();
   }
 
-  private void generateJsonProtocolInterface(TextOutput out, String className, String description, List<WipMetamodel.Parameter> parameters, TextOutConsumer additionalMembersText) throws IOException {
+  private void generateJsonProtocolInterface(TextOutput out, String className, String description, List<ProtocolMetaModel.Parameter> parameters, TextOutConsumer additionalMembersText) throws IOException {
     if (description != null) {
       out.doc(description);
     }

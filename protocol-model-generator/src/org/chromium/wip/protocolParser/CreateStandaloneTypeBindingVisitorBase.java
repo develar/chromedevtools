@@ -1,17 +1,17 @@
 package org.chromium.wip.protocolParser;
 
-import org.jetbrains.jsonProtocol.readerGenerator.WipMetamodel;
+import org.jetbrains.jsonProtocol.ProtocolMetaModel;
 
 abstract class CreateStandaloneTypeBindingVisitorBase implements TypeVisitor<StandaloneTypeBinding> {
-  private final WipMetamodel.StandaloneType type;
+  private final ProtocolMetaModel.StandaloneType type;
   private DomainGenerator generator;
 
-  CreateStandaloneTypeBindingVisitorBase(DomainGenerator generator, WipMetamodel.StandaloneType type) {
+  CreateStandaloneTypeBindingVisitorBase(DomainGenerator generator, ProtocolMetaModel.StandaloneType type) {
     this.generator = generator;
     this.type = type;
   }
 
-  protected WipMetamodel.StandaloneType getType() {
+  protected ProtocolMetaModel.StandaloneType getType() {
     return type;
   }
 
