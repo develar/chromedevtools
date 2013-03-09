@@ -4,13 +4,12 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import java.util.List;
-
-import org.chromium.protocolReader.JsonSubtype;
 import org.chromium.protocolReader.JsonType;
 import org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo;
 
+import java.util.List;
+
 @JsonType
-public interface ListBreakpointsBody extends JsonSubtype<CommandResponseBody> {
+public interface ListBreakpointsBody {
   List<BreakpointInfo> breakpoints();
 }

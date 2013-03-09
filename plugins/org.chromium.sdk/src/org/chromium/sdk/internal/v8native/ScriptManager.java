@@ -4,23 +4,17 @@
 
 package org.chromium.sdk.internal.v8native;
 
-import static org.chromium.sdk.util.BasicUtil.getSafe;
-import static org.chromium.sdk.util.BasicUtil.removeSafe;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
 import org.chromium.sdk.Script;
 import org.chromium.sdk.Script.Type;
-import org.chromium.sdk.internal.ScriptBase;
 import org.chromium.sdk.internal.ScriptBase.Descriptor;
 import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
+
+import java.util.*;
+
+import static org.chromium.sdk.util.BasicUtil.getSafe;
+import static org.chromium.sdk.util.BasicUtil.removeSafe;
 
 /**
  * Manages scripts known in the corresponding browser tab.
@@ -192,7 +186,7 @@ public class ScriptManager {
         throw new RuntimeException("Null script id");
       }
       return new Descriptor<Long>(type, id, name, lineOffset, columnOffset, lineCount);
-    } catch (Exception e) {
+    } catch (Exception ignored) {
       // Not a script object has been passed in.
       return null;
     }

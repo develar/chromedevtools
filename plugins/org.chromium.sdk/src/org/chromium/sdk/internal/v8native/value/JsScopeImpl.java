@@ -225,8 +225,7 @@ public abstract class JsScopeImpl<D> implements JsScope {
       };
     }
 
-    private DeferredData load(ValueLoaderImpl valueLoader, int cacheState)
-        throws MethodIsBlockingException {
+    private DeferredData load(ValueLoaderImpl valueLoader, int cacheState) throws MethodIsBlockingException {
       ObjectValueHandle scopeObject = loadScopeObject(valueLoader);
       ValueMirror mirror = valueLoader.addDataToMap(scopeObject.getSuper());
       JsValue jsValue = JsVariableImpl.createValue(valueLoader, mirror, "<with object>");

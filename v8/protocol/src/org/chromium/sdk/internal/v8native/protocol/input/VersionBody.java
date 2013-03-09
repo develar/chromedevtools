@@ -5,11 +5,10 @@
 package org.chromium.sdk.internal.v8native.protocol.input;
 
 import org.chromium.protocolReader.JsonField;
-import org.chromium.protocolReader.JsonSubtype;
 import org.chromium.protocolReader.JsonType;
 
 @JsonType
-public interface VersionBody extends JsonSubtype<CommandResponseBody> {
+public interface VersionBody {
 
   @JsonField(jsonLiteralName="V8Version")
   String getV8Version();

@@ -4,10 +4,8 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
-import org.chromium.protocolReader.JsonSubtype;
 import org.chromium.protocolReader.JsonSubtypeCasting;
 import org.chromium.protocolReader.JsonType;
-
 
 /**
  * A reference form of object data serialization. Basically it only has one field "ref" that
@@ -17,7 +15,7 @@ import org.chromium.protocolReader.JsonType;
  * first part of JSONProtocolSerializer.prototype.serialize_
  */
 @JsonType
-public interface SomeRef extends JsonSubtype<SomeSerialized> {
+public interface SomeRef {
   long ref();
 
   @JsonSubtypeCasting

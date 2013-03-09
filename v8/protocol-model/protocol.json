@@ -40,6 +40,10 @@
               "optional": true
             }
           ]
+        },
+        {
+          "name": "version",
+          "description": "Reports version of the running V8"
         }
       ]
     }

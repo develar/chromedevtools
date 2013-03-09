@@ -8,9 +8,6 @@ package org.chromium.protocolparser;
  * Signals that JSON model has some problem in it.
  */
 public class JsonProtocolModelParseException extends RuntimeException {
-  public JsonProtocolModelParseException() {
-    super();
-  }
 
   public JsonProtocolModelParseException(String message, Throwable cause) {
     super(message, cause);
@@ -18,9 +15,5 @@ public class JsonProtocolModelParseException extends RuntimeException {
 
   public JsonProtocolModelParseException(String message) {
     super(message);
-  }
-
-  public JsonProtocolModelParseException(Throwable cause) {
-    super(cause);
   }
 }

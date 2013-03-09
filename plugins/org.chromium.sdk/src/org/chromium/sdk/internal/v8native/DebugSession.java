@@ -9,11 +9,9 @@ import org.chromium.sdk.JavascriptVm.ScriptsCallback;
 import org.chromium.sdk.JavascriptVm.SuspendCallback;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.processor.BreakpointProcessor;
-import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
-import org.chromium.sdk.internal.v8native.protocol.output.VersionMessage;
 import org.chromium.sdk.util.AsyncFuture;
 import org.chromium.sdk.util.AsyncFuture.Callback;
 import org.chromium.sdk.util.AsyncFutureRef;
@@ -54,15 +52,15 @@ public class DebugSession {
 
   public DebugSession(DebugSessionManager sessionManager, V8ContextFilter contextFilter,
       V8CommandOutput v8CommandOutput, JavascriptVm javascriptVm) {
-    this.scriptManager = new ScriptManager(contextFilter, this);
+    scriptManager = new ScriptManager(contextFilter, this);
     this.sessionManager = sessionManager;
     this.javascriptVm = javascriptVm;
-    this.breakpointManager = new BreakpointManager(this);
+    breakpointManager = new BreakpointManager(this);
 
-    this.defaultResponseHandler = new DefaultResponseHandler(this);
-    this.v8CommandProcessor = new V8CommandProcessor(v8CommandOutput, defaultResponseHandler,
+    defaultResponseHandler = new DefaultResponseHandler(this);
+    v8CommandProcessor = new V8CommandProcessor(v8CommandOutput, defaultResponseHandler,
         this);
-    this.contextBuilder = new ContextBuilder(this);
+    contextBuilder = new ContextBuilder(this);
   }
 
   public ScriptManager getScriptManager() {
@@ -158,8 +156,7 @@ public class DebugSession {
         if (step1 == null) {
           return;
         }
-        ContextBuilder.ExpectingBacktraceStep step2 =
-            step1.setContextState(Collections.<Breakpoint>emptyList(), null);
+        ContextBuilder.ExpectingBacktraceStep step2 = step1.setContextState(Collections.<Breakpoint>emptyList(), null);
         defaultResponseHandler.getBreakpointProcessor().processNextStep(step2);
       }
     };
@@ -246,7 +243,8 @@ public class DebugSession {
         if (successResponse == null) {
           return null;
         }
-        Version vmVersion = V8ProtocolUtil.parseVersionResponse(successResponse);
+        String versionString = successResponse.body().asVersionBody().getV8Version();
+        Version vmVersion = versionString == null ? null : Version.parseString(versionString);
         DebugSession.this.vmVersion = vmVersion;
 
         if (V8VersionFeatures.isRunningAccurate(vmVersion)) {
@@ -268,11 +266,11 @@ public class DebugSession {
       }
     };
 
-    V8Helper.callV8Sync(v8CommandProcessor, new VersionMessage(), callback);
+    V8Helper.callV8Sync(v8CommandProcessor, new org.jetbrains.v8.protocol.output.Version(), callback);
   }
 
   public RelayOk sendLoopbackMessage(Runnable callback, SyncCallback syncCallback) {
-    return this.v8CommandProcessor.runInDispatchThread(callback, syncCallback);
+    return v8CommandProcessor.runInDispatchThread(callback, syncCallback);
   }
 
   public static void maybeRethrowContextException(ContextDismissedCheckedException e) {

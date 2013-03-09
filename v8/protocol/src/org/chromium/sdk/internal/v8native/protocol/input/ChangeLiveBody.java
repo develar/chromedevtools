@@ -8,7 +8,7 @@ import org.chromium.protocolReader.*;
 import org.chromium.v8.liveEditProtocol.LiveEditResult;
 
 @JsonType
-public interface ChangeLiveBody extends JsonSubtype<CommandResponseBody>  {
+public interface ChangeLiveBody {
   @JsonField(jsonLiteralName="change_log")
   Object getChangeLog();
 

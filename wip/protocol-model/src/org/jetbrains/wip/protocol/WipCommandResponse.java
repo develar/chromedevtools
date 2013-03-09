@@ -19,7 +19,7 @@ public interface WipCommandResponse {
   @JsonSubtypeCasting Error asError();
 
   @JsonType
-  interface Success extends JsonSubtype<WipCommandResponse> {
+  interface Success {
     @JsonOptionalField
     void error();
 
@@ -28,7 +28,7 @@ public interface WipCommandResponse {
   }
 
   @JsonType
-  interface Error extends JsonSubtype<WipCommandResponse> {
+  interface Error {
     @JsonOverrideField
     ErrorInfo error();
 

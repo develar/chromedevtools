@@ -12,7 +12,7 @@ import org.chromium.protocolReader.*;
  * JSONProtocolSerializer.prototype.serializeReferenceWithDisplayData_
  */
 @JsonType
-public interface RefWithDisplayData extends JsonSubtype<SomeRef> {
+public interface RefWithDisplayData {
   @JsonOverrideField
   long ref();
 

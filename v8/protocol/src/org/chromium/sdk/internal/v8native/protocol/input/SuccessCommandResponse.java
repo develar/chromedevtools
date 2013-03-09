@@ -6,7 +6,6 @@ package org.chromium.sdk.internal.v8native.protocol.input;
 
 import org.chromium.protocolReader.JsonOptionalField;
 import org.chromium.protocolReader.JsonOverrideField;
-import org.chromium.protocolReader.JsonSubtype;
 import org.chromium.protocolReader.JsonType;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 
@@ -17,7 +16,7 @@ import java.util.List;
  * "body" field and usually provides "reference" part with data for all referenced objects.
  */
 @JsonType
-public interface SuccessCommandResponse extends JsonSubtype<CommandResponse> {
+public interface SuccessCommandResponse {
   @JsonOverrideField
   boolean success();
 

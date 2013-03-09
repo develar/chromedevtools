@@ -6,10 +6,8 @@ package org.chromium.sdk.internal.v8native.protocol;
 
 import org.chromium.sdk.Script;
 import org.chromium.sdk.Script.Type;
-import org.chromium.sdk.Version;
 import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.v8native.V8ContextFilter;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.*;
 import org.chromium.sdk.internal.v8native.protocol.output.ScriptsMessage;
 import org.chromium.sdk.internal.v8native.value.DataWithRef;
@@ -295,11 +293,6 @@ public class V8ProtocolUtil {
       return script;
     }
     return null; // good context not found
-  }
-
-  public static Version parseVersionResponse(SuccessCommandResponse versionResponse) {
-    String versionString = versionResponse.body().asVersionBody().getV8Version();
-    return versionString == null ? null : Version.parseString(versionString);
   }
 
   private static String getNameOrInferred(Map obj, V8Protocol nameProperty) {

@@ -46,7 +46,7 @@ public class Version implements Comparable<Version> {
       return false;
     }
     Version that = (Version) obj;
-    return this.components.equals(that.components);
+    return components.equals(that.components);
   }
 
   @Override
@@ -56,17 +56,17 @@ public class Version implements Comparable<Version> {
 
   @Override
   public int compareTo(Version other) {
-    for (int i = 0; i < this.components.size(); i++) {
+    for (int i = 0; i < components.size(); i++) {
       if (other.components.size() <= i) {
         // shorter version is less
         return +1;
       }
-      int res = this.components.get(i).compareTo(other.components.get(i));
+      int res = components.get(i).compareTo(other.components.get(i));
       if (res != 0) {
         return res;
       }
     }
-    if (this.components.size() < other.components.size()) {
+    if (components.size() < other.components.size()) {
       return -1;
     } else {
       return 0;

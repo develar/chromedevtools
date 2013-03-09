@@ -6,11 +6,10 @@ package org.chromium.sdk.internal.v8native.protocol.input;
 
 import org.chromium.protocolReader.JsonField;
 import org.chromium.protocolReader.JsonOptionalField;
-import org.chromium.protocolReader.JsonSubtype;
 import org.chromium.protocolReader.JsonType;
 
 @JsonType
-public interface RestartFrameBody extends JsonSubtype<CommandResponseBody> {
+public interface RestartFrameBody {
   @JsonField(jsonLiteralName="result")
   ResultDescription getResultDescription();
 

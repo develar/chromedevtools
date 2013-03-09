@@ -11,7 +11,7 @@ import org.chromium.protocolReader.*;
  * hinting at the cause of the failure.
  */
 @JsonType
-public interface FailedCommandResponse extends JsonSubtype<CommandResponse> {
+public interface FailedCommandResponse {
   @JsonOverrideField
   boolean success();
 

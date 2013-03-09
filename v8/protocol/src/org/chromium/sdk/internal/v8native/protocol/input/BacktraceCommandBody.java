@@ -5,13 +5,12 @@
 package org.chromium.sdk.internal.v8native.protocol.input;
 
 import org.chromium.protocolReader.JsonOptionalField;
-import org.chromium.protocolReader.JsonSubtype;
 import org.chromium.protocolReader.JsonType;
 
 import java.util.List;
 
 @JsonType
-public interface BacktraceCommandBody extends JsonSubtype<CommandResponseBody> {
+public interface BacktraceCommandBody {
   @JsonOptionalField
   List<FrameObject> frames();
 

@@ -4,13 +4,12 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import java.util.List;
-
-import org.chromium.protocolReader.JsonSubtype;
 import org.chromium.protocolReader.JsonType;
 
+import java.util.List;
+
 @JsonType
-public interface FlagsBody extends JsonSubtype<CommandResponseBody> {
+public interface FlagsBody {
   List<FlagInfo> flags();
 
   @JsonType

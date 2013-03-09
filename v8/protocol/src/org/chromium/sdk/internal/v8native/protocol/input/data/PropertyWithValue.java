@@ -5,11 +5,10 @@
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
 import org.chromium.protocolReader.JsonOptionalField;
-import org.chromium.protocolReader.JsonSubtype;
 import org.chromium.protocolReader.JsonType;
 
 @JsonType
-public interface PropertyWithValue extends JsonSubtype<PropertyObject> {
+public interface PropertyWithValue {
   @JsonOptionalField
   SomeRef value();
 }
