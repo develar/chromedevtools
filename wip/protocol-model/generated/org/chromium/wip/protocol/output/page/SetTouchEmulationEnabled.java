@@ -9,7 +9,7 @@ public final class SetTouchEmulationEnabled extends org.jetbrains.wip.protocol.W
    * @param enabled Whether the touch event emulation should be enabled.
    */
   public SetTouchEmulationEnabled(boolean enabled) {
-    put("enabled", enabled);
+    writeBoolean("enabled", enabled);
   }
   @Override
   public String getMethodName() {

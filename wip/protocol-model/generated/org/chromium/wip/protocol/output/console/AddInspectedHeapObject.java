@@ -3,7 +3,7 @@ package org.chromium.wip.protocol.output.console;
 
 public final class AddInspectedHeapObject extends org.jetbrains.wip.protocol.WipRequest {
   public AddInspectedHeapObject(int heapObjectId) {
-    put("heapObjectId", heapObjectId);
+    writeInt("heapObjectId", heapObjectId);
   }
   @Override
   public String getMethodName() {

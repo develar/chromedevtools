@@ -10,8 +10,8 @@ public final class QuerySelector extends org.jetbrains.wip.protocol.WipRequestWi
    * @param selector Selector string.
    */
   public QuerySelector(int nodeId, String selector) {
-    put("nodeId", nodeId);
-    put("selector", selector);
+    writeInt("nodeId", nodeId);
+    writeString("selector", selector);
   }
   @Override
   public String getMethodName() {

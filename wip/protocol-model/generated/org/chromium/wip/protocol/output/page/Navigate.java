@@ -9,7 +9,7 @@ public final class Navigate extends org.jetbrains.wip.protocol.WipRequest {
    * @param url URL to navigate the page to.
    */
   public Navigate(String url) {
-    put("url", url);
+    writeString("url", url);
   }
   @Override
   public String getMethodName() {

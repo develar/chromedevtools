@@ -11,7 +11,7 @@ public final class CallArgument extends org.jetbrains.jsonProtocol.OutMessage {
    * @param v Primitive value.
    */
   public CallArgument value(String v) {
-    put("value", v);
+    writeString("value", v);
     return this;
   }
 
@@ -20,7 +20,7 @@ public final class CallArgument extends org.jetbrains.jsonProtocol.OutMessage {
    */
   public CallArgument objectId(String v) {
     if (v != null) {
-      put("objectId", v);
+      writeString("objectId", v);
     }
     return this;
   }

@@ -9,7 +9,7 @@ public final class HandleJavaScriptDialog extends org.jetbrains.wip.protocol.Wip
    * @param accept Whether to accept or dismiss the dialog.
    */
   public HandleJavaScriptDialog(boolean accept) {
-    put("accept", accept);
+    writeBoolean("accept", accept);
   }
   @Override
   public String getMethodName() {

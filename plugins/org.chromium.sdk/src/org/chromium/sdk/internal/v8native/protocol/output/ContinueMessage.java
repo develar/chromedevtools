@@ -34,8 +34,8 @@ public class ContinueMessage extends V8Request {
     super(DebuggerCommand.CONTINUE.value);
     String stepActionString = stepActionToV8.get(stepAction);
     if (stepActionString != null) {
-      put("stepaction", stepActionString);
-      put("stepcount", stepCount);
+      writeString("stepaction", stepActionString);
+      writeInt("stepcount", stepCount);
     }
   }
 }

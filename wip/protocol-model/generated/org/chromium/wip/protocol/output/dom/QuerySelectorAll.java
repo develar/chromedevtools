@@ -10,8 +10,8 @@ public final class QuerySelectorAll extends org.jetbrains.wip.protocol.WipReques
    * @param selector Selector string.
    */
   public QuerySelectorAll(int nodeId, String selector) {
-    put("nodeId", nodeId);
-    put("selector", selector);
+    writeInt("nodeId", nodeId);
+    writeString("selector", selector);
   }
   @Override
   public String getMethodName() {

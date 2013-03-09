@@ -9,14 +9,14 @@ public final class SearchInResources extends org.jetbrains.wip.protocol.WipReque
    * @param text String to search for.
    */
   public SearchInResources(String text) {
-    put("text", text);
+    writeString("text", text);
   }
 
   /**
    * @param v If true, search is case sensitive.
    */
   public SearchInResources caseSensitive(boolean v) {
-    put("caseSensitive", v);
+    writeBoolean("caseSensitive", v);
     return this;
   }
 
@@ -24,7 +24,7 @@ public final class SearchInResources extends org.jetbrains.wip.protocol.WipReque
    * @param v If true, treats string parameter as regex.
    */
   public SearchInResources isRegex(boolean v) {
-    put("isRegex", v);
+    writeBoolean("isRegex", v);
     return this;
   }
   @Override

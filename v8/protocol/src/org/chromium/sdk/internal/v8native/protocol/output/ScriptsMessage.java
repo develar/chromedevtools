@@ -33,8 +33,8 @@ public class ScriptsMessage extends ContextlessDebuggerMessage {
    */
   public ScriptsMessage(int types, Boolean includeSource) {
     super(DebuggerCommand.SCRIPTS.value);
-    put("types", types);
-    put("includeSource", includeSource);
+    writeInt("types", types);
+    writeBoolean("includeSource", includeSource);
   }
 
   /**
@@ -44,7 +44,7 @@ public class ScriptsMessage extends ContextlessDebuggerMessage {
    */
   public ScriptsMessage(long[] ids, Boolean includeSource) {
     super(DebuggerCommand.SCRIPTS.value);
-    put("ids", ids);
-    put("includeSource", includeSource);
+    writeLongArray("ids", ids);
+    writeBoolean("includeSource", includeSource);
   }
 }

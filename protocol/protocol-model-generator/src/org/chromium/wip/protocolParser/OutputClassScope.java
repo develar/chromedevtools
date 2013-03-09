@@ -118,6 +118,14 @@ class OutputClassScope extends ClassScope {
         blockOpened = true;
         out.append("if (v != ").append(nullValue).append(")").openBlock();
       }
+      else if (parameter.name().equals("enabled")) {
+        blockOpened = true;
+        out.append("if (!v)").openBlock();
+      }
+      else if (parameter.name().equals("ignoreCount")) {
+        blockOpened = true;
+        out.append("if (v > 0)").openBlock();
+      }
     }
     out.append(type.getWriteMethodName()).append("(");
     out.quoute(parameter.name()).comma().append(valueRefName).append(");");
@@ -145,7 +153,7 @@ class OutputClassScope extends ClassScope {
       //    appendEnumClass(out, description, enumConstants, enumName);
       //  }
       //});
-      return new StandaloneType(new NamePath(Generator.capitalizeFirstChar(getMemberName()), getClassContextNamespace()));
+      return new StandaloneType(new NamePath(Generator.capitalizeFirstChar(getMemberName()), getClassContextNamespace()), "writeEnum");
     }
 
     @Override
@@ -154,7 +162,7 @@ class OutputClassScope extends ClassScope {
     }
   }
 
-  private void appendEnumClass(TextOutput out, String description, List<String> enumConstants, String enumName) {
+  private static void appendEnumClass(TextOutput out, String description, List<String> enumConstants, String enumName) {
     out.doc(description);
     Enums.appendEnums(enumConstants, enumName, false, out);
     out.newLine().append("private final String protocolValue;").newLine();

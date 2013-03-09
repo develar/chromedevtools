@@ -9,7 +9,7 @@ public final class SetIncludeDomCounters extends org.jetbrains.wip.protocol.WipR
    * @param enabled Whether DOM counters data should be included into timeline events.
    */
   public SetIncludeDomCounters(boolean enabled) {
-    put("enabled", enabled);
+    writeBoolean("enabled", enabled);
   }
   @Override
   public String getMethodName() {

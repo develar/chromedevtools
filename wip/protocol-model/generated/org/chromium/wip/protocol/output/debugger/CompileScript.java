@@ -10,8 +10,8 @@ public final class CompileScript extends org.jetbrains.wip.protocol.WipRequestWi
    * @param sourceURL Source url to be set for the script.
    */
   public CompileScript(String expression, String sourceURL) {
-    put("expression", expression);
-    put("sourceURL", sourceURL);
+    writeString("expression", expression);
+    writeString("sourceURL", sourceURL);
   }
   @Override
   public String getMethodName() {

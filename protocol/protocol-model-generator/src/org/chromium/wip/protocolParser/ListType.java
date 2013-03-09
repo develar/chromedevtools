@@ -12,7 +12,10 @@ class ListType extends BoxableType {
     if (itemType == STRING) {
       return "writeStringList";
     }
-    return "put";
+    else if (itemType == LONG) {
+      return "writeLongArray";
+    }
+    return "writeList";
   }
 
   @Override

@@ -12,7 +12,6 @@ import org.chromium.sdk.internal.v8native.processor.BreakpointProcessor;
 import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.output.ContextlessDebuggerMessage;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.protocol.output.VersionMessage;
 import org.chromium.sdk.util.AsyncFuture;
@@ -20,6 +19,7 @@ import org.chromium.sdk.util.AsyncFuture.Callback;
 import org.chromium.sdk.util.AsyncFutureRef;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.sdk.util.RelaySyncCallback;
+import org.jetbrains.v8.protocol.V8Request;
 
 import java.util.Collections;
 import java.util.logging.Level;
@@ -88,10 +88,8 @@ public class DebugSession {
    * Use {@code InternalContext} if you need to send context-specific commands.
    * @return
    */
-  public RelayOk sendMessageAsync(ContextlessDebuggerMessage message, boolean isImmediate,
-      V8CommandProcessor.V8HandlerCallback commandCallback, SyncCallback syncCallback) {
-    return v8CommandProcessor.sendV8CommandAsync(message, isImmediate,
-        commandCallback, syncCallback);
+  public RelayOk sendMessageAsync(V8Request message, boolean isImmediate, V8CommandProcessor.V8HandlerCallback commandCallback, SyncCallback syncCallback) {
+    return v8CommandProcessor.sendV8CommandAsync(message, isImmediate, commandCallback, syncCallback);
   }
 
   JavascriptVm getJavascriptVm() {

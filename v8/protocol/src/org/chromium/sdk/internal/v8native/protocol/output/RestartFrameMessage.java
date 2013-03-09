@@ -16,7 +16,7 @@ public class RestartFrameMessage extends V8Request {
   public RestartFrameMessage(int frame) {
     super(DebuggerCommand.RESTARTFRAME.value);
     if (frame != -1) {
-      put("frame", frame);
+      writeInt("frame", frame);
     }
   }
 }

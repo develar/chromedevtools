@@ -197,11 +197,4 @@ public class ScriptManager {
       return null;
     }
   }
-
-  public static Long convertAlienScriptId(Object scriptIdObj) {
-    if (!(scriptIdObj instanceof Long)) {
-      throw new IllegalStateException("Script id must be of type Long");
-    }
-    return (Long) scriptIdObj;
-  }
 }

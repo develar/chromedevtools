@@ -10,8 +10,8 @@ public final class SetNodeValue extends org.jetbrains.wip.protocol.WipRequest {
    * @param value New node's value.
    */
   public SetNodeValue(int nodeId, String value) {
-    put("nodeId", nodeId);
-    put("value", value);
+    writeInt("nodeId", nodeId);
+    writeString("value", value);
   }
   @Override
   public String getMethodName() {

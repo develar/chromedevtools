@@ -9,7 +9,7 @@ public final class SetCompositingBordersVisible extends org.jetbrains.wip.protoc
    * @param visible True for showing compositing borders.
    */
   public SetCompositingBordersVisible(boolean visible) {
-    put("visible", visible);
+    writeBoolean("visible", visible);
   }
   @Override
   public String getMethodName() {

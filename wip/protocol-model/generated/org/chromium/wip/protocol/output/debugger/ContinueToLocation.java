@@ -9,7 +9,7 @@ public final class ContinueToLocation extends org.jetbrains.wip.protocol.WipRequ
    * @param location Location to continue to.
    */
   public ContinueToLocation(org.chromium.wip.protocol.output.debugger.Location location) {
-    put("location", location);
+    writeMessage("location", location);
   }
   @Override
   public String getMethodName() {

@@ -10,8 +10,8 @@ public final class DeleteCookie extends org.jetbrains.wip.protocol.WipRequest {
    * @param url URL to match cooke domain and path.
    */
   public DeleteCookie(String cookieName, String url) {
-    put("cookieName", cookieName);
-    put("url", url);
+    writeString("cookieName", cookieName);
+    writeString("url", url);
   }
   @Override
   public String getMethodName() {

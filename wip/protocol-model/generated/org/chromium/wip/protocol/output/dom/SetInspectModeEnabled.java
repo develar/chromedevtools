@@ -9,14 +9,14 @@ public final class SetInspectModeEnabled extends org.jetbrains.wip.protocol.WipR
    * @param enabled True to enable inspection mode, false to disable it.
    */
   public SetInspectModeEnabled(boolean enabled) {
-    put("enabled", enabled);
+    writeBoolean("enabled", enabled);
   }
 
   /**
    * @param v A descriptor for the highlight appearance of hovered-over nodes. May be omitted if <code>enabled == false</code>.
    */
   public SetInspectModeEnabled highlightConfig(org.chromium.wip.protocol.output.dom.HighlightConfig v) {
-    put("highlightConfig", v);
+    writeMessage("highlightConfig", v);
     return this;
   }
   @Override

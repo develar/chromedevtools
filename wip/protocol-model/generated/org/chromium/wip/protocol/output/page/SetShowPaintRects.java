@@ -9,7 +9,7 @@ public final class SetShowPaintRects extends org.jetbrains.wip.protocol.WipReque
    * @param result True for showing paint rectangles
    */
   public SetShowPaintRects(boolean result) {
-    put("result", result);
+    writeBoolean("result", result);
   }
   @Override
   public String getMethodName() {

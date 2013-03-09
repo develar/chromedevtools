@@ -9,7 +9,7 @@ public final class SetBreakpointByUrl extends org.jetbrains.wip.protocol.WipRequ
    * @param lineNumber Line number to set breakpoint at.
    */
   public SetBreakpointByUrl(int lineNumber) {
-    put("lineNumber", lineNumber);
+    writeInt("lineNumber", lineNumber);
   }
 
   /**
@@ -17,7 +17,7 @@ public final class SetBreakpointByUrl extends org.jetbrains.wip.protocol.WipRequ
    */
   public SetBreakpointByUrl url(String v) {
     if (v != null) {
-      put("url", v);
+      writeString("url", v);
     }
     return this;
   }
@@ -27,7 +27,7 @@ public final class SetBreakpointByUrl extends org.jetbrains.wip.protocol.WipRequ
    */
   public SetBreakpointByUrl urlRegex(String v) {
     if (v != null) {
-      put("urlRegex", v);
+      writeString("urlRegex", v);
     }
     return this;
   }
@@ -37,7 +37,7 @@ public final class SetBreakpointByUrl extends org.jetbrains.wip.protocol.WipRequ
    */
   public SetBreakpointByUrl columnNumber(int v) {
     if (v != -1) {
-      put("columnNumber", v);
+      writeInt("columnNumber", v);
     }
     return this;
   }
@@ -47,7 +47,7 @@ public final class SetBreakpointByUrl extends org.jetbrains.wip.protocol.WipRequ
    */
   public SetBreakpointByUrl condition(String v) {
     if (v != null) {
-      put("condition", v);
+      writeString("condition", v);
     }
     return this;
   }

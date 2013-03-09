@@ -9,7 +9,7 @@ public final class Evaluate extends org.jetbrains.wip.protocol.WipRequestWithRes
    * @param expression Expression to evaluate.
    */
   public Evaluate(String expression) {
-    put("expression", expression);
+    writeString("expression", expression);
   }
 
   /**
@@ -17,7 +17,7 @@ public final class Evaluate extends org.jetbrains.wip.protocol.WipRequestWithRes
    */
   public Evaluate objectGroup(String v) {
     if (v != null) {
-      put("objectGroup", v);
+      writeString("objectGroup", v);
     }
     return this;
   }
@@ -26,7 +26,7 @@ public final class Evaluate extends org.jetbrains.wip.protocol.WipRequestWithRes
    * @param v Determines whether Command Line API should be available during the evaluation.
    */
   public Evaluate includeCommandLineAPI(boolean v) {
-    put("includeCommandLineAPI", v);
+    writeBoolean("includeCommandLineAPI", v);
     return this;
   }
 
@@ -34,7 +34,7 @@ public final class Evaluate extends org.jetbrains.wip.protocol.WipRequestWithRes
    * @param v Specifies whether evaluation should stop on exceptions and mute console. Overrides setPauseOnException state.
    */
   public Evaluate doNotPauseOnExceptionsAndMuteConsole(boolean v) {
-    put("doNotPauseOnExceptionsAndMuteConsole", v);
+    writeBoolean("doNotPauseOnExceptionsAndMuteConsole", v);
     return this;
   }
 
@@ -42,7 +42,7 @@ public final class Evaluate extends org.jetbrains.wip.protocol.WipRequestWithRes
    * @param v Specifies in which isolated context to perform evaluation. Each content script lives in an isolated context and this parameter may be used to specify one of those contexts. If the parameter is omitted or 0 the evaluation will be performed in the context of the inspected page.
    */
   public Evaluate contextId(int v) {
-    put("contextId", v);
+    writeInt("contextId", v);
     return this;
   }
 
@@ -50,7 +50,7 @@ public final class Evaluate extends org.jetbrains.wip.protocol.WipRequestWithRes
    * @param v Whether the result is expected to be a JSON object that should be sent by value.
    */
   public Evaluate returnByValue(boolean v) {
-    put("returnByValue", v);
+    writeBoolean("returnByValue", v);
     return this;
   }
 
@@ -58,7 +58,7 @@ public final class Evaluate extends org.jetbrains.wip.protocol.WipRequestWithRes
    * @param v Whether preview should be generated for the result.
    */
   public Evaluate generatePreview(boolean v) {
-    put("generatePreview", v);
+    writeBoolean("generatePreview", v);
     return this;
   }
   @Override

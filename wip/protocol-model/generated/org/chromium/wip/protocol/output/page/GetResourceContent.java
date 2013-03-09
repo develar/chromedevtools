@@ -10,8 +10,8 @@ public final class GetResourceContent extends org.jetbrains.wip.protocol.WipRequ
    * @param url URL of the resource to get content for.
    */
   public GetResourceContent(String frameId, String url) {
-    put("frameId", frameId);
-    put("url", url);
+    writeString("frameId", frameId);
+    writeString("url", url);
   }
   @Override
   public String getMethodName() {

@@ -9,7 +9,7 @@ public final class SetBreakpoint extends org.jetbrains.wip.protocol.WipRequestWi
    * @param location Location to set breakpoint in.
    */
   public SetBreakpoint(org.chromium.wip.protocol.output.debugger.Location location) {
-    put("location", location);
+    writeMessage("location", location);
   }
 
   /**
@@ -17,7 +17,7 @@ public final class SetBreakpoint extends org.jetbrains.wip.protocol.WipRequestWi
    */
   public SetBreakpoint condition(String v) {
     if (v != null) {
-      put("condition", v);
+      writeString("condition", v);
     }
     return this;
   }

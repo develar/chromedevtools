@@ -12,7 +12,7 @@ public final class SetOverlayMessage extends org.jetbrains.wip.protocol.WipReque
    */
   public SetOverlayMessage message(String v) {
     if (v != null) {
-      put("message", v);
+      writeString("message", v);
     }
     return this;
   }

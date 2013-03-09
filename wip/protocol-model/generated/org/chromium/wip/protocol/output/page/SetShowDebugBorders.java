@@ -9,7 +9,7 @@ public final class SetShowDebugBorders extends org.jetbrains.wip.protocol.WipReq
    * @param show True for showing debug borders
    */
   public SetShowDebugBorders(boolean show) {
-    put("show", show);
+    writeBoolean("show", show);
   }
   @Override
   public String getMethodName() {

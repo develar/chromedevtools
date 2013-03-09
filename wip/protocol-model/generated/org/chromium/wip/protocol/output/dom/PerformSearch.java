@@ -9,7 +9,7 @@ public final class PerformSearch extends org.jetbrains.wip.protocol.WipRequestWi
    * @param query Plain text or query selector or XPath search query.
    */
   public PerformSearch(String query) {
-    put("query", query);
+    writeString("query", query);
   }
   @Override
   public String getMethodName() {

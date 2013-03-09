@@ -9,7 +9,7 @@ public final class SetPauseOnExceptions extends org.jetbrains.wip.protocol.WipRe
    * @param state Pause on exceptions mode.
    */
   public SetPauseOnExceptions(State state) {
-    put("state", state);
+    writeEnum("state", state);
   }
 
   /**

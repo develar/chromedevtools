@@ -9,7 +9,7 @@ public final class SetIncludeNativeMemoryStatistics extends org.jetbrains.wip.pr
    * @param enabled Whether native memory usage statistics should be reported as part of timeline events.
    */
   public SetIncludeNativeMemoryStatistics(boolean enabled) {
-    put("enabled", enabled);
+    writeBoolean("enabled", enabled);
   }
   @Override
   public String getMethodName() {

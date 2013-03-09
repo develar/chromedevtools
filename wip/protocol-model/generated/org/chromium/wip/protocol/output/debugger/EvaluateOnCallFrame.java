@@ -10,8 +10,8 @@ public final class EvaluateOnCallFrame extends org.jetbrains.wip.protocol.WipReq
    * @param expression Expression to evaluate.
    */
   public EvaluateOnCallFrame(String callFrameId, String expression) {
-    put("callFrameId", callFrameId);
-    put("expression", expression);
+    writeString("callFrameId", callFrameId);
+    writeString("expression", expression);
   }
 
   /**
@@ -19,7 +19,7 @@ public final class EvaluateOnCallFrame extends org.jetbrains.wip.protocol.WipReq
    */
   public EvaluateOnCallFrame objectGroup(String v) {
     if (v != null) {
-      put("objectGroup", v);
+      writeString("objectGroup", v);
     }
     return this;
   }
@@ -28,7 +28,7 @@ public final class EvaluateOnCallFrame extends org.jetbrains.wip.protocol.WipReq
    * @param v Specifies whether command line API should be available to the evaluated expression, defaults to false.
    */
   public EvaluateOnCallFrame includeCommandLineAPI(boolean v) {
-    put("includeCommandLineAPI", v);
+    writeBoolean("includeCommandLineAPI", v);
     return this;
   }
 
@@ -36,7 +36,7 @@ public final class EvaluateOnCallFrame extends org.jetbrains.wip.protocol.WipReq
    * @param v Specifies whether evaluation should stop on exceptions and mute console. Overrides setPauseOnException state.
    */
   public EvaluateOnCallFrame doNotPauseOnExceptionsAndMuteConsole(boolean v) {
-    put("doNotPauseOnExceptionsAndMuteConsole", v);
+    writeBoolean("doNotPauseOnExceptionsAndMuteConsole", v);
     return this;
   }
 
@@ -44,7 +44,7 @@ public final class EvaluateOnCallFrame extends org.jetbrains.wip.protocol.WipReq
    * @param v Whether the result is expected to be a JSON object that should be sent by value.
    */
   public EvaluateOnCallFrame returnByValue(boolean v) {
-    put("returnByValue", v);
+    writeBoolean("returnByValue", v);
     return this;
   }
 
@@ -52,7 +52,7 @@ public final class EvaluateOnCallFrame extends org.jetbrains.wip.protocol.WipReq
    * @param v Whether preview should be generated for the result.
    */
   public EvaluateOnCallFrame generatePreview(boolean v) {
-    put("generatePreview", v);
+    writeBoolean("generatePreview", v);
     return this;
   }
   @Override

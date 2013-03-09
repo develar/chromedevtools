@@ -9,14 +9,14 @@ public final class GetProperties extends org.jetbrains.wip.protocol.WipRequestWi
    * @param objectId Identifier of the object to return properties for.
    */
   public GetProperties(String objectId) {
-    put("objectId", objectId);
+    writeString("objectId", objectId);
   }
 
   /**
    * @param v If true, returns properties belonging only to the element itself, not to its prototype chain.
    */
   public GetProperties ownProperties(boolean v) {
-    put("ownProperties", v);
+    writeBoolean("ownProperties", v);
     return this;
   }
   @Override

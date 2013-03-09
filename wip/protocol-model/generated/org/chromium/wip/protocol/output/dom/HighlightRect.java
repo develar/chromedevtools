@@ -12,17 +12,17 @@ public final class HighlightRect extends org.jetbrains.wip.protocol.WipRequest {
    * @param height Rectangle height
    */
   public HighlightRect(int x, int y, int width, int height) {
-    put("x", x);
-    put("y", y);
-    put("width", width);
-    put("height", height);
+    writeInt("x", x);
+    writeInt("y", y);
+    writeInt("width", width);
+    writeInt("height", height);
   }
 
   /**
    * @param v The highlight fill color (default: transparent).
    */
   public HighlightRect color(org.chromium.wip.protocol.output.dom.RGBA v) {
-    put("color", v);
+    writeMessage("color", v);
     return this;
   }
 
@@ -30,7 +30,7 @@ public final class HighlightRect extends org.jetbrains.wip.protocol.WipRequest {
    * @param v The highlight outline color (default: transparent).
    */
   public HighlightRect outlineColor(org.chromium.wip.protocol.output.dom.RGBA v) {
-    put("outlineColor", v);
+    writeMessage("outlineColor", v);
     return this;
   }
   @Override

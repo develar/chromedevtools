@@ -9,7 +9,7 @@ public final class RestartFrame extends org.jetbrains.wip.protocol.WipRequestWit
    * @param callFrameId Call frame identifier to evaluate on.
    */
   public RestartFrame(String callFrameId) {
-    put("callFrameId", callFrameId);
+    writeString("callFrameId", callFrameId);
   }
   @Override
   public String getMethodName() {

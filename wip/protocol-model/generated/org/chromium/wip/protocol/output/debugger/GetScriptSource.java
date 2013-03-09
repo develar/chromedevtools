@@ -9,7 +9,7 @@ public final class GetScriptSource extends org.jetbrains.wip.protocol.WipRequest
    * @param scriptId Id of the script to get source for.
    */
   public GetScriptSource(String scriptId) {
-    put("scriptId", scriptId);
+    writeString("scriptId", scriptId);
   }
   @Override
   public String getMethodName() {

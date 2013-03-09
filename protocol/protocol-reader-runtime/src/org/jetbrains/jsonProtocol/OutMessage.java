@@ -20,7 +20,10 @@ public abstract class OutMessage {
     }
   }
 
-  protected final void put(String name, Enum<?> value) {
+  protected void beginArguments() throws IOException {
+  }
+
+  protected final void writeEnum(String name, Enum<?> value) {
     try {
       beginArguments();
       writer.name(name).value(value.toString());
@@ -30,7 +33,7 @@ public abstract class OutMessage {
     }
   }
 
-  public final void put(String name, int value) {
+  protected final void writeInt(String name, int value) {
     try {
       beginArguments();
       writer.name(name).value(value);
@@ -40,7 +43,7 @@ public abstract class OutMessage {
     }
   }
 
-  protected final void put(String name, long[] value) {
+  protected final void writeLongArray(String name, long[] value) {
     try {
       beginArguments();
       writer.name(name);
@@ -55,7 +58,7 @@ public abstract class OutMessage {
     }
   }
 
-  protected final <E extends OutMessage> void put(String name, List<E> value) {
+  protected final <E extends OutMessage> void writeList(String name, List<E> value) {
     try {
       beginArguments();
       writer.name(name);
@@ -87,7 +90,7 @@ public abstract class OutMessage {
     }
   }
 
-  protected final void put(String name, OutMessage value) {
+  protected final void writeMessage(String name, OutMessage value) {
     try {
       beginArguments();
       writer.name(name);
@@ -105,7 +108,7 @@ public abstract class OutMessage {
     }
   }
 
-  protected final void put(String name, long value) {
+  protected final void writeLong(String name, long value) {
     try {
       beginArguments();
       writer.name(name).value(value);
@@ -115,13 +118,29 @@ public abstract class OutMessage {
     }
   }
 
-  protected final void put(String name, double value) {
+  protected final void writeDouble(String name, double value) {
     try {
       beginArguments();
       writer.name(name).value(value);
     }
     catch (IOException e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  protected final void writeBoolean(String name, boolean value) {
+    try {
+      beginArguments();
+      writer.name(name).value(value);
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  protected final void writeString(String name, String value) {
+    if (value != null) {
+      doPutArgument(name, value);
     }
   }
 
@@ -132,25 +151,6 @@ public abstract class OutMessage {
     }
     catch (IOException e) {
       throw new RuntimeException(e);
-    }
-  }
-
-  protected final void put(String name, boolean value) {
-    try {
-      beginArguments();
-      writer.name(name).value(value);
-    }
-    catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  protected void beginArguments() throws IOException {
-  }
-
-  protected final void put(String name, String value) {
-    if (value != null) {
-      doPutArgument(name, value);
     }
   }
 

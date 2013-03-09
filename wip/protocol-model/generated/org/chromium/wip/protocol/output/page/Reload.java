@@ -11,7 +11,7 @@ public final class Reload extends org.jetbrains.wip.protocol.WipRequest {
    * @param v If true, browser cache is ignored (as if the user pressed Shift+refresh).
    */
   public Reload ignoreCache(boolean v) {
-    put("ignoreCache", v);
+    writeBoolean("ignoreCache", v);
     return this;
   }
 
@@ -20,7 +20,7 @@ public final class Reload extends org.jetbrains.wip.protocol.WipRequest {
    */
   public Reload scriptToEvaluateOnLoad(String v) {
     if (v != null) {
-      put("scriptToEvaluateOnLoad", v);
+      writeString("scriptToEvaluateOnLoad", v);
     }
     return this;
   }
@@ -30,7 +30,7 @@ public final class Reload extends org.jetbrains.wip.protocol.WipRequest {
    */
   public Reload scriptPreprocessor(String v) {
     if (v != null) {
-      put("scriptPreprocessor", v);
+      writeString("scriptPreprocessor", v);
     }
     return this;
   }

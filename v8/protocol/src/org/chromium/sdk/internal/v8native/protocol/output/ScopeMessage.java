@@ -13,14 +13,14 @@ public class ScopeMessage extends V8Request {
 
   public ScopeMessage(int scopeNumber, Integer frameNumber, Long functionHandle) {
     super(DebuggerCommand.SCOPE.value);
-    put("number", scopeNumber);
+    writeInt("number", scopeNumber);
     if (frameNumber != null) {
-      put("frameNumber", frameNumber);
+      writeInt("frameNumber", frameNumber);
     }
     if (functionHandle != null) {
-      put("functionHandle", functionHandle);
+      writeLong("functionHandle", functionHandle);
     }
-    put("inlineRefs", true);
+    writeBoolean("inlineRefs", true);
   }
 
 }

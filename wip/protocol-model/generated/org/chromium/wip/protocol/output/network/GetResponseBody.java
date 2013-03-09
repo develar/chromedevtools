@@ -9,7 +9,7 @@ public final class GetResponseBody extends org.jetbrains.wip.protocol.WipRequest
    * @param requestId Identifier of the network request to get content for.
    */
   public GetResponseBody(String requestId) {
-    put("requestId", requestId);
+    writeString("requestId", requestId);
   }
   @Override
   public String getMethodName() {

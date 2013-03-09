@@ -21,7 +21,7 @@ class MyCreateStandaloneTypeBindingVisitorBase extends CreateStandaloneTypeBindi
     return new StandaloneTypeBinding() {
       @Override
       public BoxableType getJavaType() {
-        return new StandaloneType(generator.generator.getNaming().additionalParam.getFullName(generator.domain.domain(), name));
+        return new StandaloneType(generator.generator.getNaming().additionalParam.getFullName(generator.domain.domain(), name), "writeMessage");
       }
 
       @Override

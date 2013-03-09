@@ -9,14 +9,14 @@ public final class RequestChildNodes extends org.jetbrains.wip.protocol.WipReque
    * @param nodeId Id of the node to get children for.
    */
   public RequestChildNodes(int nodeId) {
-    put("nodeId", nodeId);
+    writeInt("nodeId", nodeId);
   }
 
   /**
    * @param v The maximum depth at which children should be retrieved, defaults to 1. Use -1 for the entire subtree or provide an integer larger than 0.
    */
   public RequestChildNodes depth(int v) {
-    put("depth", v);
+    writeInt("depth", v);
     return this;
   }
   @Override

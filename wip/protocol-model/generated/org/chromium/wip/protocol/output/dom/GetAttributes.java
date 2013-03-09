@@ -9,7 +9,7 @@ public final class GetAttributes extends org.jetbrains.wip.protocol.WipRequestWi
    * @param nodeId Id of the node to retrieve attibutes for.
    */
   public GetAttributes(int nodeId) {
-    put("nodeId", nodeId);
+    writeInt("nodeId", nodeId);
   }
   @Override
   public String getMethodName() {

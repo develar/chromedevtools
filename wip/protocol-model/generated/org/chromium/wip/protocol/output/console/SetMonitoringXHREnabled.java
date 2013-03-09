@@ -9,7 +9,7 @@ public final class SetMonitoringXHREnabled extends org.jetbrains.wip.protocol.Wi
    * @param enabled Monitoring enabled state.
    */
   public SetMonitoringXHREnabled(boolean enabled) {
-    put("enabled", enabled);
+    writeBoolean("enabled", enabled);
   }
   @Override
   public String getMethodName() {

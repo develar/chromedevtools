@@ -10,8 +10,8 @@ public final class SetNodeName extends org.jetbrains.wip.protocol.WipRequestWith
    * @param name New node's name.
    */
   public SetNodeName(int nodeId, String name) {
-    put("nodeId", nodeId);
-    put("name", name);
+    writeInt("nodeId", nodeId);
+    writeString("name", name);
   }
   @Override
   public String getMethodName() {

@@ -11,16 +11,16 @@ public final class RGBA extends org.jetbrains.jsonProtocol.OutMessage {
    * @param b The blue component, in the [0-255] range.
    */
   public RGBA(int r, int g, int b) {
-    put("r", r);
-    put("g", g);
-    put("b", b);
+    writeInt("r", r);
+    writeInt("g", g);
+    writeInt("b", b);
   }
 
   /**
    * @param v The alpha component, in the [0-1] range (default: 1).
    */
   public RGBA a(double v) {
-    put("a", v);
+    writeDouble("a", v);
     return this;
   }
 }

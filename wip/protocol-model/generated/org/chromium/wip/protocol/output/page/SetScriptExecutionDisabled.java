@@ -9,7 +9,7 @@ public final class SetScriptExecutionDisabled extends org.jetbrains.wip.protocol
    * @param value Whether script execution should be disabled in the page.
    */
   public SetScriptExecutionDisabled(boolean value) {
-    put("value", value);
+    writeBoolean("value", value);
   }
   @Override
   public String getMethodName() {

@@ -9,7 +9,7 @@ public final class GetOuterHTML extends org.jetbrains.wip.protocol.WipRequestWit
    * @param nodeId Id of the node to get markup for.
    */
   public GetOuterHTML(int nodeId) {
-    put("nodeId", nodeId);
+    writeInt("nodeId", nodeId);
   }
   @Override
   public String getMethodName() {

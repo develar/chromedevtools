@@ -22,16 +22,16 @@ public class EvaluateMessage extends V8Request {
    */
   public EvaluateMessage(String expression, int frame, boolean disableBreak, List<StringIntPair> additionalContext) {
     super(DebuggerCommand.EVALUATE.value);
-    put("expression", expression);
+    writeString("expression", expression);
     if (frame != -1) {
-      put("frame", frame);
+      writeInt("frame", frame);
     }
     else {
-      put("global", true);
+      writeBoolean("global", true);
     }
 
-    put("disable_break", disableBreak);
-    put("inlineRefs", true);
+    writeBoolean("disable_break", disableBreak);
+    writeBoolean("inlineRefs", true);
     if (additionalContext != null) {
       try {
         beginArguments();

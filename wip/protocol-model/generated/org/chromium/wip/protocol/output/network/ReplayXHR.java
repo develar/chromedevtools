@@ -9,7 +9,7 @@ public final class ReplayXHR extends org.jetbrains.wip.protocol.WipRequest {
    * @param requestId Identifier of XHR to replay.
    */
   public ReplayXHR(String requestId) {
-    put("requestId", requestId);
+    writeString("requestId", requestId);
   }
   @Override
   public String getMethodName() {

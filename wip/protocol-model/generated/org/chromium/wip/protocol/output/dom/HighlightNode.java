@@ -9,14 +9,14 @@ public final class HighlightNode extends org.jetbrains.wip.protocol.WipRequest {
    * @param highlightConfig A descriptor for the highlight appearance.
    */
   public HighlightNode(org.chromium.wip.protocol.output.dom.HighlightConfig highlightConfig) {
-    put("highlightConfig", highlightConfig);
+    writeMessage("highlightConfig", highlightConfig);
   }
 
   /**
    * @param v Identifier of the node to highlight.
    */
   public HighlightNode nodeId(int v) {
-    put("nodeId", v);
+    writeInt("nodeId", v);
     return this;
   }
 
@@ -25,7 +25,7 @@ public final class HighlightNode extends org.jetbrains.wip.protocol.WipRequest {
    */
   public HighlightNode objectId(String v) {
     if (v != null) {
-      put("objectId", v);
+      writeString("objectId", v);
     }
     return this;
   }

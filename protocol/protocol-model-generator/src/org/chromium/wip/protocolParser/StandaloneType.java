@@ -2,14 +2,16 @@ package org.chromium.wip.protocolParser;
 
 class StandaloneType extends BoxableType {
   private final NamePath namePath;
+  private final String writeMethodName;
 
-  StandaloneType(NamePath namePath) {
+  StandaloneType(NamePath namePath, String writeMethodName) {
     this.namePath = namePath;
+    this.writeMethodName = writeMethodName;
   }
 
   @Override
   String getWriteMethodName() {
-    return "put";
+    return writeMethodName;
   }
 
   CharSequence getFullText() {

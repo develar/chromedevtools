@@ -3,7 +3,7 @@ package org.chromium.wip.protocol.output.page;
 
 public final class AddScriptToEvaluateOnLoad extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.AddScriptToEvaluateOnLoadData> {
   public AddScriptToEvaluateOnLoad(String scriptSource) {
-    put("scriptSource", scriptSource);
+    writeString("scriptSource", scriptSource);
   }
   @Override
   public String getMethodName() {

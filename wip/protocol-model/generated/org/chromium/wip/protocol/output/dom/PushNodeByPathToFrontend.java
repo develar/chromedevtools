@@ -9,7 +9,7 @@ public final class PushNodeByPathToFrontend extends org.jetbrains.wip.protocol.W
    * @param path Path to node in the proprietary format.
    */
   public PushNodeByPathToFrontend(String path) {
-    put("path", path);
+    writeString("path", path);
   }
   @Override
   public String getMethodName() {

@@ -10,8 +10,8 @@ public final class SetAttributesAsText extends org.jetbrains.wip.protocol.WipReq
    * @param text Text with a number of attributes. Will parse this text using HTML parser.
    */
   public SetAttributesAsText(int nodeId, String text) {
-    put("nodeId", nodeId);
-    put("text", text);
+    writeInt("nodeId", nodeId);
+    writeString("text", text);
   }
 
   /**
@@ -19,7 +19,7 @@ public final class SetAttributesAsText extends org.jetbrains.wip.protocol.WipReq
    */
   public SetAttributesAsText name(String v) {
     if (v != null) {
-      put("name", v);
+      writeString("name", v);
     }
     return this;
   }

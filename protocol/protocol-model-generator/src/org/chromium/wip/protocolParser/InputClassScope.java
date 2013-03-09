@@ -70,7 +70,7 @@ class InputClassScope extends ClassScope {
           Enums.appendEnums(enumConstants, enumName, true, out);
         }
       });
-      return new StandaloneType(new NamePath(enumName, getClassContextNamespace()));
+      return new StandaloneType(new NamePath(enumName, getClassContextNamespace()), "writeEnum");
     }
 
     @Override
@@ -101,7 +101,7 @@ class InputClassScope extends ClassScope {
           out.closeBlock();
         }
       });
-      return new StandaloneType(new NamePath(objectName, getClassContextNamespace()));
+      return new StandaloneType(new NamePath(objectName, getClassContextNamespace()), "writeMessage");
     }
   }
 }

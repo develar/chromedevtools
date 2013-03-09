@@ -10,8 +10,8 @@ public final class SetOuterHTML extends org.jetbrains.wip.protocol.WipRequest {
    * @param outerHTML Outer HTML markup to set.
    */
   public SetOuterHTML(int nodeId, String outerHTML) {
-    put("nodeId", nodeId);
-    put("outerHTML", outerHTML);
+    writeInt("nodeId", nodeId);
+    writeString("outerHTML", outerHTML);
   }
   @Override
   public String getMethodName() {

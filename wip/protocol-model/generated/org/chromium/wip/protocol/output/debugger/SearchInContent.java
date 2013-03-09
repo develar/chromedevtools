@@ -10,15 +10,15 @@ public final class SearchInContent extends org.jetbrains.wip.protocol.WipRequest
    * @param query String to search for.
    */
   public SearchInContent(String scriptId, String query) {
-    put("scriptId", scriptId);
-    put("query", query);
+    writeString("scriptId", scriptId);
+    writeString("query", query);
   }
 
   /**
    * @param v If true, search is case sensitive.
    */
   public SearchInContent caseSensitive(boolean v) {
-    put("caseSensitive", v);
+    writeBoolean("caseSensitive", v);
     return this;
   }
 
@@ -26,7 +26,7 @@ public final class SearchInContent extends org.jetbrains.wip.protocol.WipRequest
    * @param v If true, treats string parameter as regex.
    */
   public SearchInContent isRegex(boolean v) {
-    put("isRegex", v);
+    writeBoolean("isRegex", v);
     return this;
   }
   @Override

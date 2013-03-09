@@ -9,7 +9,7 @@ public final class SetExtraHTTPHeaders extends org.jetbrains.wip.protocol.WipReq
    * @param headers Map with extra HTTP headers.
    */
   public SetExtraHTTPHeaders(org.chromium.wip.protocol.output.network.Headers headers) {
-    put("headers", headers);
+    writeMessage("headers", headers);
   }
   @Override
   public String getMethodName() {

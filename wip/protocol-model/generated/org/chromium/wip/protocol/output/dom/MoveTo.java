@@ -10,15 +10,15 @@ public final class MoveTo extends org.jetbrains.wip.protocol.WipRequestWithRespo
    * @param targetNodeId Id of the element to drop into.
    */
   public MoveTo(int nodeId, int targetNodeId) {
-    put("nodeId", nodeId);
-    put("targetNodeId", targetNodeId);
+    writeInt("nodeId", nodeId);
+    writeInt("targetNodeId", targetNodeId);
   }
 
   /**
    * @param v Drop node before given one.
    */
   public MoveTo insertBeforeNodeId(int v) {
-    put("insertBeforeNodeId", v);
+    writeInt("insertBeforeNodeId", v);
     return this;
   }
   @Override

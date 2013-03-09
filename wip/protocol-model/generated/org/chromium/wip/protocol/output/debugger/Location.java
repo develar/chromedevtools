@@ -10,8 +10,8 @@ public final class Location extends org.jetbrains.jsonProtocol.OutMessage {
    * @param lineNumber Line number in the script.
    */
   public Location(String scriptId, int lineNumber) {
-    put("scriptId", scriptId);
-    put("lineNumber", lineNumber);
+    writeString("scriptId", scriptId);
+    writeInt("lineNumber", lineNumber);
   }
 
   /**
@@ -19,7 +19,7 @@ public final class Location extends org.jetbrains.jsonProtocol.OutMessage {
    */
   public Location columnNumber(int v) {
     if (v != -1) {
-      put("columnNumber", v);
+      writeInt("columnNumber", v);
     }
     return this;
   }

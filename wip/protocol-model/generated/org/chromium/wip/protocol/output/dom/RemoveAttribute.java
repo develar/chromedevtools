@@ -10,8 +10,8 @@ public final class RemoveAttribute extends org.jetbrains.wip.protocol.WipRequest
    * @param name Name of the attribute to remove.
    */
   public RemoveAttribute(int nodeId, String name) {
-    put("nodeId", nodeId);
-    put("name", name);
+    writeInt("nodeId", nodeId);
+    writeString("name", name);
   }
   @Override
   public String getMethodName() {

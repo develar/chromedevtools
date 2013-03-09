@@ -12,6 +12,10 @@
               "type": "string"
             },
             {
+              "name": "target",
+              "type": "string"
+            },
+            {
               "name": "line",
               "type": "integer"
             },

@@ -9,7 +9,7 @@ public final class RequestNode extends org.jetbrains.wip.protocol.WipRequestWith
    * @param objectId JavaScript object id to convert into node.
    */
   public RequestNode(String objectId) {
-    put("objectId", objectId);
+    writeString("objectId", objectId);
   }
   @Override
   public String getMethodName() {

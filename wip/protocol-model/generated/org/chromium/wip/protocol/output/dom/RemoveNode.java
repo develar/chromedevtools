@@ -9,7 +9,7 @@ public final class RemoveNode extends org.jetbrains.wip.protocol.WipRequest {
    * @param nodeId Id of the node to remove.
    */
   public RemoveNode(int nodeId) {
-    put("nodeId", nodeId);
+    writeInt("nodeId", nodeId);
   }
   @Override
   public String getMethodName() {

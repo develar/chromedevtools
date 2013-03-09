@@ -20,6 +20,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo;
 import org.chromium.sdk.internal.v8native.protocol.output.*;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
+import org.jetbrains.v8.protocol.output.Setbreakpoint;
 
 import java.io.IOException;
 import java.util.*;
@@ -56,10 +57,70 @@ public class BreakpointManager {
         callback, syncCallback);
   }
 
+  private static final BreakpointImpl.TargetExtendedVisitor<String> GET_TYPE_VISITOR =
+    new BreakpointImpl.TargetExtendedVisitor<String>() {
+      @Override
+      public String visitFunction(String expression) {
+        return "function";
+      }
+
+      @Override
+      public String visitScriptName(String scriptName) {
+        return "script";
+      }
+
+      @Override
+      public String visitScriptId(Object scriptId) {
+        return "scriptId";
+      }
+
+      @Override
+      public String visitRegExp(String regExp) {
+        return "scriptRegExp";
+      }
+
+      @Override
+      public String visitUnknown(Target target) {
+        throw new IllegalArgumentException();
+      }
+    };
+
+  private static final BreakpointImpl.TargetExtendedVisitor<String> GET_TARGET_VISITOR =
+    new BreakpointImpl.TargetExtendedVisitor<String>() {
+      @Override
+      public String visitFunction(String expression) {
+        return expression;
+      }
+
+      @Override
+      public String visitScriptName(String scriptName) {
+        return scriptName;
+      }
+
+      @Override
+      public String visitScriptId(Object scriptIdObj) {
+        if (scriptIdObj instanceof Long) {
+          return scriptIdObj.toString();
+        }
+        throw new IllegalStateException("Script id must be of type Long");
+      }
+
+      @Override
+      public String visitRegExp(String regExp) {
+        return regExp;
+      }
+
+      @Override
+      public String visitUnknown(Target target) {
+        throw new IllegalArgumentException();
+      }
+    };
+
   RelayOk setBreakpoint(final Breakpoint.Target target, final int line, int column,
                         final boolean enabled, final String condition, final int ignoreCount,
                         final JavascriptVm.BreakpointCallback callback, SyncCallback syncCallback) {
-    return debugSession.sendMessageAsync(new SetBreakpointMessage(target, toNullableInteger(line), toNullableInteger(column), enabled, condition, toNullableInteger(ignoreCount)),
+    return debugSession.sendMessageAsync(new Setbreakpoint(target.accept(GET_TYPE_VISITOR), target.accept(GET_TARGET_VISITOR), line).column(column).condition(condition).ignoreCount(ignoreCount).enabled(
+      enabled),
       true,
       new V8CommandCallbackBase() {
         @Override
@@ -315,12 +376,6 @@ public class BreakpointManager {
       };
     }
     return debugSession.sendMessageAsync(new FlagsMessage(flagMap), true, v8Callback, syncCallback);
-  }
-
-  private static Integer toNullableInteger(int value) {
-    return value == Breakpoint.EMPTY_VALUE
-        ? null
-        : value;
   }
 
   private Collection<Breakpoint> syncBreakpoints(List<BreakpointInfo> infoList) {

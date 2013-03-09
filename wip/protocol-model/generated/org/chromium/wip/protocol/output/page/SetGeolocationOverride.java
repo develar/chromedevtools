@@ -11,7 +11,7 @@ public final class SetGeolocationOverride extends org.jetbrains.wip.protocol.Wip
    * @param v Mock longitude
    */
   public SetGeolocationOverride latitude(double v) {
-    put("latitude", v);
+    writeDouble("latitude", v);
     return this;
   }
 
@@ -19,7 +19,7 @@ public final class SetGeolocationOverride extends org.jetbrains.wip.protocol.Wip
    * @param v Mock latitude
    */
   public SetGeolocationOverride longitude(double v) {
-    put("longitude", v);
+    writeDouble("longitude", v);
     return this;
   }
 
@@ -27,7 +27,7 @@ public final class SetGeolocationOverride extends org.jetbrains.wip.protocol.Wip
    * @param v Mock accuracy
    */
   public SetGeolocationOverride accuracy(double v) {
-    put("accuracy", v);
+    writeDouble("accuracy", v);
     return this;
   }
   @Override

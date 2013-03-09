@@ -11,9 +11,9 @@ public final class SetVariableValue extends org.jetbrains.wip.protocol.WipReques
    * @param newValue New variable value.
    */
   public SetVariableValue(int scopeNumber, String variableName, org.chromium.wip.protocol.output.runtime.CallArgument newValue) {
-    put("scopeNumber", scopeNumber);
-    put("variableName", variableName);
-    put("newValue", newValue);
+    writeInt("scopeNumber", scopeNumber);
+    writeString("variableName", variableName);
+    writeMessage("newValue", newValue);
   }
 
   /**
@@ -21,7 +21,7 @@ public final class SetVariableValue extends org.jetbrains.wip.protocol.WipReques
    */
   public SetVariableValue callFrameId(String v) {
     if (v != null) {
-      put("callFrameId", v);
+      writeString("callFrameId", v);
     }
     return this;
   }
@@ -31,7 +31,7 @@ public final class SetVariableValue extends org.jetbrains.wip.protocol.WipReques
    */
   public SetVariableValue functionObjectId(String v) {
     if (v != null) {
-      put("functionObjectId", v);
+      writeString("functionObjectId", v);
     }
     return this;
   }

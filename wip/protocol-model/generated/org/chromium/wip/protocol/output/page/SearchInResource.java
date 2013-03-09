@@ -11,16 +11,16 @@ public final class SearchInResource extends org.jetbrains.wip.protocol.WipReques
    * @param query String to search for.
    */
   public SearchInResource(String frameId, String url, String query) {
-    put("frameId", frameId);
-    put("url", url);
-    put("query", query);
+    writeString("frameId", frameId);
+    writeString("url", url);
+    writeString("query", query);
   }
 
   /**
    * @param v If true, search is case sensitive.
    */
   public SearchInResource caseSensitive(boolean v) {
-    put("caseSensitive", v);
+    writeBoolean("caseSensitive", v);
     return this;
   }
 
@@ -28,7 +28,7 @@ public final class SearchInResource extends org.jetbrains.wip.protocol.WipReques
    * @param v If true, treats string parameter as regex.
    */
   public SearchInResource isRegex(boolean v) {
-    put("isRegex", v);
+    writeBoolean("isRegex", v);
     return this;
   }
   @Override

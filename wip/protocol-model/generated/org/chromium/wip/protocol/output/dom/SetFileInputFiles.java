@@ -10,7 +10,7 @@ public final class SetFileInputFiles extends org.jetbrains.wip.protocol.WipReque
    * @param files Array of file paths to set.
    */
   public SetFileInputFiles(int nodeId, java.util.List<String> files) {
-    put("nodeId", nodeId);
+    writeInt("nodeId", nodeId);
     writeStringList("files", files);
   }
   @Override

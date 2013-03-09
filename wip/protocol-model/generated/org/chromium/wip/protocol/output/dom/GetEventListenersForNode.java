@@ -9,7 +9,7 @@ public final class GetEventListenersForNode extends org.jetbrains.wip.protocol.W
    * @param nodeId Id of the node to get listeners for.
    */
   public GetEventListenersForNode(int nodeId) {
-    put("nodeId", nodeId);
+    writeInt("nodeId", nodeId);
   }
 
   /**
@@ -17,7 +17,7 @@ public final class GetEventListenersForNode extends org.jetbrains.wip.protocol.W
    */
   public GetEventListenersForNode objectGroup(String v) {
     if (v != null) {
-      put("objectGroup", v);
+      writeString("objectGroup", v);
     }
     return this;
   }

@@ -194,7 +194,7 @@ class DomainGenerator {
 
     return new StandaloneTypeBinding() {
       @Override public BoxableType getJavaType() {
-        return new StandaloneType(fullTypeName);
+        return new StandaloneType(fullTypeName, "writeMessage");
       }
 
       @Override
@@ -227,7 +227,7 @@ class DomainGenerator {
     return new StandaloneTypeBinding() {
       @Override
       public BoxableType getJavaType() {
-        return new StandaloneType(generator.getNaming().inputEnum.getFullName(domain.domain(), name));
+        return new StandaloneType(generator.getNaming().inputEnum.getFullName(domain.domain(), name), "writeEnum");
       }
 
       @Override
@@ -267,7 +267,6 @@ class DomainGenerator {
           case INPUT:
             throw new RuntimeException("TODO");
           case OUTPUT:
-            // "org.json.simple.JSONObject"
             TextOutput out = new TextOutput(new StringBuilder());
             generateOutputClass(out, classNamePath, description, null, null, properties);
             deferredWriters.add(out);
@@ -275,7 +274,7 @@ class DomainGenerator {
           default:
             throw new RuntimeException();
         }
-        return new StandaloneType(new NamePath(shortName, typedefJavaName));
+        return new StandaloneType(new NamePath(shortName, typedefJavaName), "writeMessage");
       }
     }
 

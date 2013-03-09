@@ -6,7 +6,7 @@ package org.chromium.wip.protocol.output.debugger;
  */
 public final class RemoveBreakpoint extends org.jetbrains.wip.protocol.WipRequest {
   public RemoveBreakpoint(String breakpointId) {
-    put("breakpointId", breakpointId);
+    writeString("breakpointId", breakpointId);
   }
   @Override
   public String getMethodName() {

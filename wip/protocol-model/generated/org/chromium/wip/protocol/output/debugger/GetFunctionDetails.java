@@ -9,7 +9,7 @@ public final class GetFunctionDetails extends org.jetbrains.wip.protocol.WipRequ
    * @param functionId Id of the function to get location for.
    */
   public GetFunctionDetails(String functionId) {
-    put("functionId", functionId);
+    writeString("functionId", functionId);
   }
   @Override
   public String getMethodName() {

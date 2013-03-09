@@ -16,10 +16,10 @@ public class LookupMessage extends V8Request {
 
   public LookupMessage(long[] handles, Boolean inlineRefs, long maxStringLength) {
     super(DebuggerCommand.LOOKUP.value);
-    put("handles", handles);
-    put("inlineRefs", inlineRefs);
+    writeLongArray("handles", handles);
+    writeBoolean("inlineRefs", inlineRefs);
     if (maxStringLength != -1) {
-      put("maxStringLength", maxStringLength);
+      writeLong("maxStringLength", maxStringLength);
     }
   }
 }

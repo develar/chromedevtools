@@ -9,7 +9,7 @@ public final class SetEmulatedMedia extends org.jetbrains.wip.protocol.WipReques
    * @param media Media type to emulate. Empty string disables the override.
    */
   public SetEmulatedMedia(String media) {
-    put("media", media);
+    writeString("media", media);
   }
   @Override
   public String getMethodName() {

@@ -9,7 +9,7 @@ public final class ResolveNode extends org.jetbrains.wip.protocol.WipRequestWith
    * @param nodeId Id of the node to resolve.
    */
   public ResolveNode(int nodeId) {
-    put("nodeId", nodeId);
+    writeInt("nodeId", nodeId);
   }
 
   /**
@@ -17,7 +17,7 @@ public final class ResolveNode extends org.jetbrains.wip.protocol.WipRequestWith
    */
   public ResolveNode objectGroup(String v) {
     if (v != null) {
-      put("objectGroup", v);
+      writeString("objectGroup", v);
     }
     return this;
   }

@@ -9,7 +9,7 @@ public final class AddInspectedNode extends org.jetbrains.wip.protocol.WipReques
    * @param nodeId DOM node id to be accessible by means of $x command line API.
    */
   public AddInspectedNode(int nodeId) {
-    put("nodeId", nodeId);
+    writeInt("nodeId", nodeId);
   }
   @Override
   public String getMethodName() {

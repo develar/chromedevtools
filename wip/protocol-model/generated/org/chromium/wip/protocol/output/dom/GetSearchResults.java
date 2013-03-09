@@ -11,9 +11,9 @@ public final class GetSearchResults extends org.jetbrains.wip.protocol.WipReques
    * @param toIndex End index of the search result to be returned.
    */
   public GetSearchResults(String searchId, int fromIndex, int toIndex) {
-    put("searchId", searchId);
-    put("fromIndex", fromIndex);
-    put("toIndex", toIndex);
+    writeString("searchId", searchId);
+    writeInt("fromIndex", fromIndex);
+    writeInt("toIndex", toIndex);
   }
   @Override
   public String getMethodName() {

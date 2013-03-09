@@ -9,7 +9,7 @@ public final class SetCacheDisabled extends org.jetbrains.wip.protocol.WipReques
    * @param cacheDisabled Cache disabled state.
    */
   public SetCacheDisabled(boolean cacheDisabled) {
-    put("cacheDisabled", cacheDisabled);
+    writeBoolean("cacheDisabled", cacheDisabled);
   }
   @Override
   public String getMethodName() {

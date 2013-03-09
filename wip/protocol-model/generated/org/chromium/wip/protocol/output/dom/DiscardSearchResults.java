@@ -9,7 +9,7 @@ public final class DiscardSearchResults extends org.jetbrains.wip.protocol.WipRe
    * @param searchId Unique search session identifier.
    */
   public DiscardSearchResults(String searchId) {
-    put("searchId", searchId);
+    writeString("searchId", searchId);
   }
   @Override
   public String getMethodName() {

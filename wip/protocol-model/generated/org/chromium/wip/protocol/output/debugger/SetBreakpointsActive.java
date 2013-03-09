@@ -9,7 +9,7 @@ public final class SetBreakpointsActive extends org.jetbrains.wip.protocol.WipRe
    * @param active New value for breakpoints active state.
    */
   public SetBreakpointsActive(boolean active) {
-    put("active", active);
+    writeBoolean("active", active);
   }
   @Override
   public String getMethodName() {

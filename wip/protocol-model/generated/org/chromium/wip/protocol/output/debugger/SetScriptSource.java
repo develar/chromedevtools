@@ -10,15 +10,15 @@ public final class SetScriptSource extends org.jetbrains.wip.protocol.WipRequest
    * @param scriptSource New content of the script.
    */
   public SetScriptSource(String scriptId, String scriptSource) {
-    put("scriptId", scriptId);
-    put("scriptSource", scriptSource);
+    writeString("scriptId", scriptId);
+    writeString("scriptSource", scriptSource);
   }
 
   /**
    * @param v  If true the change will not actually be applied. Preview mode may be used to get result description without actually modifying the code.
    */
   public SetScriptSource preview(boolean v) {
-    put("preview", v);
+    writeBoolean("preview", v);
     return this;
   }
   @Override

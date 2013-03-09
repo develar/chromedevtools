@@ -9,7 +9,7 @@ public final class SetContinuousPaintingEnabled extends org.jetbrains.wip.protoc
    * @param enabled True for enabling cointinuous painting
    */
   public SetContinuousPaintingEnabled(boolean enabled) {
-    put("enabled", enabled);
+    writeBoolean("enabled", enabled);
   }
   @Override
   public String getMethodName() {

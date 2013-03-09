@@ -9,7 +9,7 @@ public final class SetShowFPSCounter extends org.jetbrains.wip.protocol.WipReque
    * @param show True for showing the FPS counter
    */
   public SetShowFPSCounter(boolean show) {
-    put("show", show);
+    writeBoolean("show", show);
   }
   @Override
   public String getMethodName() {

@@ -9,7 +9,7 @@ public final class SetUserAgentOverride extends org.jetbrains.wip.protocol.WipRe
    * @param userAgent User agent to use.
    */
   public SetUserAgentOverride(String userAgent) {
-    put("userAgent", userAgent);
+    writeString("userAgent", userAgent);
   }
   @Override
   public String getMethodName() {

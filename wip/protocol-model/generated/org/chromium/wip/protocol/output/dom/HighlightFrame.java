@@ -9,14 +9,14 @@ public final class HighlightFrame extends org.jetbrains.wip.protocol.WipRequest 
    * @param frameId Identifier of the frame to highlight.
    */
   public HighlightFrame(String frameId) {
-    put("frameId", frameId);
+    writeString("frameId", frameId);
   }
 
   /**
    * @param v The content box highlight fill color (default: transparent).
    */
   public HighlightFrame contentColor(org.chromium.wip.protocol.output.dom.RGBA v) {
-    put("contentColor", v);
+    writeMessage("contentColor", v);
     return this;
   }
 
@@ -24,7 +24,7 @@ public final class HighlightFrame extends org.jetbrains.wip.protocol.WipRequest 
    * @param v The content box highlight outline color (default: transparent).
    */
   public HighlightFrame contentOutlineColor(org.chromium.wip.protocol.output.dom.RGBA v) {
-    put("contentOutlineColor", v);
+    writeMessage("contentOutlineColor", v);
     return this;
   }
   @Override

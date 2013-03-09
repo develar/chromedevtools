@@ -16,6 +16,6 @@ public class FrameMessage extends V8Request {
    */
   public FrameMessage(Integer frame) {
     super(DebuggerCommand.FRAME.value);
-    put("number", frame);
+    writeInt("number", frame);
   }
 }

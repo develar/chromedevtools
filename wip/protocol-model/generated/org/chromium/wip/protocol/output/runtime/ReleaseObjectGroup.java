@@ -9,7 +9,7 @@ public final class ReleaseObjectGroup extends org.jetbrains.wip.protocol.WipRequ
    * @param objectGroup Symbolic object group name.
    */
   public ReleaseObjectGroup(String objectGroup) {
-    put("objectGroup", objectGroup);
+    writeString("objectGroup", objectGroup);
   }
   @Override
   public String getMethodName() {

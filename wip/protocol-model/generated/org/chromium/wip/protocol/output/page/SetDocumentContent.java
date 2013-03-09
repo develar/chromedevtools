@@ -10,8 +10,8 @@ public final class SetDocumentContent extends org.jetbrains.wip.protocol.WipRequ
    * @param html HTML content to set.
    */
   public SetDocumentContent(String frameId, String html) {
-    put("frameId", frameId);
-    put("html", html);
+    writeString("frameId", frameId);
+    writeString("html", html);
   }
   @Override
   public String getMethodName() {

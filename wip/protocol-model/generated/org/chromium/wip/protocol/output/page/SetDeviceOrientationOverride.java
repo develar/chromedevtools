@@ -11,9 +11,9 @@ public final class SetDeviceOrientationOverride extends org.jetbrains.wip.protoc
    * @param gamma Mock gamma
    */
   public SetDeviceOrientationOverride(double alpha, double beta, double gamma) {
-    put("alpha", alpha);
-    put("beta", beta);
-    put("gamma", gamma);
+    writeDouble("alpha", alpha);
+    writeDouble("beta", beta);
+    writeDouble("gamma", gamma);
   }
   @Override
   public String getMethodName() {

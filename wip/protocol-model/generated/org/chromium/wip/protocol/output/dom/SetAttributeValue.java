@@ -11,9 +11,9 @@ public final class SetAttributeValue extends org.jetbrains.wip.protocol.WipReque
    * @param value Attribute value.
    */
   public SetAttributeValue(int nodeId, String name, String value) {
-    put("nodeId", nodeId);
-    put("name", name);
-    put("value", value);
+    writeInt("nodeId", nodeId);
+    writeString("name", name);
+    writeString("value", value);
   }
   @Override
   public String getMethodName() {
