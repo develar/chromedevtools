@@ -11,11 +11,14 @@ public class StringIntPairValueParser extends ValueParser {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean deferredReading, TextOutput out) {
+  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, String fieldName, TextOutput out) {
   }
 
   @Override
-  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out, boolean nullable) {
+  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope,
+                          boolean subtyping,
+                          boolean nullable,
+                          String fieldName, TextOutput out) {
     out.append("read").append("IntStringPairs").append('(');
     addReaderParameter(subtyping, out);
     out.append(')');

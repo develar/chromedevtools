@@ -519,16 +519,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("lineNumber")) {
-          _lineNumber = readInt(reader, name);
+          _lineNumber = readInt(reader, "lineNumber");
         }
         else if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else if (name.equals("functionName")) {
-          _functionName = readString(reader, name);
+          _functionName = readString(reader, "functionName");
         }
         else if (name.equals("columnNumber")) {
-          _columnNumber = readInt(reader, name);
+          _columnNumber = readInt(reader, "columnNumber");
         }
         else {
           reader.skipValue();
@@ -575,34 +575,34 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("type")) {
-          _type = readEnum(reader, name, org.chromium.wip.protocol.input.console.ConsoleMessageValue.Type.class);
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.input.console.ConsoleMessageValue.Type.class);
         }
         else if (name.equals("stackTrace")) {
-          _stackTrace = readObjectArray(reader, name, new M0F(), true);
+          _stackTrace = readObjectArray(reader, "stackTrace", new M0F(), true);
         }
         else if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else if (name.equals("text")) {
-          _text = readString(reader, name);
+          _text = readString(reader, "text");
         }
         else if (name.equals("source")) {
-          _source = readEnum(reader, name, org.chromium.wip.protocol.input.console.ConsoleMessageValue.Source.class);
+          _source = readEnum(reader, "source", org.chromium.wip.protocol.input.console.ConsoleMessageValue.Source.class);
         }
         else if (name.equals("level")) {
-          _level = readEnum(reader, name, org.chromium.wip.protocol.input.console.ConsoleMessageValue.Level.class);
+          _level = readEnum(reader, "level", org.chromium.wip.protocol.input.console.ConsoleMessageValue.Level.class);
         }
         else if (name.equals("line")) {
-          _line = readInt(reader, name);
+          _line = readInt(reader, "line");
         }
         else if (name.equals("repeatCount")) {
-          _repeatCount = readInt(reader, name);
+          _repeatCount = readInt(reader, "repeatCount");
         }
         else if (name.equals("parameters")) {
-          _parameters = readObjectArray(reader, name, new M124F(), true);
+          _parameters = readObjectArray(reader, "parameters", new M124F(), true);
         }
         else if (name.equals("networkRequestId")) {
-          _networkRequestId = readString(reader, name);
+          _networkRequestId = readString(reader, "networkRequestId");
         }
         else {
           reader.skipValue();
@@ -668,8 +668,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M2(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("message")) {
+
+        if (reader.nextName().equals("message")) {
           _message = new M1(reader);
         }
         else {
@@ -691,9 +691,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M3(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("count")) {
-          _count = readInt(reader, name);
+
+        if (reader.nextName().equals("count")) {
+          _count = readInt(reader, "count");
         }
         else {
           reader.skipValue();
@@ -711,8 +711,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   public static final class M4 implements org.chromium.wip.protocol.input.console.MessagesClearedEventData {
 
     public M4(JsonReader reader) throws IOException {
-      reader.beginObject();
-      reader.endObject();
+      reader.skipValue();
     }
   }
 
@@ -728,7 +727,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _location = new M15(reader);
         }
         else if (name.equals("breakpointId")) {
-          _breakpointId = readString(reader, name);
+          _breakpointId = readString(reader, "breakpointId");
         }
         else {
           reader.skipValue();
@@ -763,13 +762,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _location = new M15(reader);
         }
         else if (name.equals("functionName")) {
-          _functionName = readString(reader, name);
+          _functionName = readString(reader, "functionName");
         }
         else if (name.equals("callFrameId")) {
-          _callFrameId = readString(reader, name);
+          _callFrameId = readString(reader, "callFrameId");
         }
         else if (name.equals("scopeChain")) {
-          _scopeChain = readObjectArray(reader, name, new M22F(), false);
+          _scopeChain = readObjectArray(reader, "scopeChain", new M22F(), false);
         }
         else if (name.equals("this")) {
           _this = new M124(reader);
@@ -813,9 +812,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M7(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readBoolean(reader, name);
+
+        if (reader.nextName().equals("result")) {
+          _result = readBoolean(reader, "result");
         }
         else {
           reader.skipValue();
@@ -836,9 +835,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M8(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readBoolean(reader, name);
+
+        if (reader.nextName().equals("result")) {
+          _result = readBoolean(reader, "result");
         }
         else {
           reader.skipValue();
@@ -862,10 +861,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("scriptId")) {
-          _scriptId = readString(reader, name);
+          _scriptId = readString(reader, "scriptId");
         }
         else if (name.equals("syntaxErrorMessage")) {
-          _syntaxErrorMessage = readString(reader, name);
+          _syntaxErrorMessage = readString(reader, "syntaxErrorMessage");
         }
         else {
           reader.skipValue();
@@ -897,7 +896,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = new M124(reader);
         }
         else if (name.equals("wasThrown")) {
-          _wasThrown = readBoolean(reader, name);
+          _wasThrown = readBoolean(reader, "wasThrown");
         }
         else {
           reader.skipValue();
@@ -929,19 +928,19 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("displayName")) {
-          _displayName = readString(reader, name);
+          _displayName = readString(reader, "displayName");
         }
         else if (name.equals("location")) {
           _location = new M15(reader);
         }
         else if (name.equals("scopeChain")) {
-          _scopeChain = readObjectArray(reader, name, new M22F(), true);
+          _scopeChain = readObjectArray(reader, "scopeChain", new M22F(), true);
         }
         else if (name.equals("inferredName")) {
-          _inferredName = readString(reader, name);
+          _inferredName = readString(reader, "inferredName");
         }
         else {
           reader.skipValue();
@@ -982,8 +981,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M12(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("details")) {
+
+        if (reader.nextName().equals("details")) {
           _details = new M11(reader);
         }
         else {
@@ -1005,9 +1004,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M13(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("scriptSource")) {
-          _scriptSource = readString(reader, name);
+
+        if (reader.nextName().equals("scriptSource")) {
+          _scriptSource = readString(reader, "scriptSource");
         }
         else {
           reader.skipValue();
@@ -1025,8 +1024,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   public static final class M14 implements org.chromium.wip.protocol.input.debugger.GlobalObjectClearedEventData {
 
     public M14(JsonReader reader) throws IOException {
-      reader.beginObject();
-      reader.endObject();
+      reader.skipValue();
     }
   }
 
@@ -1040,13 +1038,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("lineNumber")) {
-          _lineNumber = readInt(reader, name);
+          _lineNumber = readInt(reader, "lineNumber");
         }
         else if (name.equals("columnNumber")) {
-          _columnNumber = readInt(reader, name);
+          _columnNumber = readInt(reader, "columnNumber");
         }
         else if (name.equals("scriptId")) {
-          _scriptId = readString(reader, name);
+          _scriptId = readString(reader, "scriptId");
         }
         else {
           reader.skipValue();
@@ -1084,10 +1082,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _data = new M17(reader);
         }
         else if (name.equals("callFrames")) {
-          _callFrames = readObjectArray(reader, name, new M6F(), false);
+          _callFrames = readObjectArray(reader, "callFrames", new M6F(), false);
         }
         else if (name.equals("reason")) {
-          _reason = readEnum(reader, name, org.chromium.wip.protocol.input.debugger.PausedEventData.Reason.class);
+          _reason = readEnum(reader, "reason", org.chromium.wip.protocol.input.debugger.PausedEventData.Reason.class);
         }
         else {
           reader.skipValue();
@@ -1124,7 +1122,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = new M19(reader);
         }
         else if (name.equals("callFrames")) {
-          _callFrames = readObjectArray(reader, name, new M6F(), false);
+          _callFrames = readObjectArray(reader, "callFrames", new M6F(), false);
         }
         else {
           reader.skipValue();
@@ -1147,8 +1145,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   public static final class M20 implements org.chromium.wip.protocol.input.debugger.ResumedEventData {
 
     public M20(JsonReader reader) throws IOException {
-      reader.beginObject();
-      reader.endObject();
+      reader.skipValue();
     }
   }
 
@@ -1164,7 +1161,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = new M124(reader);
         }
         else if (name.equals("wasThrown")) {
-          _wasThrown = readBoolean(reader, name);
+          _wasThrown = readBoolean(reader, "wasThrown");
         }
         else {
           reader.skipValue();
@@ -1193,7 +1190,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("type")) {
-          _type = readEnum(reader, name, org.chromium.wip.protocol.input.debugger.ScopeValue.Type.class);
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.input.debugger.ScopeValue.Type.class);
         }
         else if (name.equals("object")) {
           _object = new M124(reader);
@@ -1228,19 +1225,19 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else if (name.equals("scriptSource")) {
-          _scriptSource = readString(reader, name);
+          _scriptSource = readString(reader, "scriptSource");
         }
         else if (name.equals("startLine")) {
-          _startLine = readInt(reader, name);
+          _startLine = readInt(reader, "startLine");
         }
         else if (name.equals("errorLine")) {
-          _errorLine = readInt(reader, name);
+          _errorLine = readInt(reader, "errorLine");
         }
         else if (name.equals("errorMessage")) {
-          _errorMessage = readString(reader, name);
+          _errorMessage = readString(reader, "errorMessage");
         }
         else {
           reader.skipValue();
@@ -1291,31 +1288,31 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else if (name.equals("scriptId")) {
-          _scriptId = readString(reader, name);
+          _scriptId = readString(reader, "scriptId");
         }
         else if (name.equals("startLine")) {
-          _startLine = readInt(reader, name);
+          _startLine = readInt(reader, "startLine");
         }
         else if (name.equals("startColumn")) {
-          _startColumn = readInt(reader, name);
+          _startColumn = readInt(reader, "startColumn");
         }
         else if (name.equals("endLine")) {
-          _endLine = readInt(reader, name);
+          _endLine = readInt(reader, "endLine");
         }
         else if (name.equals("endColumn")) {
-          _endColumn = readInt(reader, name);
+          _endColumn = readInt(reader, "endColumn");
         }
         else if (name.equals("isContentScript")) {
-          _isContentScript = readBoolean(reader, name);
+          _isContentScript = readBoolean(reader, "isContentScript");
         }
         else if (name.equals("sourceMapURL")) {
-          _sourceMapURL = readString(reader, name);
+          _sourceMapURL = readString(reader, "sourceMapURL");
         }
         else if (name.equals("hasSourceURL")) {
-          _hasSourceURL = readBoolean(reader, name);
+          _hasSourceURL = readBoolean(reader, "hasSourceURL");
         }
         else {
           reader.skipValue();
@@ -1376,9 +1373,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M25(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readObjectArray(reader, name, new M113F(), false);
+
+        if (reader.nextName().equals("result")) {
+          _result = readObjectArray(reader, "result", new M113F(), false);
         }
         else {
           reader.skipValue();
@@ -1402,10 +1399,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("breakpointId")) {
-          _breakpointId = readString(reader, name);
+          _breakpointId = readString(reader, "breakpointId");
         }
         else if (name.equals("locations")) {
-          _locations = readObjectArray(reader, name, new M15F(), false);
+          _locations = readObjectArray(reader, "locations", new M15F(), false);
         }
         else {
           reader.skipValue();
@@ -1434,7 +1431,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("breakpointId")) {
-          _breakpointId = readString(reader, name);
+          _breakpointId = readString(reader, "breakpointId");
         }
         else if (name.equals("actualLocation")) {
           _actualLocation = new M15(reader);
@@ -1469,7 +1466,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = new M29(reader);
         }
         else if (name.equals("callFrames")) {
-          _callFrames = readObjectArray(reader, name, new M6F(), true);
+          _callFrames = readObjectArray(reader, "callFrames", new M6F(), true);
         }
         else {
           reader.skipValue();
@@ -1495,9 +1492,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M30(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readBoolean(reader, name);
+
+        if (reader.nextName().equals("result")) {
+          _result = readBoolean(reader, "result");
         }
         else {
           reader.skipValue();
@@ -1522,13 +1519,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("value")) {
-          _value = readString(reader, name);
+          _value = readString(reader, "value");
         }
         else if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, name);
+          _nodeId = readInt(reader, "nodeId");
         }
         else {
           reader.skipValue();
@@ -1562,10 +1559,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, name);
+          _nodeId = readInt(reader, "nodeId");
         }
         else {
           reader.skipValue();
@@ -1594,10 +1591,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, name);
+          _nodeId = readInt(reader, "nodeId");
         }
         else if (name.equals("characterData")) {
-          _characterData = readString(reader, name);
+          _characterData = readString(reader, "characterData");
         }
         else {
           reader.skipValue();
@@ -1626,10 +1623,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, name);
+          _nodeId = readInt(reader, "nodeId");
         }
         else if (name.equals("childNodeCount")) {
-          _childNodeCount = readInt(reader, name);
+          _childNodeCount = readInt(reader, "childNodeCount");
         }
         else {
           reader.skipValue();
@@ -1662,10 +1659,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _node = new M46(reader);
         }
         else if (name.equals("parentNodeId")) {
-          _parentNodeId = readInt(reader, name);
+          _parentNodeId = readInt(reader, "parentNodeId");
         }
         else if (name.equals("previousNodeId")) {
-          _previousNodeId = readInt(reader, name);
+          _previousNodeId = readInt(reader, "previousNodeId");
         }
         else {
           reader.skipValue();
@@ -1699,10 +1696,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, name);
+          _nodeId = readInt(reader, "nodeId");
         }
         else if (name.equals("parentNodeId")) {
-          _parentNodeId = readInt(reader, name);
+          _parentNodeId = readInt(reader, "parentNodeId");
         }
         else {
           reader.skipValue();
@@ -1725,8 +1722,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   public static final class M37 implements org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData {
 
     public M37(JsonReader reader) throws IOException {
-      reader.beginObject();
-      reader.endObject();
+      reader.skipValue();
     }
   }
 
@@ -1745,7 +1741,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("type")) {
-          _type = readString(reader, name);
+          _type = readString(reader, "type");
         }
         else if (name.equals("handler")) {
           _handler = new M124(reader);
@@ -1754,19 +1750,19 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _location = new M15(reader);
         }
         else if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, name);
+          _nodeId = readInt(reader, "nodeId");
         }
         else if (name.equals("useCapture")) {
-          _useCapture = readBoolean(reader, name);
+          _useCapture = readBoolean(reader, "useCapture");
         }
         else if (name.equals("isAttribute")) {
-          _isAttribute = readBoolean(reader, name);
+          _isAttribute = readBoolean(reader, "isAttribute");
         }
         else if (name.equals("handlerBody")) {
-          _handlerBody = readString(reader, name);
+          _handlerBody = readString(reader, "handlerBody");
         }
         else if (name.equals("sourceName")) {
-          _sourceName = readString(reader, name);
+          _sourceName = readString(reader, "sourceName");
         }
         else {
           reader.skipValue();
@@ -1822,8 +1818,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M39(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("attributes")) {
+
+        if (reader.nextName().equals("attributes")) {
           _attributes = nextList(reader);
         }
         else {
@@ -1845,8 +1841,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M40(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("root")) {
+
+        if (reader.nextName().equals("root")) {
           _root = new M46(reader);
         }
         else {
@@ -1868,9 +1864,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M41(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("listeners")) {
-          _listeners = readObjectArray(reader, name, new M38F(), false);
+
+        if (reader.nextName().equals("listeners")) {
+          _listeners = readObjectArray(reader, "listeners", new M38F(), false);
         }
         else {
           reader.skipValue();
@@ -1891,9 +1887,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M42(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("outerHTML")) {
-          _outerHTML = readString(reader, name);
+
+        if (reader.nextName().equals("outerHTML")) {
+          _outerHTML = readString(reader, "outerHTML");
         }
         else {
           reader.skipValue();
@@ -1914,8 +1910,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M43(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("nodeIds")) {
+
+        if (reader.nextName().equals("nodeIds")) {
           _nodeIds = readIntArray(reader);
         }
         else {
@@ -1937,8 +1933,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M44(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("nodeIds")) {
+
+        if (reader.nextName().equals("nodeIds")) {
           _nodeIds = readIntArray(reader);
         }
         else {
@@ -1960,9 +1956,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M45(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, name);
+
+        if (reader.nextName().equals("nodeId")) {
+          _nodeId = readInt(reader, "nodeId");
         }
         else {
           reader.skipValue();
@@ -2004,61 +2000,61 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("value")) {
-          _value = readString(reader, name);
+          _value = readString(reader, "value");
         }
         else if (name.equals("attributes")) {
           _attributes = nextList(reader);
         }
         else if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, name);
+          _nodeId = readInt(reader, "nodeId");
         }
         else if (name.equals("childNodeCount")) {
-          _childNodeCount = readInt(reader, name);
+          _childNodeCount = readInt(reader, "childNodeCount");
         }
         else if (name.equals("nodeType")) {
-          _nodeType = readInt(reader, name);
+          _nodeType = readInt(reader, "nodeType");
         }
         else if (name.equals("nodeName")) {
-          _nodeName = readString(reader, name);
+          _nodeName = readString(reader, "nodeName");
         }
         else if (name.equals("localName")) {
-          _localName = readString(reader, name);
+          _localName = readString(reader, "localName");
         }
         else if (name.equals("nodeValue")) {
-          _nodeValue = readString(reader, name);
+          _nodeValue = readString(reader, "nodeValue");
         }
         else if (name.equals("children")) {
-          _children = readObjectArray(reader, name, new M46F(), true);
+          _children = readObjectArray(reader, "children", new M46F(), true);
         }
         else if (name.equals("documentURL")) {
-          _documentURL = readString(reader, name);
+          _documentURL = readString(reader, "documentURL");
         }
         else if (name.equals("baseURL")) {
-          _baseURL = readString(reader, name);
+          _baseURL = readString(reader, "baseURL");
         }
         else if (name.equals("publicId")) {
-          _publicId = readString(reader, name);
+          _publicId = readString(reader, "publicId");
         }
         else if (name.equals("systemId")) {
-          _systemId = readString(reader, name);
+          _systemId = readString(reader, "systemId");
         }
         else if (name.equals("internalSubset")) {
-          _internalSubset = readString(reader, name);
+          _internalSubset = readString(reader, "internalSubset");
         }
         else if (name.equals("xmlVersion")) {
-          _xmlVersion = readString(reader, name);
+          _xmlVersion = readString(reader, "xmlVersion");
         }
         else if (name.equals("frameId")) {
-          _frameId = readString(reader, name);
+          _frameId = readString(reader, "frameId");
         }
         else if (name.equals("contentDocument")) {
           _contentDocument = new M46(reader);
         }
         else if (name.equals("shadowRoots")) {
-          _shadowRoots = readObjectArray(reader, name, new M46F(), true);
+          _shadowRoots = readObjectArray(reader, "shadowRoots", new M46F(), true);
         }
         else if (name.equals("templateContent")) {
           _templateContent = new M46(reader);
@@ -2180,10 +2176,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("searchId")) {
-          _searchId = readString(reader, name);
+          _searchId = readString(reader, "searchId");
         }
         else if (name.equals("resultCount")) {
-          _resultCount = readInt(reader, name);
+          _resultCount = readInt(reader, "resultCount");
         }
         else {
           reader.skipValue();
@@ -2209,9 +2205,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M48(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, name);
+
+        if (reader.nextName().equals("nodeId")) {
+          _nodeId = readInt(reader, "nodeId");
         }
         else {
           reader.skipValue();
@@ -2232,8 +2228,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M49(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("nodeIds")) {
+
+        if (reader.nextName().equals("nodeIds")) {
           _nodeIds = readIntArray(reader);
         }
         else {
@@ -2255,9 +2251,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M50(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, name);
+
+        if (reader.nextName().equals("nodeId")) {
+          _nodeId = readInt(reader, "nodeId");
         }
         else {
           reader.skipValue();
@@ -2278,9 +2274,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M51(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, name);
+
+        if (reader.nextName().equals("nodeId")) {
+          _nodeId = readInt(reader, "nodeId");
         }
         else {
           reader.skipValue();
@@ -2301,8 +2297,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M52(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("object")) {
+
+        if (reader.nextName().equals("object")) {
           _object = new M124(reader);
         }
         else {
@@ -2327,10 +2323,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("parentId")) {
-          _parentId = readInt(reader, name);
+          _parentId = readInt(reader, "parentId");
         }
         else if (name.equals("nodes")) {
-          _nodes = readObjectArray(reader, name, new M46F(), false);
+          _nodes = readObjectArray(reader, "nodes", new M46F(), false);
         }
         else {
           reader.skipValue();
@@ -2356,9 +2352,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M54(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, name);
+
+        if (reader.nextName().equals("nodeId")) {
+          _nodeId = readInt(reader, "nodeId");
         }
         else {
           reader.skipValue();
@@ -2382,10 +2378,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("hostId")) {
-          _hostId = readInt(reader, name);
+          _hostId = readInt(reader, "hostId");
         }
         else if (name.equals("rootId")) {
-          _rootId = readInt(reader, name);
+          _rootId = readInt(reader, "rootId");
         }
         else {
           reader.skipValue();
@@ -2417,7 +2413,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _root = new M46(reader);
         }
         else if (name.equals("hostId")) {
-          _hostId = readInt(reader, name);
+          _hostId = readInt(reader, "hostId");
         }
         else {
           reader.skipValue();
@@ -2448,16 +2444,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("type")) {
-          _type = readEnum(reader, name, org.chromium.wip.protocol.input.page.ResourceTypeEnum.class);
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.input.page.ResourceTypeEnum.class);
         }
         else if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else if (name.equals("response")) {
           _response = new M72(reader);
         }
         else if (name.equals("bodySize")) {
-          _bodySize = readDouble(reader, name);
+          _bodySize = readDouble(reader, "bodySize");
         }
         else {
           reader.skipValue();
@@ -2493,9 +2489,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M58(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readBoolean(reader, name);
+
+        if (reader.nextName().equals("result")) {
+          _result = readBoolean(reader, "result");
         }
         else {
           reader.skipValue();
@@ -2516,9 +2512,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M59(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readBoolean(reader, name);
+
+        if (reader.nextName().equals("result")) {
+          _result = readBoolean(reader, "result");
         }
         else {
           reader.skipValue();
@@ -2544,16 +2540,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else if (name.equals("dataLength")) {
-          _dataLength = readInt(reader, name);
+          _dataLength = readInt(reader, "dataLength");
         }
         else if (name.equals("encodedDataLength")) {
-          _encodedDataLength = readInt(reader, name);
+          _encodedDataLength = readInt(reader, "encodedDataLength");
         }
         else {
           reader.skipValue();
@@ -2592,10 +2588,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("body")) {
-          _body = readString(reader, name);
+          _body = readString(reader, "body");
         }
         else if (name.equals("base64Encoded")) {
-          _base64Encoded = readBoolean(reader, name);
+          _base64Encoded = readBoolean(reader, "base64Encoded");
         }
         else {
           reader.skipValue();
@@ -2618,8 +2614,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   public static final class M62 implements org.chromium.wip.protocol.input.network.HeadersValue {
 
     public M62(JsonReader reader) throws IOException {
-      reader.beginObject();
-      reader.endObject();
+      reader.skipValue();
     }
   }
 
@@ -2634,16 +2629,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("type")) {
-          _type = readEnum(reader, name, org.chromium.wip.protocol.input.network.InitiatorValue.Type.class);
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.input.network.InitiatorValue.Type.class);
         }
         else if (name.equals("stackTrace")) {
-          _stackTrace = readObjectArray(reader, name, new M0F(), true);
+          _stackTrace = readObjectArray(reader, "stackTrace", new M0F(), true);
         }
         else if (name.equals("lineNumber")) {
-          _lineNumber = readDouble(reader, name);
+          _lineNumber = readDouble(reader, "lineNumber");
         }
         else if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else {
           reader.skipValue();
@@ -2684,16 +2679,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else if (name.equals("errorText")) {
-          _errorText = readString(reader, name);
+          _errorText = readString(reader, "errorText");
         }
         else if (name.equals("canceled")) {
-          _canceled = readBoolean(reader, name);
+          _canceled = readBoolean(reader, "canceled");
         }
         else {
           reader.skipValue();
@@ -2732,10 +2727,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else {
           reader.skipValue();
@@ -2761,9 +2756,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M66(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+
+        if (reader.nextName().equals("requestId")) {
+          _requestId = readString(reader, "requestId");
         }
         else {
           reader.skipValue();
@@ -2792,19 +2787,19 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("documentURL")) {
-          _documentURL = readString(reader, name);
+          _documentURL = readString(reader, "documentURL");
         }
         else if (name.equals("frameId")) {
-          _frameId = readString(reader, name);
+          _frameId = readString(reader, "frameId");
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else if (name.equals("loaderId")) {
-          _loaderId = readString(reader, name);
+          _loaderId = readString(reader, "loaderId");
         }
         else if (name.equals("initiator")) {
           _initiator = new M63(reader);
@@ -2866,16 +2861,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("method")) {
-          _method = readString(reader, name);
+          _method = readString(reader, "method");
         }
         else if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else if (name.equals("headers")) {
           _headers = new M62(reader);
         }
         else if (name.equals("postData")) {
-          _postData = readString(reader, name);
+          _postData = readString(reader, "postData");
         }
         else {
           reader.skipValue();
@@ -2920,19 +2915,19 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("documentURL")) {
-          _documentURL = readString(reader, name);
+          _documentURL = readString(reader, "documentURL");
         }
         else if (name.equals("frameId")) {
-          _frameId = readString(reader, name);
+          _frameId = readString(reader, "frameId");
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else if (name.equals("loaderId")) {
-          _loaderId = readString(reader, name);
+          _loaderId = readString(reader, "loaderId");
         }
         else if (name.equals("initiator")) {
           _initiator = new M63(reader);
@@ -3010,40 +3005,40 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("requestTime")) {
-          _requestTime = readDouble(reader, name);
+          _requestTime = readDouble(reader, "requestTime");
         }
         else if (name.equals("proxyStart")) {
-          _proxyStart = readDouble(reader, name);
+          _proxyStart = readDouble(reader, "proxyStart");
         }
         else if (name.equals("proxyEnd")) {
-          _proxyEnd = readDouble(reader, name);
+          _proxyEnd = readDouble(reader, "proxyEnd");
         }
         else if (name.equals("dnsStart")) {
-          _dnsStart = readDouble(reader, name);
+          _dnsStart = readDouble(reader, "dnsStart");
         }
         else if (name.equals("dnsEnd")) {
-          _dnsEnd = readDouble(reader, name);
+          _dnsEnd = readDouble(reader, "dnsEnd");
         }
         else if (name.equals("connectStart")) {
-          _connectStart = readDouble(reader, name);
+          _connectStart = readDouble(reader, "connectStart");
         }
         else if (name.equals("connectEnd")) {
-          _connectEnd = readDouble(reader, name);
+          _connectEnd = readDouble(reader, "connectEnd");
         }
         else if (name.equals("sslStart")) {
-          _sslStart = readDouble(reader, name);
+          _sslStart = readDouble(reader, "sslStart");
         }
         else if (name.equals("sslEnd")) {
-          _sslEnd = readDouble(reader, name);
+          _sslEnd = readDouble(reader, "sslEnd");
         }
         else if (name.equals("sendStart")) {
-          _sendStart = readDouble(reader, name);
+          _sendStart = readDouble(reader, "sendStart");
         }
         else if (name.equals("sendEnd")) {
-          _sendEnd = readDouble(reader, name);
+          _sendEnd = readDouble(reader, "sendEnd");
         }
         else if (name.equals("receiveHeadersEnd")) {
-          _receiveHeadersEnd = readDouble(reader, name);
+          _receiveHeadersEnd = readDouble(reader, "receiveHeadersEnd");
         }
         else {
           reader.skipValue();
@@ -3126,22 +3121,22 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("type")) {
-          _type = readEnum(reader, name, org.chromium.wip.protocol.input.page.ResourceTypeEnum.class);
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.input.page.ResourceTypeEnum.class);
         }
         else if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("frameId")) {
-          _frameId = readString(reader, name);
+          _frameId = readString(reader, "frameId");
         }
         else if (name.equals("response")) {
           _response = new M72(reader);
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else if (name.equals("loaderId")) {
-          _loaderId = readString(reader, name);
+          _loaderId = readString(reader, "loaderId");
         }
         else {
           reader.skipValue();
@@ -3200,37 +3195,37 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else if (name.equals("headers")) {
           _headers = new M62(reader);
         }
         else if (name.equals("status")) {
-          _status = readDouble(reader, name);
+          _status = readDouble(reader, "status");
         }
         else if (name.equals("statusText")) {
-          _statusText = readString(reader, name);
+          _statusText = readString(reader, "statusText");
         }
         else if (name.equals("headersText")) {
-          _headersText = readString(reader, name);
+          _headersText = readString(reader, "headersText");
         }
         else if (name.equals("mimeType")) {
-          _mimeType = readString(reader, name);
+          _mimeType = readString(reader, "mimeType");
         }
         else if (name.equals("requestHeaders")) {
           _requestHeaders = new M62(reader);
         }
         else if (name.equals("requestHeadersText")) {
-          _requestHeadersText = readString(reader, name);
+          _requestHeadersText = readString(reader, "requestHeadersText");
         }
         else if (name.equals("connectionReused")) {
-          _connectionReused = readBoolean(reader, name);
+          _connectionReused = readBoolean(reader, "connectionReused");
         }
         else if (name.equals("connectionId")) {
-          _connectionId = readDouble(reader, name);
+          _connectionId = readDouble(reader, "connectionId");
         }
         else if (name.equals("fromDiskCache")) {
-          _fromDiskCache = readBoolean(reader, name);
+          _fromDiskCache = readBoolean(reader, "fromDiskCache");
         }
         else if (name.equals("timing")) {
           _timing = new M70(reader);
@@ -3312,10 +3307,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else {
           reader.skipValue();
@@ -3344,10 +3339,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else {
           reader.skipValue();
@@ -3377,13 +3372,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("errorMessage")) {
-          _errorMessage = readString(reader, name);
+          _errorMessage = readString(reader, "errorMessage");
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else {
           reader.skipValue();
@@ -3418,13 +3413,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("response")) {
           _response = new M78(reader);
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else {
           reader.skipValue();
@@ -3459,13 +3454,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("response")) {
           _response = new M78(reader);
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else {
           reader.skipValue();
@@ -3500,13 +3495,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("mask")) {
-          _mask = readBoolean(reader, name);
+          _mask = readBoolean(reader, "mask");
         }
         else if (name.equals("opcode")) {
-          _opcode = readDouble(reader, name);
+          _opcode = readDouble(reader, "opcode");
         }
         else if (name.equals("payloadData")) {
-          _payloadData = readString(reader, name);
+          _payloadData = readString(reader, "payloadData");
         }
         else {
           reader.skipValue();
@@ -3541,13 +3536,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("response")) {
           _response = new M81(reader);
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else {
           reader.skipValue();
@@ -3578,8 +3573,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M80(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("headers")) {
+
+        if (reader.nextName().equals("headers")) {
           _headers = new M62(reader);
         }
         else {
@@ -3608,10 +3603,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _headers = new M62(reader);
         }
         else if (name.equals("status")) {
-          _status = readDouble(reader, name);
+          _status = readDouble(reader, "status");
         }
         else if (name.equals("statusText")) {
-          _statusText = readString(reader, name);
+          _statusText = readString(reader, "statusText");
         }
         else {
           reader.skipValue();
@@ -3646,10 +3641,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("requestId")) {
-          _requestId = readString(reader, name);
+          _requestId = readString(reader, "requestId");
         }
         else if (name.equals("request")) {
           _request = new M80(reader);
@@ -3683,9 +3678,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M83(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("identifier")) {
-          _identifier = readString(reader, name);
+
+        if (reader.nextName().equals("identifier")) {
+          _identifier = readString(reader, "identifier");
         }
         else {
           reader.skipValue();
@@ -3706,9 +3701,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M84(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("value")) {
-          _value = readBoolean(reader, name);
+
+        if (reader.nextName().equals("value")) {
+          _value = readBoolean(reader, "value");
         }
         else {
           reader.skipValue();
@@ -3729,9 +3724,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M85(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readBoolean(reader, name);
+
+        if (reader.nextName().equals("result")) {
+          _result = readBoolean(reader, "result");
         }
         else {
           reader.skipValue();
@@ -3752,9 +3747,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M86(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readBoolean(reader, name);
+
+        if (reader.nextName().equals("result")) {
+          _result = readBoolean(reader, "result");
         }
         else {
           reader.skipValue();
@@ -3775,9 +3770,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M87(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readBoolean(reader, name);
+
+        if (reader.nextName().equals("result")) {
+          _result = readBoolean(reader, "result");
         }
         else {
           reader.skipValue();
@@ -3798,9 +3793,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M88(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("show")) {
-          _show = readBoolean(reader, name);
+
+        if (reader.nextName().equals("show")) {
+          _show = readBoolean(reader, "show");
         }
         else {
           reader.skipValue();
@@ -3821,9 +3816,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M89(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("show")) {
-          _show = readBoolean(reader, name);
+
+        if (reader.nextName().equals("show")) {
+          _show = readBoolean(reader, "show");
         }
         else {
           reader.skipValue();
@@ -3844,9 +3839,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M90(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("data")) {
-          _data = readString(reader, name);
+
+        if (reader.nextName().equals("data")) {
+          _data = readString(reader, "data");
         }
         else {
           reader.skipValue();
@@ -3877,31 +3872,31 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("value")) {
-          _value = readString(reader, name);
+          _value = readString(reader, "value");
         }
         else if (name.equals("size")) {
-          _size = readInt(reader, name);
+          _size = readInt(reader, "size");
         }
         else if (name.equals("domain")) {
-          _domain = readString(reader, name);
+          _domain = readString(reader, "domain");
         }
         else if (name.equals("path")) {
-          _path = readString(reader, name);
+          _path = readString(reader, "path");
         }
         else if (name.equals("expires")) {
-          _expires = readDouble(reader, name);
+          _expires = readDouble(reader, "expires");
         }
         else if (name.equals("httpOnly")) {
-          _httpOnly = readBoolean(reader, name);
+          _httpOnly = readBoolean(reader, "httpOnly");
         }
         else if (name.equals("secure")) {
-          _secure = readBoolean(reader, name);
+          _secure = readBoolean(reader, "secure");
         }
         else if (name.equals("session")) {
-          _session = readBoolean(reader, name);
+          _session = readBoolean(reader, "session");
         }
         else {
           reader.skipValue();
@@ -3962,9 +3957,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M92(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+
+        if (reader.nextName().equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
         }
         else {
           reader.skipValue();
@@ -3985,9 +3980,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M93(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("frameId")) {
-          _frameId = readString(reader, name);
+
+        if (reader.nextName().equals("frameId")) {
+          _frameId = readString(reader, "frameId");
         }
         else {
           reader.skipValue();
@@ -4008,9 +4003,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M94(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("frameId")) {
-          _frameId = readString(reader, name);
+
+        if (reader.nextName().equals("frameId")) {
+          _frameId = readString(reader, "frameId");
         }
         else {
           reader.skipValue();
@@ -4031,8 +4026,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M95(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("frame")) {
+
+        if (reader.nextName().equals("frame")) {
           _frame = new M101(reader);
         }
         else {
@@ -4061,10 +4056,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _frame = new M101(reader);
         }
         else if (name.equals("childFrames")) {
-          _childFrames = readObjectArray(reader, name, new M96F(), true);
+          _childFrames = readObjectArray(reader, "childFrames", new M96F(), true);
         }
         else if (name.equals("resources")) {
-          _resources = readObjectArray(reader, name, new M97F(), false);
+          _resources = readObjectArray(reader, "resources", new M97F(), false);
         }
         else {
           reader.skipValue();
@@ -4098,10 +4093,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("frameId")) {
-          _frameId = readString(reader, name);
+          _frameId = readString(reader, "frameId");
         }
         else if (name.equals("delay")) {
-          _delay = readDouble(reader, name);
+          _delay = readDouble(reader, "delay");
         }
         else {
           reader.skipValue();
@@ -4127,9 +4122,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M99(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("frameId")) {
-          _frameId = readString(reader, name);
+
+        if (reader.nextName().equals("frameId")) {
+          _frameId = readString(reader, "frameId");
         }
         else {
           reader.skipValue();
@@ -4150,9 +4145,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M100(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("frameId")) {
-          _frameId = readString(reader, name);
+
+        if (reader.nextName().equals("frameId")) {
+          _frameId = readString(reader, "frameId");
         }
         else {
           reader.skipValue();
@@ -4181,25 +4176,25 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("id")) {
-          _id = readString(reader, name);
+          _id = readString(reader, "id");
         }
         else if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else if (name.equals("parentId")) {
-          _parentId = readString(reader, name);
+          _parentId = readString(reader, "parentId");
         }
         else if (name.equals("loaderId")) {
-          _loaderId = readString(reader, name);
+          _loaderId = readString(reader, "loaderId");
         }
         else if (name.equals("mimeType")) {
-          _mimeType = readString(reader, name);
+          _mimeType = readString(reader, "mimeType");
         }
         else if (name.equals("securityOrigin")) {
-          _securityOrigin = readString(reader, name);
+          _securityOrigin = readString(reader, "securityOrigin");
         }
         else {
           reader.skipValue();
@@ -4250,9 +4245,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M102(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readBoolean(reader, name);
+
+        if (reader.nextName().equals("result")) {
+          _result = readBoolean(reader, "result");
         }
         else {
           reader.skipValue();
@@ -4276,10 +4271,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("cookies")) {
-          _cookies = readObjectArray(reader, name, new M91F(), false);
+          _cookies = readObjectArray(reader, "cookies", new M91F(), false);
         }
         else if (name.equals("cookiesString")) {
-          _cookiesString = readString(reader, name);
+          _cookiesString = readString(reader, "cookiesString");
         }
         else {
           reader.skipValue();
@@ -4308,10 +4303,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("content")) {
-          _content = readString(reader, name);
+          _content = readString(reader, "content");
         }
         else if (name.equals("base64Encoded")) {
-          _base64Encoded = readBoolean(reader, name);
+          _base64Encoded = readBoolean(reader, "base64Encoded");
         }
         else {
           reader.skipValue();
@@ -4337,8 +4332,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M105(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("frameTree")) {
+
+        if (reader.nextName().equals("frameTree")) {
           _frameTree = new M96(reader);
         }
         else {
@@ -4360,9 +4355,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M106(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readEnum(reader, name, org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData.Result.class);
+
+        if (reader.nextName().equals("result")) {
+          _result = readEnum(reader, "result", org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData.Result.class);
         }
         else {
           reader.skipValue();
@@ -4380,8 +4375,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   public static final class M107 implements org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData {
 
     public M107(JsonReader reader) throws IOException {
-      reader.beginObject();
-      reader.endObject();
+      reader.skipValue();
     }
   }
 
@@ -4391,9 +4385,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M108(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("message")) {
-          _message = readString(reader, name);
+
+        if (reader.nextName().equals("message")) {
+          _message = readString(reader, "message");
         }
         else {
           reader.skipValue();
@@ -4414,9 +4408,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M109(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, name);
+
+        if (reader.nextName().equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
         }
         else {
           reader.skipValue();
@@ -4437,9 +4431,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M110(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("isEnabled")) {
-          _isEnabled = readBoolean(reader, name);
+
+        if (reader.nextName().equals("isEnabled")) {
+          _isEnabled = readBoolean(reader, "isEnabled");
         }
         else {
           reader.skipValue();
@@ -4460,9 +4454,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M111(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readObjectArray(reader, name, new M113F(), false);
+
+        if (reader.nextName().equals("result")) {
+          _result = readObjectArray(reader, "result", new M113F(), false);
         }
         else {
           reader.skipValue();
@@ -4483,9 +4477,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M112(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readObjectArray(reader, name, new M114F(), false);
+
+        if (reader.nextName().equals("result")) {
+          _result = readObjectArray(reader, "result", new M114F(), false);
         }
         else {
           reader.skipValue();
@@ -4509,10 +4503,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("lineNumber")) {
-          _lineNumber = readDouble(reader, name);
+          _lineNumber = readDouble(reader, "lineNumber");
         }
         else if (name.equals("lineContent")) {
-          _lineContent = readString(reader, name);
+          _lineContent = readString(reader, "lineContent");
         }
         else {
           reader.skipValue();
@@ -4542,13 +4536,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else if (name.equals("frameId")) {
-          _frameId = readString(reader, name);
+          _frameId = readString(reader, "frameId");
         }
         else if (name.equals("matchesCount")) {
-          _matchesCount = readDouble(reader, name);
+          _matchesCount = readDouble(reader, "matchesCount");
         }
         else {
           reader.skipValue();
@@ -4585,7 +4579,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = new M124(reader);
         }
         else if (name.equals("wasThrown")) {
-          _wasThrown = readBoolean(reader, name);
+          _wasThrown = readBoolean(reader, "wasThrown");
         }
         else {
           reader.skipValue();
@@ -4617,7 +4611,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _result = new M124(reader);
         }
         else if (name.equals("wasThrown")) {
-          _wasThrown = readBoolean(reader, name);
+          _wasThrown = readBoolean(reader, "wasThrown");
         }
         else {
           reader.skipValue();
@@ -4643,8 +4637,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M117(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("context")) {
+
+        if (reader.nextName().equals("context")) {
           _context = new M118(reader);
         }
         else {
@@ -4671,16 +4665,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("id")) {
-          _id = readInt(reader, name);
+          _id = readInt(reader, "id");
         }
         else if (name.equals("frameId")) {
-          _frameId = readString(reader, name);
+          _frameId = readString(reader, "frameId");
         }
         else if (name.equals("isPageContext")) {
-          _isPageContext = readBoolean(reader, name);
+          _isPageContext = readBoolean(reader, "isPageContext");
         }
         else {
           reader.skipValue();
@@ -4719,10 +4713,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("result")) {
-          _result = readObjectArray(reader, name, new M122F(), false);
+          _result = readObjectArray(reader, "result", new M122F(), false);
         }
         else if (name.equals("internalProperties")) {
-          _internalProperties = readObjectArray(reader, name, new M120F(), true);
+          _internalProperties = readObjectArray(reader, "internalProperties", new M120F(), true);
         }
         else {
           reader.skipValue();
@@ -4751,7 +4745,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("value")) {
           _value = new M124(reader);
@@ -4784,13 +4778,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("overflow")) {
-          _overflow = readBoolean(reader, name);
+          _overflow = readBoolean(reader, "overflow");
         }
         else if (name.equals("properties")) {
-          _properties = readObjectArray(reader, name, new M123F(), false);
+          _properties = readObjectArray(reader, "properties", new M123F(), false);
         }
         else if (name.equals("lossless")) {
-          _lossless = readBoolean(reader, name);
+          _lossless = readBoolean(reader, "lossless");
         }
         else {
           reader.skipValue();
@@ -4831,7 +4825,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("get")) {
           _get = new M124(reader);
@@ -4843,19 +4837,19 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _set = new M124(reader);
         }
         else if (name.equals("wasThrown")) {
-          _wasThrown = readBoolean(reader, name);
+          _wasThrown = readBoolean(reader, "wasThrown");
         }
         else if (name.equals("writable")) {
-          _writable = readBoolean(reader, name);
+          _writable = readBoolean(reader, "writable");
         }
         else if (name.equals("configurable")) {
-          _configurable = readBoolean(reader, name);
+          _configurable = readBoolean(reader, "configurable");
         }
         else if (name.equals("enumerable")) {
-          _enumerable = readBoolean(reader, name);
+          _enumerable = readBoolean(reader, "enumerable");
         }
         else if (name.equals("isOwn")) {
-          _isOwn = readBoolean(reader, name);
+          _isOwn = readBoolean(reader, "isOwn");
         }
         else {
           reader.skipValue();
@@ -4922,19 +4916,19 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("type")) {
-          _type = readEnum(reader, name, org.chromium.wip.protocol.input.runtime.PropertyPreviewValue.Type.class);
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.input.runtime.PropertyPreviewValue.Type.class);
         }
         else if (name.equals("value")) {
-          _value = readString(reader, name);
+          _value = readString(reader, "value");
         }
         else if (name.equals("valuePreview")) {
           _valuePreview = new M121(reader);
         }
         else if (name.equals("subtype")) {
-          _subtype = readEnum(reader, name, org.chromium.wip.protocol.input.runtime.PropertyPreviewValue.Subtype.class);
+          _subtype = readEnum(reader, "subtype", org.chromium.wip.protocol.input.runtime.PropertyPreviewValue.Subtype.class);
         }
         else {
           reader.skipValue();
@@ -4983,22 +4977,22 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("type")) {
-          _type = readEnum(reader, name, org.chromium.wip.protocol.input.runtime.RemoteObjectValue.Type.class);
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.input.runtime.RemoteObjectValue.Type.class);
         }
         else if (name.equals("value")) {
           _value = reader;
         }
         else if (name.equals("className")) {
-          _className = readString(reader, name);
+          _className = readString(reader, "className");
         }
         else if (name.equals("subtype")) {
-          _subtype = readEnum(reader, name, org.chromium.wip.protocol.input.runtime.RemoteObjectValue.Subtype.class);
+          _subtype = readEnum(reader, "subtype", org.chromium.wip.protocol.input.runtime.RemoteObjectValue.Subtype.class);
         }
         else if (name.equals("description")) {
-          _description = readString(reader, name);
+          _description = readString(reader, "description");
         }
         else if (name.equals("objectId")) {
-          _objectId = readString(reader, name);
+          _objectId = readString(reader, "objectId");
         }
         else if (name.equals("preview")) {
           _preview = new M121(reader);
@@ -5052,9 +5046,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M125(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readBoolean(reader, name);
+
+        if (reader.nextName().equals("result")) {
+          _result = readBoolean(reader, "result");
         }
         else {
           reader.skipValue();
@@ -5075,8 +5069,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M126(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("record")) {
+
+        if (reader.nextName().equals("record")) {
           _record = new M128(reader);
         }
         else {
@@ -5098,9 +5092,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M127(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
-          _result = readBoolean(reader, name);
+
+        if (reader.nextName().equals("result")) {
+          _result = readBoolean(reader, "result");
         }
         else {
           reader.skipValue();
@@ -5126,16 +5120,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("type")) {
-          _type = readString(reader, name);
+          _type = readString(reader, "type");
         }
         else if (name.equals("thread")) {
-          _thread = readString(reader, name);
+          _thread = readString(reader, "thread");
         }
         else if (name.equals("data")) {
           _data = new M129(reader);
         }
         else if (name.equals("children")) {
-          _children = readObjectArray(reader, name, new M128F(), true);
+          _children = readObjectArray(reader, "children", new M128F(), true);
         }
         else {
           reader.skipValue();
@@ -5216,19 +5210,19 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("type")) {
-          _type = readEnum(reader, name, org.chromium.wip.protocol.input.page.ResourceTypeEnum.class);
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.input.page.ResourceTypeEnum.class);
         }
         else if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else if (name.equals("canceled")) {
-          _canceled = readBoolean(reader, name);
+          _canceled = readBoolean(reader, "canceled");
         }
         else if (name.equals("mimeType")) {
-          _mimeType = readString(reader, name);
+          _mimeType = readString(reader, "mimeType");
         }
         else if (name.equals("failed")) {
-          _failed = readBoolean(reader, name);
+          _failed = readBoolean(reader, "failed");
         }
         else {
           reader.skipValue();
@@ -5283,18 +5277,19 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     private long _id;
 
     public M130(JsonReader reader) throws IOException {
+      inputReader = resetReader(reader);
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("id")) {
-          _id = readLong(reader, name);
+
+        if (reader.nextName().equals("id")) {
+          _id = readLong(reader, "id");
           break;
         }
         else {
           reader.skipValue();
         }
       }
-      inputReader = resetReader(reader);
+      reader.endObject();
     }
 
     @Override
@@ -5389,10 +5384,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           _data = nextList(reader);
         }
         else if (name.equals("message")) {
-          _message = readString(reader, name);
+          _message = readString(reader, "message");
         }
         else if (name.equals("code")) {
-          _code = readLong(reader, name);
+          _code = readLong(reader, "code");
         }
         else {
           reader.skipValue();
@@ -5423,8 +5418,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public M134(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("result")) {
+
+        if (reader.nextName().equals("result")) {
           _result = new M131(reader);
         }
         else {
@@ -5454,7 +5449,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("method")) {
-          _method = readString(reader, name);
+          _method = readString(reader, "method");
         }
         else if (name.equals("params")) {
           _params = new M136(reader);
@@ -5495,8 +5490,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     private java.util.List<org.jetbrains.wip.protocol.WipTabList.TabDescription> lazy_0;
 
     public M137(JsonReader reader) throws IOException {
-      reader.beginObject();
       inputReader = resetReader(reader);
+      reader.skipValue();
     }
 
     @Override
@@ -5527,22 +5522,22 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("url")) {
-          _url = readString(reader, name);
+          _url = readString(reader, "url");
         }
         else if (name.equals("faviconUrl")) {
-          _faviconUrl = readString(reader, name);
+          _faviconUrl = readString(reader, "faviconUrl");
         }
         else if (name.equals("title")) {
-          _title = readString(reader, name);
+          _title = readString(reader, "title");
         }
         else if (name.equals("thumbnailUrl")) {
-          _thumbnailUrl = readString(reader, name);
+          _thumbnailUrl = readString(reader, "thumbnailUrl");
         }
         else if (name.equals("devtoolsFrontendUrl")) {
-          _devtoolsFrontendUrl = readString(reader, name);
+          _devtoolsFrontendUrl = readString(reader, "devtoolsFrontendUrl");
         }
         else if (name.equals("webSocketDebuggerUrl")) {
-          _webSocketDebuggerUrl = readString(reader, name);
+          _webSocketDebuggerUrl = readString(reader, "webSocketDebuggerUrl");
         }
         else {
           reader.skipValue();
@@ -5582,10 +5577,87 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
+  static final class M124F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.RemoteObjectValue> {
+    @Override
+    public org.chromium.wip.protocol.input.runtime.RemoteObjectValue read(JsonReader reader) throws IOException {
+      return new M124(reader);
+    }
+  }
+
+  static final class M123F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.PropertyPreviewValue> {
+    @Override
+    public org.chromium.wip.protocol.input.runtime.PropertyPreviewValue read(JsonReader reader) throws IOException {
+      return new M123(reader);
+    }
+  }
+
+  static final class M138F extends ObjectFactory<org.jetbrains.wip.protocol.WipTabList.TabDescription> {
+    @Override
+    public org.jetbrains.wip.protocol.WipTabList.TabDescription read(JsonReader reader) throws IOException {
+      return new M138(reader);
+    }
+  }
+
+  static final class M114F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchResultValue> {
+    @Override
+    public org.chromium.wip.protocol.input.page.SearchResultValue read(JsonReader reader) throws IOException {
+      return new M114(reader);
+    }
+  }
+
+  static final class M0F extends ObjectFactory<org.chromium.wip.protocol.input.console.CallFrameValue> {
+    @Override
+    public org.chromium.wip.protocol.input.console.CallFrameValue read(JsonReader reader) throws IOException {
+      return new M0(reader);
+    }
+  }
+
   static final class M6F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.CallFrameValue> {
     @Override
     public org.chromium.wip.protocol.input.debugger.CallFrameValue read(JsonReader reader) throws IOException {
       return new M6(reader);
+    }
+  }
+
+  static final class M46F extends ObjectFactory<org.chromium.wip.protocol.input.dom.NodeValue> {
+    @Override
+    public org.chromium.wip.protocol.input.dom.NodeValue read(JsonReader reader) throws IOException {
+      return new M46(reader);
+    }
+  }
+
+  static final class M128F extends ObjectFactory<org.chromium.wip.protocol.input.timeline.TimelineEventValue> {
+    @Override
+    public org.chromium.wip.protocol.input.timeline.TimelineEventValue read(JsonReader reader) throws IOException {
+      return new M128(reader);
+    }
+  }
+
+  static final class M15F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.LocationValue> {
+    @Override
+    public org.chromium.wip.protocol.input.debugger.LocationValue read(JsonReader reader) throws IOException {
+      return new M15(reader);
+    }
+  }
+
+  static final class M120F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue> {
+    @Override
+    public org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue read(JsonReader reader) throws IOException {
+      return new M120(reader);
+    }
+  }
+
+  static final class M96F extends ObjectFactory<org.chromium.wip.protocol.input.page.FrameResourceTreeValue> {
+    @Override
+    public org.chromium.wip.protocol.input.page.FrameResourceTreeValue read(JsonReader reader) throws IOException {
+      return new M96(reader);
+    }
+  }
+
+  static final class M22F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.ScopeValue> {
+    @Override
+    public org.chromium.wip.protocol.input.debugger.ScopeValue read(JsonReader reader) throws IOException {
+      return new M22(reader);
     }
   }
 
@@ -5603,62 +5675,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M0F extends ObjectFactory<org.chromium.wip.protocol.input.console.CallFrameValue> {
-    @Override
-    public org.chromium.wip.protocol.input.console.CallFrameValue read(JsonReader reader) throws IOException {
-      return new M0(reader);
-    }
-  }
-
-  static final class M46F extends ObjectFactory<org.chromium.wip.protocol.input.dom.NodeValue> {
-    @Override
-    public org.chromium.wip.protocol.input.dom.NodeValue read(JsonReader reader) throws IOException {
-      return new M46(reader);
-    }
-  }
-
-  static final class M96F extends ObjectFactory<org.chromium.wip.protocol.input.page.FrameResourceTreeValue> {
-    @Override
-    public org.chromium.wip.protocol.input.page.FrameResourceTreeValue read(JsonReader reader) throws IOException {
-      return new M96(reader);
-    }
-  }
-
-  static final class M120F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue> {
-    @Override
-    public org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue read(JsonReader reader) throws IOException {
-      return new M120(reader);
-    }
-  }
-
-  static final class M123F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.PropertyPreviewValue> {
-    @Override
-    public org.chromium.wip.protocol.input.runtime.PropertyPreviewValue read(JsonReader reader) throws IOException {
-      return new M123(reader);
-    }
-  }
-
-  static final class M22F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.ScopeValue> {
-    @Override
-    public org.chromium.wip.protocol.input.debugger.ScopeValue read(JsonReader reader) throws IOException {
-      return new M22(reader);
-    }
-  }
-
-  static final class M113F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchMatchValue> {
-    @Override
-    public org.chromium.wip.protocol.input.page.SearchMatchValue read(JsonReader reader) throws IOException {
-      return new M113(reader);
-    }
-  }
-
-  static final class M128F extends ObjectFactory<org.chromium.wip.protocol.input.timeline.TimelineEventValue> {
-    @Override
-    public org.chromium.wip.protocol.input.timeline.TimelineEventValue read(JsonReader reader) throws IOException {
-      return new M128(reader);
-    }
-  }
-
   static final class M91F extends ObjectFactory<org.chromium.wip.protocol.input.page.CookieValue> {
     @Override
     public org.chromium.wip.protocol.input.page.CookieValue read(JsonReader reader) throws IOException {
@@ -5673,31 +5689,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M138F extends ObjectFactory<org.jetbrains.wip.protocol.WipTabList.TabDescription> {
+  static final class M113F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchMatchValue> {
     @Override
-    public org.jetbrains.wip.protocol.WipTabList.TabDescription read(JsonReader reader) throws IOException {
-      return new M138(reader);
-    }
-  }
-
-  static final class M15F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.LocationValue> {
-    @Override
-    public org.chromium.wip.protocol.input.debugger.LocationValue read(JsonReader reader) throws IOException {
-      return new M15(reader);
-    }
-  }
-
-  static final class M124F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.RemoteObjectValue> {
-    @Override
-    public org.chromium.wip.protocol.input.runtime.RemoteObjectValue read(JsonReader reader) throws IOException {
-      return new M124(reader);
-    }
-  }
-
-  static final class M114F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchResultValue> {
-    @Override
-    public org.chromium.wip.protocol.input.page.SearchResultValue read(JsonReader reader) throws IOException {
-      return new M114(reader);
+    public org.chromium.wip.protocol.input.page.SearchMatchValue read(JsonReader reader) throws IOException {
+      return new M113(reader);
     }
   }
 

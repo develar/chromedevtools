@@ -1,11 +1,12 @@
 // This is a generated source.
 package org.chromium.v8.liveEditProtocol;
 
-import org.jetbrains.jsonProtocol.*;
+import com.google.gson.stream.JsonReader;
+import org.jetbrains.jsonProtocol.ObjectFactory;
+
+import java.io.IOException;
 
 import static org.jetbrains.jsonProtocol.JsonReaders.*;
-import com.google.gson.stream.JsonReader;
-import java.io.IOException;
 
 public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEditProtocol.LiveEditProtocolReader {
   @Override
@@ -31,13 +32,13 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
           _textual_diff = new M4(reader);
         }
         else if (name.equals("created_script_name")) {
-          _created_script_name = readString(reader, name);
+          _created_script_name = readString(reader, "created_script_name");
         }
         else if (name.equals("stack_modified")) {
-          _stack_modified = readBoolean(reader, name);
+          _stack_modified = readBoolean(reader, "stack_modified");
         }
         else if (name.equals("updated")) {
-          _updated = readBoolean(reader, name);
+          _updated = readBoolean(reader, "updated");
         }
         else {
           reader.skipValue();
@@ -82,13 +83,13 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("positions")) {
           _positions = new M3(reader);
         }
         else if (name.equals("children")) {
-          _children = readObjectArray(reader, name, new M1F(), false);
+          _children = readObjectArray(reader, "children", new M1F(), false);
         }
         else {
           reader.skipValue();
@@ -122,10 +123,10 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("start_position")) {
-          _start_position = readLong(reader, name);
+          _start_position = readLong(reader, "start_position");
         }
         else if (name.equals("end_position")) {
-          _end_position = readLong(reader, name);
+          _end_position = readLong(reader, "end_position");
         }
         else {
           reader.skipValue();
@@ -159,25 +160,25 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("positions")) {
           _positions = new M3(reader);
         }
         else if (name.equals("children")) {
-          _children = readObjectArray(reader, name, new M2F(), false);
+          _children = readObjectArray(reader, "children", new M2F(), false);
         }
         else if (name.equals("status")) {
-          _status = readString(reader, name);
+          _status = readString(reader, "status");
         }
         else if (name.equals("new_positions")) {
           _new_positions = new M3(reader);
         }
         else if (name.equals("new_children")) {
-          _new_children = readObjectArray(reader, name, new M1F(), true);
+          _new_children = readObjectArray(reader, "new_children", new M1F(), true);
         }
         else if (name.equals("status_explanation")) {
-          _status_explanation = readString(reader, name);
+          _status_explanation = readString(reader, "status_explanation");
         }
         else {
           reader.skipValue();
@@ -228,8 +229,8 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     public M4(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("chunks")) {
+
+        if (reader.nextName().equals("chunks")) {
           _chunks = readIntArray(reader);
         }
         else {

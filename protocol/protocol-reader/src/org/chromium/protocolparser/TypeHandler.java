@@ -152,7 +152,7 @@ class TypeHandler<T> {
       out.newLine();
     }
 
-    writeBaseMethods(classScope, out);
+    writeBaseMethods(out);
     subtypeAspect.writeGetSuperMethodJava(out);
     out.indentOut().append('}');
   }
@@ -161,7 +161,7 @@ class TypeHandler<T> {
    * Generates Java implementation of standard methods of JSON type class (if needed):
    * {@link org.jetbrains.jsonProtocol.JsonObjectBased#getDeferredReader()}
    */
-  private void writeBaseMethods(ClassScope scope, TextOutput out) {
+  private void writeBaseMethods(TextOutput out) {
     Class<?> typeClass = getTypeClass();
     Method method;
     try {
@@ -170,7 +170,7 @@ class TypeHandler<T> {
     catch (SecurityException e) {
       throw new RuntimeException(e);
     }
-    catch (NoSuchMethodException e) {
+    catch (NoSuchMethodException ignored) {
       // Method not found, skip.
       return;
     }
@@ -191,28 +191,22 @@ class TypeHandler<T> {
     subtypeAspect.writeSuperConstructorInitialization(out);
 
     if (JsonObjectBased.class.isAssignableFrom(typeClass)) {
-      out.append(Util.PENDING_INPUT_READER_NAME).append(" = ").append("createValueReader(").append(Util.READER_NAME).append(");");
-      if (fieldLoaders.isEmpty()) {
-        // just skip value
-        out.newLine().append(Util.READER_NAME).append(".skipValue()").semi();
-        out.closeBlock();
-        return;
-      }
+      out.append(Util.PENDING_INPUT_READER_NAME).append(" = ").append("createValueReader(").append(Util.READER_NAME).append(");").newLine();
+    }
+    else if (lazyRead) {
+      out.append(Util.PENDING_INPUT_READER_NAME).append(" = ").append("resetReader(").append(Util.READER_NAME).append(");").newLine();
     }
 
-    out.append(Util.READER_NAME).append(".beginObject();");
-    if (!fieldLoaders.isEmpty()) {
+    if (fieldLoaders.isEmpty()) {
+      out.append(Util.READER_NAME).append(".skipValue()").semi();
+      assert algebraicCasesData == null || !(algebraicCasesData instanceof AutoAlgebraicCasesData);
+    }
+    else {
+      out.append(Util.READER_NAME).append(".beginObject();");
       writeReadFields(out, methodScope);
-    }
-
-    if (lazyRead) {
-      out.newLine().append(Util.PENDING_INPUT_READER_NAME).append(" = ").append("resetReader(").append(Util.READER_NAME).append(");");
-    }
-
-    if (algebraicCasesData != null) {
-      algebraicCasesData.writeConstructorCodeJava(methodScope, out);
-    }
-    if (!lazyRead) {
+      if (algebraicCasesData != null) {
+        algebraicCasesData.writeConstructorCodeJava(methodScope, out);
+      }
       out.newLine().append(Util.READER_NAME).append(".endObject();");
     }
     out.closeBlock();
@@ -226,15 +220,18 @@ class TypeHandler<T> {
     }
 
     out.newLine().append("while (reader.hasNext())").openBlock();
-    out.append("String name = reader.nextName();");
+    if (fieldLoaders.size() > 1) {
+      out.append("String name = reader.nextName();");
+    }
+
     boolean isFirst = true;
     String operator = "if";
     for (FieldLoader fieldLoader : fieldLoaders) {
       String fieldName = fieldLoader.getFieldName();
-      out.newLine().append(operator).append(" (name.equals(\"").append(fieldName).append("\"))").openBlock();
+      out.newLine().append(operator).append(" (").append(fieldLoaders.size() == 1 ? "reader.nextName()" : "name").append(".equals(\"").append(fieldName).append("\"))").openBlock();
       {
         assignField(out, fieldName);
-        fieldLoader.valueParser.writeReadCode(methodScope, false, out);
+        fieldLoader.valueParser.writeReadCode(methodScope, false, fieldName, out);
         out.semi();
         if (stopIfAllFieldsWereRead && !isTracedStop) {
           out.newLine().append("break").semi();
@@ -254,8 +251,8 @@ class TypeHandler<T> {
     }
     out.closeBlock();
     if (isTracedStop) {
-      out.newLine().newLine().append("if (i == ").append(fieldLoaders.size() - 1).append(")").openBlock().append(
-        "break").semi().closeBlock();
+      out.newLine().newLine().append("if (i == ").append(fieldLoaders.size() - 1).append(")").openBlock();
+      out.append("break").semi().closeBlock();
       out.newLine().append("else").openBlock().append("i++").semi().closeBlock();
     }
 

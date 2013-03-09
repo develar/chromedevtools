@@ -44,7 +44,7 @@ class LazyCachedMethodHandler extends MethodHandler {
       {
         fieldBinding.writeGetExpression(out);
         out.append(" = ");
-        parser.writeReadCode(scope, true, scope.getOutput());
+        parser.writeReadCode(scope, true, null, scope.getOutput());
         out.semi();
       }
       if (parser.isThrowsIOException()) {

@@ -11,13 +11,16 @@ public class MapParser extends ValueParser {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean deferredReading, TextOutput out) {
-    beginReadCall("Map", deferredReading, out);
+  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, String fieldName, TextOutput out) {
+    beginReadCall("Map", subtyping, out, fieldName);
     out.append(')');
   }
 
   @Override
-  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out, boolean nullable) {
+  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope,
+                          boolean subtyping,
+                          boolean nullable,
+                          String fieldName, TextOutput out) {
     throw new UnsupportedOperationException();
   }
 }

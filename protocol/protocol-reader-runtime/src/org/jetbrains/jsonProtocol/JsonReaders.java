@@ -8,9 +8,11 @@ import gnu.trove.TIntArrayList;
 import gnu.trove.TLongArrayList;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public final class JsonReaders {
   private static final long[] EMPTY_LONG_ARRAY = {};
@@ -266,7 +268,7 @@ public final class JsonReaders {
     return result;
   }
 
-  public static Reader createValueReader(JsonReader reader) {
+  public static StringReader createValueReader(JsonReader reader) {
     try {
       int start = JSON_READER_POSITION_FIELD.getInt(reader);
       return ((StringReader)JSON_READER_IN_FIELD.get(reader)).subReader(start);
@@ -281,14 +283,14 @@ public final class JsonReaders {
   }
 
   public static JsonReader resetReader(JsonReader reader) {
-    StringReader stringReader;
-    try {
-      stringReader = (StringReader)JSON_READER_IN_FIELD.get(reader);
-    }
-    catch (IllegalAccessException e) {
-      throw new RuntimeException(e);
-    }
-    stringReader.reset();
+    StringReader stringReader = createValueReader(reader);
+    //try {
+    //  stringReader = (StringReader)JSON_READER_IN_FIELD.get(reader);
+    //}
+    //catch (IllegalAccessException e) {
+    //  throw new RuntimeException(e);
+    //}
+    //stringReader.reset();
     // todo don't create new instance of JsonReader, reuse exising
     return new JsonReader(stringReader);
   }

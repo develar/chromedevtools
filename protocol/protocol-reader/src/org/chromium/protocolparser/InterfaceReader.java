@@ -40,12 +40,15 @@ class InterfaceReader {
     }
 
     @Override
-    void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean deferredReading, TextOutput out) {
+    void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, String fieldName, TextOutput out) {
       out.append("null");
     }
 
     @Override
-    void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out, boolean nullable) {
+    void writeArrayReadCode(JavaCodeGenerator.MethodScope scope,
+                            boolean subtyping,
+                            boolean nullable,
+                            String fieldName, TextOutput out) {
       throw new UnsupportedOperationException();
     }
   };
@@ -255,8 +258,6 @@ class InterfaceReader {
         Class<RetentionPolicy> enumTypeClass = (Class<RetentionPolicy>)typeClass;
         return EnumParser.create(enumTypeClass, declaredNullable);
       }
-      else if (typeToTypeHandler.containsKey(typeClass)) {
-      }
       RefToType<?> ref = getTypeRef(typeClass);
       if (ref != null) {
         return createJsonParser(ref, declaredNullable, isSubtyping);
@@ -350,7 +351,7 @@ class InterfaceReader {
     private final List<DynamicParserImpl.LazyHandler> onDemandHandlers = new ArrayList<DynamicParserImpl.LazyHandler>();
     private final Map<Method, MethodHandler> methodHandlerMap = new HashMap<Method, MethodHandler>();
     private final DynamicParserImpl.FieldMap fieldMap = new DynamicParserImpl.FieldMap();
-    private ManualAlgebraicCasesData manualAlgCasesData;
+    private AlgebraicCasesData manualAlgCasesData;
     private AutoAlgebraicCasesData autoAlgCasesData;
     private List<VolatileFieldBinding> volatileFields = new ArrayList<VolatileFieldBinding>(2);
     private boolean lazyRead;
@@ -386,13 +387,12 @@ class InterfaceReader {
       JsonSubtypeCasting jsonSubtypeCaseAnnotation = m.getAnnotation(JsonSubtypeCasting.class);
       if (jsonSubtypeCaseAnnotation != null) {
         if (overrideFieldAnnotation != null) {
-          throw new JsonProtocolModelParseException(
-            "Override annotation only works with field getter methods");
+          throw new JsonProtocolModelParseException("Override annotation only works with field getter methods");
         }
 
         if (useManualAlgCasesData) {
           if (manualAlgCasesData == null) {
-            manualAlgCasesData = new ManualAlgebraicCasesData();
+            manualAlgCasesData = new AlgebraicCasesData();
           }
           methodHandler = processManualSubtypeMethod(m, jsonSubtypeCaseAnnotation);
           lazyRead = true;
@@ -422,10 +422,6 @@ class InterfaceReader {
       else {
         fieldMap.localNames.add(fieldName);
       }
-      return createEagerLoadGetterHandler(fieldName, fieldTypeParser);
-    }
-
-    private MethodHandler createEagerLoadGetterHandler(String fieldName, ValueParser fieldTypeParser) {
       if (fieldTypeParser != VOID_PARSER) {
         fieldLoaders.add(new FieldLoader(fieldName, fieldTypeParser));
       }
@@ -461,7 +457,7 @@ class InterfaceReader {
     private MethodHandler processManualSubtypeMethod(final Method m, JsonSubtypeCasting jsonSubtypeCaseAnn) throws JsonProtocolModelParseException {
       ValueParser fieldTypeParser = getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret(), null);
       VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
-      final LazyCachedMethodHandler handler = new LazyCachedMethodHandler(fieldTypeParser, fieldInfo);
+      LazyCachedMethodHandler handler = new LazyCachedMethodHandler(fieldTypeParser, fieldInfo);
       ObjectValueParser<?> parserAsObjectValueParser = fieldTypeParser.asJsonTypeParser();
       if (parserAsObjectValueParser != null && parserAsObjectValueParser.isSubtyping()) {
         SubtypeCaster subtypeCaster = new SubtypeCaster(parserAsObjectValueParser.getType()) {
@@ -548,16 +544,6 @@ class InterfaceReader {
       out.openBlock();
       out.append("return ").append(AutoAlgebraicCasesData.getAutoAlgFieldNameJava(code)).semi();
       out.closeBlock();
-    }
-  }
-
-  private static class ManualAlgebraicCasesData extends AlgebraicCasesData {
-    @Override
-    void writeConstructorCodeJava(JavaCodeGenerator.MethodScope methodScope, TextOutput out) {
-    }
-
-    @Override
-    void writeFields(ClassScope classScope) {
     }
   }
 }

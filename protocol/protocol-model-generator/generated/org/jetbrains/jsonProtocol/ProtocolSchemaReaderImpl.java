@@ -1,11 +1,11 @@
 // This is a generated source.
 package org.jetbrains.jsonProtocol;
 
-import org.jetbrains.jsonProtocol.*;
+import com.google.gson.stream.JsonReader;
+
+import java.io.IOException;
 
 import static org.jetbrains.jsonProtocol.JsonReaders.*;
-import com.google.gson.stream.JsonReader;
-import java.io.IOException;
 
 public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtocol.ProtocolSchemaReader {
   @Override
@@ -27,19 +27,19 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("type")) {
-          _type = readString(reader, name);
+          _type = readString(reader, "type");
         }
         else if (name.equals("$ref")) {
-          _$ref = readString(reader, name);
+          _$ref = readString(reader, "$ref");
         }
         else if (name.equals("properties")) {
-          _properties = readObjectArray(reader, name, new M4F(), true);
+          _properties = readObjectArray(reader, "properties", new M4F(), true);
         }
         else if (name.equals("description")) {
-          _description = readString(reader, name);
+          _description = readString(reader, "description");
         }
         else if (name.equals("optional")) {
-          _optional = readBoolean(reader, name);
+          _optional = readBoolean(reader, "optional");
         }
         else if (name.equals("items")) {
           _items = new M0(reader);
@@ -103,22 +103,22 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("description")) {
-          _description = readString(reader, name);
+          _description = readString(reader, "description");
         }
         else if (name.equals("parameters")) {
-          _parameters = readObjectArray(reader, name, new M5F(), true);
+          _parameters = readObjectArray(reader, "parameters", new M5F(), true);
         }
         else if (name.equals("returns")) {
-          _returns = readObjectArray(reader, name, new M5F(), true);
+          _returns = readObjectArray(reader, "returns", new M5F(), true);
         }
         else if (name.equals("hidden")) {
-          _hidden = readBoolean(reader, name);
+          _hidden = readBoolean(reader, "hidden");
         }
         else if (name.equals("async")) {
-          _async = readBoolean(reader, name);
+          _async = readBoolean(reader, "async");
         }
         else {
           reader.skipValue();
@@ -171,22 +171,22 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("domain")) {
-          _domain = readString(reader, name);
+          _domain = readString(reader, "domain");
         }
         else if (name.equals("description")) {
-          _description = readString(reader, name);
+          _description = readString(reader, "description");
         }
         else if (name.equals("hidden")) {
-          _hidden = readBoolean(reader, name);
+          _hidden = readBoolean(reader, "hidden");
         }
         else if (name.equals("types")) {
-          _types = readObjectArray(reader, name, new M7F(), true);
+          _types = readObjectArray(reader, "types", new M7F(), true);
         }
         else if (name.equals("commands")) {
-          _commands = readObjectArray(reader, name, new M1F(), false);
+          _commands = readObjectArray(reader, "commands", new M1F(), false);
         }
         else if (name.equals("events")) {
-          _events = readObjectArray(reader, name, new M3F(), true);
+          _events = readObjectArray(reader, "events", new M3F(), true);
         }
         else {
           reader.skipValue();
@@ -237,16 +237,16 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("description")) {
-          _description = readString(reader, name);
+          _description = readString(reader, "description");
         }
         else if (name.equals("parameters")) {
-          _parameters = readObjectArray(reader, name, new M5F(), true);
+          _parameters = readObjectArray(reader, "parameters", new M5F(), true);
         }
         else if (name.equals("hidden")) {
-          _hidden = readBoolean(reader, name);
+          _hidden = readBoolean(reader, "hidden");
         }
         else {
           reader.skipValue();
@@ -291,19 +291,19 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("type")) {
-          _type = readString(reader, name);
+          _type = readString(reader, "type");
         }
         else if (name.equals("$ref")) {
-          _$ref = readString(reader, name);
+          _$ref = readString(reader, "$ref");
         }
         else if (name.equals("description")) {
-          _description = readString(reader, name);
+          _description = readString(reader, "description");
         }
         else if (name.equals("optional")) {
-          _optional = readBoolean(reader, name);
+          _optional = readBoolean(reader, "optional");
         }
         else if (name.equals("items")) {
           _items = new M0(reader);
@@ -312,7 +312,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
           _enum = nextList(reader);
         }
         else if (name.equals("hidden")) {
-          _hidden = readBoolean(reader, name);
+          _hidden = readBoolean(reader, "hidden");
         }
         else {
           reader.skipValue();
@@ -377,19 +377,19 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
-          _name = readString(reader, name);
+          _name = readString(reader, "name");
         }
         else if (name.equals("type")) {
-          _type = readString(reader, name);
+          _type = readString(reader, "type");
         }
         else if (name.equals("$ref")) {
-          _$ref = readString(reader, name);
+          _$ref = readString(reader, "$ref");
         }
         else if (name.equals("description")) {
-          _description = readString(reader, name);
+          _description = readString(reader, "description");
         }
         else if (name.equals("optional")) {
-          _optional = readBoolean(reader, name);
+          _optional = readBoolean(reader, "optional");
         }
         else if (name.equals("items")) {
           _items = new M0(reader);
@@ -398,7 +398,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
           _enum = nextList(reader);
         }
         else if (name.equals("hidden")) {
-          _hidden = readBoolean(reader, name);
+          _hidden = readBoolean(reader, "hidden");
         }
         else {
           reader.skipValue();
@@ -457,7 +457,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("domains")) {
-          _domains = readObjectArray(reader, name, new M2F(), false);
+          _domains = readObjectArray(reader, "domains", new M2F(), false);
         }
         else if (name.equals("version")) {
           _version = new M8(reader);
@@ -494,16 +494,16 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("type")) {
-          _type = readString(reader, name);
+          _type = readString(reader, "type");
         }
         else if (name.equals("id")) {
-          _id = readString(reader, name);
+          _id = readString(reader, "id");
         }
         else if (name.equals("properties")) {
-          _properties = readObjectArray(reader, name, new M4F(), true);
+          _properties = readObjectArray(reader, "properties", new M4F(), true);
         }
         else if (name.equals("description")) {
-          _description = readString(reader, name);
+          _description = readString(reader, "description");
         }
         else if (name.equals("items")) {
           _items = new M0(reader);
@@ -512,7 +512,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
           _enum = nextList(reader);
         }
         else if (name.equals("hidden")) {
-          _hidden = readBoolean(reader, name);
+          _hidden = readBoolean(reader, "hidden");
         }
         else {
           reader.skipValue();
@@ -566,10 +566,10 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("major")) {
-          _major = readString(reader, name);
+          _major = readString(reader, "major");
         }
         else if (name.equals("minor")) {
-          _minor = readString(reader, name);
+          _minor = readString(reader, "minor");
         }
         else {
           reader.skipValue();
@@ -589,6 +589,27 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     }
   }
 
+  static final class M5F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter read(JsonReader reader) throws IOException {
+      return new M5(reader);
+    }
+  }
+
+  static final class M4F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty read(JsonReader reader) throws IOException {
+      return new M4(reader);
+    }
+  }
+
+  static final class M3F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Event> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Event read(JsonReader reader) throws IOException {
+      return new M3(reader);
+    }
+  }
+
   static final class M2F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain> {
     @Override
     public org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain read(JsonReader reader) throws IOException {
@@ -603,31 +624,10 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     }
   }
 
-  static final class M5F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> {
-    @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter read(JsonReader reader) throws IOException {
-      return new M5(reader);
-    }
-  }
-
   static final class M7F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType> {
     @Override
     public org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType read(JsonReader reader) throws IOException {
       return new M7(reader);
-    }
-  }
-
-  static final class M3F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Event> {
-    @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Event read(JsonReader reader) throws IOException {
-      return new M3(reader);
-    }
-  }
-
-  static final class M4F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty> {
-    @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty read(JsonReader reader) throws IOException {
-      return new M4(reader);
     }
   }
 

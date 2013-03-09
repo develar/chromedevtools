@@ -5,6 +5,7 @@
 package org.chromium.protocolparser;
 
 import org.chromium.protocolparser.JavaCodeGenerator.MethodScope;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A parser that accepts value of JSON field and outputs value in another form (e.g. string
@@ -31,15 +32,18 @@ abstract class ValueParser {
     appendFinishedValueTypeName(out);
   }
 
-  abstract void writeReadCode(MethodScope methodScope, boolean deferredReading, TextOutput out);
+  abstract void writeReadCode(MethodScope methodScope, boolean subtyping, String fieldName, TextOutput out);
 
   public boolean isNullable() {
     return nullable;
   }
 
-  abstract void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out, boolean nullable);
+  abstract void writeArrayReadCode(MethodScope scope,
+                                   boolean subtyping,
+                                   boolean nullable,
+                                   String fieldName, TextOutput out);
 
-  protected void beginReadCall(String readPostfix, boolean subtyping, TextOutput out) {
+  protected void beginReadCall(String readPostfix, boolean subtyping, TextOutput out, @Nullable String fieldName) {
     out.append("read");
     if (isNullable()) {
       out.append("Nullable");
@@ -47,7 +51,16 @@ abstract class ValueParser {
     out.append(readPostfix).append('(');
     addReaderParameter(subtyping, out);
     if (!isNullable()) {
-      out.comma().append(subtyping ? "null" : "name");
+      out.comma();
+      if (subtyping) {
+        out.append("null");
+      }
+      else if (fieldName == null) {
+        out.append("name");
+      }
+      else {
+        out.quoute(fieldName);
+      }
     }
   }
 

@@ -22,13 +22,16 @@ class EnumParser<T extends Enum<T>> extends ValueParser {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean deferredReading, TextOutput out) {
-    beginReadCall("Enum", deferredReading, out);
+  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, String fieldName, TextOutput out) {
+    beginReadCall("Enum", subtyping, out, fieldName);
     out.comma().append(enumClass.getCanonicalName()).append(".class").append(')');
   }
 
   @Override
-  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope, boolean subtyping, TextOutput out, boolean nullable) {
+  void writeArrayReadCode(JavaCodeGenerator.MethodScope scope,
+                          boolean subtyping,
+                          boolean nullable,
+                          String fieldName, TextOutput out) {
     throw new UnsupportedOperationException();
   }
 }

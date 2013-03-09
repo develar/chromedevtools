@@ -41,19 +41,19 @@ class ObjectValueParser<T> extends ValueParser {
   }
 
   @Override
-  void writeReadCode(MethodScope scope, boolean deferredReading, TextOutput out) {
-    refToType.get().writeInstantiateCode(scope.getRootClassScope(), deferredReading, out);
+  void writeReadCode(MethodScope scope, boolean subtyping, String fieldName, TextOutput out) {
+    refToType.get().writeInstantiateCode(scope.getRootClassScope(), subtyping, out);
     out.append('(');
-    addReaderParameter(deferredReading, out);
-    if (deferredReading && refToType.get().getSubtypeSupport() instanceof ExistingSubtypeAspect) {
+    addReaderParameter(subtyping, out);
+    if (subtyping && refToType.get().getSubtypeSupport() instanceof ExistingSubtypeAspect) {
       out.comma().append("this");
     }
     out.append(')');
   }
 
   @Override
-  public void writeArrayReadCode(MethodScope scope, boolean subtyping, TextOutput out, boolean nullable) {
-    beginReadCall("ObjectArray", subtyping, out);
+  public void writeArrayReadCode(MethodScope scope, boolean subtyping, boolean nullable, String fieldName, TextOutput out) {
+    beginReadCall("ObjectArray", subtyping, out, fieldName);
     out.comma().append("new ").append(scope.requireFactoryGenerationAndGetName(refToType.get())).append(Util.TYPE_FACTORY_NAME_POSTFIX).append("()");
     out.comma().append(nullable).append(')');
   }
