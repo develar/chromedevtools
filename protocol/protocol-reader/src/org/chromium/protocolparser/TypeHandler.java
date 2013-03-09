@@ -4,12 +4,16 @@
 
 package org.chromium.protocolparser;
 
-import org.chromium.protocolparser.JavaCodeGenerator.MethodScope;
+import gnu.trove.THashSet;
 import org.chromium.protocolReader.JsonType;
+import org.chromium.protocolparser.JavaCodeGenerator.MethodScope;
 import org.jetbrains.jsonProtocol.JsonObjectBased;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 class TypeHandler<T> {
   private final Class<T> typeClass;
@@ -31,21 +35,21 @@ class TypeHandler<T> {
   /** Subtype aspects of the type or null */
   private final SubtypeAspect subtypeAspect;
 
-  private final boolean lazyRead;
+  private final boolean hasLazyFields;
 
   TypeHandler(Class<T> typeClass, RefToType<?> jsonSuperClass,
               List<VolatileFieldBinding> volatileFields,
               Map<Method, MethodHandler> methodHandlerMap,
               List<FieldLoader> fieldLoaders,
               EagerFieldParser eagerFieldParser,
-              AlgebraicCasesData algebraicCasesData, boolean lazyRead) {
+              AlgebraicCasesData algebraicCasesData, boolean hasLazyFields) {
     this.typeClass = typeClass;
     this.volatileFields = volatileFields;
     this.methodHandlerMap = methodHandlerMap;
     this.fieldLoaders = fieldLoaders;
     this.eagerFieldParser = eagerFieldParser;
     this.algebraicCasesData = algebraicCasesData;
-    this.lazyRead = lazyRead;
+    this.hasLazyFields = hasLazyFields;
     if (jsonSuperClass == null) {
       subtypeAspect = new AbsentSubtypeAspect();
     }
@@ -65,7 +69,7 @@ class TypeHandler<T> {
   }
 
   private void buildClosedNameSetRecursive(List<Set<String>> namesChain) {
-    Set<String> thisSet = new HashSet<String>();
+    Set<String> thisSet = new THashSet<String>();
     eagerFieldParser.addAllFieldNames(thisSet);
     for (FieldLoader loader : fieldLoaders) {
       thisSet.add(loader.getFieldName());
@@ -81,7 +85,7 @@ class TypeHandler<T> {
       }
     } else {
       namesChain.add(thisSet);
-      for (RefToType<?> subtype : algebraicCasesData.getSubtypes()) {
+      for (RefToType<?> subtype : algebraicCasesData.subtypes) {
         subtype.get().buildClosedNameSetRecursive(namesChain);
       }
       namesChain.remove(namesChain.size() - 1);
@@ -117,7 +121,7 @@ class TypeHandler<T> {
 
     out.append(" implements ").append(getTypeClass().getCanonicalName()).openBlock();
 
-    if (lazyRead || JsonObjectBased.class.isAssignableFrom(typeClass)) {
+    if (hasLazyFields || JsonObjectBased.class.isAssignableFrom(typeClass)) {
       out.append("private java.io.Reader ").append(Util.PENDING_INPUT_READER_NAME).semi().newLine();
     }
 
@@ -187,7 +191,7 @@ class TypeHandler<T> {
     MethodScope methodScope = classScope.newMethodScope();
     subtypeAspect.writeSuperConstructorInitialization(out);
 
-    if (JsonObjectBased.class.isAssignableFrom(typeClass) || lazyRead) {
+    if (JsonObjectBased.class.isAssignableFrom(typeClass) || hasLazyFields) {
       out.append(Util.PENDING_INPUT_READER_NAME).append(" = ").append("createValueReader(").append(Util.READER_NAME).append(");").newLine();
     }
 
@@ -201,13 +205,17 @@ class TypeHandler<T> {
       if (algebraicCasesData != null) {
         algebraicCasesData.writeConstructorCodeJava(methodScope, out);
       }
-      out.newLine().append(Util.READER_NAME).append(".endObject();");
+
+      // we don't read all data if we have lazy fields, so, we should not check end of stream
+      if (!hasLazyFields) {
+        out.newLine().append(Util.READER_NAME).append(".endObject();");
+      }
     }
     out.closeBlock();
   }
 
   private void writeReadFields(TextOutput out, MethodScope methodScope) {
-    boolean stopIfAllFieldsWereRead = lazyRead || subtypeAspect instanceof ExistingSubtypeAspect;
+    boolean stopIfAllFieldsWereRead = hasLazyFields;
     boolean isTracedStop = stopIfAllFieldsWereRead && fieldLoaders.size() > 1;
     if (isTracedStop) {
       out.newLine().append("int i = 0").semi();

@@ -1,12 +1,11 @@
 // This is a generated source.
 package org.chromium.wip.protocol;
 
-import com.google.gson.stream.JsonReader;
-import org.jetbrains.jsonProtocol.ObjectFactory;
-
-import java.io.IOException;
+import org.jetbrains.jsonProtocol.*;
 
 import static org.jetbrains.jsonProtocol.JsonReaders.*;
+import com.google.gson.stream.JsonReader;
+import java.io.IOException;
 
 public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.WipProtocolReader {
   @Override
@@ -5238,7 +5237,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
           reader.skipValue();
         }
       }
-      reader.endObject();
     }
 
     @Override
@@ -5525,87 +5523,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M122F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue> {
-    @Override
-    public org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue read(JsonReader reader) throws IOException {
-      return new M122(reader);
-    }
-  }
-
-  static final class M96F extends ObjectFactory<org.chromium.wip.protocol.input.page.FrameResourceTreeValue> {
-    @Override
-    public org.chromium.wip.protocol.input.page.FrameResourceTreeValue read(JsonReader reader) throws IOException {
-      return new M96(reader);
-    }
-  }
-
-  static final class M113F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchMatchValue> {
-    @Override
-    public org.chromium.wip.protocol.input.page.SearchMatchValue read(JsonReader reader) throws IOException {
-      return new M113(reader);
-    }
-  }
-
-  static final class M38F extends ObjectFactory<org.chromium.wip.protocol.input.dom.EventListenerValue> {
-    @Override
-    public org.chromium.wip.protocol.input.dom.EventListenerValue read(JsonReader reader) throws IOException {
-      return new M38(reader);
-    }
-  }
-
-  static final class M128F extends ObjectFactory<org.chromium.wip.protocol.input.timeline.TimelineEventValue> {
-    @Override
-    public org.chromium.wip.protocol.input.timeline.TimelineEventValue read(JsonReader reader) throws IOException {
-      return new M128(reader);
-    }
-  }
-
-  static final class M97F extends ObjectFactory<org.chromium.wip.protocol.input.page.FrameResourceTreeValue.Resources> {
-    @Override
-    public org.chromium.wip.protocol.input.page.FrameResourceTreeValue.Resources read(JsonReader reader) throws IOException {
-      return new M97(reader);
-    }
-  }
-
-  static final class M15F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.LocationValue> {
-    @Override
-    public org.chromium.wip.protocol.input.debugger.LocationValue read(JsonReader reader) throws IOException {
-      return new M15(reader);
-    }
-  }
-
-  static final class M46F extends ObjectFactory<org.chromium.wip.protocol.input.dom.NodeValue> {
-    @Override
-    public org.chromium.wip.protocol.input.dom.NodeValue read(JsonReader reader) throws IOException {
-      return new M46(reader);
-    }
-  }
-
-  static final class M138F extends ObjectFactory<org.jetbrains.wip.protocol.WipTabList.TabDescription> {
-    @Override
-    public org.jetbrains.wip.protocol.WipTabList.TabDescription read(JsonReader reader) throws IOException {
-      return new M138(reader);
-    }
-  }
-
   static final class M124F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.RemoteObjectValue> {
     @Override
     public org.chromium.wip.protocol.input.runtime.RemoteObjectValue read(JsonReader reader) throws IOException {
       return new M124(reader);
-    }
-  }
-
-  static final class M91F extends ObjectFactory<org.chromium.wip.protocol.input.page.CookieValue> {
-    @Override
-    public org.chromium.wip.protocol.input.page.CookieValue read(JsonReader reader) throws IOException {
-      return new M91(reader);
-    }
-  }
-
-  static final class M114F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchResultValue> {
-    @Override
-    public org.chromium.wip.protocol.input.page.SearchResultValue read(JsonReader reader) throws IOException {
-      return new M114(reader);
     }
   }
 
@@ -5616,10 +5537,24 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M120F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue> {
+  static final class M138F extends ObjectFactory<org.jetbrains.wip.protocol.WipTabList.TabDescription> {
     @Override
-    public org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue read(JsonReader reader) throws IOException {
-      return new M120(reader);
+    public org.jetbrains.wip.protocol.WipTabList.TabDescription read(JsonReader reader) throws IOException {
+      return new M138(reader);
+    }
+  }
+
+  static final class M114F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchResultValue> {
+    @Override
+    public org.chromium.wip.protocol.input.page.SearchResultValue read(JsonReader reader) throws IOException {
+      return new M114(reader);
+    }
+  }
+
+  static final class M0F extends ObjectFactory<org.chromium.wip.protocol.input.console.CallFrameValue> {
+    @Override
+    public org.chromium.wip.protocol.input.console.CallFrameValue read(JsonReader reader) throws IOException {
+      return new M0(reader);
     }
   }
 
@@ -5630,6 +5565,41 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
+  static final class M46F extends ObjectFactory<org.chromium.wip.protocol.input.dom.NodeValue> {
+    @Override
+    public org.chromium.wip.protocol.input.dom.NodeValue read(JsonReader reader) throws IOException {
+      return new M46(reader);
+    }
+  }
+
+  static final class M128F extends ObjectFactory<org.chromium.wip.protocol.input.timeline.TimelineEventValue> {
+    @Override
+    public org.chromium.wip.protocol.input.timeline.TimelineEventValue read(JsonReader reader) throws IOException {
+      return new M128(reader);
+    }
+  }
+
+  static final class M15F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.LocationValue> {
+    @Override
+    public org.chromium.wip.protocol.input.debugger.LocationValue read(JsonReader reader) throws IOException {
+      return new M15(reader);
+    }
+  }
+
+  static final class M120F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue> {
+    @Override
+    public org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue read(JsonReader reader) throws IOException {
+      return new M120(reader);
+    }
+  }
+
+  static final class M96F extends ObjectFactory<org.chromium.wip.protocol.input.page.FrameResourceTreeValue> {
+    @Override
+    public org.chromium.wip.protocol.input.page.FrameResourceTreeValue read(JsonReader reader) throws IOException {
+      return new M96(reader);
+    }
+  }
+
   static final class M22F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.ScopeValue> {
     @Override
     public org.chromium.wip.protocol.input.debugger.ScopeValue read(JsonReader reader) throws IOException {
@@ -5637,10 +5607,38 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M0F extends ObjectFactory<org.chromium.wip.protocol.input.console.CallFrameValue> {
+  static final class M122F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue> {
     @Override
-    public org.chromium.wip.protocol.input.console.CallFrameValue read(JsonReader reader) throws IOException {
-      return new M0(reader);
+    public org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue read(JsonReader reader) throws IOException {
+      return new M122(reader);
+    }
+  }
+
+  static final class M97F extends ObjectFactory<org.chromium.wip.protocol.input.page.FrameResourceTreeValue.Resources> {
+    @Override
+    public org.chromium.wip.protocol.input.page.FrameResourceTreeValue.Resources read(JsonReader reader) throws IOException {
+      return new M97(reader);
+    }
+  }
+
+  static final class M91F extends ObjectFactory<org.chromium.wip.protocol.input.page.CookieValue> {
+    @Override
+    public org.chromium.wip.protocol.input.page.CookieValue read(JsonReader reader) throws IOException {
+      return new M91(reader);
+    }
+  }
+
+  static final class M38F extends ObjectFactory<org.chromium.wip.protocol.input.dom.EventListenerValue> {
+    @Override
+    public org.chromium.wip.protocol.input.dom.EventListenerValue read(JsonReader reader) throws IOException {
+      return new M38(reader);
+    }
+  }
+
+  static final class M113F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchMatchValue> {
+    @Override
+    public org.chromium.wip.protocol.input.page.SearchMatchValue read(JsonReader reader) throws IOException {
+      return new M113(reader);
     }
   }
 

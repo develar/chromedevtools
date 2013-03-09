@@ -9,9 +9,6 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Iterator;
 
-/**
- * An abstract method handler for {@_link JsonInvocationHandler}.
- */
 abstract class MethodHandler {
   abstract void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out);
 

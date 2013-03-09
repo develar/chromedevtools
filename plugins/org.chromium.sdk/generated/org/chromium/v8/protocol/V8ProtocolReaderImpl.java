@@ -75,7 +75,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
           i++;
         }
       }
-      reader.endObject();
     }
 
     @Override
@@ -347,7 +346,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
           i++;
         }
       }
-      reader.endObject();
     }
 
     @Override
@@ -1184,11 +1182,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     private String _type;
     private long _handle;
 
-    private final org.chromium.sdk.internal.v8native.protocol.input.data.SomeSerialized baseMessage;
-
-    public M33(JsonReader reader, org.chromium.sdk.internal.v8native.protocol.input.data.SomeSerialized baseMessage) throws IOException {
-      this.baseMessage = baseMessage;
-
+    public M33(JsonReader reader) throws IOException {
       inputReader = createValueReader(reader);
       reader.beginObject();
       int i = 0;
@@ -1212,11 +1206,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
           i++;
         }
       }
-      reader.endObject();
-    }
-
-    public static M33 parse(JsonReader reader) throws IOException {
-      return new M35(reader).asSmthWithHandle();
     }
 
     @Override
@@ -1270,11 +1259,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public long handle() {
       return _handle;
     }
-
-    @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeSerialized getSuper() {
-      return baseMessage;
-    }}
+  }
 
   public static final class M31 implements org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle {
     private String _name;
@@ -1479,7 +1464,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
           i++;
         }
       }
-      reader.endObject();
     }
 
     @Override
@@ -1623,7 +1607,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
           reader.skipValue();
         }
       }
-      reader.endObject();
     }
 
     @Override
@@ -1778,7 +1761,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
           i++;
         }
       }
-      reader.endObject();
     }
 
     public static M26 parse(JsonReader reader) throws IOException {
@@ -1852,7 +1834,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       this.baseMessage = baseMessage;
 
       reader.beginObject();
-      int i = 0;
       while (reader.hasNext()) {
         String name = reader.nextName();
         if (name.equals("name")) {
@@ -1887,14 +1868,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else {
           reader.skipValue();
-          continue;
-        }
-
-        if (i == 9) {
-          break;
-        }
-        else {
-          i++;
         }
       }
       reader.endObject();
@@ -1976,7 +1949,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
           reader.skipValue();
         }
       }
-      reader.endObject();
     }
 
     @Override
@@ -2027,7 +1999,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M33 asSmthWithHandle() {
       if (lazy_1 == null) {
         try {
-          lazy_1 = new M33(new JsonReader(inputReader), this);
+          lazy_1 = new M33(new JsonReader(inputReader));
         }
         catch (IOException e) {
           throw new com.google.gson.JsonParseException(e);
@@ -2524,14 +2496,14 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
   static final class M33F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> {
     @Override
     public org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle read(JsonReader reader) throws IOException {
-      return M33.parse(reader);
+      return new M33(reader);
     }
   }
 
-  static final class M12F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.FrameObject> {
+  static final class M38F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> {
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.FrameObject read(JsonReader reader) throws IOException {
-      return new M12(reader);
+    public org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode read(JsonReader reader) throws IOException {
+      return new M38(reader);
     }
   }
 
@@ -2556,10 +2528,10 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  static final class M27F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject> {
+  static final class M11F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo> {
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject read(JsonReader reader) throws IOException {
-      return new M27(reader);
+    public org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo read(JsonReader reader) throws IOException {
+      return new M11(reader);
     }
   }
 
@@ -2570,17 +2542,17 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  static final class M11F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo> {
+  static final class M12F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.FrameObject> {
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo read(JsonReader reader) throws IOException {
-      return new M11(reader);
+    public org.chromium.sdk.internal.v8native.protocol.input.FrameObject read(JsonReader reader) throws IOException {
+      return new M12(reader);
     }
   }
 
-  static final class M38F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> {
+  static final class M27F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject> {
     @Override
-    public org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode read(JsonReader reader) throws IOException {
-      return new M38(reader);
+    public org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject read(JsonReader reader) throws IOException {
+      return new M27(reader);
     }
   }
 

@@ -4,7 +4,6 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
-import org.chromium.protocolReader.JsonSubtype;
 import org.chromium.protocolReader.JsonSubtypeCasting;
 import org.chromium.protocolReader.JsonType;
 import org.jetbrains.v8.protocol.input.Handle;
@@ -18,7 +17,7 @@ import java.io.IOException;
  * JSONProtocolSerializer.prototype.serialize_, main part.
  */
 @JsonType
-public interface SomeHandle extends JsonSubtype<SomeSerialized>, Handle {
+public interface SomeHandle extends Handle {
   /**
    * An integer "handle" of the object. Normally it is unique (for particular suspended-to-resumed
    * period). Some auxiliary objects may have non-unique handles which should be negative.
