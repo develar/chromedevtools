@@ -1,12 +1,11 @@
 // This is a generated source.
 package org.chromium.v8.liveEditProtocol;
 
-import com.google.gson.stream.JsonReader;
-import org.jetbrains.jsonProtocol.ObjectFactory;
-
-import java.io.IOException;
+import org.jetbrains.jsonProtocol.*;
 
 import static org.jetbrains.jsonProtocol.JsonReaders.*;
+import com.google.gson.stream.JsonReader;
+import java.io.IOException;
 
 public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEditProtocol.LiveEditProtocolReader {
   @Override
@@ -229,7 +228,6 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     public M4(JsonReader reader) throws IOException {
       reader.beginObject();
       while (reader.hasNext()) {
-
         if (reader.nextName().equals("chunks")) {
           _chunks = readIntArray(reader);
         }
@@ -246,17 +244,17 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     }
   }
 
-  static final class M2F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> {
-    @Override
-    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode read(JsonReader reader) throws IOException {
-      return new M2(reader);
-    }
-  }
-
   static final class M1F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> {
     @Override
     public org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode read(JsonReader reader) throws IOException {
       return new M1(reader);
+    }
+  }
+
+  static final class M2F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> {
+    @Override
+    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode read(JsonReader reader) throws IOException {
+      return new M2(reader);
     }
   }
 

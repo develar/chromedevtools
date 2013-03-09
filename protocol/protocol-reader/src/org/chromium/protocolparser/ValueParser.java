@@ -66,7 +66,7 @@ abstract class ValueParser {
 
   protected static void addReaderParameter(boolean subtyping, TextOutput out) {
     if (subtyping) {
-      out.append(Util.PENDING_INPUT_READER_NAME);
+      out.append("new JsonReader(").append(Util.PENDING_INPUT_READER_NAME).append(')');
     }
     else {
       out.append(Util.READER_NAME);

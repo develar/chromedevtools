@@ -282,19 +282,6 @@ public final class JsonReaders {
     return new JsonReader(new StringReader(string));
   }
 
-  public static JsonReader resetReader(JsonReader reader) {
-    StringReader stringReader = createValueReader(reader);
-    //try {
-    //  stringReader = (StringReader)JSON_READER_IN_FIELD.get(reader);
-    //}
-    //catch (IllegalAccessException e) {
-    //  throw new RuntimeException(e);
-    //}
-    //stringReader.reset();
-    // todo don't create new instance of JsonReader, reuse exising
-    return new JsonReader(stringReader);
-  }
-
   public static boolean findBooleanField(String name, JsonReader reader) {
     try {
       reader.beginObject();

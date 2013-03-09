@@ -117,11 +117,8 @@ class TypeHandler<T> {
 
     out.append(" implements ").append(getTypeClass().getCanonicalName()).openBlock();
 
-    if (lazyRead) {
-      out.append("private JsonReader inputReader;").newLine();
-    }
-    else if (JsonObjectBased.class.isAssignableFrom(typeClass)) {
-      out.append("private java.io.Reader inputReader;").newLine();
+    if (lazyRead || JsonObjectBased.class.isAssignableFrom(typeClass)) {
+      out.append("private java.io.Reader ").append(Util.PENDING_INPUT_READER_NAME).semi().newLine();
     }
 
     ClassScope classScope = fileScope.newClassScope();
@@ -190,11 +187,8 @@ class TypeHandler<T> {
     MethodScope methodScope = classScope.newMethodScope();
     subtypeAspect.writeSuperConstructorInitialization(out);
 
-    if (JsonObjectBased.class.isAssignableFrom(typeClass)) {
+    if (JsonObjectBased.class.isAssignableFrom(typeClass) || lazyRead) {
       out.append(Util.PENDING_INPUT_READER_NAME).append(" = ").append("createValueReader(").append(Util.READER_NAME).append(");").newLine();
-    }
-    else if (lazyRead) {
-      out.append(Util.PENDING_INPUT_READER_NAME).append(" = ").append("resetReader(").append(Util.READER_NAME).append(");").newLine();
     }
 
     if (fieldLoaders.isEmpty()) {
@@ -219,7 +213,7 @@ class TypeHandler<T> {
       out.newLine().append("int i = 0").semi();
     }
 
-    out.newLine().append("while (reader.hasNext())").openBlock();
+    out.newLine().append("while (reader.hasNext())").openBlock(fieldLoaders.size() > 1);
     if (fieldLoaders.size() > 1) {
       out.append("String name = reader.nextName();");
     }
