@@ -1,0 +1,40 @@
+// Generated source
+package org.chromium.wip.protocol.output.dom;
+
+/**
+ * Highlights given rectangle. Coordinates are absolute with respect to the main frame viewport.
+ */
+public final class HighlightRect extends org.jetbrains.wip.protocol.WipRequest {
+  /**
+   * @param x X coordinate
+   * @param y Y coordinate
+   * @param width Rectangle width
+   * @param height Rectangle height
+   */
+  public HighlightRect(int x, int y, int width, int height) {
+    put("x", x);
+    put("y", y);
+    put("width", width);
+    put("height", height);
+  }
+
+  /**
+   * @param v The highlight fill color (default: transparent).
+   */
+  public HighlightRect color(org.chromium.wip.protocol.output.dom.RGBA v) {
+    put("color", v);
+    return this;
+  }
+
+  /**
+   * @param v The highlight outline color (default: transparent).
+   */
+  public HighlightRect outlineColor(org.chromium.wip.protocol.output.dom.RGBA v) {
+    put("outlineColor", v);
+    return this;
+  }
+  @Override
+  public String getMethodName() {
+    return "DOM.highlightRect";
+  }
+}

@@ -7,6 +7,10 @@ package org.chromium.wip.protocolParser;
 import org.chromium.protocolparser.TextOutput;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 
 /**
  * A class that makes accurate java source file update. If only header
@@ -15,44 +19,33 @@ import java.io.*;
  * calls {@link #update()}.
  */
 class JavaFileUpdater {
-  private final File file;
+  private final Path file;
   final StringBuilder builder;
   final TextOutput out;
 
-  JavaFileUpdater(File file) {
+  JavaFileUpdater(Path file) {
     this.file = file;
     builder = new StringBuilder();
     out = new TextOutput(builder);
   }
 
   void update() throws IOException {
-    String newContent = builder.toString();
-    if (file.isFile()) {
-      String oldContent = StreamUtil.readStringFromStream(new FileInputStream(file), StreamUtil.UTF8_CHARSET);
-      if (stripHeader(oldContent).equals(stripHeader(newContent))) {
+    byte[] newContent = builder.toString().getBytes(StandardCharsets.UTF_8);
+    if (Files.exists(file)) {
+      byte[] oldContent = Files.readAllBytes(file);
+      if (Arrays.equals(oldContent, newContent)) {
         return;
       }
     }
     else {
-      File dir = file.getParentFile();
-      boolean dirCreated = dir.mkdirs();
-      if (!dirCreated && !dir.isDirectory()) {
-        throw new RuntimeException("Failed to create directory " + dir.getPath());
-      }
+      //Files.pa
+      //File dir = file.getParentFile();
+      //boolean dirCreated = dir.mkdirs();
+      //if (!dirCreated && !dir.isDirectory()) {
+      //  throw new RuntimeException("Failed to create directory " + dir.getPath());
+      //}
     }
 
-    OutputStream outputStream = new FileOutputStream(file);
-    Writer fileWriter = new OutputStreamWriter(outputStream, StreamUtil.UTF8_CHARSET);
-    fileWriter.write(newContent);
-    fileWriter.close();
-    outputStream.close();
-  }
-
-  private static String stripHeader(String content) {
-    int pos = content.indexOf("\npackage ");
-    if (pos == -1) {
-      return content;
-    }
-    return content.substring(pos);
+    Files.write(file, newContent);
   }
 }

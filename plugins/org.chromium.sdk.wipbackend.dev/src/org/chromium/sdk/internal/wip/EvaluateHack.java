@@ -11,14 +11,12 @@ import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
 import org.chromium.sdk.internal.wip.WipRelayRunner.ProcessException;
 import org.chromium.sdk.internal.wip.WipRelayRunner.Step;
-import org.chromium.wip.protocol.input.runtime.EvaluateData;
-import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
-import org.chromium.wip.protocol.output.runtime.EvaluateParams;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
 import org.chromium.wip.protocol.input.runtime.CallFunctionOnData;
-import org.chromium.wip.protocol.output.runtime.CallArgumentParam;
-import org.chromium.wip.protocol.output.runtime.CallFunctionOnParams;
+import org.chromium.wip.protocol.input.runtime.EvaluateData;
+import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
+import org.chromium.wip.protocol.output.runtime.*;
 import org.jetbrains.wip.protocol.WipRequestWithResponse;
 
 import java.util.ArrayList;
@@ -197,11 +195,11 @@ public class EvaluateHack {
       return new WipRelayRunner.SendStepWithResponse<CallFunctionOnData, JsVariable>() {
         @Override
         public WipRequestWithResponse<CallFunctionOnData> getParams() {
-          CallFunctionOnParams params = new CallFunctionOnParams(thisObjectIdFinal, functionText);
+          CallFunctionOn params = new CallFunctionOn(thisObjectIdFinal, functionText);
           if (!additionalObjectIds.isEmpty()) {
-            List<CallArgumentParam> arguments = new ArrayList<CallArgumentParam>(additionalObjectIds.size());
+            List<CallArgument> arguments = new ArrayList<CallArgument>(additionalObjectIds.size());
             for (String objectId : additionalObjectIds) {
-              arguments.add(new CallArgumentParam().objectId(objectId));
+              arguments.add(new CallArgument().objectId(objectId));
             }
             params.arguments(arguments);
           }
@@ -255,7 +253,7 @@ public class EvaluateHack {
      */
     private void clearTempObjectAsync() {
       String script = "delete " + GLOBAL_VARIABLE_NAME + ".data." + dataId + ";";
-      tabImpl.getCommandProcessor().send(new EvaluateParams("(function() {" + script +"})()"), (WipCommandCallback) null, null);
+      tabImpl.getCommandProcessor().send(new Evaluate("(function() {" + script +"})()"), (WipCommandCallback) null, null);
     }
 
     /**
@@ -268,7 +266,7 @@ public class EvaluateHack {
         @Override
         public WipRequestWithResponse<CallFunctionOnData> getParams() {
           String functionText = "function() { return String(this.message); }";
-          return new CallFunctionOnParams(remoteObjectValue.objectId(), functionText);
+          return new CallFunctionOn(remoteObjectValue.objectId(), functionText);
         }
 
         @Override
@@ -306,7 +304,6 @@ public class EvaluateHack {
     // 'code' is for utility methods.
     String injectedObjectText = "{ data: {}, code: {}}";
     String expression = "(function() { " + GLOBAL_VARIABLE_NAME + " = " + injectedObjectText + " ; })()";
-    EvaluateParams evaluateParams = new EvaluateParams(expression);
     GenericCallback<EvaluateData> wrappedCallback = new GenericCallback<EvaluateData>() {
       @Override
       public void success(EvaluateData value) {
@@ -321,6 +318,6 @@ public class EvaluateHack {
       }
     };
 
-    return tabImpl.getCommandProcessor().send(evaluateParams, wrappedCallback, syncCallback);
+    return tabImpl.getCommandProcessor().send(new Evaluate(expression), wrappedCallback, syncCallback);
   }
 }

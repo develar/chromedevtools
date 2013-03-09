@@ -13,7 +13,7 @@ import org.chromium.v8.liveEditProtocol.LiveEditResult;
 import org.chromium.v8.protocol.ProtocolService;
 import org.chromium.wip.protocol.input.debugger.CallFrameValue;
 import org.chromium.wip.protocol.input.debugger.SetScriptSourceData;
-import org.chromium.wip.protocol.output.debugger.SetScriptSourceParams;
+import org.chromium.wip.protocol.output.debugger.SetScriptSource;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,7 +45,6 @@ class WipScriptImpl extends ScriptBase<String> {
     RelaySyncCallback relay = new RelaySyncCallback(syncCallback);
     final RelaySyncCallback.Guard guard = relay.newGuard();
 
-    SetScriptSourceParams params = new SetScriptSourceParams(getId(), newSource).preview(preview);
     GenericCallback<SetScriptSourceData> commandCallback = new GenericCallback<SetScriptSourceData>() {
       @Override
       public void success(SetScriptSourceData value) {
@@ -60,7 +59,7 @@ class WipScriptImpl extends ScriptBase<String> {
     };
 
     WipCommandProcessor commandProcessor = scriptManager.getTabImpl().getCommandProcessor();
-    return commandProcessor.send(params, commandCallback, guard.asSyncCallback());
+    return commandProcessor.send(new SetScriptSource(getId(), newSource).preview(preview), commandCallback, guard.asSyncCallback());
   }
 
   private RelayOk possiblyUpdateCallFrames(boolean preview, final SetScriptSourceData data,

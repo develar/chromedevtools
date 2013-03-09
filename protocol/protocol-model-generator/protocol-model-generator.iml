@@ -6,12 +6,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/generated" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="gson" level="project" />
     <orderEntry type="module" module-name="schema-reader-generator" />
     <orderEntry type="module" module-name="protocol-reader" />
     <orderEntry type="library" name="annotations" level="project" />
+    <orderEntry type="library" name="trove4j" level="project" />
   </component>
 </module>
 

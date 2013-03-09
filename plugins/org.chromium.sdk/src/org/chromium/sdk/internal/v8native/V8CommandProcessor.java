@@ -12,10 +12,10 @@ import org.chromium.sdk.internal.BaseCommandProcessor;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage;
 import org.chromium.sdk.internal.v8native.protocol.input.MessageType;
-import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.v8.protocol.ProtocolService;
 import org.jetbrains.jsonProtocol.Request;
 import org.jetbrains.rpc.MessageHandler;
+import org.jetbrains.v8.protocol.V8Request;
 
 import java.io.IOException;
 import java.util.logging.Level;

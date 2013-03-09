@@ -8,8 +8,8 @@ import org.chromium.protocolparser.TextOutput;
 import org.jetbrains.jsonProtocol.ItemDescriptor;
 import org.jetbrains.jsonProtocol.ProtocolMetaModel;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.util.*;
 
 import static org.jetbrains.jsonProtocol.ProtocolMetaModel.*;
@@ -28,8 +28,8 @@ class Generator {
   private final FileSet fileSet;
   private final Naming naming;
 
-  Generator(String outputDir, String rootPackage, String requestClassName) {
-    fileSet = new FileSet(new File(outputDir));
+  Generator(String outputDir, String rootPackage, String requestClassName) throws IOException {
+    fileSet = new FileSet(FileSystems.getDefault().getPath(outputDir));
     naming = new Naming(rootPackage, requestClassName);
   }
 
@@ -57,8 +57,8 @@ class Generator {
       this.requestClassName = requestClassName;
 
       String outputPackage = rootPackage + ".output";
-      params = new ClassNameScheme.Output("Params", outputPackage);
-      additionalParam = new ClassNameScheme.Output("Param", outputPackage);
+      params = new ClassNameScheme.Output("", outputPackage);
+      additionalParam = new ClassNameScheme.Output("", outputPackage);
       outputTypedef = new ClassNameScheme.Output("Typedef", outputPackage);
       commonTypedef = new ClassNameScheme.Common("Typedef", rootPackage);
 
@@ -296,46 +296,6 @@ class Generator {
       return visitor.visitUnknown();
     }
     throw new RuntimeException("Unrecognized type " + typeName);
-  }
-
-  /**
-   * Records a list of files in the root directory and deletes files that were not re-generated.
-   */
-  private static class FileSet {
-    private final File rootDir;
-    private final Set<File> unusedFiles;
-
-    FileSet(File rootDir) {
-      this.rootDir = rootDir;
-      List<File> files = new ArrayList<File>();
-      collectFilesRecursive(rootDir, files);
-      unusedFiles = new HashSet<File>(files);
-    }
-
-    JavaFileUpdater createFileUpdater(String filePath) {
-      File file = new File(rootDir, filePath);
-      unusedFiles.remove(file);
-      return new JavaFileUpdater(file);
-    }
-
-    void deleteOtherFiles() {
-      for (File file : unusedFiles) {
-        //noinspection ResultOfMethodCallIgnored
-        file.delete();
-      }
-    }
-
-    private static void collectFilesRecursive(File file, Collection<File> list) {
-      if (file.isFile()) {
-        list.add(file);
-      }
-      else if (file.isDirectory()) {
-        //noinspection ConstantConditions
-        for (File inner : file.listFiles()) {
-          collectFilesRecursive(inner, list);
-        }
-      }
-    }
   }
 
   private static void initializeKnownTypes() {

@@ -12,13 +12,13 @@ import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
 import org.chromium.sdk.internal.v8native.protocol.input.RestartFrameBody;
 import org.chromium.sdk.internal.v8native.protocol.input.ScopeRef;
 import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.output.V8Request;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.protocol.output.RestartFrameMessage;
 import org.chromium.sdk.internal.v8native.value.*;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.sdk.util.RelaySyncCallback;
+import org.jetbrains.v8.protocol.V8Request;
 
 import java.io.IOException;
 import java.util.Arrays;

@@ -16,7 +16,7 @@ import org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue;
 import org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue;
 import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
 import org.chromium.wip.protocol.output.debugger.*;
-import org.chromium.wip.protocol.output.runtime.EvaluateParams;
+import org.chromium.wip.protocol.output.runtime.Evaluate;
 import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.wip.protocol.WipCommandResponse;
 import org.jetbrains.wip.protocol.WipRequest;
@@ -231,16 +231,19 @@ class WipContextBuilder {
       }
 
       WipRequest params = sdkStepToProtocolStep(stepAction);
-
       WipCommandCallback commandCallback;
       if (callback == null) {
         commandCallback = null;
-      } else {
+      }
+      else {
         commandCallback = new WipCommandCallback() {
-          @Override public void messageReceived(WipCommandResponse response) {
+          @Override
+          public void messageReceived(WipCommandResponse response) {
             callback.success();
           }
-          @Override public void failure(String message) {
+
+          @Override
+          public void failure(String message) {
             callback.failure(message);
           }
         };
@@ -363,7 +366,7 @@ class WipContextBuilder {
         @Override
         protected WipRequestWithResponse<EvaluateOnCallFrameData> createRequestParams(String expression,
                                                                                      WipValueLoader destinationValueLoader) {
-          return new EvaluateOnCallFrameParams(id, expression).objectGroup(destinationValueLoader.getObjectGroupId());
+          return new EvaluateOnCallFrame(id, expression).objectGroup(destinationValueLoader.getObjectGroupId());
         }
 
         @Override
@@ -383,11 +386,8 @@ class WipContextBuilder {
         RelaySyncCallback relaySyncCallback = new RelaySyncCallback(syncCallback);
 
         final RelaySyncCallback.Guard guard = relaySyncCallback.newGuard();
-
-        RestartFrameParams params = new RestartFrameParams(id);
         WipCommandProcessor commandProcessor = valueLoader.getTabImpl().getCommandProcessor();
-        GenericCallback<RestartFrameData> commandCallback =
-            new GenericCallback<RestartFrameData>() {
+        GenericCallback<RestartFrameData> commandCallback = new GenericCallback<RestartFrameData>() {
           @Override
           public void success(RestartFrameData value) {
             RelayOk relayOk = handleRestartFrameData(value, callback, guard.getRelay());
@@ -401,7 +401,7 @@ class WipContextBuilder {
             }
           }
         };
-        return commandProcessor.send(params, commandCallback, guard.asSyncCallback());
+        return commandProcessor.send(new RestartFrame(id), commandCallback, guard.asSyncCallback());
       }
 
       private RelayOk handleRestartFrameData(RestartFrameData data, final GenericCallback<Boolean> callback, RelaySyncCallback relay) {
@@ -737,7 +737,7 @@ class WipContextBuilder {
 
     @Override
     protected WipRequestWithResponse<EvaluateData> createRequestParams(String expression, WipValueLoader destinationValueLoader) {
-      return new EvaluateParams(expression).objectGroup(destinationValueLoader.getObjectGroupId()).doNotPauseOnExceptionsAndMuteConsole(
+      return new Evaluate(expression).objectGroup(destinationValueLoader.getObjectGroupId()).doNotPauseOnExceptionsAndMuteConsole(
         true);
     }
 
@@ -791,23 +791,18 @@ class WipContextBuilder {
       };
 
 
-  private WipRequest sdkStepToProtocolStep(StepAction stepAction) {
+  private static WipRequest sdkStepToProtocolStep(StepAction stepAction) {
     switch (stepAction) {
-    case CONTINUE:
-      return RESUME_PARAMS;
-    case IN:
-      return STEP_INTO_PARAMS;
-    case OUT:
-      return STEP_OUT_PARAMS;
-    case OVER:
-      return STEP_OVER_PARAMS;
-    default:
-      throw new RuntimeException();
+      case CONTINUE:
+        return new Resume();
+      case IN:
+        return new StepInto();
+      case OUT:
+        return new StepOut();
+      case OVER:
+        return new StepOver();
+      default:
+        throw new RuntimeException();
     }
   }
-
-  private static final ResumeParams RESUME_PARAMS = new ResumeParams();
-  private static final StepIntoParams STEP_INTO_PARAMS = new StepIntoParams();
-  private static final StepOutParams STEP_OUT_PARAMS = new StepOutParams();
-  private static final StepOverParams STEP_OVER_PARAMS = new StepOverParams();
 }

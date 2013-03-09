@@ -10,7 +10,7 @@ import org.chromium.sdk.util.*;
 import org.chromium.sdk.util.AsyncFuture.Callback;
 import org.chromium.wip.protocol.input.debugger.GetScriptSourceData;
 import org.chromium.wip.protocol.input.debugger.ScriptParsedEventData;
-import org.chromium.wip.protocol.output.debugger.GetScriptSourceParams;
+import org.chromium.wip.protocol.output.debugger.GetScriptSource;
 
 import java.util.*;
 
@@ -188,8 +188,7 @@ class WipScriptManager {
           throw new RuntimeException(exception);
         }
       };
-      GetScriptSourceParams params = new GetScriptSourceParams(sourceID);
-      return tabImpl.getCommandProcessor().send(params, commandCallback, syncCallback);
+      return tabImpl.getCommandProcessor().send(new GetScriptSource(sourceID), commandCallback, syncCallback);
     }
   }
 

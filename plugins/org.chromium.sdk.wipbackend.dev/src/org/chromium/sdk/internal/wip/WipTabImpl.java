@@ -12,12 +12,12 @@ import org.chromium.sdk.util.RelaySyncCallback;
 import org.chromium.sdk.util.SignalRelay;
 import org.chromium.sdk.util.SignalRelay.AlreadySignalledException;
 import org.chromium.sdk.wip.*;
-import org.chromium.wip.protocol.output.debugger.PauseParams;
-import org.chromium.wip.protocol.output.debugger.SetBreakpointsActiveParams;
-import org.chromium.wip.protocol.output.debugger.SetPauseOnExceptionsParams;
+import org.chromium.wip.protocol.output.debugger.Enable;
+import org.chromium.wip.protocol.output.debugger.Pause;
+import org.chromium.wip.protocol.output.debugger.SetBreakpointsActive;
+import org.chromium.wip.protocol.output.debugger.SetPauseOnExceptions;
 import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.wip.protocol.WipCommandResponse.Success;
-import org.jetbrains.wip.protocol.WipRequest;
 import org.jetbrains.wip.protocol.WipRequest;
 
 import java.io.IOException;
@@ -104,14 +104,8 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
       }
     };
 
-    commandProcessor.send(
-        new org.chromium.wip.protocol.output.debugger.EnableParams(),
-        null, syncCallback);
-
-    commandProcessor.send(
-        new org.chromium.wip.protocol.output.page.EnableParams(),
-        null, null);
-
+    commandProcessor.send(new Enable(), null, syncCallback);
+    commandProcessor.send(new org.chromium.wip.protocol.output.page.Enable(), null, null);
     frameManager.readFrames();
   }
 
@@ -262,7 +256,6 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
 
   @Override
   public void suspend(final SuspendCallback callback) {
-    PauseParams params = new PauseParams();
     WipCommandCallback wrappedCallback;
     if (callback == null) {
       wrappedCallback = null;
@@ -276,7 +269,7 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
         }
       };
     }
-    commandProcessor.send(params, wrappedCallback, null);
+    commandProcessor.send(new Pause(), wrappedCallback, null);
   }
 
   @Override
@@ -358,7 +351,7 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
       }
       @Override
       WipRequest createRequestParams(VmState vmState) {
-        return new SetBreakpointsActiveParams(vmState.breakpointsActive);
+        return new SetBreakpointsActive(vmState.breakpointsActive);
       }
     };
 
@@ -376,21 +369,16 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
       }
     };
 
-    private SetPauseOnExceptionsParams createPauseOnExceptionRequest() {
-      SetPauseOnExceptionsParams.State state = SDK_TO_WIP_CATCH_MODE.get(breakOnExceptionMode);
-      return new SetPauseOnExceptionsParams(state);
+    private SetPauseOnExceptions createPauseOnExceptionRequest() {
+      return new SetPauseOnExceptions(SDK_TO_WIP_CATCH_MODE.get(breakOnExceptionMode));
     }
 
-    private static Map<ExceptionCatchMode, SetPauseOnExceptionsParams.State> SDK_TO_WIP_CATCH_MODE;
+    private static Map<ExceptionCatchMode, SetPauseOnExceptions.State> SDK_TO_WIP_CATCH_MODE;
     static {
-      SDK_TO_WIP_CATCH_MODE = new EnumMap<ExceptionCatchMode, SetPauseOnExceptionsParams.State>(
-          ExceptionCatchMode.class);
-
-      SDK_TO_WIP_CATCH_MODE.put(ExceptionCatchMode.ALL, SetPauseOnExceptionsParams.State.ALL);
-      SDK_TO_WIP_CATCH_MODE.put(ExceptionCatchMode.UNCAUGHT,
-          SetPauseOnExceptionsParams.State.UNCAUGHT);
-      SDK_TO_WIP_CATCH_MODE.put(ExceptionCatchMode.NONE, SetPauseOnExceptionsParams.State.NONE);
-
+      SDK_TO_WIP_CATCH_MODE = new EnumMap<ExceptionCatchMode, SetPauseOnExceptions.State>(ExceptionCatchMode.class);
+      SDK_TO_WIP_CATCH_MODE.put(ExceptionCatchMode.ALL, SetPauseOnExceptions.State.ALL);
+      SDK_TO_WIP_CATCH_MODE.put(ExceptionCatchMode.UNCAUGHT, SetPauseOnExceptions.State.UNCAUGHT);
+      SDK_TO_WIP_CATCH_MODE.put(ExceptionCatchMode.NONE, SetPauseOnExceptions.State.NONE);
       assert SDK_TO_WIP_CATCH_MODE.size() == ExceptionCatchMode.values().length;
     }
   }

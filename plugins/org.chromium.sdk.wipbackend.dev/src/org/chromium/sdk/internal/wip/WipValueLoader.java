@@ -4,36 +4,24 @@
 
 package org.chromium.sdk.internal.wip;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.chromium.sdk.CallbackSemaphore;
-import org.chromium.sdk.JsObjectProperty;
-import org.chromium.sdk.JsVariable;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.RemoteValueMapping;
-import org.chromium.sdk.SyncCallback;
+import org.chromium.sdk.*;
 import org.chromium.sdk.internal.wip.WipExpressionBuilder.PropertyNameBuilder;
 import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
-import org.chromium.wip.protocol.input.debugger.FunctionDetailsValue;
-import org.chromium.wip.protocol.input.debugger.GetFunctionDetailsData;
-import org.chromium.wip.protocol.input.debugger.LocationValue;
-import org.chromium.wip.protocol.input.runtime.GetPropertiesData;
-import org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue;
-import org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue;
-import org.chromium.wip.protocol.output.debugger.GetFunctionDetailsParams;
-import org.chromium.wip.protocol.output.runtime.GetPropertiesParams;
 import org.chromium.sdk.util.AsyncFuture;
 import org.chromium.sdk.util.AsyncFuture.Callback;
 import org.chromium.sdk.util.AsyncFutureRef;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
+import org.chromium.wip.protocol.input.debugger.FunctionDetailsValue;
+import org.chromium.wip.protocol.input.debugger.GetFunctionDetailsData;
+import org.chromium.wip.protocol.input.runtime.GetPropertiesData;
+import org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue;
+import org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue;
+import org.chromium.wip.protocol.output.debugger.GetFunctionDetails;
+import org.chromium.wip.protocol.output.runtime.GetProperties;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Responsible for loading values of properties. It works in pair with {@link WipValueBuilder}.
@@ -292,18 +280,11 @@ public abstract class WipValueLoader implements RemoteValueMapping {
     syncOperation.execute();
   }
 
-  void loadFunctionLocationInFuture(final String objectId,
-      AsyncFutureRef<Getter<FunctionDetailsValue>> loadedPositionRef)
-      throws MethodIsBlockingException {
-
-    AsyncFuture.Operation<Getter<FunctionDetailsValue>> operation =
-        new AsyncFuture.Operation<Getter<FunctionDetailsValue>>() {
+  void loadFunctionLocationInFuture(final String objectId, AsyncFutureRef<Getter<FunctionDetailsValue>> loadedPositionRef) throws MethodIsBlockingException {
+    AsyncFuture.Operation<Getter<FunctionDetailsValue>> operation = new AsyncFuture.Operation<Getter<FunctionDetailsValue>>() {
       @Override
-      public RelayOk start(final Callback<Getter<FunctionDetailsValue>> callback,
-          SyncCallback syncCallback) {
-        GetFunctionDetailsParams request = new GetFunctionDetailsParams(objectId);
-        GenericCallback<GetFunctionDetailsData> wrappedCallback =
-            new GenericCallback<GetFunctionDetailsData>() {
+      public RelayOk start(final Callback<Getter<FunctionDetailsValue>> callback, SyncCallback syncCallback) {
+        GenericCallback<GetFunctionDetailsData> wrappedCallback = new GenericCallback<GetFunctionDetailsData>() {
           @Override public void success(GetFunctionDetailsData value) {
             callback.done(Getter.newNormal(value.details()));
           }
@@ -312,7 +293,7 @@ public abstract class WipValueLoader implements RemoteValueMapping {
             callback.done(Getter.<FunctionDetailsValue>newFailure(exception));
           }
         };
-        return tabImpl.getCommandProcessor().send(request, wrappedCallback, syncCallback);
+        return tabImpl.getCommandProcessor().send(new GetFunctionDetails(objectId), wrappedCallback, syncCallback);
       }
     };
 
@@ -358,10 +339,10 @@ public abstract class WipValueLoader implements RemoteValueMapping {
       }
     };
 
-    final GetPropertiesParams request;
+    final GetProperties request;
     {
       boolean ownProperties = true;
-      request = new GetPropertiesParams(objectId).ownProperties(ownProperties);
+      request = new GetProperties(objectId).ownProperties(ownProperties);
     }
 
     CallbackSemaphore callbackSemaphore = new CallbackSemaphore();

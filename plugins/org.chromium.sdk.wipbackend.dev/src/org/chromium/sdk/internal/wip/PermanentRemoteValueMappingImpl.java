@@ -9,7 +9,7 @@ import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.wip.PermanentRemoteValueMapping;
-import org.chromium.wip.protocol.output.runtime.ReleaseObjectGroupParams;
+import org.chromium.wip.protocol.output.runtime.ReleaseObjectGroup;
 import org.jetbrains.wip.protocol.WipCommandResponse;
 
 class PermanentRemoteValueMappingImpl extends WipValueLoader
@@ -28,7 +28,7 @@ class PermanentRemoteValueMappingImpl extends WipValueLoader
 
   @Override
   public RelayOk delete(final GenericCallback<Void> callback, SyncCallback syncCallback) {
-    ReleaseObjectGroupParams params = new ReleaseObjectGroupParams(id);
+    ReleaseObjectGroup params = new ReleaseObjectGroup(id);
     WipCommandCallback callbackWrapper;
     if (callback == null) {
       callbackWrapper = null;
