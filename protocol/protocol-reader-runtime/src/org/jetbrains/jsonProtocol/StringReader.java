@@ -5,6 +5,7 @@ import java.io.Reader;
 
 public final class StringReader extends Reader {
   private String string;
+  private final int start;
   private final int end;
   private int position;
 
@@ -14,6 +15,7 @@ public final class StringReader extends Reader {
 
   private StringReader(String string, int start, int end) {
     this.string = string;
+    this.start = start;
     this.end = end;
     position = start;
   }
@@ -22,12 +24,14 @@ public final class StringReader extends Reader {
     position = 0;
   }
 
-  public StringReader subReader(int start) {
-    return subReader(start, end);
+  // be aware - JsonReader position is not equals to reader position (because JsonReader uses buffering)
+  // we keep our StringReader start position - our current StringReader may be also sub reader (so, current JsonReader position is not absolute)
+  public StringReader subReader(int currentPosition) {
+    return subReader(currentPosition, end);
   }
 
-  public StringReader subReader(int start, int end) {
-    return new StringReader(string, start, end);
+  public StringReader subReader(int currentPosition, int end) {
+    return new StringReader(string, start + currentPosition, end);
   }
 
   @Override

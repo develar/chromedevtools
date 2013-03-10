@@ -589,27 +589,6 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     }
   }
 
-  static final class M5F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> {
-    @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter read(JsonReader reader) throws IOException {
-      return new M5(reader);
-    }
-  }
-
-  static final class M7F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType> {
-    @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType read(JsonReader reader) throws IOException {
-      return new M7(reader);
-    }
-  }
-
-  static final class M1F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Command> {
-    @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Command read(JsonReader reader) throws IOException {
-      return new M1(reader);
-    }
-  }
-
   static final class M4F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty> {
     @Override
     public org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty read(JsonReader reader) throws IOException {
@@ -624,10 +603,31 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     }
   }
 
+  static final class M7F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType read(JsonReader reader) throws IOException {
+      return new M7(reader);
+    }
+  }
+
+  static final class M5F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter read(JsonReader reader) throws IOException {
+      return new M5(reader);
+    }
+  }
+
   static final class M2F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain> {
     @Override
     public org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain read(JsonReader reader) throws IOException {
       return new M2(reader);
+    }
+  }
+
+  static final class M1F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Command> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Command read(JsonReader reader) throws IOException {
+      return new M1(reader);
     }
   }
 

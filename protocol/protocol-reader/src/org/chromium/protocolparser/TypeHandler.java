@@ -216,13 +216,14 @@ class TypeHandler<T> {
 
   private void writeReadFields(TextOutput out, MethodScope methodScope) {
     boolean stopIfAllFieldsWereRead = hasLazyFields;
-    boolean isTracedStop = stopIfAllFieldsWereRead && fieldLoaders.size() > 1;
+    boolean hasOnlyOneFieldLoader = fieldLoaders.size() == 1;
+    boolean isTracedStop = stopIfAllFieldsWereRead && !hasOnlyOneFieldLoader;
     if (isTracedStop) {
       out.newLine().append("int i = 0").semi();
     }
 
-    out.newLine().append("while (reader.hasNext())").openBlock(fieldLoaders.size() > 1);
-    if (fieldLoaders.size() > 1) {
+    out.newLine().append("while (reader.hasNext())").openBlock(!hasOnlyOneFieldLoader);
+    if (!hasOnlyOneFieldLoader) {
       out.append("String name = reader.nextName();");
     }
 
@@ -230,7 +231,8 @@ class TypeHandler<T> {
     String operator = "if";
     for (FieldLoader fieldLoader : fieldLoaders) {
       String fieldName = fieldLoader.getFieldName();
-      out.newLine().append(operator).append(" (").append(fieldLoaders.size() == 1 ? "reader.nextName()" : "name").append(".equals(\"").append(fieldName).append("\"))").openBlock();
+      out.newLine().append(operator).append(" (").append(hasOnlyOneFieldLoader ? "reader.nextName()" : "name");
+      out.append(".equals(\"").append(fieldName).append("\"))").openBlock();
       {
         assignField(out, fieldName);
         fieldLoader.valueParser.writeReadCode(methodScope, false, fieldName, out);
@@ -257,7 +259,6 @@ class TypeHandler<T> {
       out.append("break").semi().closeBlock();
       out.newLine().append("else").openBlock().append("i++").semi().closeBlock();
     }
-
     out.closeBlock();
   }
 
