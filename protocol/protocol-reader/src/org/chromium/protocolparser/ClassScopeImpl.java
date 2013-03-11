@@ -28,7 +28,7 @@ public class ClassScopeImpl extends JavaCodeGenerator.Impl.FileScopeImpl impleme
 
   @Override
   public JavaCodeGenerator.MethodScope newMethodScope() {
-    return new JavaCodeGenerator.Impl.MethodScopeImpl(this);
+    return new JavaCodeGenerator.MethodScope(this);
   }
 
   @Override

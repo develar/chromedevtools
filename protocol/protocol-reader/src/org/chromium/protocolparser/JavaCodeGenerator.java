@@ -16,19 +16,18 @@ public interface JavaCodeGenerator {
 
   interface GlobalScope {
     String getTypeImplReference(TypeHandler<?> typeHandler);
+
     String requireFactoryGenerationAndGetName(TypeHandler<?> typeHandler);
+
     String getTypeImplShortName(TypeHandler<?> typeHandler);
 
     /**
      * @return new {@link FileScope} that extends {@link GlobalScope} and shares the out
-     *     with this {@link GlobalScope}
+     *         with this {@link GlobalScope}
      */
     FileScope newFileScope(StringBuilder output);
 
     void forEachTypeFactory(TObjectProcedure<TypeHandler> procedure);
-  }
-
-  interface MethodScope extends ClassScope {
   }
 
   class Impl implements JavaCodeGenerator {
@@ -64,11 +63,11 @@ public interface JavaCodeGenerator {
         return null;
       }
     }
+  }
 
-    static class MethodScopeImpl extends ClassScopeImpl implements MethodScope {
-      public MethodScopeImpl(ClassScopeImpl classScopeImpl) {
-        super(classScopeImpl);
-      }
+  class MethodScope extends ClassScopeImpl {
+    public MethodScope(ClassScopeImpl classScopeImpl) {
+      super(classScopeImpl);
     }
   }
 }
