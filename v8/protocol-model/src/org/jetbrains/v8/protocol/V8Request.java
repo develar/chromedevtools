@@ -1,10 +1,10 @@
 package org.jetbrains.v8.protocol;
 
-import org.jetbrains.jsonProtocol.Request;
+import org.jetbrains.jsonProtocol.RequestImpl;
 
 import java.io.IOException;
 
-public abstract class V8Request extends Request {
+public abstract class V8Request extends RequestImpl {
   public V8Request() {
     this(null);
   }

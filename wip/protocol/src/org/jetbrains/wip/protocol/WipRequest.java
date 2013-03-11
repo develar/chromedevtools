@@ -4,11 +4,11 @@
 
 package org.jetbrains.wip.protocol;
 
-import org.jetbrains.jsonProtocol.Request;
+import org.jetbrains.jsonProtocol.RequestImpl;
 
 import java.io.IOException;
 
-public abstract class WipRequest extends Request {
+public abstract class WipRequest extends RequestImpl {
   public WipRequest() {
     try {
       writer.name(BasicConstants.Property.METHOD).value(getMethodName());

@@ -17,7 +17,7 @@ import org.chromium.wip.protocol.input.debugger.ResumedEventData;
 import org.chromium.wip.protocol.input.debugger.ScriptParsedEventData;
 import org.chromium.wip.protocol.input.page.FrameDetachedEventData;
 import org.chromium.wip.protocol.input.page.FrameNavigatedEventData;
-import org.jetbrains.jsonProtocol.Request;
+import org.jetbrains.jsonProtocol.RequestImpl;
 import org.jetbrains.rpc.MessageHandler;
 import org.jetbrains.wip.protocol.*;
 import org.jetbrains.wip.protocol.CommandResponse.Success;
@@ -35,14 +35,14 @@ class WipCommandProcessor {
   private static final Logger LOGGER = Logger.getLogger(WipCommandProcessor.class.getName());
 
   private final WipTabImpl tabImpl;
-  private final BaseCommandProcessor<Request, IncomingMessage, CommandResponse> baseProcessor;
+  private final BaseCommandProcessor<RequestImpl, IncomingMessage, CommandResponse> baseProcessor;
 
   WipCommandProcessor(WipTabImpl tabImpl) {
     this.tabImpl = tabImpl;
-    baseProcessor = new BaseCommandProcessor<Request, IncomingMessage, CommandResponse>(new WipMessageTypeHandler());
+    baseProcessor = new BaseCommandProcessor<RequestImpl, IncomingMessage, CommandResponse>(new WipMessageTypeHandler());
   }
 
-  RelayOk sendRaw(Request request, WipCommandCallback callback, SyncCallback syncCallback) {
+  RelayOk sendRaw(RequestImpl request, WipCommandCallback callback, SyncCallback syncCallback) {
     return baseProcessor.send(request, false, callback, syncCallback);
   }
 
@@ -87,7 +87,7 @@ class WipCommandProcessor {
 
   private class WipMessageTypeHandler extends MessageHandler<IncomingMessage, CommandResponse> {
     @Override
-    public void send(Request message, boolean isImmediate) throws IOException {
+    public void send(RequestImpl message, boolean isImmediate) throws IOException {
       tabImpl.getWsSocket().sendTextualMessage(message.toJson());
     }
 

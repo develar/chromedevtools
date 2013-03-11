@@ -2,7 +2,7 @@ package org.jetbrains.jsonProtocol;
 
 import java.io.IOException;
 
-public abstract class Request extends OutMessage {
+public abstract class RequestImpl extends OutMessage {
   protected boolean argumentsObjectStarted;
 
   public abstract String getMethodName();
