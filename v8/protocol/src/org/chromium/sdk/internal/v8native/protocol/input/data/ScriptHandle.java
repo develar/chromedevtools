@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.JsonOptionalField;
 import org.chromium.protocolReader.JsonType;
 
@@ -33,7 +33,7 @@ public interface ScriptHandle {
   SomeSerialized evalFromScript();
 
   @JsonOptionalField
-  JsonReader evalFromLocation();
+  JsonReaderEx evalFromLocation();
 
 
   @JsonOptionalField

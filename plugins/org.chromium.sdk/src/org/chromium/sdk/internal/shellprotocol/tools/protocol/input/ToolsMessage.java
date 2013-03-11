@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.shellprotocol.tools.protocol.input;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.JsonOptionalField;
 import org.chromium.protocolReader.JsonSubtypeCasting;
 import org.chromium.protocolReader.JsonType;
@@ -26,7 +26,7 @@ public interface ToolsMessage {
   interface Data {
     // V8Debugger tool.
     @JsonSubtypeCasting
-    JsonReader asDebuggerData();
+    JsonReaderEx asDebuggerData();
 
     @JsonSubtypeCasting
     String asNavigatedData() throws IOException;

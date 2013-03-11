@@ -18,7 +18,7 @@ public interface ChildNodeCountUpdatedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ChildNodeCountUpdatedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ChildNodeCountUpdatedEventData>("DOMchildNodeCountUpdated", org.chromium.wip.protocol.input.dom.ChildNodeCountUpdatedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.ChildNodeCountUpdatedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.dom.ChildNodeCountUpdatedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
       return parser.parseDOMChildNodeCountUpdatedEventData(reader);
     }
   };

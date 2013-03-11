@@ -122,7 +122,7 @@ class TypeHandler<T> {
     out.append(" implements ").append(getTypeClass().getCanonicalName()).openBlock();
 
     if (hasLazyFields || JsonObjectBased.class.isAssignableFrom(typeClass)) {
-      out.append("private java.io.Reader ").append(Util.PENDING_INPUT_READER_NAME).semi().newLine();
+      out.append("private ").append(Util.JSON_READER_CLASS_NAME).space().append(Util.PENDING_INPUT_READER_NAME).semi().newLine();
     }
 
     ClassScope classScope = fileScope.newClassScope();
@@ -179,12 +179,12 @@ class TypeHandler<T> {
     out.newLine();
     MethodHandler.writeMethodDeclarationJava(out, method);
     out.openBlock();
-    out.append("return new JsonReader(inputReader);");
+    out.append("return ").append(Util.PENDING_INPUT_READER_NAME).semi();
     out.closeBlock();
   }
 
   private void writeConstructorMethod(String valueImplClassName, ClassScope classScope, TextOutput out) {
-    out.newLine().append("public ").append(valueImplClassName).append("(JsonReader ").append(Util.READER_NAME);
+    out.newLine().append("public ").append(valueImplClassName).append("(").append(Util.JSON_READER_PARAMETER_DEF);
     subtypeAspect.writeSuperConstructorParamJava(out);
     out.append(')').append(Util.THROWS_CLAUSE).openBlock();
 
@@ -192,7 +192,7 @@ class TypeHandler<T> {
     subtypeAspect.writeSuperConstructorInitialization(out);
 
     if (JsonObjectBased.class.isAssignableFrom(typeClass) || hasLazyFields) {
-      out.append(Util.PENDING_INPUT_READER_NAME).append(" = ").append("createValueReader(").append(Util.READER_NAME).append(");").newLine();
+      out.append(Util.PENDING_INPUT_READER_NAME).append(" = ").append(Util.READER_NAME).append(".subReader();").newLine();
     }
 
     if (fieldLoaders.isEmpty()) {

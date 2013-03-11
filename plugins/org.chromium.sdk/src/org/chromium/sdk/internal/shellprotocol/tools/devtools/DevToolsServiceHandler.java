@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.shellprotocol.tools.devtools;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolHandler;
 import org.chromium.sdk.internal.shellprotocol.tools.ToolOutput;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.DevToolsServiceCommand;
@@ -76,7 +76,7 @@ public class DevToolsServiceHandler implements ToolHandler {
   }
 
   public void handleMessage(Message message) {
-    JsonReader reader = JsonReaders.createReader(message.getContent().toString());
+    JsonReaderEx reader = JsonReaders.createReader(message.getContent().toString());
     ToolsMessage toolsResponse;
     //try {
       //toolsResponse = ToolsProtocolParserAccess.get().parseToolsMessage(reader);

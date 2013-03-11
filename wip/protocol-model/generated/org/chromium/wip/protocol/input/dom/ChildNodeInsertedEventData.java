@@ -22,7 +22,7 @@ public interface ChildNodeInsertedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData>("DOMchildNodeInserted", org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
       return parser.parseDOMChildNodeInsertedEventData(reader);
     }
   };

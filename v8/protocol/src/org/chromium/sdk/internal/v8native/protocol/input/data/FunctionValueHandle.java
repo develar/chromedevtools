@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.JsonField;
 import org.chromium.protocolReader.JsonOptionalField;
 import org.chromium.protocolReader.JsonSubtype;
@@ -22,7 +22,7 @@ public interface FunctionValueHandle extends JsonSubtype<ObjectValueHandle> {
   long line();
 
   @JsonOptionalField
-  JsonReader script();
+  JsonReaderEx script();
 
   boolean resolved();
 

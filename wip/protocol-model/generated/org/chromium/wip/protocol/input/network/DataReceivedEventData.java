@@ -26,7 +26,7 @@ public interface DataReceivedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.DataReceivedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.DataReceivedEventData>("NetworkdataReceived", org.chromium.wip.protocol.input.network.DataReceivedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.DataReceivedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.network.DataReceivedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
       return parser.parseNetworkDataReceivedEventData(reader);
     }
   };

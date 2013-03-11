@@ -4,12 +4,12 @@
 
 package org.jetbrains.jsonProtocol;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 
 /**
  * Optional base interface for JSON type interface. Underlying JSON object becomes available
  * to user this way.
  */
 public interface JsonObjectBased {
-  JsonReader getDeferredReader();
+  JsonReaderEx getDeferredReader();
 }

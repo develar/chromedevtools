@@ -4,7 +4,7 @@
 
 package org.chromium.protocolparser;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.JsonParseMethod;
 import org.chromium.protocolReader.JsonParserRoot;
 
@@ -93,11 +93,13 @@ class ParserRootImpl<R> {
         }
         Type argument = arguments[0];
         MethodDelegate delegate;
-        if (argument == JsonReader.class) {
+        if (argument == JsonReaderEx.class) {
           delegate = new ParseDelegate(typeHandler);
-        } else if (argument == Object.class) {
+        }
+        else if (argument == Object.class) {
           delegate = new ParseDelegate(typeHandler);
-        } else {
+        }
+        else {
           throw new JsonProtocolModelParseException("Unrecognized argument type in " + m);
         }
         methodMap.put(m, delegate);

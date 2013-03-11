@@ -1,8 +1,10 @@
 package org.chromium.protocolparser;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import gnu.trove.THashSet;
-import org.chromium.protocolReader.*;
+import org.chromium.protocolReader.JsonOptionalField;
+import org.chromium.protocolReader.JsonSubtype;
+import org.chromium.protocolReader.JsonType;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jsonProtocol.StringIntPair;
 
@@ -27,7 +29,7 @@ class InterfaceReader {
   private static final PrimitiveValueParser NULLABLE_STRING_PARSER = new PrimitiveValueParser("String", true);
 
   private static final SimpleParserPair<Object> OBJECT_PARSER = SimpleParserPair.create(Object.class);
-  private static final SimpleParserPair<JsonReader> JSON_PARSER = SimpleParserPair.create(JsonReader.class);
+  private static final SimpleParserPair<JsonReaderEx> JSON_PARSER = SimpleParserPair.create(JsonReaderEx.class);
   private static final MapParser MAP_PARSER = new MapParser(false);
   private static final MapParser NULLABLE_MAP_PARSER = new MapParser(true);
 
@@ -229,7 +231,7 @@ class InterfaceReader {
       else if (type == Object.class) {
         return OBJECT_PARSER.get(declaredNullable);
       }
-      else if (type == JsonReader.class) {
+      else if (type == JsonReaderEx.class) {
         return JSON_PARSER.get(declaredNullable);
       }
       else if (type == Map.class) {

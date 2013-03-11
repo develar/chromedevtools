@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.JsonParseMethod;
 import org.chromium.protocolReader.JsonParserRoot;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
@@ -19,11 +19,11 @@ import java.io.IOException;
 @JsonParserRoot
 public interface V8NativeProtocolParserTestAccess {
   @JsonParseMethod
-  FrameObject parseFrameObject(JsonReader reader) throws IOException;
+  FrameObject parseFrameObject(JsonReaderEx reader) throws IOException;
 
   @JsonParseMethod
-  SomeRef parseSomeRef(JsonReader reader) throws IOException;
+  SomeRef parseSomeRef(JsonReaderEx reader) throws IOException;
 
   @JsonParseMethod
-  ScriptHandle parseScriptHandle(JsonReader reader) throws IOException;
+  ScriptHandle parseScriptHandle(JsonReaderEx reader) throws IOException;
 }

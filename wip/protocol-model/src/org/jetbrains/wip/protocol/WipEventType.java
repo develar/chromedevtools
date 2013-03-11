@@ -4,7 +4,7 @@
 
 package org.jetbrains.wip.protocol;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.wip.protocol.input.GeneratedWipProtocolReader;
 
 import java.io.IOException;
@@ -30,5 +30,5 @@ public abstract class WipEventType<T> {
     return eventType;
   }
 
-  public abstract T parse(GeneratedWipProtocolReader parser, JsonReader reader) throws IOException;
+  public abstract T parse(GeneratedWipProtocolReader parser, JsonReaderEx reader) throws IOException;
 }

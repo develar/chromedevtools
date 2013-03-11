@@ -2,9 +2,10 @@ package org.chromium.wip.protocolParser;
 
 import org.chromium.protocolparser.Enums;
 import org.chromium.protocolparser.TextOutput;
+import org.chromium.protocolparser.Util;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jsonProtocol.ItemDescriptor;
 import org.jetbrains.jsonProtocol.ProtocolMetaModel;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -319,10 +320,10 @@ class DomainGenerator {
       public void append(TextOutput out) {
         out.newLine().append("public static final org.jetbrains.wip.protocol.WipEventType<").append(fullName).append("> TYPE").newLine();
         out.append("\t= new org.jetbrains.wip.protocol.WipEventType<").append(fullName).append(">");
-        out.append("(\"" + domainName + "" + event.name() + "\", ").append(fullName).append(".class)").openBlock();
+        out.append("(\"" + domainName + event.name() + "\", ").append(fullName).append(".class)").openBlock();
         {
           out.append("@Override").newLine().append("public ").append(fullName).append(" parse(");
-          out.append(generator.getNaming().inputPackage).append('.').append(Generator.READER_INTERFACE_NAME + " parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException").openBlock();
+          out.append(generator.getNaming().inputPackage).append('.').append(Generator.READER_INTERFACE_NAME + " parser, ").append(Util.JSON_READER_PARAMETER_DEF).append(")").append(Util.THROWS_CLAUSE).openBlock();
           out.append("return parser.").append(generator.getNaming().eventData.getParseMethodName(domainName, event.name())).append("(reader);").closeBlock();
         }
         out.closeBlock();

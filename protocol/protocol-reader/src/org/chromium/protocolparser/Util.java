@@ -5,7 +5,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 
 public class Util {
-  public static final String THROWS_CLAUSE = " throws IOException";
+  public static final String THROWS_CLAUSE = " throws java.io.IOException";
 
   public static final char TYPE_NAME_PREFIX = 'M';
   public static final char TYPE_FACTORY_NAME_POSTFIX = 'F';
@@ -14,6 +14,9 @@ public class Util {
   public static final String PENDING_INPUT_READER_NAME = "inputReader";
 
   public static final String BASE_VALUE_PREFIX = "baseMessage";
+
+  public static final String JSON_READER_CLASS_NAME = "com.google.gson.stream.JsonReaderEx";
+  public static final String JSON_READER_PARAMETER_DEF = JSON_READER_CLASS_NAME + " " + READER_NAME;
 
   /**
    * Generate Java type name of the passed type. Type may be parameterized.

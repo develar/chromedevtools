@@ -18,7 +18,7 @@ public interface BreakpointResolvedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData>("DebuggerbreakpointResolved", org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
       return parser.parseDebuggerBreakpointResolvedEventData(reader);
     }
   };

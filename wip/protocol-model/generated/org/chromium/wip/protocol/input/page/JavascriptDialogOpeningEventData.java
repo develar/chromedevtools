@@ -14,7 +14,7 @@ public interface JavascriptDialogOpeningEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData>("PagejavascriptDialogOpening", org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
       return parser.parsePageJavascriptDialogOpeningEventData(reader);
     }
   };

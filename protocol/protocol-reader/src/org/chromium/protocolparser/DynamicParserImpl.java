@@ -6,14 +6,8 @@ package org.chromium.protocolparser;
 
 import gnu.trove.TObjectProcedure;
 
-import java.lang.reflect.Proxy;
 import java.util.*;
 
-/**
- * It analyses interfaces with reflection and provides their implementation by {@link Proxy} factory.
- * User-friendly 'root' interface is available by {@link #getParserRoot()} method.
- * @param <ROOT> root user-provided type (see {@link org.chromium.protocolReader.JsonParserRoot})
- */
 public class DynamicParserImpl<ROOT> {
   final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;
   private final ParserRootImpl<ROOT> rootImpl;
@@ -61,7 +55,6 @@ public class DynamicParserImpl<ROOT> {
     out.newLine().append("package ").append(packageName).append(';');
     out.newLine().newLine().append("import org.jetbrains.jsonProtocol.*;");
     out.newLine().newLine().append("import static org.jetbrains.jsonProtocol.JsonReaders.*;");
-    out.newLine().append("import com.google.gson.stream.JsonReader;");
     out.newLine().append("import java.io.IOException;");
     out.newLine().newLine().append("public final class ").append(className);
     out.append(" implements ").append(rootImpl.getType().getCanonicalName()).openBlock(false);
@@ -81,8 +74,7 @@ public class DynamicParserImpl<ROOT> {
         String name = globalScope.getTypeImplShortName(typeHandler);
         String originName = typeHandler.getTypeClass().getCanonicalName();
         out.newLine().append("static final class ").append(name).append(Util.TYPE_FACTORY_NAME_POSTFIX).append(" extends ObjectFactory<").append(originName).append('>').openBlock();
-        out.append("@Override").newLine().append("public ").append(originName).append(" read(JsonReader ").append(Util.READER_NAME).append(
-          ')');
+        out.append("@Override").newLine().append("public ").append(originName).append(" read(").append(Util.JSON_READER_PARAMETER_DEF).append(')');
         out.append(Util.THROWS_CLAUSE).openBlock();
         out.append("return ");
         typeHandler.writeInstantiateCode(rootClassScope, out);

@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.value;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import gnu.trove.TLongIntHashMap;
 import gnu.trove.TLongObjectHashMap;
 import org.chromium.sdk.InvalidContextException;
@@ -19,12 +19,12 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.RefWithDisplayData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
-import org.jetbrains.v8.protocol.V8Request;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.protocol.output.LookupMessage;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.v8.protocol.ProtocolService;
+import org.jetbrains.v8.protocol.V8Request;
 import org.jetbrains.v8.protocol.input.Handle;
 
 import java.io.IOException;
@@ -322,7 +322,7 @@ public class ValueLoaderImpl extends ValueLoader {
       }
       ValueHandle valueHandle;
       try {
-        valueHandle = ProtocolService.PROTOCOL_READER.parseValueHandle((JsonReader)value);
+        valueHandle = ProtocolService.PROTOCOL_READER.parseValueHandle((JsonReaderEx)value);
       }
       catch (IOException e) {
         throw new RuntimeException(e);
@@ -353,7 +353,7 @@ public class ValueLoaderImpl extends ValueLoader {
       }
       ValueHandle valueHandle;
       try {
-        valueHandle = ProtocolService.PROTOCOL_READER.parseValueHandle((JsonReader)value);
+        valueHandle = ProtocolService.PROTOCOL_READER.parseValueHandle((JsonReaderEx)value);
       }
       catch (IOException e) {
         throw new ValueLoadException(e);

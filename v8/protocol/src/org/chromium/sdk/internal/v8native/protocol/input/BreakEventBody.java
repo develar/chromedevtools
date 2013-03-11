@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.JsonOptionalField;
 import org.chromium.protocolReader.JsonType;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
@@ -30,7 +30,7 @@ public interface BreakEventBody {
   String invocationText();
 
   @JsonOptionalField
-  JsonReader script();
+  JsonReaderEx script();
 
   @JsonOptionalField
   long sourceColumn();

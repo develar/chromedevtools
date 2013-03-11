@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.wip;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.sdk.DebugEventListener.VmStatusListener;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
@@ -36,11 +36,11 @@ class WipCommandProcessor {
   private static final Logger LOGGER = Logger.getLogger(WipCommandProcessor.class.getName());
 
   private final WipTabImpl tabImpl;
-  private final BaseCommandProcessor<Request, JsonReader, WipCommandResponse> baseProcessor;
+  private final BaseCommandProcessor<Request, JsonReaderEx, WipCommandResponse> baseProcessor;
 
   WipCommandProcessor(WipTabImpl tabImpl) {
     this.tabImpl = tabImpl;
-    baseProcessor = new BaseCommandProcessor<Request, JsonReader, WipCommandResponse>(new WipMessageTypeHandler());
+    baseProcessor = new BaseCommandProcessor<Request, JsonReaderEx, WipCommandResponse>(new WipMessageTypeHandler());
   }
 
   RelayOk sendRaw(Request message, WipCommandCallback callback, SyncCallback syncCallback) {
@@ -85,7 +85,7 @@ class WipCommandProcessor {
     return sendRaw(params, commandCallback, syncCallback);
   }
 
-  void acceptResponse(JsonReader message) {
+  void acceptResponse(JsonReaderEx message) {
     baseProcessor.processIncoming(message);
   }
 
@@ -93,14 +93,14 @@ class WipCommandProcessor {
     baseProcessor.processEos();
   }
 
-  private class WipMessageTypeHandler extends MessageHandler<JsonReader, WipCommandResponse> {
+  private class WipMessageTypeHandler extends MessageHandler<JsonReaderEx, WipCommandResponse> {
     @Override
     public void send(Request message, boolean isImmediate) throws IOException {
       tabImpl.getWsSocket().sendTextualMessage(message.toJson());
     }
 
     @Override
-    public WipCommandResponse readIfHasSequence(JsonReader incoming) {
+    public WipCommandResponse readIfHasSequence(JsonReaderEx incoming) {
       //if (!incoming.containsKey(BasicConstants.Property.ID)) {
       //  return null;
       //}
@@ -123,7 +123,7 @@ class WipCommandProcessor {
     }
 
     @Override
-    public void acceptNonSequence(JsonReader incoming) {
+    public void acceptNonSequence(JsonReaderEx incoming) {
       WipEvent event;
       try {
         event = WipParserAccess.get().parseWipEvent(incoming);

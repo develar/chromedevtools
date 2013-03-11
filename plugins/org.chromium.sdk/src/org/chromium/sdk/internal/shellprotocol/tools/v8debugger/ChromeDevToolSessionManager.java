@@ -5,6 +5,7 @@
 package org.chromium.sdk.internal.shellprotocol.tools.v8debugger;
 
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.TabDebugEventListener;
 import org.chromium.sdk.internal.shellprotocol.BrowserImpl;
@@ -86,8 +87,8 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
       if (data instanceof String) {
         String stringData = (String) data;
         // we should parse string and check context id. It should have the format "type,id".
-      } else if (data instanceof JsonReader) {
-        JsonReader dataObject = (JsonReader) data;
+      } else if (data instanceof JsonReaderEx) {
+        JsonReaderEx dataObject = (JsonReaderEx) data;
         ContextData contextData;
         try {
           contextData = ProtocolService.PROTOCOL_READER.parseContextData(dataObject);
@@ -138,7 +139,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
   }
 
   private void handleChromeDevToolMessage(final Message message) {
-    JsonReader reader = JsonReaders.createReader(message.getContent().toString());
+    JsonReaderEx reader = JsonReaders.createReader(message.getContent().toString());
     ToolsMessage devToolsMessage;
     //try {
       //devToolsMessage = ToolsProtocolParserAccess.get().parseToolsMessage(reader);
@@ -407,7 +408,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
   }
 
   private void processDebuggerCommand(ToolsMessage toolsMessage) throws IOException {
-    JsonReader reader = toolsMessage.data().asDebuggerData();
+    JsonReaderEx reader = toolsMessage.data().asDebuggerData();
     if (reader == null) {
       throw new IllegalArgumentException("'data' field not found");
     }

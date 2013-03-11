@@ -1,6 +1,7 @@
 package org.chromium.wip.protocolParser;
 
 import org.chromium.protocolparser.TextOutput;
+import org.chromium.protocolparser.Util;
 
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ class ParserRootInterfaceItem implements Comparable<ParserRootInterfaceItem> {
   void writeCode(TextOutput out) throws IOException {
     out.append("@org.chromium.protocolReader.JsonParseMethod").newLine();
     out.append(fullName).space().append(nameScheme.getParseMethodName(domain, name));
-    out.append("(com.google.gson.stream.JsonReader reader) throws java.io.IOException;").newLine();
+    out.append("(").append(Util.JSON_READER_PARAMETER_DEF).append(")").append(Util.THROWS_CLAUSE).semi().newLine();
   }
 
   @Override

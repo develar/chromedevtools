@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
@@ -93,7 +93,7 @@ public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeExc
     return DISPATCH_THREAD_PROMISES_TO_CALL;
   }
 
-  public void processIncomingJson(JsonReader jsonReader) {
+  public void processIncomingJson(JsonReaderEx jsonReader) {
     IncomingMessage response;
     try {
       response = ProtocolService.PROTOCOL_READER.parseIncomingMessage(jsonReader);

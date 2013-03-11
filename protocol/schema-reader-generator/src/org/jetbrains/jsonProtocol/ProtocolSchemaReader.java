@@ -4,7 +4,7 @@
 
 package org.jetbrains.jsonProtocol;
 
-import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.JsonParseMethod;
 import org.chromium.protocolReader.JsonParserRoot;
 import org.jetbrains.jsonProtocol.ProtocolMetaModel.Root;
@@ -14,5 +14,5 @@ import java.io.IOException;
 @JsonParserRoot
 public interface ProtocolSchemaReader {
   @JsonParseMethod
-  Root parseRoot(JsonReader reader) throws IOException;
+  Root parseRoot(JsonReaderEx reader) throws IOException;
 }

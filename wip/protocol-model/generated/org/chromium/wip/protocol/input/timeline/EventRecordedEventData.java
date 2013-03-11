@@ -14,7 +14,7 @@ public interface EventRecordedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.timeline.EventRecordedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.timeline.EventRecordedEventData>("TimelineeventRecorded", org.chromium.wip.protocol.input.timeline.EventRecordedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.timeline.EventRecordedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReader reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.timeline.EventRecordedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
       return parser.parseTimelineEventRecordedEventData(reader);
     }
   };
