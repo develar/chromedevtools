@@ -4,15 +4,15 @@ class AutoAlgebraicCasesData extends AlgebraicCasesData {
   boolean hasDefaultCase;
 
   @Override
-  void writeConstructorCodeJava(JavaCodeGenerator.MethodScope methodScope, TextOutput out) {
+  void writeConstructorCodeJava(ClassScope scope, TextOutput out) {
     boolean isFirst = true;
     String operator = "if";
     for (int i = 0; i < subtypes.size(); i++) {
       TypeHandler<?> nextSubtype = subtypes.get(i).get();
-      out.newLine().append(operator).append(" (").append(methodScope.getTypeImplReference(nextSubtype));
+      out.newLine().append(operator).append(" (").append(scope.getTypeImplReference(nextSubtype));
       out.append(".checkSubtypeConditions(this))").openBlock();
       {
-        out.append(getAutoAlgFieldNameJava(i)).append(" = new ").append(methodScope.getTypeImplReference(nextSubtype)).append('(')
+        out.append(getAutoAlgFieldNameJava(i)).append(" = new ").append(scope.getTypeImplReference(nextSubtype)).append('(')
           .append(Util.READER_NAME).comma().append("this").append(')').semi();
         nullifyOther(out, i);
       }

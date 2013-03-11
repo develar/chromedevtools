@@ -21,7 +21,7 @@ class PrimitiveValueParser extends ValueParser {
   }
 
   @Override
-  void writeReadCode(JavaCodeGenerator.MethodScope methodScope, boolean subtyping, String fieldName, TextOutput out) {
+  void writeReadCode(ClassScope methodScope, boolean subtyping, String fieldName, TextOutput out) {
     beginReadCall(readPostfix, subtyping, out, fieldName);
     out.append(')');
   }
@@ -32,7 +32,7 @@ class PrimitiveValueParser extends ValueParser {
   }
 
   @Override
-  public void writeArrayReadCode(JavaCodeGenerator.MethodScope scope,
+  public void writeArrayReadCode(ClassScope scope,
                                  boolean subtyping,
                                  boolean nullable,
                                  String fieldName, TextOutput out) {

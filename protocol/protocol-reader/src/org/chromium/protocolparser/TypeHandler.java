@@ -6,7 +6,6 @@ package org.chromium.protocolparser;
 
 import gnu.trove.THashSet;
 import org.chromium.protocolReader.JsonType;
-import org.chromium.protocolparser.JavaCodeGenerator.MethodScope;
 import org.jetbrains.jsonProtocol.JsonObjectBased;
 
 import java.lang.reflect.Method;
@@ -188,7 +187,6 @@ class TypeHandler<T> {
     subtypeAspect.writeSuperConstructorParamJava(out);
     out.append(')').openBlock();
 
-    MethodScope methodScope = classScope.newMethodScope();
     subtypeAspect.writeSuperConstructorInitialization(out);
 
     if (JsonObjectBased.class.isAssignableFrom(typeClass) || hasLazyFields) {
@@ -201,9 +199,9 @@ class TypeHandler<T> {
     }
     else {
       out.append(Util.READER_NAME).append(".beginObject();");
-      writeReadFields(out, methodScope);
+      writeReadFields(out, classScope);
       if (algebraicCasesData != null) {
-        algebraicCasesData.writeConstructorCodeJava(methodScope, out);
+        algebraicCasesData.writeConstructorCodeJava(classScope, out);
       }
 
       // we don't read all data if we have lazy fields, so, we should not check end of stream
@@ -214,7 +212,7 @@ class TypeHandler<T> {
     out.closeBlock();
   }
 
-  private void writeReadFields(TextOutput out, MethodScope methodScope) {
+  private void writeReadFields(TextOutput out, ClassScope classScope) {
     boolean stopIfAllFieldsWereRead = hasLazyFields;
     boolean hasOnlyOneFieldLoader = fieldLoaders.size() == 1;
     boolean isTracedStop = stopIfAllFieldsWereRead && !hasOnlyOneFieldLoader;
@@ -235,7 +233,7 @@ class TypeHandler<T> {
       out.append(".equals(\"").append(fieldName).append("\"))").openBlock();
       {
         assignField(out, fieldName);
-        fieldLoader.valueParser.writeReadCode(methodScope, false, fieldName, out);
+        fieldLoader.valueParser.writeReadCode(classScope, false, fieldName, out);
         out.semi();
         if (stopIfAllFieldsWereRead && !isTracedStop) {
           out.newLine().append("break").semi();

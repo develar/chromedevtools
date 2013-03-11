@@ -32,7 +32,6 @@ class LazyCachedMethodHandler extends MethodHandler {
     out.append(' ');
     appendMethodSignatureJava(m, Collections.<String>emptyList(), out);
 
-    JavaCodeGenerator.MethodScope scope = classScope.newMethodScope();
     out.openBlock();
     out.append("if (");
     fieldBinding.writeGetExpression(out);
@@ -44,7 +43,7 @@ class LazyCachedMethodHandler extends MethodHandler {
       {
         fieldBinding.writeGetExpression(out);
         out.append(" = ");
-        parser.writeReadCode(scope, true, null, scope.getOutput());
+        parser.writeReadCode(classScope, true, null, classScope.getOutput());
         out.semi();
       }
       if (parser.isThrowsIOException()) {

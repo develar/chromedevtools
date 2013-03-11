@@ -4,8 +4,6 @@
 
 package org.chromium.protocolparser;
 
-import org.chromium.protocolparser.JavaCodeGenerator.MethodScope;
-
 class ObjectValueParser<T> extends ValueParser {
   private final TypeRef<T> refToType;
   private final boolean isSubtyping;
@@ -41,7 +39,7 @@ class ObjectValueParser<T> extends ValueParser {
   }
 
   @Override
-  void writeReadCode(MethodScope scope, boolean subtyping, String fieldName, TextOutput out) {
+  void writeReadCode(ClassScope scope, boolean subtyping, String fieldName, TextOutput out) {
     refToType.get().writeInstantiateCode(scope.getRootClassScope(), subtyping, out);
     out.append('(');
     addReaderParameter(subtyping, out);
@@ -52,7 +50,7 @@ class ObjectValueParser<T> extends ValueParser {
   }
 
   @Override
-  public void writeArrayReadCode(MethodScope scope, boolean subtyping, boolean nullable, String fieldName, TextOutput out) {
+  public void writeArrayReadCode(ClassScope scope, boolean subtyping, boolean nullable, String fieldName, TextOutput out) {
     beginReadCall("ObjectArray", subtyping, out, fieldName);
     out.comma().append("new ").append(scope.requireFactoryGenerationAndGetName(refToType.get())).append(Util.TYPE_FACTORY_NAME_POSTFIX).append("()");
     out.comma().append(nullable).append(')');

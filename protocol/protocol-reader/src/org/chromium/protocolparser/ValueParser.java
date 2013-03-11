@@ -4,7 +4,6 @@
 
 package org.chromium.protocolparser;
 
-import org.chromium.protocolparser.JavaCodeGenerator.MethodScope;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -32,13 +31,13 @@ abstract class ValueParser {
     appendFinishedValueTypeName(out);
   }
 
-  abstract void writeReadCode(MethodScope methodScope, boolean subtyping, String fieldName, TextOutput out);
+  abstract void writeReadCode(ClassScope methodScope, boolean subtyping, String fieldName, TextOutput out);
 
   public boolean isNullable() {
     return nullable;
   }
 
-  abstract void writeArrayReadCode(MethodScope scope,
+  abstract void writeArrayReadCode(ClassScope scope,
                                    boolean subtyping,
                                    boolean nullable,
                                    String fieldName, TextOutput out);

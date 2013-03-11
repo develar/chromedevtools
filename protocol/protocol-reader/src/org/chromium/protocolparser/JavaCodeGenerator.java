@@ -64,10 +64,4 @@ public interface JavaCodeGenerator {
       }
     }
   }
-
-  class MethodScope extends ClassScopeImpl {
-    public MethodScope(ClassScopeImpl classScopeImpl) {
-      super(classScopeImpl);
-    }
-  }
 }

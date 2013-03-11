@@ -11,12 +11,6 @@ public interface ClassScope extends FileScope {
   ClassScope newClassScope();
 
   /**
-   * @return new {@link org.chromium.protocolparser.JavaCodeGenerator.MethodScope} that extends {@link ClassScope} and shares the out
-   *     with this {@link ClassScope}.
-   */
-  JavaCodeGenerator.MethodScope newMethodScope();
-
-  /**
    * Writes Java code of all added members.
    */
   void writeClassMembers();
