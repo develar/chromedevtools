@@ -10,8 +10,9 @@ import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.sdk.wip.EvaluateToMappingExtension;
+import org.chromium.wip.protocol.input.ProtocolReponseReader;
 import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
-import org.jetbrains.wip.protocol.WipRequestWithResponse;
+import org.jetbrains.jsonProtocol.RequestWithResponse;
 
 import java.util.Map;
 
@@ -30,8 +31,8 @@ abstract class WipEvaluateContextBase<DATA> extends JsEvaluateContextBase {
   }
 
   @Override
-  public RelayOk evaluateAsync(final String expression,
-      Map<String, String> additionalContext, final EvaluateCallback callback,
+  public RelayOk evaluateAsync(String expression,
+      Map<String, String> additionalContext, EvaluateCallback callback,
       SyncCallback syncCallback) {
 
     WipExpressionBuilder.ValueNameBuilder valueNameBuilder =
@@ -42,7 +43,7 @@ abstract class WipEvaluateContextBase<DATA> extends JsEvaluateContextBase {
   }
 
   RelayOk evaluateAsync(String expression, ValueNameBuilder valueNameBuidler,
-      Map<String, String> additionalContext, final EvaluateCallback callback,
+      Map<String, String> additionalContext, EvaluateCallback callback,
       SyncCallback syncCallback) {
     return evaluateAsync(expression, valueNameBuidler, additionalContext, valueLoader,
         callback, syncCallback);
@@ -62,18 +63,18 @@ abstract class WipEvaluateContextBase<DATA> extends JsEvaluateContextBase {
           destinationValueLoader, evaluateHackHelper, callback, syncCallback);
     }
 
-    WipRequestWithResponse<DATA> params = createRequestParams(expression, destinationValueLoader);
-
     GenericCallback<DATA> commandCallback;
     if (callback == null) {
       commandCallback = null;
-    } else {
+    }
+    else {
       commandCallback = new GenericCallback<DATA>() {
         @Override
         public void success(DATA data) {
           JsVariable variable = processResponse(data, destinationValueLoader, valueNameBuidler);
           callback.success(variable);
         }
+
         @Override
         public void failure(Exception exception) {
           callback.failure(exception.getMessage());
@@ -81,7 +82,7 @@ abstract class WipEvaluateContextBase<DATA> extends JsEvaluateContextBase {
       };
     }
     WipCommandProcessor commandProcessor = valueLoader.getTabImpl().getCommandProcessor();
-    return commandProcessor.send(params, commandCallback, syncCallback);
+    return commandProcessor.send(createRequestParams(expression, destinationValueLoader), commandCallback, syncCallback);
   }
 
   private JsVariable processResponse(DATA data, WipValueLoader destinationValueLoader,
@@ -100,8 +101,7 @@ abstract class WipEvaluateContextBase<DATA> extends JsEvaluateContextBase {
   private final EvaluateHack.EvaluateCommandHandler<DATA> evaluateHackHelper =
       new EvaluateHack.EvaluateCommandHandler<DATA>() {
     @Override
-    public WipRequestWithResponse<DATA> createRequest(
-        String patchedUserExpression, WipValueLoader destinationValueLoader) {
+    public RequestWithResponse<DATA, ProtocolReponseReader> createRequest(String patchedUserExpression, WipValueLoader destinationValueLoader) {
       return createRequestParams(patchedUserExpression, destinationValueLoader);
     }
 
@@ -117,8 +117,7 @@ abstract class WipEvaluateContextBase<DATA> extends JsEvaluateContextBase {
     }
   };
 
-  protected abstract WipRequestWithResponse<DATA> createRequestParams(String expression,
-      WipValueLoader destinationValueLoader);
+  protected abstract RequestWithResponse<DATA, ProtocolReponseReader> createRequestParams(String expression, WipValueLoader destinationValueLoader);
 
   protected abstract RemoteObjectValue getRemoteObjectValue(DATA data);
 

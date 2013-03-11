@@ -16,7 +16,7 @@ import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.jetbrains.jsonProtocol.JsonReaders;
-import org.jetbrains.jsonProtocol.OutMessage;
+import org.jetbrains.jsonProtocol.Request;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -192,17 +192,19 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
   }
 
   private final static Handshaker.StandaloneV8.RemoteInfo NULL_REMOTE_INFO =
-      new Handshaker.StandaloneV8.RemoteInfo() {
-    public String getEmbeddingHostName() {
-      return null;
-    }
-    public String getProtocolVersion() {
-      return null;
-    }
-    public String getV8VmVersion() {
-      return null;
-    }
-  };
+    new Handshaker.StandaloneV8.RemoteInfo() {
+      public String getEmbeddingHostName() {
+        return null;
+      }
+
+      public String getProtocolVersion() {
+        return null;
+      }
+
+      public String getV8VmVersion() {
+        return null;
+      }
+    };
 
   private enum ConnectionState {
     INIT,
@@ -218,10 +220,11 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
     V8CommandOutputImpl(Connection outputConnection) {
       this.outputConnection = outputConnection;
     }
-    public void send(OutMessage debuggerMessage, boolean immediate) {
+
+    public void send(Request debuggerMessage, boolean immediate) {
       outputConnection.send(new Message(Collections.<String, String>emptyMap(), debuggerMessage.toJson()));
-      // TODO(peter.rybin): support {@code immediate} in protocol
     }
+
     public void runInDispatchThread(Runnable callback) {
       outputConnection.runInDispatchThread(callback);
     }

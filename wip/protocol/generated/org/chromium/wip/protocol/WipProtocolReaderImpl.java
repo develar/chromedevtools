@@ -7,288 +7,18 @@ import static org.jetbrains.jsonProtocol.JsonReaders.*;
 
 public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.WipProtocolReader {
   @Override
-  public org.chromium.wip.protocol.input.page.FrameStoppedLoadingEventData parsePageFrameStoppedLoadingEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M100(reader);
+  public org.chromium.wip.protocol.input.dom.ShadowRootPushedEventData parseDOMShadowRootPushedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M56(reader);
   }
 
   @Override
-  public org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData parseConsoleMessageRepeatCountUpdatedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M3(reader);
+  public org.chromium.wip.protocol.input.dom.QuerySelectorData parseDOMQuerySelectorData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M50(reader);
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.SetBreakpointData parseDebuggerSetBreakpointData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M27(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.ShadowRootPoppedEventData parseDOMShadowRootPoppedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M55(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.network.RequestServedFromCacheEventData parseNetworkRequestServedFromCacheEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M66(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.console.MessagesClearedEventData parseConsoleMessagesClearedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M4(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.network.LoadingFinishedEventData parseNetworkLoadingFinishedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M65(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.runtime.EvaluateData parseRuntimeEvaluateData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M116(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData parseDOMDocumentUpdatedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M37(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.runtime.ExecutionContextCreatedEventData parseRuntimeExecutionContextCreatedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M117(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.network.DataReceivedEventData parseNetworkDataReceivedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M60(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.network.RequestWillBeSentEventData parseNetworkRequestWillBeSentEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M69(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.CanOverrideDeviceOrientationData parsePageCanOverrideDeviceOrientationData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M86(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.AddScriptToEvaluateOnLoadData parsePageAddScriptToEvaluateOnLoadData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M83(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.ChildNodeCountUpdatedEventData parseDOMChildNodeCountUpdatedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M34(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.timeline.CanMonitorMainThreadData parseTimelineCanMonitorMainThreadData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M125(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.timeline.EventRecordedEventData parseTimelineEventRecordedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M126(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.debugger.ResumedEventData parseDebuggerResumedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M20(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.debugger.RunScriptData parseDebuggerRunScriptData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M21(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.network.ResponseReceivedEventData parseNetworkResponseReceivedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M71(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.MoveToData parseDOMMoveToData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M45(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.LoadEventFiredEventData parsePageLoadEventFiredEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M109(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.network.WebSocketWillSendHandshakeRequestEventData parseNetworkWebSocketWillSendHandshakeRequestEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M82(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.network.WebSocketCreatedEventData parseNetworkWebSocketCreatedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M74(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.CanOverrideGeolocationData parsePageCanOverrideGeolocationData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M87(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.debugger.PausedEventData parseDebuggerPausedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M16(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.runtime.RemoteObjectValue parseRemoteObjectValue(com.google.gson.stream.JsonReaderEx reader) {
-    return new M124(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData parsePageJavascriptDialogClosedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M107(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.GetResourceTreeData parsePageGetResourceTreeData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M105(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.network.WebSocketFrameErrorEventData parseNetworkWebSocketFrameErrorEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M75(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.CanShowFPSCounterData parsePageCanShowFPSCounterData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M89(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.SearchInResourcesData parsePageSearchInResourcesData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M112(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.debugger.SetScriptSourceData parseDebuggerSetScriptSourceData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M28(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.network.WebSocketFrameReceivedEventData parseNetworkWebSocketFrameReceivedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M76(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData parseDOMChildNodeInsertedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M35(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.CharacterDataModifiedEventData parseDOMCharacterDataModifiedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M33(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.ChildNodeRemovedEventData parseDOMChildNodeRemovedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M36(reader);
-  }
-
-  @Override
-  public org.jetbrains.wip.protocol.WipTabList parseTabList(com.google.gson.stream.JsonReaderEx reader) {
-    return new M138(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.runtime.CallFunctionOnData parseRuntimeCallFunctionOnData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M115(reader);
-  }
-
-  @Override
-  public org.jetbrains.wip.protocol.IncomingMessage readIncomingMessage(com.google.gson.stream.JsonReaderEx reader) {
-    return new M135(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.network.CanClearBrowserCacheData parseNetworkCanClearBrowserCacheData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M58(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.debugger.CanSetScriptSourceData parseDebuggerCanSetScriptSourceData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M7(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.SearchInResourceData parsePageSearchInResourceData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M111(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData parsePageGetScriptExecutionStatusData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M106(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.PerformSearchData parseDOMPerformSearchData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M47(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.GetResourceContentData parsePageGetResourceContentData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M104(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData parsePageJavascriptDialogOpeningEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M108(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.debugger.CausesRecompilationData parseDebuggerCausesRecompilationData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M8(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.network.WebSocketHandshakeResponseReceivedEventData parseNetworkWebSocketHandshakeResponseReceivedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M79(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.GetCompositingBordersVisibleData parsePageGetCompositingBordersVisibleData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M102(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.SetChildNodesEventData parseDOMSetChildNodesEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M53(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData parseDebuggerEvaluateOnCallFrameData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M10(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.FrameClearedScheduledNavigationEventData parsePageFrameClearedScheduledNavigationEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M93(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.QuerySelectorAllData parseDOMQuerySelectorAllData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M49(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.network.LoadingFailedEventData parseNetworkLoadingFailedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M64(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData parsePageFrameStartedLoadingEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M99(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.GetAttributesData parseDOMGetAttributesData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M39(reader);
+  public org.chromium.wip.protocol.input.dom.GetSearchResultsData parseDOMGetSearchResultsData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M43(reader);
   }
 
   @Override
@@ -307,18 +37,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   @Override
-  public org.chromium.wip.protocol.input.dom.ShadowRootPushedEventData parseDOMShadowRootPushedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M56(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.QuerySelectorData parseDOMQuerySelectorData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M50(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.GetSearchResultsData parseDOMGetSearchResultsData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M43(reader);
+  public org.chromium.wip.protocol.input.page.DomContentEventFiredEventData parsePageDomContentEventFiredEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M92(reader);
   }
 
   @Override
@@ -327,23 +47,38 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   @Override
-  public org.chromium.wip.protocol.input.page.DomContentEventFiredEventData parsePageDomContentEventFiredEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M92(reader);
+  public org.chromium.wip.protocol.input.dom.QuerySelectorAllData parseDOMQuerySelectorAllData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M49(reader);
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.ScriptParsedEventData parseDebuggerScriptParsedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M24(reader);
+  public org.chromium.wip.protocol.input.dom.SetChildNodesEventData parseDOMSetChildNodesEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M53(reader);
   }
 
   @Override
-  public org.chromium.wip.protocol.input.page.CanOverrideDeviceMetricsData parsePageCanOverrideDeviceMetricsData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M85(reader);
+  public org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData parseDebuggerEvaluateOnCallFrameData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M10(reader);
   }
 
   @Override
-  public org.chromium.wip.protocol.input.page.FrameNavigatedEventData parsePageFrameNavigatedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M95(reader);
+  public org.chromium.wip.protocol.input.page.FrameClearedScheduledNavigationEventData parsePageFrameClearedScheduledNavigationEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M93(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.LoadingFailedEventData parseNetworkLoadingFailedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M64(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData parsePageFrameStartedLoadingEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M99(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.dom.GetAttributesData parseDOMGetAttributesData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M39(reader);
   }
 
   @Override
@@ -352,13 +87,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   @Override
-  public org.chromium.wip.protocol.input.page.CaptureScreenshotData parsePageCaptureScreenshotData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M90(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.RequestNodeData parseDOMRequestNodeData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M51(reader);
+  public org.chromium.wip.protocol.input.page.FrameNavigatedEventData parsePageFrameNavigatedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M95(reader);
   }
 
   @Override
@@ -382,33 +112,28 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   @Override
-  public org.chromium.wip.protocol.input.dom.GetOuterHTMLData parseDOMGetOuterHTMLData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M42(reader);
+  public org.chromium.wip.protocol.input.page.CaptureScreenshotData parsePageCaptureScreenshotData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M90(reader);
   }
 
   @Override
-  public org.chromium.wip.protocol.input.dom.AttributeModifiedEventData parseDOMAttributeModifiedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M31(reader);
+  public org.chromium.wip.protocol.input.dom.RequestNodeData parseDOMRequestNodeData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M51(reader);
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData parseDebuggerSetBreakpointByUrlData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M26(reader);
+  public org.chromium.wip.protocol.input.runtime.RemoteObjectValue parseRemoteObjectValue(com.google.gson.stream.JsonReaderEx reader) {
+    return new M124(reader);
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.ScriptFailedToParseEventData parseDebuggerScriptFailedToParseEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M23(reader);
+  public org.chromium.wip.protocol.input.page.CanOverrideDeviceMetricsData parsePageCanOverrideDeviceMetricsData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M85(reader);
   }
 
   @Override
-  public org.chromium.wip.protocol.input.timeline.SupportsFrameInstrumentationData parseTimelineSupportsFrameInstrumentationData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M127(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.GetEventListenersForNodeData parseDOMGetEventListenersForNodeData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M41(reader);
+  public org.chromium.wip.protocol.input.debugger.ScriptParsedEventData parseDebuggerScriptParsedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M24(reader);
   }
 
   @Override
@@ -419,11 +144,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   @Override
   public org.chromium.wip.protocol.input.page.GetCookiesData parsePageGetCookiesData(com.google.gson.stream.JsonReaderEx reader) {
     return new M103(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.dom.ResolveNodeData parseDOMResolveNodeData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M52(reader);
   }
 
   @Override
@@ -442,23 +162,58 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.CompileScriptData parseDebuggerCompileScriptData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M9(reader);
+  public org.chromium.wip.protocol.input.dom.ResolveNodeData parseDOMResolveNodeData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M52(reader);
   }
 
   @Override
-  public org.chromium.wip.protocol.input.network.CanClearBrowserCookiesData parseNetworkCanClearBrowserCookiesData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M59(reader);
+  public org.chromium.wip.protocol.input.dom.GetOuterHTMLData parseDOMGetOuterHTMLData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M42(reader);
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.SearchInContentData parseDebuggerSearchInContentData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M25(reader);
+  public org.chromium.wip.protocol.input.dom.AttributeModifiedEventData parseDOMAttributeModifiedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M31(reader);
   }
 
   @Override
-  public org.chromium.wip.protocol.input.network.GetResponseBodyData parseNetworkGetResponseBodyData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M61(reader);
+  public org.chromium.wip.protocol.input.dom.GetEventListenersForNodeData parseDOMGetEventListenersForNodeData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M41(reader);
+  }
+
+  @Override
+  public org.jetbrains.wip.protocol.WipTabList parseTabList(com.google.gson.stream.JsonReaderEx reader) {
+    return new M138(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData parseDebuggerSetBreakpointByUrlData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M26(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.debugger.ScriptFailedToParseEventData parseDebuggerScriptFailedToParseEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M23(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.timeline.SupportsFrameInstrumentationData parseTimelineSupportsFrameInstrumentationData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M127(reader);
+  }
+
+  @Override
+  public org.jetbrains.wip.protocol.IncomingMessage readIncomingMessage(com.google.gson.stream.JsonReaderEx reader) {
+    return new M135(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.console.MessageAddedEventData parseConsoleMessageAddedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M2(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.CanShowDebugBordersData parsePageCanShowDebugBordersData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M88(reader);
   }
 
   @Override
@@ -487,18 +242,263 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   @Override
-  public org.chromium.wip.protocol.input.console.MessageAddedEventData parseConsoleMessageAddedEventData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M2(reader);
-  }
-
-  @Override
-  public org.chromium.wip.protocol.input.page.CanShowDebugBordersData parsePageCanShowDebugBordersData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M88(reader);
-  }
-
-  @Override
   public org.chromium.wip.protocol.input.debugger.GetScriptSourceData parseDebuggerGetScriptSourceData(com.google.gson.stream.JsonReaderEx reader) {
     return new M13(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.debugger.CompileScriptData parseDebuggerCompileScriptData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M9(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.CanClearBrowserCookiesData parseNetworkCanClearBrowserCookiesData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M59(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.debugger.SearchInContentData parseDebuggerSearchInContentData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M25(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.GetResponseBodyData parseNetworkGetResponseBodyData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M61(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.runtime.EvaluateData parseRuntimeEvaluateData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M116(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData parseDOMDocumentUpdatedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M37(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.runtime.ExecutionContextCreatedEventData parseRuntimeExecutionContextCreatedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M117(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.DataReceivedEventData parseNetworkDataReceivedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M60(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.RequestWillBeSentEventData parseNetworkRequestWillBeSentEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M69(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.LoadingFinishedEventData parseNetworkLoadingFinishedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M65(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.dom.ChildNodeCountUpdatedEventData parseDOMChildNodeCountUpdatedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M34(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.timeline.CanMonitorMainThreadData parseTimelineCanMonitorMainThreadData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M125(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.CanOverrideDeviceOrientationData parsePageCanOverrideDeviceOrientationData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M86(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.AddScriptToEvaluateOnLoadData parsePageAddScriptToEvaluateOnLoadData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M83(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.FrameStoppedLoadingEventData parsePageFrameStoppedLoadingEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M100(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData parseConsoleMessageRepeatCountUpdatedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M3(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.debugger.SetBreakpointData parseDebuggerSetBreakpointData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M27(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.RequestServedFromCacheEventData parseNetworkRequestServedFromCacheEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M66(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.console.MessagesClearedEventData parseConsoleMessagesClearedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M4(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.dom.ShadowRootPoppedEventData parseDOMShadowRootPoppedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M55(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.debugger.PausedEventData parseDebuggerPausedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M16(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.WebSocketWillSendHandshakeRequestEventData parseNetworkWebSocketWillSendHandshakeRequestEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M82(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.WebSocketCreatedEventData parseNetworkWebSocketCreatedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M74(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.CanOverrideGeolocationData parsePageCanOverrideGeolocationData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M87(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData parsePageJavascriptDialogClosedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M107(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.debugger.ResumedEventData parseDebuggerResumedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M20(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.timeline.EventRecordedEventData parseTimelineEventRecordedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M126(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.LoadEventFiredEventData parsePageLoadEventFiredEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M109(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.debugger.RunScriptData parseDebuggerRunScriptData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M21(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.ResponseReceivedEventData parseNetworkResponseReceivedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M71(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.dom.MoveToData parseDOMMoveToData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M45(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.dom.CharacterDataModifiedEventData parseDOMCharacterDataModifiedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M33(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.runtime.CallFunctionOnData parseRuntimeCallFunctionOnData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M115(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.dom.ChildNodeRemovedEventData parseDOMChildNodeRemovedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M36(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.CanShowFPSCounterData parsePageCanShowFPSCounterData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M89(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.SearchInResourcesData parsePageSearchInResourcesData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M112(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.GetResourceTreeData parsePageGetResourceTreeData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M105(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.WebSocketFrameErrorEventData parseNetworkWebSocketFrameErrorEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M75(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData parseDOMChildNodeInsertedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M35(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.debugger.SetScriptSourceData parseDebuggerSetScriptSourceData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M28(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.WebSocketFrameReceivedEventData parseNetworkWebSocketFrameReceivedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M76(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData parsePageJavascriptDialogOpeningEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M108(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.debugger.CausesRecompilationData parseDebuggerCausesRecompilationData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M8(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.dom.PerformSearchData parseDOMPerformSearchData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M47(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.GetResourceContentData parsePageGetResourceContentData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M104(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.WebSocketHandshakeResponseReceivedEventData parseNetworkWebSocketHandshakeResponseReceivedEventData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M79(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.GetCompositingBordersVisibleData parsePageGetCompositingBordersVisibleData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M102(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.network.CanClearBrowserCacheData parseNetworkCanClearBrowserCacheData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M58(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.debugger.CanSetScriptSourceData parseDebuggerCanSetScriptSourceData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M7(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.SearchInResourceData parsePageSearchInResourceData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M111(reader);
+  }
+
+  @Override
+  public org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData parsePageGetScriptExecutionStatusData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M106(reader);
   }
 
   public static final class M0 implements org.chromium.wip.protocol.input.console.CallFrameValue {
@@ -5545,10 +5545,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M139F extends ObjectFactory<org.jetbrains.wip.protocol.WipTabList.TabDescription> {
+  static final class M15F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.LocationValue> {
     @Override
-    public org.jetbrains.wip.protocol.WipTabList.TabDescription read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M139(reader);
+    public org.chromium.wip.protocol.input.debugger.LocationValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M15(reader);
     }
   }
 
@@ -5559,24 +5559,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M124F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.RemoteObjectValue> {
+  static final class M22F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.ScopeValue> {
     @Override
-    public org.chromium.wip.protocol.input.runtime.RemoteObjectValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M124(reader);
-    }
-  }
-
-  static final class M0F extends ObjectFactory<org.chromium.wip.protocol.input.console.CallFrameValue> {
-    @Override
-    public org.chromium.wip.protocol.input.console.CallFrameValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M0(reader);
-    }
-  }
-
-  static final class M91F extends ObjectFactory<org.chromium.wip.protocol.input.page.CookieValue> {
-    @Override
-    public org.chromium.wip.protocol.input.page.CookieValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M91(reader);
+    public org.chromium.wip.protocol.input.debugger.ScopeValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M22(reader);
     }
   }
 
@@ -5587,31 +5573,17 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
+  static final class M96F extends ObjectFactory<org.chromium.wip.protocol.input.page.FrameResourceTreeValue> {
+    @Override
+    public org.chromium.wip.protocol.input.page.FrameResourceTreeValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M96(reader);
+    }
+  }
+
   static final class M113F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchMatchValue> {
     @Override
     public org.chromium.wip.protocol.input.page.SearchMatchValue read(com.google.gson.stream.JsonReaderEx reader) {
       return new M113(reader);
-    }
-  }
-
-  static final class M6F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.CallFrameValue> {
-    @Override
-    public org.chromium.wip.protocol.input.debugger.CallFrameValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M6(reader);
-    }
-  }
-
-  static final class M15F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.LocationValue> {
-    @Override
-    public org.chromium.wip.protocol.input.debugger.LocationValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M15(reader);
-    }
-  }
-
-  static final class M114F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchResultValue> {
-    @Override
-    public org.chromium.wip.protocol.input.page.SearchResultValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M114(reader);
     }
   }
 
@@ -5622,31 +5594,17 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M96F extends ObjectFactory<org.chromium.wip.protocol.input.page.FrameResourceTreeValue> {
+  static final class M114F extends ObjectFactory<org.chromium.wip.protocol.input.page.SearchResultValue> {
     @Override
-    public org.chromium.wip.protocol.input.page.FrameResourceTreeValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M96(reader);
+    public org.chromium.wip.protocol.input.page.SearchResultValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M114(reader);
     }
   }
 
-  static final class M46F extends ObjectFactory<org.chromium.wip.protocol.input.dom.NodeValue> {
+  static final class M0F extends ObjectFactory<org.chromium.wip.protocol.input.console.CallFrameValue> {
     @Override
-    public org.chromium.wip.protocol.input.dom.NodeValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M46(reader);
-    }
-  }
-
-  static final class M22F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.ScopeValue> {
-    @Override
-    public org.chromium.wip.protocol.input.debugger.ScopeValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M22(reader);
-    }
-  }
-
-  static final class M123F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.PropertyPreviewValue> {
-    @Override
-    public org.chromium.wip.protocol.input.runtime.PropertyPreviewValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M123(reader);
+    public org.chromium.wip.protocol.input.console.CallFrameValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M0(reader);
     }
   }
 
@@ -5657,10 +5615,52 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
+  static final class M139F extends ObjectFactory<org.jetbrains.wip.protocol.WipTabList.TabDescription> {
+    @Override
+    public org.jetbrains.wip.protocol.WipTabList.TabDescription read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M139(reader);
+    }
+  }
+
+  static final class M91F extends ObjectFactory<org.chromium.wip.protocol.input.page.CookieValue> {
+    @Override
+    public org.chromium.wip.protocol.input.page.CookieValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M91(reader);
+    }
+  }
+
   static final class M97F extends ObjectFactory<org.chromium.wip.protocol.input.page.FrameResourceTreeValue.Resources> {
     @Override
     public org.chromium.wip.protocol.input.page.FrameResourceTreeValue.Resources read(com.google.gson.stream.JsonReaderEx reader) {
       return new M97(reader);
+    }
+  }
+
+  static final class M124F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.RemoteObjectValue> {
+    @Override
+    public org.chromium.wip.protocol.input.runtime.RemoteObjectValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M124(reader);
+    }
+  }
+
+  static final class M123F extends ObjectFactory<org.chromium.wip.protocol.input.runtime.PropertyPreviewValue> {
+    @Override
+    public org.chromium.wip.protocol.input.runtime.PropertyPreviewValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M123(reader);
+    }
+  }
+
+  static final class M46F extends ObjectFactory<org.chromium.wip.protocol.input.dom.NodeValue> {
+    @Override
+    public org.chromium.wip.protocol.input.dom.NodeValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M46(reader);
+    }
+  }
+
+  static final class M6F extends ObjectFactory<org.chromium.wip.protocol.input.debugger.CallFrameValue> {
+    @Override
+    public org.chromium.wip.protocol.input.debugger.CallFrameValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M6(reader);
     }
   }
 

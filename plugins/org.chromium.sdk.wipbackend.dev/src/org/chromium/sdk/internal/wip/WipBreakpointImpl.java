@@ -7,16 +7,17 @@ package org.chromium.sdk.internal.wip;
 import org.chromium.sdk.*;
 import org.chromium.sdk.JavascriptVm.BreakpointCallback;
 import org.chromium.sdk.internal.ScriptRegExpBreakpointTarget;
+import org.chromium.sdk.util.GenericCallback;
+import org.chromium.sdk.util.RelaySyncCallback;
+import org.chromium.wip.protocol.input.ProtocolReponseReader;
 import org.chromium.wip.protocol.input.debugger.LocationValue;
 import org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData;
 import org.chromium.wip.protocol.input.debugger.SetBreakpointData;
-import org.chromium.sdk.util.GenericCallback;
-import org.chromium.sdk.util.RelaySyncCallback;
-import org.jetbrains.wip.protocol.WipRequestWithResponse;
 import org.chromium.wip.protocol.output.debugger.Location;
 import org.chromium.wip.protocol.output.debugger.RemoveBreakpoint;
-import org.chromium.wip.protocol.output.debugger.SetBreakpointByUrl;
 import org.chromium.wip.protocol.output.debugger.SetBreakpoint;
+import org.chromium.wip.protocol.output.debugger.SetBreakpointByUrl;
+import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.wip.protocol.CommandResponse.Success;
 
 import java.util.*;
@@ -336,7 +337,7 @@ public class WipBreakpointImpl implements Breakpoint {
         throw new IllegalArgumentException();
       }
 
-      private <T, DATA, PARAMS extends WipRequestWithResponse<DATA>> RelayOk sendRequest(T parameter, final RequestHandler<T, DATA, PARAMS> handler) {
+      private <T, DATA, PARAMS extends RequestWithResponse<DATA, ProtocolReponseReader>> RelayOk sendRequest(T parameter, final RequestHandler<T, DATA, PARAMS> handler) {
         PARAMS requestParams = handler.createRequestParams(parameter, lineNumber, columnNumber, condition);
         GenericCallback<DATA> wrappedCallback;
         if (callback == null) {
@@ -367,7 +368,7 @@ public class WipBreakpointImpl implements Breakpoint {
     });
   }
 
-  private static abstract class RequestHandler<T, DATA, PARAMS extends WipRequestWithResponse<DATA>> {
+  private static abstract class RequestHandler<T, DATA, PARAMS extends RequestWithResponse<DATA, ProtocolReponseReader>> {
     abstract PARAMS createRequestParams(T parameter, int lineNumber, int columnNumber, String condition);
 
     abstract String getBreakpointId(DATA data);

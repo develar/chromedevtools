@@ -4,7 +4,6 @@
 
 package org.chromium.sdk.internal.shellprotocol.tools.v8debugger;
 
-import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonReaderEx;
 import org.chromium.sdk.DebugEventListener;
 import org.chromium.sdk.TabDebugEventListener;
@@ -16,12 +15,11 @@ import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.Result;
 import org.chromium.sdk.internal.shellprotocol.tools.protocol.input.ToolsMessage;
 import org.chromium.sdk.internal.transport.Message;
 import org.chromium.sdk.internal.v8native.*;
-import org.chromium.sdk.internal.v8native.protocol.input.data.ContextData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.v8.protocol.ProtocolService;
 import org.jetbrains.jsonProtocol.JsonReaders;
-import org.jetbrains.jsonProtocol.OutMessage;
+import org.jetbrains.jsonProtocol.Request;
 
 import java.io.IOException;
 import java.util.EnumSet;
@@ -76,7 +74,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
         return false;
       }
 
-      final boolean skipSketchCode = true;
+      boolean skipSketchCode = true;
       if (skipSketchCode) {
         // We do not actually have a context id to compare with. So we shouldn't waste time
         // on parsing until we have this id.
@@ -85,17 +83,11 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
 
       long scriptContextId;
       if (data instanceof String) {
-        String stringData = (String) data;
+        String stringData = (String)data;
         // we should parse string and check context id. It should have the format "type,id".
-      } else if (data instanceof JsonReaderEx) {
-        JsonReaderEx dataObject = (JsonReaderEx) data;
-        ContextData contextData;
-        try {
-          contextData = ProtocolService.PROTOCOL_READER.parseContextData(dataObject);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-        scriptContextId = contextData.value();
+      }
+      else if (data instanceof JsonReaderEx) {
+        scriptContextId = ProtocolService.PROTOCOL_READER.parseContextData((JsonReaderEx)data).value();
       }
       //TODO(peter.rybin): Here we are probably supposed to compare it with our context id.
       return true;
@@ -138,7 +130,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
     return browserTabImpl.getTabDebugEventListener();
   }
 
-  private void handleChromeDevToolMessage(final Message message) {
+  private void handleChromeDevToolMessage(Message message) {
     JsonReaderEx reader = JsonReaders.createReader(message.getContent().toString());
     ToolsMessage devToolsMessage;
     //try {
@@ -431,7 +423,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
       this.toolOutput = toolOutput;
     }
 
-    public void send(OutMessage debuggerMessage, boolean isImmediate) {
+    public void send(Request debuggerMessage, boolean isImmediate) {
       toolOutput.send(V8DebuggerToolMessageFactory.debuggerCommand(debuggerMessage.toJson()));
       if (isImmediate) {
         toolOutput.send(V8DebuggerToolMessageFactory.evaluateJavascript(V8Helper.JAVASCRIPT_VOID));

@@ -8,9 +8,10 @@ import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
+import org.chromium.wip.protocol.input.ProtocolReponseReader;
+import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.wip.protocol.CommandResponse;
 import org.jetbrains.wip.protocol.WipRequest;
-import org.jetbrains.wip.protocol.WipRequestWithResponse;
 
 /**
  * A utility class that helps running a chain of asynchronous commands in a safe manner.
@@ -80,7 +81,7 @@ public class WipRelayRunner {
   }
 
   public static abstract class SendStepWithResponse<DATA, RES> implements Step<RES> {
-    public abstract WipRequestWithResponse<DATA> getParams();
+    public abstract RequestWithResponse<DATA, ProtocolReponseReader> getParams();
 
     /**
      * Handles normal response and returns a next step (or throws {@link ProcessException}).

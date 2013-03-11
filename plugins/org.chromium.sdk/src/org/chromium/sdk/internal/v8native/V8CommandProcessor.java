@@ -13,7 +13,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage;
 import org.chromium.sdk.internal.v8native.protocol.input.MessageType;
 import org.chromium.v8.protocol.ProtocolService;
-import org.jetbrains.jsonProtocol.RequestImpl;
+import org.jetbrains.jsonProtocol.Request;
 import org.jetbrains.rpc.MessageHandler;
 import org.jetbrains.v8.protocol.V8Request;
 
@@ -49,13 +49,13 @@ public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeExc
 
   private final DebugSession debugSession;
 
-  private final BaseCommandProcessor<RequestImpl, IncomingMessage, CommandResponse> baseCommandProcessor;
+  private final BaseCommandProcessor<Request, IncomingMessage, CommandResponse> baseCommandProcessor;
 
   public V8CommandProcessor(V8CommandOutput messageOutput, DefaultResponseHandler defaultResponseHandler, DebugSession debugSession) {
     this.messageOutput = messageOutput;
     this.defaultResponseHandler = defaultResponseHandler;
     this.debugSession = debugSession;
-    baseCommandProcessor = new BaseCommandProcessor<RequestImpl, IncomingMessage, CommandResponse>(new V8MessageHandler());
+    baseCommandProcessor = new BaseCommandProcessor<Request, IncomingMessage, CommandResponse>(new V8MessageHandler());
   }
 
   @Override
@@ -92,7 +92,7 @@ public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeExc
   }
 
   private class V8MessageHandler extends MessageHandler<IncomingMessage, CommandResponse> {
-    public void send(RequestImpl message, boolean isImmediate) {
+    public void send(Request message, boolean isImmediate) {
       messageOutput.send(message, isImmediate);
     }
 

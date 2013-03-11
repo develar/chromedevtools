@@ -11,13 +11,15 @@ import org.chromium.sdk.TabDebugEventListener;
 import org.chromium.sdk.internal.BaseCommandProcessor;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.wip.WipParserAccess;
+import org.chromium.wip.protocol.input.ProtocolReponseReader;
 import org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData;
 import org.chromium.wip.protocol.input.debugger.PausedEventData;
 import org.chromium.wip.protocol.input.debugger.ResumedEventData;
 import org.chromium.wip.protocol.input.debugger.ScriptParsedEventData;
 import org.chromium.wip.protocol.input.page.FrameDetachedEventData;
 import org.chromium.wip.protocol.input.page.FrameNavigatedEventData;
-import org.jetbrains.jsonProtocol.RequestImpl;
+import org.jetbrains.jsonProtocol.Request;
+import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.rpc.MessageHandler;
 import org.jetbrains.wip.protocol.*;
 import org.jetbrains.wip.protocol.CommandResponse.Success;
@@ -35,18 +37,18 @@ class WipCommandProcessor {
   private static final Logger LOGGER = Logger.getLogger(WipCommandProcessor.class.getName());
 
   private final WipTabImpl tabImpl;
-  private final BaseCommandProcessor<RequestImpl, IncomingMessage, CommandResponse> baseProcessor;
+  private final BaseCommandProcessor<Request, IncomingMessage, CommandResponse> baseProcessor;
 
   WipCommandProcessor(WipTabImpl tabImpl) {
     this.tabImpl = tabImpl;
-    baseProcessor = new BaseCommandProcessor<RequestImpl, IncomingMessage, CommandResponse>(new WipMessageTypeHandler());
+    baseProcessor = new BaseCommandProcessor<Request, IncomingMessage, CommandResponse>(new WipMessageTypeHandler());
   }
 
-  RelayOk sendRaw(RequestImpl request, WipCommandCallback callback, SyncCallback syncCallback) {
+  RelayOk sendRaw(Request request, WipCommandCallback callback, SyncCallback syncCallback) {
     return baseProcessor.send(request, false, callback, syncCallback);
   }
 
-  RelayOk send(WipRequest request, WipCommandCallback callback, SyncCallback syncCallback) {
+  RelayOk send(Request request, WipCommandCallback callback, SyncCallback syncCallback) {
     return sendRaw(request, callback, syncCallback);
   }
 
@@ -56,7 +58,7 @@ class WipCommandProcessor {
    * @param callback a callback that accepts method-specific response or null
    * @param syncCallback may be null
    */
-  <RESPONSE> RelayOk send(final WipRequestWithResponse<RESPONSE> request, final GenericCallback<RESPONSE> callback, SyncCallback syncCallback) {
+  <RESPONSE> RelayOk send(final RequestWithResponse<RESPONSE, ProtocolReponseReader> request, final GenericCallback<RESPONSE> callback, SyncCallback syncCallback) {
     WipCommandCallback commandCallback;
     if (callback == null) {
       commandCallback = null;
@@ -87,7 +89,7 @@ class WipCommandProcessor {
 
   private class WipMessageTypeHandler extends MessageHandler<IncomingMessage, CommandResponse> {
     @Override
-    public void send(RequestImpl message, boolean isImmediate) throws IOException {
+    public void send(Request message, boolean isImmediate) throws IOException {
       tabImpl.getWsSocket().sendTextualMessage(message.toJson());
     }
 

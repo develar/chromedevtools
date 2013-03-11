@@ -10,6 +10,7 @@ import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
 import org.chromium.sdk.internal.wip.WipValueLoader.Getter;
 import org.chromium.sdk.util.*;
 import org.chromium.sdk.wip.WipParserAccess;
+import org.chromium.wip.protocol.input.ProtocolReponseReader;
 import org.chromium.wip.protocol.input.debugger.*;
 import org.chromium.wip.protocol.input.runtime.EvaluateData;
 import org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue;
@@ -18,9 +19,9 @@ import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
 import org.chromium.wip.protocol.output.debugger.*;
 import org.chromium.wip.protocol.output.runtime.Evaluate;
 import org.jetbrains.jsonProtocol.JsonReaders;
+import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.wip.protocol.CommandResponse;
 import org.jetbrains.wip.protocol.WipRequest;
-import org.jetbrains.wip.protocol.WipRequestWithResponse;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -46,7 +47,7 @@ class WipContextBuilder {
 
   // Called from Dispatch Thread.
   RelayOk updateStackTrace(List<CallFrameValue> callFrames,
-      GenericCallback<Void> callback, final SyncCallback syncCallback) {
+      GenericCallback<Void> callback, SyncCallback syncCallback) {
     if (currentContext == null) {
       if (callback != null) {
         callback.success(null);
@@ -116,7 +117,7 @@ class WipContextBuilder {
     }
 
     RelayOk setFrames(List<CallFrameValue> frameDataList,
-        final GenericCallback<Void> callback, final SyncCallback syncCallback) {
+        final GenericCallback<Void> callback, SyncCallback syncCallback) {
       frames = new ArrayList<CallFrameImpl>(frameDataList.size());
       for (CallFrameValue frameData : frameDataList) {
         frames.add(new CallFrameImpl(frameData));
@@ -351,13 +352,13 @@ class WipContextBuilder {
         return evaluateContext;
       }
 
-      private JsVariable createSimpleNameVariable(final String name, RemoteObjectValue thisObjectData) {
+      private JsVariable createSimpleNameVariable(String name, RemoteObjectValue thisObjectData) {
         return valueLoader.getValueBuilder().createVariable(thisObjectData, WipExpressionBuilder.createRootName(name, false));
       }
 
       private final WipEvaluateContextBase<?> evaluateContext = new WipEvaluateContextBase<EvaluateOnCallFrameData>(getValueLoader()) {
         @Override
-        protected WipRequestWithResponse<EvaluateOnCallFrameData> createRequestParams(String expression,
+        protected RequestWithResponse<EvaluateOnCallFrameData, ProtocolReponseReader> createRequestParams(String expression,
                                                                                      WipValueLoader destinationValueLoader) {
           return new EvaluateOnCallFrame(id, expression).objectGroup(destinationValueLoader.getObjectGroupId());
         }
@@ -404,7 +405,7 @@ class WipContextBuilder {
         }
         if (JsonReaders.findBooleanField("stack_update_needs_step_in", data.result().getDeferredReader())) {
           final RelaySyncCallback.Guard guard = relay.newGuard();
-          final ContinueCallback continueCallback = new ContinueCallback() {
+          ContinueCallback continueCallback = new ContinueCallback() {
             @Override
             public void success() {
               RelayOk relayOk = finishSuccessfulRestart(true, callback, guard.getRelay());
@@ -566,11 +567,11 @@ class WipContextBuilder {
         public Getter<ScopeVariables> process(List<? extends PropertyDescriptorValue> propertyList,
             List<? extends InternalPropertyDescriptorValue> internalPropertyList,
             int currentCacheState) {
-          final List<JsVariable> properties = new ArrayList<JsVariable>(propertyList.size());
+          List<JsVariable> properties = new ArrayList<JsVariable>(propertyList.size());
 
           WipValueBuilder valueBuilder = valueLoader.getValueBuilder();
           for (PropertyDescriptorValue property : propertyList) {
-            final String name = property.name();
+            String name = property.name();
 
             ValueNameBuilder valueNameBuilder =
                 WipExpressionBuilder.createRootName(name, false);
@@ -729,9 +730,8 @@ class WipContextBuilder {
     }
 
     @Override
-    protected WipRequestWithResponse<EvaluateData> createRequestParams(String expression, WipValueLoader destinationValueLoader) {
-      return new Evaluate(expression).objectGroup(destinationValueLoader.getObjectGroupId()).doNotPauseOnExceptionsAndMuteConsole(
-        true);
+    protected RequestWithResponse<EvaluateData, ProtocolReponseReader> createRequestParams(String expression, WipValueLoader destinationValueLoader) {
+      return new Evaluate(expression).objectGroup(destinationValueLoader.getObjectGroupId()).doNotPauseOnExceptionsAndMuteConsole(true);
     }
 
     @Override
