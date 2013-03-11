@@ -1,13 +1,13 @@
 // This is a generated source.
 package org.chromium.v8.liveEditProtocol;
 
-import org.jetbrains.jsonProtocol.ObjectFactory;
+import org.jetbrains.jsonProtocol.*;
 
 import static org.jetbrains.jsonProtocol.JsonReaders.*;
 
 public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEditProtocol.LiveEditProtocolReader {
   @Override
-  public org.chromium.v8.liveEditProtocol.LiveEditResult parseLiveEditResult(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+  public org.chromium.v8.liveEditProtocol.LiveEditResult parseLiveEditResult(com.google.gson.stream.JsonReaderEx reader) {
     return new M0(reader);
   }
 
@@ -18,7 +18,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     private boolean _stack_modified;
     private boolean _updated;
 
-    public M0(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M0(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -75,7 +75,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     private org.chromium.v8.liveEditProtocol.LiveEditResult.Positions _positions;
     private java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> _children;
 
-    public M1(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M1(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -115,7 +115,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     private long _start_position;
     private long _end_position;
 
-    public M3(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M3(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -152,7 +152,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     private java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> _new_children;
     private String _status_explanation;
 
-    public M2(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M2(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -223,7 +223,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
   public static final class M4 implements org.chromium.v8.liveEditProtocol.LiveEditResult.TextualDiff {
     private int[] _chunks;
 
-    public M4(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M4(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         if (reader.nextName().equals("chunks")) {
@@ -244,14 +244,14 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
 
   static final class M1F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> {
     @Override
-    public org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode read(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode read(com.google.gson.stream.JsonReaderEx reader) {
       return new M1(reader);
     }
   }
 
   static final class M2F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> {
     @Override
-    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode read(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode read(com.google.gson.stream.JsonReaderEx reader) {
       return new M2(reader);
     }
   }

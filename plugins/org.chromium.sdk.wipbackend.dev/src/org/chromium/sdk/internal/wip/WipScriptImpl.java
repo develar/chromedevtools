@@ -15,7 +15,6 @@ import org.chromium.wip.protocol.input.debugger.CallFrameValue;
 import org.chromium.wip.protocol.input.debugger.SetScriptSourceData;
 import org.chromium.wip.protocol.output.debugger.SetScriptSource;
 
-import java.io.IOException;
 import java.util.List;
 
 class WipScriptImpl extends ScriptBase<String> {
@@ -91,13 +90,7 @@ class WipScriptImpl extends ScriptBase<String> {
 
   private static void dispatchResult(SetScriptSourceData.Result result, UpdateCallback updateCallback) {
     if (updateCallback != null) {
-      LiveEditResult liveEditResult;
-      try {
-        liveEditResult = ProtocolService.LIVE_EDIT.parseLiveEditResult(result.getDeferredReader());
-      }
-      catch (IOException e) {
-        throw new RuntimeException("Failed to parse LiveEdit response", e);
-      }
+      LiveEditResult liveEditResult = ProtocolService.LIVE_EDIT.parseLiveEditResult(result.getDeferredReader());
       ChangeDescription wrappedChangeDescription = UpdateResultParser.wrapChangeDescription(liveEditResult);
       updateCallback.success(null, wrappedChangeDescription);
     }

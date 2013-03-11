@@ -18,7 +18,7 @@ public interface WebSocketClosedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.WebSocketClosedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.WebSocketClosedEventData>("NetworkwebSocketClosed", org.chromium.wip.protocol.input.network.WebSocketClosedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.WebSocketClosedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.network.WebSocketClosedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parseNetworkWebSocketClosedEventData(reader);
     }
   };

@@ -21,7 +21,7 @@ class ParserRootInterfaceItem implements Comparable<ParserRootInterfaceItem> {
   void writeCode(TextOutput out) throws IOException {
     out.append("@org.chromium.protocolReader.JsonParseMethod").newLine();
     out.append(fullName).space().append(nameScheme.getParseMethodName(domain, name));
-    out.append("(").append(Util.JSON_READER_PARAMETER_DEF).append(")").append(Util.THROWS_CLAUSE).semi().newLine();
+    out.append("(").append(Util.JSON_READER_PARAMETER_DEF).append(")").semi().newLine();
   }
 
   @Override

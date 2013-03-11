@@ -74,6 +74,6 @@ abstract class ValueParser {
   }
 
   public boolean isThrowsIOException() {
-    return true;
+    return false;
   }
 }

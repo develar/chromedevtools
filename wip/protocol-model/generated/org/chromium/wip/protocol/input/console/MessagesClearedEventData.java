@@ -10,7 +10,7 @@ public interface MessagesClearedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessagesClearedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessagesClearedEventData>("ConsolemessagesCleared", org.chromium.wip.protocol.input.console.MessagesClearedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.console.MessagesClearedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.console.MessagesClearedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parseConsoleMessagesClearedEventData(reader);
     }
   };

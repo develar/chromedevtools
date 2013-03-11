@@ -186,7 +186,7 @@ class TypeHandler<T> {
   private void writeConstructorMethod(String valueImplClassName, ClassScope classScope, TextOutput out) {
     out.newLine().append("public ").append(valueImplClassName).append("(").append(Util.JSON_READER_PARAMETER_DEF);
     subtypeAspect.writeSuperConstructorParamJava(out);
-    out.append(')').append(Util.THROWS_CLAUSE).openBlock();
+    out.append(')').openBlock();
 
     MethodScope methodScope = classScope.newMethodScope();
     subtypeAspect.writeSuperConstructorInitialization(out);

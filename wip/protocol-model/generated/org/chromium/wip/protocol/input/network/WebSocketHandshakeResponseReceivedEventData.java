@@ -22,7 +22,7 @@ public interface WebSocketHandshakeResponseReceivedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.WebSocketHandshakeResponseReceivedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.WebSocketHandshakeResponseReceivedEventData>("NetworkwebSocketHandshakeResponseReceived", org.chromium.wip.protocol.input.network.WebSocketHandshakeResponseReceivedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.WebSocketHandshakeResponseReceivedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.network.WebSocketHandshakeResponseReceivedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parseNetworkWebSocketHandshakeResponseReceivedEventData(reader);
     }
   };

@@ -22,7 +22,6 @@ import org.jetbrains.wip.protocol.WipCommandResponse;
 import org.jetbrains.wip.protocol.WipRequest;
 import org.jetbrains.wip.protocol.WipRequestWithResponse;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
@@ -107,16 +106,10 @@ class WipContextBuilder {
       PausedEventData.Data additionalData = data.data();
       if (data.reason() == PausedEventData.Reason.EXCEPTION && additionalData != null) {
         RemoteObjectValue exceptionRemoteObject;
-        try {
-          exceptionRemoteObject = WipParserAccess.get().parseRemoteObjectValue(additionalData.getDeferredReader());
-        }
-        catch (IOException e) {
-          throw new RuntimeException("Failed to parse exception data", e);
-        }
-        JsValue exceptionValue =
-          valueLoader.getValueBuilder().wrap(exceptionRemoteObject, null);
-        exceptionData = new ExceptionDataImpl(exceptionValue);
-      } else {
+        exceptionRemoteObject = WipParserAccess.get().parseRemoteObjectValue(additionalData.getDeferredReader());
+        exceptionData = new ExceptionDataImpl(valueLoader.getValueBuilder().wrap(exceptionRemoteObject, null));
+      }
+      else {
         exceptionData = null;
       }
       globalContext = new GlobalEvaluateContext(getValueLoader());

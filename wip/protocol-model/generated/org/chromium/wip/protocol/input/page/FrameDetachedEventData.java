@@ -14,7 +14,7 @@ public interface FrameDetachedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameDetachedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameDetachedEventData>("PageframeDetached", org.chromium.wip.protocol.input.page.FrameDetachedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.FrameDetachedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.page.FrameDetachedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parsePageFrameDetachedEventData(reader);
     }
   };

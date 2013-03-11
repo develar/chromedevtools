@@ -412,6 +412,22 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
+    <configuration default="false" name="Generate V8 model" type="Application" factoryName="Application" singleton="true">
+      <option name="MAIN_CLASS_NAME" value="org.chromium.wip.protocolParser.ProtocolModelGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="generated protocol.json org.jetbrains.v8.protocol org.jetbrains.v8.protocol.V8Request" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../v8/protocol-model" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="protocol-model-generator" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />

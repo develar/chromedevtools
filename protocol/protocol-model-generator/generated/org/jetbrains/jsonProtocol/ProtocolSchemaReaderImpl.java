@@ -5,7 +5,7 @@ import static org.jetbrains.jsonProtocol.JsonReaders.*;
 
 public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtocol.ProtocolSchemaReader {
   @Override
-  public org.jetbrains.jsonProtocol.ProtocolMetaModel.Root parseRoot(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+  public org.jetbrains.jsonProtocol.ProtocolMetaModel.Root parseRoot(com.google.gson.stream.JsonReaderEx reader) {
     return new M6(reader);
   }
 
@@ -18,7 +18,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     private org.jetbrains.jsonProtocol.ProtocolMetaModel.ArrayItemType _items;
     private java.util.List<String> _enum;
 
-    public M0(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M0(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -94,7 +94,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     private boolean _hidden;
     private boolean _async;
 
-    public M1(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M1(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -162,7 +162,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Command> _commands;
     private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Event> _events;
 
-    public M2(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M2(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -228,7 +228,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> _parameters;
     private boolean _hidden;
 
-    public M3(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M3(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -282,7 +282,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     private java.util.List<String> _enum;
     private boolean _hidden;
 
-    public M4(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M4(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -368,7 +368,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     private java.util.List<String> _enum;
     private boolean _hidden;
 
-    public M5(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M5(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -448,7 +448,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     private java.util.List<org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain> _domains;
     private org.jetbrains.jsonProtocol.ProtocolMetaModel.Version _version;
 
-    public M6(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M6(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -485,7 +485,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     private java.util.List<String> _enum;
     private boolean _hidden;
 
-    public M7(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M7(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -557,7 +557,7 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     private String _major;
     private String _minor;
 
-    public M8(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public M8(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -587,42 +587,42 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
 
   static final class M7F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType> {
     @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType read(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType read(com.google.gson.stream.JsonReaderEx reader) {
       return new M7(reader);
     }
   }
 
   static final class M1F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Command> {
     @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Command read(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Command read(com.google.gson.stream.JsonReaderEx reader) {
       return new M1(reader);
     }
   }
 
   static final class M3F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Event> {
     @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Event read(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Event read(com.google.gson.stream.JsonReaderEx reader) {
       return new M3(reader);
     }
   }
 
   static final class M5F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> {
     @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter read(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter read(com.google.gson.stream.JsonReaderEx reader) {
       return new M5(reader);
     }
   }
 
   static final class M4F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty> {
     @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty read(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty read(com.google.gson.stream.JsonReaderEx reader) {
       return new M4(reader);
     }
   }
 
   static final class M2F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain> {
     @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain read(com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain read(com.google.gson.stream.JsonReaderEx reader) {
       return new M2(reader);
     }
   }

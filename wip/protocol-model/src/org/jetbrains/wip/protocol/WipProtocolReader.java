@@ -10,20 +10,18 @@ import org.chromium.protocolReader.JsonParserRoot;
 import org.chromium.wip.protocol.input.GeneratedWipProtocolReader;
 import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
 
-import java.io.IOException;
-
 @JsonParserRoot
 public interface WipProtocolReader extends GeneratedWipProtocolReader {
   @JsonParseMethod
-  WipCommandResponse parseWipCommandResponse(JsonReaderEx reader) throws IOException;
+  WipCommandResponse parseWipCommandResponse(JsonReaderEx reader);
 
   @JsonParseMethod
-  WipEvent parseWipEvent(JsonReaderEx reader) throws IOException;
+  WipEvent parseWipEvent(JsonReaderEx reader);
 
   @JsonParseMethod
-  WipTabList parseTabList(JsonReaderEx reader) throws IOException;
+  WipTabList parseTabList(JsonReaderEx reader);
 
   // Used by WipContextBuilder because protocol declares exception value as raw object.
   @JsonParseMethod
-  RemoteObjectValue parseRemoteObjectValue(JsonReaderEx reader) throws IOException;
+  RemoteObjectValue parseRemoteObjectValue(JsonReaderEx reader);
 }

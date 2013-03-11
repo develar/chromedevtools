@@ -4,8 +4,6 @@
 
 package org.chromium.debug.core.model;
 
-import org.chromium.debug.core.util.ChromiumDebugPluginUtil;
-import org.chromium.sdk.DebugContext;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IRegisterGroup;
 import org.eclipse.debug.core.model.IStackFrame;

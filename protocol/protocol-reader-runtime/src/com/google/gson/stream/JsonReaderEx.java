@@ -16,12 +16,10 @@ package com.google.gson.stream;
  * limitations under the License.
  */
 
+import com.google.gson.JsonParseException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Closeable;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.Reader;
 
 public class JsonReaderEx implements Closeable {
   /** The only non-execute prefix this parser permits */
@@ -65,7 +63,7 @@ public class JsonReaderEx implements Closeable {
   /** True if we're currently handling a skipValue() call. */
   private boolean skipping = false;
 
-  private final StringBuilder builder = new StringBuilder();
+  private StringBuilder builder;
 
   /**
    * Creates a new instance that reads a JSON-encoded stream from {@code in}.
@@ -81,8 +79,10 @@ public class JsonReaderEx implements Closeable {
     push(JsonScope.EMPTY_DOCUMENT);
   }
 
-  @SuppressWarnings("UnusedDeclaration")
   public JsonReaderEx subReader() {
+    if (token == null && stack[stackSize - 1] == JsonScope.DANGLING_NAME) {
+      moveToObjectValue();
+    }
     // we keep our initial start position - our current JsonReader may be also sub reader (so, current position may be not absolute)
     return new JsonReaderEx(in, start + position);
   }
@@ -101,7 +101,7 @@ public class JsonReaderEx implements Closeable {
    * Consumes the next token from the JSON stream and asserts that it is the
    * beginning of a new array.
    */
-  public void beginArray() throws IOException {
+  public void beginArray() {
     expect(JsonToken.BEGIN_ARRAY);
   }
 
@@ -109,7 +109,7 @@ public class JsonReaderEx implements Closeable {
    * Consumes the next token from the JSON stream and asserts that it is the
    * end of the current array.
    */
-  public void endArray() throws IOException {
+  public void endArray() {
     expect(JsonToken.END_ARRAY);
   }
 
@@ -117,7 +117,7 @@ public class JsonReaderEx implements Closeable {
    * Consumes the next token from the JSON stream and asserts that it is the
    * beginning of a new object.
    */
-  public void beginObject() throws IOException {
+  public void beginObject() {
     expect(JsonToken.BEGIN_OBJECT);
   }
 
@@ -125,14 +125,14 @@ public class JsonReaderEx implements Closeable {
    * Consumes the next token from the JSON stream and asserts that it is the
    * end of the current object.
    */
-  public void endObject() throws IOException {
+  public void endObject() {
     expect(JsonToken.END_OBJECT);
   }
 
   /**
    * Consumes {@code expected}.
    */
-  private void expect(JsonToken expected) throws IOException {
+  private void expect(JsonToken expected) {
     peek();
     if (token != expected) {
       throw new IllegalStateException("Expected " + expected + " but was " + peek()
@@ -144,7 +144,7 @@ public class JsonReaderEx implements Closeable {
   /**
    * Returns true if the current array or object has another element.
    */
-  public boolean hasNext() throws IOException {
+  public boolean hasNext() {
     peek();
     return token != JsonToken.END_OBJECT && token != JsonToken.END_ARRAY;
   }
@@ -152,7 +152,7 @@ public class JsonReaderEx implements Closeable {
   /**
    * Returns the type of the next token without consuming it.
    */
-  public JsonToken peek() throws IOException {
+  public JsonToken peek() {
     if (token != null) {
       return token;
     }
@@ -165,7 +165,7 @@ public class JsonReaderEx implements Closeable {
       stack[stackSize - 1] = JsonScope.NONEMPTY_DOCUMENT;
       JsonToken firstToken = nextValue();
       if (!lenient && token != JsonToken.BEGIN_ARRAY && token != JsonToken.BEGIN_OBJECT) {
-        throw new IOException("Expected JSON document to start with '[' or '{' but was " + token
+        throw new JsonParseException("Expected JSON document to start with '[' or '{' but was " + token
             + " at line " + getLineNumber() + " column " + getColumnNumber());
       }
       return firstToken;
@@ -176,7 +176,8 @@ public class JsonReaderEx implements Closeable {
     case EMPTY_OBJECT:
       return nextInObject(true);
     case DANGLING_NAME:
-      return objectValue();
+      moveToObjectValue();
+      return nextValue();
     case NONEMPTY_OBJECT:
       return nextInObject(false);
     case NONEMPTY_DOCUMENT:
@@ -186,7 +187,7 @@ public class JsonReaderEx implements Closeable {
       }
       position--;
       if (!lenient) {
-        throw syntaxError("Expected EOF");
+        throw createParseError("Expected EOF");
       }
       return nextValue();
     case CLOSED:
@@ -199,7 +200,7 @@ public class JsonReaderEx implements Closeable {
   /**
    * Consumes the non-execute prefix if it exists.
    */
-  private void consumeNonExecutePrefix() throws IOException {
+  private void consumeNonExecutePrefix() {
     // fast forward through the leading whitespace
     nextNonWhitespace(true);
     position--;
@@ -221,7 +222,7 @@ public class JsonReaderEx implements Closeable {
   /**
    * Advances the cursor in the JSON stream to the next token.
    */
-  private JsonToken advance() throws IOException {
+  private JsonToken advance() {
     peek();
 
     JsonToken result = token;
@@ -232,13 +233,9 @@ public class JsonReaderEx implements Closeable {
   }
 
   /**
-   * Returns the next token, a {@link JsonToken#NAME property name}, and
-   * consumes it.
-   *
-   * @throws IOException if the next token in the stream is not a property
-   *     name.
+   * Returns the next token, a {@link JsonToken#NAME property name}, and consumes it
    */
-  public String nextName() throws IOException {
+  public String nextName() {
     peek();
     if (token != JsonToken.NAME) {
       throw new IllegalStateException("Expected a name but was " + peek()
@@ -257,7 +254,7 @@ public class JsonReaderEx implements Closeable {
    * @throws IllegalStateException if the next token is not a string or if
    *     this reader is closed.
    */
-  public String nextString() throws IOException {
+  public String nextString() {
     peek();
     if (token != JsonToken.STRING && token != JsonToken.NUMBER) {
       throw new IllegalStateException("Expected a string but was " + peek()
@@ -276,7 +273,7 @@ public class JsonReaderEx implements Closeable {
    * @throws IllegalStateException if the next token is not a boolean or if
    *     this reader is closed.
    */
-  public boolean nextBoolean() throws IOException {
+  public boolean nextBoolean() {
     peek();
     if (token != JsonToken.BOOLEAN) {
         throw new IllegalStateException("Expected a boolean but was " + token
@@ -295,7 +292,7 @@ public class JsonReaderEx implements Closeable {
    * @throws IllegalStateException if the next token is not null or if this
    *     reader is closed.
    */
-  public void nextNull() throws IOException {
+  public void nextNull() {
     peek();
     if (token != JsonToken.NULL) {
       throw new IllegalStateException("Expected null but was " + token
@@ -314,7 +311,7 @@ public class JsonReaderEx implements Closeable {
    * @throws NumberFormatException if the next literal value cannot be parsed
    *     as a double, or is non-finite.
    */
-  public double nextDouble() throws IOException {
+  public double nextDouble() {
     peek();
     if (token != JsonToken.STRING && token != JsonToken.NUMBER) {
       throw new IllegalStateException("Expected a double but was " + token
@@ -324,12 +321,10 @@ public class JsonReaderEx implements Closeable {
     double result = Double.parseDouble(value);
 
     if ((result >= 1.0d && value.length() > 0 && value.charAt(0) == '0')) {
-      throw new MalformedJsonException("JSON forbids octal prefixes: " + value
-          + " at line " + getLineNumber() + " column " + getColumnNumber());
+      throw createParseError("JSON forbids octal prefixes: " + value);
     }
     if (!lenient && (Double.isNaN(result) || Double.isInfinite(result))) {
-      throw new MalformedJsonException("JSON forbids NaN and infinities: " + value
-          + " at line " + getLineNumber() + " column " + getColumnNumber());
+      throw createParseError("JSON forbids NaN and infinities: " + value);
     }
 
     advance();
@@ -346,7 +341,7 @@ public class JsonReaderEx implements Closeable {
    * @throws NumberFormatException if the next literal value cannot be parsed
    *     as a number, or exactly represented as a long.
    */
-  public long nextLong() throws IOException {
+  public long nextLong() {
     peek();
     if (token != JsonToken.STRING && token != JsonToken.NUMBER) {
       throw new IllegalStateException("Expected a long but was " + token
@@ -366,8 +361,7 @@ public class JsonReaderEx implements Closeable {
     }
 
     if (result >= 1L && value.startsWith("0")) {
-      throw new MalformedJsonException("JSON forbids octal prefixes: " + value
-          + " at line " + getLineNumber() + " column " + getColumnNumber());
+      throw createParseError("JSON forbids octal prefixes: " + value);
     }
 
     advance();
@@ -384,7 +378,7 @@ public class JsonReaderEx implements Closeable {
    * @throws NumberFormatException if the next literal value cannot be parsed
    *     as a number, or exactly represented as an int.
    */
-  public int nextInt() throws IOException {
+  public int nextInt() {
     peek();
     if (token != JsonToken.STRING && token != JsonToken.NUMBER) {
       throw new IllegalStateException("Expected an int but was " + token
@@ -404,8 +398,7 @@ public class JsonReaderEx implements Closeable {
     }
 
     if (result >= 1L && value.startsWith("0")) {
-      throw new MalformedJsonException("JSON forbids octal prefixes: " + value
-          + " at line " + getLineNumber() + " column " + getColumnNumber());
+      throw createParseError("JSON forbids octal prefixes: " + value);
     }
 
     advance();
@@ -413,9 +406,9 @@ public class JsonReaderEx implements Closeable {
   }
 
   /**
-   * Closes this JSON reader and the underlying {@link Reader}.
+   * Closes this JSON reader and the underlying {@link java.io.Reader}.
    */
-  public void close() throws IOException {
+  public void close() {
     value = null;
     token = null;
     stack[0] = JsonScope.CLOSED;
@@ -427,7 +420,7 @@ public class JsonReaderEx implements Closeable {
    * elements are skipped. This method is intended for use when the JSON token
    * stream contains unrecognized or unhandled values.
    */
-  public void skipValue() throws IOException {
+  public void skipValue() {
     skipping = true;
     try {
       int count = 0;
@@ -435,11 +428,14 @@ public class JsonReaderEx implements Closeable {
         JsonToken token = advance();
         if (token == JsonToken.BEGIN_ARRAY || token == JsonToken.BEGIN_OBJECT) {
           count++;
-        } else if (token == JsonToken.END_ARRAY || token == JsonToken.END_OBJECT) {
+        }
+        else if (token == JsonToken.END_ARRAY || token == JsonToken.END_OBJECT) {
           count--;
         }
-      } while (count != 0);
-    } finally {
+      }
+      while (count != 0);
+    }
+    finally {
       skipping = false;
     }
   }
@@ -454,7 +450,7 @@ public class JsonReaderEx implements Closeable {
   }
 
   @SuppressWarnings("fallthrough")
-  private JsonToken nextInArray(boolean firstElement) throws IOException {
+  private JsonToken nextInArray(boolean firstElement) {
     if (firstElement) {
       stack[stackSize - 1] = JsonScope.NONEMPTY_ARRAY;
     } else {
@@ -468,7 +464,7 @@ public class JsonReaderEx implements Closeable {
       case ',':
         break;
       default:
-        throw syntaxError("Unterminated array");
+        throw createParseError("Unterminated array");
       }
     }
 
@@ -493,7 +489,7 @@ public class JsonReaderEx implements Closeable {
   }
 
   @SuppressWarnings("fallthrough")
-  private JsonToken nextInObject(boolean firstElement) throws IOException {
+  private JsonToken nextInObject(boolean firstElement) {
     /*
      * Read delimiters. Either a comma/semicolon separating this and the
      * previous name-value pair, or a close brace to denote the end of the
@@ -517,7 +513,7 @@ public class JsonReaderEx implements Closeable {
       case ',':
         break;
       default:
-        throw syntaxError("Unterminated object");
+        throw createParseError("Unterminated object");
       }
     }
 
@@ -534,7 +530,7 @@ public class JsonReaderEx implements Closeable {
         position--;
         name = nextLiteral(false);
         if (name.length() == 0) {
-          throw syntaxError("Expected name");
+          throw createParseError("Expected name");
         }
     }
 
@@ -542,11 +538,9 @@ public class JsonReaderEx implements Closeable {
     return token = JsonToken.NAME;
   }
 
-  private JsonToken objectValue() throws IOException {
-    /*
-     * Read the name/value separator. Usually a colon ':'. In lenient mode
-     * we also accept an equals sign '=', or an arrow "=>".
-     */
+  private void moveToObjectValue() {
+    // Read the name/value separator. Usually a colon ':'.
+    // In lenient mode we also accept an equals sign '=', or an arrow "=>"
     switch (nextNonWhitespace(true)) {
       case ':':
         break;
@@ -557,15 +551,14 @@ public class JsonReaderEx implements Closeable {
         }
         break;
       default:
-        throw syntaxError("Expected ':'");
+        throw new JsonParseException("Expected ':'");
     }
 
     stack[stackSize - 1] = JsonScope.NONEMPTY_OBJECT;
-    return nextValue();
   }
 
   @SuppressWarnings("fallthrough")
-  private JsonToken nextValue() throws IOException {
+  private JsonToken nextValue() {
     int c = nextNonWhitespace(true);
     switch (c) {
       case '{':
@@ -593,7 +586,7 @@ public class JsonReaderEx implements Closeable {
    * exhausted before that many characters are available, this returns
    * false.
    */
-  private boolean hasRemaining(int minimum) throws IOException {
+  private boolean hasRemaining(int minimum) {
     return (position + minimum) < limit;
   }
 
@@ -624,9 +617,9 @@ public class JsonReaderEx implements Closeable {
    * Returns the next character in the stream that is neither whitespace nor a
    * part of a comment. When this returns, the returned character is always at
    * {@code buffer[pos-1]}; this means the caller can always push back the
-   * returned character by decrementing {@code pos}.
+   * returned character by decrementing {@code position}.
    */
-  private int nextNonWhitespace(boolean throwOnEof) throws IOException {
+  private int nextNonWhitespace(boolean throwOnEof) {
     /*
      * This code uses ugly local variables 'p' and 'l' representing the 'pos'
      * and 'limit' fields respectively. Using locals rather than fields saves
@@ -670,7 +663,7 @@ public class JsonReaderEx implements Closeable {
               // skip a /* c-style comment */
               position++;
               if (!skipTo("*/")) {
-                throw syntaxError("Unterminated comment");
+                throw new JsonParseException("Unterminated comment");
               }
               p = position + 2;
               l = limit;
@@ -707,16 +700,16 @@ public class JsonReaderEx implements Closeable {
       }
     }
     if (throwOnEof) {
-      throw new EOFException("End of input at line " + getLineNumber() + " column " + getColumnNumber());
+      throw new JsonParseException("End of input at line " + getLineNumber() + " column " + getColumnNumber());
     }
     else {
       return -1;
     }
   }
 
-  private void checkLenient() throws IOException {
+  private void checkLenient() {
     if (!lenient) {
-      throw syntaxError("Use JsonReaderEx.setLenient(true) to accept malformed JSON");
+      throw new JsonParseException("Use JsonReaderEx.setLenient(true) to accept malformed JSON");
     }
   }
 
@@ -725,7 +718,7 @@ public class JsonReaderEx implements Closeable {
    * is terminated by "\r\n", the '\n' must be consumed as whitespace by the
    * caller.
    */
-  private void skipToEndOfLine() throws IOException {
+  private void skipToEndOfLine() {
     while (position < limit) {
       char c = in.charAt(position++);
       if (c == '\n' || c == '\r') {
@@ -734,7 +727,7 @@ public class JsonReaderEx implements Closeable {
     }
   }
 
-  private boolean skipTo(String toFind) throws IOException {
+  private boolean skipTo(String toFind) {
     outer:
     for (; position + toFind.length() <= limit; position++) {
       for (int c = 0; c < toFind.length(); c++) {
@@ -757,7 +750,7 @@ public class JsonReaderEx implements Closeable {
    * @throws NumberFormatException if any unicode escape sequences are
    *     malformed.
    */
-  private String nextString(char quote) throws IOException {
+  private String nextString(char quote) {
     // Like nextNonWhitespace, this uses locals 'p' and 'l' to save inner-loop field access.
     CharSequence in = this.in;
     StringBuilder builder = null;
@@ -785,6 +778,9 @@ public class JsonReaderEx implements Closeable {
       else if (c == '\\') {
         position = p;
         if (builder == null) {
+          if (this.builder == null) {
+            this.builder = new StringBuilder();
+          }
           builder = this.builder;
         }
         builder.append(in, start, p - 1);
@@ -794,7 +790,7 @@ public class JsonReaderEx implements Closeable {
         start = p;
       }
     }
-    throw syntaxError("Unterminated string");
+    throw createParseError("Unterminated string");
   }
 
   /**
@@ -806,7 +802,7 @@ public class JsonReaderEx implements Closeable {
    *     the literal is short; a string is returned otherwise.
    */
   @SuppressWarnings("fallthrough")
-  private String nextLiteral(boolean assignOffsetsOnly) throws IOException {
+  private String nextLiteral(boolean assignOffsetsOnly) {
     valuePosition = -1;
     int i = position;
     findNonLiteralCharacter:
@@ -846,6 +842,7 @@ public class JsonReaderEx implements Closeable {
     }
     valueLength = i - position;
     position += valueLength;
+    //noinspection ConstantConditions
     return result;
   }
 
@@ -863,16 +860,16 @@ public class JsonReaderEx implements Closeable {
    * @throws NumberFormatException if any unicode escape sequences are
    *     malformed.
    */
-  private char readEscapeCharacter() throws IOException {
+  private char readEscapeCharacter() {
     if (position == limit) {
-      throw syntaxError("Unterminated escape sequence");
+      throw createParseError("Unterminated escape sequence");
     }
 
     char escaped = in.charAt(position++);
     switch (escaped) {
       case 'u':
         if (position + 4 > limit) {
-          throw syntaxError("Unterminated escape sequence");
+          throw createParseError("Unterminated escape sequence");
         }
         // Equivalent to Integer.parseInt(stringPool.get(buffer, pos, 4), 16);
         char result = 0;
@@ -921,10 +918,10 @@ public class JsonReaderEx implements Closeable {
   /**
    * Reads a null, boolean, numeric or unquoted string literal value.
    */
-  private JsonToken readLiteral() throws IOException {
+  private JsonToken readLiteral() {
     value = nextLiteral(true);
     if (valueLength == 0) {
-      throw syntaxError("Expected literal value");
+      throw createParseError("Expected literal value");
     }
     token = decodeLiteral();
     if (token == JsonToken.STRING) {
@@ -936,7 +933,7 @@ public class JsonReaderEx implements Closeable {
   /**
    * Assigns {@code nextToken} based on the value of {@code nextValue}.
    */
-  private JsonToken decodeLiteral() throws IOException {
+  private JsonToken decodeLiteral() {
     if (valuePosition == -1) {
       // it was too long to fit in the buffer so it can only be a string
       return JsonToken.STRING;
@@ -1033,7 +1030,7 @@ public class JsonReaderEx implements Closeable {
    * Throws a new IO exception with the given message and a context snippet
    * with this reader's content.
    */
-  private IOException syntaxError(String message) throws IOException {
-    throw new MalformedJsonException(message + " at line " + getLineNumber() + " column " + getColumnNumber());
+  private JsonParseException createParseError(String message) {
+    throw new JsonParseException(message + " at line " + getLineNumber() + " column " + getColumnNumber());
   }
 }

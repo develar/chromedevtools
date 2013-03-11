@@ -8,10 +8,8 @@ import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.JsonParseMethod;
 import org.chromium.protocolReader.JsonParserRoot;
 
-import java.io.IOException;
-
 @JsonParserRoot
 public interface LiveEditProtocolReader {
   @JsonParseMethod
-  LiveEditResult parseLiveEditResult(JsonReaderEx reader) throws IOException;
+  LiveEditResult parseLiveEditResult(JsonReaderEx reader);
 }

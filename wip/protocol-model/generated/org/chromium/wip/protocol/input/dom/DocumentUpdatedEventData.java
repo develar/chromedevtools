@@ -10,7 +10,7 @@ public interface DocumentUpdatedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData>("DOMdocumentUpdated", org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parseDOMDocumentUpdatedEventData(reader);
     }
   };

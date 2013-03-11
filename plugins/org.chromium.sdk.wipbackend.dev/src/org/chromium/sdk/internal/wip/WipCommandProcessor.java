@@ -104,12 +104,7 @@ class WipCommandProcessor {
       //if (!incoming.containsKey(BasicConstants.Property.ID)) {
       //  return null;
       //}
-      try {
-        return WipParserAccess.get().parseWipCommandResponse(incoming);
-      }
-      catch (IOException e) {
-        throw new RuntimeException("Failed to parse response", e);
-      }
+      return WipParserAccess.get().parseWipCommandResponse(incoming);
     }
 
     @Override
@@ -125,12 +120,7 @@ class WipCommandProcessor {
     @Override
     public void acceptNonSequence(JsonReaderEx incoming) {
       WipEvent event;
-      try {
-        event = WipParserAccess.get().parseWipEvent(incoming);
-      } catch (IOException e) {
-        LOGGER.log(Level.SEVERE, "Failed to parse event", e);
-        return;
-      }
+      event = WipParserAccess.get().parseWipEvent(incoming);
       EVENT_MAP.handleEvent(event, WipCommandProcessor.this);
     }
 

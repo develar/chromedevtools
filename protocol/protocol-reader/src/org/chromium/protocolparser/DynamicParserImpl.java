@@ -55,7 +55,6 @@ public class DynamicParserImpl<ROOT> {
     out.newLine().append("package ").append(packageName).append(';');
     out.newLine().newLine().append("import org.jetbrains.jsonProtocol.*;");
     out.newLine().newLine().append("import static org.jetbrains.jsonProtocol.JsonReaders.*;");
-    out.newLine().append("import java.io.IOException;");
     out.newLine().newLine().append("public final class ").append(className);
     out.append(" implements ").append(rootImpl.getType().getCanonicalName()).openBlock(false);
 
@@ -74,8 +73,7 @@ public class DynamicParserImpl<ROOT> {
         String name = globalScope.getTypeImplShortName(typeHandler);
         String originName = typeHandler.getTypeClass().getCanonicalName();
         out.newLine().append("static final class ").append(name).append(Util.TYPE_FACTORY_NAME_POSTFIX).append(" extends ObjectFactory<").append(originName).append('>').openBlock();
-        out.append("@Override").newLine().append("public ").append(originName).append(" read(").append(Util.JSON_READER_PARAMETER_DEF).append(')');
-        out.append(Util.THROWS_CLAUSE).openBlock();
+        out.append("@Override").newLine().append("public ").append(originName).append(" read(").append(Util.JSON_READER_PARAMETER_DEF).append(')').openBlock();
         out.append("return ");
         typeHandler.writeInstantiateCode(rootClassScope, out);
         out.append('(').append(Util.READER_NAME).append(");").closeBlock();

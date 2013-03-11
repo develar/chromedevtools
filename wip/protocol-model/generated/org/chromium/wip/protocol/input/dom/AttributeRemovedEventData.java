@@ -18,7 +18,7 @@ public interface AttributeRemovedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.AttributeRemovedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.AttributeRemovedEventData>("DOMattributeRemoved", org.chromium.wip.protocol.input.dom.AttributeRemovedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.AttributeRemovedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.dom.AttributeRemovedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parseDOMAttributeRemovedEventData(reader);
     }
   };

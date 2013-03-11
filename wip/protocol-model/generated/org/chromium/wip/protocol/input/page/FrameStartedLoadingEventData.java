@@ -14,7 +14,7 @@ public interface FrameStartedLoadingEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData>("PageframeStartedLoading", org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parsePageFrameStartedLoadingEventData(reader);
     }
   };

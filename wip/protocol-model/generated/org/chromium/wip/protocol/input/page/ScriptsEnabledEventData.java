@@ -14,7 +14,7 @@ public interface ScriptsEnabledEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.ScriptsEnabledEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.ScriptsEnabledEventData>("PagescriptsEnabled", org.chromium.wip.protocol.input.page.ScriptsEnabledEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.ScriptsEnabledEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) throws java.io.IOException {
+    public org.chromium.wip.protocol.input.page.ScriptsEnabledEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parsePageScriptsEnabledEventData(reader);
     }
   };

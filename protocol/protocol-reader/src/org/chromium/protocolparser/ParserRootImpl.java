@@ -8,7 +8,6 @@ import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.JsonParseMethod;
 import org.chromium.protocolReader.JsonParserRoot;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -72,9 +71,6 @@ class ParserRootImpl<R> {
         Class<?>[] exceptionTypes = m.getExceptionTypes();
         if (exceptionTypes.length > 1) {
           throw new JsonProtocolModelParseException("Too many exception declared in " + m);
-        }
-        if (exceptionTypes.length < 1 || exceptionTypes[0] != IOException.class) {
-          throw new JsonProtocolModelParseException(IOException.class.getCanonicalName() + " exception must be declared in " + m);
         }
 
         Type returnType = m.getGenericReturnType();
@@ -150,7 +146,7 @@ class ParserRootImpl<R> {
     @Override
     void writeStaticMethodJava(ClassScope scope, Method method, TextOutput out) {
       MethodHandler.writeMethodDeclarationJava(out, method, STATIC_METHOD_PARAM_NAME_LIST);
-      out.append(Util.THROWS_CLAUSE).openBlock();
+      out.openBlock();
       out.append("return ");
       typeHandler.writeInstantiateCode(scope, out);
       out.append("(").append(STATIC_METHOD_PARAM_NAME).append(");");

@@ -323,7 +323,7 @@ class DomainGenerator {
         out.append("(\"" + domainName + event.name() + "\", ").append(fullName).append(".class)").openBlock();
         {
           out.append("@Override").newLine().append("public ").append(fullName).append(" parse(");
-          out.append(generator.getNaming().inputPackage).append('.').append(Generator.READER_INTERFACE_NAME + " parser, ").append(Util.JSON_READER_PARAMETER_DEF).append(")").append(Util.THROWS_CLAUSE).openBlock();
+          out.append(generator.getNaming().inputPackage).append('.').append(Generator.READER_INTERFACE_NAME + " parser, ").append(Util.JSON_READER_PARAMETER_DEF).append(")").openBlock();
           out.append("return parser.").append(generator.getNaming().eventData.getParseMethodName(domainName, event.name())).append("(reader);").closeBlock();
         }
         out.closeBlock();

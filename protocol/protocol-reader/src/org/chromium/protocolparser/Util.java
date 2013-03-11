@@ -5,8 +5,6 @@ import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 
 public class Util {
-  public static final String THROWS_CLAUSE = " throws java.io.IOException";
-
   public static final char TYPE_NAME_PREFIX = 'M';
   public static final char TYPE_FACTORY_NAME_POSTFIX = 'F';
 
