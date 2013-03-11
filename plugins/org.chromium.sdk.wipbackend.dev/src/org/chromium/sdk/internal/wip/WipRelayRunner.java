@@ -8,7 +8,7 @@ import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
-import org.jetbrains.wip.protocol.WipCommandResponse;
+import org.jetbrains.wip.protocol.CommandResponse;
 import org.jetbrains.wip.protocol.WipRequest;
 import org.jetbrains.wip.protocol.WipRequestWithResponse;
 
@@ -141,7 +141,7 @@ public class WipRelayRunner {
 
         WipCommandCallback sendCallback = new WipCommandCallback() {
           @Override
-          public void messageReceived(WipCommandResponse response) {
+          public void messageReceived(CommandResponse response) {
             Step<RES> processResult;
             try {
               processResult = sendStep.processResponse();

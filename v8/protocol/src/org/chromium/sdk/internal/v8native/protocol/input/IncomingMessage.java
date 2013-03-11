@@ -18,8 +18,8 @@ public interface IncomingMessage {
   MessageType type();
 
   @JsonSubtypeCasting
-  CommandResponse asCommandResponse();
+  CommandResponse asResponse();
 
   @JsonSubtypeCasting
-  EventNotification asEventNotification();
+  EventNotification asNotification();
 }

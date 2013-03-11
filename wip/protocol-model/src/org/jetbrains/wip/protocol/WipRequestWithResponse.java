@@ -11,5 +11,5 @@ import org.chromium.wip.protocol.input.GeneratedWipProtocolReader;
  * @param <R> a type of the corresponding response
  */
 public abstract class WipRequestWithResponse<R> extends WipRequest {
-  public abstract R parseResponse(WipCommandResponse.Data success, GeneratedWipProtocolReader parser) throws java.io.IOException;
+  public abstract R readResponse(CommandResponse.Data success, GeneratedWipProtocolReader reader);
 }

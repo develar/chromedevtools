@@ -28,9 +28,6 @@ class TypeHandler<T> {
   /** Set of parsers that non-lazily check that all fields read OK. */
   private final EagerFieldParser eagerFieldParser;
 
-  /** Holds the data about recognizing subtypes. */
-  private final AlgebraicCasesData algebraicCasesData;
-
   /** Subtype aspects of the type or null */
   private final SubtypeAspect subtypeAspect;
 
@@ -41,13 +38,12 @@ class TypeHandler<T> {
               Map<Method, MethodHandler> methodHandlerMap,
               List<FieldLoader> fieldLoaders,
               EagerFieldParser eagerFieldParser,
-              AlgebraicCasesData algebraicCasesData, boolean hasLazyFields) {
+              boolean hasLazyFields) {
     this.typeClass = typeClass;
     this.volatileFields = volatileFields;
     this.methodHandlerMap = methodHandlerMap;
     this.fieldLoaders = fieldLoaders;
     this.eagerFieldParser = eagerFieldParser;
-    this.algebraicCasesData = algebraicCasesData;
     this.hasLazyFields = hasLazyFields;
     if (jsonSuperClass == null) {
       subtypeAspect = new AbsentSubtypeAspect();
@@ -74,20 +70,12 @@ class TypeHandler<T> {
       thisSet.add(loader.getFieldName());
     }
 
-    if (algebraicCasesData == null) {
-      JsonType jsonAnnotation = typeClass.getAnnotation(JsonType.class);
-      if (jsonAnnotation.allowsOtherProperties()) {
-        return;
-      }
-      for (Set<String> set : namesChain) {
-        thisSet.addAll(set);
-      }
-    } else {
-      namesChain.add(thisSet);
-      for (TypeRef<?> subtype : algebraicCasesData.subtypes) {
-        subtype.get().buildClosedNameSetRecursive(namesChain);
-      }
-      namesChain.remove(namesChain.size() - 1);
+    JsonType jsonAnnotation = typeClass.getAnnotation(JsonType.class);
+    if (jsonAnnotation.allowsOtherProperties()) {
+      return;
+    }
+    for (Set<String> set : namesChain) {
+      thisSet.addAll(set);
     }
   }
 
@@ -136,10 +124,6 @@ class TypeHandler<T> {
     }
 
     subtypeAspect.writeSuperFieldJava(out);
-
-    if (algebraicCasesData != null) {
-      algebraicCasesData.writeFields(classScope);
-    }
 
     writeConstructorMethod(valueImplClassName, classScope, out);
     out.newLine();
@@ -195,14 +179,10 @@ class TypeHandler<T> {
 
     if (fieldLoaders.isEmpty()) {
       out.append(Util.READER_NAME).append(".skipValue()").semi();
-      assert algebraicCasesData == null || !(algebraicCasesData instanceof AutoAlgebraicCasesData);
     }
     else {
       out.append(Util.READER_NAME).append(".beginObject();");
       writeReadFields(out, classScope);
-      if (algebraicCasesData != null) {
-        algebraicCasesData.writeConstructorCodeJava(classScope, out);
-      }
 
       // we don't read all data if we have lazy fields, so, we should not check end of stream
       if (!hasLazyFields) {

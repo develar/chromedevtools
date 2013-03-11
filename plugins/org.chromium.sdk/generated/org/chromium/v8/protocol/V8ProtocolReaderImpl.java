@@ -7,7 +7,7 @@ import static org.jetbrains.jsonProtocol.JsonReaders.*;
 
 public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8native.protocol.input.V8ProtocolReader {
   @Override
-  public org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage parseIncomingMessage(com.google.gson.stream.JsonReaderEx reader) {
+  public org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage readIncomingMessage(com.google.gson.stream.JsonReaderEx reader) {
     return new M13(reader);
   }
 
@@ -75,7 +75,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public M7 asEventNotification() {
+    public M7 asNotification() {
       if (lazy_1 == null) {
         lazy_1 = new M7(inputReader);
         inputReader = null;
@@ -84,7 +84,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public M5 asCommandResponse() {
+    public M5 asResponse() {
       if (lazy_0 == null) {
         lazy_0 = new M5(inputReader);
         inputReader = null;

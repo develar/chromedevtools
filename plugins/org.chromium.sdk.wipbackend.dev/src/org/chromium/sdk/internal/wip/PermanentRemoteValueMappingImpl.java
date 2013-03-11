@@ -10,7 +10,7 @@ import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.wip.PermanentRemoteValueMapping;
 import org.chromium.wip.protocol.output.runtime.ReleaseObjectGroup;
-import org.jetbrains.wip.protocol.WipCommandResponse;
+import org.jetbrains.wip.protocol.CommandResponse;
 
 class PermanentRemoteValueMappingImpl extends WipValueLoader
     implements PermanentRemoteValueMapping {
@@ -35,7 +35,7 @@ class PermanentRemoteValueMappingImpl extends WipValueLoader
     } else {
       callbackWrapper = new WipCommandCallback() {
         @Override
-        public void messageReceived(WipCommandResponse response) {
+        public void messageReceived(CommandResponse response) {
           callback.success(null);
         }
 

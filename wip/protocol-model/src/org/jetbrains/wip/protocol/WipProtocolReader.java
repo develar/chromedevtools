@@ -13,12 +13,6 @@ import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
 @JsonParserRoot
 public interface WipProtocolReader extends GeneratedWipProtocolReader {
   @JsonParseMethod
-  WipCommandResponse parseWipCommandResponse(JsonReaderEx reader);
-
-  @JsonParseMethod
-  WipEvent parseWipEvent(JsonReaderEx reader);
-
-  @JsonParseMethod
   WipTabList parseTabList(JsonReaderEx reader);
 
   // Used by WipContextBuilder because protocol declares exception value as raw object.

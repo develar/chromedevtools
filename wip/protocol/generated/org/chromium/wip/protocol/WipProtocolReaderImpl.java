@@ -2,6 +2,7 @@
 package org.chromium.wip.protocol;
 
 import org.jetbrains.jsonProtocol.*;
+import org.jetbrains.wip.protocol.CommandResponse;
 
 import static org.jetbrains.jsonProtocol.JsonReaders.*;
 
@@ -332,7 +333,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   @Override
-  public org.jetbrains.wip.protocol.WipCommandResponse parseWipCommandResponse(com.google.gson.stream.JsonReaderEx reader) {
+  public CommandResponse parseWipCommandResponse(com.google.gson.stream.JsonReaderEx reader) {
     return new M130(reader);
   }
 
@@ -5217,7 +5218,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       return inputReader;
     }}
 
-  public static final class M130 implements org.jetbrains.wip.protocol.WipCommandResponse {
+  public static final class M130 implements CommandResponse {
     private com.google.gson.stream.JsonReaderEx inputReader;
     private M134 lazy_0;
     private M132 lazy_1;
@@ -5261,7 +5262,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  public static final class M131 implements org.jetbrains.wip.protocol.WipCommandResponse.Data {
+  public static final class M131 implements CommandResponse.Data {
     private com.google.gson.stream.JsonReaderEx inputReader;
 
     public M131(com.google.gson.stream.JsonReaderEx reader) {
@@ -5274,9 +5275,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       return inputReader;
     }}
 
-  public static final class M132 implements org.jetbrains.wip.protocol.WipCommandResponse.Error {
-    private org.jetbrains.wip.protocol.WipCommandResponse.Error.ErrorInfo _error;
-    private org.jetbrains.wip.protocol.WipCommandResponse.Data _result;
+  public static final class M132 implements CommandResponse.Error {
+    private CommandResponse.Error.ErrorInfo _error;
+    private CommandResponse.Data _result;
 
     public M132(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -5296,17 +5297,17 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.jetbrains.wip.protocol.WipCommandResponse.Data data() {
+    public CommandResponse.Data data() {
       return _result;
     }
 
     @Override
-    public org.jetbrains.wip.protocol.WipCommandResponse.Error.ErrorInfo error() {
+    public CommandResponse.Error.ErrorInfo error() {
       return _error;
     }
   }
 
-  public static final class M133 implements org.jetbrains.wip.protocol.WipCommandResponse.Error.ErrorInfo {
+  public static final class M133 implements CommandResponse.Error.ErrorInfo {
     private java.util.List<String> _data;
     private String _message;
     private long _code;
@@ -5347,8 +5348,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  public static final class M134 implements org.jetbrains.wip.protocol.WipCommandResponse.Success {
-    private org.jetbrains.wip.protocol.WipCommandResponse.Data _result;
+  public static final class M134 implements CommandResponse.Success {
+    private CommandResponse.Data _result;
 
     public M134(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -5364,7 +5365,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.jetbrains.wip.protocol.WipCommandResponse.Data data() {
+    public CommandResponse.Data data() {
       return _result;
     }
 

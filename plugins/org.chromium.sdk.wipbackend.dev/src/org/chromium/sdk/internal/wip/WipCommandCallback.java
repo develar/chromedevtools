@@ -5,7 +5,7 @@
 package org.chromium.sdk.internal.wip;
 
 import org.chromium.sdk.internal.BaseCommandProcessor;
-import org.jetbrains.wip.protocol.WipCommandResponse;
+import org.jetbrains.wip.protocol.CommandResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,27 +13,29 @@ import java.util.List;
 /**
  * An explicit interface for a generic type {@link BaseCommandProcessor.Callback}.
  */
-public interface WipCommandCallback extends BaseCommandProcessor.Callback<WipCommandResponse> {
+public interface WipCommandCallback extends BaseCommandProcessor.Callback<CommandResponse> {
 
   /**
    * A default implementation of the callback that separates error responses from
    * success responses.
    */
   abstract class Default implements WipCommandCallback {
-    protected abstract void onSuccess(WipCommandResponse.Success success);
+    protected abstract void onSuccess(CommandResponse.Success success);
     protected abstract void onError(String message);
 
     @Override
-    public void messageReceived(WipCommandResponse response) {
-      WipCommandResponse.Success asSuccess = response.asSuccess();
+    public void messageReceived(CommandResponse response) {
+      CommandResponse.Success asSuccess = response.asSuccess();
       if (asSuccess != null) {
         onSuccess(asSuccess);
-      } else {
+      }
+      else {
         String message;
-        WipCommandResponse.Error asError = response.asError();
+        CommandResponse.Error asError = response.asError();
         if (asError == null) {
           message = "Internal messaging error";
-        } else {
+        }
+        else {
           List<String> messageList = new ArrayList<String>(2);
           messageList.add(asError.error().message());
           List<String> data = asError.error().data();

@@ -17,7 +17,7 @@ import org.chromium.wip.protocol.output.debugger.Location;
 import org.chromium.wip.protocol.output.debugger.RemoveBreakpoint;
 import org.chromium.wip.protocol.output.debugger.SetBreakpointByUrl;
 import org.chromium.wip.protocol.output.debugger.SetBreakpoint;
-import org.jetbrains.wip.protocol.WipCommandResponse.Success;
+import org.jetbrains.wip.protocol.CommandResponse.Success;
 
 import java.util.*;
 

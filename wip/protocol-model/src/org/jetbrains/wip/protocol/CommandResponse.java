@@ -10,8 +10,8 @@ import org.jetbrains.jsonProtocol.JsonObjectBased;
 import java.util.List;
 
 @JsonType
-public interface WipCommandResponse {
-  long id();
+public interface CommandResponse {
+  int id();
 
   @JsonSubtypeCasting
   Success asSuccess();

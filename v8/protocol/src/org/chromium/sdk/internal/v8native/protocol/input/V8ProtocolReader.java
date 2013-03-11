@@ -10,23 +10,18 @@ import org.chromium.protocolReader.JsonParserRoot;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 
-import java.io.IOException;
-
 /**
  * Interface to native V8 debug protocol parser.
  * @see http://code.google.com/p/v8/wiki/DebuggerProtocol
  */
 @JsonParserRoot
-public interface V8ProtocolReader extends V8NativeProtocolParserTestAccess {
+public interface V8ProtocolReader {
   @JsonParseMethod
-  IncomingMessage parseIncomingMessage(JsonReaderEx reader) throws IOException;
+  IncomingMessage readIncomingMessage(JsonReaderEx reader);
 
   @JsonParseMethod
-  SuccessCommandResponse parseSuccessCommandResponse(JsonReaderEx reader) throws IOException;
+  ContextData parseContextData(JsonReaderEx reader);
 
   @JsonParseMethod
-  ContextData parseContextData(JsonReaderEx reader) throws IOException;
-
-  @JsonParseMethod
-  ValueHandle parseValueHandle(JsonReaderEx reader) throws IOException;
+  ValueHandle parseValueHandle(JsonReaderEx reader);
 }

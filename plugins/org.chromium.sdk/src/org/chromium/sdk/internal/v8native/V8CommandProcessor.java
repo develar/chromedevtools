@@ -96,7 +96,7 @@ public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeExc
   public void processIncomingJson(JsonReaderEx jsonReader) {
     IncomingMessage response;
     try {
-      response = ProtocolService.PROTOCOL_READER.parseIncomingMessage(jsonReader);
+      response = ProtocolService.PROTOCOL_READER.readIncomingMessage(jsonReader);
     }
     catch (IOException e) {
       LOGGER.log(Level.SEVERE, "JSON message does not conform to the protocol", e);
@@ -115,7 +115,7 @@ public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeExc
     }
 
     public CommandResponse readIfHasSequence(IncomingMessage incoming) {
-      return incoming.type() == MessageType.RESPONSE ? incoming.asCommandResponse() : null;
+      return incoming.type() == MessageType.RESPONSE ? incoming.asResponse() : null;
     }
 
     public int getSequence(CommandResponse incomingWithSeq) {

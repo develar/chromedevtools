@@ -12,24 +12,12 @@ import java.util.Map;
 class FieldProcessor<T> {
   private final Class<T> typeClass;
 
-  private static MethodHandler RETURN_NULL_METHOD_HANDLER = new MethodHandler() {
-    @Override
-    void writeMethodImplementationJava(ClassScope scope, Method m, TextOutput out) {
-      writeMethodDeclarationJava(out, m);
-      out.openBlock();
-      out.closeBlock();
-    }
-  };
-
   private final List<FieldLoader> fieldLoaders = new ArrayList<FieldLoader>(2);
   private final List<DynamicParserImpl.LazyHandler> onDemandHandlers = new ArrayList<DynamicParserImpl.LazyHandler>();
   private final Map<Method, MethodHandler> methodHandlerMap = new HashMap<Method, MethodHandler>();
   private final DynamicParserImpl.FieldMap fieldMap = new DynamicParserImpl.FieldMap();
-  private AlgebraicCasesData manualAlgCasesData;
-  private AutoAlgebraicCasesData autoAlgCasesData;
   private List<VolatileFieldBinding> volatileFields = new ArrayList<VolatileFieldBinding>(2);
   boolean lazyRead;
-  private boolean useManualAlgCasesData = true;
   private InterfaceReader reader;
 
   FieldProcessor(InterfaceReader reader, Class<T> typeClass) throws JsonProtocolModelParseException {
@@ -65,23 +53,8 @@ class FieldProcessor<T> {
       if (overrideFieldAnnotation != null) {
         throw new JsonProtocolModelParseException("Override annotation only works with field getter methods");
       }
-
-      if (useManualAlgCasesData) {
-        if (manualAlgCasesData == null) {
-          manualAlgCasesData = new AlgebraicCasesData();
-        }
-        methodHandler = processManualSubtypeMethod(m, jsonSubtypeCaseAnnotation);
-        lazyRead = true;
-      }
-      else {
-        if (autoAlgCasesData == null) {
-          autoAlgCasesData = new AutoAlgebraicCasesData();
-        }
-        if (jsonSubtypeCaseAnnotation.reinterpret()) {
-          throw new JsonProtocolModelParseException("Option 'reinterpret' is only available with 'subtypes chosen manually'");
-        }
-        methodHandler = processAutomaticSubtypeMethod(m);
-      }
+      methodHandler = processManualSubtypeMethod(m, jsonSubtypeCaseAnnotation);
+      lazyRead = true;
     }
     else {
       methodHandler = processFieldGetterMethod(m, overrideFieldAnnotation != null, fieldName);
@@ -104,48 +77,6 @@ class FieldProcessor<T> {
     return new PreparsedFieldMethodHandler(fieldTypeParser == InterfaceReader.VOID_PARSER ? null : fieldName);
   }
 
-  private MethodHandler processAutomaticSubtypeMethod(Method m) throws JsonProtocolModelParseException {
-    if (m.getReturnType() == Void.TYPE) {
-      if (autoAlgCasesData.hasDefaultCase) {
-        throw new JsonProtocolModelParseException("Duplicate default case method: " + m);
-      }
-      autoAlgCasesData.hasDefaultCase = true;
-      return RETURN_NULL_METHOD_HANDLER;
-    }
-    else {
-      Class<?> methodType = m.getReturnType();
-      TypeRef<?> ref = reader.getTypeRef(methodType);
-      if (ref == null) {
-        throw new JsonProtocolModelParseException("Unknown return type in " + m);
-      }
-      final int algCode = autoAlgCasesData.subtypes.size();
-      autoAlgCasesData.subtypes.add(ref);
-      reader.subtypeCasters.add(new SubtypeCaster(ref) {
-        @Override
-        void writeJava(TextOutput out) {
-          out.append(AutoAlgebraicCasesData.getAutoAlgFieldNameJava(algCode));
-        }
-      });
-      return new AutoSubtypeMethodHandler(algCode);
-    }
-  }
-
-  private static class AutoSubtypeMethodHandler extends MethodHandler {
-    private final int code;
-
-    AutoSubtypeMethodHandler(int code) {
-      this.code = code;
-    }
-
-    @Override
-    void writeMethodImplementationJava(ClassScope scope, Method m, TextOutput out) {
-      writeMethodDeclarationJava(out, m);
-      out.openBlock();
-      out.append("return ").append(AutoAlgebraicCasesData.getAutoAlgFieldNameJava(code)).semi();
-      out.closeBlock();
-    }
-  }
-
   private MethodHandler processManualSubtypeMethod(final Method m, JsonSubtypeCasting jsonSubtypeCaseAnn) throws JsonProtocolModelParseException {
     ValueParser fieldTypeParser = reader.getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret(), null);
     VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
@@ -158,7 +89,6 @@ class FieldProcessor<T> {
           out.append(m.getName()).append("()");
         }
       };
-      manualAlgCasesData.subtypes.add(parserAsObjectValueParser.getType());
       reader.subtypeCasters.add(subtypeCaster);
     }
     return handler;
@@ -166,10 +96,6 @@ class FieldProcessor<T> {
 
   List<VolatileFieldBinding> getVolatileFields() {
     return volatileFields;
-  }
-
-  AlgebraicCasesData getAlgCasesData() {
-    return useManualAlgCasesData ? manualAlgCasesData : autoAlgCasesData;
   }
 
   List<FieldLoader> getFieldLoaders() {

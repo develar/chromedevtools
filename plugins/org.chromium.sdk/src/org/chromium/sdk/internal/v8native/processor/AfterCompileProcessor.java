@@ -37,31 +37,31 @@ public class AfterCompileProcessor extends V8EventProcessor {
     if (script == null) {
       return;
     }
-    debugSession.sendMessageAsync(
-        DebuggerMessageFactory.scripts(new long[]{V8ProtocolUtil.getScriptIdFromResponse(script)}, true),
-        true,
-        new V8CommandCallbackBase() {
-          @Override
-          public void success(SuccessCommandResponse successResponse) {
-            List<ScriptHandle> body;
-            try {
-              body = successResponse.body().asScripts();
-            } catch (IOException e) {
-              throw new RuntimeException(e);
-            }
-            // body is an array of scripts
-            if (body.size() == 0) {
-              return; // The script did not arrive (bad id?)
-            }
-            debugSession.getScriptManager().addScript(body.get(0), successResponse.refs());
+    debugSession.sendMessage(
+      DebuggerMessageFactory.scripts(new long[]{V8ProtocolUtil.getScriptIdFromResponse(script)}, true),
+      new V8CommandCallbackBase() {
+        @Override
+        public void success(SuccessCommandResponse successResponse) {
+          List<ScriptHandle> body;
+          try {
+            body = successResponse.body().asScripts();
           }
+          catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+          // body is an array of scripts
+          if (body.size() == 0) {
+            return; // The script did not arrive (bad id?)
+          }
+          debugSession.getScriptManager().addScript(body.get(0), successResponse.refs());
+        }
 
-          @Override
-          public void failure(String message) {
-            // The script is now missing.
-          }
-        },
-        null);
+        @Override
+        public void failure(String message) {
+          // The script is now missing.
+        }
+      },
+      null);
   }
 
   private static ScriptHandle getScriptToLoad(EventNotification eventResponse,

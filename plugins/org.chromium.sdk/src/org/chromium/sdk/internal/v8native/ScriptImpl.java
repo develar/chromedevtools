@@ -32,16 +32,14 @@ public class ScriptImpl extends ScriptBase<Long> {
   public RelayOk setSourceOnRemote(String newSource, UpdateCallback callback,
       SyncCallback syncCallback) {
     V8CommandProcessor.V8HandlerCallback v8Callback = createScriptUpdateCallback(callback, false);
-    return debugSession.sendMessageAsync(new ChangeLiveMessage(getId(), newSource, Boolean.FALSE),
-        true, v8Callback, syncCallback);
+    return debugSession.sendMessage(new ChangeLiveMessage(getId(), newSource, Boolean.FALSE), v8Callback, syncCallback);
   }
 
   @Override
   public RelayOk previewSetSource(String newSource, UpdateCallback callback,
       SyncCallback syncCallback) {
     V8CommandProcessor.V8HandlerCallback v8Callback = createScriptUpdateCallback(callback, true);
-    return debugSession.sendMessageAsync(new ChangeLiveMessage(getId(), newSource, Boolean.TRUE),
-        true, v8Callback, syncCallback);
+    return debugSession.sendMessage(new ChangeLiveMessage(getId(), newSource, Boolean.TRUE), v8Callback, syncCallback);
   }
 
   private V8CommandProcessor.V8HandlerCallback createScriptUpdateCallback(

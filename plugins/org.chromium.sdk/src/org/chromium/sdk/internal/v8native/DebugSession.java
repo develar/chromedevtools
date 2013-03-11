@@ -86,8 +86,12 @@ public class DebugSession {
    * Use {@code InternalContext} if you need to send context-specific commands.
    * @return
    */
-  public RelayOk sendMessageAsync(V8Request message, boolean isImmediate, V8CommandProcessor.V8HandlerCallback commandCallback, SyncCallback syncCallback) {
+  public RelayOk sendMessage(V8Request message, boolean isImmediate, V8CommandProcessor.V8HandlerCallback commandCallback, SyncCallback syncCallback) {
     return v8CommandProcessor.sendV8CommandAsync(message, isImmediate, commandCallback, syncCallback);
+  }
+
+  public RelayOk sendMessage(V8Request message, V8CommandProcessor.V8HandlerCallback commandCallback, SyncCallback syncCallback) {
+    return sendMessage(message, true, commandCallback, syncCallback);
   }
 
   JavascriptVm getJavascriptVm() {
@@ -160,7 +164,7 @@ public class DebugSession {
         defaultResponseHandler.getBreakpointProcessor().processNextStep(step2);
       }
     };
-    sendMessageAsync(DebuggerMessageFactory.suspend(), true, v8Callback, null);
+    sendMessage(DebuggerMessageFactory.suspend(), v8Callback, null);
   }
 
   /**
@@ -221,9 +225,8 @@ public class DebugSession {
           }
 
           @Override
-          public void failure(final String message) {
-            LOGGER.log(Level.SEVERE, null,
-                new Exception("Failed to load scripts from remote: " + message));
+          public void failure(String message) {
+            LOGGER.log(Level.SEVERE, null, new Exception("Failed to load scripts from remote: " + message));
             requestCallback.done(null);
           }
         };
@@ -275,7 +278,7 @@ public class DebugSession {
 
   public static void maybeRethrowContextException(ContextDismissedCheckedException e) {
     // TODO(peter.rybin): make some kind of option out of this
-    final boolean strictPolicy = true;
+    boolean strictPolicy = true;
     if (strictPolicy) {
       throw new InvalidContextException(e);
     }

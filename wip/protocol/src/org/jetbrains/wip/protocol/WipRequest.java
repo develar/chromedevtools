@@ -10,8 +10,6 @@ import java.io.IOException;
 
 public abstract class WipRequest extends Request {
   public WipRequest() {
-    super();
-
     try {
       writer.name(BasicConstants.Property.METHOD).value(getMethodName());
     }

@@ -66,49 +66,48 @@ public class V8Helper {
     } else {
       message = DebuggerMessageFactory.scripts(ids, true);
     }
-    return debugSession.sendMessageAsync(
-        message,
-        true,
-        new V8CommandCallbackBase() {
-          @Override
-          public void failure(String message) {
-            if (callback != null) {
-              callback.failure(message);
-            }
+    return debugSession.sendMessage(message,
+      new V8CommandCallbackBase() {
+        @Override
+        public void failure(String message) {
+          if (callback != null) {
+            callback.failure(message);
           }
+        }
 
-          @Override
-          public void success(SuccessCommandResponse successResponse) {
-            List<ScriptHandle> body;
-            try {
-              body = successResponse.body().asScripts();
-            } catch (IOException e) {
-              throw new RuntimeException(e);
+        @Override
+        public void success(SuccessCommandResponse successResponse) {
+          List<ScriptHandle> body;
+          try {
+            body = successResponse.body().asScripts();
+          }
+          catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+          ScriptManager scriptManager = debugSession.getScriptManager();
+          for (ScriptHandle scriptHandle : body) {
+            if (V8Helper.JAVASCRIPT_VOID.equals(scriptHandle.source())) {
+              continue;
             }
-            ScriptManager scriptManager = debugSession.getScriptManager();
-            for (ScriptHandle scriptHandle : body) {
-              if (V8Helper.JAVASCRIPT_VOID.equals(scriptHandle.source())) {
-                continue;
-              }
-              Long id = V8ProtocolUtil.getScriptIdFromResponse(scriptHandle);
-              ScriptImpl scriptById = scriptManager.findById(id);
-              if (scriptById == null) {
-                scriptManager.addScript(scriptHandle, successResponse.refs());
-              }
-              else {
-                // A scrupulous refactoring note:
-                // do not call setSource in a legacy case, when ids parameter is null.
-                if (ids != null) {
-                  scriptById.setSource(scriptHandle.source());
-                }
-              }
+            Long id = V8ProtocolUtil.getScriptIdFromResponse(scriptHandle);
+            ScriptImpl scriptById = scriptManager.findById(id);
+            if (scriptById == null) {
+              scriptManager.addScript(scriptHandle, successResponse.refs());
             }
-            if (callback != null) {
-              callback.success();
+            else {
+              // A scrupulous refactoring note:
+              // do not call setSource in a legacy case, when ids parameter is null.
+              if (ids != null) {
+                scriptById.setSource(scriptHandle.source());
+              }
             }
           }
-        },
-        syncCallback);
+          if (callback != null) {
+            callback.success();
+          }
+        }
+      },
+      syncCallback);
   }
 
   public static PropertyReference computeReceiverRef(FrameObject frame) {

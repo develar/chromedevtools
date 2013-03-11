@@ -38,7 +38,7 @@ public class DefaultResponseHandler {
   }
 
   public void handleResponseWithHandler(IncomingMessage response) {
-    EventNotification eventResponse = response.asEventNotification();
+    EventNotification eventResponse = response.asNotification();
     if (eventResponse == null) {
       // Currently only events are supported.
       return;

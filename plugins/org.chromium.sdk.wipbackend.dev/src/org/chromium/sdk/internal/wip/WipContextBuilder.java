@@ -18,7 +18,7 @@ import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
 import org.chromium.wip.protocol.output.debugger.*;
 import org.chromium.wip.protocol.output.runtime.Evaluate;
 import org.jetbrains.jsonProtocol.JsonReaders;
-import org.jetbrains.wip.protocol.WipCommandResponse;
+import org.jetbrains.wip.protocol.CommandResponse;
 import org.jetbrains.wip.protocol.WipRequest;
 import org.jetbrains.wip.protocol.WipRequestWithResponse;
 
@@ -231,7 +231,7 @@ class WipContextBuilder {
       else {
         commandCallback = new WipCommandCallback() {
           @Override
-          public void messageReceived(WipCommandResponse response) {
+          public void messageReceived(CommandResponse response) {
             callback.success();
           }
 

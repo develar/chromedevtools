@@ -137,9 +137,7 @@ public class BreakpointImpl implements Breakpoint {
         }
       };
     }
-
-    DebugSession debugSession = breakpointManager.getDebugSession();
-    return debugSession.sendMessageAsync(message, true, wrappedCallback, syncCallback);
+    return breakpointManager.getDebugSession().sendMessage(message, wrappedCallback, syncCallback);
   }
 
   @Override

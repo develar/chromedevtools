@@ -191,7 +191,7 @@ class InterfaceReader {
     return new TypeHandler<T>(typeClass, getSuperclassRef(typeClass),
                               fields.getVolatileFields(), methodHandlerMap,
                               fields.getFieldLoaders(),
-                              eagerFieldParser, fields.getAlgCasesData(),
+                              eagerFieldParser,
                               fields.lazyRead);
   }
 

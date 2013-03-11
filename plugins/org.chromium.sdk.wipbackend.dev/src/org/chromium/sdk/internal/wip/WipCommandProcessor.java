@@ -4,7 +4,6 @@
 
 package org.chromium.sdk.internal.wip;
 
-import com.google.gson.stream.JsonReaderEx;
 import org.chromium.sdk.DebugEventListener.VmStatusListener;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
@@ -21,7 +20,7 @@ import org.chromium.wip.protocol.input.page.FrameNavigatedEventData;
 import org.jetbrains.jsonProtocol.Request;
 import org.jetbrains.rpc.MessageHandler;
 import org.jetbrains.wip.protocol.*;
-import org.jetbrains.wip.protocol.WipCommandResponse.Success;
+import org.jetbrains.wip.protocol.CommandResponse.Success;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -36,11 +35,11 @@ class WipCommandProcessor {
   private static final Logger LOGGER = Logger.getLogger(WipCommandProcessor.class.getName());
 
   private final WipTabImpl tabImpl;
-  private final BaseCommandProcessor<Request, JsonReaderEx, WipCommandResponse> baseProcessor;
+  private final BaseCommandProcessor<Request, IncomingMessage, CommandResponse> baseProcessor;
 
   WipCommandProcessor(WipTabImpl tabImpl) {
     this.tabImpl = tabImpl;
-    baseProcessor = new BaseCommandProcessor<Request, JsonReaderEx, WipCommandResponse>(new WipMessageTypeHandler());
+    baseProcessor = new BaseCommandProcessor<Request, IncomingMessage, CommandResponse>(new WipMessageTypeHandler());
   }
 
   RelayOk sendRaw(Request message, WipCommandCallback callback, SyncCallback syncCallback) {
@@ -52,12 +51,12 @@ class WipCommandProcessor {
   }
 
   /**
-   * @param <RESPONSE> type of response expected that is determined by params
-   * @param params request parameters that also holds a method name
+   * @param <RESPONSE> type of response expected that is determined by request
+   * @param request request parameters that also holds a method name
    * @param callback a callback that accepts method-specific response or null
    * @param syncCallback may be null
    */
-  <RESPONSE> RelayOk send(final WipRequestWithResponse<RESPONSE> params, final GenericCallback<RESPONSE> callback, SyncCallback syncCallback) {
+  <RESPONSE> RelayOk send(final WipRequestWithResponse<RESPONSE> request, final GenericCallback<RESPONSE> callback, SyncCallback syncCallback) {
     WipCommandCallback commandCallback;
     if (callback == null) {
       commandCallback = null;
@@ -66,14 +65,7 @@ class WipCommandProcessor {
       commandCallback = new WipCommandCallback.Default() {
         @Override
         protected void onSuccess(Success success) {
-          RESPONSE response;
-          try {
-            response = params.parseResponse(success.data(), WipParserAccess.get());
-          }
-          catch (IOException e) {
-            throw new RuntimeException(e);
-          }
-          callback.success(response);
+          callback.success(request.readResponse(success.data(), WipParserAccess.get()));
         }
 
         @Override
@@ -82,10 +74,10 @@ class WipCommandProcessor {
         }
       };
     }
-    return sendRaw(params, commandCallback, syncCallback);
+    return sendRaw(request, commandCallback, syncCallback);
   }
 
-  void acceptResponse(JsonReaderEx message) {
+  void acceptResponse(IncomingMessage message) {
     baseProcessor.processIncoming(message);
   }
 
@@ -93,22 +85,19 @@ class WipCommandProcessor {
     baseProcessor.processEos();
   }
 
-  private class WipMessageTypeHandler extends MessageHandler<JsonReaderEx, WipCommandResponse> {
+  private class WipMessageTypeHandler extends MessageHandler<IncomingMessage, CommandResponse> {
     @Override
     public void send(Request message, boolean isImmediate) throws IOException {
       tabImpl.getWsSocket().sendTextualMessage(message.toJson());
     }
 
     @Override
-    public WipCommandResponse readIfHasSequence(JsonReaderEx incoming) {
-      //if (!incoming.containsKey(BasicConstants.Property.ID)) {
-      //  return null;
-      //}
-      return WipParserAccess.get().parseWipCommandResponse(incoming);
+    public CommandResponse readIfHasSequence(IncomingMessage incoming) {
+      return incoming.id() == -1 ? null : incoming.asResponse();
     }
 
     @Override
-    public int getSequence(WipCommandResponse incomingWithSeq) {
+    public int getSequence(CommandResponse incomingWithSeq) {
       Object seqObject = incomingWithSeq.id();
       if (seqObject == null) {
         return -1;
@@ -118,10 +107,8 @@ class WipCommandProcessor {
     }
 
     @Override
-    public void acceptNonSequence(JsonReaderEx incoming) {
-      WipEvent event;
-      event = WipParserAccess.get().parseWipEvent(incoming);
-      EVENT_MAP.handleEvent(event, WipCommandProcessor.this);
+    public void acceptNonSequence(IncomingMessage incoming) {
+      EVENT_MAP.handleEvent(incoming.asNotification(), WipCommandProcessor.this);
     }
 
     @Override

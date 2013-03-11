@@ -117,26 +117,55 @@ public class BreakpointManager {
     };
 
   RelayOk setBreakpoint(final Breakpoint.Target target, final int line, int column,
-                        final boolean enabled, final String condition, final int ignoreCount,
+                        final boolean enabled, final String condition, int ignoreCount,
                         final JavascriptVm.BreakpointCallback callback, SyncCallback syncCallback) {
-    return debugSession.sendMessageAsync(new Setbreakpoint(target.accept(GET_TYPE_VISITOR), target.accept(GET_TARGET_VISITOR), line).column(column).condition(condition).ignoreCount(ignoreCount).enabled(
-      enabled),
-      true,
+    return debugSession.sendMessage(new Setbreakpoint(target.accept(GET_TYPE_VISITOR), target.accept(GET_TARGET_VISITOR), line).
+      column(column).condition(condition).ignoreCount(ignoreCount).enabled(enabled),
+                                    new V8CommandCallbackBase() {
+                                      @Override
+                                      public void success(SuccessCommandResponse successResponse) {
+                                        BreakpointBody body;
+                                        try {
+                                          body = successResponse.body().asBreakpointBody();
+                                        }
+                                        catch (IOException e) {
+                                          throw new RuntimeException(e);
+                                        }
+                                        long id = body.breakpoint();
+                                        BreakpointImpl breakpoint =
+                                          new BreakpointImpl(id, target, line, enabled, condition, BreakpointManager.this);
+                                        idToBreakpoint.put(breakpoint.getId(), breakpoint);
+                                        if (callback != null) {
+                                          callback.success(breakpoint);
+                                        }
+                                      }
+
+                                      @Override
+                                      public void failure(String message) {
+                                        if (callback != null) {
+                                          callback.failure(message);
+                                        }
+                                      }
+                                    },
+                                    syncCallback);
+  }
+
+  public Breakpoint getBreakpoint(long id) {
+    return idToBreakpoint.get(id);
+  }
+
+  public RelayOk clearBreakpoint(final BreakpointImpl breakpointImpl, final BreakpointCallback callback, SyncCallback syncCallback, long originalId) {
+    if (originalId == Breakpoint.INVALID_ID) {
+      return RelaySyncCallback.finish(syncCallback);
+    }
+    idToBreakpoint.remove(originalId);
+    return debugSession.sendMessage(
+      DebuggerMessageFactory.clearBreakpoint(originalId),
       new V8CommandCallbackBase() {
         @Override
         public void success(SuccessCommandResponse successResponse) {
-          BreakpointBody body;
-          try {
-            body = successResponse.body().asBreakpointBody();
-          }
-          catch (IOException e) {
-            throw new RuntimeException(e);
-          }
-          long id = body.breakpoint();
-          BreakpointImpl breakpoint = new BreakpointImpl(id, target, line, enabled, condition, BreakpointManager.this);
-          idToBreakpoint.put(breakpoint.getId(), breakpoint);
           if (callback != null) {
-            callback.success(breakpoint);
+            callback.success(null);
           }
         }
 
@@ -150,57 +179,24 @@ public class BreakpointManager {
       syncCallback);
   }
 
-  public Breakpoint getBreakpoint(long id) {
-    return idToBreakpoint.get(id);
-  }
+  public RelayOk changeBreakpoint(final BreakpointImpl breakpointImpl, final BreakpointCallback callback, SyncCallback syncCallback) {
+    return debugSession.sendMessage(new ChangeBreakpointMessage(breakpointImpl.getId(), breakpointImpl.isEnabled(), breakpointImpl.getCondition()),
+      new V8CommandCallbackBase() {
+        @Override
+        public void success(SuccessCommandResponse successResponse) {
+          if (callback != null) {
+            callback.success(breakpointImpl);
+          }
+        }
 
-  public RelayOk clearBreakpoint(final BreakpointImpl breakpointImpl, final BreakpointCallback callback, SyncCallback syncCallback, long originalId) {
-    if (originalId == Breakpoint.INVALID_ID) {
-      return RelaySyncCallback.finish(syncCallback);
-    }
-    idToBreakpoint.remove(originalId);
-    return debugSession.sendMessageAsync(
-        DebuggerMessageFactory.clearBreakpoint(originalId),
-        true,
-        new V8CommandCallbackBase() {
-          @Override
-          public void success(SuccessCommandResponse successResponse) {
-            if (callback != null) {
-              callback.success(null);
-            }
+        @Override
+        public void failure(String message) {
+          if (callback != null) {
+            callback.failure(message);
           }
-          @Override
-          public void failure(String message) {
-            if (callback != null) {
-              callback.failure(message);
-            }
-          }
-        },
-        syncCallback);
-  }
-
-  public RelayOk changeBreakpoint(final BreakpointImpl breakpointImpl,
-      final BreakpointCallback callback, SyncCallback syncCallback) {
-    ChangeBreakpointMessage message = new ChangeBreakpointMessage(breakpointImpl.getId(),
-        breakpointImpl.isEnabled(), breakpointImpl.getCondition());
-    return debugSession.sendMessageAsync(
-        message,
-        true,
-        new V8CommandCallbackBase() {
-          @Override
-          public void success(SuccessCommandResponse successResponse) {
-            if (callback != null) {
-              callback.success(breakpointImpl);
-            }
-          }
-          @Override
-          public void failure(String message) {
-            if (callback != null) {
-              callback.failure(message);
-            }
-          }
-        },
-        syncCallback);
+        }
+      },
+      syncCallback);
   }
 
   /**
@@ -235,8 +231,7 @@ public class BreakpointManager {
         callback.success(Collections.unmodifiableCollection(updatedBreakpoints));
       }
     };
-    return debugSession.sendMessageAsync(new ListBreakpointsMessage(), true, v8Callback,
-        syncCallback);
+    return debugSession.sendMessage(new ListBreakpointsMessage(), v8Callback, syncCallback);
   }
 
   public RelayOk enableBreakpoints(boolean enabled, GenericCallback<Boolean> callback, SyncCallback syncCallback) {
@@ -375,7 +370,7 @@ public class BreakpointManager {
         }
       };
     }
-    return debugSession.sendMessageAsync(new FlagsMessage(flagMap), true, v8Callback, syncCallback);
+    return debugSession.sendMessage(new FlagsMessage(flagMap), v8Callback, syncCallback);
   }
 
   private Collection<Breakpoint> syncBreakpoints(List<BreakpointInfo> infoList) {

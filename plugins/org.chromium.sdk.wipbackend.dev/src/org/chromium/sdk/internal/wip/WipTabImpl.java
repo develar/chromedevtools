@@ -17,7 +17,7 @@ import org.chromium.wip.protocol.output.debugger.Pause;
 import org.chromium.wip.protocol.output.debugger.SetBreakpointsActive;
 import org.chromium.wip.protocol.output.debugger.SetPauseOnExceptions;
 import org.jetbrains.jsonProtocol.JsonReaders;
-import org.jetbrains.wip.protocol.WipCommandResponse.Success;
+import org.jetbrains.wip.protocol.CommandResponse.Success;
 import org.jetbrains.wip.protocol.WipRequest;
 
 import java.io.IOException;
