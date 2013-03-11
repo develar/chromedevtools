@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class AlgebraicCasesData {
-  protected final List<RefImpl<?>> subtypes = new ArrayList<RefImpl<?>>();
+  protected final List<TypeRef<?>> subtypes = new ArrayList<TypeRef<?>>();
 
   void writeConstructorCodeJava(JavaCodeGenerator.MethodScope methodScope, TextOutput out) {
   }

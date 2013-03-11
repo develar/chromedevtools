@@ -59,7 +59,7 @@ class InterfaceReader {
 
   private final boolean isStatic;
 
-  final List<RefImpl<?>> refs = new ArrayList<RefImpl<?>>();
+  final List<TypeRef<?>> refs = new ArrayList<TypeRef<?>>();
   final List<SubtypeCaster> subtypeCasters = new ArrayList<SubtypeCaster>();
 
   InterfaceReader(Class[] protocolInterfaces, boolean isStatic, boolean strictMode) {
@@ -120,7 +120,7 @@ class InterfaceReader {
     }
 
     // Resolve cross-references.
-    for (RefImpl<?> ref : refs) {
+    for (TypeRef<?> ref : refs) {
       TypeHandler<?> type = typeToTypeHandler.get(ref.typeClass);
       if (type == null) {
         throw new RuntimeException();
@@ -160,7 +160,7 @@ class InterfaceReader {
     }
 
     TypeHandler typeHandler = createTypeHandler(typeClass);
-    for (RefImpl<?> ref : refs) {
+    for (TypeRef<?> ref : refs) {
       if (ref.typeClass == typeClass) {
         assert ref.get() == null;
         ref.set(typeHandler);
@@ -249,7 +249,7 @@ class InterfaceReader {
         Class<RetentionPolicy> enumTypeClass = (Class<RetentionPolicy>)typeClass;
         return EnumParser.create(enumTypeClass, declaredNullable);
       }
-      RefImpl<?> ref = getTypeRef(typeClass);
+      TypeRef<?> ref = getTypeRef(typeClass);
       if (ref != null) {
         return createJsonParser(ref, declaredNullable, isSubtyping);
       }
@@ -287,21 +287,21 @@ class InterfaceReader {
     }
   }
 
-  private static <T> ObjectValueParser<T> createJsonParser(RefImpl<T> type, boolean isNullable, boolean isSubtyping) {
+  private static <T> ObjectValueParser<T> createJsonParser(TypeRef<T> type, boolean isNullable, boolean isSubtyping) {
     return new ObjectValueParser<T>(type, isNullable, isSubtyping);
   }
 
-  <T> RefImpl<T> getTypeRef(Class<T> typeClass) {
+  <T> TypeRef<T> getTypeRef(Class<T> typeClass) {
     if (typeClass.getAnnotation(JsonType.class) != null) {
-      RefImpl<T> result = new RefImpl<T>(typeClass);
+      TypeRef<T> result = new TypeRef<T>(typeClass);
       refs.add(result);
       return result;
     }
     return null;
   }
 
-  private RefImpl<?> getSuperclassRef(Class<?> typeClass) {
-    RefImpl<?> result = null;
+  private TypeRef<?> getSuperclassRef(Class<?> typeClass) {
+    TypeRef<?> result = null;
     for (Type interfaceGeneric : typeClass.getGenericInterfaces()) {
       if (!(interfaceGeneric instanceof ParameterizedType)) {
         continue;

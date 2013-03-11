@@ -1,10 +1,10 @@
 package org.chromium.protocolparser;
 
-class RefImpl<T> {
+class TypeRef<T> {
   final Class<T> typeClass;
   private TypeHandler<T> type;
 
-  RefImpl(Class<T> typeClass) {
+  TypeRef(Class<T> typeClass) {
     this.typeClass = typeClass;
   }
 

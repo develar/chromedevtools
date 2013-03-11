@@ -114,7 +114,7 @@ class FieldProcessor<T> {
     }
     else {
       Class<?> methodType = m.getReturnType();
-      RefImpl<?> ref = reader.getTypeRef(methodType);
+      TypeRef<?> ref = reader.getTypeRef(methodType);
       if (ref == null) {
         throw new JsonProtocolModelParseException("Unknown return type in " + m);
       }

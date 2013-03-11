@@ -7,17 +7,17 @@ package org.chromium.protocolparser;
 import org.chromium.protocolparser.JavaCodeGenerator.MethodScope;
 
 class ObjectValueParser<T> extends ValueParser {
-  private final RefImpl<T> refToType;
+  private final TypeRef<T> refToType;
   private final boolean isSubtyping;
 
-  ObjectValueParser(RefImpl<T> refToType, boolean nullable, boolean isSubtyping) {
+  ObjectValueParser(TypeRef<T> refToType, boolean nullable, boolean isSubtyping) {
     super(nullable);
 
     this.refToType = refToType;
     this.isSubtyping = isSubtyping;
   }
 
-  RefImpl<T> getType() {
+  TypeRef<T> getType() {
     return refToType;
   }
 

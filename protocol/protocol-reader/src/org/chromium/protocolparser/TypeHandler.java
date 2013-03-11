@@ -37,7 +37,7 @@ class TypeHandler<T> {
 
   private final boolean hasLazyFields;
 
-  TypeHandler(Class<T> typeClass, RefImpl<?> jsonSuperClass,
+  TypeHandler(Class<T> typeClass, TypeRef<?> jsonSuperClass,
               List<VolatileFieldBinding> volatileFields,
               Map<Method, MethodHandler> methodHandlerMap,
               List<FieldLoader> fieldLoaders,
@@ -85,7 +85,7 @@ class TypeHandler<T> {
       }
     } else {
       namesChain.add(thisSet);
-      for (RefImpl<?> subtype : algebraicCasesData.subtypes) {
+      for (TypeRef<?> subtype : algebraicCasesData.subtypes) {
         subtype.get().buildClosedNameSetRecursive(namesChain);
       }
       namesChain.remove(namesChain.size() - 1);
