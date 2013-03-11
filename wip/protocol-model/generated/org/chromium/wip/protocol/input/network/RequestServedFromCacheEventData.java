@@ -11,11 +11,11 @@ public interface RequestServedFromCacheEventData {
    */
   String requestId();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestServedFromCacheEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestServedFromCacheEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestServedFromCacheEventData>("NetworkrequestServedFromCache", org.chromium.wip.protocol.input.network.RequestServedFromCacheEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.RequestServedFromCacheEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseNetworkRequestServedFromCacheEventData(reader);
+    public org.chromium.wip.protocol.input.network.RequestServedFromCacheEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readNetworkRequestServedFromCacheEventData(reader);
     }
   };
 }

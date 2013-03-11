@@ -13,6 +13,6 @@ public final class CanOverrideDeviceOrientation extends org.jetbrains.wip.protoc
 
   @Override
   public org.chromium.wip.protocol.input.page.CanOverrideDeviceOrientationData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageCanOverrideDeviceOrientationData(data.getDeferredReader());
+    return reader.readPageCanOverrideDeviceOrientationData(data.getDeferredReader());
   }
 }

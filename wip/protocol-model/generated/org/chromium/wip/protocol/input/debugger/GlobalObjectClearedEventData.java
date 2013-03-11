@@ -7,11 +7,11 @@ package org.chromium.wip.protocol.input.debugger;
 @org.chromium.protocolReader.JsonType
 public interface GlobalObjectClearedEventData {
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.GlobalObjectClearedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.GlobalObjectClearedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.GlobalObjectClearedEventData>("DebuggerglobalObjectCleared", org.chromium.wip.protocol.input.debugger.GlobalObjectClearedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.debugger.GlobalObjectClearedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseDebuggerGlobalObjectClearedEventData(reader);
+    public org.chromium.wip.protocol.input.debugger.GlobalObjectClearedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readDebuggerGlobalObjectClearedEventData(reader);
     }
   };
 }

@@ -62,6 +62,6 @@ public final class EvaluateOnCallFrame extends org.jetbrains.wip.protocol.WipReq
 
   @Override
   public org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDebuggerEvaluateOnCallFrameData(data.getDeferredReader());
+    return reader.readDebuggerEvaluateOnCallFrameData(data.getDeferredReader());
   }
 }

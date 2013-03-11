@@ -13,6 +13,6 @@ public final class GetScriptExecutionStatus extends org.jetbrains.wip.protocol.W
 
   @Override
   public org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageGetScriptExecutionStatusData(data.getDeferredReader());
+    return reader.readPageGetScriptExecutionStatusData(data.getDeferredReader());
   }
 }

@@ -46,11 +46,11 @@ public interface ScriptParsedEventData {
   @org.chromium.protocolReader.JsonOptionalField
   boolean hasSourceURL();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.ScriptParsedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.ScriptParsedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.ScriptParsedEventData>("DebuggerscriptParsed", org.chromium.wip.protocol.input.debugger.ScriptParsedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.debugger.ScriptParsedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseDebuggerScriptParsedEventData(reader);
+    public org.chromium.wip.protocol.input.debugger.ScriptParsedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readDebuggerScriptParsedEventData(reader);
     }
   };
 }

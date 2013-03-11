@@ -11,11 +11,11 @@ public interface FrameClearedScheduledNavigationEventData {
    */
   String frameId();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameClearedScheduledNavigationEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameClearedScheduledNavigationEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameClearedScheduledNavigationEventData>("PageframeClearedScheduledNavigation", org.chromium.wip.protocol.input.page.FrameClearedScheduledNavigationEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.FrameClearedScheduledNavigationEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parsePageFrameClearedScheduledNavigationEventData(reader);
+    public org.chromium.wip.protocol.input.page.FrameClearedScheduledNavigationEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readPageFrameClearedScheduledNavigationEventData(reader);
     }
   };
 }

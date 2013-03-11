@@ -11,11 +11,11 @@ public interface JavascriptDialogOpeningEventData {
    */
   String message();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData>("PagejavascriptDialogOpening", org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parsePageJavascriptDialogOpeningEventData(reader);
+    public org.chromium.wip.protocol.input.page.JavascriptDialogOpeningEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readPageJavascriptDialogOpeningEventData(reader);
     }
   };
 }

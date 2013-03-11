@@ -24,11 +24,11 @@ public interface LoadingFailedEventData {
   @org.chromium.protocolReader.JsonOptionalField
   boolean canceled();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.LoadingFailedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.LoadingFailedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.LoadingFailedEventData>("NetworkloadingFailed", org.chromium.wip.protocol.input.network.LoadingFailedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.LoadingFailedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseNetworkLoadingFailedEventData(reader);
+    public org.chromium.wip.protocol.input.network.LoadingFailedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readNetworkLoadingFailedEventData(reader);
     }
   };
 }

@@ -58,6 +58,6 @@ public final class SetBreakpointByUrl extends org.jetbrains.wip.protocol.WipRequ
 
   @Override
   public org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDebuggerSetBreakpointByUrlData(data.getDeferredReader());
+    return reader.readDebuggerSetBreakpointByUrlData(data.getDeferredReader());
   }
 }

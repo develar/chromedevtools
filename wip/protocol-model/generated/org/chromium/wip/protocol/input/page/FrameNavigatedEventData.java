@@ -11,11 +11,11 @@ public interface FrameNavigatedEventData {
    */
   org.chromium.wip.protocol.input.page.FrameValue frame();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameNavigatedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameNavigatedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameNavigatedEventData>("PageframeNavigated", org.chromium.wip.protocol.input.page.FrameNavigatedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.FrameNavigatedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parsePageFrameNavigatedEventData(reader);
+    public org.chromium.wip.protocol.input.page.FrameNavigatedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readPageFrameNavigatedEventData(reader);
     }
   };
 }

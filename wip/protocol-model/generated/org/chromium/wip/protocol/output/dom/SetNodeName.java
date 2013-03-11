@@ -20,6 +20,6 @@ public final class SetNodeName extends org.jetbrains.wip.protocol.WipRequest imp
 
   @Override
   public org.chromium.wip.protocol.input.dom.SetNodeNameData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDOMSetNodeNameData(data.getDeferredReader());
+    return reader.readDOMSetNodeNameData(data.getDeferredReader());
   }
 }

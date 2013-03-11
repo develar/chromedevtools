@@ -18,6 +18,6 @@ public final class GetResponseBody extends org.jetbrains.wip.protocol.WipRequest
 
   @Override
   public org.chromium.wip.protocol.input.network.GetResponseBodyData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseNetworkGetResponseBodyData(data.getDeferredReader());
+    return reader.readNetworkGetResponseBodyData(data.getDeferredReader());
   }
 }

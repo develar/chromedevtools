@@ -15,11 +15,11 @@ public interface SetChildNodesEventData {
    */
   java.util.List<org.chromium.wip.protocol.input.dom.NodeValue> nodes();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.SetChildNodesEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.SetChildNodesEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.SetChildNodesEventData>("DOMsetChildNodes", org.chromium.wip.protocol.input.dom.SetChildNodesEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.SetChildNodesEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseDOMSetChildNodesEventData(reader);
+    public org.chromium.wip.protocol.input.dom.SetChildNodesEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readDOMSetChildNodesEventData(reader);
     }
   };
 }

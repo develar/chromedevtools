@@ -27,11 +27,11 @@ public interface ScriptFailedToParseEventData {
    */
   String errorMessage();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.ScriptFailedToParseEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.ScriptFailedToParseEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.ScriptFailedToParseEventData>("DebuggerscriptFailedToParse", org.chromium.wip.protocol.input.debugger.ScriptFailedToParseEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.debugger.ScriptFailedToParseEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseDebuggerScriptFailedToParseEventData(reader);
+    public org.chromium.wip.protocol.input.debugger.ScriptFailedToParseEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readDebuggerScriptFailedToParseEventData(reader);
     }
   };
 }

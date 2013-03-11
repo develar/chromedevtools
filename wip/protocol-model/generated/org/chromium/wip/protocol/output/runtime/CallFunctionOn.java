@@ -52,6 +52,6 @@ public final class CallFunctionOn extends org.jetbrains.wip.protocol.WipRequest 
 
   @Override
   public org.chromium.wip.protocol.input.runtime.CallFunctionOnData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseRuntimeCallFunctionOnData(data.getDeferredReader());
+    return reader.readRuntimeCallFunctionOnData(data.getDeferredReader());
   }
 }

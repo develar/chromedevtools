@@ -7,11 +7,11 @@ package org.chromium.wip.protocol.input.page;
 @org.chromium.protocolReader.JsonType
 public interface JavascriptDialogClosedEventData {
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData>("PagejavascriptDialogClosed", org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parsePageJavascriptDialogClosedEventData(reader);
+    public org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readPageJavascriptDialogClosedEventData(reader);
     }
   };
 }

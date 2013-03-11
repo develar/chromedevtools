@@ -5,11 +5,11 @@ package org.chromium.wip.protocol.input.page;
 public interface LoadEventFiredEventData {
   double timestamp();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.LoadEventFiredEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.LoadEventFiredEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.LoadEventFiredEventData>("PageloadEventFired", org.chromium.wip.protocol.input.page.LoadEventFiredEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.LoadEventFiredEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parsePageLoadEventFiredEventData(reader);
+    public org.chromium.wip.protocol.input.page.LoadEventFiredEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readPageLoadEventFiredEventData(reader);
     }
   };
 }

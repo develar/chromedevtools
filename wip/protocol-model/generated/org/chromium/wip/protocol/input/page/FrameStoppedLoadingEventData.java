@@ -11,11 +11,11 @@ public interface FrameStoppedLoadingEventData {
    */
   String frameId();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameStoppedLoadingEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameStoppedLoadingEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameStoppedLoadingEventData>("PageframeStoppedLoading", org.chromium.wip.protocol.input.page.FrameStoppedLoadingEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.FrameStoppedLoadingEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parsePageFrameStoppedLoadingEventData(reader);
+    public org.chromium.wip.protocol.input.page.FrameStoppedLoadingEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readPageFrameStoppedLoadingEventData(reader);
     }
   };
 }

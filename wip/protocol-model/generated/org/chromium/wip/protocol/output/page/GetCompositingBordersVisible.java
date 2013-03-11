@@ -13,6 +13,6 @@ public final class GetCompositingBordersVisible extends org.jetbrains.wip.protoc
 
   @Override
   public org.chromium.wip.protocol.input.page.GetCompositingBordersVisibleData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageGetCompositingBordersVisibleData(data.getDeferredReader());
+    return reader.readPageGetCompositingBordersVisibleData(data.getDeferredReader());
   }
 }

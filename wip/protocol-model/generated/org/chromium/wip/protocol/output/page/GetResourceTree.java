@@ -13,6 +13,6 @@ public final class GetResourceTree extends org.jetbrains.wip.protocol.WipRequest
 
   @Override
   public org.chromium.wip.protocol.input.page.GetResourceTreeData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageGetResourceTreeData(data.getDeferredReader());
+    return reader.readPageGetResourceTreeData(data.getDeferredReader());
   }
 }

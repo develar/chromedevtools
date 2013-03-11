@@ -9,19 +9,20 @@ import org.chromium.protocolReader.JsonParseMethod;
 import org.chromium.protocolReader.JsonParserRoot;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
+import org.jetbrains.v8.protocol.input.ProtocolReponseReader;
 
 /**
  * Interface to native V8 debug protocol parser.
  * @see http://code.google.com/p/v8/wiki/DebuggerProtocol
  */
 @JsonParserRoot
-public interface V8ProtocolReader {
+public interface V8ProtocolReader extends ProtocolReponseReader {
   @JsonParseMethod
   IncomingMessage readIncomingMessage(JsonReaderEx reader);
 
   @JsonParseMethod
-  ContextData parseContextData(JsonReaderEx reader);
+  ContextData readContextData(JsonReaderEx reader);
 
   @JsonParseMethod
-  ValueHandle parseValueHandle(JsonReaderEx reader);
+  ValueHandle readValueHandle(JsonReaderEx reader);
 }

@@ -13,6 +13,6 @@ public final class CanShowFPSCounter extends org.jetbrains.wip.protocol.WipReque
 
   @Override
   public org.chromium.wip.protocol.input.page.CanShowFPSCounterData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageCanShowFPSCounterData(data.getDeferredReader());
+    return reader.readPageCanShowFPSCounterData(data.getDeferredReader());
   }
 }

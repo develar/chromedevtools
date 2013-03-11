@@ -13,6 +13,6 @@ public final class CanOverrideDeviceMetrics extends org.jetbrains.wip.protocol.W
 
   @Override
   public org.chromium.wip.protocol.input.page.CanOverrideDeviceMetricsData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageCanOverrideDeviceMetricsData(data.getDeferredReader());
+    return reader.readPageCanOverrideDeviceMetricsData(data.getDeferredReader());
   }
 }

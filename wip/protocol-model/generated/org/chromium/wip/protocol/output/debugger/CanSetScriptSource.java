@@ -13,6 +13,6 @@ public final class CanSetScriptSource extends org.jetbrains.wip.protocol.WipRequ
 
   @Override
   public org.chromium.wip.protocol.input.debugger.CanSetScriptSourceData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDebuggerCanSetScriptSourceData(data.getDeferredReader());
+    return reader.readDebuggerCanSetScriptSourceData(data.getDeferredReader());
   }
 }

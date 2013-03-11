@@ -22,6 +22,6 @@ public final class GetSearchResults extends org.jetbrains.wip.protocol.WipReques
 
   @Override
   public org.chromium.wip.protocol.input.dom.GetSearchResultsData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDOMGetSearchResultsData(data.getDeferredReader());
+    return reader.readDOMGetSearchResultsData(data.getDeferredReader());
   }
 }

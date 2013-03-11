@@ -38,6 +38,6 @@ public final class SearchInResource extends org.jetbrains.wip.protocol.WipReques
 
   @Override
   public org.chromium.wip.protocol.input.page.SearchInResourceData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageSearchInResourceData(data.getDeferredReader());
+    return reader.readPageSearchInResourceData(data.getDeferredReader());
   }
 }

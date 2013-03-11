@@ -20,6 +20,6 @@ public final class QuerySelector extends org.jetbrains.wip.protocol.WipRequest i
 
   @Override
   public org.chromium.wip.protocol.input.dom.QuerySelectorData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDOMQuerySelectorData(data.getDeferredReader());
+    return reader.readDOMQuerySelectorData(data.getDeferredReader());
   }
 }

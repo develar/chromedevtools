@@ -7,11 +7,11 @@ package org.chromium.wip.protocol.input.dom;
 @org.chromium.protocolReader.JsonType
 public interface DocumentUpdatedEventData {
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData>("DOMdocumentUpdated", org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseDOMDocumentUpdatedEventData(reader);
+    public org.chromium.wip.protocol.input.dom.DocumentUpdatedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readDOMDocumentUpdatedEventData(reader);
     }
   };
 }

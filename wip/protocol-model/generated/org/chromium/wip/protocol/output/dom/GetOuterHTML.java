@@ -18,6 +18,6 @@ public final class GetOuterHTML extends org.jetbrains.wip.protocol.WipRequest im
 
   @Override
   public org.chromium.wip.protocol.input.dom.GetOuterHTMLData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDOMGetOuterHTMLData(data.getDeferredReader());
+    return reader.readDOMGetOuterHTMLData(data.getDeferredReader());
   }
 }

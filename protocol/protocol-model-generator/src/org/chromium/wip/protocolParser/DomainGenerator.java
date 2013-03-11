@@ -325,13 +325,13 @@ class DomainGenerator {
     generateJsonProtocolInterface(fileUpdater.out, className, event.description(), event.parameters(), new TextOutConsumer() {
       @Override
       public void append(TextOutput out) {
-        out.newLine().append("public static final org.jetbrains.wip.protocol.WipEventType<").append(fullName).append("> TYPE").newLine();
+        out.newLine().append("org.jetbrains.wip.protocol.WipEventType<").append(fullName).append("> TYPE").newLine();
         out.append("\t= new org.jetbrains.wip.protocol.WipEventType<").append(fullName).append(">");
         out.append("(\"" + domainName + event.name() + "\", ").append(fullName).append(".class)").openBlock();
         {
-          out.append("@Override").newLine().append("public ").append(fullName).append(" parse(");
-          out.append(generator.getNaming().inputPackage).append('.').append(Generator.READER_INTERFACE_NAME + " parser, ").append(Util.JSON_READER_PARAMETER_DEF).append(")").openBlock();
-          out.append("return parser.").append(generator.getNaming().eventData.getParseMethodName(domainName, event.name())).append("(reader);").closeBlock();
+          out.append("@Override").newLine().append("public ").append(fullName).append(" read(");
+          out.append(generator.getNaming().inputPackage).append('.').append(Generator.READER_INTERFACE_NAME + " protocolReader, ").append(Util.JSON_READER_PARAMETER_DEF).append(")").openBlock();
+          out.append("return protocolReader.").append(generator.getNaming().eventData.getParseMethodName(domainName, event.name())).append("(reader);").closeBlock();
         }
         out.closeBlock();
         out.semi();

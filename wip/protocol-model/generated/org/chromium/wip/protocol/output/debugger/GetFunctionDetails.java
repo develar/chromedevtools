@@ -18,6 +18,6 @@ public final class GetFunctionDetails extends org.jetbrains.wip.protocol.WipRequ
 
   @Override
   public org.chromium.wip.protocol.input.debugger.GetFunctionDetailsData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDebuggerGetFunctionDetailsData(data.getDeferredReader());
+    return reader.readDebuggerGetFunctionDetailsData(data.getDeferredReader());
   }
 }

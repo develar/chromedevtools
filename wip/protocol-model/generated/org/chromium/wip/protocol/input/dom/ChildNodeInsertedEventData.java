@@ -19,11 +19,11 @@ public interface ChildNodeInsertedEventData {
    */
   org.chromium.wip.protocol.input.dom.NodeValue node();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData>("DOMchildNodeInserted", org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseDOMChildNodeInsertedEventData(reader);
+    public org.chromium.wip.protocol.input.dom.ChildNodeInsertedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readDOMChildNodeInsertedEventData(reader);
     }
   };
 }

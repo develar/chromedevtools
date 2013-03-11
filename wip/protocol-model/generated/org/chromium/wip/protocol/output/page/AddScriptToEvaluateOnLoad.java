@@ -12,6 +12,6 @@ public final class AddScriptToEvaluateOnLoad extends org.jetbrains.wip.protocol.
 
   @Override
   public org.chromium.wip.protocol.input.page.AddScriptToEvaluateOnLoadData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageAddScriptToEvaluateOnLoadData(data.getDeferredReader());
+    return reader.readPageAddScriptToEvaluateOnLoadData(data.getDeferredReader());
   }
 }

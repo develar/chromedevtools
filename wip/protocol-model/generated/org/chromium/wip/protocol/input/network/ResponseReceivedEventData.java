@@ -31,11 +31,11 @@ public interface ResponseReceivedEventData {
    */
   org.chromium.wip.protocol.input.network.ResponseValue response();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.ResponseReceivedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.ResponseReceivedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.ResponseReceivedEventData>("NetworkresponseReceived", org.chromium.wip.protocol.input.network.ResponseReceivedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.ResponseReceivedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseNetworkResponseReceivedEventData(reader);
+    public org.chromium.wip.protocol.input.network.ResponseReceivedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readNetworkResponseReceivedEventData(reader);
     }
   };
 }

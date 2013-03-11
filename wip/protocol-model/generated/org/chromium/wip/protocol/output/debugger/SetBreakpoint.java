@@ -28,6 +28,6 @@ public final class SetBreakpoint extends org.jetbrains.wip.protocol.WipRequest i
 
   @Override
   public org.chromium.wip.protocol.input.debugger.SetBreakpointData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDebuggerSetBreakpointData(data.getDeferredReader());
+    return reader.readDebuggerSetBreakpointData(data.getDeferredReader());
   }
 }

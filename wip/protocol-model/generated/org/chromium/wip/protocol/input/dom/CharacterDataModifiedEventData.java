@@ -15,11 +15,11 @@ public interface CharacterDataModifiedEventData {
    */
   String characterData();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.CharacterDataModifiedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.CharacterDataModifiedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.CharacterDataModifiedEventData>("DOMcharacterDataModified", org.chromium.wip.protocol.input.dom.CharacterDataModifiedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.CharacterDataModifiedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseDOMCharacterDataModifiedEventData(reader);
+    public org.chromium.wip.protocol.input.dom.CharacterDataModifiedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readDOMCharacterDataModifiedEventData(reader);
     }
   };
 }

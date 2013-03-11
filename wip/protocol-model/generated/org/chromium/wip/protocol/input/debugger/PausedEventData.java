@@ -20,11 +20,11 @@ public interface PausedEventData {
   @org.chromium.protocolReader.JsonOptionalField
   Data data();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.PausedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.PausedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.PausedEventData>("Debuggerpaused", org.chromium.wip.protocol.input.debugger.PausedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.debugger.PausedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseDebuggerPausedEventData(reader);
+    public org.chromium.wip.protocol.input.debugger.PausedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readDebuggerPausedEventData(reader);
     }
   };
   /**

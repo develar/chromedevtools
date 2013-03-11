@@ -34,7 +34,7 @@ abstract class ClassNameScheme {
     }
 
     String getParseMethodName(String domain, String name) {
-      return "parse" + Generator.capitalizeFirstChar(domain) + getShortName(name);
+      return "read" + Generator.capitalizeFirstChar(domain) + getShortName(name);
     }
   }
 

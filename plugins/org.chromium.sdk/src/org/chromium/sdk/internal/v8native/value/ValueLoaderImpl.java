@@ -320,7 +320,7 @@ public class ValueLoaderImpl extends ValueLoader {
       if (value == null) {
         throw new ValueLoadException("Failed to find value for ref=" + ref);
       }
-      ValueHandle valueHandle = ProtocolService.PROTOCOL_READER.parseValueHandle((JsonReaderEx)value);
+      ValueHandle valueHandle = ProtocolService.PROTOCOL_READER.readValueHandle((JsonReaderEx)value);
       long refLong = valueHandle.handle();
       if (refLong != ref) {
         throw new ValueLoadException("Inconsistent ref in response, ref=" + ref);
@@ -344,7 +344,7 @@ public class ValueLoaderImpl extends ValueLoader {
       if (value == null) {
         throw new ValueLoadException("Failed to find value for ref=" + ref);
       }
-      ValueHandle valueHandle = ProtocolService.PROTOCOL_READER.parseValueHandle((JsonReaderEx)value);
+      ValueHandle valueHandle = ProtocolService.PROTOCOL_READER.readValueHandle((JsonReaderEx)value);
       addDataToMap(valueHandle);
       result.add(valueHandle);
     }

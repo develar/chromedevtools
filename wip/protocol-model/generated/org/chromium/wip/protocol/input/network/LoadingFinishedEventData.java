@@ -15,11 +15,11 @@ public interface LoadingFinishedEventData {
    */
   double timestamp();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.LoadingFinishedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.LoadingFinishedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.LoadingFinishedEventData>("NetworkloadingFinished", org.chromium.wip.protocol.input.network.LoadingFinishedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.LoadingFinishedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseNetworkLoadingFinishedEventData(reader);
+    public org.chromium.wip.protocol.input.network.LoadingFinishedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readNetworkLoadingFinishedEventData(reader);
     }
   };
 }

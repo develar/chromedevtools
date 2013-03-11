@@ -11,11 +11,11 @@ public interface ScriptsEnabledEventData {
    */
   boolean isEnabled();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.ScriptsEnabledEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.ScriptsEnabledEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.ScriptsEnabledEventData>("PagescriptsEnabled", org.chromium.wip.protocol.input.page.ScriptsEnabledEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.ScriptsEnabledEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parsePageScriptsEnabledEventData(reader);
+    public org.chromium.wip.protocol.input.page.ScriptsEnabledEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readPageScriptsEnabledEventData(reader);
     }
   };
 }

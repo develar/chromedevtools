@@ -11,11 +11,11 @@ public interface FrameDetachedEventData {
    */
   String frameId();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameDetachedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameDetachedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameDetachedEventData>("PageframeDetached", org.chromium.wip.protocol.input.page.FrameDetachedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.FrameDetachedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parsePageFrameDetachedEventData(reader);
+    public org.chromium.wip.protocol.input.page.FrameDetachedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readPageFrameDetachedEventData(reader);
     }
   };
 }

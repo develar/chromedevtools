@@ -13,6 +13,6 @@ public final class CanShowDebugBorders extends org.jetbrains.wip.protocol.WipReq
 
   @Override
   public org.chromium.wip.protocol.input.page.CanShowDebugBordersData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageCanShowDebugBordersData(data.getDeferredReader());
+    return reader.readPageCanShowDebugBordersData(data.getDeferredReader());
   }
 }

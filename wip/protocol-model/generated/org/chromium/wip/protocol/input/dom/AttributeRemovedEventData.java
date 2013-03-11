@@ -15,11 +15,11 @@ public interface AttributeRemovedEventData {
    */
   String name();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.AttributeRemovedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.AttributeRemovedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.AttributeRemovedEventData>("DOMattributeRemoved", org.chromium.wip.protocol.input.dom.AttributeRemovedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.AttributeRemovedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseDOMAttributeRemovedEventData(reader);
+    public org.chromium.wip.protocol.input.dom.AttributeRemovedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readDOMAttributeRemovedEventData(reader);
     }
   };
 }

@@ -15,11 +15,11 @@ public interface ShadowRootPushedEventData {
    */
   org.chromium.wip.protocol.input.dom.NodeValue root();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ShadowRootPushedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ShadowRootPushedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ShadowRootPushedEventData>("DOMshadowRootPushed", org.chromium.wip.protocol.input.dom.ShadowRootPushedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.ShadowRootPushedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseDOMShadowRootPushedEventData(reader);
+    public org.chromium.wip.protocol.input.dom.ShadowRootPushedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readDOMShadowRootPushedEventData(reader);
     }
   };
 }

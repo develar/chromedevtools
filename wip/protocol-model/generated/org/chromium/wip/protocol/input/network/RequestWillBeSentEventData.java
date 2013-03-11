@@ -40,11 +40,11 @@ public interface RequestWillBeSentEventData {
   @org.chromium.protocolReader.JsonOptionalField
   org.chromium.wip.protocol.input.network.ResponseValue redirectResponse();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestWillBeSentEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestWillBeSentEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestWillBeSentEventData>("NetworkrequestWillBeSent", org.chromium.wip.protocol.input.network.RequestWillBeSentEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.RequestWillBeSentEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseNetworkRequestWillBeSentEventData(reader);
+    public org.chromium.wip.protocol.input.network.RequestWillBeSentEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readNetworkRequestWillBeSentEventData(reader);
     }
   };
 }

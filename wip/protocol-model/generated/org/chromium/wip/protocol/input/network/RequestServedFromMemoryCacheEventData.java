@@ -35,11 +35,11 @@ public interface RequestServedFromMemoryCacheEventData {
    */
   org.chromium.wip.protocol.input.network.CachedResourceValue resource();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestServedFromMemoryCacheEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestServedFromMemoryCacheEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestServedFromMemoryCacheEventData>("NetworkrequestServedFromMemoryCache", org.chromium.wip.protocol.input.network.RequestServedFromMemoryCacheEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.RequestServedFromMemoryCacheEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseNetworkRequestServedFromMemoryCacheEventData(reader);
+    public org.chromium.wip.protocol.input.network.RequestServedFromMemoryCacheEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readNetworkRequestServedFromMemoryCacheEventData(reader);
     }
   };
 }

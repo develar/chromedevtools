@@ -28,6 +28,6 @@ public final class ResolveNode extends org.jetbrains.wip.protocol.WipRequest imp
 
   @Override
   public org.chromium.wip.protocol.input.dom.ResolveNodeData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDOMResolveNodeData(data.getDeferredReader());
+    return reader.readDOMResolveNodeData(data.getDeferredReader());
   }
 }

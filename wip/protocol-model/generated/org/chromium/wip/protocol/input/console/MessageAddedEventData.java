@@ -11,11 +11,11 @@ public interface MessageAddedEventData {
    */
   org.chromium.wip.protocol.input.console.ConsoleMessageValue message();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessageAddedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessageAddedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessageAddedEventData>("ConsolemessageAdded", org.chromium.wip.protocol.input.console.MessageAddedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.console.MessageAddedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseConsoleMessageAddedEventData(reader);
+    public org.chromium.wip.protocol.input.console.MessageAddedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readConsoleMessageAddedEventData(reader);
     }
   };
 }

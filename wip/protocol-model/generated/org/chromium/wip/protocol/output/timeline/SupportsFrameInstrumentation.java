@@ -13,6 +13,6 @@ public final class SupportsFrameInstrumentation extends org.jetbrains.wip.protoc
 
   @Override
   public org.chromium.wip.protocol.input.timeline.SupportsFrameInstrumentationData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseTimelineSupportsFrameInstrumentationData(data.getDeferredReader());
+    return reader.readTimelineSupportsFrameInstrumentationData(data.getDeferredReader());
   }
 }

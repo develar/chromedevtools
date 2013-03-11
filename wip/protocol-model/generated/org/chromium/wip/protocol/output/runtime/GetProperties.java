@@ -26,6 +26,6 @@ public final class GetProperties extends org.jetbrains.wip.protocol.WipRequest i
 
   @Override
   public org.chromium.wip.protocol.input.runtime.GetPropertiesData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseRuntimeGetPropertiesData(data.getDeferredReader());
+    return reader.readRuntimeGetPropertiesData(data.getDeferredReader());
   }
 }

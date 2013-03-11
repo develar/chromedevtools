@@ -30,5 +30,5 @@ public abstract class WipEventType<T> {
     return eventType;
   }
 
-  public abstract T parse(ProtocolReponseReader parser, JsonReaderEx reader) throws IOException;
+  public abstract T read(ProtocolReponseReader parser, JsonReaderEx reader) throws IOException;
 }

@@ -13,6 +13,6 @@ public final class CausesRecompilation extends org.jetbrains.wip.protocol.WipReq
 
   @Override
   public org.chromium.wip.protocol.input.debugger.CausesRecompilationData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDebuggerCausesRecompilationData(data.getDeferredReader());
+    return reader.readDebuggerCausesRecompilationData(data.getDeferredReader());
   }
 }

@@ -87,7 +87,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
         // we should parse string and check context id. It should have the format "type,id".
       }
       else if (data instanceof JsonReaderEx) {
-        scriptContextId = ProtocolService.PROTOCOL_READER.parseContextData((JsonReaderEx)data).value();
+        scriptContextId = ProtocolService.PROTOCOL_READER.readContextData((JsonReaderEx)data).value();
       }
       //TODO(peter.rybin): Here we are probably supposed to compare it with our context id.
       return true;

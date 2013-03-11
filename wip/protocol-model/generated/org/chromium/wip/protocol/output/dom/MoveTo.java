@@ -28,6 +28,6 @@ public final class MoveTo extends org.jetbrains.wip.protocol.WipRequest implemen
 
   @Override
   public org.chromium.wip.protocol.input.dom.MoveToData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDOMMoveToData(data.getDeferredReader());
+    return reader.readDOMMoveToData(data.getDeferredReader());
   }
 }

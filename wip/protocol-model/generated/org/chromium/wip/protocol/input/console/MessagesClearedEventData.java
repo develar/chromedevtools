@@ -7,11 +7,11 @@ package org.chromium.wip.protocol.input.console;
 @org.chromium.protocolReader.JsonType
 public interface MessagesClearedEventData {
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessagesClearedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessagesClearedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessagesClearedEventData>("ConsolemessagesCleared", org.chromium.wip.protocol.input.console.MessagesClearedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.console.MessagesClearedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseConsoleMessagesClearedEventData(reader);
+    public org.chromium.wip.protocol.input.console.MessagesClearedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readConsoleMessagesClearedEventData(reader);
     }
   };
 }

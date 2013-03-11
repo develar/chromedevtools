@@ -13,6 +13,6 @@ public final class Version extends org.jetbrains.v8.protocol.V8Request implement
 
   @Override
   public org.jetbrains.v8.protocol.input.VersionData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.jetbrains.v8.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseVersionData(data.getDeferredReader());
+    return reader.readVersionData(data.getDeferredReader());
   }
 }

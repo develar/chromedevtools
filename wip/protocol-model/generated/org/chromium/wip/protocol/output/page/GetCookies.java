@@ -13,6 +13,6 @@ public final class GetCookies extends org.jetbrains.wip.protocol.WipRequest impl
 
   @Override
   public org.chromium.wip.protocol.input.page.GetCookiesData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageGetCookiesData(data.getDeferredReader());
+    return reader.readPageGetCookiesData(data.getDeferredReader());
   }
 }

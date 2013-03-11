@@ -19,11 +19,11 @@ public interface WebSocketFrameReceivedEventData {
    */
   org.chromium.wip.protocol.input.network.WebSocketFrameValue response();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.WebSocketFrameReceivedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.WebSocketFrameReceivedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.WebSocketFrameReceivedEventData>("NetworkwebSocketFrameReceived", org.chromium.wip.protocol.input.network.WebSocketFrameReceivedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.WebSocketFrameReceivedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseNetworkWebSocketFrameReceivedEventData(reader);
+    public org.chromium.wip.protocol.input.network.WebSocketFrameReceivedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readNetworkWebSocketFrameReceivedEventData(reader);
     }
   };
 }

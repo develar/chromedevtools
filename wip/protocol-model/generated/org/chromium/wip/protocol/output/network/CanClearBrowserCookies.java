@@ -13,6 +13,6 @@ public final class CanClearBrowserCookies extends org.jetbrains.wip.protocol.Wip
 
   @Override
   public org.chromium.wip.protocol.input.network.CanClearBrowserCookiesData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseNetworkCanClearBrowserCookiesData(data.getDeferredReader());
+    return reader.readNetworkCanClearBrowserCookiesData(data.getDeferredReader());
   }
 }

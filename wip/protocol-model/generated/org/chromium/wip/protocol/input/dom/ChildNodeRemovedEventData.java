@@ -15,11 +15,11 @@ public interface ChildNodeRemovedEventData {
    */
   int nodeId();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ChildNodeRemovedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ChildNodeRemovedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.ChildNodeRemovedEventData>("DOMchildNodeRemoved", org.chromium.wip.protocol.input.dom.ChildNodeRemovedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.ChildNodeRemovedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseDOMChildNodeRemovedEventData(reader);
+    public org.chromium.wip.protocol.input.dom.ChildNodeRemovedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readDOMChildNodeRemovedEventData(reader);
     }
   };
 }

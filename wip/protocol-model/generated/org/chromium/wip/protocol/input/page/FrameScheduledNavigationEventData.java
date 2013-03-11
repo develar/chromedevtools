@@ -15,11 +15,11 @@ public interface FrameScheduledNavigationEventData {
    */
   double delay();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameScheduledNavigationEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameScheduledNavigationEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameScheduledNavigationEventData>("PageframeScheduledNavigation", org.chromium.wip.protocol.input.page.FrameScheduledNavigationEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.FrameScheduledNavigationEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parsePageFrameScheduledNavigationEventData(reader);
+    public org.chromium.wip.protocol.input.page.FrameScheduledNavigationEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readPageFrameScheduledNavigationEventData(reader);
     }
   };
 }

@@ -19,11 +19,11 @@ public interface WebSocketWillSendHandshakeRequestEventData {
    */
   org.chromium.wip.protocol.input.network.WebSocketRequestValue request();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.WebSocketWillSendHandshakeRequestEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.WebSocketWillSendHandshakeRequestEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.WebSocketWillSendHandshakeRequestEventData>("NetworkwebSocketWillSendHandshakeRequest", org.chromium.wip.protocol.input.network.WebSocketWillSendHandshakeRequestEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.WebSocketWillSendHandshakeRequestEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseNetworkWebSocketWillSendHandshakeRequestEventData(reader);
+    public org.chromium.wip.protocol.input.network.WebSocketWillSendHandshakeRequestEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readNetworkWebSocketWillSendHandshakeRequestEventData(reader);
     }
   };
 }

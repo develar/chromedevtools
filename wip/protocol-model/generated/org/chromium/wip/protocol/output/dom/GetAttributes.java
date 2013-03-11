@@ -18,6 +18,6 @@ public final class GetAttributes extends org.jetbrains.wip.protocol.WipRequest i
 
   @Override
   public org.chromium.wip.protocol.input.dom.GetAttributesData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDOMGetAttributesData(data.getDeferredReader());
+    return reader.readDOMGetAttributesData(data.getDeferredReader());
   }
 }

@@ -13,6 +13,6 @@ public final class GetDocument extends org.jetbrains.wip.protocol.WipRequest imp
 
   @Override
   public org.chromium.wip.protocol.input.dom.GetDocumentData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDOMGetDocumentData(data.getDeferredReader());
+    return reader.readDOMGetDocumentData(data.getDeferredReader());
   }
 }

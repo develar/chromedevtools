@@ -13,6 +13,6 @@ public final class CanContinuouslyPaint extends org.jetbrains.wip.protocol.WipRe
 
   @Override
   public org.chromium.wip.protocol.input.page.CanContinuouslyPaintData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageCanContinuouslyPaintData(data.getDeferredReader());
+    return reader.readPageCanContinuouslyPaintData(data.getDeferredReader());
   }
 }

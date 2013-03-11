@@ -13,6 +13,6 @@ public final class CanClearBrowserCache extends org.jetbrains.wip.protocol.WipRe
 
   @Override
   public org.chromium.wip.protocol.input.network.CanClearBrowserCacheData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseNetworkCanClearBrowserCacheData(data.getDeferredReader());
+    return reader.readNetworkCanClearBrowserCacheData(data.getDeferredReader());
   }
 }

@@ -11,11 +11,11 @@ public interface MessageRepeatCountUpdatedEventData {
    */
   int count();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData>("ConsolemessageRepeatCountUpdated", org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseConsoleMessageRepeatCountUpdatedEventData(reader);
+    public org.chromium.wip.protocol.input.console.MessageRepeatCountUpdatedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readConsoleMessageRepeatCountUpdatedEventData(reader);
     }
   };
 }

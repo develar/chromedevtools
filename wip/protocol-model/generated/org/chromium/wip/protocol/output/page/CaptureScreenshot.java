@@ -13,6 +13,6 @@ public final class CaptureScreenshot extends org.jetbrains.wip.protocol.WipReque
 
   @Override
   public org.chromium.wip.protocol.input.page.CaptureScreenshotData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageCaptureScreenshotData(data.getDeferredReader());
+    return reader.readPageCaptureScreenshotData(data.getDeferredReader());
   }
 }

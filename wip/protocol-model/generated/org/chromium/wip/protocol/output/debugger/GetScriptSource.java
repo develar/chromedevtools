@@ -18,6 +18,6 @@ public final class GetScriptSource extends org.jetbrains.wip.protocol.WipRequest
 
   @Override
   public org.chromium.wip.protocol.input.debugger.GetScriptSourceData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDebuggerGetScriptSourceData(data.getDeferredReader());
+    return reader.readDebuggerGetScriptSourceData(data.getDeferredReader());
   }
 }

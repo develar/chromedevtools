@@ -18,6 +18,6 @@ public final class RestartFrame extends org.jetbrains.wip.protocol.WipRequest im
 
   @Override
   public org.chromium.wip.protocol.input.debugger.RestartFrameData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDebuggerRestartFrameData(data.getDeferredReader());
+    return reader.readDebuggerRestartFrameData(data.getDeferredReader());
   }
 }

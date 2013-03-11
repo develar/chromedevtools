@@ -23,11 +23,11 @@ public interface DataReceivedEventData {
    */
   int encodedDataLength();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.DataReceivedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.DataReceivedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.DataReceivedEventData>("NetworkdataReceived", org.chromium.wip.protocol.input.network.DataReceivedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.DataReceivedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseNetworkDataReceivedEventData(reader);
+    public org.chromium.wip.protocol.input.network.DataReceivedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readNetworkDataReceivedEventData(reader);
     }
   };
 }

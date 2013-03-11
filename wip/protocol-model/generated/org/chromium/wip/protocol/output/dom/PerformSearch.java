@@ -18,6 +18,6 @@ public final class PerformSearch extends org.jetbrains.wip.protocol.WipRequest i
 
   @Override
   public org.chromium.wip.protocol.input.dom.PerformSearchData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDOMPerformSearchData(data.getDeferredReader());
+    return reader.readDOMPerformSearchData(data.getDeferredReader());
   }
 }

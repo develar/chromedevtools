@@ -7,8 +7,13 @@ import static org.jetbrains.jsonProtocol.JsonReaders.*;
 
 public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8native.protocol.input.V8ProtocolReader {
   @Override
-  public org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle parseValueHandle(com.google.gson.stream.JsonReaderEx reader) {
+  public org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle readValueHandle(com.google.gson.stream.JsonReaderEx reader) {
     return new M35(reader);
+  }
+
+  @Override
+  public org.chromium.sdk.internal.v8native.protocol.input.data.ContextData readContextData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M22(reader);
   }
 
   @Override
@@ -17,8 +22,8 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
   }
 
   @Override
-  public org.chromium.sdk.internal.v8native.protocol.input.data.ContextData parseContextData(com.google.gson.stream.JsonReaderEx reader) {
-    return new M22(reader);
+  public org.jetbrains.v8.protocol.input.VersionData readVersionData(com.google.gson.stream.JsonReaderEx reader) {
+    return new M41(reader);
   }
 
   public static final class M13 implements org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage {
@@ -2330,31 +2335,10 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  static final class M32F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> {
+  static final class M11F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo> {
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M32(reader);
-    }
-  }
-
-  static final class M12F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.FrameObject> {
-    @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.FrameObject read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M12(reader);
-    }
-  }
-
-  static final class M21F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo> {
-    @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M21(reader);
-    }
-  }
-
-  static final class M38F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> {
-    @Override
-    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M38(reader);
+    public org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M11(reader);
     }
   }
 
@@ -2365,10 +2349,10 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  static final class M11F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo> {
+  static final class M30F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle> {
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M11(reader);
+    public org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M30(reader);
     }
   }
 
@@ -2379,10 +2363,10 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  static final class M30F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle> {
+  static final class M21F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo> {
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M30(reader);
+    public org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M21(reader);
     }
   }
 
@@ -2390,6 +2374,27 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     @Override
     public org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject read(com.google.gson.stream.JsonReaderEx reader) {
       return new M26(reader);
+    }
+  }
+
+  static final class M32F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> {
+    @Override
+    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M32(reader);
+    }
+  }
+
+  static final class M38F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> {
+    @Override
+    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M38(reader);
+    }
+  }
+
+  static final class M12F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.FrameObject> {
+    @Override
+    public org.chromium.sdk.internal.v8native.protocol.input.FrameObject read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M12(reader);
     }
   }
 

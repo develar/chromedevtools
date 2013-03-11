@@ -20,6 +20,6 @@ public final class GetResourceContent extends org.jetbrains.wip.protocol.WipRequ
 
   @Override
   public org.chromium.wip.protocol.input.page.GetResourceContentData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parsePageGetResourceContentData(data.getDeferredReader());
+    return reader.readPageGetResourceContentData(data.getDeferredReader());
   }
 }

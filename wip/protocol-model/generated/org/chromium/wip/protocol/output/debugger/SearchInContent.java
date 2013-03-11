@@ -36,6 +36,6 @@ public final class SearchInContent extends org.jetbrains.wip.protocol.WipRequest
 
   @Override
   public org.chromium.wip.protocol.input.debugger.SearchInContentData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDebuggerSearchInContentData(data.getDeferredReader());
+    return reader.readDebuggerSearchInContentData(data.getDeferredReader());
   }
 }

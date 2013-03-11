@@ -13,6 +13,6 @@ public final class SupportsSeparateScriptCompilationAndExecution extends org.jet
 
   @Override
   public org.chromium.wip.protocol.input.debugger.SupportsSeparateScriptCompilationAndExecutionData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDebuggerSupportsSeparateScriptCompilationAndExecutionData(data.getDeferredReader());
+    return reader.readDebuggerSupportsSeparateScriptCompilationAndExecutionData(data.getDeferredReader());
   }
 }

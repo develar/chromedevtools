@@ -20,6 +20,6 @@ public final class QuerySelectorAll extends org.jetbrains.wip.protocol.WipReques
 
   @Override
   public org.chromium.wip.protocol.input.dom.QuerySelectorAllData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDOMQuerySelectorAllData(data.getDeferredReader());
+    return reader.readDOMQuerySelectorAllData(data.getDeferredReader());
   }
 }

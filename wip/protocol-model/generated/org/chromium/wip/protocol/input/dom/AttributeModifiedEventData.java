@@ -19,11 +19,11 @@ public interface AttributeModifiedEventData {
    */
   String value();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.AttributeModifiedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.AttributeModifiedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.AttributeModifiedEventData>("DOMattributeModified", org.chromium.wip.protocol.input.dom.AttributeModifiedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.AttributeModifiedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseDOMAttributeModifiedEventData(reader);
+    public org.chromium.wip.protocol.input.dom.AttributeModifiedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readDOMAttributeModifiedEventData(reader);
     }
   };
 }

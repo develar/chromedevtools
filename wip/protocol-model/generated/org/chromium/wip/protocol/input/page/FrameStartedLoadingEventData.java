@@ -11,11 +11,11 @@ public interface FrameStartedLoadingEventData {
    */
   String frameId();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData>("PageframeStartedLoading", org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parsePageFrameStartedLoadingEventData(reader);
+    public org.chromium.wip.protocol.input.page.FrameStartedLoadingEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readPageFrameStartedLoadingEventData(reader);
     }
   };
 }

@@ -11,11 +11,11 @@ public interface EventRecordedEventData {
    */
   org.chromium.wip.protocol.input.timeline.TimelineEventValue record();
 
-  public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.timeline.EventRecordedEventData> TYPE
+  org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.timeline.EventRecordedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.timeline.EventRecordedEventData>("TimelineeventRecorded", org.chromium.wip.protocol.input.timeline.EventRecordedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.timeline.EventRecordedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
-      return parser.parseTimelineEventRecordedEventData(reader);
+    public org.chromium.wip.protocol.input.timeline.EventRecordedEventData read(org.chromium.wip.protocol.input.ProtocolReponseReader protocolReader, com.google.gson.stream.JsonReaderEx reader) {
+      return protocolReader.readTimelineEventRecordedEventData(reader);
     }
   };
 }

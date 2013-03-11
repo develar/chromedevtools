@@ -18,6 +18,6 @@ public final class PushNodeByPathToFrontend extends org.jetbrains.wip.protocol.W
 
   @Override
   public org.chromium.wip.protocol.input.dom.PushNodeByPathToFrontendData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseDOMPushNodeByPathToFrontendData(data.getDeferredReader());
+    return reader.readDOMPushNodeByPathToFrontendData(data.getDeferredReader());
   }
 }

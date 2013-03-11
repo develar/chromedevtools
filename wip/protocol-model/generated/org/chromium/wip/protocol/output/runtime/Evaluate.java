@@ -68,6 +68,6 @@ public final class Evaluate extends org.jetbrains.wip.protocol.WipRequest implem
 
   @Override
   public org.chromium.wip.protocol.input.runtime.EvaluateData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
-    return reader.parseRuntimeEvaluateData(data.getDeferredReader());
+    return reader.readRuntimeEvaluateData(data.getDeferredReader());
   }
 }
