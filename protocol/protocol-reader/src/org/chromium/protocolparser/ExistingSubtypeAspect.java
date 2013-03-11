@@ -2,9 +2,9 @@ package org.chromium.protocolparser;
 
 class ExistingSubtypeAspect extends SubtypeAspect {
   private SubtypeCaster subtypeCaster;
-  private final RefToType<?> jsonSuperClass;
+  private final RefImpl<?> jsonSuperClass;
 
-  ExistingSubtypeAspect(RefToType<?> jsonSuperClass) {
+  ExistingSubtypeAspect(RefImpl<?> jsonSuperClass) {
     this.jsonSuperClass = jsonSuperClass;
   }
 

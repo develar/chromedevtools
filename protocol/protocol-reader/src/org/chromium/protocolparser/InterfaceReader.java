@@ -249,7 +249,7 @@ class InterfaceReader {
         Class<RetentionPolicy> enumTypeClass = (Class<RetentionPolicy>)typeClass;
         return EnumParser.create(enumTypeClass, declaredNullable);
       }
-      RefToType<?> ref = getTypeRef(typeClass);
+      RefImpl<?> ref = getTypeRef(typeClass);
       if (ref != null) {
         return createJsonParser(ref, declaredNullable, isSubtyping);
       }
@@ -287,11 +287,11 @@ class InterfaceReader {
     }
   }
 
-  private static <T> ObjectValueParser<T> createJsonParser(RefToType<T> type, boolean isNullable, boolean isSubtyping) {
+  private static <T> ObjectValueParser<T> createJsonParser(RefImpl<T> type, boolean isNullable, boolean isSubtyping) {
     return new ObjectValueParser<T>(type, isNullable, isSubtyping);
   }
 
-  <T> RefToType<T> getTypeRef(Class<T> typeClass) {
+  <T> RefImpl<T> getTypeRef(Class<T> typeClass) {
     if (typeClass.getAnnotation(JsonType.class) != null) {
       RefImpl<T> result = new RefImpl<T>(typeClass);
       refs.add(result);
@@ -300,8 +300,8 @@ class InterfaceReader {
     return null;
   }
 
-  private RefToType<?> getSuperclassRef(Class<?> typeClass) {
-    RefToType<?> result = null;
+  private RefImpl<?> getSuperclassRef(Class<?> typeClass) {
+    RefImpl<?> result = null;
     for (Type interfaceGeneric : typeClass.getGenericInterfaces()) {
       if (!(interfaceGeneric instanceof ParameterizedType)) {
         continue;

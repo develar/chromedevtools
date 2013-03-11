@@ -1,6 +1,6 @@
 package org.chromium.protocolparser;
 
-class RefImpl<T> extends RefToType<T> {
+class RefImpl<T> {
   final Class<T> typeClass;
   private TypeHandler<T> type;
 
@@ -8,17 +8,10 @@ class RefImpl<T> extends RefToType<T> {
     this.typeClass = typeClass;
   }
 
-  RefImpl(Class<T> typeClass, TypeHandler<T> typeHandler) {
-    this.typeClass = typeClass;
-    type = typeHandler;
-  }
-
-  @Override
   Class<?> getTypeClass() {
     return typeClass;
   }
 
-  @Override
   TypeHandler<T> get() {
     return type;
   }

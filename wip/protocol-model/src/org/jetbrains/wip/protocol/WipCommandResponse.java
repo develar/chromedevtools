@@ -11,19 +11,20 @@ import java.util.List;
 
 @JsonType
 public interface WipCommandResponse {
-  @JsonField(jsonLiteralName = BasicConstants.Property.ID)
   long id();
 
   @JsonSubtypeCasting
   Success asSuccess();
-  @JsonSubtypeCasting Error asError();
+
+  @JsonSubtypeCasting
+  Error asError();
 
   @JsonType
   interface Success {
     @JsonOptionalField
     void error();
 
-    @JsonField(jsonLiteralName="result")
+    @JsonField(jsonLiteralName = "result")
     Data data();
   }
 
@@ -32,7 +33,7 @@ public interface WipCommandResponse {
     @JsonOverrideField
     ErrorInfo error();
 
-    @JsonField(jsonLiteralName="result")
+    @JsonField(jsonLiteralName = "result")
     @JsonOptionalField
     Data data();
 
@@ -42,11 +43,12 @@ public interface WipCommandResponse {
 
       @JsonOptionalField
       List<String> data();
+
       long code();
     }
   }
 
-  @JsonType(allowsOtherProperties=true)
+  @JsonType(allowsOtherProperties = true)
   interface Data extends JsonObjectBased {
   }
 }

@@ -242,11 +242,11 @@ class Generator {
     return "get" + Character.toUpperCase(originalName.charAt(0)) + originalName.substring(1);
   }
 
-  static String capitalizeFirstChar(String str) {
-    if (Character.isLowerCase(str.charAt(0))) {
-      str = Character.toUpperCase(str.charAt(0)) + str.substring(1);
+  static String capitalizeFirstChar(String s) {
+    if (!s.isEmpty() && Character.isLowerCase(s.charAt(0))) {
+      s = Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
-    return str;
+    return s;
   }
 
   JavaFileUpdater startJavaFile(ClassNameScheme nameScheme, Domain domain, String baseName) throws IOException {

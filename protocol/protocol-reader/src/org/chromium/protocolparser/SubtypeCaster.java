@@ -10,9 +10,9 @@ package org.chromium.protocolparser;
  * It works in terms of {@_link ObjectData}.
  */
 abstract class SubtypeCaster {
-  private final RefToType<?> subtypeRef;
+  private final RefImpl<?> subtypeRef;
 
-  SubtypeCaster(RefToType<?> subtypeRef) {
+  SubtypeCaster(RefImpl<?> subtypeRef) {
     this.subtypeRef = subtypeRef;
   }
 

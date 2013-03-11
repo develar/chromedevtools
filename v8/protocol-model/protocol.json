@@ -43,7 +43,13 @@
         },
         {
           "name": "version",
-          "description": "Reports version of the running V8"
+          "description": "Reports version of the running V8",
+          "returns": [
+            {
+              "name": "V8Version",
+              "type": "string"
+            }
+          ]
         }
       ]
     }

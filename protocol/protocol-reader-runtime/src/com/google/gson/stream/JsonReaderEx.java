@@ -80,11 +80,17 @@ public class JsonReaderEx implements Closeable {
   }
 
   public JsonReaderEx subReader() {
+    int p;
     if (token == null && stack[stackSize - 1] == JsonScope.DANGLING_NAME) {
       moveToObjectValue();
+      p = position;
+      nextValue();
+    }
+    else {
+      p = position;
     }
     // we keep our initial start position - our current JsonReader may be also sub reader (so, current position may be not absolute)
-    return new JsonReaderEx(in, start + position);
+    return new JsonReaderEx(in, start + p);
   }
 
   @SuppressWarnings("UnusedDeclaration")
@@ -135,8 +141,7 @@ public class JsonReaderEx implements Closeable {
   private void expect(JsonToken expected) {
     peek();
     if (token != expected) {
-      throw new IllegalStateException("Expected " + expected + " but was " + peek()
-          + " at line " + getLineNumber() + " column " + getColumnNumber());
+      throw createParseError("Expected " + expected + " but was " + peek());
     }
     advance();
   }
@@ -165,8 +170,7 @@ public class JsonReaderEx implements Closeable {
       stack[stackSize - 1] = JsonScope.NONEMPTY_DOCUMENT;
       JsonToken firstToken = nextValue();
       if (!lenient && token != JsonToken.BEGIN_ARRAY && token != JsonToken.BEGIN_OBJECT) {
-        throw new JsonParseException("Expected JSON document to start with '[' or '{' but was " + token
-            + " at line " + getLineNumber() + " column " + getColumnNumber());
+        throw createParseError("Expected JSON document to start with '[' or '{' but was " + token);
       }
       return firstToken;
     case EMPTY_ARRAY:
@@ -276,8 +280,7 @@ public class JsonReaderEx implements Closeable {
   public boolean nextBoolean() {
     peek();
     if (token != JsonToken.BOOLEAN) {
-        throw new IllegalStateException("Expected a boolean but was " + token
-            + " at line " + getLineNumber() + " column " + getColumnNumber());
+        throw createParseError("Expected a boolean but was " + token);
     }
 
     boolean result = (value == TRUE);
@@ -319,7 +322,6 @@ public class JsonReaderEx implements Closeable {
     }
 
     double result = Double.parseDouble(value);
-
     if ((result >= 1.0d && value.length() > 0 && value.charAt(0) == '0')) {
       throw createParseError("JSON forbids octal prefixes: " + value);
     }
@@ -453,38 +455,39 @@ public class JsonReaderEx implements Closeable {
   private JsonToken nextInArray(boolean firstElement) {
     if (firstElement) {
       stack[stackSize - 1] = JsonScope.NONEMPTY_ARRAY;
-    } else {
-      /* Look for a comma before each element after the first element. */
+    }
+    else {
+      // Look for a comma before each element after the first element
       switch (nextNonWhitespace(true)) {
-      case ']':
-        stackSize--;
-        return token = JsonToken.END_ARRAY;
-      case ';':
-        checkLenient(); // fall-through
-      case ',':
-        break;
-      default:
-        throw createParseError("Unterminated array");
+        case ']':
+          stackSize--;
+          return token = JsonToken.END_ARRAY;
+        case ';':
+          checkLenient(); // fall-through
+        case ',':
+          break;
+        default:
+          throw createParseError("Unterminated array");
       }
     }
 
     switch (nextNonWhitespace(true)) {
-    case ']':
-      if (firstElement) {
-        stackSize--;
-        return token = JsonToken.END_ARRAY;
-      }
-      // fall-through to handle ",]"
-    case ';':
-    case ',':
+      case ']':
+        if (firstElement) {
+          stackSize--;
+          return token = JsonToken.END_ARRAY;
+        }
+        // fall-through to handle ",]"
+      case ';':
+      case ',':
       /* In lenient mode, a 0-length literal means 'null' */
-      checkLenient();
-      position--;
-      value = "null";
-      return token = JsonToken.NULL;
-    default:
-      position--;
-      return nextValue();
+        checkLenient();
+        position--;
+        value = "null";
+        return token = JsonToken.NULL;
+      default:
+        position--;
+        return nextValue();
     }
   }
 
@@ -581,15 +584,6 @@ public class JsonReaderEx implements Closeable {
     }
   }
 
-  /**
-   * Returns true once {@code limit - pos >= minimum}. If the data is
-   * exhausted before that many characters are available, this returns
-   * false.
-   */
-  private boolean hasRemaining(int minimum) {
-    return (position + minimum) < limit;
-  }
-
   private int getLineNumber() {
     int result = 1;
     for (int i = 0; i < position; i++) {
@@ -649,7 +643,7 @@ public class JsonReaderEx implements Closeable {
           position = p;
           if (p == l) {
             position--; // push back '/' so it's still in the buffer when this method returns
-            boolean charsLoaded = hasRemaining(2);
+            boolean charsLoaded = (position + 3) < limit;
             position++; // consume the '/' again
             if (!charsLoaded) {
               return c;
