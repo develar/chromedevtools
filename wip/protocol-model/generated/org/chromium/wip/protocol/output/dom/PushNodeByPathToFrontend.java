@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Requests that the node is sent to the caller given its path. // FIXME, use XPath
  */
-public final class PushNodeByPathToFrontend extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.PushNodeByPathToFrontendData> {
+public final class PushNodeByPathToFrontend extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.dom.PushNodeByPathToFrontendData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param path Path to node in the proprietary format.
    */
@@ -17,7 +17,7 @@ public final class PushNodeByPathToFrontend extends org.jetbrains.wip.protocol.W
   }
 
   @Override
-  public org.chromium.wip.protocol.input.dom.PushNodeByPathToFrontendData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMPushNodeByPathToFrontendData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.dom.PushNodeByPathToFrontendData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDOMPushNodeByPathToFrontendData(data.getDeferredReader());
   }
 }

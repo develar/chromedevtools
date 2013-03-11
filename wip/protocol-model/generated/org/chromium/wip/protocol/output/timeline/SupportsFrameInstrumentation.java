@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.timeline;
 /**
  * Tells whether timeline agent supports frame instrumentation.
  */
-public final class SupportsFrameInstrumentation extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.timeline.SupportsFrameInstrumentationData> {
+public final class SupportsFrameInstrumentation extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.timeline.SupportsFrameInstrumentationData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
 
   @Override
   public String getMethodName() {
@@ -12,7 +12,7 @@ public final class SupportsFrameInstrumentation extends org.jetbrains.wip.protoc
   }
 
   @Override
-  public org.chromium.wip.protocol.input.timeline.SupportsFrameInstrumentationData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseTimelineSupportsFrameInstrumentationData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.timeline.SupportsFrameInstrumentationData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseTimelineSupportsFrameInstrumentationData(data.getDeferredReader());
   }
 }

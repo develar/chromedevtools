@@ -46,8 +46,7 @@ public class V8Helper {
    * @param syncCallback to invoke after callback whether it normally returned
    *     or threw an exception
    */
-  public static RelayOk reloadAllScriptsAsync(final DebugSession debugSession,
-      final ScriptLoadCallback callback, SyncCallback syncCallback) {
+  public static RelayOk reloadAllScriptsAsync(DebugSession debugSession, ScriptLoadCallback callback, SyncCallback syncCallback) {
     return reloadScriptAsync(debugSession, null, callback, syncCallback);
   }
 
@@ -182,7 +181,6 @@ public class V8Helper {
     if (exBuff[0] != null) {
       throw new CallbackException(exBuff[0]);
     }
-
     return resBuff.get(0);
   }
 

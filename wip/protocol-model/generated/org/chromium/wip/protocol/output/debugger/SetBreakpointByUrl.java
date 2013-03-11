@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Sets JavaScript breakpoint at given location specified either by URL or URL regex. Once this command is issued, all existing parsed scripts will have breakpoints resolved and returned in <code>locations</code> property. Further matching script parsing will result in subsequent <code>breakpointResolved</code> events issued. This logical breakpoint will survive page reloads.
  */
-public final class SetBreakpointByUrl extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData> {
+public final class SetBreakpointByUrl extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param lineNumber Line number to set breakpoint at.
    */
@@ -57,7 +57,7 @@ public final class SetBreakpointByUrl extends org.jetbrains.wip.protocol.WipRequ
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerSetBreakpointByUrlData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDebuggerSetBreakpointByUrlData(data.getDeferredReader());
   }
 }

@@ -53,13 +53,17 @@ class DomainGenerator {
   }
 
   private void generateCommandParams(final ProtocolMetaModel.Command command, final boolean hasResponse) throws IOException {
-    StringBuilder baseTypeBuilder = new StringBuilder();
-    baseTypeBuilder.append(generator.getNaming().requestClassName);
-    if (hasResponse) {
-      baseTypeBuilder.append("WithResponse<");
-      baseTypeBuilder.append(generator.getNaming().commandData.getFullName(domain.domain(), command.name()).getFullText());
-      baseTypeBuilder.append(">");
-    }
+    TextOutConsumer baseTypeBuilder = new TextOutConsumer() {
+      @Override
+      public void append(TextOutput out) {
+        out.space().append("extends ").append(generator.getNaming().requestClassName);
+        if (hasResponse) {
+          out.space().append("implements org.jetbrains.jsonProtocol.RequestWithResponse<");
+          out.append(generator.getNaming().commandData.getFullName(domain.domain(), command.name()).getFullText());
+          out.append(", ").append(generator.getNaming().inputPackage).append('.').append(Generator.READER_INTERFACE_NAME).append(">");
+        }
+      }
+    };
 
     TextOutConsumer memberBuilder = new TextOutConsumer() {
       @Override
@@ -73,18 +77,16 @@ class DomainGenerator {
 
         if (hasResponse) {
           CharSequence dataInterfaceFullName = generator.getNaming().commandData.getFullName(domain.domain(), command.name()).getFullText();
-          out.newLine().newLine().append("@Override").newLine().append("public ").append(dataInterfaceFullName)
-            .append(" parseResponse(" +
-                    "org.jetbrains.wip.protocol.WipCommandResponse.Data data, " +
-                    "org.chromium.wip.protocol.input." + Generator.READER_INTERFACE_NAME + " parser) throws java.io.IOException")
-            .openBlock();
-          out.append("return parser.").append(generator.getNaming().commandData.getParseMethodName(domain.domain(), command.name()));
+          out.newLine().newLine().append("@Override").newLine().append("public ").append(dataInterfaceFullName).append(" readResponse(");
+          out.append("org.jetbrains.jsonProtocol.JsonObjectBased data, ");
+          out.append(generator.getNaming().inputPackage).append('.').append(Generator.READER_INTERFACE_NAME + " reader)").openBlock();
+          out.append("return reader.").append(generator.getNaming().commandData.getParseMethodName(domain.domain(), command.name()));
           out.append("(data.getDeferredReader());");
           out.closeBlock();
         }
       }
     };
-    generateTopLevelOutputClass(generator.getNaming().params, command.name(), command.description(), baseTypeBuilder.toString(),
+    generateTopLevelOutputClass(generator.getNaming().params, command.name(), command.description(), baseTypeBuilder,
                                 memberBuilder, command.parameters());
   }
 
@@ -96,7 +98,7 @@ class DomainGenerator {
   private <P extends ItemDescriptor.Named> void generateTopLevelOutputClass(ClassNameScheme nameScheme,
                                                                             String baseName,
                                                                             String description,
-                                                                            String baseType,
+                                                                            TextOutConsumer baseType,
                                                                             TextOutConsumer additionalMemberText,
                                                                             List<P> properties) throws IOException {
     JavaFileUpdater fileUpdater = generator.startJavaFile(nameScheme, domain, baseName);
@@ -109,12 +111,17 @@ class DomainGenerator {
   private <P extends ItemDescriptor.Named> void generateOutputClass(TextOutput out,
                                                                     NamePath classNamePath,
                                                                     String description,
-                                                                    @Nullable String baseType,
+                                                                    @Nullable TextOutConsumer baseType,
                                                                     TextOutConsumer additionalMemberText,
                                                                     List<P> properties) throws IOException {
     out.doc(description);
     out.append("public final class ").append(classNamePath.getLastComponent());
-    out.append(" extends ").append(baseType == null ? "org.jetbrains.jsonProtocol.OutMessage" : baseType);
+    if (baseType == null) {
+      out.append(" extends ").append("org.jetbrains.jsonProtocol.OutMessage");
+    }
+    else {
+      baseType.append(out);
+    }
 
     OutputClassScope classScope = new OutputClassScope(this, classNamePath);
     if (additionalMemberText != null) {

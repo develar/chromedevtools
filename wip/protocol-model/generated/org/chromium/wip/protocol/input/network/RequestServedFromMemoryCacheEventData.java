@@ -38,7 +38,7 @@ public interface RequestServedFromMemoryCacheEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestServedFromMemoryCacheEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.network.RequestServedFromMemoryCacheEventData>("NetworkrequestServedFromMemoryCache", org.chromium.wip.protocol.input.network.RequestServedFromMemoryCacheEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.network.RequestServedFromMemoryCacheEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
+    public org.chromium.wip.protocol.input.network.RequestServedFromMemoryCacheEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parseNetworkRequestServedFromMemoryCacheEventData(reader);
     }
   };

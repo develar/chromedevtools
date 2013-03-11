@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Returns node's HTML markup.
  */
-public final class GetOuterHTML extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetOuterHTMLData> {
+public final class GetOuterHTML extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.dom.GetOuterHTMLData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param nodeId Id of the node to get markup for.
    */
@@ -17,7 +17,7 @@ public final class GetOuterHTML extends org.jetbrains.wip.protocol.WipRequestWit
   }
 
   @Override
-  public org.chromium.wip.protocol.input.dom.GetOuterHTMLData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMGetOuterHTMLData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.dom.GetOuterHTMLData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDOMGetOuterHTMLData(data.getDeferredReader());
   }
 }

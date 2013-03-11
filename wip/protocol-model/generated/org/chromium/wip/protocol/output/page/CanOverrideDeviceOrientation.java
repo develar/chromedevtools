@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Check the backend if Web Inspector can override the device orientation.
  */
-public final class CanOverrideDeviceOrientation extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.CanOverrideDeviceOrientationData> {
+public final class CanOverrideDeviceOrientation extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.page.CanOverrideDeviceOrientationData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
 
   @Override
   public String getMethodName() {
@@ -12,7 +12,7 @@ public final class CanOverrideDeviceOrientation extends org.jetbrains.wip.protoc
   }
 
   @Override
-  public org.chromium.wip.protocol.input.page.CanOverrideDeviceOrientationData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageCanOverrideDeviceOrientationData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.page.CanOverrideDeviceOrientationData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parsePageCanOverrideDeviceOrientationData(data.getDeferredReader());
   }
 }

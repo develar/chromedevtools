@@ -23,7 +23,7 @@ public interface PausedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.PausedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.debugger.PausedEventData>("Debuggerpaused", org.chromium.wip.protocol.input.debugger.PausedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.debugger.PausedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
+    public org.chromium.wip.protocol.input.debugger.PausedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parseDebuggerPausedEventData(reader);
     }
   };

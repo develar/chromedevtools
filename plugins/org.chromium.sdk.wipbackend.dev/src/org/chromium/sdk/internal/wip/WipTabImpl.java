@@ -75,7 +75,7 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
     WsConnection.Listener socketListener = new WsConnection.Listener() {
       @Override
       public void textMessageReceived(String text) {
-        commandProcessor.acceptResponse(JsonReaders.createReader(text));
+        commandProcessor.acceptResponse(WipParserAccess.get().readIncomingMessage(JsonReaders.createReader(text)));
       }
 
       @Override
@@ -163,30 +163,34 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
    * @return
    */
   private <T> RelayOk updateVmVariable(T value, VmState.Variable<T> variable,
-      final GenericCallback<T> callback, SyncCallback syncCallback) {
+                                       final GenericCallback<T> callback, SyncCallback syncCallback) {
     synchronized (vmState) {
       final T newValue;
       if (value == null) {
         newValue = variable.getValue(vmState);
-      } else {
+      }
+      else {
         variable.setValue(vmState, value);
         newValue = value;
       }
-      WipRequest params = variable.createRequestParams(vmState);
       WipCommandCallback wrappedCallback;
       if (callback == null) {
         wrappedCallback = null;
-      } else {
-        wrappedCallback = new WipCommandCallback.Default() {
-          @Override protected void onSuccess(Success success) {
+      }
+      else {
+        wrappedCallback = new WipCommandCallbackImpl() {
+          @Override
+          protected void onSuccess(Success success) {
             callback.success(newValue);
           }
-          @Override protected void onError(String message) {
+
+          @Override
+          protected void onError(String message) {
             callback.failure(new Exception(message));
           }
         };
       }
-      return commandProcessor.send(params, wrappedCallback, syncCallback);
+      return commandProcessor.send(variable.createRequestParams(vmState), wrappedCallback, syncCallback);
     }
   }
 
@@ -222,28 +226,26 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
   }
 
   @Override
-  public void getScripts(final ScriptsCallback callback)
-      throws MethodIsBlockingException {
-
-    final CallbackSemaphore callbackSemaphore = new CallbackSemaphore();
-
+  public void getScripts(final ScriptsCallback callback) throws MethodIsBlockingException {
+    CallbackSemaphore callbackSemaphore = new CallbackSemaphore();
     GenericCallback<Collection<Script>> innerCallback;
     if (callback == null) {
       innerCallback = null;
-    } else {
+    }
+    else {
       innerCallback = new GenericCallback<Collection<Script>>() {
-        @Override public void success(Collection<Script> value) {
+        @Override
+        public void success(Collection<Script> value) {
           callback.success(value);
         }
-        @Override public void failure(Exception exception) {
+
+        @Override
+        public void failure(Exception exception) {
           callback.failure(exception.getMessage());
         }
       };
     }
-
-    RelayOk relayOk = scriptManager.getScripts(innerCallback, callbackSemaphore);
-
-    callbackSemaphore.acquireDefault(relayOk);
+    callbackSemaphore.acquireDefault(scriptManager.getScripts(innerCallback, callbackSemaphore));
   }
 
   @Override
@@ -260,7 +262,7 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
     if (callback == null) {
       wrappedCallback = null;
     } else {
-      wrappedCallback = new WipCommandCallback.Default() {
+      wrappedCallback = new WipCommandCallbackImpl() {
         @Override protected void onSuccess(Success success) {
           callback.success();
         }

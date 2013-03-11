@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Returns source for the script with given id.
  */
-public final class GetScriptSource extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.GetScriptSourceData> {
+public final class GetScriptSource extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.debugger.GetScriptSourceData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param scriptId Id of the script to get source for.
    */
@@ -17,7 +17,7 @@ public final class GetScriptSource extends org.jetbrains.wip.protocol.WipRequest
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.GetScriptSourceData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerGetScriptSourceData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.debugger.GetScriptSourceData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDebuggerGetScriptSourceData(data.getDeferredReader());
   }
 }

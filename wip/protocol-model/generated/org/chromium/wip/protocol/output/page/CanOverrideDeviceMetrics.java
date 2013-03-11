@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Checks whether <code>setDeviceMetricsOverride</code> can be invoked.
  */
-public final class CanOverrideDeviceMetrics extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.CanOverrideDeviceMetricsData> {
+public final class CanOverrideDeviceMetrics extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.page.CanOverrideDeviceMetricsData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
 
   @Override
   public String getMethodName() {
@@ -12,7 +12,7 @@ public final class CanOverrideDeviceMetrics extends org.jetbrains.wip.protocol.W
   }
 
   @Override
-  public org.chromium.wip.protocol.input.page.CanOverrideDeviceMetricsData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageCanOverrideDeviceMetricsData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.page.CanOverrideDeviceMetricsData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parsePageCanOverrideDeviceMetricsData(data.getDeferredReader());
   }
 }

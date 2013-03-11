@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.runtime;
 /**
  * Evaluates expression on global object.
  */
-public final class Evaluate extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.runtime.EvaluateData> {
+public final class Evaluate extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.runtime.EvaluateData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param expression Expression to evaluate.
    */
@@ -67,7 +67,7 @@ public final class Evaluate extends org.jetbrains.wip.protocol.WipRequestWithRes
   }
 
   @Override
-  public org.chromium.wip.protocol.input.runtime.EvaluateData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseRuntimeEvaluateData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.runtime.EvaluateData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseRuntimeEvaluateData(data.getDeferredReader());
   }
 }

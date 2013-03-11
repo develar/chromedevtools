@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.runtime;
 /**
  * Returns properties of a given object. Object group of the result is inherited from the target object.
  */
-public final class GetProperties extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.runtime.GetPropertiesData> {
+public final class GetProperties extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.runtime.GetPropertiesData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param objectId Identifier of the object to return properties for.
    */
@@ -25,7 +25,7 @@ public final class GetProperties extends org.jetbrains.wip.protocol.WipRequestWi
   }
 
   @Override
-  public org.chromium.wip.protocol.input.runtime.GetPropertiesData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseRuntimeGetPropertiesData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.runtime.GetPropertiesData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseRuntimeGetPropertiesData(data.getDeferredReader());
   }
 }

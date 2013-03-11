@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Executes <code>querySelectorAll</code> on a given node.
  */
-public final class QuerySelectorAll extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.QuerySelectorAllData> {
+public final class QuerySelectorAll extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.dom.QuerySelectorAllData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param nodeId Id of the node to query upon.
    * @param selector Selector string.
@@ -19,7 +19,7 @@ public final class QuerySelectorAll extends org.jetbrains.wip.protocol.WipReques
   }
 
   @Override
-  public org.chromium.wip.protocol.input.dom.QuerySelectorAllData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMQuerySelectorAllData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.dom.QuerySelectorAllData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDOMQuerySelectorAllData(data.getDeferredReader());
   }
 }

@@ -6,6 +6,7 @@ package org.chromium.sdk.internal;
 
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -46,7 +47,7 @@ public class BaseCommandProcessor<OUTGOING, INCOMING, INCOMING_WITH_SEQ> {
     this.handler = handler;
   }
 
-  public RelayOk send(OUTGOING message, boolean isImmediate, Callback<? super INCOMING_WITH_SEQ> callback, SyncCallback syncCallback) {
+  public RelayOk send(OUTGOING message, boolean isImmediate, @Nullable Callback<? super INCOMING_WITH_SEQ> callback, @Nullable SyncCallback syncCallback) {
     int sequence = handler.getUpdatedSequence(message);
     boolean callbackAdded;
     if (callback != null || syncCallback != null) {

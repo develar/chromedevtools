@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Determines if scripts can be executed in the page.
  */
-public final class GetScriptExecutionStatus extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData> {
+public final class GetScriptExecutionStatus extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
 
   @Override
   public String getMethodName() {
@@ -12,7 +12,7 @@ public final class GetScriptExecutionStatus extends org.jetbrains.wip.protocol.W
   }
 
   @Override
-  public org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageGetScriptExecutionStatusData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.page.GetScriptExecutionStatusData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parsePageGetScriptExecutionStatusData(data.getDeferredReader());
   }
 }

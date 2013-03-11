@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Tells if backend supports a FPS counter display
  */
-public final class CanShowFPSCounter extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.CanShowFPSCounterData> {
+public final class CanShowFPSCounter extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.page.CanShowFPSCounterData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
 
   @Override
   public String getMethodName() {
@@ -12,7 +12,7 @@ public final class CanShowFPSCounter extends org.jetbrains.wip.protocol.WipReque
   }
 
   @Override
-  public org.chromium.wip.protocol.input.page.CanShowFPSCounterData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageCanShowFPSCounterData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.page.CanShowFPSCounterData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parsePageCanShowFPSCounterData(data.getDeferredReader());
   }
 }

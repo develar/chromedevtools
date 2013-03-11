@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.page;
 /**
  * Returns content of the given resource.
  */
-public final class GetResourceContent extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.GetResourceContentData> {
+public final class GetResourceContent extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.page.GetResourceContentData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param frameId Frame id to get resource for.
    * @param url URL of the resource to get content for.
@@ -19,7 +19,7 @@ public final class GetResourceContent extends org.jetbrains.wip.protocol.WipRequ
   }
 
   @Override
-  public org.chromium.wip.protocol.input.page.GetResourceContentData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageGetResourceContentData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.page.GetResourceContentData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parsePageGetResourceContentData(data.getDeferredReader());
   }
 }

@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Tells whether debugger supports separate script compilation and execution.
  */
-public final class SupportsSeparateScriptCompilationAndExecution extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.SupportsSeparateScriptCompilationAndExecutionData> {
+public final class SupportsSeparateScriptCompilationAndExecution extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.debugger.SupportsSeparateScriptCompilationAndExecutionData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
 
   @Override
   public String getMethodName() {
@@ -12,7 +12,7 @@ public final class SupportsSeparateScriptCompilationAndExecution extends org.jet
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.SupportsSeparateScriptCompilationAndExecutionData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerSupportsSeparateScriptCompilationAndExecutionData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.debugger.SupportsSeparateScriptCompilationAndExecutionData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDebuggerSupportsSeparateScriptCompilationAndExecutionData(data.getDeferredReader());
   }
 }

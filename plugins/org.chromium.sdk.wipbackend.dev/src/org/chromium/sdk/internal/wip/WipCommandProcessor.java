@@ -42,12 +42,12 @@ class WipCommandProcessor {
     baseProcessor = new BaseCommandProcessor<Request, IncomingMessage, CommandResponse>(new WipMessageTypeHandler());
   }
 
-  RelayOk sendRaw(Request message, WipCommandCallback callback, SyncCallback syncCallback) {
-    return baseProcessor.send(message, false, callback, syncCallback);
+  RelayOk sendRaw(Request request, WipCommandCallback callback, SyncCallback syncCallback) {
+    return baseProcessor.send(request, false, callback, syncCallback);
   }
 
-  RelayOk send(WipRequest params, WipCommandCallback callback, SyncCallback syncCallback) {
-    return sendRaw(params, callback, syncCallback);
+  RelayOk send(WipRequest request, WipCommandCallback callback, SyncCallback syncCallback) {
+    return sendRaw(request, callback, syncCallback);
   }
 
   /**
@@ -62,7 +62,7 @@ class WipCommandProcessor {
       commandCallback = null;
     }
     else {
-      commandCallback = new WipCommandCallback.Default() {
+      commandCallback = new WipCommandCallbackImpl() {
         @Override
         protected void onSuccess(Success success) {
           callback.success(request.readResponse(success.data(), WipParserAccess.get()));
@@ -74,7 +74,7 @@ class WipCommandProcessor {
         }
       };
     }
-    return sendRaw(request, commandCallback, syncCallback);
+    return baseProcessor.send(request, false, commandCallback, syncCallback);
   }
 
   void acceptResponse(IncomingMessage message) {

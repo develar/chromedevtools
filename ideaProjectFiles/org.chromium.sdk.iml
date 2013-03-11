@@ -26,6 +26,7 @@
     <orderEntry type="module" module-name="v8-protocol" />
     <orderEntry type="module" module-name="liveedit-protocol" />
     <orderEntry type="module" module-name="v8-protocol-model" />
+    <orderEntry type="library" name="annotations" level="project" />
   </component>
 </module>
 

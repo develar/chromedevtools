@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.runtime;
 /**
  * Calls function with given declaration on the given object. Object group of the result is inherited from the target object.
  */
-public final class CallFunctionOn extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.runtime.CallFunctionOnData> {
+public final class CallFunctionOn extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.runtime.CallFunctionOnData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param objectId Identifier of the object to call function on.
    * @param functionDeclaration Declaration of the function to call.
@@ -51,7 +51,7 @@ public final class CallFunctionOn extends org.jetbrains.wip.protocol.WipRequestW
   }
 
   @Override
-  public org.chromium.wip.protocol.input.runtime.CallFunctionOnData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseRuntimeCallFunctionOnData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.runtime.CallFunctionOnData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseRuntimeCallFunctionOnData(data.getDeferredReader());
   }
 }

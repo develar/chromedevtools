@@ -246,7 +246,7 @@ public class DebugSession {
         if (successResponse == null) {
           return null;
         }
-        String versionString = successResponse.body().asVersionBody().getV8Version();
+        String versionString = successResponse.body().asVersionBody().V8Version();
         Version vmVersion = versionString == null ? null : Version.parseString(versionString);
         DebugSession.this.vmVersion = vmVersion;
 
@@ -268,7 +268,6 @@ public class DebugSession {
         throw new UnsupportedOperationException();
       }
     };
-
     V8Helper.callV8Sync(v8CommandProcessor, new org.jetbrains.v8.protocol.output.Version(), callback);
   }
 

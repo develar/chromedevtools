@@ -10,7 +10,7 @@ public interface JavascriptDialogClosedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData>("PagejavascriptDialogClosed", org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
+    public org.chromium.wip.protocol.input.page.JavascriptDialogClosedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parsePageJavascriptDialogClosedEventData(reader);
     }
   };

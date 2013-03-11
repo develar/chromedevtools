@@ -17,10 +17,6 @@ import org.jetbrains.jsonProtocol.Request;
 import org.jetbrains.rpc.MessageHandler;
 import org.jetbrains.v8.protocol.V8Request;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * Sends JSON commands to V8 VM and handles responses. Command is sent
  * via {@code V8CommandOutput}. Response is passed back to callback if it was provided.
@@ -47,21 +43,15 @@ public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeExc
     void failure(String message);
   }
 
-  /** The class logger. */
-  private static final Logger LOGGER = Logger.getLogger(V8CommandProcessor.class.getName());
-
   private final V8CommandOutput messageOutput;
 
   private final DefaultResponseHandler defaultResponseHandler;
 
   private final DebugSession debugSession;
 
-  private final BaseCommandProcessor<Request, IncomingMessage, CommandResponse>
-      baseCommandProcessor;
+  private final BaseCommandProcessor<Request, IncomingMessage, CommandResponse> baseCommandProcessor;
 
-
-  public V8CommandProcessor(V8CommandOutput messageOutput,
-      DefaultResponseHandler defaultResponseHandler, DebugSession debugSession) {
+  public V8CommandProcessor(V8CommandOutput messageOutput, DefaultResponseHandler defaultResponseHandler, DebugSession debugSession) {
     this.messageOutput = messageOutput;
     this.defaultResponseHandler = defaultResponseHandler;
     this.debugSession = debugSession;
@@ -94,15 +84,7 @@ public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeExc
   }
 
   public void processIncomingJson(JsonReaderEx jsonReader) {
-    IncomingMessage response;
-    try {
-      response = ProtocolService.PROTOCOL_READER.readIncomingMessage(jsonReader);
-    }
-    catch (IOException e) {
-      LOGGER.log(Level.SEVERE, "JSON message does not conform to the protocol", e);
-      return;
-    }
-    baseCommandProcessor.processIncoming(response);
+    baseCommandProcessor.processIncoming(ProtocolService.PROTOCOL_READER.readIncomingMessage(jsonReader));
   }
 
   public void processEos() {

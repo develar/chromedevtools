@@ -19,7 +19,7 @@ import static org.jetbrains.jsonProtocol.ProtocolMetaModel.*;
  */
 class Generator {
   private static final String PARSER_INTERFACE_LIST_CLASS_NAME = "GeneratedReaderInterfaceList";
-  static final String READER_INTERFACE_NAME = "GeneratedWipProtocolReader";
+  static final String READER_INTERFACE_NAME = "ProtocolReponseReader";
 
   final List<String> jsonProtocolParserClassNames = new ArrayList<String>();
   final List<ParserRootInterfaceItem> parserRootInterfaceItems = new ArrayList<ParserRootInterfaceItem>();

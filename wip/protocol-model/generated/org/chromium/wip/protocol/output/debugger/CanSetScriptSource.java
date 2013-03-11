@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Tells whether <code>setScriptSource</code> is supported.
  */
-public final class CanSetScriptSource extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.CanSetScriptSourceData> {
+public final class CanSetScriptSource extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.debugger.CanSetScriptSourceData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
 
   @Override
   public String getMethodName() {
@@ -12,7 +12,7 @@ public final class CanSetScriptSource extends org.jetbrains.wip.protocol.WipRequ
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.CanSetScriptSourceData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerCanSetScriptSourceData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.debugger.CanSetScriptSourceData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDebuggerCanSetScriptSourceData(data.getDeferredReader());
   }
 }

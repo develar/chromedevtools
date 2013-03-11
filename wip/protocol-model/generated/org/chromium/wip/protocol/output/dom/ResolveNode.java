@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Resolves JavaScript node object for given node id.
  */
-public final class ResolveNode extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.ResolveNodeData> {
+public final class ResolveNode extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.dom.ResolveNodeData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param nodeId Id of the node to resolve.
    */
@@ -27,7 +27,7 @@ public final class ResolveNode extends org.jetbrains.wip.protocol.WipRequestWith
   }
 
   @Override
-  public org.chromium.wip.protocol.input.dom.ResolveNodeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMResolveNodeData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.dom.ResolveNodeData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDOMResolveNodeData(data.getDeferredReader());
   }
 }

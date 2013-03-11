@@ -1,7 +1,7 @@
 // Generated source
 package org.chromium.wip.protocol.output.page;
 
-public final class AddScriptToEvaluateOnLoad extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.page.AddScriptToEvaluateOnLoadData> {
+public final class AddScriptToEvaluateOnLoad extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.page.AddScriptToEvaluateOnLoadData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   public AddScriptToEvaluateOnLoad(String scriptSource) {
     writeString("scriptSource", scriptSource);
   }
@@ -11,7 +11,7 @@ public final class AddScriptToEvaluateOnLoad extends org.jetbrains.wip.protocol.
   }
 
   @Override
-  public org.chromium.wip.protocol.input.page.AddScriptToEvaluateOnLoadData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parsePageAddScriptToEvaluateOnLoadData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.page.AddScriptToEvaluateOnLoadData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parsePageAddScriptToEvaluateOnLoadData(data.getDeferredReader());
   }
 }

@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.network;
 /**
  * Tells whether clearing browser cache is supported.
  */
-public final class CanClearBrowserCache extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.network.CanClearBrowserCacheData> {
+public final class CanClearBrowserCache extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.network.CanClearBrowserCacheData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
 
   @Override
   public String getMethodName() {
@@ -12,7 +12,7 @@ public final class CanClearBrowserCache extends org.jetbrains.wip.protocol.WipRe
   }
 
   @Override
-  public org.chromium.wip.protocol.input.network.CanClearBrowserCacheData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseNetworkCanClearBrowserCacheData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.network.CanClearBrowserCacheData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseNetworkCanClearBrowserCacheData(data.getDeferredReader());
   }
 }

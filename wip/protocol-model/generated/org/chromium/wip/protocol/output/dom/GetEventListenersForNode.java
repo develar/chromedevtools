@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Returns event listeners relevant to the node.
  */
-public final class GetEventListenersForNode extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetEventListenersForNodeData> {
+public final class GetEventListenersForNode extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.dom.GetEventListenersForNodeData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param nodeId Id of the node to get listeners for.
    */
@@ -27,7 +27,7 @@ public final class GetEventListenersForNode extends org.jetbrains.wip.protocol.W
   }
 
   @Override
-  public org.chromium.wip.protocol.input.dom.GetEventListenersForNodeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMGetEventListenersForNodeData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.dom.GetEventListenersForNodeData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDOMGetEventListenersForNodeData(data.getDeferredReader());
   }
 }

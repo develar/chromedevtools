@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Evaluates expression on a given call frame.
  */
-public final class EvaluateOnCallFrame extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData> {
+public final class EvaluateOnCallFrame extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param callFrameId Call frame identifier to evaluate on.
    * @param expression Expression to evaluate.
@@ -61,7 +61,7 @@ public final class EvaluateOnCallFrame extends org.jetbrains.wip.protocol.WipReq
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerEvaluateOnCallFrameData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.debugger.EvaluateOnCallFrameData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDebuggerEvaluateOnCallFrameData(data.getDeferredReader());
   }
 }

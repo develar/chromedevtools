@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Returns search results from given <code>fromIndex</code> to given <code>toIndex</code> from the sarch with the given identifier.
  */
-public final class GetSearchResults extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.GetSearchResultsData> {
+public final class GetSearchResults extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.dom.GetSearchResultsData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param searchId Unique search session identifier.
    * @param fromIndex Start index of the search result to be returned.
@@ -21,7 +21,7 @@ public final class GetSearchResults extends org.jetbrains.wip.protocol.WipReques
   }
 
   @Override
-  public org.chromium.wip.protocol.input.dom.GetSearchResultsData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMGetSearchResultsData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.dom.GetSearchResultsData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDOMGetSearchResultsData(data.getDeferredReader());
   }
 }

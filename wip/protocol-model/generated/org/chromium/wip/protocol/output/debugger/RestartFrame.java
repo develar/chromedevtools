@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Restarts particular call frame from the beginning.
  */
-public final class RestartFrame extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.RestartFrameData> {
+public final class RestartFrame extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.debugger.RestartFrameData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param callFrameId Call frame identifier to evaluate on.
    */
@@ -17,7 +17,7 @@ public final class RestartFrame extends org.jetbrains.wip.protocol.WipRequestWit
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.RestartFrameData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerRestartFrameData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.debugger.RestartFrameData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDebuggerRestartFrameData(data.getDeferredReader());
   }
 }

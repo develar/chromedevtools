@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.network;
 /**
  * Returns content served for the given request.
  */
-public final class GetResponseBody extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.network.GetResponseBodyData> {
+public final class GetResponseBody extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.network.GetResponseBodyData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param requestId Identifier of the network request to get content for.
    */
@@ -17,7 +17,7 @@ public final class GetResponseBody extends org.jetbrains.wip.protocol.WipRequest
   }
 
   @Override
-  public org.chromium.wip.protocol.input.network.GetResponseBodyData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseNetworkGetResponseBodyData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.network.GetResponseBodyData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseNetworkGetResponseBodyData(data.getDeferredReader());
   }
 }

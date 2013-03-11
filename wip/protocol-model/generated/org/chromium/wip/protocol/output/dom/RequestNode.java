@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.dom;
 /**
  * Requests that the node is sent to the caller given the JavaScript node object reference. All nodes that form the path from the node to the root are also sent to the client as a series of <code>setChildNodes</code> notifications.
  */
-public final class RequestNode extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.dom.RequestNodeData> {
+public final class RequestNode extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.dom.RequestNodeData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param objectId JavaScript object id to convert into node.
    */
@@ -17,7 +17,7 @@ public final class RequestNode extends org.jetbrains.wip.protocol.WipRequestWith
   }
 
   @Override
-  public org.chromium.wip.protocol.input.dom.RequestNodeData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDOMRequestNodeData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.dom.RequestNodeData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDOMRequestNodeData(data.getDeferredReader());
   }
 }

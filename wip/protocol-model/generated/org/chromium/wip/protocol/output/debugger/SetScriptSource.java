@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Edits JavaScript source live.
  */
-public final class SetScriptSource extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.SetScriptSourceData> {
+public final class SetScriptSource extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.debugger.SetScriptSourceData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param scriptId Id of the script to edit.
    * @param scriptSource New content of the script.
@@ -27,7 +27,7 @@ public final class SetScriptSource extends org.jetbrains.wip.protocol.WipRequest
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.SetScriptSourceData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerSetScriptSourceData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.debugger.SetScriptSourceData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDebuggerSetScriptSourceData(data.getDeferredReader());
   }
 }

@@ -14,7 +14,7 @@ public interface ExecutionContextCreatedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.runtime.ExecutionContextCreatedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.runtime.ExecutionContextCreatedEventData>("RuntimeexecutionContextCreated", org.chromium.wip.protocol.input.runtime.ExecutionContextCreatedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.runtime.ExecutionContextCreatedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
+    public org.chromium.wip.protocol.input.runtime.ExecutionContextCreatedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parseRuntimeExecutionContextCreatedEventData(reader);
     }
   };

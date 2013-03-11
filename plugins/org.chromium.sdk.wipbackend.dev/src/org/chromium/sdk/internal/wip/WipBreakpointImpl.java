@@ -170,7 +170,7 @@ public class WipBreakpointImpl implements Breakpoint {
       commandCallback = null;
     }
     else {
-      commandCallback = new WipCommandCallback.Default() {
+      commandCallback = new WipCommandCallbackImpl() {
         @Override
         protected void onSuccess(Success success) {
           breakpointManager.getDb().setIdMapping(WipBreakpointImpl.this, null);
@@ -188,7 +188,7 @@ public class WipBreakpointImpl implements Breakpoint {
   }
 
   @Override
-  public RelayOk flush(final BreakpointCallback callback, final SyncCallback syncCallback) {
+  public RelayOk flush(final BreakpointCallback callback, SyncCallback syncCallback) {
     final RelaySyncCallback relay = new RelaySyncCallback(syncCallback);
 
     if (!isDirty) {
@@ -207,7 +207,7 @@ public class WipBreakpointImpl implements Breakpoint {
       // Call syncCallback if something goes wrong after we sent request.
       final RelaySyncCallback.Guard guard = relay.newGuard();
 
-      WipCommandCallback removeCallback = new WipCommandCallback.Default() {
+      WipCommandCallback removeCallback = new WipCommandCallbackImpl() {
         @Override
         protected void onSuccess(Success success) {
           setRemoteData(null, Collections.<ActualLocation>emptyList());

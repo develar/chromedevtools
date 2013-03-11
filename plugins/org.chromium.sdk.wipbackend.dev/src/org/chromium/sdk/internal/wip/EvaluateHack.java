@@ -13,10 +13,14 @@ import org.chromium.sdk.internal.wip.WipRelayRunner.ProcessException;
 import org.chromium.sdk.internal.wip.WipRelayRunner.Step;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
+import org.chromium.wip.protocol.input.ProtocolReponseReader;
 import org.chromium.wip.protocol.input.runtime.CallFunctionOnData;
 import org.chromium.wip.protocol.input.runtime.EvaluateData;
 import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
-import org.chromium.wip.protocol.output.runtime.*;
+import org.chromium.wip.protocol.output.runtime.CallArgument;
+import org.chromium.wip.protocol.output.runtime.CallFunctionOn;
+import org.chromium.wip.protocol.output.runtime.Evaluate;
+import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.wip.protocol.WipRequestWithResponse;
 
 import java.util.ArrayList;
@@ -84,11 +88,9 @@ public class EvaluateHack {
    * @param <DATA> type of request's response
    */
   public interface EvaluateCommandHandler<DATA> {
-    WipRequestWithResponse<DATA> createRequest(String patchedUserExpression,
-        WipValueLoader destinationValueLoader);
+    RequestWithResponse<DATA, ProtocolReponseReader> createRequest(String patchedUserExpression, WipValueLoader destinationValueLoader);
 
-    JsVariable processResult(DATA response, WipValueLoader destinationValueLoader,
-        ValueNameBuilder valueNameBuidler);
+    JsVariable processResult(DATA response, WipValueLoader destinationValueLoader, ValueNameBuilder valueNameBuidler);
 
     /**
      * Return the same exception or wraps it with a more high-level error details.

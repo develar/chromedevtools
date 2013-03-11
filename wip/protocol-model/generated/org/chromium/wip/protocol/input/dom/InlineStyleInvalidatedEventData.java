@@ -14,7 +14,7 @@ public interface InlineStyleInvalidatedEventData {
   public static final org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.InlineStyleInvalidatedEventData> TYPE
   	= new org.jetbrains.wip.protocol.WipEventType<org.chromium.wip.protocol.input.dom.InlineStyleInvalidatedEventData>("DOMinlineStyleInvalidated", org.chromium.wip.protocol.input.dom.InlineStyleInvalidatedEventData.class) {
     @Override
-    public org.chromium.wip.protocol.input.dom.InlineStyleInvalidatedEventData parse(org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser, com.google.gson.stream.JsonReaderEx reader) {
+    public org.chromium.wip.protocol.input.dom.InlineStyleInvalidatedEventData parse(org.chromium.wip.protocol.input.ProtocolReponseReader parser, com.google.gson.stream.JsonReaderEx reader) {
       return parser.parseDOMInlineStyleInvalidatedEventData(reader);
     }
   };

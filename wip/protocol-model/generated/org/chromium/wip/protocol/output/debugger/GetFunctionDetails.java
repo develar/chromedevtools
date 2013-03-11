@@ -4,7 +4,7 @@ package org.chromium.wip.protocol.output.debugger;
 /**
  * Returns detailed informtation on given function.
  */
-public final class GetFunctionDetails extends org.jetbrains.wip.protocol.WipRequestWithResponse<org.chromium.wip.protocol.input.debugger.GetFunctionDetailsData> {
+public final class GetFunctionDetails extends org.jetbrains.wip.protocol.WipRequest implements org.jetbrains.jsonProtocol.RequestWithResponse<org.chromium.wip.protocol.input.debugger.GetFunctionDetailsData, org.chromium.wip.protocol.input.ProtocolReponseReader> {
   /**
    * @param functionId Id of the function to get location for.
    */
@@ -17,7 +17,7 @@ public final class GetFunctionDetails extends org.jetbrains.wip.protocol.WipRequ
   }
 
   @Override
-  public org.chromium.wip.protocol.input.debugger.GetFunctionDetailsData parseResponse(org.jetbrains.wip.protocol.WipCommandResponse.Data data, org.chromium.wip.protocol.input.GeneratedWipProtocolReader parser) throws java.io.IOException {
-    return parser.parseDebuggerGetFunctionDetailsData(data.getDeferredReader());
+  public org.chromium.wip.protocol.input.debugger.GetFunctionDetailsData readResponse(org.jetbrains.jsonProtocol.JsonObjectBased data, org.chromium.wip.protocol.input.ProtocolReponseReader reader) {
+    return reader.parseDebuggerGetFunctionDetailsData(data.getDeferredReader());
   }
 }
