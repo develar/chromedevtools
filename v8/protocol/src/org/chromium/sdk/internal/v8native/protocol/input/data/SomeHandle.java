@@ -8,8 +8,6 @@ import org.chromium.protocolReader.JsonSubtypeCasting;
 import org.chromium.protocolReader.JsonType;
 import org.jetbrains.v8.protocol.input.Handle;
 
-import java.io.IOException;
-
 /**
  * A serialized form of object when it is fully (though shallowly) described. Object always
  * has a type and a handle. (See {@link org.chromium.sdk.internal.v8native.protocol.input.FrameObject} as a case that makes it a bit more messy).
@@ -27,11 +25,11 @@ public interface SomeHandle extends Handle {
   String type();
 
   @JsonSubtypeCasting
-  ScriptHandle asScriptHandle() throws IOException;
+  ScriptHandle asScriptHandle();
 
   @JsonSubtypeCasting
-  ValueHandle asValueHandle() throws IOException;
+  ValueHandle asValueHandle();
 
   @JsonSubtypeCasting
-  ContextHandle asContextHandle() throws IOException;
+  ContextHandle asContextHandle();
 }

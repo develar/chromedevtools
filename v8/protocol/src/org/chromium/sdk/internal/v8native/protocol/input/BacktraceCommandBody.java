@@ -15,10 +15,10 @@ public interface BacktraceCommandBody {
   List<FrameObject> frames();
 
   @JsonOptionalField
-  long fromFrame();
+  int fromFrame();
 
   @JsonOptionalField
-  long toFrame();
+  int toFrame();
 
-  long totalFrames();
+  int totalFrames();
 }

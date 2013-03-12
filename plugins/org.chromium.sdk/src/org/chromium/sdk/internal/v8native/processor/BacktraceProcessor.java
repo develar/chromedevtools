@@ -11,22 +11,16 @@ import org.chromium.sdk.internal.v8native.ContextBuilder;
 import org.chromium.sdk.internal.v8native.DebugSession;
 import org.chromium.sdk.internal.v8native.V8CommandCallback;
 import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
-import org.chromium.sdk.internal.v8native.protocol.input.BacktraceCommandBody;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Handles the "backtrace" V8 command replies.
- */
 public class BacktraceProcessor implements V8CommandCallback {
-
   private final ContextBuilder.ExpectingBacktraceStep step2;
 
   BacktraceProcessor(ContextBuilder.ExpectingBacktraceStep step2) {
@@ -63,14 +57,7 @@ public class BacktraceProcessor implements V8CommandCallback {
   }
 
   public static DebugContext setFrames(CommandResponse.Success response, ContextBuilder.ExpectingBacktraceStep step2) {
-    BacktraceCommandBody body;
-    try {
-      body = response.body().asBacktraceCommandBody();
-    }
-    catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-    List<FrameObject> jsonFrames = body.frames();
+    List<FrameObject> jsonFrames = response.body().asBacktraceCommandBody().frames();
     if (jsonFrames == null) {
       jsonFrames = Collections.emptyList();
     }

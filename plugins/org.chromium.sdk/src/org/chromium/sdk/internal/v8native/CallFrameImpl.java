@@ -10,7 +10,6 @@ import org.chromium.sdk.internal.v8native.processor.BacktraceProcessor;
 import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
-import org.chromium.sdk.internal.v8native.protocol.input.RestartFrameBody;
 import org.chromium.sdk.internal.v8native.protocol.input.ScopeRef;
 import org.chromium.sdk.internal.v8native.protocol.output.BacktraceMessage;
 import org.chromium.sdk.internal.v8native.protocol.output.RestartFrameMessage;
@@ -19,7 +18,6 @@ import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.sdk.util.RelaySyncCallback;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -53,7 +51,7 @@ public class CallFrameImpl implements CallFrame {
   /**
    * The associated script id value.
    */
-  private final long scriptId;
+  private final int scriptId;
 
   /** The scopes known in this call frame. */
   private final AtomicReference<List<? extends JsScope>> scopesRef =
@@ -79,11 +77,9 @@ public class CallFrameImpl implements CallFrame {
     this.frameObject = frameObject;
     this.context = context;
 
-    int index = (int) frameObject.index();
     Map func = frameObject.func();
 
-    int currentLine = (int) frameObject.line();
-
+    int currentLine = frameObject.line();
     // If we stopped because of the debuggerword then we're on the next
     // line.
     // TODO(apavlov): Terry says: we need to use the [e.g. Rhino] AST to
@@ -100,7 +96,7 @@ public class CallFrameImpl implements CallFrame {
     scriptId = ScriptImpl.getScriptId(context.getValueLoader().getSpecialHandleManager(), scriptRef);
     lineNumber = currentLine;
     frameFunction = V8ProtocolUtil.getFunctionName(func);
-    frameId = index;
+    frameId = frameObject.index();
   }
 
   public InternalContext getInternalContext() {
@@ -218,7 +214,7 @@ public class CallFrameImpl implements CallFrame {
     @Override
     public RelayOk restartFrame(CallFrame callFrame,
         final GenericCallback<Boolean> callback, SyncCallback syncCallback) {
-      final CallFrameImpl frameImpl = (CallFrameImpl) callFrame;
+      CallFrameImpl frameImpl = (CallFrameImpl) callFrame;
       final DebugSession debugSession = frameImpl.context.getDebugSession();
 
       RelaySyncCallback relaySyncCallback = new RelaySyncCallback(syncCallback);
@@ -250,27 +246,18 @@ public class CallFrameImpl implements CallFrame {
       }
     }
 
-    private RelayOk handleRestartResponse(CommandResponse.Success successResponse,
-        DebugSession debugSession,
-        final GenericCallback<Boolean> callback, final RelaySyncCallback relaySyncCallback) {
-      RestartFrameBody body;
-      try {
-        body = successResponse.body().asRestartFrameBody();
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-
-      InternalContext.UserContext debugContext =
-          debugSession.getContextBuilder().getCurrentDebugContext();
+    private RelayOk handleRestartResponse(CommandResponse.Success successResponse, DebugSession debugSession, GenericCallback<Boolean> callback, RelaySyncCallback relaySyncCallback) {
+      InternalContext.UserContext debugContext = debugSession.getContextBuilder().getCurrentDebugContext();
       if (debugContext == null) {
         // We may have already issued 'continue' since the moment that change live command
         // was sent so the context was dropped. Ignore this case.
         return finishRestartSuccessfully(false, callback, relaySyncCallback);
       }
 
-      if (body.getResultDescription().stack_update_needs_step_in() == Boolean.TRUE) {
+      if (successResponse.body().asRestartFrameBody().getResultDescription().stack_update_needs_step_in() == Boolean.TRUE) {
         return stepIn(debugContext, callback, relaySyncCallback);
-      } else {
+      }
+      else {
         return reloadStack(debugContext, callback, relaySyncCallback);
       }
     }

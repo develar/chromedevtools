@@ -10,7 +10,6 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 import org.jetbrains.jsonProtocol.JsonObjectBased;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -22,27 +21,27 @@ import java.util.Map;
 @JsonType
 public interface CommandResponseBody extends JsonObjectBased {
   @JsonSubtypeCasting
-  BacktraceCommandBody asBacktraceCommandBody() throws IOException;
+  BacktraceCommandBody asBacktraceCommandBody();
 
   @JsonSubtypeCasting
-  List<ScriptHandle> asScripts() throws IOException;
+  List<ScriptHandle> asScripts();
 
   @JsonSubtypeCasting
   // map refId -> ValueHandle
-  Map asLookupMap() throws IOException;
+  Map asLookupMap();
 
   @JsonSubtypeCasting(reinterpret=true)
-  ValueHandle asEvaluateBody() throws IOException;
+  ValueHandle asEvaluateBody();
 
   @JsonSubtypeCasting
-  ChangeLiveBody asChangeLiveBody() throws IOException;
+  ChangeLiveBody asChangeLiveBody();
 
   @JsonSubtypeCasting
-  RestartFrameBody asRestartFrameBody() throws IOException;
+  RestartFrameBody asRestartFrameBody();
 
   @JsonSubtypeCasting
-  ListBreakpointsBody asListBreakpointsBody() throws IOException;
+  ListBreakpointsBody asListBreakpointsBody();
 
   @JsonSubtypeCasting
-  FlagsBody asFlagsBody() throws IOException;
+  FlagsBody asFlagsBody();
 }

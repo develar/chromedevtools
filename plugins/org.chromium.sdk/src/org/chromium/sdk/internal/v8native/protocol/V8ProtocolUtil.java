@@ -14,7 +14,6 @@ import org.chromium.sdk.internal.v8native.value.DataWithRef;
 import org.chromium.sdk.internal.v8native.value.PropertyReference;
 import org.chromium.sdk.internal.v8native.value.PropertyType;
 
-import java.io.IOException;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +31,11 @@ public class V8ProtocolUtil {
    * @return a type corresponding to {@code typeNumber} or {@code null} if
    *         {@code typeNumber == null}
    */
-  public static Script.Type getScriptType(Long typeNumber) {
-    if (typeNumber == null) {
+  public static Script.Type getScriptType(int typeNumber) {
+    if (typeNumber == -1) {
       return null;
     }
-    switch (typeNumber.intValue()) {
+    switch (typeNumber) {
       case ScriptsMessage.SCRIPTS_NORMAL:
         return Type.NORMAL;
       case ScriptsMessage.SCRIPTS_NATIVE:
@@ -255,16 +254,6 @@ public class V8ProtocolUtil {
   }
 
   /**
-   * Gets a script id from a script response.
-   *
-   * @param scriptObject to get the "id" value from
-   * @return the script id
-   */
-  public static Long getScriptIdFromResponse(ScriptHandle scriptObject) {
-    return scriptObject.id();
-  }
-
-  /**
    * Determines if a {@code script} is valid in the current debug context.
    * Returns {@code null} if it is not, otherwise returns {@code script}.
    *
@@ -280,14 +269,7 @@ public class V8ProtocolUtil {
       if (ref.handle() != contextRef) {
         continue;
       }
-      ContextHandle contextHandle;
-      try {
-        contextHandle = ref.asContextHandle();
-      }
-      catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-      if (!contextFilter.isContextOurs(contextHandle)) {
+      if (!contextFilter.isContextOurs(ref.asContextHandle())) {
         return null;
       }
       return script;

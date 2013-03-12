@@ -27,7 +27,6 @@ import org.chromium.v8.protocol.ProtocolService;
 import org.jetbrains.v8.protocol.V8Request;
 import org.jetbrains.v8.protocol.input.Handle;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -92,12 +91,7 @@ public class ValueLoaderImpl extends ValueLoader {
         valueHandle = (ValueHandle)handle;
       }
       else {
-        try {
-          valueHandle = ((SomeHandle)handle).asValueHandle();
-        }
-        catch (IOException e) {
-          throw new RuntimeException(e);
-        }
+        valueHandle = ((SomeHandle)handle).asValueHandle();
       }
       addDataToMap(valueHandle);
     }
@@ -288,15 +282,9 @@ public class ValueLoaderImpl extends ValueLoader {
     });
   }
 
-  private List<ValueHandle> readResponseFromLookupRaw(CommandResponse.Success successResponse,
-          long[] propertyRefIds) {
+  private List<ValueHandle> readResponseFromLookupRaw(CommandResponse.Success successResponse, long[] propertyRefIds) {
     List<ValueHandle> result = new ArrayList<ValueHandle>(propertyRefIds.length);
-    Map body;
-    try {
-      body = successResponse.body().asLookupMap();
-    } catch (IOException e) {
-      throw new ValueLoadException(e);
-    }
+    Map body = successResponse.body().asLookupMap();
     for (long ref : propertyRefIds) {
       Map value = JsonUtil.getAsJSON(body, String.valueOf(ref));
       if (value == null) {

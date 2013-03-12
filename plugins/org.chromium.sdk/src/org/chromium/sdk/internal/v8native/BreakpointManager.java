@@ -18,7 +18,6 @@ import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponseBody;
 import org.chromium.sdk.internal.v8native.protocol.input.FlagsBody;
 import org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo;
-import org.chromium.sdk.internal.v8native.protocol.input.ListBreakpointsBody;
 import org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo;
 import org.chromium.sdk.internal.v8native.protocol.output.ClearBreakpointMessage;
 import org.chromium.sdk.internal.v8native.protocol.output.FlagsMessage;
@@ -29,7 +28,6 @@ import org.jetbrains.v8.protocol.Changebreakpoint;
 import org.jetbrains.v8.protocol.Setbreakpoint;
 import org.jetbrains.v8.protocol.SetbreakpointResult;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -211,14 +209,7 @@ public class BreakpointManager {
       @Override
       public void success(CommandResponse.Success successResponse) {
         CommandResponseBody body = successResponse.body();
-        ListBreakpointsBody listBreakpointsBody;
-        try {
-          listBreakpointsBody = body.asListBreakpointsBody();
-        } catch (IOException e) {
-          callback.failure(new Exception("Failed to read server response", e));
-          return;
-        }
-        List<BreakpointInfo> infos = listBreakpointsBody.breakpoints();
+        List<BreakpointInfo> infos = body.asListBreakpointsBody().breakpoints();
         Collection<Breakpoint> updatedBreakpoints;
         try {
           updatedBreakpoints = syncBreakpoints(infos);
@@ -329,13 +320,7 @@ public class BreakpointManager {
     } else {
       v8Callback = new V8CommandCallbackBase() {
         @Override public void success(CommandResponse.Success successResponse) {
-          FlagsBody body;
-          try {
-            body = successResponse.body().asFlagsBody();
-          } catch (IOException e) {
-            throw new RuntimeException(e);
-          }
-          List<FlagInfo> flagList = body.flags();
+          List<FlagInfo> flagList = successResponse.body().asFlagsBody().flags();
           List<Boolean> result = new ArrayList<Boolean>(flagNames.size());
           for (String name : flagNames) {
 

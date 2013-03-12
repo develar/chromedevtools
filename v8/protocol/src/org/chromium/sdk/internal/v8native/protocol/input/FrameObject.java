@@ -21,13 +21,13 @@ import java.util.Map;
  */
 @JsonType
 public interface FrameObject {
-  long index();
+  int index();
 
   Map func();
 
   String text();
 
-  long line();
+  int line();
 
   String sourceLineText();
 

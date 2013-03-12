@@ -11,7 +11,6 @@ import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.JsEvaluateContextBase;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.EvaluateMessage;
 import org.chromium.sdk.internal.v8native.value.JsObjectBase;
 import org.chromium.sdk.internal.v8native.value.JsVariableImpl;
@@ -19,7 +18,6 @@ import org.chromium.sdk.internal.v8native.value.ValueMirror;
 import org.chromium.sdk.util.RelaySyncCallback;
 import org.jetbrains.jsonProtocol.StringIntPair;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,15 +39,8 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
         : new V8CommandCallbackBase() {
           @Override
           public void success(CommandResponse.Success successResponse) {
-            ValueHandle body;
-            try {
-              body = successResponse.body().asEvaluateBody();
-            }
-            catch (IOException e) {
-              throw new RuntimeException(e);
-            }
             InternalContext internalContext = getInternalContext();
-            ValueMirror mirror = internalContext.getValueLoader().addDataToMap(body);
+            ValueMirror mirror = internalContext.getValueLoader().addDataToMap(successResponse.body().asEvaluateBody());
             JsVariable variable = new JsVariableImpl(internalContext.getValueLoader(), mirror, expression);
             callback.success(variable);
           }
@@ -63,11 +54,12 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
   }
 
   @Override
-  public RelayOk evaluateAsync(final String expression, Map<String, String> additionalContext,
-      final EvaluateCallback callback, SyncCallback syncCallback) {
+  public RelayOk evaluateAsync(String expression, Map<String, String> additionalContext,
+                               EvaluateCallback callback, SyncCallback syncCallback) {
     try {
       return evaluateAsyncImpl(expression, additionalContext, callback, syncCallback);
-    } catch (ContextDismissedCheckedException e) {
+    }
+    catch (ContextDismissedCheckedException e) {
       maybeRethrowContextException(e);
       // or
       callback.failure(e.getMessage());

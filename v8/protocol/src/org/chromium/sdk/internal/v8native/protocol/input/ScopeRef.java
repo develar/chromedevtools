@@ -8,6 +8,6 @@ import org.chromium.protocolReader.JsonType;
 
 @JsonType
 public interface ScopeRef {
-  long index();
-  long type();
+  int index();
+  int type();
 }

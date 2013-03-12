@@ -4,5 +4,5 @@ import org.chromium.protocolReader.JsonType;
 
 @JsonType
 public interface ScriptWithId {
-  long id();
+  int id();
 }

@@ -16,7 +16,7 @@ import org.chromium.protocolReader.JsonType;
  */
 @JsonType
 public interface SomeRef {
-  long ref();
+  int ref();
 
   @JsonSubtypeCasting
   RefWithDisplayData asWithDisplayData();

@@ -7,60 +7,45 @@ import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.ScriptBase;
 import org.chromium.sdk.internal.v8native.protocol.input.ChangeLiveBody;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.ChangeLiveMessage;
 import org.chromium.sdk.internal.v8native.value.HandleManager;
 import org.chromium.v8.liveEditProtocol.LiveEditResult;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ScriptImpl extends ScriptBase<Long> {
-  /** The class logger. */
+public class ScriptImpl extends ScriptBase<Integer> {
   private static final Logger LOGGER = Logger.getLogger(ScriptImpl.class.getName());
 
   private final DebugSession debugSession;
 
-  public ScriptImpl(Descriptor<Long> descriptor, DebugSession debugSession) {
+  public ScriptImpl(Descriptor<Integer> descriptor, DebugSession debugSession) {
     super(descriptor);
     this.debugSession = debugSession;
   }
 
   @Override
-  public RelayOk setSourceOnRemote(String newSource, UpdateCallback callback,
-      SyncCallback syncCallback) {
-    V8CommandCallback v8Callback = createScriptUpdateCallback(callback, false);
-    return debugSession.sendMessage(new ChangeLiveMessage(getId(), newSource, Boolean.FALSE), v8Callback, syncCallback);
+  public RelayOk setSourceOnRemote(String newSource, UpdateCallback callback, SyncCallback syncCallback) {
+    return debugSession.sendMessage(new ChangeLiveMessage(getId(), newSource, Boolean.FALSE), createScriptUpdateCallback(callback, false), syncCallback);
   }
 
   @Override
-  public RelayOk previewSetSource(String newSource, UpdateCallback callback,
-      SyncCallback syncCallback) {
-    V8CommandCallback v8Callback = createScriptUpdateCallback(callback, true);
-    return debugSession.sendMessage(new ChangeLiveMessage(getId(), newSource, Boolean.TRUE), v8Callback, syncCallback);
+  public RelayOk previewSetSource(String newSource, UpdateCallback callback, SyncCallback syncCallback) {
+    return debugSession.sendMessage(new ChangeLiveMessage(getId(), newSource, Boolean.TRUE), createScriptUpdateCallback(callback, true), syncCallback);
   }
 
-  private V8CommandCallback createScriptUpdateCallback(
-      final UpdateCallback callback, final boolean previewOnly) {
+  private V8CommandCallback createScriptUpdateCallback(final UpdateCallback callback, final boolean previewOnly) {
     return new V8CommandCallbackBase() {
       @Override
       public void success(CommandResponse.Success successResponse) {
-        ChangeLiveBody body;
-        try {
-          body = successResponse.body().asChangeLiveBody();
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-
+        ChangeLiveBody body = successResponse.body().asChangeLiveBody();
         LiveEditResult resultDescription = body.getResultDescription();
         if (!previewOnly) {
           V8Helper.ScriptLoadCallback scriptCallback = new V8Helper.ScriptLoadCallback() {
             @Override
             public void failure(String message) {
-              LOGGER.log(Level.SEVERE,
-                  "Failed to reload script after LiveEdit script update; " + message);
+              LOGGER.log(Level.SEVERE, "Failed to reload script after LiveEdit script update; " + message);
             }
 
             @Override
@@ -75,13 +60,16 @@ public class ScriptImpl extends ScriptBase<Long> {
 
           if (body.stepin_recommended() == Boolean.TRUE) {
             DebugContext debugContext = debugSession.getContextBuilder().getCurrentDebugContext();
+            //noinspection StatementWithEmptyBody
             if (debugContext == null) {
               // We may have already issued 'continue' since the moment that change live command
               // was sent so the context was dropped. Ignore this case.
-            } else {
+            }
+            else {
               debugContext.continueVm(DebugContext.StepAction.IN, 0, null, null);
             }
-          } else {
+          }
+          else {
             if (resultDescription != null && resultDescription.stack_modified()) {
               debugSession.recreateCurrentContext();
             }
@@ -100,18 +88,11 @@ public class ScriptImpl extends ScriptBase<Long> {
     };
   }
 
-  public static long getScriptId(HandleManager handleManager, long scriptRef) {
+  public static int getScriptId(HandleManager handleManager, long scriptRef) {
     SomeHandle handle = scriptRef == -1 ? null : handleManager.getHandle(scriptRef);
     if (handle == null) {
-      return -1L; // not found
+      return -1; // not found
     }
-    ScriptHandle scriptHandle;
-    try {
-      scriptHandle = handle.asScriptHandle();
-    }
-    catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-    return scriptHandle.id();
+    return handle.asScriptHandle().id();
   }
 }

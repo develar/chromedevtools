@@ -16,10 +16,10 @@ import java.util.List;
 @JsonType
 public interface FunctionValueHandle extends JsonSubtype<ObjectValueHandle> {
   @JsonOptionalField
-  long position();
+  int position();
 
   @JsonOptionalField
-  long line();
+  int line();
 
   @JsonOptionalField
   JsonReaderEx script();
@@ -36,10 +36,10 @@ public interface FunctionValueHandle extends JsonSubtype<ObjectValueHandle> {
   String name();
 
   @JsonOptionalField
-  long column();
+  int column();
 
   @JsonOptionalField
-  long scriptId();
+  int scriptId();
 
   @JsonField
   List<ScopeRef> scopes();

@@ -10,10 +10,10 @@ import org.chromium.protocolReader.JsonType;
 
 @JsonType
 public interface ScriptHandle {
-  long id();
-  long lineOffset();
-  long columnOffset();
-  long lineCount();
+  int id();
+  int lineOffset();
+  int columnOffset();
+  int lineCount();
 
   @JsonOptionalField
   Object data();
@@ -25,9 +25,9 @@ public interface ScriptHandle {
   @JsonOptionalField
   String source();
 
-  long sourceLength();
-  long scriptType();
-  long compilationType();
+  int sourceLength();
+  int scriptType();
+  int compilationType();
 
   @JsonOptionalField
   SomeSerialized evalFromScript();

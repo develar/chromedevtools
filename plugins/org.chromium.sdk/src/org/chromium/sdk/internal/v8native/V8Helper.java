@@ -23,8 +23,6 @@ import org.chromium.sdk.internal.v8native.value.ValueLoadException;
 import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.v8.protocol.ProtocolReponseReader;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -73,20 +71,12 @@ public class V8Helper {
 
         @Override
         public void success(CommandResponse.Success successResponse) {
-          List<ScriptHandle> body;
-          try {
-            body = successResponse.body().asScripts();
-          }
-          catch (IOException e) {
-            throw new RuntimeException(e);
-          }
           ScriptManager scriptManager = debugSession.getScriptManager();
-          for (ScriptHandle scriptHandle : body) {
+          for (ScriptHandle scriptHandle : successResponse.body().asScripts()) {
             if (V8Helper.JAVASCRIPT_VOID.equals(scriptHandle.source())) {
               continue;
             }
-            Long id = V8ProtocolUtil.getScriptIdFromResponse(scriptHandle);
-            ScriptImpl scriptById = scriptManager.findById(id);
+            ScriptImpl scriptById = scriptManager.findById(scriptHandle.id());
             if (scriptById == null) {
               scriptManager.addScript(scriptHandle, successResponse.refs());
             }

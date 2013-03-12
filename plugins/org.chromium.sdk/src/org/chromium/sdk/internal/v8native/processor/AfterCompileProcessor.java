@@ -38,17 +38,11 @@ public class AfterCompileProcessor extends V8EventProcessor {
       return;
     }
     debugSession.sendMessage(
-      new ScriptsMessage(new long[]{V8ProtocolUtil.getScriptIdFromResponse(script)}, true),
+      new ScriptsMessage(new long[]{script.id()}, true),
       new V8CommandCallbackBase() {
         @Override
         public void success(CommandResponse.Success successResponse) {
-          List<ScriptHandle> body;
-          try {
-            body = successResponse.body().asScripts();
-          }
-          catch (IOException e) {
-            throw new RuntimeException(e);
-          }
+          List<ScriptHandle> body = successResponse.body().asScripts();
           // body is an array of scripts
           if (body.size() == 0) {
             return; // The script did not arrive (bad id?)
