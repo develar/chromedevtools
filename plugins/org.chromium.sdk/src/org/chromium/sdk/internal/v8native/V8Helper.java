@@ -15,13 +15,11 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.ContextlessDebuggerMessage;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.protocol.output.ScriptsMessage;
 import org.chromium.sdk.internal.v8native.value.JsDataTypeUtil;
 import org.chromium.sdk.internal.v8native.value.LoadableString;
 import org.chromium.sdk.internal.v8native.value.PropertyReference;
 import org.chromium.sdk.internal.v8native.value.ValueLoadException;
-import org.chromium.sdk.util.MethodIsBlockingException;
 import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.v8.protocol.ProtocolReponseReader;
 
@@ -60,9 +58,9 @@ public class V8Helper {
       final ScriptLoadCallback callback, SyncCallback syncCallback) {
     ContextlessDebuggerMessage message;
     if (ids == null) {
-      message = DebuggerMessageFactory.scripts(ScriptsMessage.SCRIPTS_NORMAL, true);
+      message = new ScriptsMessage(ScriptsMessage.SCRIPTS_NORMAL, true);
     } else {
-      message = DebuggerMessageFactory.scripts(ids, true);
+      message = new ScriptsMessage(ids, true);
     }
     return debugSession.sendMessage(message,
       new V8CommandCallbackBase() {
@@ -137,15 +135,16 @@ public class V8Helper {
     return type;
   }
 
-  public static <MESSAGE extends RequestWithResponse<RESULT, ProtocolReponseReader>, RESULT, PROCESSED_RESULT> PROCESSED_RESULT callV8Sync(
-    V8CommandSender commandSender, MESSAGE message, V8BlockingCallback<RESULT, PROCESSED_RESULT> callback)
-    throws MethodIsBlockingException {
+  public static <RESULT, PROCESSED_RESULT> PROCESSED_RESULT callV8Sync(V8CommandSender commandSender,
+                                                                       RequestWithResponse<RESULT, ProtocolReponseReader> message,
+                                                                       V8CommandCallbackWithResponse<RESULT, PROCESSED_RESULT> callback) {
     return callV8Sync(commandSender, message, callback, CallbackSemaphore.OPERATION_TIMEOUT_MS);
   }
 
-  public static <MESSAGE extends RequestWithResponse<RESULT, ProtocolReponseReader>, RESULT, PROCESSED_RESULT> PROCESSED_RESULT callV8Sync(
-    V8CommandSender commandSender, MESSAGE message, final V8BlockingCallback<RESULT, PROCESSED_RESULT> callback, long timeoutMs)
-    throws MethodIsBlockingException {
+  public static <RESULT, PROCESSED_RESULT> PROCESSED_RESULT callV8Sync(V8CommandSender commandSender,
+                                                                       RequestWithResponse<RESULT, ProtocolReponseReader> message,
+                                                                       final V8CommandCallbackWithResponse<RESULT, PROCESSED_RESULT> callback,
+                                                                       long timeoutMs) {
     callback.request = message;
 
     final String[] exceptionRef = {null};

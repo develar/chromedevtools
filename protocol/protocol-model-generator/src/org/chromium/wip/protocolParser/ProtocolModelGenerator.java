@@ -24,7 +24,7 @@ public class ProtocolModelGenerator {
     InputStream inputStream = schemaUrl.startsWith("http") ? new URL(schemaUrl).openStream() : new FileInputStream(schemaUrl);
     @SuppressWarnings("Since15")
     JsonReaderEx reader = new JsonReaderEx(new String(loadBytes(inputStream), StandardCharsets.UTF_8));
-    //reader.setLenient(true);
+    reader.setLenient(true);
     new Generator(outputDir, args[2], args[3]).go(new ProtocolSchemaReaderImpl().parseRoot(reader));
     inputStream.close();
   }

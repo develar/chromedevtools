@@ -14,13 +14,20 @@ import org.chromium.sdk.JavascriptVm.ExceptionCatchMode;
 import org.chromium.sdk.JavascriptVm.ListBreakpointsCallback;
 import org.chromium.sdk.internal.ScriptRegExpBreakpointTarget;
 import org.chromium.sdk.internal.v8native.BreakpointImpl.FunctionTarget;
-import org.chromium.sdk.internal.v8native.protocol.input.*;
+import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
+import org.chromium.sdk.internal.v8native.protocol.input.CommandResponseBody;
+import org.chromium.sdk.internal.v8native.protocol.input.FlagsBody;
 import org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo;
+import org.chromium.sdk.internal.v8native.protocol.input.ListBreakpointsBody;
 import org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo;
-import org.chromium.sdk.internal.v8native.protocol.output.*;
+import org.chromium.sdk.internal.v8native.protocol.output.ClearBreakpointMessage;
+import org.chromium.sdk.internal.v8native.protocol.output.FlagsMessage;
+import org.chromium.sdk.internal.v8native.protocol.output.ListBreakpointsMessage;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
+import org.jetbrains.v8.protocol.Changebreakpoint;
 import org.jetbrains.v8.protocol.Setbreakpoint;
+import org.jetbrains.v8.protocol.SetbreakpointResult;
 
 import java.io.IOException;
 import java.util.*;
@@ -50,9 +57,9 @@ public class BreakpointManager {
     return breakpointTypeExtension;
   }
 
-  public RelayOk setBreakpoint(final Breakpoint.Target target, final int line, int column,
-      final boolean enabled, final String condition,
-      final JavascriptVm.BreakpointCallback callback, SyncCallback syncCallback) {
+  public RelayOk setBreakpoint(Breakpoint.Target target, int line, int column,
+      boolean enabled, String condition,
+      JavascriptVm.BreakpointCallback callback, SyncCallback syncCallback) {
     return setBreakpoint(target, line, column, enabled, condition, Breakpoint.EMPTY_VALUE,
         callback, syncCallback);
   }
@@ -119,48 +126,39 @@ public class BreakpointManager {
   RelayOk setBreakpoint(final Breakpoint.Target target, final int line, int column,
                         final boolean enabled, final String condition, int ignoreCount,
                         final JavascriptVm.BreakpointCallback callback, SyncCallback syncCallback) {
-    return debugSession.sendMessage(new Setbreakpoint(target.accept(GET_TYPE_VISITOR), target.accept(GET_TARGET_VISITOR), line).
-      column(column).condition(condition).ignoreCount(ignoreCount).enabled(enabled),
-                                    new V8CommandCallbackBase() {
-                                      @Override
-                                      public void success(CommandResponse.Success successResponse) {
-                                        BreakpointBody body;
-                                        try {
-                                          body = successResponse.body().asBreakpointBody();
-                                        }
-                                        catch (IOException e) {
-                                          throw new RuntimeException(e);
-                                        }
-                                        long id = body.breakpoint();
-                                        BreakpointImpl breakpoint =
-                                          new BreakpointImpl(id, target, line, enabled, condition, BreakpointManager.this);
-                                        idToBreakpoint.put(breakpoint.getId(), breakpoint);
-                                        if (callback != null) {
-                                          callback.success(breakpoint);
-                                        }
-                                      }
+    return debugSession.getCommandProcessor().sendAsync(new Setbreakpoint(target.accept(GET_TYPE_VISITOR), target.accept(GET_TARGET_VISITOR), line).column(column).condition(condition).ignoreCount(ignoreCount).enabled(enabled),
+                                                        new V8CommandCallbackWithResponse<SetbreakpointResult, Void>() {
+                                                          @Override
+                                                          protected Void success(SetbreakpointResult result, CommandResponse.Success response) {
+                                                            BreakpointImpl breakpoint = new BreakpointImpl(result.breakpoint(), target, line, enabled, condition, BreakpointManager.this);
+                                                            idToBreakpoint.put(breakpoint.getId(), breakpoint);
+                                                            if (callback != null) {
+                                                              callback.success(breakpoint);
+                                                            }
+                                                            return null;
+                                                          }
 
-                                      @Override
-                                      public void failure(String message) {
-                                        if (callback != null) {
-                                          callback.failure(message);
-                                        }
-                                      }
-                                    },
-                                    syncCallback);
+                                                          @Override
+                                                          public void onError(String message) {
+                                                            if (callback != null) {
+                                                              callback.failure(message);
+                                                            }
+                                                          }
+                                                        },
+                                                        syncCallback);
   }
 
   public Breakpoint getBreakpoint(long id) {
     return idToBreakpoint.get(id);
   }
 
-  public RelayOk clearBreakpoint(final BreakpointImpl breakpointImpl, final BreakpointCallback callback, SyncCallback syncCallback, long originalId) {
+  public RelayOk clearBreakpoint(BreakpointImpl breakpointImpl, final BreakpointCallback callback, SyncCallback syncCallback, long originalId) {
     if (originalId == Breakpoint.INVALID_ID) {
       return RelaySyncCallback.finish(syncCallback);
     }
     idToBreakpoint.remove(originalId);
     return debugSession.sendMessage(
-      DebuggerMessageFactory.clearBreakpoint(originalId),
+      new ClearBreakpointMessage(originalId),
       new V8CommandCallbackBase() {
         @Override
         public void success(CommandResponse.Success successResponse) {
@@ -180,23 +178,23 @@ public class BreakpointManager {
   }
 
   public RelayOk changeBreakpoint(final BreakpointImpl breakpointImpl, final BreakpointCallback callback, SyncCallback syncCallback) {
-    return debugSession.sendMessage(new ChangeBreakpointMessage(breakpointImpl.getId(), breakpointImpl.isEnabled(), breakpointImpl.getCondition()),
-      new V8CommandCallbackBase() {
-        @Override
-        public void success(CommandResponse.Success successResponse) {
-          if (callback != null) {
-            callback.success(breakpointImpl);
-          }
-        }
+    return debugSession.sendMessage(new Changebreakpoint(breakpointImpl.getId()).enabled(breakpointImpl.isEnabled()).condition(breakpointImpl.getCondition()),
+                                    new V8CommandCallbackBase() {
+                                      @Override
+                                      public void success(CommandResponse.Success successResponse) {
+                                        if (callback != null) {
+                                          callback.success(breakpointImpl);
+                                        }
+                                      }
 
-        @Override
-        public void failure(String message) {
-          if (callback != null) {
-            callback.failure(message);
-          }
-        }
-      },
-      syncCallback);
+                                      @Override
+                                      public void failure(String message) {
+                                        if (callback != null) {
+                                          callback.failure(message);
+                                        }
+                                      }
+                                    },
+                                    syncCallback);
   }
 
   /**

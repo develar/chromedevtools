@@ -460,6 +460,12 @@ public class JsonReaderEx implements Closeable {
     }
   }
 
+  public void skipValues() {
+    while (hasNext()) {
+      skipValue();
+    }
+  }
+
   private void push(JsonScope newTop) {
     if (stackSize == stack.length) {
       JsonScope[] newStack = new JsonScope[stackSize * 2];
@@ -516,29 +522,32 @@ public class JsonReaderEx implements Closeable {
      * previous name-value pair, or a close brace to denote the end of the
      * object.
      */
+    boolean checkEndOfArray = false;
     if (firstElement) {
       /* Peek to see if this is the empty object. */
       switch (nextNonWhitespace(true)) {
-      case '}':
-        stackSize--;
-        return token = JsonToken.END_OBJECT;
-      default:
-        position--;
+        case '}':
+          stackSize--;
+          return token = JsonToken.END_OBJECT;
+        default:
+          position--;
       }
-    } else {
+    }
+    else {
       switch (nextNonWhitespace(true)) {
-      case '}':
-        stackSize--;
-        return token = JsonToken.END_OBJECT;
-      case ';':
-      case ',':
-        break;
-      default:
-        throw createParseError("Unterminated object");
+        case '}':
+          stackSize--;
+          return token = JsonToken.END_OBJECT;
+        case ',':
+          checkEndOfArray = lenient;
+        case ';':
+          break;
+        default:
+          throw createParseError("Unterminated object");
       }
     }
 
-    /* Read the name. */
+    // Read the name or ']' as end of object in case of lenient mode
     int quote = nextNonWhitespace(true);
     switch (quote) {
       case '\'':
@@ -547,6 +556,10 @@ public class JsonReaderEx implements Closeable {
         name = nextString((char)quote);
         break;
       default:
+        if (checkEndOfArray && quote == '}') {
+          stackSize--;
+          return token = JsonToken.END_OBJECT;
+        }
         checkLenient();
         position--;
         name = nextLiteral(false);
@@ -721,7 +734,7 @@ public class JsonReaderEx implements Closeable {
 
   private void checkLenient() {
     if (!lenient) {
-      throw new JsonParseException("Use JsonReaderEx.setLenient(true) to accept malformed JSON");
+      throw createParseError("Use JsonReaderEx.setLenient(true) to accept malformed JSON");
     }
   }
 

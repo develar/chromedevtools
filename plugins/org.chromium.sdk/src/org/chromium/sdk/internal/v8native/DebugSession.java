@@ -10,9 +10,12 @@ import org.chromium.sdk.JavascriptVm.SuspendCallback;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.processor.BreakpointProcessor;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
-import org.chromium.sdk.util.*;
+import org.chromium.sdk.internal.v8native.protocol.output.SuspendMessage;
+import org.chromium.sdk.util.AsyncFuture;
 import org.chromium.sdk.util.AsyncFuture.Callback;
+import org.chromium.sdk.util.AsyncFutureRef;
+import org.chromium.sdk.util.MethodIsBlockingException;
+import org.chromium.sdk.util.RelaySyncCallback;
 import org.jetbrains.v8.protocol.V8Request;
 import org.jetbrains.v8.protocol.VersionResult;
 
@@ -41,8 +44,6 @@ public class DebugSession {
 
   private final ScriptManagerProxy scriptManagerProxy = new ScriptManagerProxy(this);
 
-  private final DefaultResponseHandler defaultResponseHandler;
-
   private final JavascriptVm javascriptVm;
 
   private volatile Version vmVersion = null;
@@ -54,9 +55,7 @@ public class DebugSession {
     this.javascriptVm = javascriptVm;
     breakpointManager = new BreakpointManager(this);
 
-    defaultResponseHandler = new DefaultResponseHandler(this);
-    v8CommandProcessor = new V8CommandProcessor(v8CommandOutput, defaultResponseHandler,
-        this);
+    v8CommandProcessor = new V8CommandProcessor(v8CommandOutput, new DefaultResponseHandler(this), this);
     contextBuilder = new ContextBuilder(this);
   }
 
@@ -64,7 +63,7 @@ public class DebugSession {
     return scriptManager;
   }
 
-  public V8CommandProcessor getV8CommandProcessor() {
+  public V8CommandProcessor getCommandProcessor() {
     return v8CommandProcessor;
   }
 
@@ -86,6 +85,10 @@ public class DebugSession {
   public RelayOk sendMessage(V8Request message, boolean isImmediate, V8CommandCallback commandCallback, SyncCallback syncCallback) {
     return v8CommandProcessor.sendV8CommandAsync(message, isImmediate, commandCallback, syncCallback);
   }
+
+  //public RelayOk sendMessage(V8Request message, boolean isImmediate, V8CommandCallback commandCallback, SyncCallback syncCallback) {
+  //  return v8CommandProcessor.sendV8CommandAsync(message, isImmediate, commandCallback, syncCallback);
+  //}
 
   public RelayOk sendMessage(V8Request message, V8CommandCallback commandCallback, SyncCallback syncCallback) {
     return sendMessage(message, true, commandCallback, syncCallback);
@@ -135,7 +138,7 @@ public class DebugSession {
     if (step == null) {
       return false;
     }
-    defaultResponseHandler.getBreakpointProcessor().processNextStep(step);
+    BreakpointProcessor.processNextStep(step);
     return true;
   }
 
@@ -158,10 +161,10 @@ public class DebugSession {
           return;
         }
         ContextBuilder.ExpectingBacktraceStep step2 = step1.setContextState(Collections.<Breakpoint>emptyList(), null);
-        defaultResponseHandler.getBreakpointProcessor().processNextStep(step2);
+        BreakpointProcessor.processNextStep(step2);
       }
     };
-    sendMessage(DebuggerMessageFactory.suspend(), v8Callback, null);
+    sendMessage(new SuspendMessage(), v8Callback, null);
   }
 
   /**
@@ -201,7 +204,7 @@ public class DebugSession {
     private RelayOk getAllScriptsAsync(final ScriptsCallback callback, RelaySyncCallback relay) {
       // We should call the callback from Dispatch thread (so that the whole collection
       // kept fresh during the call-back).
-      return debugSession.getV8CommandProcessor().runInDispatchThread(
+      return debugSession.getCommandProcessor().runInDispatchThread(
           new Runnable() {
             @Override
             public void run() {
@@ -236,7 +239,7 @@ public class DebugSession {
    * Checks version of V8 and check if it in running state.
    */
   public void startCommunication() throws MethodIsBlockingException {
-    V8BlockingCallback<VersionResult, Void> callback = new V8BlockingCallback<VersionResult, Void>() {
+    V8CommandCallbackWithResponse<VersionResult, Void> callback = new V8CommandCallbackWithResponse<VersionResult, Void>() {
       @Override
       public Void success(VersionResult result, CommandResponse.Success response) {
         String versionString = result.V8Version();

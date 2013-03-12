@@ -9,9 +9,8 @@ import org.chromium.v8.protocol.ProtocolService;
 import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.v8.protocol.ProtocolReponseReader;
 
-public abstract class V8BlockingCallback<RESULT, PROCESSED_RESULT> extends V8CommandCallbackImpl {
+public abstract class V8CommandCallbackWithResponse<RESULT, PROCESSED_RESULT> extends V8CommandCallbackImpl {
   RequestWithResponse<RESULT, ProtocolReponseReader> request;
-
   PROCESSED_RESULT result;
 
   @Override
@@ -22,7 +21,7 @@ public abstract class V8BlockingCallback<RESULT, PROCESSED_RESULT> extends V8Com
   }
 
   @Override
-  protected final void onError(String message) {
+  protected void onError(String message) {
     throw new RuntimeException("Unsuccessful command: " + message);
   }
 

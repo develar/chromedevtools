@@ -67,7 +67,42 @@
               "type": "integer",
               "optional": true
             }
+          ],
+          "returns": [
+            {
+              "name": "type",
+              "type": "string"
+            },
+            {
+              "name": "breakpoint",
+              "type": "integer"
+            }
           ]
+        },
+        {
+          "name": "changebreakpoint",
+          "description": "Changes the status of a break point",
+          "parameters": [
+            {
+              "name": "breakpoint",
+              "type": "integer"
+            },
+            {
+              "name": "enabled",
+              "type": "boolean",
+              "optional": true
+            },
+            {
+              "name": "condition",
+              "type": "string",
+              "optional": true
+            },
+            {
+              "name": "ignoreCount",
+              "type": "integer",
+              "optional": true
+            }
+          ],
         },
         //{
         //  "name": "scope",

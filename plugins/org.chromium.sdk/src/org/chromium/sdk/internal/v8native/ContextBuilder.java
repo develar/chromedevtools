@@ -7,7 +7,7 @@ package org.chromium.sdk.internal.v8native;
 import org.chromium.sdk.*;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
+import org.chromium.sdk.internal.v8native.protocol.output.ContinueMessage;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
 import org.jetbrains.jsonProtocol.Request;
 import org.jetbrains.v8.protocol.V8Request;
@@ -214,7 +214,7 @@ public class ContextBuilder {
         if (!isValid) {
           throw new ContextDismissedCheckedException();
         }
-        return debugSession.getV8CommandProcessor().sendV8CommandAsync(message, isImmediate,
+        return debugSession.getCommandProcessor().sendV8CommandAsync(message, isImmediate,
             commandCallback, syncCallback);
       }
     }
@@ -224,7 +224,7 @@ public class ContextBuilder {
         SyncCallback syncCallback) {
       synchronized (sendContextCommandsMonitor) {
         assertValid();
-        RelayOk relayOk = debugSession.getV8CommandProcessor().sendV8CommandAsync(message,
+        RelayOk relayOk = debugSession.getCommandProcessor().sendV8CommandAsync(message,
             isImmediate, commandCallback, syncCallback);
         isValid = false;
         return relayOk;
@@ -293,8 +293,7 @@ public class ContextBuilder {
        * @throws IllegalStateException if context has already been continued
        */
       @Override
-      public void continueVm(StepAction stepAction, int stepCount,
-          final ContinueCallback callback) {
+      public void continueVm(StepAction stepAction, int stepCount, ContinueCallback callback) {
         continueVm(stepAction, stepCount, callback, null);
       }
 
@@ -305,7 +304,6 @@ public class ContextBuilder {
           throw new NullPointerException();
         }
 
-        V8Request message = DebuggerMessageFactory.goOn(stepAction, stepCount);
         V8CommandCallback commandCallback
             = new V8CommandCallbackBase() {
           @Override
@@ -329,7 +327,7 @@ public class ContextBuilder {
           }
         };
 
-        return sendMessageAsyncAndInvalidate(message, commandCallback, true, syncCallback);
+        return sendMessageAsyncAndInvalidate(new ContinueMessage(stepAction, stepCount), commandCallback, true, syncCallback);
       }
 
       @Override

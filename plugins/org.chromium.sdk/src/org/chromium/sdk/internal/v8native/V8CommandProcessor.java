@@ -14,8 +14,9 @@ import org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage;
 import org.chromium.sdk.internal.v8native.protocol.input.MessageType;
 import org.chromium.v8.protocol.ProtocolService;
 import org.jetbrains.jsonProtocol.Request;
+import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.rpc.MessageHandler;
-import org.jetbrains.v8.protocol.V8Request;
+import org.jetbrains.v8.protocol.ProtocolReponseReader;
 
 /**
  * Sends JSON commands to V8 VM and handles responses. Command is sent
@@ -39,8 +40,14 @@ public class V8CommandProcessor implements V8CommandSender {
   }
 
   @Override
-  public RelayOk sendV8CommandAsync(Request message, boolean isImmediate, V8CommandCallback v8HandlerCallback, SyncCallback syncCallback) {
-    return baseCommandProcessor.send(message, isImmediate, v8HandlerCallback, syncCallback);
+  public RelayOk sendV8CommandAsync(Request message, boolean isImmediate, V8CommandCallback callback, SyncCallback syncCallback) {
+    return baseCommandProcessor.send(message, isImmediate, callback, syncCallback);
+  }
+
+  //@Override
+  public <RESULT> RelayOk sendAsync(RequestWithResponse<RESULT, ProtocolReponseReader> message, V8CommandCallbackWithResponse<RESULT, Void> callback, SyncCallback syncCallback) {
+    callback.request = message;
+    return baseCommandProcessor.send(message, false, callback, syncCallback);
   }
 
   public RelayOk runInDispatchThread(final Runnable callback, final SyncCallback syncCallback) {

@@ -185,9 +185,9 @@ class TypeHandler<T> {
       writeReadFields(out, classScope);
 
       // we don't read all data if we have lazy fields, so, we should not check end of stream
-      if (!hasLazyFields) {
+      //if (!hasLazyFields) {
         out.newLine().append(Util.READER_NAME).append(".endObject();");
-      }
+      //}
     }
     out.closeBlock();
   }
@@ -216,7 +216,7 @@ class TypeHandler<T> {
         fieldLoader.valueParser.writeReadCode(classScope, false, fieldName, out);
         out.semi();
         if (stopIfAllFieldsWereRead && !isTracedStop) {
-          out.newLine().append("break").semi();
+          out.newLine().append(Util.READER_NAME).append(".skipValues()").semi().newLine().append("break").semi();
         }
       }
       out.closeBlock();
@@ -234,7 +234,7 @@ class TypeHandler<T> {
     out.closeBlock();
     if (isTracedStop) {
       out.newLine().newLine().append("if (i == ").append(fieldLoaders.size() - 1).append(")").openBlock();
-      out.append("break").semi().closeBlock();
+      out.append(Util.READER_NAME).append(".skipValues()").semi().newLine().append("break").semi().closeBlock();
       out.newLine().append("else").openBlock().append("i++").semi().closeBlock();
     }
     out.closeBlock();

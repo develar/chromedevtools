@@ -31,7 +31,6 @@ public class V8ReaderGenerator extends ReaderGeneratorBase {
       CommandResponseBody.class,
       BacktraceCommandBody.class,
       FrameObject.class,
-      BreakpointBody.class,
       ScopeBody.class,
       ScopeRef.class,
       AfterCompileBody.class,

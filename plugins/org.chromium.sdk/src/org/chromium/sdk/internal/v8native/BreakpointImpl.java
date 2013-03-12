@@ -4,18 +4,13 @@
 
 package org.chromium.sdk.internal.v8native;
 
-import org.chromium.sdk.Breakpoint;
-import org.chromium.sdk.BreakpointTypeExtension;
-import org.chromium.sdk.IgnoreCountBreakpointExtension;
-import org.chromium.sdk.JavascriptVm;
-import org.chromium.sdk.RelayOk;
-import org.chromium.sdk.SyncCallback;
+import org.chromium.sdk.*;
 import org.chromium.sdk.internal.ScriptRegExpBreakpointTarget;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo;
-import org.chromium.sdk.internal.v8native.protocol.output.ChangeBreakpointMessage;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
+import org.jetbrains.v8.protocol.Changebreakpoint;
 
 /**
  * A generic implementation of the Breakpoint interface.
@@ -30,12 +25,12 @@ public class BreakpointImpl implements Breakpoint {
   /**
    * The breakpoint id as reported by the JavaScript VM.
    */
-  private long id;
+  private int id;
 
   /**
    * Breakpoint line number. May become invalidated by LiveEdit actions.
    */
-  private long lineNumber;
+  private int lineNumber;
 
   /**
    * Whether the breakpoint is enabled.
@@ -59,8 +54,7 @@ public class BreakpointImpl implements Breakpoint {
    */
   private volatile boolean isDirty = false;
 
-  public BreakpointImpl(long id, Target target, long lineNumber,
-      boolean enabled, String condition, BreakpointManager breakpointManager) {
+  public BreakpointImpl(int id, Target target, int lineNumber, boolean enabled, String condition, BreakpointManager breakpointManager) {
     this.target = target;
     this.id = id;
     isEnabled = enabled;
@@ -95,7 +89,7 @@ public class BreakpointImpl implements Breakpoint {
   }
 
   @Override
-  public long getId() {
+  public int getId() {
     return id;
   }
 
@@ -105,7 +99,7 @@ public class BreakpointImpl implements Breakpoint {
   }
 
   @Override
-  public long getLineNumber() {
+  public int getLineNumber() {
     return lineNumber;
   }
 
@@ -117,14 +111,12 @@ public class BreakpointImpl implements Breakpoint {
     isEnabled = enabled;
   }
 
-  private RelayOk setIgnoreCount(int ignoreCount,
-      final GenericCallback<Void> callback, SyncCallback syncCallback) {
-    ChangeBreakpointMessage message = new ChangeBreakpointMessage(id, ignoreCount);
-
+  private RelayOk setIgnoreCount(int ignoreCount, final GenericCallback<Void> callback, SyncCallback syncCallback) {
     V8CommandCallbackBase wrappedCallback;
     if (callback == null) {
       wrappedCallback = null;
-    } else {
+    }
+    else {
       wrappedCallback = new V8CommandCallbackBase() {
         @Override
         public void success(CommandResponse.Success successResponse) {
@@ -137,7 +129,7 @@ public class BreakpointImpl implements Breakpoint {
         }
       };
     }
-    return breakpointManager.getDebugSession().sendMessage(message, wrappedCallback, syncCallback);
+    return breakpointManager.getDebugSession().sendMessage(new Changebreakpoint(id).ignoreCount(ignoreCount), wrappedCallback, syncCallback);
   }
 
   @Override
@@ -161,7 +153,7 @@ public class BreakpointImpl implements Breakpoint {
   }
 
   @Override
-  public RelayOk flush(final JavascriptVm.BreakpointCallback callback, SyncCallback syncCallback) {
+  public RelayOk flush(JavascriptVm.BreakpointCallback callback, SyncCallback syncCallback) {
     if (!isDirty()) {
       if (callback != null) {
         callback.success(this);

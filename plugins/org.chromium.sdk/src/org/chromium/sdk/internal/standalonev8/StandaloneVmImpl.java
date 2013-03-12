@@ -97,12 +97,12 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
       }
 
       public void eosReceived() {
-        debugSession.getV8CommandProcessor().processEos();
+        debugSession.getCommandProcessor().processEos();
         onDebuggerDetachedImpl(null);
       }
 
       public void messageReceived(Message message) {
-        debugSession.getV8CommandProcessor().processIncomingJson(JsonReaders.createReader(message.getContent().toString()));
+        debugSession.getCommandProcessor().processIncomingJson(JsonReaders.createReader(message.getContent().toString()));
       }
     };
     connection.setNetListener(netListener);

@@ -64,7 +64,7 @@ public class WipBreakpointImpl implements Breakpoint {
   }
 
   @Override
-  public long getId() {
+  public int getId() {
     return sdkId;
   }
 
@@ -87,7 +87,7 @@ public class WipBreakpointImpl implements Breakpoint {
   };
 
   @Override
-  public long getLineNumber() {
+  public int getLineNumber() {
     return lineNumber;
   }
 

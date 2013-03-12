@@ -18,8 +18,12 @@ public class BacktraceMessage extends V8Request {
   public BacktraceMessage(int fromFrame, int toFrame, boolean inlineRefs) {
     super(DebuggerCommand.BACKTRACE.value);
 
-    writeInt("fromFrame", fromFrame);
-    writeInt("toFrame", toFrame);
+    if (fromFrame != -1) {
+      writeInt("fromFrame", fromFrame);
+    }
+    if (toFrame != -1) {
+      writeInt("toFrame", toFrame);
+    }
     if (inlineRefs) {
       writeBoolean("inlineRefs", inlineRefs);
     }

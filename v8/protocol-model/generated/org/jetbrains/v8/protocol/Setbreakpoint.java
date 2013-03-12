@@ -4,7 +4,7 @@ package org.jetbrains.v8.protocol;
 /**
  * Creates a new break point
  */
-public final class Setbreakpoint extends org.jetbrains.v8.protocol.V8Request {
+public final class Setbreakpoint extends org.jetbrains.v8.protocol.V8Request implements org.jetbrains.jsonProtocol.RequestWithResponse<org.jetbrains.v8.protocol.SetbreakpointResult, org.jetbrains.v8.protocol.ProtocolReponseReader> {
   public Setbreakpoint(String type, String target, int line) {
     writeString("type", type);
     writeString("target", target);
@@ -41,5 +41,10 @@ public final class Setbreakpoint extends org.jetbrains.v8.protocol.V8Request {
   @Override
   public String getMethodName() {
     return "setbreakpoint";
+  }
+
+  @Override
+  public SetbreakpointResult readResult(com.google.gson.stream.JsonReaderEx jsonReader, org.jetbrains.v8.protocol.ProtocolReponseReader reader) {
+    return reader.readSetbreakpointResult(jsonReader);
   }
 }

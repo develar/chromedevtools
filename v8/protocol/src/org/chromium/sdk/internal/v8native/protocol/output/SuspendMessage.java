@@ -9,8 +9,8 @@ import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
 /**
  * Represents a "suspend" V8 request message.
  */
-class SuspendMessage extends ContextlessDebuggerMessage {
-  SuspendMessage() {
+public class SuspendMessage extends ContextlessDebuggerMessage {
+  public SuspendMessage() {
     super(DebuggerCommand.SUSPEND.value);
   }
 }

@@ -28,9 +28,6 @@ public interface CommandResponseBody extends JsonObjectBased {
   List<ScriptHandle> asScripts() throws IOException;
 
   @JsonSubtypeCasting
-  BreakpointBody asBreakpointBody() throws IOException;
-
-  @JsonSubtypeCasting
   // map refId -> ValueHandle
   Map asLookupMap() throws IOException;
 

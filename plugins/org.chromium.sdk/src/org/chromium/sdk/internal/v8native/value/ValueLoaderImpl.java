@@ -182,7 +182,7 @@ public class ValueLoaderImpl extends ValueLoader {
    * Looks up data for scope on remote in form of scope object handle.
    */
   public ObjectValueHandle loadScopeFields(int scopeNumber, DebuggerMessageFactory.ScopeHostParameter host) throws MethodIsBlockingException {
-    return V8Helper.callV8Sync(context, DebuggerMessageFactory.scope(scopeNumber, host), new V8BlockingCallback<ScopeBody, ObjectValueHandle>() {
+    return V8Helper.callV8Sync(context, DebuggerMessageFactory.scope(scopeNumber, host), new V8CommandCallbackWithResponse<ScopeBody, ObjectValueHandle>() {
       @Override
       protected ObjectValueHandle success(ScopeBody result, CommandResponse.Success response) {
         for (SomeHandle handle : response.refs()) {
@@ -269,7 +269,7 @@ public class ValueLoaderImpl extends ValueLoader {
       return Collections.emptyList();
     }
 
-    return V8Helper.callV8Sync(context, new LookupMessage(propertyRefIds, false), new V8BlockingCallback<TLongObjectHashMap<ValueHandle>, List<ValueMirror>>() {
+    return V8Helper.callV8Sync(context, new LookupMessage(propertyRefIds, false), new V8CommandCallbackWithResponse<TLongObjectHashMap<ValueHandle>, List<ValueMirror>>() {
       @Override
       protected List<ValueMirror> success(TLongObjectHashMap<ValueHandle> objects, CommandResponse.Success response) {
         List<ValueMirror> result = new ArrayList<ValueMirror>(propertyRefIds.length);

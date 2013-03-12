@@ -10,14 +10,12 @@ import org.chromium.sdk.internal.v8native.BreakpointManager;
 import org.chromium.sdk.internal.v8native.ContextBuilder;
 import org.chromium.sdk.internal.v8native.DebugSession;
 import org.chromium.sdk.internal.v8native.InternalContext;
-import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.protocol.V8Protocol;
 import org.chromium.sdk.internal.v8native.protocol.input.BreakEventBody;
 import org.chromium.sdk.internal.v8native.protocol.input.EventNotification;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
-import org.jetbrains.v8.protocol.V8Request;
+import org.chromium.sdk.internal.v8native.protocol.output.BacktraceMessage;
 import org.chromium.sdk.internal.v8native.value.ExceptionDataImpl;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
 import org.chromium.sdk.internal.v8native.value.ValueMirror;
@@ -74,16 +72,7 @@ public class BreakpointProcessor extends V8EventProcessor {
   }
 
   public static void processNextStep(ContextBuilder.ExpectingBacktraceStep step2) {
-    BacktraceProcessor backtraceProcessor = new BacktraceProcessor(step2);
-    InternalContext internalContext = step2.getInternalContext();
-    V8Request message = DebuggerMessageFactory.backtrace(null, null, true);
-    try {
-      // Command is not immediate because we are supposed to be suspended.
-      internalContext.sendV8CommandAsync(message, false, backtraceProcessor, null);
-    } catch (ContextDismissedCheckedException e) {
-      // Can't happen -- we are just creating context, it couldn't have become invalid
-      throw new RuntimeException(e);
-    }
+    step2.getInternalContext().sendV8CommandAsync(new BacktraceMessage(-1, -1, true), false, new BacktraceProcessor(step2), null);
   }
 
   private Collection<Breakpoint> getBreakpointsHit(BreakEventBody breakEventBody) {

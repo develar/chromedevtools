@@ -5224,12 +5224,14 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         if (reader.nextName().equals("id")) {
           _id = readInt(reader, "id");
+          reader.skipValues();
           break;
         }
         else {
           reader.skipValue();
         }
       }
+      reader.endObject();
     }
 
     @Override
@@ -5313,12 +5315,14 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         if (reader.nextName().equals("id")) {
           _id = readInt(reader, "id");
+          reader.skipValues();
           break;
         }
         else {
           reader.skipValue();
         }
       }
+      reader.endObject();
     }
 
     @Override

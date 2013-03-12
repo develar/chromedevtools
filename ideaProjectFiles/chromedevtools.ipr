@@ -297,7 +297,7 @@
         </option>
         <option name="STATIC_METHODS_ORDER_WEIGHT" value="5" />
         <option name="METHODS_ORDER_WEIGHT" value="4" />
-        <option name="RIGHT_MARGIN" value="140" />
+        <option name="RIGHT_MARGIN" value="999" />
         <option name="LINE_COMMENT_AT_FIRST_COLUMN" value="false" />
         <option name="BLOCK_COMMENT_AT_FIRST_COLUMN" value="false" />
         <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="0" />
@@ -841,7 +841,13 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="protocol-model-generator" />
       <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>

@@ -33,10 +33,6 @@ public class DefaultResponseHandler {
     scriptCollectedProcessor = new ScriptCollectedProcessor(debugSession);
   }
 
-  public BreakpointProcessor getBreakpointProcessor() {
-    return bpp;
-  }
-
   public void handleResponseWithHandler(IncomingMessage response) {
     EventNotification eventResponse = response.asNotification();
     if (eventResponse == null) {

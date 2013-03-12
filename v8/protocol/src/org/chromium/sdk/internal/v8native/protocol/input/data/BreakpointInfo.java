@@ -16,20 +16,20 @@ public interface BreakpointInfo {
   String script_name();
 
   @JsonOptionalField
-  long script_id();
+  int script_id();
 
   @JsonOptionalField
   String script_regexp();
 
-  long number();
+  int number();
 
-  long line();
+  int line();
 
-  long column();
+  int column();
 
-  long groupId();
+  int groupId();
 
-  long hit_count();
+  int hit_count();
 
   boolean active();
 

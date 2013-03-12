@@ -14,7 +14,6 @@ import java.util.Map;
  * Represents a "continue" V8 request message.
  */
 public class ContinueMessage extends V8Request {
-
   private static final Map<StepAction, String> stepActionToV8 =
       new EnumMap<StepAction, String>(StepAction.class);
 
@@ -30,12 +29,14 @@ public class ContinueMessage extends V8Request {
    * @param stepCount nullable number of steps to perform (positive if not null).
    *        Default is 1 step. Not used when {@code stepAction == CONTINUE}
    */
-  public ContinueMessage(StepAction stepAction, Integer stepCount) {
+  public ContinueMessage(StepAction stepAction, int stepCount) {
     super(DebuggerCommand.CONTINUE.value);
     String stepActionString = stepActionToV8.get(stepAction);
     if (stepActionString != null) {
       writeString("stepaction", stepActionString);
-      writeInt("stepcount", stepCount);
+      if (stepCount != -1) {
+        writeInt("stepcount", stepCount);
+      }
     }
   }
 }

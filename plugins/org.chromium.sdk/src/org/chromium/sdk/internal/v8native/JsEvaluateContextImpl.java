@@ -12,13 +12,12 @@ import org.chromium.sdk.internal.JsEvaluateContextBase;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
+import org.chromium.sdk.internal.v8native.protocol.output.EvaluateMessage;
 import org.chromium.sdk.internal.v8native.value.JsObjectBase;
 import org.chromium.sdk.internal.v8native.value.JsVariableImpl;
 import org.chromium.sdk.internal.v8native.value.ValueMirror;
 import org.chromium.sdk.util.RelaySyncCallback;
 import org.jetbrains.jsonProtocol.StringIntPair;
-import org.jetbrains.v8.protocol.V8Request;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
     int frameIdentifier = getFrameIdentifier();
 
     List<StringIntPair> internalAdditionalContext = convertAdditionalContextList(additionalContext);
-    V8Request message = DebuggerMessageFactory.evaluate(expression, frameIdentifier, true, internalAdditionalContext);
     V8CommandCallback commandCallback = callback == null
         ? null
         : new V8CommandCallbackBase() {
@@ -61,7 +59,7 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
           }
         };
 
-    return getInternalContext().sendV8CommandAsync(message, true, commandCallback, syncCallback);
+    return getInternalContext().sendV8CommandAsync(new EvaluateMessage(expression, frameIdentifier, true, internalAdditionalContext), true, commandCallback, syncCallback);
   }
 
   @Override

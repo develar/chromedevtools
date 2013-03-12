@@ -22,7 +22,7 @@ public interface Breakpoint {
    * A breakpoint has this ID if it does not reflect an actual breakpoint in a
    * JavaScript VM debugger.
    */
-  long INVALID_ID = -1;
+  int INVALID_ID = -1;
 
   /**
    * @return where this breakpoint was targeted to (e.g. script with a particular name or
@@ -33,7 +33,7 @@ public interface Breakpoint {
   /**
    * @return the breakpoint unique ID or {@link #INVALID_ID} if breakpoint was deleted
    */
-  long getId();
+  int getId();
 
   /**
    * Returns line number of the breakpoint. As source is changed (typically with LiveEdit feature,
@@ -43,7 +43,7 @@ public interface Breakpoint {
    *
    * @return 1-based line number in script source
    */
-  long getLineNumber();
+  int getLineNumber();
 
   /**
    * @return whether this breakpoint is enabled

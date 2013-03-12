@@ -4,54 +4,11 @@
 
 package org.chromium.sdk.internal.v8native.protocol.output;
 
-import org.chromium.sdk.DebugContext.StepAction;
-import org.jetbrains.jsonProtocol.StringIntPair;
-
-import java.util.List;
-
 /**
  * A factory for {@link V8Request}s. Static methods are used to construct
  * commands to be sent to the remote V8 debugger.
  */
 public class DebuggerMessageFactory {
-
-  public static V8Request backtrace(Integer fromFrame, Integer toFrame,
-      boolean compactFormat) {
-    return new BacktraceMessage(fromFrame, toFrame, compactFormat);
-  }
-
-  public static V8Request goOn(StepAction stepAction, Integer stepCount) {
-    return new ContinueMessage(stepAction, stepCount);
-  }
-
-  public static V8Request evaluate(String expression, int frame, boolean disableBreak, List<StringIntPair> additionalContext) {
-    return new EvaluateMessage(expression, frame, disableBreak, additionalContext);
-  }
-
-  public static V8Request frame(Integer frameNumber) {
-    return new FrameMessage(frameNumber);
-  }
-
-  public static ContextlessDebuggerMessage scripts(Integer types, Boolean includeScripts) {
-    return new ScriptsMessage(types, includeScripts);
-  }
-
-  public static ContextlessDebuggerMessage scripts(long[] ids, Boolean includeScripts) {
-    return new ScriptsMessage(ids, includeScripts);
-  }
-
-  public static ContextlessDebuggerMessage source(Integer frame, Integer fromLine, Integer toLine) {
-    return new SourceMessage(frame, fromLine, toLine);
-  }
-
-  public static ContextlessDebuggerMessage clearBreakpoint(long id) {
-    return new ClearBreakpointMessage(id);
-  }
-
-  public static ContextlessDebuggerMessage suspend() {
-    return new SuspendMessage();
-  }
-
   /**
    * A generic 'scope' message parameter that refers to the scope host.
    * It is either a stack frame or a function.

@@ -8,14 +8,16 @@ import org.chromium.sdk.*;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.processor.BacktraceProcessor;
 import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
-import org.chromium.sdk.internal.v8native.protocol.input.*;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
+import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
+import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
+import org.chromium.sdk.internal.v8native.protocol.input.RestartFrameBody;
+import org.chromium.sdk.internal.v8native.protocol.input.ScopeRef;
+import org.chromium.sdk.internal.v8native.protocol.output.BacktraceMessage;
 import org.chromium.sdk.internal.v8native.protocol.output.RestartFrameMessage;
 import org.chromium.sdk.internal.v8native.value.*;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.sdk.util.RelaySyncCallback;
-import org.jetbrains.v8.protocol.V8Request;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -293,18 +295,14 @@ public class CallFrameImpl implements CallFrame {
           continueCallback, guard.asSyncCallback());
     }
 
-    private RelayOk reloadStack(InternalContext.UserContext debugContext,
-        final GenericCallback<Boolean> callback, final RelaySyncCallback relaySyncCallback) {
+    private RelayOk reloadStack(InternalContext.UserContext debugContext, final GenericCallback<Boolean> callback, final RelaySyncCallback relaySyncCallback) {
       final RelaySyncCallback.Guard guard = relaySyncCallback.newGuard();
-      final ContextBuilder.ExpectingBacktraceStep backtraceStep =
-          debugContext.createReloadBacktraceStep();
-
+      final ContextBuilder.ExpectingBacktraceStep backtraceStep = debugContext.createReloadBacktraceStep();
       V8CommandCallbackBase v8Callback = new V8CommandCallbackBase() {
         @Override
         public void success(CommandResponse.Success successResponse) {
           BacktraceProcessor.setFrames(successResponse, backtraceStep);
-          RelayOk relayOk = finishRestartSuccessfully(false, callback, relaySyncCallback);
-          guard.discharge(relayOk);
+          guard.discharge(finishRestartSuccessfully(false, callback, relaySyncCallback));
         }
 
         @Override
@@ -315,14 +313,8 @@ public class CallFrameImpl implements CallFrame {
         }
       };
 
-      V8Request message = DebuggerMessageFactory.backtrace(null, null, true);
-      try {
-        // Command is not immediate because we are supposed to be suspended.
-        return debugContext.getInternalContext().sendV8CommandAsync(message, false,
-            v8Callback, guard.asSyncCallback());
-      } catch (ContextDismissedCheckedException e) {
-        throw new InvalidContextException(e);
-      }
+      // Command is not immediate because we are supposed to be suspended.
+      return debugContext.getInternalContext().sendV8CommandAsync(new BacktraceMessage(-1, -1, true), false, v8Callback, guard.asSyncCallback());
     }
 
     private RelayOk finishRestartSuccessfully(boolean vmResumed,

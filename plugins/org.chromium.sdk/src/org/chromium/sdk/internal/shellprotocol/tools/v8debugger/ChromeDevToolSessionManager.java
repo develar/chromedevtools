@@ -187,7 +187,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
     // are in handle* methods and they are not going to get their results
     attachState.set(AttachState.DISCONNECTED);
     browserTabImpl.handleEosFromToolService();
-    debugSession.getV8CommandProcessor().processEos();
+    debugSession.getCommandProcessor().processEos();
 
     DebugEventListener debugEventListener = getDebugEventListener();
     if (debugEventListener != null) {
@@ -404,7 +404,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
     if (reader == null) {
       throw new IllegalArgumentException("'data' field not found");
     }
-    debugSession.getV8CommandProcessor().processIncomingJson(reader);
+    debugSession.getCommandProcessor().processIncomingJson(reader);
   }
 
   private void processNavigated(ToolsMessage toolsMessage) throws IOException {
