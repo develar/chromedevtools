@@ -1,7 +1,7 @@
 package org.chromium.sdk.internal.wip;
 
 import org.chromium.sdk.TextStreamPosition;
-import org.chromium.wip.protocol.input.debugger.LocationValue;
+import org.chromium.wip.protocol.debugger.LocationValue;
 
 public class LocationBackedTextStreamPosition implements TextStreamPosition {
   private final LocationValue position;

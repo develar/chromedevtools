@@ -9,14 +9,14 @@ import org.chromium.sdk.JavascriptVm.BreakpointCallback;
 import org.chromium.sdk.internal.ScriptRegExpBreakpointTarget;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
-import org.chromium.wip.protocol.input.ProtocolReponseReader;
-import org.chromium.wip.protocol.input.debugger.LocationValue;
-import org.chromium.wip.protocol.input.debugger.SetBreakpointByUrlData;
-import org.chromium.wip.protocol.input.debugger.SetBreakpointData;
-import org.chromium.wip.protocol.output.debugger.Location;
-import org.chromium.wip.protocol.output.debugger.RemoveBreakpoint;
-import org.chromium.wip.protocol.output.debugger.SetBreakpoint;
-import org.chromium.wip.protocol.output.debugger.SetBreakpointByUrl;
+import org.chromium.wip.protocol.ProtocolReponseReader;
+import org.chromium.wip.protocol.debugger.LocationValue;
+import org.chromium.wip.protocol.debugger.SetBreakpointByUrlResult;
+import org.chromium.wip.protocol.debugger.SetBreakpointResult;
+import org.chromium.wip.protocol.debugger.Location;
+import org.chromium.wip.protocol.debugger.RemoveBreakpoint;
+import org.chromium.wip.protocol.debugger.SetBreakpoint;
+import org.chromium.wip.protocol.debugger.SetBreakpointByUrl;
 import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.wip.protocol.CommandResponse.Success;
 
@@ -375,14 +375,14 @@ public class WipBreakpointImpl implements Breakpoint {
 
     abstract Collection<LocationValue> getActualLocations(DATA data);
 
-    static abstract class ForUrlOrRegExp extends RequestHandler<String, SetBreakpointByUrlData, SetBreakpointByUrl> {
+    static abstract class ForUrlOrRegExp extends RequestHandler<String, SetBreakpointByUrlResult, SetBreakpointByUrl> {
       @Override
-      String getBreakpointId(SetBreakpointByUrlData data) {
+      String getBreakpointId(SetBreakpointByUrlResult data) {
         return data.breakpointId();
       }
 
       @Override
-      Collection<LocationValue> getActualLocations(SetBreakpointByUrlData data) {
+      Collection<LocationValue> getActualLocations(SetBreakpointByUrlResult data) {
         return data.locations();
       }
     }
@@ -401,20 +401,20 @@ public class WipBreakpointImpl implements Breakpoint {
       }
     };
 
-    static final RequestHandler<String, SetBreakpointData, SetBreakpoint> FOR_ID =
-      new RequestHandler<String, SetBreakpointData, SetBreakpoint>() {
+    static final RequestHandler<String, SetBreakpointResult, SetBreakpoint> FOR_ID =
+      new RequestHandler<String, SetBreakpointResult, SetBreakpoint>() {
         @Override
         SetBreakpoint createRequestParams(String sourceId, int lineNumber, int columnNumber, String condition) {
           return new SetBreakpoint(new Location(sourceId, lineNumber).columnNumber(columnNumber)).condition(condition);
         }
 
         @Override
-        String getBreakpointId(SetBreakpointData data) {
+        String getBreakpointId(SetBreakpointResult data) {
           return data.breakpointId();
         }
 
         @Override
-        Collection<LocationValue> getActualLocations(SetBreakpointData data) {
+        Collection<LocationValue> getActualLocations(SetBreakpointResult data) {
           return Collections.singletonList(data.actualLocation());
         }
       };

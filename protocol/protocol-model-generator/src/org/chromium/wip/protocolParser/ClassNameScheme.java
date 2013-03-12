@@ -1,5 +1,7 @@
 package org.chromium.wip.protocolParser;
 
+import org.chromium.protocolparser.TextOutput;
+
 abstract class ClassNameScheme {
   private final String suffix;
   private final String rootPackage;
@@ -15,6 +17,14 @@ abstract class ClassNameScheme {
 
   String getShortName(String baseName) {
     return Generator.capitalizeFirstChar(baseName) + suffix;
+  }
+
+  TextOutput appendShortName(TextOutput out, String baseName) {
+    if (!baseName.isEmpty() && Character.isLowerCase(baseName.charAt(0))) {
+      out.append(Character.toUpperCase(baseName.charAt(0))).append(baseName, 1);
+    }
+    out.append(suffix);
+    return out;
   }
 
   protected String getPackageNameVirtual(String domainName) {

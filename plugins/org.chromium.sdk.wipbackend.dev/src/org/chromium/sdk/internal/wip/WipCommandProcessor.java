@@ -11,13 +11,13 @@ import org.chromium.sdk.TabDebugEventListener;
 import org.chromium.sdk.internal.BaseCommandProcessor;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.wip.WipParserAccess;
-import org.chromium.wip.protocol.input.ProtocolReponseReader;
-import org.chromium.wip.protocol.input.debugger.BreakpointResolvedEventData;
-import org.chromium.wip.protocol.input.debugger.PausedEventData;
-import org.chromium.wip.protocol.input.debugger.ResumedEventData;
-import org.chromium.wip.protocol.input.debugger.ScriptParsedEventData;
-import org.chromium.wip.protocol.input.page.FrameDetachedEventData;
-import org.chromium.wip.protocol.input.page.FrameNavigatedEventData;
+import org.chromium.wip.protocol.ProtocolReponseReader;
+import org.chromium.wip.protocol.debugger.BreakpointResolvedEventData;
+import org.chromium.wip.protocol.debugger.PausedEventData;
+import org.chromium.wip.protocol.debugger.ResumedEventData;
+import org.chromium.wip.protocol.debugger.ScriptParsedEventData;
+import org.chromium.wip.protocol.page.FrameDetachedEventData;
+import org.chromium.wip.protocol.page.FrameNavigatedEventData;
 import org.jetbrains.jsonProtocol.Request;
 import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.rpc.MessageHandler;
@@ -67,7 +67,7 @@ class WipCommandProcessor {
       commandCallback = new WipCommandCallbackImpl() {
         @Override
         protected void onSuccess(Success success) {
-          callback.success(request.readResponse(success.data(), WipParserAccess.get()));
+          callback.success(request.readResult(success.data().getDeferredReader(), WipParserAccess.get()));
         }
 
         @Override

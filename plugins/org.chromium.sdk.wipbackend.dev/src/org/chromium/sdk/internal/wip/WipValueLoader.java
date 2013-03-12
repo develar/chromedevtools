@@ -12,13 +12,13 @@ import org.chromium.sdk.util.AsyncFuture.Callback;
 import org.chromium.sdk.util.AsyncFutureRef;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
-import org.chromium.wip.protocol.input.debugger.FunctionDetailsValue;
-import org.chromium.wip.protocol.input.debugger.GetFunctionDetailsData;
-import org.chromium.wip.protocol.input.runtime.GetPropertiesData;
-import org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue;
-import org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue;
-import org.chromium.wip.protocol.output.debugger.GetFunctionDetails;
-import org.chromium.wip.protocol.output.runtime.GetProperties;
+import org.chromium.wip.protocol.debugger.FunctionDetailsValue;
+import org.chromium.wip.protocol.debugger.GetFunctionDetails;
+import org.chromium.wip.protocol.debugger.GetFunctionDetailsResult;
+import org.chromium.wip.protocol.runtime.GetProperties;
+import org.chromium.wip.protocol.runtime.GetPropertiesResult;
+import org.chromium.wip.protocol.runtime.InternalPropertyDescriptorValue;
+import org.chromium.wip.protocol.runtime.PropertyDescriptorValue;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -59,7 +59,7 @@ public abstract class WipValueLoader implements RemoteValueMapping {
    * @param innerNameBuilder name builder for qualified names of all properties and subproperties
    * @param futureRef future reference that will hold result of load operation
    */
-  void loadJsObjectPropertiesInFuture(final String objectId,
+  void loadJsObjectPropertiesInFuture(String objectId,
       PropertyNameBuilder innerNameBuilder, boolean reload, int currentCacheState,
       AsyncFutureRef<Getter<ObjectProperties>> futureRef) throws MethodIsBlockingException {
     ObjectPropertyProcessor propertyProcessor =
@@ -173,7 +173,7 @@ public abstract class WipValueLoader implements RemoteValueMapping {
         }
       }
 
-      final ObjectProperties result = new ObjectProperties() {
+      ObjectProperties result = new ObjectProperties() {
         private volatile Map<String, JsVariable> propertyMap = null;
 
         @Override
@@ -257,14 +257,14 @@ public abstract class WipValueLoader implements RemoteValueMapping {
         // Process result.
         return response.accept(new LoadPropertiesResponse.Visitor<RES>() {
           @Override
-          public RES visitData(GetPropertiesData data) {
+          public RES visitData(GetPropertiesResult data) {
             // TODO: check exception.
             return propertyPostprocessor.process(data.result(), data.internalProperties(),
                 currentCacheState);
           }
 
           @Override
-          public RES visitFailure(final Exception exception) {
+          public RES visitFailure(Exception exception) {
             return propertyPostprocessor.forException(new RuntimeException(
                 "Failed to read properties from remote", exception));
           }
@@ -284,8 +284,8 @@ public abstract class WipValueLoader implements RemoteValueMapping {
     AsyncFuture.Operation<Getter<FunctionDetailsValue>> operation = new AsyncFuture.Operation<Getter<FunctionDetailsValue>>() {
       @Override
       public RelayOk start(final Callback<Getter<FunctionDetailsValue>> callback, SyncCallback syncCallback) {
-        GenericCallback<GetFunctionDetailsData> wrappedCallback = new GenericCallback<GetFunctionDetailsData>() {
-          @Override public void success(GetFunctionDetailsData value) {
+        GenericCallback<GetFunctionDetailsResult> wrappedCallback = new GenericCallback<GetFunctionDetailsResult>() {
+          @Override public void success(GetFunctionDetailsResult value) {
             callback.done(Getter.newNormal(value.details()));
           }
 
@@ -306,7 +306,7 @@ public abstract class WipValueLoader implements RemoteValueMapping {
    */
   private static abstract class LoadPropertiesResponse {
     interface Visitor<R> {
-      R visitData(GetPropertiesData response);
+      R visitData(GetPropertiesResult response);
 
       R visitFailure(Exception exception);
     }
@@ -316,10 +316,10 @@ public abstract class WipValueLoader implements RemoteValueMapping {
   private LoadPropertiesResponse loadRawPropertiesSync(String objectId)
       throws MethodIsBlockingException {
     final LoadPropertiesResponse[] result = { null };
-    GenericCallback<GetPropertiesData> callback =
-        new GenericCallback<GetPropertiesData>() {
+    GenericCallback<GetPropertiesResult> callback =
+        new GenericCallback<GetPropertiesResult>() {
       @Override
-      public void success(final GetPropertiesData value) {
+      public void success(final GetPropertiesResult value) {
         result[0] = new LoadPropertiesResponse() {
           @Override
           <R> R accept(Visitor<R> visitor) {
@@ -339,7 +339,7 @@ public abstract class WipValueLoader implements RemoteValueMapping {
       }
     };
 
-    final GetProperties request;
+    GetProperties request;
     {
       boolean ownProperties = true;
       request = new GetProperties(objectId).ownProperties(ownProperties);

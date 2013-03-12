@@ -9,7 +9,7 @@ import org.chromium.protocolReader.JsonParseMethod;
 import org.chromium.protocolReader.JsonParserRoot;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
-import org.jetbrains.v8.protocol.input.ProtocolReponseReader;
+import org.jetbrains.v8.protocol.ProtocolReponseReader;
 
 /**
  * Interface to native V8 debug protocol parser.

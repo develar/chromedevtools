@@ -79,6 +79,12 @@ public class TextOutput {
     return this;
   }
 
+  public TextOutput append(CharSequence s, int start) {
+    maybeIndent();
+    out.append(s, start, s.length());
+    return this;
+  }
+
   public TextOutput openBlock() {
     openBlock(true);
     return this;

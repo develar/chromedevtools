@@ -268,7 +268,7 @@ public class DebugSession {
         throw new UnsupportedOperationException();
       }
     };
-    V8Helper.callV8Sync(v8CommandProcessor, new org.jetbrains.v8.protocol.output.Version(), callback);
+    V8Helper.callV8Sync(v8CommandProcessor, new org.jetbrains.v8.protocol.Version(), callback);
   }
 
   public RelayOk sendLoopbackMessage(Runnable callback, SyncCallback syncCallback) {

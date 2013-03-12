@@ -11,9 +11,9 @@ import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
 import org.chromium.v8.liveEditProtocol.LiveEditResult;
 import org.chromium.v8.protocol.ProtocolService;
-import org.chromium.wip.protocol.input.debugger.CallFrameValue;
-import org.chromium.wip.protocol.input.debugger.SetScriptSourceData;
-import org.chromium.wip.protocol.output.debugger.SetScriptSource;
+import org.chromium.wip.protocol.debugger.CallFrameValue;
+import org.chromium.wip.protocol.debugger.SetScriptSourceResult;
+import org.chromium.wip.protocol.debugger.SetScriptSource;
 
 import java.util.List;
 
@@ -39,14 +39,14 @@ class WipScriptImpl extends ScriptBase<String> {
 
   private RelayOk sendLiveEditRequest(String newSource, final boolean preview,
       final UpdateCallback updateCallback,
-      final SyncCallback syncCallback) {
+      SyncCallback syncCallback) {
 
     RelaySyncCallback relay = new RelaySyncCallback(syncCallback);
     final RelaySyncCallback.Guard guard = relay.newGuard();
 
-    GenericCallback<SetScriptSourceData> commandCallback = new GenericCallback<SetScriptSourceData>() {
+    GenericCallback<SetScriptSourceResult> commandCallback = new GenericCallback<SetScriptSourceResult>() {
       @Override
-      public void success(SetScriptSourceData value) {
+      public void success(SetScriptSourceResult value) {
         RelayOk relayOk = possiblyUpdateCallFrames(preview, value, updateCallback, guard.getRelay());
         guard.discharge(relayOk);
       }
@@ -61,7 +61,7 @@ class WipScriptImpl extends ScriptBase<String> {
     return commandProcessor.send(new SetScriptSource(getId(), newSource).preview(preview), commandCallback, guard.asSyncCallback());
   }
 
-  private RelayOk possiblyUpdateCallFrames(boolean preview, final SetScriptSourceData data,
+  private RelayOk possiblyUpdateCallFrames(boolean preview, final SetScriptSourceResult data,
       final UpdateCallback updateCallback, RelaySyncCallback relay) {
 
     // TODO: support 'step-in recommended'.
@@ -88,7 +88,7 @@ class WipScriptImpl extends ScriptBase<String> {
     }
   }
 
-  private static void dispatchResult(SetScriptSourceData.Result result, UpdateCallback updateCallback) {
+  private static void dispatchResult(SetScriptSourceResult.Result result, UpdateCallback updateCallback) {
     if (updateCallback != null) {
       LiveEditResult liveEditResult = ProtocolService.LIVE_EDIT.parseLiveEditResult(result.getDeferredReader());
       ChangeDescription wrappedChangeDescription = UpdateResultParser.wrapChangeDescription(liveEditResult);

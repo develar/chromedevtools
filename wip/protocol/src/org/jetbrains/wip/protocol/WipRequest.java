@@ -19,12 +19,12 @@ public abstract class WipRequest extends RequestImpl {
   }
 
   @Override
-  protected String getIdKeyName() {
+  protected final String getIdKeyName() {
     return "id";
   }
 
   @Override
-  protected String argumentsKeyName() {
+  protected final String argumentsKeyName() {
     return "params";
   }
 }

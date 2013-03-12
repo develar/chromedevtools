@@ -5,10 +5,10 @@
 package org.chromium.sdk.internal.wip;
 
 import org.chromium.sdk.util.GenericCallback;
-import org.chromium.wip.protocol.input.page.FrameNavigatedEventData;
-import org.chromium.wip.protocol.input.page.FrameValue;
-import org.chromium.wip.protocol.input.page.GetResourceTreeData;
-import org.chromium.wip.protocol.output.page.GetResourceTree;
+import org.chromium.wip.protocol.page.FrameNavigatedEventData;
+import org.chromium.wip.protocol.page.FrameValue;
+import org.chromium.wip.protocol.page.GetResourceTreeResult;
+import org.chromium.wip.protocol.page.GetResourceTree;
 
 /**
  * Collects information about frame tree. At first class only watches for the url of root frame.
@@ -22,10 +22,10 @@ class WipFrameManager {
   }
 
   void readFrames() {
-    GenericCallback<GetResourceTreeData> callback =
-        new GenericCallback<GetResourceTreeData>() {
+    GenericCallback<GetResourceTreeResult> callback =
+        new GenericCallback<GetResourceTreeResult>() {
           @Override
-          public void success(GetResourceTreeData value) {
+          public void success(GetResourceTreeResult value) {
             FrameValue frame = value.frameTree().frame();
             if (frame.parentId() != null) {
               throw new RuntimeException("Unexpected parentId value");

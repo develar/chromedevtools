@@ -6,7 +6,6 @@ package org.chromium.wip.protocolParser;
 
 import org.chromium.protocolparser.TextOutput;
 import org.jetbrains.jsonProtocol.ItemDescriptor;
-import org.jetbrains.jsonProtocol.ProtocolMetaModel;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -21,8 +20,8 @@ class Generator {
   private static final String PARSER_INTERFACE_LIST_CLASS_NAME = "GeneratedReaderInterfaceList";
   static final String READER_INTERFACE_NAME = "ProtocolReponseReader";
 
-  final List<String> jsonProtocolParserClassNames = new ArrayList<String>();
-  final List<ParserRootInterfaceItem> parserRootInterfaceItems = new ArrayList<ParserRootInterfaceItem>();
+  final List<String> jsonProtocolParserClassNames = new ArrayList<>();
+  final List<ParserRootInterfaceItem> parserRootInterfaceItems = new ArrayList<>();
   final TypeMap typeMap = new TypeMap();
 
   private final FileSet fileSet;
@@ -42,7 +41,7 @@ class Generator {
     public final ClassNameScheme additionalParam;
     public final ClassNameScheme outputTypedef;
 
-    public final ClassNameScheme.Input commandData;
+    public final ClassNameScheme.Input commandResult;
     public final ClassNameScheme.Input eventData;
     public final ClassNameScheme inputValue;
     public final ClassNameScheme inputEnum;
@@ -56,14 +55,15 @@ class Generator {
     private Naming(String rootPackage, String requestClassName) {
       this.requestClassName = requestClassName;
 
-      String outputPackage = rootPackage + ".output";
+      //noinspection UnnecessaryLocalVariable
+      String outputPackage = rootPackage;
       params = new ClassNameScheme.Output("", outputPackage);
       additionalParam = new ClassNameScheme.Output("", outputPackage);
       outputTypedef = new ClassNameScheme.Output("Typedef", outputPackage);
       commonTypedef = new ClassNameScheme.Common("Typedef", rootPackage);
 
-      inputPackage = rootPackage + ".input";
-      commandData = new ClassNameScheme.Input("Data", inputPackage);
+      inputPackage = rootPackage;
+      commandResult = new ClassNameScheme.Input("Result", inputPackage);
       eventData = new ClassNameScheme.Input("EventData", inputPackage);
       inputValue = new ClassNameScheme.Input("Value", inputPackage);
       inputEnum = new ClassNameScheme.Input("Enum", inputPackage);
@@ -75,17 +75,22 @@ class Generator {
     initializeKnownTypes();
 
     List<Domain> domainList = metamodel.domains();
-    Map<String, DomainGenerator> domainGeneratorMap = new HashMap<String, DomainGenerator>();
+    Map<String, DomainGenerator> domainGeneratorMap = new HashMap<>();
     for (Domain domain : domainList) {
       // todo DOMDebugger
       if (domain.hidden() || domain.domain().equals("DOMDebugger")) {
         System.out.println("Domain skipped: " + domain.domain());
         continue;
       }
-
       DomainGenerator domainGenerator = new DomainGenerator(this, domain);
       domainGeneratorMap.put(domain.domain(), domainGenerator);
       domainGenerator.registerTypes();
+    }
+
+    for (Domain domain : domainList) {
+      if (!domain.hidden() && !domain.domain().equals("DOMDebugger")) {
+        System.out.println("Domain generated: " + domain.domain());
+      }
     }
 
     typeMap.setDomainGeneratorMap(domainGeneratorMap);
@@ -265,35 +270,29 @@ class Generator {
       return visitor.visitRef(refName);
     }
     String typeName = typedObject.type();
-    if (ProtocolMetaModel.BOOLEAN_TYPE.equals(typeName)) {
-      return visitor.visitBoolean();
-    }
-    else if (ProtocolMetaModel.STRING_TYPE.equals(typeName)) {
-      if (typedObject.getEnum() != null) {
-        return visitor.visitEnum(typedObject.getEnum());
-      }
-      return visitor.visitString();
-    }
-    else if (ProtocolMetaModel.INTEGER_TYPE.equals(typeName)) {
-      return visitor.visitInteger();
-    }
-    else if (ProtocolMetaModel.NUMBER_TYPE.equals(typeName)) {
-      return visitor.visitNumber();
-    }
-    else if (ProtocolMetaModel.ARRAY_TYPE.equals(typeName)) {
-      return visitor.visitArray(typedObject.items());
-    }
-    else if (ProtocolMetaModel.OBJECT_TYPE.equals(typeName)) {
-      if (!(typedObject instanceof ItemDescriptor.Type)) {
-        return visitor.visitObject(null);
-      }
-      return visitor.visitObject(((ItemDescriptor.Type)typedObject).properties());
-    }
-    else if (ProtocolMetaModel.ANY_TYPE.equals(typeName)) {
-      return visitor.visitUnknown();
-    }
-    else if (ProtocolMetaModel.UNKNOWN_TYPE.equals(typeName)) {
-      return visitor.visitUnknown();
+    switch (typeName) {
+      case BOOLEAN_TYPE:
+        return visitor.visitBoolean();
+      case STRING_TYPE:
+        if (typedObject.getEnum() != null) {
+          return visitor.visitEnum(typedObject.getEnum());
+        }
+        return visitor.visitString();
+      case INTEGER_TYPE:
+        return visitor.visitInteger();
+      case NUMBER_TYPE:
+        return visitor.visitNumber();
+      case ARRAY_TYPE:
+        return visitor.visitArray(typedObject.items());
+      case OBJECT_TYPE:
+        if (!(typedObject instanceof ItemDescriptor.Type)) {
+          return visitor.visitObject(null);
+        }
+        return visitor.visitObject(((ItemDescriptor.Type)typedObject).properties());
+      case ANY_TYPE:
+        return visitor.visitUnknown();
+      case UNKNOWN_TYPE:
+        return visitor.visitUnknown();
     }
     throw new RuntimeException("Unrecognized type " + typeName);
   }
@@ -303,7 +302,7 @@ class Generator {
     // typeMap.getTypeData("Page", "Cookie").getInput().setJavaTypeName("Object");
   }
 
-  private static final Set<String> BAD_METHOD_NAMES = new HashSet<String>(Arrays.asList(
+  private static final Set<String> BAD_METHOD_NAMES = new HashSet<>(Arrays.asList(
     "this"
   ));
 }

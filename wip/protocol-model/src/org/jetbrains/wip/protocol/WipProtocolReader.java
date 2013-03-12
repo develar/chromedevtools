@@ -7,8 +7,8 @@ package org.jetbrains.wip.protocol;
 import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.JsonParseMethod;
 import org.chromium.protocolReader.JsonParserRoot;
-import org.chromium.wip.protocol.input.ProtocolReponseReader;
-import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
+import org.chromium.wip.protocol.ProtocolReponseReader;
+import org.chromium.wip.protocol.runtime.RemoteObjectValue;
 
 @JsonParserRoot
 public interface WipProtocolReader extends ProtocolReponseReader {

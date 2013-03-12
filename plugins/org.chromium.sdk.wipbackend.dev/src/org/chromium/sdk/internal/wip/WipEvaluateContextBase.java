@@ -10,8 +10,8 @@ import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.sdk.wip.EvaluateToMappingExtension;
-import org.chromium.wip.protocol.input.ProtocolReponseReader;
-import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
+import org.chromium.wip.protocol.ProtocolReponseReader;
+import org.chromium.wip.protocol.runtime.RemoteObjectValue;
 import org.jetbrains.jsonProtocol.RequestWithResponse;
 
 import java.util.Map;

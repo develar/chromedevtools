@@ -33,13 +33,13 @@ class DomainGenerator {
       boolean hasResponse = command.returns() != null;
       generateCommandParams(command, hasResponse);
       if (hasResponse) {
-        String className = generator.getNaming().commandData.getShortName(command.name());
-        JavaFileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().commandData, domain, command.name());
+        String className = generator.getNaming().commandResult.getShortName(command.name());
+        JavaFileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().commandResult, domain, command.name());
         generateJsonProtocolInterface(fileUpdater.out, className, command.description(), command.returns(), null);
         fileUpdater.update();
-        String dataFullName = generator.getNaming().commandData.getFullName(domain.domain(), command.name()).getFullText();
+        String dataFullName = generator.getNaming().commandResult.getFullName(domain.domain(), command.name()).getFullText();
         generator.jsonProtocolParserClassNames.add(dataFullName);
-        generator.parserRootInterfaceItems.add(new ParserRootInterfaceItem(domain.domain(), command.name(), generator.getNaming().commandData));
+        generator.parserRootInterfaceItems.add(new ParserRootInterfaceItem(domain.domain(), command.name(), generator.getNaming().commandResult));
       }
     }
 
@@ -59,7 +59,7 @@ class DomainGenerator {
         out.space().append("extends ").append(generator.getNaming().requestClassName);
         if (hasResponse) {
           out.space().append("implements org.jetbrains.jsonProtocol.RequestWithResponse<");
-          out.append(generator.getNaming().commandData.getFullName(domain.domain(), command.name()).getFullText());
+          out.append(generator.getNaming().commandResult.getFullName(domain.domain(), command.name()).getFullText());
           out.append(", ").append(generator.getNaming().inputPackage).append('.').append(Generator.READER_INTERFACE_NAME).append(">");
         }
       }
@@ -76,12 +76,12 @@ class DomainGenerator {
         out.append(command.name()).append("\";").closeBlock();
 
         if (hasResponse) {
-          CharSequence dataInterfaceFullName = generator.getNaming().commandData.getFullName(domain.domain(), command.name()).getFullText();
-          out.newLine().newLine().append("@Override").newLine().append("public ").append(dataInterfaceFullName).append(" readResponse(");
-          out.append("org.jetbrains.jsonProtocol.JsonObjectBased data, ");
+          out.newLine().newLine().append("@Override").newLine().append("public ");
+          generator.getNaming().commandResult.appendShortName(out, command.name()).append(" readResult(");
+          out.append("com.google.gson.stream.JsonReaderEx jsonReader, ");
           out.append(generator.getNaming().inputPackage).append('.').append(Generator.READER_INTERFACE_NAME + " reader)").openBlock();
-          out.append("return reader.").append(generator.getNaming().commandData.getParseMethodName(domain.domain(), command.name()));
-          out.append("(data.getDeferredReader());");
+          out.append("return reader.").append(generator.getNaming().commandResult.getParseMethodName(domain.domain(), command.name()));
+          out.append("(jsonReader);");
           out.closeBlock();
         }
       }

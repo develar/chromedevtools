@@ -8,9 +8,9 @@ import org.chromium.sdk.*;
 import org.chromium.sdk.internal.ScriptBase;
 import org.chromium.sdk.util.*;
 import org.chromium.sdk.util.AsyncFuture.Callback;
-import org.chromium.wip.protocol.input.debugger.GetScriptSourceData;
-import org.chromium.wip.protocol.input.debugger.ScriptParsedEventData;
-import org.chromium.wip.protocol.output.debugger.GetScriptSource;
+import org.chromium.wip.protocol.debugger.GetScriptSourceResult;
+import org.chromium.wip.protocol.debugger.ScriptParsedEventData;
+import org.chromium.wip.protocol.debugger.GetScriptSource;
 
 import java.util.*;
 
@@ -175,10 +175,10 @@ class WipScriptManager {
 
     @Override
     public RelayOk start(final Callback<Boolean> operationCallback, SyncCallback syncCallback) {
-      GenericCallback<GetScriptSourceData> commandCallback =
-          new GenericCallback<GetScriptSourceData>() {
+      GenericCallback<GetScriptSourceResult> commandCallback =
+          new GenericCallback<GetScriptSourceResult>() {
         @Override
-        public void success(GetScriptSourceData data) {
+        public void success(GetScriptSourceResult data) {
           String source = data.scriptSource();
           script.setSource(source);
           operationCallback.done(true);

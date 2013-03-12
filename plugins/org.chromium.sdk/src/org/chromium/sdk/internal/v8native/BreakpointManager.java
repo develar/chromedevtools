@@ -20,7 +20,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo;
 import org.chromium.sdk.internal.v8native.protocol.output.*;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
-import org.jetbrains.v8.protocol.output.Setbreakpoint;
+import org.jetbrains.v8.protocol.Setbreakpoint;
 
 import java.io.IOException;
 import java.util.*;

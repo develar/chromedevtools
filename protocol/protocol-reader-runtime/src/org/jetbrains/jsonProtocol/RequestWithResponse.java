@@ -1,5 +1,7 @@
 package org.jetbrains.jsonProtocol;
 
-public interface RequestWithResponse<RESPONSE, READER> extends Request {
-  RESPONSE readResponse(JsonObjectBased success, READER reader);
+import com.google.gson.stream.JsonReaderEx;
+
+public interface RequestWithResponse<RESULT, READER> extends Request {
+  RESULT readResult(JsonReaderEx jsonReader, READER reader);
 }

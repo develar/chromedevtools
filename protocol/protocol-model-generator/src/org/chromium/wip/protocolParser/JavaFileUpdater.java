@@ -38,14 +38,8 @@ class JavaFileUpdater {
       }
     }
     else {
-      //Files.pa
-      //File dir = file.getParentFile();
-      //boolean dirCreated = dir.mkdirs();
-      //if (!dirCreated && !dir.isDirectory()) {
-      //  throw new RuntimeException("Failed to create directory " + dir.getPath());
-      //}
+      Files.createDirectories(file.getParent());
     }
-
     Files.write(file, newContent);
   }
 }

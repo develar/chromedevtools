@@ -9,7 +9,7 @@ import org.chromium.protocolparser.GeneratedCodeMap;
 import org.chromium.protocolparser.ReaderGeneratorBase;
 import org.chromium.sdk.internal.v8native.protocol.input.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.*;
-import org.jetbrains.v8.protocol.input.GeneratedReaderInterfaceList;
+import org.jetbrains.v8.protocol.GeneratedReaderInterfaceList;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -10,14 +10,14 @@ import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
 import org.chromium.sdk.internal.wip.WipValueLoader.Getter;
 import org.chromium.sdk.util.*;
 import org.chromium.sdk.wip.WipParserAccess;
-import org.chromium.wip.protocol.input.ProtocolReponseReader;
-import org.chromium.wip.protocol.input.debugger.*;
-import org.chromium.wip.protocol.input.runtime.EvaluateData;
-import org.chromium.wip.protocol.input.runtime.InternalPropertyDescriptorValue;
-import org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue;
-import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
-import org.chromium.wip.protocol.output.debugger.*;
-import org.chromium.wip.protocol.output.runtime.Evaluate;
+import org.chromium.wip.protocol.ProtocolReponseReader;
+import org.chromium.wip.protocol.debugger.*;
+import org.chromium.wip.protocol.runtime.EvaluateResult;
+import org.chromium.wip.protocol.runtime.InternalPropertyDescriptorValue;
+import org.chromium.wip.protocol.runtime.PropertyDescriptorValue;
+import org.chromium.wip.protocol.runtime.RemoteObjectValue;
+import org.chromium.wip.protocol.debugger.*;
+import org.chromium.wip.protocol.runtime.Evaluate;
 import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.wip.protocol.CommandResponse;
@@ -356,20 +356,20 @@ class WipContextBuilder {
         return valueLoader.getValueBuilder().createVariable(thisObjectData, WipExpressionBuilder.createRootName(name, false));
       }
 
-      private final WipEvaluateContextBase<?> evaluateContext = new WipEvaluateContextBase<EvaluateOnCallFrameData>(getValueLoader()) {
+      private final WipEvaluateContextBase<?> evaluateContext = new WipEvaluateContextBase<EvaluateOnCallFrameResult>(getValueLoader()) {
         @Override
-        protected RequestWithResponse<EvaluateOnCallFrameData, ProtocolReponseReader> createRequestParams(String expression,
+        protected RequestWithResponse<EvaluateOnCallFrameResult, ProtocolReponseReader> createRequestParams(String expression,
                                                                                      WipValueLoader destinationValueLoader) {
           return new EvaluateOnCallFrame(id, expression).objectGroup(destinationValueLoader.getObjectGroupId());
         }
 
         @Override
-        protected RemoteObjectValue getRemoteObjectValue(EvaluateOnCallFrameData data) {
+        protected RemoteObjectValue getRemoteObjectValue(EvaluateOnCallFrameResult data) {
           return data.result();
         }
 
         @Override
-        protected Boolean getWasThrown(EvaluateOnCallFrameData data) {
+        protected Boolean getWasThrown(EvaluateOnCallFrameResult data) {
           return data.wasThrown();
         }
       };
@@ -381,10 +381,10 @@ class WipContextBuilder {
 
         final RelaySyncCallback.Guard guard = relaySyncCallback.newGuard();
         WipCommandProcessor commandProcessor = valueLoader.getTabImpl().getCommandProcessor();
-        GenericCallback<RestartFrameData> commandCallback = new GenericCallback<RestartFrameData>() {
+        GenericCallback<RestartFrameResult> commandCallback = new GenericCallback<RestartFrameResult>() {
           @Override
-          public void success(RestartFrameData value) {
-            RelayOk relayOk = handleRestartFrameData(value, callback, guard.getRelay());
+          public void success(RestartFrameResult value) {
+            RelayOk relayOk = handleRestartFrameResult(value, callback, guard.getRelay());
             guard.discharge(relayOk);
           }
 
@@ -398,7 +398,7 @@ class WipContextBuilder {
         return commandProcessor.send(new RestartFrame(id), commandCallback, guard.asSyncCallback());
       }
 
-      private RelayOk handleRestartFrameData(RestartFrameData data, final GenericCallback<Boolean> callback, RelaySyncCallback relay) {
+      private RelayOk handleRestartFrameResult(RestartFrameResult data, final GenericCallback<Boolean> callback, RelaySyncCallback relay) {
         // We are in Dispatch thread.
         if (currentContext != WipDebugContextImpl.this) {
           return finishSuccessfulRestart(false, callback, relay);
@@ -724,23 +724,23 @@ class WipContextBuilder {
     return WipValueBuilder.createVariable(wrapperValue, EVALUATE_EXCEPTION_NAME);
   }
 
-  static final class GlobalEvaluateContext extends WipEvaluateContextBase<EvaluateData> {
+  static final class GlobalEvaluateContext extends WipEvaluateContextBase<EvaluateResult> {
     GlobalEvaluateContext(WipValueLoader valueLoader) {
       super(valueLoader);
     }
 
     @Override
-    protected RequestWithResponse<EvaluateData, ProtocolReponseReader> createRequestParams(String expression, WipValueLoader destinationValueLoader) {
+    protected RequestWithResponse<EvaluateResult, ProtocolReponseReader> createRequestParams(String expression, WipValueLoader destinationValueLoader) {
       return new Evaluate(expression).objectGroup(destinationValueLoader.getObjectGroupId()).doNotPauseOnExceptionsAndMuteConsole(true);
     }
 
     @Override
-    protected RemoteObjectValue getRemoteObjectValue(EvaluateData data) {
+    protected RemoteObjectValue getRemoteObjectValue(EvaluateResult data) {
       return data.result();
     }
 
     @Override
-    protected Boolean getWasThrown(EvaluateData data) {
+    protected Boolean getWasThrown(EvaluateResult data) {
       return data.wasThrown();
     }
   }

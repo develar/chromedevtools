@@ -15,10 +15,10 @@ import org.chromium.sdk.internal.wip.WipValueLoader.Getter;
 import org.chromium.sdk.internal.wip.WipValueLoader.ObjectProperties;
 import org.chromium.sdk.util.AsyncFutureRef;
 import org.chromium.sdk.util.MethodIsBlockingException;
-import org.chromium.wip.protocol.input.debugger.FunctionDetailsValue;
-import org.chromium.wip.protocol.input.debugger.ScopeValue;
-import org.chromium.wip.protocol.input.runtime.PropertyDescriptorValue;
-import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
+import org.chromium.wip.protocol.debugger.FunctionDetailsValue;
+import org.chromium.wip.protocol.debugger.ScopeValue;
+import org.chromium.wip.protocol.runtime.PropertyDescriptorValue;
+import org.chromium.wip.protocol.runtime.RemoteObjectValue;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;

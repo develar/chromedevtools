@@ -13,13 +13,13 @@ import org.chromium.sdk.internal.wip.WipRelayRunner.ProcessException;
 import org.chromium.sdk.internal.wip.WipRelayRunner.Step;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
-import org.chromium.wip.protocol.input.ProtocolReponseReader;
-import org.chromium.wip.protocol.input.runtime.CallFunctionOnData;
-import org.chromium.wip.protocol.input.runtime.EvaluateData;
-import org.chromium.wip.protocol.input.runtime.RemoteObjectValue;
-import org.chromium.wip.protocol.output.runtime.CallArgument;
-import org.chromium.wip.protocol.output.runtime.CallFunctionOn;
-import org.chromium.wip.protocol.output.runtime.Evaluate;
+import org.chromium.wip.protocol.ProtocolReponseReader;
+import org.chromium.wip.protocol.runtime.CallFunctionOnResult;
+import org.chromium.wip.protocol.runtime.EvaluateResult;
+import org.chromium.wip.protocol.runtime.RemoteObjectValue;
+import org.chromium.wip.protocol.runtime.CallArgument;
+import org.chromium.wip.protocol.runtime.CallFunctionOn;
+import org.chromium.wip.protocol.runtime.Evaluate;
 import org.jetbrains.jsonProtocol.RequestWithResponse;
 
 import java.util.ArrayList;
@@ -193,9 +193,9 @@ public class EvaluateHack {
 
       final String thisObjectIdFinal = thisObjectId;
 
-      return new WipRelayRunner.SendStepWithResponse<CallFunctionOnData, JsVariable>() {
+      return new WipRelayRunner.SendStepWithResponse<CallFunctionOnResult, JsVariable>() {
         @Override
-        public RequestWithResponse<CallFunctionOnData, ProtocolReponseReader> getParams() {
+        public RequestWithResponse<CallFunctionOnResult, ProtocolReponseReader> getParams() {
           CallFunctionOn params = new CallFunctionOn(thisObjectIdFinal, functionText);
           if (!additionalObjectIds.isEmpty()) {
             List<CallArgument> arguments = new ArrayList<CallArgument>(additionalObjectIds.size());
@@ -208,7 +208,7 @@ public class EvaluateHack {
         }
 
         @Override
-        public Step<JsVariable> processResponse(CallFunctionOnData response) {
+        public Step<JsVariable> processResponse(CallFunctionOnResult response) {
           if (response.wasThrown() == Boolean.TRUE) {
             return createHandleErrorStep(response.result());
           }
@@ -263,15 +263,15 @@ public class EvaluateHack {
      * its 'message' pseudo-property (a getter).
      */
     private Step<JsVariable> createHandleErrorStep(final RemoteObjectValue remoteObjectValue) {
-      return new WipRelayRunner.SendStepWithResponse<CallFunctionOnData, JsVariable>() {
+      return new WipRelayRunner.SendStepWithResponse<CallFunctionOnResult, JsVariable>() {
         @Override
-        public RequestWithResponse<CallFunctionOnData, ProtocolReponseReader> getParams() {
+        public RequestWithResponse<CallFunctionOnResult, ProtocolReponseReader> getParams() {
           String functionText = "function() { return String(this.message); }";
           return new CallFunctionOn(remoteObjectValue.objectId(), functionText);
         }
 
         @Override
-        public Step<JsVariable> processResponse(CallFunctionOnData response)
+        public Step<JsVariable> processResponse(CallFunctionOnResult response)
             throws ProcessException {
           throw new ProcessException("Helper script failed on remote: " +
               response.result().value());
@@ -305,9 +305,9 @@ public class EvaluateHack {
     // 'code' is for utility methods.
     String injectedObjectText = "{ data: {}, code: {}}";
     String expression = "(function() { " + GLOBAL_VARIABLE_NAME + " = " + injectedObjectText + " ; })()";
-    GenericCallback<EvaluateData> wrappedCallback = new GenericCallback<EvaluateData>() {
+    GenericCallback<EvaluateResult> wrappedCallback = new GenericCallback<EvaluateResult>() {
       @Override
-      public void success(EvaluateData value) {
+      public void success(EvaluateResult value) {
         // TODO: check result.
         callback.success(null);
       }

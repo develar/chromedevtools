@@ -2,12 +2,10 @@ package org.chromium.wip.protocolParser;
 
 import gnu.trove.THashSet;
 import gnu.trove.TObjectProcedure;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
 /**
@@ -27,6 +25,7 @@ class FileSet {
         return Files.isHidden(dir) ? FileVisitResult.SKIP_SUBTREE : FileVisitResult.CONTINUE;
       }
 
+      @NotNull
       @Override
       public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
         if (!Files.isHidden(path)) {
@@ -48,7 +47,14 @@ class FileSet {
       @Override
       public boolean execute(Path path) {
         try {
-          Files.deleteIfExists(path);
+          if (Files.deleteIfExists(path)) {
+            Path parent = path.getParent();
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(parent)) {
+              if (!stream.iterator().hasNext()) {
+                Files.delete(parent);
+              }
+            }
+          }
         }
         catch (IOException e) {
           throw new RuntimeException(e);
