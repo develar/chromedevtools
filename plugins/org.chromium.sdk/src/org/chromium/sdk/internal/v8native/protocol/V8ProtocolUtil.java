@@ -47,7 +47,7 @@ public class V8ProtocolUtil {
     }
   }
 
-  public static long getObjectRef(SomeRef child) {
+  public static int getObjectRef(SomeRef child) {
     if (child == null) {
       return -1;
     }
@@ -107,7 +107,7 @@ public class V8ProtocolUtil {
 
   public static <OBJ> void putMirror(List<PropertyReference> refs, OBJ propertyObject,
       V8ProtocolUtil.PropertyNameGetter<OBJ> nameGetter) {
-    PropertyReference propertyRef = V8ProtocolUtil.extractProperty(propertyObject, nameGetter);
+    PropertyReference propertyRef = extractProperty(propertyObject, nameGetter);
     if (propertyRef != null) {
       refs.add(propertyRef);
     }
@@ -168,11 +168,12 @@ public class V8ProtocolUtil {
       }
     }
 
-    static final PropertyNameGetter<PropertyObject> LOCAL = new SubpropertyNameGetter() {
+    @SuppressWarnings("UnusedDeclaration") static final PropertyNameGetter<PropertyObject>
+      LOCAL = new SubpropertyNameGetter() {
       @Override
       Object getName(PropertyObject ref) {
         Object name = super.getName(ref);
-        if (V8ProtocolUtil.isInternalProperty(name)) {
+        if (isInternalProperty(name)) {
           return null;
         }
         return name;
@@ -264,7 +265,7 @@ public class V8ProtocolUtil {
    */
   public static ScriptHandle validScript(ScriptHandle script, List<SomeHandle> refs,
       V8ContextFilter contextFilter) {
-    Long contextRef = V8ProtocolUtil.getObjectRef(script.context());
+    int contextRef = getObjectRef(script.context());
     for (SomeHandle ref : refs) {
       if (ref.handle() != contextRef) {
         continue;

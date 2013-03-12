@@ -4,13 +4,11 @@
 
 package org.chromium.sdk.internal.v8native.value;
 
-import com.google.gson.stream.JsonReaderEx;
 import gnu.trove.TLongIntHashMap;
 import gnu.trove.TLongObjectHashMap;
 import org.chromium.sdk.JsValue;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
@@ -24,13 +22,11 @@ import org.chromium.sdk.internal.v8native.protocol.output.LookupMessage;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
 import org.chromium.v8.protocol.ProtocolService;
-import org.jetbrains.v8.protocol.V8Request;
 import org.jetbrains.v8.protocol.input.Handle;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -284,13 +280,12 @@ public class ValueLoaderImpl extends ValueLoader {
 
   private List<ValueHandle> readResponseFromLookupRaw(CommandResponse.Success successResponse, long[] propertyRefIds) {
     List<ValueHandle> result = new ArrayList<ValueHandle>(propertyRefIds.length);
-    Map body = successResponse.body().asLookupMap();
+    TLongObjectHashMap<ValueHandle> map = LookupMessage._readResult(successResponse.body().getDeferredReader(), ProtocolService.PROTOCOL_READER);
     for (long ref : propertyRefIds) {
-      Map value = JsonUtil.getAsJSON(body, String.valueOf(ref));
-      if (value == null) {
+      ValueHandle valueHandle = map.get(ref);
+      if (valueHandle == null) {
         throw new ValueLoadException("Failed to find value for ref=" + ref);
       }
-      ValueHandle valueHandle = ProtocolService.PROTOCOL_READER.readValueHandle((JsonReaderEx)value);
       addDataToMap(valueHandle);
       result.add(valueHandle);
     }
@@ -299,7 +294,6 @@ public class ValueLoaderImpl extends ValueLoader {
 
   private RelayOk relookupValue(long handleId, Long maxLength, final GenericCallback<ValueHandle> callback, SyncCallback syncCallback) throws ContextDismissedCheckedException {
     final long[] handles = {handleId};
-    V8Request message = new LookupMessage(handles, false, maxLength);
 
     V8CommandCallbackBase innerCallback = new V8CommandCallbackBase() {
       @Override
@@ -312,7 +306,7 @@ public class ValueLoaderImpl extends ValueLoader {
         callback.failure(new Exception(message));
       }
     };
-    return context.sendV8CommandAsync(message, true, innerCallback, syncCallback);
+    return context.sendV8CommandAsync(new LookupMessage(handles, false, maxLength), true, innerCallback, syncCallback);
   }
 
   private class StringFactory implements LoadableString.Factory {

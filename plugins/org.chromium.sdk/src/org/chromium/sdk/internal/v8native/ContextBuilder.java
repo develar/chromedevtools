@@ -409,7 +409,6 @@ public class ContextBuilder {
 
     Frames(List<FrameObject> jsonFrames, InternalContext internalContext) {
       CallFrameImpl[] callFrames = new CallFrameImpl[jsonFrames.size()];
-
       for (FrameObject frameObject : jsonFrames) {
         CallFrameImpl callFrameImpl = new CallFrameImpl(frameObject, internalContext);
         callFrames[callFrameImpl.getIdentifier()] = callFrameImpl;

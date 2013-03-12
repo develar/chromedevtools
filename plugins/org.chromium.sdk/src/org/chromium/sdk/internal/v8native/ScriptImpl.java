@@ -88,7 +88,7 @@ public class ScriptImpl extends ScriptBase<Integer> {
     };
   }
 
-  public static int getScriptId(HandleManager handleManager, long scriptRef) {
+  public static int getScriptId(HandleManager handleManager, int scriptRef) {
     SomeHandle handle = scriptRef == -1 ? null : handleManager.getHandle(scriptRef);
     if (handle == null) {
       return -1; // not found

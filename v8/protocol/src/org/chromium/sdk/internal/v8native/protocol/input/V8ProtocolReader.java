@@ -28,8 +28,4 @@ public interface V8ProtocolReader extends ProtocolReponseReader {
 
   @JsonParseMethod
   ScopeBody readScopeResult(JsonReaderEx reader);
-
-  // map refId -> ValueHandle
-  //@JsonParseMethod
-  //Map readLookupResult(JsonReaderEx reader);
 }

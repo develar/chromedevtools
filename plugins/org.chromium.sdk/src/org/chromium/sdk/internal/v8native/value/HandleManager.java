@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.value;
 
-import gnu.trove.TLongObjectHashMap;
+import gnu.trove.TIntObjectHashMap;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 
 /**
@@ -20,9 +20,9 @@ public class HandleManager {
     return SCRIPT_TYPE.equals(type) || CONTEXT_TYPE.equals(type);
   }
 
-  private final TLongObjectHashMap<SomeHandle> refToHandle = new TLongObjectHashMap<SomeHandle>();
+  private final TIntObjectHashMap<SomeHandle> refToHandle = new TIntObjectHashMap<SomeHandle>();
 
-  void put(long ref, SomeHandle smthWithHandle) {
+  void put(int ref, SomeHandle smthWithHandle) {
     SomeHandle oldObject;
     synchronized (refToHandle) {
       oldObject = refToHandle.get(ref);
@@ -35,7 +35,7 @@ public class HandleManager {
     }
   }
 
-  public SomeHandle getHandle(long ref) {
+  public SomeHandle getHandle(int ref) {
     synchronized (refToHandle) {
       return refToHandle.get(ref);
     }

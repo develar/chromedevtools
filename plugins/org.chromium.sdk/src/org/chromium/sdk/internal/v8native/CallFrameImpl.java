@@ -54,12 +54,10 @@ public class CallFrameImpl implements CallFrame {
   private final int scriptId;
 
   /** The scopes known in this call frame. */
-  private final AtomicReference<List<? extends JsScope>> scopesRef =
-      new AtomicReference<List<? extends JsScope>>(null);
+  private final AtomicReference<List<? extends JsScope>> scopesRef = new AtomicReference<List<? extends JsScope>>(null);
 
   /** The receiver variable known in this call frame. May be null. Null is not cached. */
-  private final AtomicReference<JsVariable> receiverVariableRef =
-      new AtomicReference<JsVariable>(null);
+  private final AtomicReference<JsVariable> receiverVariableRef = new AtomicReference<JsVariable>(null);
 
   /**
    * A script associated with the frame.
@@ -78,7 +76,6 @@ public class CallFrameImpl implements CallFrame {
     this.context = context;
 
     Map func = frameObject.func();
-
     int currentLine = frameObject.line();
     // If we stopped because of the debuggerword then we're on the next
     // line.
@@ -92,7 +89,7 @@ public class CallFrameImpl implements CallFrame {
     if (srcLine.trim().startsWith(DEBUGGER_RESERVED)) {
       currentLine++;
     }
-    long scriptRef = V8ProtocolUtil.getObjectRef(frameObject.script());
+    int scriptRef = V8ProtocolUtil.getObjectRef(frameObject.script());
     scriptId = ScriptImpl.getScriptId(context.getValueLoader().getSpecialHandleManager(), scriptRef);
     lineNumber = currentLine;
     frameFunction = V8ProtocolUtil.getFunctionName(func);

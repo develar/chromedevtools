@@ -11,7 +11,6 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 import org.jetbrains.jsonProtocol.JsonObjectBased;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * This is empty base type for all command response body types. The actual type
@@ -25,10 +24,6 @@ public interface CommandResponseBody extends JsonObjectBased {
 
   @JsonSubtypeCasting
   List<ScriptHandle> asScripts();
-
-  @JsonSubtypeCasting
-  // map refId -> ValueHandle
-  Map asLookupMap();
 
   @JsonSubtypeCasting(reinterpret=true)
   ValueHandle asEvaluateBody();

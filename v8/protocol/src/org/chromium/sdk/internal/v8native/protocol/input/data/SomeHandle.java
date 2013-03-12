@@ -20,7 +20,7 @@ public interface SomeHandle extends Handle {
    * An integer "handle" of the object. Normally it is unique (for particular suspended-to-resumed
    * period). Some auxiliary objects may have non-unique handles which should be negative.
    */
-  long handle();
+  int handle();
 
   String type();
 

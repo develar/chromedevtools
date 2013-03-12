@@ -22,7 +22,7 @@ import java.io.IOException;
 @JsonType
 public interface ValueHandle extends Handle {
   @JsonOverrideField
-  long handle();
+  int handle();
 
   String text();
 

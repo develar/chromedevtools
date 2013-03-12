@@ -31,10 +31,14 @@ public class LookupMessage extends V8Request implements RequestWithResponse<TLon
 
   @Override
   public TLongObjectHashMap<ValueHandle> readResult(JsonReaderEx jsonReader, ProtocolReponseReader reader) {
+    return _readResult(jsonReader, (V8ProtocolReader)reader);
+  }
+
+  public static TLongObjectHashMap<ValueHandle> _readResult(JsonReaderEx jsonReader, V8ProtocolReader reader) {
     TLongObjectHashMap<ValueHandle> map = new TLongObjectHashMap<ValueHandle>();
     jsonReader.beginObject();
     while (jsonReader.hasNext()) {
-      map.put(Long.parseLong(jsonReader.nextName()), ((V8ProtocolReader)reader).readValueHandle(jsonReader));
+      map.put(Long.parseLong(jsonReader.nextName()), reader.readValueHandle(jsonReader));
     }
     jsonReader.endObject();
     return map;
