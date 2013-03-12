@@ -18,7 +18,7 @@ public abstract class V8CommandCallbackBase implements V8CommandProcessor.V8Hand
   public void messageReceived(CommandResponse response) {
     CommandResponse.Success successResponse = response.asSuccess();
     if (successResponse == null) {
-      this.failure("Remote error: " + response.asFailure().message());
+      this.failure("Remote error: " + response.asError().message());
       return;
     } else {
       success(successResponse);

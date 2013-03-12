@@ -75,7 +75,7 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
     WsConnection.Listener socketListener = new WsConnection.Listener() {
       @Override
       public void textMessageReceived(String text) {
-        commandProcessor.acceptResponse(WipParserAccess.get().readIncomingMessage(JsonReaders.createReader(text)));
+        commandProcessor.acceptResponse(WipReaderService.get().readIncomingMessage(JsonReaders.createReader(text)));
       }
 
       @Override

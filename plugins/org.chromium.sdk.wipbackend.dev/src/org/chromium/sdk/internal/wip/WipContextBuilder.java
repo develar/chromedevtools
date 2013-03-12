@@ -9,14 +9,13 @@ import org.chromium.sdk.DebugContext.StepAction;
 import org.chromium.sdk.internal.wip.WipExpressionBuilder.ValueNameBuilder;
 import org.chromium.sdk.internal.wip.WipValueLoader.Getter;
 import org.chromium.sdk.util.*;
-import org.chromium.sdk.wip.WipParserAccess;
+import org.chromium.sdk.wip.WipReaderService;
 import org.chromium.wip.protocol.ProtocolReponseReader;
 import org.chromium.wip.protocol.debugger.*;
 import org.chromium.wip.protocol.runtime.EvaluateResult;
 import org.chromium.wip.protocol.runtime.InternalPropertyDescriptorValue;
 import org.chromium.wip.protocol.runtime.PropertyDescriptorValue;
 import org.chromium.wip.protocol.runtime.RemoteObjectValue;
-import org.chromium.wip.protocol.debugger.*;
 import org.chromium.wip.protocol.runtime.Evaluate;
 import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.jsonProtocol.RequestWithResponse;
@@ -107,7 +106,7 @@ class WipContextBuilder {
       PausedEventData.Data additionalData = data.data();
       if (data.reason() == PausedEventData.Reason.EXCEPTION && additionalData != null) {
         RemoteObjectValue exceptionRemoteObject;
-        exceptionRemoteObject = WipParserAccess.get().parseRemoteObjectValue(additionalData.getDeferredReader());
+        exceptionRemoteObject = WipReaderService.get().parseRemoteObjectValue(additionalData.getDeferredReader());
         exceptionData = new ExceptionDataImpl(valueLoader.getValueBuilder().wrap(exceptionRemoteObject, null));
       }
       else {

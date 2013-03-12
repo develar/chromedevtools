@@ -30,7 +30,7 @@ public interface CommandResponse {
   Success asSuccess();
 
   @JsonSubtypeCasting
-  Failure asFailure();
+  Error asError();
 
   /**
    * A type for success command response message. It holds all the data in
@@ -59,7 +59,7 @@ public interface CommandResponse {
    * hinting at the cause of the failure.
    */
   @JsonType
-  interface Failure {
+  interface Error {
     @JsonOverrideField
     boolean success();
 

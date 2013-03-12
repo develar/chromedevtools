@@ -16,9 +16,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * A main class that generates V8 protocol static parser implementation.
- */
 public class V8ReaderGenerator extends ReaderGeneratorBase {
   public static void main(String[] args) {
     mainImpl(args, createConfiguration());
@@ -29,8 +26,6 @@ public class V8ReaderGenerator extends ReaderGeneratorBase {
       IncomingMessage.class,
       EventNotification.class,
       EventNotificationBody.class,
-      CommandResponse.Success.class,
-      CommandResponse.Failure.class,
       CommandResponse.class,
       BreakEventBody.class,
       CommandResponseBody.class,

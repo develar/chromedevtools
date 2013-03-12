@@ -18,7 +18,7 @@ public abstract class V8BlockingCallback<RES> {
   public RES messageReceived(CommandResponse response) {
     CommandResponse.Success successResponse = response.asSuccess();
     if (successResponse == null) {
-      throw new RuntimeException("Unsuccessful command " + response.asFailure().message());
+      throw new RuntimeException("Unsuccessful command " + response.asError().message());
     }
     return handleSuccessfulResponse(successResponse);
   }

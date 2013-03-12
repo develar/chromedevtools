@@ -7,11 +7,8 @@ package org.chromium.sdk.wip;
 import org.chromium.wip.protocol.WipProtocolReaderImpl;
 import org.jetbrains.wip.protocol.WipProtocolReader;
 
-/**
- * An accessor to generated implementation of a WIP parser.
- */
-public class WipParserAccess {
-  private static final WipProtocolReader PARSER = new WipProtocolReaderImpl();
+public class WipReaderService {
+  public static final WipProtocolReader PARSER = new WipProtocolReaderImpl();
 
   public static WipProtocolReader get() {
     return PARSER;

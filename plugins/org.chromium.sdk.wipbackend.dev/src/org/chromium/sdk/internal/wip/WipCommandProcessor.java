@@ -10,7 +10,7 @@ import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.TabDebugEventListener;
 import org.chromium.sdk.internal.BaseCommandProcessor;
 import org.chromium.sdk.util.GenericCallback;
-import org.chromium.sdk.wip.WipParserAccess;
+import org.chromium.sdk.wip.WipReaderService;
 import org.chromium.wip.protocol.ProtocolReponseReader;
 import org.chromium.wip.protocol.debugger.BreakpointResolvedEventData;
 import org.chromium.wip.protocol.debugger.PausedEventData;
@@ -67,7 +67,7 @@ class WipCommandProcessor {
       commandCallback = new WipCommandCallbackImpl() {
         @Override
         protected void onSuccess(Success success) {
-          callback.success(request.readResult(success.result().getDeferredReader(), WipParserAccess.get()));
+          callback.success(request.readResult(success.result().getDeferredReader(), WipReaderService.get()));
         }
 
         @Override
@@ -211,7 +211,7 @@ class WipCommandProcessor {
           data = null;
         } else {
           try {
-            data = type.read(WipParserAccess.get(), genericData.getDeferredReader());
+            data = type.read(WipReaderService.get(), genericData.getDeferredReader());
           } catch (IOException e) {
             throw new RuntimeException(e);
           }

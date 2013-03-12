@@ -13,20 +13,20 @@ import java.util.List;
 public abstract class WipCommandCallbackImpl extends CommandCallback<CommandResponse.Success, CommandResponse> implements WipCommandCallback {
   @Override
   public void messageReceived(CommandResponse response) {
-    CommandResponse.Success asSuccess = response.asSuccess();
-    if (asSuccess != null) {
-      onSuccess(asSuccess);
+    CommandResponse.Success success = response.asSuccess();
+    if (success != null) {
+      onSuccess(success);
     }
     else {
       String message;
-      CommandResponse.Error asError = response.asError();
-      if (asError == null) {
+      CommandResponse.Error error = response.asError();
+      if (error == null) {
         message = "Internal messaging error";
       }
       else {
         List<String> messageList = new ArrayList<String>(2);
-        messageList.add(asError.error().message());
-        List<String> data = asError.error().data();
+        messageList.add(error.error().message());
+        List<String> data = error.error().data();
         if (data != null) {
           messageList.addAll(data);
         }
