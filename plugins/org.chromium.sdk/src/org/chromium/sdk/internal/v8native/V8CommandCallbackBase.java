@@ -7,10 +7,10 @@ package org.chromium.sdk.internal.v8native;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 
 /**
- * A basic implementation of {@link V8CommandProcessor.V8HandlerCallback} that introduces
+ * A basic implementation of {@link V8CommandCallback} that introduces
  * command success and failure handlers and dispatches the V8 response accordingly.
  */
-public abstract class V8CommandCallbackBase implements V8CommandProcessor.V8HandlerCallback {
+public abstract class V8CommandCallbackBase implements V8CommandCallback {
   public abstract void success(CommandResponse.Success successResponse);
 
   public abstract void failure(String message);

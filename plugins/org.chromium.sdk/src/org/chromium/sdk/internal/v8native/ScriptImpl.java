@@ -31,18 +31,18 @@ public class ScriptImpl extends ScriptBase<Long> {
   @Override
   public RelayOk setSourceOnRemote(String newSource, UpdateCallback callback,
       SyncCallback syncCallback) {
-    V8CommandProcessor.V8HandlerCallback v8Callback = createScriptUpdateCallback(callback, false);
+    V8CommandCallback v8Callback = createScriptUpdateCallback(callback, false);
     return debugSession.sendMessage(new ChangeLiveMessage(getId(), newSource, Boolean.FALSE), v8Callback, syncCallback);
   }
 
   @Override
   public RelayOk previewSetSource(String newSource, UpdateCallback callback,
       SyncCallback syncCallback) {
-    V8CommandProcessor.V8HandlerCallback v8Callback = createScriptUpdateCallback(callback, true);
+    V8CommandCallback v8Callback = createScriptUpdateCallback(callback, true);
     return debugSession.sendMessage(new ChangeLiveMessage(getId(), newSource, Boolean.TRUE), v8Callback, syncCallback);
   }
 
-  private V8CommandProcessor.V8HandlerCallback createScriptUpdateCallback(
+  private V8CommandCallback createScriptUpdateCallback(
       final UpdateCallback callback, final boolean previewOnly) {
     return new V8CommandCallbackBase() {
       @Override

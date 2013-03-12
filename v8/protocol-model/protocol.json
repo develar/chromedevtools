@@ -2,6 +2,34 @@
   "domains": [
     {
       "domain": "",
+      //"types": [
+      //  {
+      //    "id": "ObjectValueHandle",
+      //    "type": "object",
+      //    "properties": [
+      //      {
+      //        "name": "properties",
+      //        "type": "array",
+      //        "items": {
+      //          "$ref": "PropertyObject"
+      //        }
+      //      }
+      //    ]
+      //  },
+      //  {
+      //    "id": "PropertyObject",
+      //    "type": "object",
+      //    "properties": [
+      //      {
+      //        "name": "properties",
+      //        "type": "array",
+      //        "items": {
+      //          "$ref": "PropertyObject"
+      //        }
+      //      }
+      //    ]
+      //  }
+      //],
       "commands": [
         {
           "name": "setbreakpoint",
@@ -41,6 +69,32 @@
             }
           ]
         },
+        //{
+        //  "name": "scope",
+        //  "description": "Creates a new break point",
+        //  "parameters": [
+        //    {
+        //      "name": "number",
+        //      "type": "integer"
+        //    },
+        //    {
+        //      "name": "frameNumber",
+        //      "type": "integer",
+        //      "optional": true
+        //    },
+        //    {
+        //      "name": "functionHandle",
+        //      "type": "integer",
+        //      "optional": true
+        //    }
+        //  ],
+        //  "returns": [
+        //    {
+        //      "name": "object",
+        //      "type": "ObjectValueHandle"
+        //    }
+        //  ]
+        //},
         {
           "name": "version",
           "description": "Reports version of the running V8",

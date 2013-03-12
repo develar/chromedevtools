@@ -65,9 +65,6 @@ public interface CommandResponse {
 
     String message();
 
-    @JsonField(jsonLiteralName="request_seq")
-    long requestSeq();
-
     @JsonOptionalField
     String command();
   }

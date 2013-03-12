@@ -38,7 +38,7 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
 
     List<StringIntPair> internalAdditionalContext = convertAdditionalContextList(additionalContext);
     V8Request message = DebuggerMessageFactory.evaluate(expression, frameIdentifier, true, internalAdditionalContext);
-    V8CommandProcessor.V8HandlerCallback commandCallback = callback == null
+    V8CommandCallback commandCallback = callback == null
         ? null
         : new V8CommandCallbackBase() {
           @Override

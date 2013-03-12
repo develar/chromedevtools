@@ -22,27 +22,7 @@ import org.jetbrains.v8.protocol.V8Request;
  * via {@code V8CommandOutput}. Response is passed back to callback if it was provided.
  * Also all responses and events are dispatched to group of dedicated processors.
  */
-public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeException> {
-  /**
-   * A callback to handle V8 debugger responses.
-   */
-  public interface V8HandlerCallback extends BaseCommandProcessor.Callback<CommandResponse> {
-    /**
-     * This method is invoked when a debugger command result has become
-     * available.
-     *
-     * @param response from the V8 debugger
-     */
-    void messageReceived(CommandResponse response);
-
-    /**
-     * This method is invoked when a debugger command has failed.
-     *
-     * @param message containing the failure reason
-     */
-    void failure(String message);
-  }
-
+public class V8CommandProcessor implements V8CommandSender {
   private final V8CommandOutput messageOutput;
 
   private final DefaultResponseHandler defaultResponseHandler;
@@ -59,7 +39,7 @@ public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeExc
   }
 
   @Override
-  public RelayOk sendV8CommandAsync(V8Request message, boolean isImmediate, V8HandlerCallback v8HandlerCallback, SyncCallback syncCallback) {
+  public RelayOk sendV8CommandAsync(Request message, boolean isImmediate, V8CommandCallback v8HandlerCallback, SyncCallback syncCallback) {
     return baseCommandProcessor.send(message, isImmediate, v8HandlerCallback, syncCallback);
   }
 
@@ -109,10 +89,11 @@ public class V8CommandProcessor implements V8CommandSender<V8Request, RuntimeExc
     }
 
     public void reportVmStatus(String currentRequest, int numberOfEnqueued) {
+      //noinspection UnusedDeclaration
       DebugEventListener.VmStatusListener statusListener = debugSession.getDebugEventListener().getVmStatusListener();
-      if (statusListener == null) {
-        return;
-      }
+      //if (statusListener == null) {
+      //  return;
+      //}
     }
   }
 

@@ -6,13 +6,12 @@ package org.chromium.sdk.internal.v8native;
 
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.internal.v8native.V8CommandProcessor.V8HandlerCallback;
+import org.jetbrains.jsonProtocol.Request;
 
 /**
  * API to asynchronous message sender that supports callbacks.
  * @param <MESSAGE> type of message supported
- * @param <EX> exception that may be thrown synchronously.
  */
-public interface V8CommandSender<MESSAGE, EX extends Exception> {
-  RelayOk sendV8CommandAsync(MESSAGE message, boolean isImmediate, V8HandlerCallback v8HandlerCallback, SyncCallback syncCallback) throws EX;
+public interface V8CommandSender {
+  RelayOk sendV8CommandAsync(Request message, boolean isImmediate, V8CommandCallback v8HandlerCallback, SyncCallback syncCallback);
 }

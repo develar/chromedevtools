@@ -22,10 +22,10 @@ import org.chromium.sdk.internal.v8native.value.LoadableString;
 import org.chromium.sdk.internal.v8native.value.PropertyReference;
 import org.chromium.sdk.internal.v8native.value.ValueLoadException;
 import org.chromium.sdk.util.MethodIsBlockingException;
+import org.jetbrains.jsonProtocol.RequestWithResponse;
+import org.jetbrains.v8.protocol.ProtocolReponseReader;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -137,50 +137,48 @@ public class V8Helper {
     return type;
   }
 
-  public static <MESSAGE, RES, EX extends Exception> RES callV8Sync(V8CommandSender<MESSAGE, EX> commandSender,
-                                                                    MESSAGE message,
-                                                                    V8BlockingCallback<RES> callback) throws EX, MethodIsBlockingException {
+  public static <MESSAGE extends RequestWithResponse<RESULT, ProtocolReponseReader>, RESULT, PROCESSED_RESULT> PROCESSED_RESULT callV8Sync(
+    V8CommandSender commandSender, MESSAGE message, V8BlockingCallback<RESULT, PROCESSED_RESULT> callback)
+    throws MethodIsBlockingException {
     return callV8Sync(commandSender, message, callback, CallbackSemaphore.OPERATION_TIMEOUT_MS);
   }
 
-  public static <MESSAGE, RES, EX extends Exception> RES callV8Sync(V8CommandSender<MESSAGE, EX> commandSender,
-                                                                    MESSAGE message,
-                                                                    final V8BlockingCallback<RES> callback,
-                                                                    long timeoutMs) throws EX, MethodIsBlockingException {
-    CallbackSemaphore syncCallback = new CallbackSemaphore();
-    final Exception[] exBuff = {null};
-    // A long way of creating buffer for generic type without warnings.
-    final List<RES> resBuff = new ArrayList<RES>(Collections.nCopies(1, (RES)null));
-    V8CommandProcessor.V8HandlerCallback callbackWrapper = new V8CommandProcessor.V8HandlerCallback() {
+  public static <MESSAGE extends RequestWithResponse<RESULT, ProtocolReponseReader>, RESULT, PROCESSED_RESULT> PROCESSED_RESULT callV8Sync(
+    V8CommandSender commandSender, MESSAGE message, final V8BlockingCallback<RESULT, PROCESSED_RESULT> callback, long timeoutMs)
+    throws MethodIsBlockingException {
+    callback.request = message;
+
+    final String[] exceptionRef = {null};
+    V8CommandCallback callbackWrapper = new V8CommandCallback() {
       @Override
       public void failure(String message) {
-        exBuff[0] = new Exception("Failure: " + message);
+        exceptionRef[0] = message;
       }
 
       @Override
       public void messageReceived(CommandResponse response) {
-        RES result = callback.messageReceived(response);
-        resBuff.set(0, result);
+        callback.messageReceived(response);
       }
     };
-    commandSender.sendV8CommandAsync(message, true, callbackWrapper, syncCallback);
 
-    boolean waitRes;
+    CallbackSemaphore syncCallback = new CallbackSemaphore();
+    commandSender.sendV8CommandAsync(message, true, callbackWrapper, syncCallback);
+    boolean waitResult;
     try {
-      waitRes = syncCallback.tryAcquire(timeoutMs, TimeUnit.MILLISECONDS);
+      waitResult = syncCallback.tryAcquire(timeoutMs, TimeUnit.MILLISECONDS);
     }
     catch (RuntimeException e) {
       throw new CallbackException(e);
     }
 
-    if (!waitRes) {
+    if (!waitResult) {
       throw new CallbackException("Timeout");
     }
 
-    if (exBuff[0] != null) {
-      throw new CallbackException(exBuff[0]);
+    if (exceptionRef[0] != null) {
+      throw new CallbackException(exceptionRef[0]);
     }
-    return resBuff.get(0);
+    return callback.result;
   }
 
   /**
@@ -192,10 +190,11 @@ public class V8Helper {
    * Special kind of exceptions for problems in receiving or waiting for the answer.
    * Clients may try to catch it.
    */
-  public static class CallbackException extends RuntimeException {
+  public static final class CallbackException extends RuntimeException {
     CallbackException(String message) {
       super(message);
     }
+
     CallbackException(Throwable cause) {
       super(cause);
     }

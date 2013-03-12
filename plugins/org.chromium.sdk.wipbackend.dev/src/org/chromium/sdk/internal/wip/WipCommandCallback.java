@@ -7,8 +7,5 @@ package org.chromium.sdk.internal.wip;
 import org.chromium.sdk.internal.BaseCommandProcessor;
 import org.jetbrains.wip.protocol.CommandResponse;
 
-/**
- * An explicit interface for a generic type {@link BaseCommandProcessor.Callback}.
- */
 public interface WipCommandCallback extends BaseCommandProcessor.Callback<CommandResponse> {
 }

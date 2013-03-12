@@ -7,7 +7,6 @@ package org.chromium.sdk.internal.v8native.value;
 import com.google.gson.stream.JsonReaderEx;
 import gnu.trove.TLongIntHashMap;
 import gnu.trove.TLongObjectHashMap;
-import org.chromium.sdk.InvalidContextException;
 import org.chromium.sdk.JsValue;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
@@ -15,6 +14,7 @@ import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
+import org.chromium.sdk.internal.v8native.protocol.input.ScopeBody;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.RefWithDisplayData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
@@ -181,38 +181,16 @@ public class ValueLoaderImpl extends ValueLoader {
   /**
    * Looks up data for scope on remote in form of scope object handle.
    */
-  public ObjectValueHandle loadScopeFields(int scopeNumber,
-      DebuggerMessageFactory.ScopeHostParameter host) throws MethodIsBlockingException {
-    V8Request message = DebuggerMessageFactory.scope(scopeNumber, host);
-
-    V8BlockingCallback<ObjectValueHandle> callback = new V8BlockingCallback<ObjectValueHandle>() {
+  public ObjectValueHandle loadScopeFields(int scopeNumber, DebuggerMessageFactory.ScopeHostParameter host) throws MethodIsBlockingException {
+    return V8Helper.callV8Sync(context, DebuggerMessageFactory.scope(scopeNumber, host), new V8BlockingCallback<ScopeBody, ObjectValueHandle>() {
       @Override
-      protected ObjectValueHandle handleSuccessfulResponse(
-          CommandResponse.Success response) {
-        return readFromScopeResponse(response);
+      protected ObjectValueHandle success(ScopeBody result, CommandResponse.Success response) {
+        for (SomeHandle handle : response.refs()) {
+          addHandleFromRefs(handle);
+        }
+        return result.object();
       }
-    };
-
-    try {
-      return V8Helper.callV8Sync(context, message, callback);
-    } catch (ContextDismissedCheckedException e) {
-      context.getDebugSession().maybeRethrowContextException(e);
-      // or
-      return null;
-    }
-  }
-
-  private ObjectValueHandle readFromScopeResponse(CommandResponse.Success response) {
-    for (SomeHandle handle : response.refs()) {
-      addHandleFromRefs(handle);
-    }
-
-    try {
-      return response.body().asScopeBody().object();
-    }
-    catch (IOException e) {
-      throw new ValueLoadException(e);
-    }
+    });
   }
 
   /**
@@ -291,43 +269,23 @@ public class ValueLoaderImpl extends ValueLoader {
       return Collections.emptyList();
     }
 
-    V8Request message = DebuggerMessageFactory.lookup(propertyRefIds, false);
-    V8BlockingCallback<List<ValueMirror>> callback = new V8BlockingCallback<List<ValueMirror>>() {
+    return V8Helper.callV8Sync(context, new LookupMessage(propertyRefIds, false), new V8BlockingCallback<TLongObjectHashMap<ValueHandle>, List<ValueMirror>>() {
       @Override
-      protected List<ValueMirror> handleSuccessfulResponse(CommandResponse.Success response) {
-        return readResponseFromLookup(response, propertyRefIds);
+      protected List<ValueMirror> success(TLongObjectHashMap<ValueHandle> objects, CommandResponse.Success response) {
+        List<ValueMirror> result = new ArrayList<ValueMirror>(propertyRefIds.length);
+        for (long ref : propertyRefIds) {
+          ValueHandle valueHandle = objects.get(ref);
+          if (valueHandle == null) {
+            throw new ValueLoadException("Failed to find value for ref=" + ref);
+          }
+          if (valueHandle.handle() != ref) {
+            throw new ValueLoadException("Inconsistent ref in response, ref=" + ref);
+          }
+          result.add(addDataToMap(valueHandle));
+        }
+        return result;
       }
-    };
-
-    try {
-      return V8Helper.callV8Sync(context, message, callback);
-    }
-    catch (ContextDismissedCheckedException e) {
-      throw new InvalidContextException(e);
-    }
-  }
-
-  private List<ValueMirror> readResponseFromLookup(CommandResponse.Success successResponse, long[] propertyRefIds) {
-    List<ValueMirror> result = new ArrayList<ValueMirror>(propertyRefIds.length);
-    Map body;
-    try {
-      body = successResponse.body().asLookupMap();
-    } catch (IOException e) {
-      throw new ValueLoadException(e);
-    }
-    for (long ref : propertyRefIds) {
-      Map value = JsonUtil.getAsJSON(body, String.valueOf(ref));
-      if (value == null) {
-        throw new ValueLoadException("Failed to find value for ref=" + ref);
-      }
-      ValueHandle valueHandle = ProtocolService.PROTOCOL_READER.readValueHandle((JsonReaderEx)value);
-      long refLong = valueHandle.handle();
-      if (refLong != ref) {
-        throw new ValueLoadException("Inconsistent ref in response, ref=" + ref);
-      }
-      result.add(addDataToMap(valueHandle));
-    }
-    return result;
+    });
   }
 
   private List<ValueHandle> readResponseFromLookupRaw(CommandResponse.Success successResponse,
@@ -366,7 +324,6 @@ public class ValueLoaderImpl extends ValueLoader {
         callback.failure(new Exception(message));
       }
     };
-
     return context.sendV8CommandAsync(message, true, innerCallback, syncCallback);
   }
 

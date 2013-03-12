@@ -28,9 +28,9 @@ public class DefaultResponseHandler {
   private final ScriptCollectedProcessor scriptCollectedProcessor;
 
   public DefaultResponseHandler(DebugSession debugSession) {
-    this.bpp = new BreakpointProcessor(debugSession);
-    this.afterCompileProcessor = new AfterCompileProcessor(debugSession);
-    this.scriptCollectedProcessor = new ScriptCollectedProcessor(debugSession);
+    bpp = new BreakpointProcessor(debugSession);
+    afterCompileProcessor = new AfterCompileProcessor(debugSession);
+    scriptCollectedProcessor = new ScriptCollectedProcessor(debugSession);
   }
 
   public BreakpointProcessor getBreakpointProcessor() {

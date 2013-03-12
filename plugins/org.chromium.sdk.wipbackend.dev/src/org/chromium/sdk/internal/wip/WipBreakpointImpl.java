@@ -349,8 +349,7 @@ public class WipBreakpointImpl implements Breakpoint {
             public void success(DATA data) {
               String breakpointId = handler.getBreakpointId(data);
               Collection<LocationValue> locationValues = handler.getActualLocations(data);
-              List<ActualLocation> locationList =
-                new ArrayList<ActualLocation>(locationValues.size());
+              List<ActualLocation> locationList = new ArrayList<ActualLocation>(locationValues.size());
               for (LocationValue value : locationValues) {
                 locationList.add(locationFromProtocol(value));
               }

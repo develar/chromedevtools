@@ -6,13 +6,9 @@ import org.jetbrains.wip.protocol.CommandResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A default implementation of the callback that separates error responses from
- * success responses.
- */
 public abstract class WipCommandCallbackImpl extends CommandCallback<CommandResponse.Success, CommandResponse> implements WipCommandCallback {
   @Override
-  public void messageReceived(CommandResponse response) {
+  public final void messageReceived(CommandResponse response) {
     CommandResponse.Success success = response.asSuccess();
     if (success != null) {
       onSuccess(success);

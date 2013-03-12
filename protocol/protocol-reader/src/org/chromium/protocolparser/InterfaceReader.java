@@ -150,9 +150,11 @@ class InterfaceReader {
 
     typeToTypeHandler.put(typeClass, null);
 
-    for (Class<?> aClass : typeClass.getDeclaredClasses()) {
-      if (aClass.isInterface()) {
-        createIfNotExists(aClass);
+    if (typeClass != Map.class) {
+      for (Class<?> aClass : typeClass.getDeclaredClasses()) {
+        if (aClass.isInterface()) {
+          createIfNotExists(aClass);
+        }
       }
     }
 

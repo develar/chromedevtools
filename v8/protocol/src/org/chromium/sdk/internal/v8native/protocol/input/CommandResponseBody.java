@@ -8,7 +8,7 @@ import org.chromium.protocolReader.JsonSubtypeCasting;
 import org.chromium.protocolReader.JsonType;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
-import org.jetbrains.v8.protocol.VersionResult;
+import org.jetbrains.jsonProtocol.JsonObjectBased;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.Map;
  * (for scripts).
  */
 @JsonType
-public interface CommandResponseBody {
+public interface CommandResponseBody extends JsonObjectBased {
   @JsonSubtypeCasting
   BacktraceCommandBody asBacktraceCommandBody() throws IOException;
 
@@ -36,12 +36,6 @@ public interface CommandResponseBody {
 
   @JsonSubtypeCasting(reinterpret=true)
   ValueHandle asEvaluateBody() throws IOException;
-
-  @JsonSubtypeCasting
-  ScopeBody asScopeBody() throws IOException;
-
-  @JsonSubtypeCasting
-  VersionResult asVersionBody();
 
   @JsonSubtypeCasting
   ChangeLiveBody asChangeLiveBody() throws IOException;

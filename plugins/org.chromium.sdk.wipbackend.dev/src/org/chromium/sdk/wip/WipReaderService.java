@@ -8,7 +8,7 @@ import org.chromium.wip.protocol.WipProtocolReaderImpl;
 import org.jetbrains.wip.protocol.WipProtocolReader;
 
 public class WipReaderService {
-  public static final WipProtocolReader PARSER = new WipProtocolReaderImpl();
+  private static final WipProtocolReader PARSER = new WipProtocolReaderImpl();
 
   public static WipProtocolReader get() {
     return PARSER;

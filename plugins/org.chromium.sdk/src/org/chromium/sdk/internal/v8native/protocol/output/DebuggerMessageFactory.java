@@ -48,10 +48,6 @@ public class DebuggerMessageFactory {
     return new ClearBreakpointMessage(id);
   }
 
-  public static V8Request lookup(long[] refs, Boolean inlineRefs) {
-    return new LookupMessage(refs, inlineRefs);
-  }
-
   public static ContextlessDebuggerMessage suspend() {
     return new SuspendMessage();
   }
@@ -61,12 +57,12 @@ public class DebuggerMessageFactory {
    * It is either a stack frame or a function.
    */
   public static abstract class ScopeHostParameter {
-    abstract V8Request create(int scopeNumber);
+    abstract ScopeMessage create(int scopeNumber);
 
     public static ScopeHostParameter forFrame(final int frameNumber) {
       return new ScopeHostParameter() {
         @Override
-        V8Request create(int scopeNumber) {
+        ScopeMessage create(int scopeNumber) {
           return new ScopeMessage(scopeNumber, frameNumber, null);
         }
       };
@@ -75,14 +71,14 @@ public class DebuggerMessageFactory {
     public static ScopeHostParameter forFunction(final long functionHandle) {
       return new ScopeHostParameter() {
         @Override
-        V8Request create(int scopeNumber) {
+        ScopeMessage create(int scopeNumber) {
           return new ScopeMessage(scopeNumber, null, functionHandle);
         }
       };
     }
   }
 
-  public static V8Request scope(int scopeNumber, ScopeHostParameter hostParameter) {
+  public static ScopeMessage scope(int scopeNumber, ScopeHostParameter hostParameter) {
     return hostParameter.create(scopeNumber);
   }
 }

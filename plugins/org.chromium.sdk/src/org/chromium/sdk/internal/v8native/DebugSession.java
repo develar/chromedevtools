@@ -11,12 +11,10 @@ import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedChecke
 import org.chromium.sdk.internal.v8native.processor.BreakpointProcessor;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
-import org.chromium.sdk.util.AsyncFuture;
+import org.chromium.sdk.util.*;
 import org.chromium.sdk.util.AsyncFuture.Callback;
-import org.chromium.sdk.util.AsyncFutureRef;
-import org.chromium.sdk.util.MethodIsBlockingException;
-import org.chromium.sdk.util.RelaySyncCallback;
 import org.jetbrains.v8.protocol.V8Request;
+import org.jetbrains.v8.protocol.VersionResult;
 
 import java.util.Collections;
 import java.util.logging.Level;
@@ -85,11 +83,11 @@ public class DebugSession {
    * Use {@code InternalContext} if you need to send context-specific commands.
    * @return
    */
-  public RelayOk sendMessage(V8Request message, boolean isImmediate, V8CommandProcessor.V8HandlerCallback commandCallback, SyncCallback syncCallback) {
+  public RelayOk sendMessage(V8Request message, boolean isImmediate, V8CommandCallback commandCallback, SyncCallback syncCallback) {
     return v8CommandProcessor.sendV8CommandAsync(message, isImmediate, commandCallback, syncCallback);
   }
 
-  public RelayOk sendMessage(V8Request message, V8CommandProcessor.V8HandlerCallback commandCallback, SyncCallback syncCallback) {
+  public RelayOk sendMessage(V8Request message, V8CommandCallback commandCallback, SyncCallback syncCallback) {
     return sendMessage(message, true, commandCallback, syncCallback);
   }
 
@@ -142,7 +140,7 @@ public class DebugSession {
   }
 
   public void suspend(final SuspendCallback suspendCallback) {
-    V8CommandProcessor.V8HandlerCallback v8Callback = new V8CommandCallbackBase() {
+    V8CommandCallback v8Callback = new V8CommandCallbackBase() {
       @Override
       public void failure(String message) {
         if (suspendCallback != null) {
@@ -238,33 +236,19 @@ public class DebugSession {
    * Checks version of V8 and check if it in running state.
    */
   public void startCommunication() throws MethodIsBlockingException {
-    V8BlockingCallback<Void> callback = new V8BlockingCallback<Void>() {
+    V8BlockingCallback<VersionResult, Void> callback = new V8BlockingCallback<VersionResult, Void>() {
       @Override
-      public Void messageReceived(CommandResponse response) {
-        CommandResponse.Success successResponse = response.asSuccess();
-        if (successResponse == null) {
-          return null;
-        }
-        String versionString = successResponse.body().asVersionBody().V8Version();
-        Version vmVersion = versionString == null ? null : Version.parseString(versionString);
-        DebugSession.this.vmVersion = vmVersion;
-
-        if (V8VersionFeatures.isRunningAccurate(vmVersion)) {
-          Boolean running = successResponse.running();
-          if (running == Boolean.FALSE) {
-            ContextBuilder.ExpectingBreakEventStep step1 = contextBuilder.buildNewContextWhenIdle();
-            // If step is not null -- we are already in process of building a context.
-            if (step1 != null) {
-              BreakpointProcessor.processNextStep(step1.setContextState(Collections.<Breakpoint>emptyList(), null));
-            }
+      public Void success(VersionResult result, CommandResponse.Success response) {
+        String versionString = result.V8Version();
+        vmVersion = versionString == null ? null : Version.parseString(versionString);
+        if (V8VersionFeatures.isRunningAccurate(vmVersion) && !response.running()) {
+          ContextBuilder.ExpectingBreakEventStep step1 = contextBuilder.buildNewContextWhenIdle();
+          // If step is not null -- we are already in process of building a context.
+          if (step1 != null) {
+            BreakpointProcessor.processNextStep(step1.setContextState(Collections.<Breakpoint>emptyList(), null));
           }
         }
         return null;
-      }
-
-      @Override
-      protected Void handleSuccessfulResponse(CommandResponse.Success response) {
-        throw new UnsupportedOperationException();
       }
     };
     V8Helper.callV8Sync(v8CommandProcessor, new org.jetbrains.v8.protocol.Version(), callback);

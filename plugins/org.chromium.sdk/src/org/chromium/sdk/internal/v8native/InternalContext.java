@@ -9,7 +9,7 @@ import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.v8native.value.ValueLoader;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
-import org.jetbrains.v8.protocol.V8Request;
+import org.jetbrains.jsonProtocol.Request;
 
 /**
  * Internal API to DebugContext implementation. The actual object might
@@ -17,10 +17,10 @@ import org.jetbrains.v8.protocol.V8Request;
  * DebugContext to this interface -- technically they might be different
  * objects.
  */
-public interface InternalContext extends V8CommandSender<V8Request,
-    InternalContext.ContextDismissedCheckedException> {
+public interface InternalContext extends V8CommandSender {
   /**
    * Context belongs to a particular {@code DebugSession}.
+   *
    * @return DebugSession this context belongs to
    */
   DebugSession getDebugSession();
@@ -35,18 +35,20 @@ public interface InternalContext extends V8CommandSender<V8Request,
   /**
    * Sends V8 command message provided this context is still valid. There is no
    * way of making sure context will be valid via this API.
-   * @throws ContextDismissedCheckedException if context is not valid anymore
+   *
+   * @throws ContextDismissedCheckedException
+   *          if context is not valid anymore
    */
   @Override
-  RelayOk sendV8CommandAsync(V8Request message, boolean isImmediate,
-      V8CommandProcessor.V8HandlerCallback commandCallback, SyncCallback syncCallback)
-      throws ContextDismissedCheckedException;
+  RelayOk sendV8CommandAsync(Request message, boolean isImmediate, V8CommandCallback commandCallback, SyncCallback syncCallback)
+    throws ContextDismissedCheckedException;
 
-  class ContextDismissedCheckedException extends Exception {
+  class ContextDismissedCheckedException extends RuntimeException {
   }
 
   /**
    * {@link ValueLoader} makes sense only for a particular context.
+   *
    * @return {@link ValueLoader} of this context
    */
   ValueLoaderImpl getValueLoader();

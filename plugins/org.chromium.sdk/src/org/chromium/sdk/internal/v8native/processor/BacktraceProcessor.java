@@ -9,8 +9,8 @@ import org.chromium.sdk.JavascriptVm;
 import org.chromium.sdk.Script;
 import org.chromium.sdk.internal.v8native.ContextBuilder;
 import org.chromium.sdk.internal.v8native.DebugSession;
+import org.chromium.sdk.internal.v8native.V8CommandCallback;
 import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
-import org.chromium.sdk.internal.v8native.V8CommandProcessor;
 import org.chromium.sdk.internal.v8native.protocol.input.BacktraceCommandBody;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Handles the "backtrace" V8 command replies.
  */
-public class BacktraceProcessor implements V8CommandProcessor.V8HandlerCallback {
+public class BacktraceProcessor implements V8CommandCallback {
 
   private final ContextBuilder.ExpectingBacktraceStep step2;
 

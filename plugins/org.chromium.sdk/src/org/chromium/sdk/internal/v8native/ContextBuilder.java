@@ -5,11 +5,11 @@
 package org.chromium.sdk.internal.v8native;
 
 import org.chromium.sdk.*;
-import org.chromium.sdk.internal.v8native.V8CommandProcessor.V8HandlerCallback;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
+import org.jetbrains.jsonProtocol.Request;
 import org.jetbrains.v8.protocol.V8Request;
 
 import java.util.Arrays;
@@ -207,8 +207,8 @@ public class ContextBuilder {
     }
 
     @Override
-    public RelayOk sendV8CommandAsync(V8Request message, boolean isImmediate,
-        V8HandlerCallback commandCallback, SyncCallback syncCallback)
+    public RelayOk sendV8CommandAsync(Request message, boolean isImmediate,
+        V8CommandCallback commandCallback, SyncCallback syncCallback)
         throws ContextDismissedCheckedException {
       synchronized (sendContextCommandsMonitor) {
         if (!isValid) {
@@ -220,7 +220,7 @@ public class ContextBuilder {
     }
 
     private RelayOk sendMessageAsyncAndInvalidate(V8Request message,
-        V8CommandProcessor.V8HandlerCallback commandCallback, boolean isImmediate,
+        V8CommandCallback commandCallback, boolean isImmediate,
         SyncCallback syncCallback) {
       synchronized (sendContextCommandsMonitor) {
         assertValid();
@@ -306,7 +306,7 @@ public class ContextBuilder {
         }
 
         V8Request message = DebuggerMessageFactory.goOn(stepAction, stepCount);
-        V8CommandProcessor.V8HandlerCallback commandCallback
+        V8CommandCallback commandCallback
             = new V8CommandCallbackBase() {
           @Override
           public void success(CommandResponse.Success successResponse) {

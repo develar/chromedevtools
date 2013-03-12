@@ -325,7 +325,7 @@ public class BreakpointManager {
     for (int i = 0; i < flagNames.size(); i++) {
       flagMap.put(flagNames.get(i), values[i]);
     }
-    V8CommandProcessor.V8HandlerCallback v8Callback;
+    V8CommandCallback v8Callback;
     if (callback == null) {
       v8Callback = null;
     } else {
