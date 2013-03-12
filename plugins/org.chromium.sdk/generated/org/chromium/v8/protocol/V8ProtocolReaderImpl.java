@@ -48,7 +48,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       reader.beginObject();
       int i = 0;
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
           _type = readEnum(reader, "type", org.chromium.sdk.internal.v8native.protocol.input.MessageType.class);
         }
@@ -108,7 +108,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M8(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("body")) {
           _body = new M9(reader);
         }
@@ -193,7 +193,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       reader.beginObject();
       int i = 0;
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("command")) {
           _command = readString(reader, "command");
         }
@@ -255,23 +255,23 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
 
   public static final class M2 implements org.chromium.sdk.internal.v8native.protocol.input.BreakEventBody {
     private org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle _exception;
-    private long[] _breakpoints;
+    private int[] _breakpoints;
     private String _sourceLineText;
     private boolean _uncaught;
-    private long _sourceLine;
+    private int _sourceLine;
     private String _invocationText;
     private com.google.gson.stream.JsonReaderEx _script;
-    private long _sourceColumn;
+    private int _sourceColumn;
 
     public M2(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("exception")) {
           _exception = new M34(reader);
         }
         else if (name.equals("breakpoints")) {
-          _breakpoints = readLongArray(reader);
+          _breakpoints = readIntArray(reader);
         }
         else if (name.equals("sourceLineText")) {
           _sourceLineText = readString(reader, "sourceLineText");
@@ -280,7 +280,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
           _uncaught = readBoolean(reader, "uncaught");
         }
         else if (name.equals("sourceLine")) {
-          _sourceLine = readLong(reader, "sourceLine");
+          _sourceLine = readInt(reader, "sourceLine");
         }
         else if (name.equals("invocationText")) {
           _invocationText = readString(reader, "invocationText");
@@ -289,7 +289,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
           _script = reader;
         }
         else if (name.equals("sourceColumn")) {
-          _sourceColumn = readLong(reader, "sourceColumn");
+          _sourceColumn = readInt(reader, "sourceColumn");
         }
         else {
           reader.skipValue();
@@ -314,17 +314,17 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public long sourceLine() {
+    public int sourceLine() {
       return _sourceLine;
     }
 
     @Override
-    public long sourceColumn() {
+    public int sourceColumn() {
       return _sourceColumn;
     }
 
     @Override
-    public long[] breakpoints() {
+    public int[] breakpoints() {
       return _breakpoints;
     }
 
@@ -431,7 +431,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M1(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("frames")) {
           _frames = readObjectArray(reader, "frames", new M12F(), true);
         }
@@ -492,7 +492,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M12(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
           _type = readString(reader, "type");
         }
@@ -631,7 +631,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M17(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
           _type = readLong(reader, "type");
         }
@@ -687,7 +687,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M18(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
           _type = readInt(reader, "type");
         }
@@ -742,7 +742,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M3(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("change_log")) {
           _change_log = reader;
         }
@@ -876,7 +876,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       reader.beginObject();
       int i = 0;
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
           _type = readString(reader, "type");
         }
@@ -957,7 +957,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M29(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("name")) {
           _name = readString(reader, "name");
         }
@@ -1103,7 +1103,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       reader.beginObject();
       int i = 0;
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
           _type = readString(reader, "type");
         }
@@ -1205,7 +1205,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M28(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
           _type = readString(reader, "type");
         }
@@ -1316,7 +1316,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M26(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("ref")) {
           _ref = readLong(reader, "ref");
         }
@@ -1395,7 +1395,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       reader.beginObject();
       int i = 0;
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("properties")) {
           _properties = readObjectArray(reader, "properties", new M25F(), false);
         }
@@ -1497,7 +1497,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
 
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("name")) {
           _name = readString(reader, "name");
         }
@@ -1688,7 +1688,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M21(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
           _type = readString(reader, "type");
         }
@@ -1730,7 +1730,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M20(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
           _type = readEnum(reader, "type", org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo.Type.class);
         }
@@ -1864,7 +1864,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M40(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
           _type = readString(reader, "type");
         }
@@ -1919,7 +1919,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M5(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("command")) {
           _command = readString(reader, "command");
         }
@@ -1961,7 +1961,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M6(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("body")) {
           _body = new M7(reader);
         }
@@ -2012,7 +2012,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M35(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("change_tree")) {
           _change_tree = new M37(reader);
         }
@@ -2069,7 +2069,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M36(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("name")) {
           _name = readString(reader, "name");
         }
@@ -2109,7 +2109,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M38(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("start_position")) {
           _start_position = readLong(reader, "start_position");
         }
@@ -2146,7 +2146,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M37(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("name")) {
           _name = readString(reader, "name");
         }
@@ -2240,7 +2240,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public M11(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("name")) {
           _name = readString(reader, "name");
         }
@@ -2287,10 +2287,10 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  static final class M31F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> {
+  static final class M11F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo> {
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M31(reader);
+    public org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M11(reader);
     }
   }
 
@@ -2301,17 +2301,17 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
+  static final class M37F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> {
+    @Override
+    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M37(reader);
+    }
+  }
+
   static final class M36F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> {
     @Override
     public org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode read(com.google.gson.stream.JsonReaderEx reader) {
       return new M36(reader);
-    }
-  }
-
-  static final class M20F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo> {
-    @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M20(reader);
     }
   }
 
@@ -2322,24 +2322,10 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  static final class M37F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> {
+  static final class M20F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo> {
     @Override
-    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M37(reader);
-    }
-  }
-
-  static final class M25F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject> {
-    @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M25(reader);
-    }
-  }
-
-  static final class M11F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo> {
-    @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M11(reader);
+    public org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M20(reader);
     }
   }
 
@@ -2347,6 +2333,20 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     @Override
     public org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle read(com.google.gson.stream.JsonReaderEx reader) {
       return new M29(reader);
+    }
+  }
+
+  static final class M31F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> {
+    @Override
+    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M31(reader);
+    }
+  }
+
+  static final class M25F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject> {
+    @Override
+    public org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M25(reader);
     }
   }
 

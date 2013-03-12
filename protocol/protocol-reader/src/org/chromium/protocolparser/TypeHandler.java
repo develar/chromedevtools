@@ -202,7 +202,7 @@ class TypeHandler<T> {
 
     out.newLine().append("while (reader.hasNext())").openBlock(!hasOnlyOneFieldLoader);
     if (!hasOnlyOneFieldLoader) {
-      out.append("String name = reader.nextName();");
+      out.append("CharSequence name = reader.nextNameAsCharSequence();");
     }
 
     boolean isFirst = true;

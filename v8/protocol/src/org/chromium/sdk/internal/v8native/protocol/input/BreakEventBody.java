@@ -12,7 +12,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 @JsonType
 public interface BreakEventBody {
   @JsonOptionalField
-  long[] breakpoints();
+  int[] breakpoints();
 
   @JsonOptionalField
   ValueHandle exception();
@@ -24,7 +24,7 @@ public interface BreakEventBody {
   boolean uncaught();
 
   @JsonOptionalField
-  long sourceLine();
+  int sourceLine();
 
   @JsonOptionalField
   String invocationText();
@@ -33,5 +33,5 @@ public interface BreakEventBody {
   JsonReaderEx script();
 
   @JsonOptionalField
-  long sourceColumn();
+  int sourceColumn();
 }

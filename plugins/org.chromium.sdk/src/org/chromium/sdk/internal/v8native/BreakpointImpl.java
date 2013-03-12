@@ -147,7 +147,7 @@ public class BreakpointImpl implements Breakpoint {
   @Override
   public RelayOk clear(JavascriptVm.BreakpointCallback callback, SyncCallback syncCallback) {
     // TODO: make this code thread-safe.
-    long originalId = id;
+    int originalId = id;
     id = INVALID_ID;
     return breakpointManager.clearBreakpoint(this, callback, syncCallback, originalId);
   }

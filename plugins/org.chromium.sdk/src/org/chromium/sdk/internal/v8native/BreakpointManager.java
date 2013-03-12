@@ -4,8 +4,9 @@
 
 package org.chromium.sdk.internal.v8native;
 
+import gnu.trove.TIntObjectHashMap;
+import gnu.trove.TIntObjectProcedure;
 import gnu.trove.TLongObjectHashMap;
-import gnu.trove.TLongObjectProcedure;
 import gnu.trove.TObjectProcedure;
 import org.chromium.sdk.*;
 import org.chromium.sdk.Breakpoint.Target;
@@ -39,7 +40,7 @@ public class BreakpointManager {
    * This map shall contain only breakpoints with valid IDs.
    * Complex operations must be explicitly synchronized on this instance.
    */
-  private final TLongObjectHashMap<BreakpointImpl> idToBreakpoint = new TLongObjectHashMap<BreakpointImpl>();
+  private final TIntObjectHashMap<BreakpointImpl> idToBreakpoint = new TIntObjectHashMap<BreakpointImpl>();
 
   private final DebugSession debugSession;
 
@@ -146,11 +147,11 @@ public class BreakpointManager {
                                                         syncCallback);
   }
 
-  public Breakpoint getBreakpoint(long id) {
+  public Breakpoint getBreakpoint(int id) {
     return idToBreakpoint.get(id);
   }
 
-  public RelayOk clearBreakpoint(BreakpointImpl breakpointImpl, final BreakpointCallback callback, SyncCallback syncCallback, long originalId) {
+  public RelayOk clearBreakpoint(BreakpointImpl breakpointImpl, final BreakpointCallback callback, SyncCallback syncCallback, int originalId) {
     if (originalId == Breakpoint.INVALID_ID) {
       return RelaySyncCallback.finish(syncCallback);
     }
@@ -381,9 +382,9 @@ public class BreakpointManager {
       }
 
       // Remove all obsolete breakpoints from the map
-      idToBreakpoint.retainEntries(new TLongObjectProcedure<BreakpointImpl>() {
+      idToBreakpoint.retainEntries(new TIntObjectProcedure<BreakpointImpl>() {
         @Override
-        public boolean execute(long id, BreakpointImpl b) {
+        public boolean execute(int id, BreakpointImpl b) {
           return actualBreakpoints.containsKey(id);
         }
       });

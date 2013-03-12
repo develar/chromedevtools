@@ -21,7 +21,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     public M0(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("change_tree")) {
           _change_tree = new M2(reader);
         }
@@ -78,7 +78,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     public M1(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("name")) {
           _name = readString(reader, "name");
         }
@@ -118,7 +118,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     public M3(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("start_position")) {
           _start_position = readLong(reader, "start_position");
         }
@@ -155,7 +155,7 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     public M2(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
+        CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("name")) {
           _name = readString(reader, "name");
         }

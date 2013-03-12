@@ -76,14 +76,14 @@ public class BreakpointProcessor extends V8EventProcessor {
   }
 
   private Collection<Breakpoint> getBreakpointsHit(BreakEventBody breakEventBody) {
-    long[] breakpointIdsArray = breakEventBody.breakpoints();
+    int[] breakpointIdsArray = breakEventBody.breakpoints();
     BreakpointManager breakpointManager = getDebugSession().getBreakpointManager();
     if (breakpointIdsArray == null) {
       // Suspended on step end.
       return Collections.emptySet();
     }
     Collection<Breakpoint> breakpointsHit = new ArrayList<Breakpoint>(breakpointIdsArray.length);
-    for (long aBreakpointIdsArray : breakpointIdsArray) {
+    for (int aBreakpointIdsArray : breakpointIdsArray) {
       Breakpoint existingBp = breakpointManager.getBreakpoint(aBreakpointIdsArray);
       if (existingBp != null) {
         breakpointsHit.add(existingBp);
