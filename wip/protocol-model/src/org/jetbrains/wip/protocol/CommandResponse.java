@@ -24,18 +24,13 @@ public interface CommandResponse {
     @JsonOptionalField
     void error();
 
-    @JsonField(jsonLiteralName = "result")
-    Data data();
+    Result result();
   }
 
   @JsonType
   interface Error {
     @JsonOverrideField
     ErrorInfo error();
-
-    @JsonField(jsonLiteralName = "result")
-    @JsonOptionalField
-    Data data();
 
     @JsonType
     interface ErrorInfo {
@@ -49,6 +44,6 @@ public interface CommandResponse {
   }
 
   @JsonType(allowsOtherProperties = true)
-  interface Data extends JsonObjectBased {
+  interface Result extends JsonObjectBased {
   }
 }

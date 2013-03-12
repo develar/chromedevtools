@@ -5304,7 +5304,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   public static final class M130 implements org.jetbrains.wip.protocol.CommandResponse {
     private com.google.gson.stream.JsonReaderEx inputReader;
     private M134 lazy_0;
-    private M132 lazy_1;
+    private M131 lazy_1;
     private int _id;
 
     public M130(com.google.gson.stream.JsonReaderEx reader) {
@@ -5331,9 +5331,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public M132 asError() {
+    public M131 asError() {
       if (lazy_1 == null) {
-        lazy_1 = new M132(inputReader);
+        lazy_1 = new M131(inputReader);
         inputReader = null;
       }
       return lazy_1;
@@ -5345,32 +5345,14 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  public static final class M131 implements org.jetbrains.wip.protocol.CommandResponse.Data {
-    private com.google.gson.stream.JsonReaderEx inputReader;
+  public static final class M131 implements org.jetbrains.wip.protocol.CommandResponse.Error {
+    private org.jetbrains.wip.protocol.CommandResponse.Error.ErrorInfo _error;
 
     public M131(com.google.gson.stream.JsonReaderEx reader) {
-      inputReader = reader.subReader();
-      reader.skipValue();
-    }
-
-    @Override
-    public com.google.gson.stream.JsonReaderEx getDeferredReader() {
-      return inputReader;
-    }}
-
-  public static final class M132 implements org.jetbrains.wip.protocol.CommandResponse.Error {
-    private org.jetbrains.wip.protocol.CommandResponse.Error.ErrorInfo _error;
-    private org.jetbrains.wip.protocol.CommandResponse.Data _result;
-
-    public M132(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
-        String name = reader.nextName();
-        if (name.equals("error")) {
-          _error = new M133(reader);
-        }
-        else if (name.equals("result")) {
-          _result = new M131(reader);
+        if (reader.nextName().equals("error")) {
+          _error = new M132(reader);
         }
         else {
           reader.skipValue();
@@ -5383,19 +5365,14 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public org.jetbrains.wip.protocol.CommandResponse.Error.ErrorInfo error() {
       return _error;
     }
-
-    @Override
-    public org.jetbrains.wip.protocol.CommandResponse.Data data() {
-      return _result;
-    }
   }
 
-  public static final class M133 implements org.jetbrains.wip.protocol.CommandResponse.Error.ErrorInfo {
+  public static final class M132 implements org.jetbrains.wip.protocol.CommandResponse.Error.ErrorInfo {
     private java.util.List<String> _data;
     private String _message;
     private long _code;
 
-    public M133(com.google.gson.stream.JsonReaderEx reader) {
+    public M132(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         String name = reader.nextName();
@@ -5431,14 +5408,27 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
+  public static final class M133 implements org.jetbrains.wip.protocol.CommandResponse.Result {
+    private com.google.gson.stream.JsonReaderEx inputReader;
+
+    public M133(com.google.gson.stream.JsonReaderEx reader) {
+      inputReader = reader.subReader();
+      reader.skipValue();
+    }
+
+    @Override
+    public com.google.gson.stream.JsonReaderEx getDeferredReader() {
+      return inputReader;
+    }}
+
   public static final class M134 implements org.jetbrains.wip.protocol.CommandResponse.Success {
-    private org.jetbrains.wip.protocol.CommandResponse.Data _result;
+    private org.jetbrains.wip.protocol.CommandResponse.Result _result;
 
     public M134(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         if (reader.nextName().equals("result")) {
-          _result = new M131(reader);
+          _result = new M133(reader);
         }
         else {
           reader.skipValue();
@@ -5448,7 +5438,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.jetbrains.wip.protocol.CommandResponse.Data data() {
+    public org.jetbrains.wip.protocol.CommandResponse.Result result() {
       return _result;
     }
 
@@ -5545,38 +5535,17 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
+  static final class M15F extends ObjectFactory<org.chromium.wip.protocol.debugger.LocationValue> {
+    @Override
+    public org.chromium.wip.protocol.debugger.LocationValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M15(reader);
+    }
+  }
+
   static final class M38F extends ObjectFactory<org.chromium.wip.protocol.dom.EventListenerValue> {
     @Override
     public org.chromium.wip.protocol.dom.EventListenerValue read(com.google.gson.stream.JsonReaderEx reader) {
       return new M38(reader);
-    }
-  }
-
-  static final class M139F extends ObjectFactory<org.jetbrains.wip.protocol.WipTabList.TabDescription> {
-    @Override
-    public org.jetbrains.wip.protocol.WipTabList.TabDescription read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M139(reader);
-    }
-  }
-
-  static final class M114F extends ObjectFactory<org.chromium.wip.protocol.page.SearchResultValue> {
-    @Override
-    public org.chromium.wip.protocol.page.SearchResultValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M114(reader);
-    }
-  }
-
-  static final class M97F extends ObjectFactory<org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources> {
-    @Override
-    public org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M97(reader);
-    }
-  }
-
-  static final class M46F extends ObjectFactory<org.chromium.wip.protocol.dom.NodeValue> {
-    @Override
-    public org.chromium.wip.protocol.dom.NodeValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M46(reader);
     }
   }
 
@@ -5587,27 +5556,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M120F extends ObjectFactory<org.chromium.wip.protocol.runtime.InternalPropertyDescriptorValue> {
-    @Override
-    public org.chromium.wip.protocol.runtime.InternalPropertyDescriptorValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M120(reader);
-    }
-  }
-
-  static final class M6F extends ObjectFactory<org.chromium.wip.protocol.debugger.CallFrameValue> {
-    @Override
-    public org.chromium.wip.protocol.debugger.CallFrameValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M6(reader);
-    }
-  }
-
-  static final class M91F extends ObjectFactory<org.chromium.wip.protocol.page.CookieValue> {
-    @Override
-    public org.chromium.wip.protocol.page.CookieValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M91(reader);
-    }
-  }
-
   static final class M128F extends ObjectFactory<org.chromium.wip.protocol.timeline.TimelineEventValue> {
     @Override
     public org.chromium.wip.protocol.timeline.TimelineEventValue read(com.google.gson.stream.JsonReaderEx reader) {
@@ -5615,17 +5563,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M15F extends ObjectFactory<org.chromium.wip.protocol.debugger.LocationValue> {
+  static final class M96F extends ObjectFactory<org.chromium.wip.protocol.page.FrameResourceTreeValue> {
     @Override
-    public org.chromium.wip.protocol.debugger.LocationValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M15(reader);
-    }
-  }
-
-  static final class M0F extends ObjectFactory<org.chromium.wip.protocol.console.CallFrameValue> {
-    @Override
-    public org.chromium.wip.protocol.console.CallFrameValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M0(reader);
+    public org.chromium.wip.protocol.page.FrameResourceTreeValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M96(reader);
     }
   }
 
@@ -5636,6 +5577,27 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
+  static final class M120F extends ObjectFactory<org.chromium.wip.protocol.runtime.InternalPropertyDescriptorValue> {
+    @Override
+    public org.chromium.wip.protocol.runtime.InternalPropertyDescriptorValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M120(reader);
+    }
+  }
+
+  static final class M114F extends ObjectFactory<org.chromium.wip.protocol.page.SearchResultValue> {
+    @Override
+    public org.chromium.wip.protocol.page.SearchResultValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M114(reader);
+    }
+  }
+
+  static final class M0F extends ObjectFactory<org.chromium.wip.protocol.console.CallFrameValue> {
+    @Override
+    public org.chromium.wip.protocol.console.CallFrameValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M0(reader);
+    }
+  }
+
   static final class M122F extends ObjectFactory<org.chromium.wip.protocol.runtime.PropertyDescriptorValue> {
     @Override
     public org.chromium.wip.protocol.runtime.PropertyDescriptorValue read(com.google.gson.stream.JsonReaderEx reader) {
@@ -5643,10 +5605,24 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M123F extends ObjectFactory<org.chromium.wip.protocol.runtime.PropertyPreviewValue> {
+  static final class M139F extends ObjectFactory<org.jetbrains.wip.protocol.WipTabList.TabDescription> {
     @Override
-    public org.chromium.wip.protocol.runtime.PropertyPreviewValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M123(reader);
+    public org.jetbrains.wip.protocol.WipTabList.TabDescription read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M139(reader);
+    }
+  }
+
+  static final class M91F extends ObjectFactory<org.chromium.wip.protocol.page.CookieValue> {
+    @Override
+    public org.chromium.wip.protocol.page.CookieValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M91(reader);
+    }
+  }
+
+  static final class M97F extends ObjectFactory<org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources> {
+    @Override
+    public org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M97(reader);
     }
   }
 
@@ -5657,10 +5633,24 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M96F extends ObjectFactory<org.chromium.wip.protocol.page.FrameResourceTreeValue> {
+  static final class M123F extends ObjectFactory<org.chromium.wip.protocol.runtime.PropertyPreviewValue> {
     @Override
-    public org.chromium.wip.protocol.page.FrameResourceTreeValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M96(reader);
+    public org.chromium.wip.protocol.runtime.PropertyPreviewValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M123(reader);
+    }
+  }
+
+  static final class M46F extends ObjectFactory<org.chromium.wip.protocol.dom.NodeValue> {
+    @Override
+    public org.chromium.wip.protocol.dom.NodeValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M46(reader);
+    }
+  }
+
+  static final class M6F extends ObjectFactory<org.chromium.wip.protocol.debugger.CallFrameValue> {
+    @Override
+    public org.chromium.wip.protocol.debugger.CallFrameValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M6(reader);
     }
   }
 

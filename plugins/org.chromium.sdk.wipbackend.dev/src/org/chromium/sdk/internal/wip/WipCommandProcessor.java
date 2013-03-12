@@ -67,7 +67,7 @@ class WipCommandProcessor {
       commandCallback = new WipCommandCallbackImpl() {
         @Override
         protected void onSuccess(Success success) {
-          callback.success(request.readResult(success.data().getDeferredReader(), WipParserAccess.get()));
+          callback.success(request.readResult(success.result().getDeferredReader(), WipParserAccess.get()));
         }
 
         @Override

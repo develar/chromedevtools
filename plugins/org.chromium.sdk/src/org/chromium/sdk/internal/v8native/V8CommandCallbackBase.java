@@ -5,19 +5,18 @@
 package org.chromium.sdk.internal.v8native;
 
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 
 /**
  * A basic implementation of {@link V8CommandProcessor.V8HandlerCallback} that introduces
  * command success and failure handlers and dispatches the V8 response accordingly.
  */
 public abstract class V8CommandCallbackBase implements V8CommandProcessor.V8HandlerCallback {
-  public abstract void success(SuccessCommandResponse successResponse);
+  public abstract void success(CommandResponse.Success successResponse);
 
   public abstract void failure(String message);
 
   public void messageReceived(CommandResponse response) {
-    SuccessCommandResponse successResponse = response.asSuccess();
+    CommandResponse.Success successResponse = response.asSuccess();
     if (successResponse == null) {
       this.failure("Remote error: " + response.asFailure().message());
       return;

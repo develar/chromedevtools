@@ -5,19 +5,18 @@
 package org.chromium.sdk.internal.v8native;
 
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 
 /**
  * The callback that handles JSON response to a VM command. The command-sender is staying
  * blocked until callback finishes, which allows the callback to return a result of
  * user-specified type {@code RES}.
  * <p>User should subclass this and implement
- * {@link #handleSuccessfulResponse(SuccessCommandResponse)} method.
+ * {@link #handleSuccessfulResponse(org.chromium.sdk.internal.v8native.protocol.input.CommandResponse.Success)} method.
  * @param <RES> type of result value that is passed back to caller
  */
 public abstract class V8BlockingCallback<RES> {
   public RES messageReceived(CommandResponse response) {
-    SuccessCommandResponse successResponse = response.asSuccess();
+    CommandResponse.Success successResponse = response.asSuccess();
     if (successResponse == null) {
       throw new RuntimeException("Unsuccessful command " + response.asFailure().message());
     }
@@ -29,5 +28,5 @@ public abstract class V8BlockingCallback<RES> {
    * command-sender.
    * @param response with "success=true"
    */
-  protected abstract RES handleSuccessfulResponse(SuccessCommandResponse response);
+  protected abstract RES handleSuccessfulResponse(CommandResponse.Success response);
 }

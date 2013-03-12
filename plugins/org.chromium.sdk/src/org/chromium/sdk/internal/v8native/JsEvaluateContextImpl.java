@@ -10,7 +10,7 @@ import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.JsEvaluateContextBase;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
+import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.value.JsObjectBase;
@@ -42,7 +42,7 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
         ? null
         : new V8CommandCallbackBase() {
           @Override
-          public void success(SuccessCommandResponse successResponse) {
+          public void success(CommandResponse.Success successResponse) {
             ValueHandle body;
             try {
               body = successResponse.body().asEvaluateBody();

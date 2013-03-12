@@ -1,6 +1,7 @@
 // This is a generated source.
 package org.chromium.v8.protocol;
 
+import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.jetbrains.jsonProtocol.*;
 
 import static org.jetbrains.jsonProtocol.JsonReaders.*;
@@ -168,7 +169,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  public static final class M20 implements org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse {
+  public static final class M20 implements CommandResponse.Success {
     private org.chromium.sdk.internal.v8native.protocol.input.CommandResponseBody _body;
     private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> _refs;
     private boolean _success;
@@ -218,7 +219,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  public static final class M9 implements org.chromium.sdk.internal.v8native.protocol.input.FailedCommandResponse {
+  public static final class M9 implements CommandResponse.Failure {
     private String _command;
     private String _message;
     private boolean _success;

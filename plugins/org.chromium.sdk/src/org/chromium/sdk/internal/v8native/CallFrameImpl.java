@@ -8,10 +8,7 @@ import org.chromium.sdk.*;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.processor.BacktraceProcessor;
 import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
-import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
-import org.chromium.sdk.internal.v8native.protocol.input.RestartFrameBody;
-import org.chromium.sdk.internal.v8native.protocol.input.ScopeRef;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
+import org.chromium.sdk.internal.v8native.protocol.input.*;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.protocol.output.RestartFrameMessage;
 import org.chromium.sdk.internal.v8native.value.*;
@@ -229,7 +226,7 @@ public class CallFrameImpl implements CallFrame {
       RestartFrameMessage message = new RestartFrameMessage(frameImpl.frameId);
       V8CommandCallbackBase v8Callback = new V8CommandCallbackBase() {
         @Override
-        public void success(SuccessCommandResponse successResponse) {
+        public void success(CommandResponse.Success successResponse) {
           RelayOk relayOk =
               handleRestartResponse(successResponse, debugSession, callback, guard.getRelay());
           guard.discharge(relayOk);
@@ -251,7 +248,7 @@ public class CallFrameImpl implements CallFrame {
       }
     }
 
-    private RelayOk handleRestartResponse(SuccessCommandResponse successResponse,
+    private RelayOk handleRestartResponse(CommandResponse.Success successResponse,
         DebugSession debugSession,
         final GenericCallback<Boolean> callback, final RelaySyncCallback relaySyncCallback) {
       RestartFrameBody body;
@@ -304,7 +301,7 @@ public class CallFrameImpl implements CallFrame {
 
       V8CommandCallbackBase v8Callback = new V8CommandCallbackBase() {
         @Override
-        public void success(SuccessCommandResponse successResponse) {
+        public void success(CommandResponse.Success successResponse) {
           BacktraceProcessor.setFrames(successResponse, backtraceStep);
           RelayOk relayOk = finishRestartSuccessfully(false, callback, relaySyncCallback);
           guard.discharge(relayOk);

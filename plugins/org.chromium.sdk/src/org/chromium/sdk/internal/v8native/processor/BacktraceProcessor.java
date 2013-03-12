@@ -14,7 +14,6 @@ import org.chromium.sdk.internal.v8native.V8CommandProcessor;
 import org.chromium.sdk.internal.v8native.protocol.input.BacktraceCommandBody;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
 
@@ -42,7 +41,7 @@ public class BacktraceProcessor implements V8CommandProcessor.V8HandlerCallback 
     if (command != DebuggerCommand.BACKTRACE) {
       handleWrongStacktrace();
     }
-    SuccessCommandResponse successResponse = response.asSuccess();
+    CommandResponse.Success successResponse = response.asSuccess();
     if (successResponse == null) {
       handleWrongStacktrace();
     }
@@ -63,7 +62,7 @@ public class BacktraceProcessor implements V8CommandProcessor.V8HandlerCallback 
     debugSession.getScriptManagerProxy().getAllScripts(afterScriptsAreLoaded, null);
   }
 
-  public static DebugContext setFrames(SuccessCommandResponse response, ContextBuilder.ExpectingBacktraceStep step2) {
+  public static DebugContext setFrames(CommandResponse.Success response, ContextBuilder.ExpectingBacktraceStep step2) {
     BacktraceCommandBody body;
     try {
       body = response.body().asBacktraceCommandBody();

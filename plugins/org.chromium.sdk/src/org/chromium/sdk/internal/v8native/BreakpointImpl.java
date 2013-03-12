@@ -11,7 +11,7 @@ import org.chromium.sdk.JavascriptVm;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.ScriptRegExpBreakpointTarget;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
+import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo;
 import org.chromium.sdk.internal.v8native.protocol.output.ChangeBreakpointMessage;
 import org.chromium.sdk.util.GenericCallback;
@@ -127,7 +127,7 @@ public class BreakpointImpl implements Breakpoint {
     } else {
       wrappedCallback = new V8CommandCallbackBase() {
         @Override
-        public void success(SuccessCommandResponse successResponse) {
+        public void success(CommandResponse.Success successResponse) {
           callback.success(null);
         }
 

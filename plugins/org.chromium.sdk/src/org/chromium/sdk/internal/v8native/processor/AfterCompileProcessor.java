@@ -11,8 +11,8 @@ import org.chromium.sdk.internal.v8native.V8ContextFilter;
 import org.chromium.sdk.internal.v8native.V8Helper;
 import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
 import org.chromium.sdk.internal.v8native.protocol.input.AfterCompileBody;
+import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.EventNotification;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 
@@ -41,7 +41,7 @@ public class AfterCompileProcessor extends V8EventProcessor {
       DebuggerMessageFactory.scripts(new long[]{V8ProtocolUtil.getScriptIdFromResponse(script)}, true),
       new V8CommandCallbackBase() {
         @Override
-        public void success(SuccessCommandResponse successResponse) {
+        public void success(CommandResponse.Success successResponse) {
           List<ScriptHandle> body;
           try {
             body = successResponse.body().asScripts();

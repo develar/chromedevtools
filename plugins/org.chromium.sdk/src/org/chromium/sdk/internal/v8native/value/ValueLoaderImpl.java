@@ -14,7 +14,7 @@ import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
+import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.RefWithDisplayData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
@@ -188,7 +188,7 @@ public class ValueLoaderImpl extends ValueLoader {
     V8BlockingCallback<ObjectValueHandle> callback = new V8BlockingCallback<ObjectValueHandle>() {
       @Override
       protected ObjectValueHandle handleSuccessfulResponse(
-          SuccessCommandResponse response) {
+          CommandResponse.Success response) {
         return readFromScopeResponse(response);
       }
     };
@@ -202,7 +202,7 @@ public class ValueLoaderImpl extends ValueLoader {
     }
   }
 
-  private ObjectValueHandle readFromScopeResponse(SuccessCommandResponse response) {
+  private ObjectValueHandle readFromScopeResponse(CommandResponse.Success response) {
     for (SomeHandle handle : response.refs()) {
       addHandleFromRefs(handle);
     }
@@ -273,7 +273,7 @@ public class ValueLoaderImpl extends ValueLoader {
     return result;
   }
 
-  private static long[] getRefIdFromReferences(final List<PropertyReference> propertyRefs) {
+  private static long[] getRefIdFromReferences(List<PropertyReference> propertyRefs) {
     long[] result = new long[propertyRefs.size()];
     for (int i = 0; i < propertyRefs.size(); i++) {
       result[i] = propertyRefs.get(i).getRef();
@@ -294,7 +294,7 @@ public class ValueLoaderImpl extends ValueLoader {
     V8Request message = DebuggerMessageFactory.lookup(propertyRefIds, false);
     V8BlockingCallback<List<ValueMirror>> callback = new V8BlockingCallback<List<ValueMirror>>() {
       @Override
-      protected List<ValueMirror> handleSuccessfulResponse(SuccessCommandResponse response) {
+      protected List<ValueMirror> handleSuccessfulResponse(CommandResponse.Success response) {
         return readResponseFromLookup(response, propertyRefIds);
       }
     };
@@ -307,7 +307,7 @@ public class ValueLoaderImpl extends ValueLoader {
     }
   }
 
-  private List<ValueMirror> readResponseFromLookup(SuccessCommandResponse successResponse, long[] propertyRefIds) {
+  private List<ValueMirror> readResponseFromLookup(CommandResponse.Success successResponse, long[] propertyRefIds) {
     List<ValueMirror> result = new ArrayList<ValueMirror>(propertyRefIds.length);
     Map body;
     try {
@@ -330,7 +330,7 @@ public class ValueLoaderImpl extends ValueLoader {
     return result;
   }
 
-  private List<ValueHandle> readResponseFromLookupRaw(SuccessCommandResponse successResponse,
+  private List<ValueHandle> readResponseFromLookupRaw(CommandResponse.Success successResponse,
           long[] propertyRefIds) {
     List<ValueHandle> result = new ArrayList<ValueHandle>(propertyRefIds.length);
     Map body;
@@ -357,7 +357,7 @@ public class ValueLoaderImpl extends ValueLoader {
 
     V8CommandCallbackBase innerCallback = new V8CommandCallbackBase() {
       @Override
-      public void success(SuccessCommandResponse successResponse) {
+      public void success(CommandResponse.Success successResponse) {
         List<ValueHandle> handleList = readResponseFromLookupRaw(successResponse, handles);
         callback.success(handleList.get(0));
       }

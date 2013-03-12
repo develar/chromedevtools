@@ -123,7 +123,7 @@ public class BreakpointManager {
       column(column).condition(condition).ignoreCount(ignoreCount).enabled(enabled),
                                     new V8CommandCallbackBase() {
                                       @Override
-                                      public void success(SuccessCommandResponse successResponse) {
+                                      public void success(CommandResponse.Success successResponse) {
                                         BreakpointBody body;
                                         try {
                                           body = successResponse.body().asBreakpointBody();
@@ -163,7 +163,7 @@ public class BreakpointManager {
       DebuggerMessageFactory.clearBreakpoint(originalId),
       new V8CommandCallbackBase() {
         @Override
-        public void success(SuccessCommandResponse successResponse) {
+        public void success(CommandResponse.Success successResponse) {
           if (callback != null) {
             callback.success(null);
           }
@@ -183,7 +183,7 @@ public class BreakpointManager {
     return debugSession.sendMessage(new ChangeBreakpointMessage(breakpointImpl.getId(), breakpointImpl.isEnabled(), breakpointImpl.getCondition()),
       new V8CommandCallbackBase() {
         @Override
-        public void success(SuccessCommandResponse successResponse) {
+        public void success(CommandResponse.Success successResponse) {
           if (callback != null) {
             callback.success(breakpointImpl);
           }
@@ -211,7 +211,7 @@ public class BreakpointManager {
         callback.failure(new Exception(message));
       }
       @Override
-      public void success(SuccessCommandResponse successResponse) {
+      public void success(CommandResponse.Success successResponse) {
         CommandResponseBody body = successResponse.body();
         ListBreakpointsBody listBreakpointsBody;
         try {
@@ -330,7 +330,7 @@ public class BreakpointManager {
       v8Callback = null;
     } else {
       v8Callback = new V8CommandCallbackBase() {
-        @Override public void success(SuccessCommandResponse successResponse) {
+        @Override public void success(CommandResponse.Success successResponse) {
           FlagsBody body;
           try {
             body = successResponse.body().asFlagsBody();

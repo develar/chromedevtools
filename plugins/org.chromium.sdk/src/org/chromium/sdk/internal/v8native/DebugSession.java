@@ -10,7 +10,6 @@ import org.chromium.sdk.JavascriptVm.SuspendCallback;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.processor.BreakpointProcessor;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.util.AsyncFuture;
 import org.chromium.sdk.util.AsyncFuture.Callback;
@@ -151,7 +150,7 @@ public class DebugSession {
         }
       }
       @Override
-      public void success(SuccessCommandResponse successResponse) {
+      public void success(CommandResponse.Success successResponse) {
         if (suspendCallback != null) {
           suspendCallback.success();
         }
@@ -242,7 +241,7 @@ public class DebugSession {
     V8BlockingCallback<Void> callback = new V8BlockingCallback<Void>() {
       @Override
       public Void messageReceived(CommandResponse response) {
-        SuccessCommandResponse successResponse = response.asSuccess();
+        CommandResponse.Success successResponse = response.asSuccess();
         if (successResponse == null) {
           return null;
         }
@@ -264,7 +263,7 @@ public class DebugSession {
       }
 
       @Override
-      protected Void handleSuccessfulResponse(SuccessCommandResponse response) {
+      protected Void handleSuccessfulResponse(CommandResponse.Success response) {
         throw new UnsupportedOperationException();
       }
     };

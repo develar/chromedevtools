@@ -6,7 +6,7 @@ import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.internal.ScriptBase;
 import org.chromium.sdk.internal.v8native.protocol.input.ChangeLiveBody;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
+import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.ChangeLiveMessage;
@@ -46,7 +46,7 @@ public class ScriptImpl extends ScriptBase<Long> {
       final UpdateCallback callback, final boolean previewOnly) {
     return new V8CommandCallbackBase() {
       @Override
-      public void success(SuccessCommandResponse successResponse) {
+      public void success(CommandResponse.Success successResponse) {
         ChangeLiveBody body;
         try {
           body = successResponse.body().asChangeLiveBody();

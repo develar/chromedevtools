@@ -6,8 +6,8 @@ package org.chromium.sdk.internal.v8native;
 
 import org.chromium.sdk.*;
 import org.chromium.sdk.internal.v8native.V8CommandProcessor.V8HandlerCallback;
+import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
-import org.chromium.sdk.internal.v8native.protocol.input.SuccessCommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
 import org.jetbrains.v8.protocol.V8Request;
@@ -309,7 +309,7 @@ public class ContextBuilder {
         V8CommandProcessor.V8HandlerCallback commandCallback
             = new V8CommandCallbackBase() {
           @Override
-          public void success(SuccessCommandResponse successResponse) {
+          public void success(CommandResponse.Success successResponse) {
             contextDismissed(UserContextImpl.this);
 
             if (callback != null) {
