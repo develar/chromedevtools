@@ -29,12 +29,13 @@ public class JsonReaderEx implements Closeable {
   private static final String FALSE = "false";
 
   private final CharSequence in;
+  //private final StringCreator stringCreator;
   private final int start;
 
   /** True to accept non-spec compliant JSON */
   private boolean lenient = false;
 
-  private int position = 0;
+  private int position;
   private final int limit;
 
   /*
@@ -73,10 +74,27 @@ public class JsonReaderEx implements Closeable {
   }
 
   public JsonReaderEx(@NotNull CharSequence in, int start) {
+    this(in, start, null);
+  }
+
+  //new StringCreator() {
+  //      @Override
+  //      public String createString(int start, int end) {
+  //        return in.subSequence(start, end).toString();
+  //      }
+  //    }
+
+  public JsonReaderEx(@NotNull CharSequence in, int start, StringCreator stringCreator) {
     this.in = in;
+    //this.stringCreator = stringCreator;
     this.start = start;
+    position = start;
     limit = in.length();
     push(JsonScope.EMPTY_DOCUMENT);
+  }
+
+  public interface StringCreator {
+    String createString(int start, int end);
   }
 
   public JsonReaderEx subReader() {
