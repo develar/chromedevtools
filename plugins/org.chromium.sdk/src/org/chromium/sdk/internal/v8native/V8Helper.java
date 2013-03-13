@@ -8,17 +8,13 @@ import org.chromium.sdk.CallbackSemaphore;
 import org.chromium.sdk.JsValue.Type;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
-import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
-import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
-import org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.output.ContextlessDebuggerMessage;
 import org.chromium.sdk.internal.v8native.protocol.output.ScriptsMessage;
 import org.chromium.sdk.internal.v8native.value.JsDataTypeUtil;
 import org.chromium.sdk.internal.v8native.value.LoadableString;
-import org.chromium.sdk.internal.v8native.value.PropertyReference;
 import org.chromium.sdk.internal.v8native.value.ValueLoadException;
 import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.v8.protocol.ProtocolReponseReader;
@@ -94,12 +90,6 @@ public class V8Helper {
         }
       },
       syncCallback);
-  }
-
-  public static PropertyReference computeReceiverRef(FrameObject frame) {
-    SomeRef receiverObject = frame.receiver();
-    return V8ProtocolUtil.extractProperty(receiverObject,
-        V8ProtocolUtil.PropertyNameGetter.THIS);
   }
 
   public static LoadableString createLoadableString(ValueHandle handle,

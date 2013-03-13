@@ -14,10 +14,7 @@ import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.ScopeBody;
-import org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle;
-import org.chromium.sdk.internal.v8native.protocol.input.data.RefWithDisplayData;
-import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
-import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
+import org.chromium.sdk.internal.v8native.protocol.input.data.*;
 import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.protocol.output.LookupMessage;
 import org.chromium.sdk.util.GenericCallback;
@@ -94,7 +91,7 @@ public class ValueLoaderImpl extends ValueLoader {
     }
   }
 
-  public ValueMirror addDataToMap(RefWithDisplayData refWithDisplayData) {
+  public ValueMirror addDataToMap(SomeRef refWithDisplayData) {
     return putValueMirrorIntoMapRecursive(ValueMirror.create(refWithDisplayData, getLoadableStringFactory()));
   }
 
@@ -202,7 +199,7 @@ public class ValueLoaderImpl extends ValueLoader {
       PropertyReference property = propertyRefs.get(i);
       DataWithRef dataWithRef = property.getValueObject();
       int ref = dataWithRef.ref();
-      RefWithDisplayData dataWithDisplayData = dataWithRef.getWithDisplayData();
+      SomeRef dataWithDisplayData = dataWithRef.getWithDisplayData();
       ValueMirror mirror;
       if (dataWithDisplayData == null) {
         synchronized (refToMirror) {

@@ -8,10 +8,7 @@ import com.google.gson.stream.JsonReaderEx;
 import org.chromium.sdk.JsValue;
 import org.chromium.sdk.JsValue.Type;
 import org.chromium.sdk.internal.v8native.V8Helper;
-import org.chromium.sdk.internal.v8native.protocol.input.data.FunctionValueHandle;
-import org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle;
-import org.chromium.sdk.internal.v8native.protocol.input.data.RefWithDisplayData;
-import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
+import org.chromium.sdk.internal.v8native.protocol.input.data.*;
 import org.chromium.sdk.internal.v8native.value.LoadableString.Factory;
 
 /**
@@ -51,7 +48,7 @@ public abstract class ValueMirror {
   /**
    * Constructs a {@link ValueMirror} given a V8 debugger object specification if it's possible.
    */
-  public static ValueMirror create(RefWithDisplayData refWithDisplayData, Factory loadableStringFactory) {
+  public static ValueMirror create(SomeRef refWithDisplayData, Factory loadableStringFactory) {
     final String className = refWithDisplayData.className();
     final String typeString = refWithDisplayData.type();
     final Type type = V8Helper.calculateType(typeString, className, false);

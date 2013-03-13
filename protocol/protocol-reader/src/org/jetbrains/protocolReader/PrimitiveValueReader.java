@@ -3,14 +3,23 @@ package org.jetbrains.protocolReader;
 class PrimitiveValueReader extends ValueReader {
   private final String className;
   private final String readPostfix;
+  final String defaultValue;
 
   PrimitiveValueReader(String name) {
     this(name, false);
   }
 
   PrimitiveValueReader(String name, boolean nullable) {
-    super(nullable);
+    this(name, null, nullable);
+  }
 
+  PrimitiveValueReader(String name, String defaultValue) {
+    this(name, defaultValue, false);
+  }
+
+  PrimitiveValueReader(String name, String defaultValue, boolean nullable) {
+    super(nullable);
+    this.defaultValue = defaultValue;
     className = name;
     if (Character.isLowerCase(className.charAt(0))) {
       readPostfix = Character.toUpperCase(className.charAt(0)) + className.substring(1);

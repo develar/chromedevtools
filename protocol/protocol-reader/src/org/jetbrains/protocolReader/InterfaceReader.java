@@ -16,9 +16,9 @@ import java.lang.reflect.WildcardType;
 import java.util.*;
 
 class InterfaceReader {
-  private static final PrimitiveValueReader LONG_PARSER = new PrimitiveValueReader("long");
+  private static final PrimitiveValueReader LONG_PARSER = new PrimitiveValueReader("long", "-1");
 
-  private static final PrimitiveValueReader INTEGER_PARSER = new PrimitiveValueReader("int");
+  private static final PrimitiveValueReader INTEGER_PARSER = new PrimitiveValueReader("int", "-1");
   private static final PrimitiveValueReader BOOLEAN_PARSER = new PrimitiveValueReader("boolean");
   private static final PrimitiveValueReader FLOAT_PARSER = new PrimitiveValueReader("float");
 
@@ -57,9 +57,9 @@ class InterfaceReader {
   final List<TypeRef<?>> refs = new ArrayList<TypeRef<?>>();
   final List<SubtypeCaster> subtypeCasters = new ArrayList<SubtypeCaster>();
 
-  InterfaceReader(Class[] protocolInterfaces) {
+  InterfaceReader(Class<?>[] protocolInterfaces) {
     typeToTypeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>(protocolInterfaces.length);
-    for (Class typeClass : protocolInterfaces) {
+    for (Class<?> typeClass : protocolInterfaces) {
       if (!typeClass.isInterface()) {
         continue;
       }
@@ -75,7 +75,7 @@ class InterfaceReader {
     this.typeToTypeHandler = typeToTypeHandler;
   }
 
-  public static TypeHandler createHandler(LinkedHashMap<Class<?>, TypeHandler<?>> typeToTypeHandler, Class<?> aClass) {
+  public static TypeHandler<?> createHandler(LinkedHashMap<Class<?>, TypeHandler<?>> typeToTypeHandler, Class<?> aClass) {
     InterfaceReader reader = new InterfaceReader(typeToTypeHandler);
     reader.processed.addAll(typeToTypeHandler.keySet());
     reader.go(new Class[]{aClass});
@@ -127,7 +127,7 @@ class InterfaceReader {
       }
     }
 
-    TypeHandler typeHandler = createTypeHandler(typeClass);
+    TypeHandler<?> typeHandler = createTypeHandler(typeClass);
     for (TypeRef<?> ref : refs) {
       if (ref.typeClass == typeClass) {
         assert ref.get() == null;

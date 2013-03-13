@@ -7,6 +7,7 @@ package org.chromium.sdk.internal.v8native;
 import org.chromium.sdk.*;
 import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedCheckedException;
 import org.chromium.sdk.internal.v8native.processor.BacktraceProcessor;
+import org.chromium.sdk.internal.v8native.protocol.PropertyNameGetter;
 import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
@@ -129,7 +130,7 @@ public class CallFrameImpl implements CallFrame {
       return;
     }
 
-    PropertyReference ref = V8Helper.computeReceiverRef(frameObject);
+    PropertyReference ref = V8ProtocolUtil.extractProperty(frameObject.receiver(), PropertyNameGetter.THIS);
     if (ref == null) {
       return;
     }

@@ -4,7 +4,6 @@
 
 package org.chromium.sdk.internal.v8native;
 
-import org.chromium.sdk.JsEvaluateContext;
 import org.chromium.sdk.JsVariable;
 import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
@@ -23,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Generic implementation of {@link JsEvaluateContext}. The abstract class leaves unspecified
+ * Generic implementation of {@link org.chromium.sdk.JsEvaluateContext}. The abstract class leaves unspecified
  * stack frame identifier (possibly null) and reference to {@link InternalContext}.
  */
 abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
@@ -60,17 +59,12 @@ abstract class JsEvaluateContextImpl extends JsEvaluateContextBase {
       return evaluateAsyncImpl(expression, additionalContext, callback, syncCallback);
     }
     catch (ContextDismissedCheckedException e) {
-      maybeRethrowContextException(e);
+      DebugSession.maybeRethrowContextException(e);
       // or
       callback.failure(e.getMessage());
       return RelaySyncCallback.finish(syncCallback);
     }
   }
-
-  private void maybeRethrowContextException(ContextDismissedCheckedException ex) {
-    getInternalContext().getDebugSession().maybeRethrowContextException(ex);
-  }
-
 
   private static List<StringIntPair> convertAdditionalContextList(Map<String, String> source) {
     if (source == null) {

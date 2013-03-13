@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
-import org.chromium.protocolReader.JsonSubtypeCasting;
+import org.chromium.protocolReader.JsonOptionalField;
 import org.chromium.protocolReader.JsonType;
 
 /**
@@ -19,9 +19,15 @@ public interface PropertyObject {
    */
   String name();
 
-  @JsonSubtypeCasting
-  PropertyWithValue asPropertyWithValue();
+  @JsonOptionalField
+  SomeRef value();
 
-  @JsonSubtypeCasting
-  PropertyWithRef asPropertyWithRef();
+  @JsonOptionalField
+  int ref();
+
+  @JsonOptionalField
+  int attributes();
+
+  @JsonOptionalField
+  int propertyType();
 }

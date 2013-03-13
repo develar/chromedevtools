@@ -7,13 +7,8 @@ import static org.jetbrains.jsonProtocol.JsonReaders.*;
 
 public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8native.protocol.input.V8ProtocolReader {
   @Override
-  public org.jetbrains.v8.protocol.SetbreakpointResult readSetbreakpointResult(com.google.gson.stream.JsonReaderEx reader) {
-    return new M40(reader);
-  }
-
-  @Override
-  public org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle readValueHandle(com.google.gson.stream.JsonReaderEx reader) {
-    return new M34(reader);
+  public org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage readIncomingMessage(com.google.gson.stream.JsonReaderEx reader) {
+    return new M13(reader);
   }
 
   @Override
@@ -22,25 +17,30 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
   }
 
   @Override
+  public org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle readValueHandle(com.google.gson.stream.JsonReaderEx reader) {
+    return new M31(reader);
+  }
+
+  @Override
   public org.chromium.sdk.internal.v8native.protocol.input.ScopeBody readScopeResult(com.google.gson.stream.JsonReaderEx reader) {
     return new M17(reader);
   }
 
   @Override
-  public org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage readIncomingMessage(com.google.gson.stream.JsonReaderEx reader) {
-    return new M13(reader);
+  public org.jetbrains.v8.protocol.VersionResult readVersionResult(com.google.gson.stream.JsonReaderEx reader) {
+    return new M38(reader);
   }
 
   @Override
-  public org.jetbrains.v8.protocol.VersionResult readVersionResult(com.google.gson.stream.JsonReaderEx reader) {
-    return new M41(reader);
+  public org.jetbrains.v8.protocol.SetbreakpointResult readSetbreakpointResult(com.google.gson.stream.JsonReaderEx reader) {
+    return new M37(reader);
   }
 
   public static final class M13 implements org.chromium.sdk.internal.v8native.protocol.input.IncomingMessage {
     private com.google.gson.stream.JsonReaderEx inputReader;
-    private M4 lazy_0;
-    private M8 lazy_1;
-    private long _seq;
+    private M8 lazy_0;
+    private M4 lazy_1;
+    private long _seq = -1;
     private org.chromium.sdk.internal.v8native.protocol.input.MessageType _type;
 
     public M13(com.google.gson.stream.JsonReaderEx reader) {
@@ -72,51 +72,51 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public M8 asNotification() {
-      if (lazy_1 == null) {
-        lazy_1 = new M8(inputReader);
-        inputReader = null;
-      }
-      return lazy_1;
+    public long seq() {
+      return _seq;
     }
 
     @Override
-    public M4 asResponse() {
+    public M8 asNotification() {
       if (lazy_0 == null) {
-        lazy_0 = new M4(inputReader);
+        lazy_0 = new M8(inputReader);
         inputReader = null;
       }
       return lazy_0;
     }
 
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.MessageType type() {
-      return _type;
+    public M4 asResponse() {
+      if (lazy_1 == null) {
+        lazy_1 = new M4(inputReader);
+        inputReader = null;
+      }
+      return lazy_1;
     }
 
     @Override
-    public long seq() {
-      return _seq;
+    public org.chromium.sdk.internal.v8native.protocol.input.MessageType type() {
+      return _type;
     }
   }
 
   public static final class M8 implements org.chromium.sdk.internal.v8native.protocol.input.EventNotification {
+    private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> _refs;
     private org.chromium.sdk.internal.v8native.protocol.input.EventNotificationBody _body;
     private String _event;
-    private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> _refs;
 
     public M8(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("body")) {
+        if (name.equals("refs")) {
+          _refs = readObjectArray(reader, "refs", new M28F(), true);
+        }
+        else if (name.equals("body")) {
           _body = new M9(reader);
         }
         else if (name.equals("event")) {
           _event = readString(reader, "event");
-        }
-        else if (name.equals("refs")) {
-          _refs = readObjectArray(reader, "refs", new M31F(), true);
         }
         else {
           reader.skipValue();
@@ -126,13 +126,13 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.EventNotificationBody body() {
-      return _body;
+    public java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> refs() {
+      return _refs;
     }
 
     @Override
-    public java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> refs() {
-      return _refs;
+    public org.chromium.sdk.internal.v8native.protocol.input.EventNotificationBody body() {
+      return _body;
     }
 
     @Override
@@ -153,12 +153,12 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public M19 asScriptCollectedBody() {
-      if (lazy_2 == null) {
-        lazy_2 = new M19(inputReader);
+    public M2 asBreakEventBody() {
+      if (lazy_0 == null) {
+        lazy_0 = new M2(inputReader);
         inputReader = null;
       }
-      return lazy_2;
+      return lazy_0;
     }
 
     @Override
@@ -171,12 +171,12 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public M2 asBreakEventBody() {
-      if (lazy_0 == null) {
-        lazy_0 = new M2(inputReader);
+    public M19 asScriptCollectedBody() {
+      if (lazy_2 == null) {
+        lazy_2 = new M19(inputReader);
         inputReader = null;
       }
-      return lazy_0;
+      return lazy_2;
     }
   }
 
@@ -185,7 +185,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     private M6 lazy_0;
     private M5 lazy_1;
     private String _command;
-    private int _request_seq;
+    private int _request_seq = -1;
     private boolean _success;
 
     public M4(com.google.gson.stream.JsonReaderEx reader) {
@@ -220,12 +220,8 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public M5 asError() {
-      if (lazy_1 == null) {
-        lazy_1 = new M5(inputReader);
-        inputReader = null;
-      }
-      return lazy_1;
+    public java.lang.String command() {
+      return _command;
     }
 
     @Override
@@ -248,36 +244,30 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public java.lang.String command() {
-      return _command;
+    public M5 asError() {
+      if (lazy_1 == null) {
+        lazy_1 = new M5(inputReader);
+        inputReader = null;
+      }
+      return lazy_1;
     }
   }
 
   public static final class M2 implements org.chromium.sdk.internal.v8native.protocol.input.BreakEventBody {
-    private org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle _exception;
-    private com.google.gson.stream.JsonReaderEx _script;
-    private int[] _breakpoints;
     private String _sourceLineText;
     private boolean _uncaught;
-    private int _sourceLine;
+    private int _sourceLine = -1;
     private String _invocationText;
-    private int _sourceColumn;
+    private int _sourceColumn = -1;
+    private int[] _breakpoints;
+    private com.google.gson.stream.JsonReaderEx _script;
+    private org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle _exception;
 
     public M2(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("exception")) {
-          _exception = new M34(reader);
-        }
-        else if (name.equals("script")) {
-          _script = reader.subReader();
-          reader.skipValue();
-        }
-        else if (name.equals("breakpoints")) {
-          _breakpoints = readIntArray(reader);
-        }
-        else if (name.equals("sourceLineText")) {
+        if (name.equals("sourceLineText")) {
           _sourceLineText = readString(reader, "sourceLineText");
         }
         else if (name.equals("uncaught")) {
@@ -292,6 +282,16 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         else if (name.equals("sourceColumn")) {
           _sourceColumn = readInt(reader, "sourceColumn");
         }
+        else if (name.equals("breakpoints")) {
+          _breakpoints = readIntArray(reader);
+        }
+        else if (name.equals("script")) {
+          _script = reader.subReader();
+          reader.skipValue();
+        }
+        else if (name.equals("exception")) {
+          _exception = new M31(reader);
+        }
         else {
           reader.skipValue();
         }
@@ -300,23 +300,23 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public java.lang.String invocationText() {
-      return _invocationText;
-    }
-
-    @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle exception() {
-      return _exception;
-    }
-
-    @Override
     public java.lang.String sourceLineText() {
       return _sourceLineText;
     }
 
     @Override
+    public boolean uncaught() {
+      return _uncaught;
+    }
+
+    @Override
     public int sourceLine() {
       return _sourceLine;
+    }
+
+    @Override
+    public java.lang.String invocationText() {
+      return _invocationText;
     }
 
     @Override
@@ -335,20 +335,20 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public boolean uncaught() {
-      return _uncaught;
+    public org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle exception() {
+      return _exception;
     }
   }
 
   public static final class M7 implements org.chromium.sdk.internal.v8native.protocol.input.CommandResponseBody {
     private com.google.gson.stream.JsonReaderEx inputReader;
-    private M34 lazy_0;
-    private M3 lazy_1;
-    private M15 lazy_2;
-    private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle> lazy_3;
-    private M1 lazy_4;
-    private M14 lazy_5;
-    private M10 lazy_6;
+    private M1 lazy_0;
+    private M31 lazy_1;
+    private M3 lazy_2;
+    private M15 lazy_3;
+    private M14 lazy_4;
+    private M10 lazy_5;
+    private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle> lazy_6;
 
     public M7(com.google.gson.stream.JsonReaderEx reader) {
       inputReader = reader.subReader();
@@ -356,18 +356,45 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public M3 asChangeLiveBody() {
+    public M1 asBacktraceCommandBody() {
+      if (lazy_0 == null) {
+        lazy_0 = new M1(inputReader);
+        inputReader = null;
+      }
+      return lazy_0;
+    }
+
+    @Override
+    public M31 asEvaluateBody() {
       if (lazy_1 == null) {
-        lazy_1 = new M3(inputReader);
+        lazy_1 = new M31(inputReader);
         inputReader = null;
       }
       return lazy_1;
     }
 
     @Override
-    public M1 asBacktraceCommandBody() {
+    public M3 asChangeLiveBody() {
+      if (lazy_2 == null) {
+        lazy_2 = new M3(inputReader);
+        inputReader = null;
+      }
+      return lazy_2;
+    }
+
+    @Override
+    public M15 asRestartFrameBody() {
+      if (lazy_3 == null) {
+        lazy_3 = new M15(inputReader);
+        inputReader = null;
+      }
+      return lazy_3;
+    }
+
+    @Override
+    public M14 asListBreakpointsBody() {
       if (lazy_4 == null) {
-        lazy_4 = new M1(inputReader);
+        lazy_4 = new M14(inputReader);
         inputReader = null;
       }
       return lazy_4;
@@ -375,26 +402,8 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
 
     @Override
     public M10 asFlagsBody() {
-      if (lazy_6 == null) {
-        lazy_6 = new M10(inputReader);
-        inputReader = null;
-      }
-      return lazy_6;
-    }
-
-    @Override
-    public M15 asRestartFrameBody() {
-      if (lazy_2 == null) {
-        lazy_2 = new M15(inputReader);
-        inputReader = null;
-      }
-      return lazy_2;
-    }
-
-    @Override
-    public M14 asListBreakpointsBody() {
       if (lazy_5 == null) {
-        lazy_5 = new M14(inputReader);
+        lazy_5 = new M10(inputReader);
         inputReader = null;
       }
       return lazy_5;
@@ -402,20 +411,11 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
 
     @Override
     public java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle> asScripts() {
-      if (lazy_3 == null) {
-        lazy_3 = readObjectArray(inputReader, null, new M29F(), false);
+      if (lazy_6 == null) {
+        lazy_6 = readObjectArray(inputReader, null, new M26F(), false);
         inputReader = null;
       }
-      return lazy_3;
-    }
-
-    @Override
-    public M34 asEvaluateBody() {
-      if (lazy_0 == null) {
-        lazy_0 = new M34(inputReader);
-        inputReader = null;
-      }
-      return lazy_0;
+      return lazy_6;
     }
 
     @Override
@@ -425,9 +425,9 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
 
   public static final class M1 implements org.chromium.sdk.internal.v8native.protocol.input.BacktraceCommandBody {
     private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.FrameObject> _frames;
-    private int _fromFrame;
-    private int _toFrame;
-    private int _totalFrames;
+    private int _fromFrame = -1;
+    private int _toFrame = -1;
+    private int _totalFrames = -1;
 
     public M1(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -453,6 +453,11 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
+    public java.util.List<org.chromium.sdk.internal.v8native.protocol.input.FrameObject> frames() {
+      return _frames;
+    }
+
+    @Override
     public int fromFrame() {
       return _fromFrame;
     }
@@ -463,42 +468,40 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public java.util.List<org.chromium.sdk.internal.v8native.protocol.input.FrameObject> frames() {
-      return _frames;
-    }
-
-    @Override
     public int totalFrames() {
       return _totalFrames;
     }
   }
 
   public static final class M12 implements org.chromium.sdk.internal.v8native.protocol.input.FrameObject {
-    private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject> _arguments;
     private java.util.Map _func;
+    private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject> _arguments;
+    private String _sourceLineText;
     private String _text;
-    private int _line;
+    private int _line = -1;
     private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject> _locals;
     private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.ScopeRef> _scopes;
     private boolean _constructCall;
-    private int _column;
+    private int _column = -1;
     private boolean _debuggerFrame;
-    private org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef _script;
     private String _type;
     private org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef _receiver;
-    private int _position;
-    private int _index;
-    private String _sourceLineText;
+    private int _position = -1;
+    private int _index = -1;
+    private org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef _script;
 
     public M12(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("arguments")) {
+        if (name.equals("func")) {
+          _func = readMap(reader, "func");
+        }
+        else if (name.equals("arguments")) {
           _arguments = readObjectArray(reader, "arguments", new M25F(), false);
         }
-        else if (name.equals("func")) {
-          _func = readMap(reader, "func");
+        else if (name.equals("sourceLineText")) {
+          _sourceLineText = readString(reader, "sourceLineText");
         }
         else if (name.equals("text")) {
           _text = readString(reader, "text");
@@ -521,14 +524,11 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         else if (name.equals("debuggerFrame")) {
           _debuggerFrame = readBoolean(reader, "debuggerFrame");
         }
-        else if (name.equals("script")) {
-          _script = new M32(reader);
-        }
         else if (name.equals("type")) {
           _type = readString(reader, "type");
         }
         else if (name.equals("receiver")) {
-          _receiver = new M32(reader);
+          _receiver = new M29(reader);
         }
         else if (name.equals("position")) {
           _position = readInt(reader, "position");
@@ -536,8 +536,8 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         else if (name.equals("index")) {
           _index = readInt(reader, "index");
         }
-        else if (name.equals("sourceLineText")) {
-          _sourceLineText = readString(reader, "sourceLineText");
+        else if (name.equals("script")) {
+          _script = new M29(reader);
         }
         else {
           reader.skipValue();
@@ -547,23 +547,28 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public boolean debuggerFrame() {
-      return _debuggerFrame;
-    }
-
-    @Override
-    public int column() {
-      return _column;
-    }
-
-    @Override
     public java.util.Map func() {
       return _func;
     }
 
     @Override
+    public java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject> arguments() {
+      return _arguments;
+    }
+
+    @Override
     public java.lang.String sourceLineText() {
       return _sourceLineText;
+    }
+
+    @Override
+    public java.lang.String text() {
+      return _text;
+    }
+
+    @Override
+    public int line() {
+      return _line;
     }
 
     @Override
@@ -577,23 +582,23 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject> arguments() {
-      return _arguments;
+    public boolean constructCall() {
+      return _constructCall;
     }
 
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef script() {
-      return _script;
+    public int column() {
+      return _column;
+    }
+
+    @Override
+    public boolean debuggerFrame() {
+      return _debuggerFrame;
     }
 
     @Override
     public java.lang.String type() {
       return _type;
-    }
-
-    @Override
-    public int line() {
-      return _line;
     }
 
     @Override
@@ -607,27 +612,22 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public boolean constructCall() {
-      return _constructCall;
-    }
-
-    @Override
     public int index() {
       return _index;
     }
 
     @Override
-    public java.lang.String text() {
-      return _text;
+    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef script() {
+      return _script;
     }
   }
 
   public static final class M17 implements org.chromium.sdk.internal.v8native.protocol.input.ScopeBody {
     private String _text;
     private org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle _object;
-    private long _frameIndex;
-    private long _type;
-    private long _index;
+    private long _frameIndex = -1;
+    private long _type = -1;
+    private long _index = -1;
 
     public M17(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -656,13 +656,18 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public long frameIndex() {
-      return _frameIndex;
+    public java.lang.String text() {
+      return _text;
     }
 
     @Override
     public org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle object() {
       return _object;
+    }
+
+    @Override
+    public long frameIndex() {
+      return _frameIndex;
     }
 
     @Override
@@ -674,16 +679,11 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public long index() {
       return _index;
     }
-
-    @Override
-    public java.lang.String text() {
-      return _text;
-    }
   }
 
   public static final class M18 implements org.chromium.sdk.internal.v8native.protocol.input.ScopeRef {
-    private int _type;
-    private int _index;
+    private int _type = -1;
+    private int _index = -1;
 
     public M18(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -720,7 +720,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       reader.beginObject();
       while (reader.hasNext()) {
         if (reader.nextName().equals("script")) {
-          _script = new M29(reader);
+          _script = new M26(reader);
         }
         else {
           reader.skipValue();
@@ -749,7 +749,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
           reader.skipValue();
         }
         else if (name.equals("result")) {
-          _result = new M35(reader);
+          _result = new M32(reader);
         }
         else if (name.equals("stepin_recommended")) {
           _stepin_recommended = readBoolean(reader, "stepin_recommended");
@@ -762,11 +762,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public boolean stepin_recommended() {
-      return _stepin_recommended;
-    }
-
-    @Override
     public com.google.gson.stream.JsonReaderEx getChangeLog() {
       return _change_log;
     }
@@ -774,6 +769,11 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     @Override
     public org.chromium.v8.liveEditProtocol.LiveEditResult getResultDescription() {
       return _result;
+    }
+
+    @Override
+    public boolean stepin_recommended() {
+      return _stepin_recommended;
     }
   }
 
@@ -828,7 +828,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       reader.beginObject();
       while (reader.hasNext()) {
         if (reader.nextName().equals("script")) {
-          _script = new M30(reader);
+          _script = new M27(reader);
         }
         else {
           reader.skipValue();
@@ -865,15 +865,15 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  public static final class M31 implements org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle {
+  public static final class M28 implements org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle {
     private com.google.gson.stream.JsonReaderEx inputReader;
-    private M29 lazy_0;
-    private M34 lazy_1;
-    private M22 lazy_2;
+    private M22 lazy_0;
+    private M26 lazy_1;
+    private M31 lazy_2;
     private String _type;
-    private int _handle;
+    private int _handle = -1;
 
-    public M31(com.google.gson.stream.JsonReaderEx reader) {
+    public M28(com.google.gson.stream.JsonReaderEx reader) {
       inputReader = reader.subReader();
       reader.beginObject();
       int i = 0;
@@ -902,35 +902,35 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public java.lang.String type() {
-      return _type;
-    }
-
-    @Override
-    public M29 asScriptHandle() {
+    public M22 asContextHandle() {
       if (lazy_0 == null) {
-        lazy_0 = new M29(inputReader);
+        lazy_0 = new M22(inputReader);
         inputReader = null;
       }
       return lazy_0;
     }
 
     @Override
-    public M34 asValueHandle() {
+    public M26 asScriptHandle() {
       if (lazy_1 == null) {
-        lazy_1 = new M34(inputReader);
+        lazy_1 = new M26(inputReader);
         inputReader = null;
       }
       return lazy_1;
     }
 
     @Override
-    public M22 asContextHandle() {
+    public M31 asValueHandle() {
       if (lazy_2 == null) {
-        lazy_2 = new M22(inputReader);
+        lazy_2 = new M31(inputReader);
         inputReader = null;
       }
       return lazy_2;
+    }
+
+    @Override
+    public java.lang.String type() {
+      return _type;
     }
 
     @Override
@@ -939,31 +939,43 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  public static final class M29 implements org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle {
-    private int _lineOffset;
+  public static final class M26 implements org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle {
     private String _text;
-    private int _lineCount;
-    private String _sourceStart;
-    private String _source;
-    private int _sourceLength;
-    private int _scriptType;
-    private int _compilationType;
-    private org.chromium.sdk.internal.v8native.protocol.input.data.SomeSerialized _evalFromScript;
-    private com.google.gson.stream.JsonReaderEx _evalFromLocation;
-    private int _columnOffset;
-    private int _id;
     private String _name;
     private org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef _context;
+    private int _id = -1;
+    private int _lineOffset = -1;
+    private int _columnOffset = -1;
+    private int _lineCount = -1;
+    private String _sourceStart;
+    private String _source;
+    private int _sourceLength = -1;
+    private int _scriptType = -1;
+    private int _compilationType = -1;
+    private org.chromium.sdk.internal.v8native.protocol.input.data.SomeSerialized _evalFromScript;
+    private com.google.gson.stream.JsonReaderEx _evalFromLocation;
 
-    public M29(com.google.gson.stream.JsonReaderEx reader) {
+    public M26(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("lineOffset")) {
+        if (name.equals("text")) {
+          _text = readString(reader, "text");
+        }
+        else if (name.equals("name")) {
+          _name = readString(reader, "name");
+        }
+        else if (name.equals("context")) {
+          _context = new M29(reader);
+        }
+        else if (name.equals("id")) {
+          _id = readInt(reader, "id");
+        }
+        else if (name.equals("lineOffset")) {
           _lineOffset = readInt(reader, "lineOffset");
         }
-        else if (name.equals("text")) {
-          _text = readString(reader, "text");
+        else if (name.equals("columnOffset")) {
+          _columnOffset = readInt(reader, "columnOffset");
         }
         else if (name.equals("lineCount")) {
           _lineCount = readInt(reader, "lineCount");
@@ -984,23 +996,11 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
           _compilationType = readInt(reader, "compilationType");
         }
         else if (name.equals("evalFromScript")) {
-          _evalFromScript = new M33(reader);
+          _evalFromScript = new M30(reader);
         }
         else if (name.equals("evalFromLocation")) {
           _evalFromLocation = reader.subReader();
           reader.skipValue();
-        }
-        else if (name.equals("columnOffset")) {
-          _columnOffset = readInt(reader, "columnOffset");
-        }
-        else if (name.equals("id")) {
-          _id = readInt(reader, "id");
-        }
-        else if (name.equals("name")) {
-          _name = readString(reader, "name");
-        }
-        else if (name.equals("context")) {
-          _context = new M32(reader);
         }
         else {
           reader.skipValue();
@@ -1010,28 +1010,8 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef context() {
-      return _context;
-    }
-
-    @Override
-    public int lineCount() {
-      return _lineCount;
-    }
-
-    @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeSerialized evalFromScript() {
-      return _evalFromScript;
-    }
-
-    @Override
-    public int compilationType() {
-      return _compilationType;
-    }
-
-    @Override
-    public java.lang.String source() {
-      return _source;
+    public java.lang.String text() {
+      return _text;
     }
 
     @Override
@@ -1040,8 +1020,8 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public int sourceLength() {
-      return _sourceLength;
+    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef context() {
+      return _context;
     }
 
     @Override
@@ -1050,8 +1030,8 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public com.google.gson.stream.JsonReaderEx evalFromLocation() {
-      return _evalFromLocation;
+    public int lineOffset() {
+      return _lineOffset;
     }
 
     @Override
@@ -1060,8 +1040,23 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
+    public int lineCount() {
+      return _lineCount;
+    }
+
+    @Override
     public java.lang.String sourceStart() {
       return _sourceStart;
+    }
+
+    @Override
+    public java.lang.String source() {
+      return _source;
+    }
+
+    @Override
+    public int sourceLength() {
+      return _sourceLength;
     }
 
     @Override
@@ -1070,29 +1065,34 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public int lineOffset() {
-      return _lineOffset;
+    public int compilationType() {
+      return _compilationType;
     }
 
     @Override
-    public java.lang.String text() {
-      return _text;
+    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeSerialized evalFromScript() {
+      return _evalFromScript;
+    }
+
+    @Override
+    public com.google.gson.stream.JsonReaderEx evalFromLocation() {
+      return _evalFromLocation;
     }
   }
 
-  public static final class M34 implements org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle {
+  public static final class M31 implements org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle {
     private com.google.gson.stream.JsonReaderEx inputReader;
     private M24 lazy_0;
     private String _text;
-    private long _fromIndex;
-    private long _toIndex;
     private String _type;
     private String _value;
-    private long _length;
-    private int _handle;
+    private long _length = -1;
+    private int _handle = -1;
     private String _className;
+    private long _toIndex = -1;
+    private long _fromIndex = -1;
 
-    public M34(com.google.gson.stream.JsonReaderEx reader) {
+    public M31(com.google.gson.stream.JsonReaderEx reader) {
       inputReader = reader.subReader();
       reader.beginObject();
       int i = 0;
@@ -1100,12 +1100,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("text")) {
           _text = readString(reader, "text");
-        }
-        else if (name.equals("fromIndex")) {
-          _fromIndex = readLong(reader, "fromIndex");
-        }
-        else if (name.equals("toIndex")) {
-          _toIndex = readLong(reader, "toIndex");
         }
         else if (name.equals("type")) {
           _type = readString(reader, "type");
@@ -1121,6 +1115,12 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         }
         else if (name.equals("className")) {
           _className = readString(reader, "className");
+        }
+        else if (name.equals("toIndex")) {
+          _toIndex = readLong(reader, "toIndex");
+        }
+        else if (name.equals("fromIndex")) {
+          _fromIndex = readLong(reader, "fromIndex");
         }
         else {
           reader.skipValue();
@@ -1139,18 +1139,18 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
+    public java.lang.String text() {
+      return _text;
+    }
+
+    @Override
     public java.lang.String type() {
       return _type;
     }
 
     @Override
-    public long toIndex() {
-      return _toIndex;
-    }
-
-    @Override
-    public java.lang.String className() {
-      return _className;
+    public java.lang.String value() {
+      return _value;
     }
 
     @Override
@@ -1159,8 +1159,18 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public java.lang.String value() {
-      return _value;
+    public int handle() {
+      return _handle;
+    }
+
+    @Override
+    public java.lang.String className() {
+      return _className;
+    }
+
+    @Override
+    public long toIndex() {
+      return _toIndex;
     }
 
     @Override
@@ -1173,104 +1183,36 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public int handle() {
-      return _handle;
-    }
-
-    @Override
-    public java.lang.String text() {
-      return _text;
-    }
-
-    @Override
     public long fromIndex() {
       return _fromIndex;
     }
   }
 
-  public static final class M28 implements org.chromium.sdk.internal.v8native.protocol.input.data.RefWithDisplayData {
-    private String _inferredName;
-    private long _scriptId;
-    private int _ref;
-    private String _type;
-    private com.google.gson.stream.JsonReaderEx _value;
-    private String _className;
+  public static final class M25 implements org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject {
+    private String _name;
+    private org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef _value;
+    private int _ref = -1;
+    private int _attributes = -1;
+    private int _propertyType = -1;
 
-    public M28(com.google.gson.stream.JsonReaderEx reader) {
+    public M25(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("inferredName")) {
-          _inferredName = readString(reader, "inferredName");
+        if (name.equals("name")) {
+          _name = readString(reader, "name");
         }
-        else if (name.equals("scriptId")) {
-          _scriptId = readLong(reader, "scriptId");
+        else if (name.equals("value")) {
+          _value = new M29(reader);
         }
         else if (name.equals("ref")) {
           _ref = readInt(reader, "ref");
         }
-        else if (name.equals("type")) {
-          _type = readString(reader, "type");
+        else if (name.equals("attributes")) {
+          _attributes = readInt(reader, "attributes");
         }
-        else if (name.equals("value")) {
-          _value = reader.subReader();
-          reader.skipValue();
-        }
-        else if (name.equals("className")) {
-          _className = readString(reader, "className");
-        }
-        else {
-          reader.skipValue();
-        }
-      }
-      reader.endObject();
-    }
-
-    @Override
-    public java.lang.String type() {
-      return _type;
-    }
-
-    @Override
-    public com.google.gson.stream.JsonReaderEx value() {
-      return _value;
-    }
-
-    @Override
-    public long scriptId() {
-      return _scriptId;
-    }
-
-    @Override
-    public java.lang.String className() {
-      return _className;
-    }
-
-    @Override
-    public java.lang.String inferredName() {
-      return _inferredName;
-    }
-
-    @Override
-    public int ref() {
-      return _ref;
-    }
-  }
-
-  public static final class M25 implements org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject {
-    private com.google.gson.stream.JsonReaderEx inputReader;
-    private M27 lazy_0;
-    private M26 lazy_1;
-    private String _name;
-
-    public M25(com.google.gson.stream.JsonReaderEx reader) {
-      inputReader = reader.subReader();
-      reader.beginObject();
-      while (reader.hasNext()) {
-        if (reader.nextName().equals("name")) {
-          _name = readString(reader, "name");
-          reader.skipValues();
-          break;
+        else if (name.equals("propertyType")) {
+          _propertyType = readInt(reader, "propertyType");
         }
         else {
           reader.skipValue();
@@ -1285,47 +1227,13 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public M27 asPropertyWithValue() {
-      if (lazy_0 == null) {
-        lazy_0 = new M27(inputReader);
-        inputReader = null;
-      }
-      return lazy_0;
+    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef value() {
+      return _value;
     }
 
     @Override
-    public M26 asPropertyWithRef() {
-      if (lazy_1 == null) {
-        lazy_1 = new M26(inputReader);
-        inputReader = null;
-      }
-      return lazy_1;
-    }
-  }
-
-  public static final class M26 implements org.chromium.sdk.internal.v8native.protocol.input.data.PropertyWithRef {
-    private int _ref;
-    private int _propertyType;
-    private int _attributes;
-
-    public M26(com.google.gson.stream.JsonReaderEx reader) {
-      reader.beginObject();
-      while (reader.hasNext()) {
-        CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("ref")) {
-          _ref = readInt(reader, "ref");
-        }
-        else if (name.equals("propertyType")) {
-          _propertyType = readInt(reader, "propertyType");
-        }
-        else if (name.equals("attributes")) {
-          _attributes = readInt(reader, "attributes");
-        }
-        else {
-          reader.skipValue();
-        }
-      }
-      reader.endObject();
+    public int ref() {
+      return _ref;
     }
 
     @Override
@@ -1334,52 +1242,20 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public void value() {
-
-    }
-
-    @Override
     public int propertyType() {
       return _propertyType;
-    }
-
-    @Override
-    public int ref() {
-      return _ref;
-    }
-  }
-
-  public static final class M27 implements org.chromium.sdk.internal.v8native.protocol.input.data.PropertyWithValue {
-    private org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef _value;
-
-    public M27(com.google.gson.stream.JsonReaderEx reader) {
-      reader.beginObject();
-      while (reader.hasNext()) {
-        if (reader.nextName().equals("value")) {
-          _value = new M32(reader);
-        }
-        else {
-          reader.skipValue();
-        }
-      }
-      reader.endObject();
-    }
-
-    @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef value() {
-      return _value;
     }
   }
 
   public static final class M24 implements org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle {
     private com.google.gson.stream.JsonReaderEx inputReader;
     private M23 lazy_0;
+    private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject> _properties;
     private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject> _internalProperties;
     private org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef _protoObject;
     private org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef _constructorFunction;
     private org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef _primitiveValue;
     private org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef _prototypeObject;
-    private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject> _properties;
 
     private final org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle baseMessage;
 
@@ -1391,23 +1267,23 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
       int i = 0;
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("internalProperties")) {
+        if (name.equals("properties")) {
+          _properties = readObjectArray(reader, "properties", new M25F(), false);
+        }
+        else if (name.equals("internalProperties")) {
           _internalProperties = readObjectArray(reader, "internalProperties", new M25F(), true);
         }
         else if (name.equals("protoObject")) {
-          _protoObject = new M32(reader);
+          _protoObject = new M29(reader);
         }
         else if (name.equals("constructorFunction")) {
-          _constructorFunction = new M32(reader);
+          _constructorFunction = new M29(reader);
         }
         else if (name.equals("primitiveValue")) {
-          _primitiveValue = new M32(reader);
+          _primitiveValue = new M29(reader);
         }
         else if (name.equals("prototypeObject")) {
-          _prototypeObject = new M32(reader);
-        }
-        else if (name.equals("properties")) {
-          _properties = readObjectArray(reader, "properties", new M25F(), false);
+          _prototypeObject = new M29(reader);
         }
         else {
           reader.skipValue();
@@ -1426,12 +1302,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     public static M24 parse(com.google.gson.stream.JsonReaderEx reader) {
-      return new M34(reader).asObject();
-    }
-
-    @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef prototypeObject() {
-      return _prototypeObject;
+      return new M31(reader).asObject();
     }
 
     @Override
@@ -1450,6 +1321,21 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
+    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef constructorFunction() {
+      return _constructorFunction;
+    }
+
+    @Override
+    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef primitiveValue() {
+      return _primitiveValue;
+    }
+
+    @Override
+    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef prototypeObject() {
+      return _prototypeObject;
+    }
+
+    @Override
     public M23 asFunction() {
       if (lazy_0 == null) {
         lazy_0 = new M23(inputReader, this);
@@ -1459,201 +1345,9 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef primitiveValue() {
-      return _primitiveValue;
-    }
-
-    @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef constructorFunction() {
-      return _constructorFunction;
-    }
-
-    @Override
     public org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle getSuper() {
       return baseMessage;
     }}
-
-  public static final class M23 implements org.chromium.sdk.internal.v8native.protocol.input.data.FunctionValueHandle {
-    private int _line;
-    private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.ScopeRef> _scopes;
-    private int _column;
-    private String _source;
-    private String _inferredName;
-    private int _scriptId;
-    private boolean _resolved;
-    private com.google.gson.stream.JsonReaderEx _script;
-    private String _name;
-    private int _position;
-
-    private final org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle baseMessage;
-
-    public M23(com.google.gson.stream.JsonReaderEx reader, org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle baseMessage) {
-      this.baseMessage = baseMessage;
-
-      reader.beginObject();
-      while (reader.hasNext()) {
-        CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("line")) {
-          _line = readInt(reader, "line");
-        }
-        else if (name.equals("scopes")) {
-          _scopes = readObjectArray(reader, "scopes", new M18F(), false);
-        }
-        else if (name.equals("column")) {
-          _column = readInt(reader, "column");
-        }
-        else if (name.equals("source")) {
-          _source = readString(reader, "source");
-        }
-        else if (name.equals("inferredName")) {
-          _inferredName = readString(reader, "inferredName");
-        }
-        else if (name.equals("scriptId")) {
-          _scriptId = readInt(reader, "scriptId");
-        }
-        else if (name.equals("resolved")) {
-          _resolved = readBoolean(reader, "resolved");
-        }
-        else if (name.equals("script")) {
-          _script = reader.subReader();
-          reader.skipValue();
-        }
-        else if (name.equals("name")) {
-          _name = readString(reader, "name");
-        }
-        else if (name.equals("position")) {
-          _position = readInt(reader, "position");
-        }
-        else {
-          reader.skipValue();
-        }
-      }
-      reader.endObject();
-    }
-
-    public static M23 parse(com.google.gson.stream.JsonReaderEx reader) {
-      return M24.parse(reader).asFunction();
-    }
-
-    @Override
-    public com.google.gson.stream.JsonReaderEx script() {
-      return _script;
-    }
-
-    @Override
-    public int scriptId() {
-      return _scriptId;
-    }
-
-    @Override
-    public int line() {
-      return _line;
-    }
-
-    @Override
-    public int column() {
-      return _column;
-    }
-
-    @Override
-    public java.lang.String name() {
-      return _name;
-    }
-
-    @Override
-    public java.lang.String inferredName() {
-      return _inferredName;
-    }
-
-    @Override
-    public boolean resolved() {
-      return _resolved;
-    }
-
-    @Override
-    public java.lang.String source() {
-      return _source;
-    }
-
-    @Override
-    public java.util.List<org.chromium.sdk.internal.v8native.protocol.input.ScopeRef> scopes() {
-      return _scopes;
-    }
-
-    @Override
-    public int position() {
-      return _position;
-    }
-
-    @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle getSuper() {
-      return baseMessage;
-    }}
-
-  public static final class M32 implements org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef {
-    private com.google.gson.stream.JsonReaderEx inputReader;
-    private M28 lazy_0;
-    private int _ref;
-
-    public M32(com.google.gson.stream.JsonReaderEx reader) {
-      inputReader = reader.subReader();
-      reader.beginObject();
-      while (reader.hasNext()) {
-        if (reader.nextName().equals("ref")) {
-          _ref = readInt(reader, "ref");
-          reader.skipValues();
-          break;
-        }
-        else {
-          reader.skipValue();
-        }
-      }
-      reader.endObject();
-    }
-
-    @Override
-    public int ref() {
-      return _ref;
-    }
-
-    @Override
-    public M28 asWithDisplayData() {
-      if (lazy_0 == null) {
-        lazy_0 = new M28(inputReader);
-        inputReader = null;
-      }
-      return lazy_0;
-    }
-  }
-
-  public static final class M33 implements org.chromium.sdk.internal.v8native.protocol.input.data.SomeSerialized {
-    private com.google.gson.stream.JsonReaderEx inputReader;
-    private M32 lazy_0;
-    private M31 lazy_1;
-
-    public M33(com.google.gson.stream.JsonReaderEx reader) {
-      inputReader = reader.subReader();
-      reader.skipValue();
-    }
-
-    @Override
-    public M32 asSomeRef() {
-      if (lazy_0 == null) {
-        lazy_0 = new M32(inputReader);
-        inputReader = null;
-      }
-      return lazy_0;
-    }
-
-    @Override
-    public M31 asSmthWithHandle() {
-      if (lazy_1 == null) {
-        lazy_1 = new M31(inputReader);
-        inputReader = null;
-      }
-      return lazy_1;
-    }
-  }
 
   public static final class M22 implements org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle {
     private com.google.gson.stream.JsonReaderEx _data;
@@ -1680,7 +1374,7 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
 
   public static final class M21 implements org.chromium.sdk.internal.v8native.protocol.input.data.ContextData {
     private String _type;
-    private long _value;
+    private long _value = -1;
 
     public M21(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -1711,28 +1405,34 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
   }
 
   public static final class M20 implements org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo {
-    private int _line;
-    private int _column;
+    private int _number = -1;
+    private int _line = -1;
+    private int _column = -1;
+    private org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo.Type _type;
     private String _script_name;
-    private int _script_id;
+    private int _script_id = -1;
     private String _script_regexp;
-    private int _groupId;
-    private int _hit_count;
+    private int _groupId = -1;
+    private int _hit_count = -1;
     private boolean _active;
     private String _condition;
-    private long _ignoreCount;
-    private int _number;
-    private org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo.Type _type;
+    private long _ignoreCount = -1;
 
     public M20(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("line")) {
+        if (name.equals("number")) {
+          _number = readInt(reader, "number");
+        }
+        else if (name.equals("line")) {
           _line = readInt(reader, "line");
         }
         else if (name.equals("column")) {
           _column = readInt(reader, "column");
+        }
+        else if (name.equals("type")) {
+          _type = readEnum(reader, "type", org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo.Type.class);
         }
         else if (name.equals("script_name")) {
           _script_name = readString(reader, "script_name");
@@ -1758,12 +1458,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
         else if (name.equals("ignoreCount")) {
           _ignoreCount = readLong(reader, "ignoreCount");
         }
-        else if (name.equals("number")) {
-          _number = readInt(reader, "number");
-        }
-        else if (name.equals("type")) {
-          _type = readEnum(reader, "type", org.chromium.sdk.internal.v8native.protocol.input.data.BreakpointInfo.Type.class);
-        }
         else {
           reader.skipValue();
         }
@@ -1772,43 +1466,8 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public int groupId() {
-      return _groupId;
-    }
-
-    @Override
-    public java.lang.String condition() {
-      return _condition;
-    }
-
-    @Override
     public int number() {
       return _number;
-    }
-
-    @Override
-    public int script_id() {
-      return _script_id;
-    }
-
-    @Override
-    public int column() {
-      return _column;
-    }
-
-    @Override
-    public long ignoreCount() {
-      return _ignoreCount;
-    }
-
-    @Override
-    public boolean active() {
-      return _active;
-    }
-
-    @Override
-    public java.lang.String script_name() {
-      return _script_name;
     }
 
     @Override
@@ -1817,8 +1476,8 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public java.lang.String script_regexp() {
-      return _script_regexp;
+    public int column() {
+      return _column;
     }
 
     @Override
@@ -1827,15 +1486,50 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
+    public java.lang.String script_name() {
+      return _script_name;
+    }
+
+    @Override
+    public int script_id() {
+      return _script_id;
+    }
+
+    @Override
+    public java.lang.String script_regexp() {
+      return _script_regexp;
+    }
+
+    @Override
+    public int groupId() {
+      return _groupId;
+    }
+
+    @Override
     public int hit_count() {
       return _hit_count;
     }
+
+    @Override
+    public boolean active() {
+      return _active;
+    }
+
+    @Override
+    public java.lang.String condition() {
+      return _condition;
+    }
+
+    @Override
+    public long ignoreCount() {
+      return _ignoreCount;
+    }
   }
 
-  public static final class M30 implements org.chromium.sdk.internal.v8native.protocol.input.data.ScriptWithId {
-    private int _id;
+  public static final class M27 implements org.chromium.sdk.internal.v8native.protocol.input.data.ScriptWithId {
+    private int _id = -1;
 
-    public M30(com.google.gson.stream.JsonReaderEx reader) {
+    public M27(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         if (reader.nextName().equals("id")) {
@@ -1854,19 +1548,19 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  public static final class M40 implements org.jetbrains.v8.protocol.SetbreakpointResult {
-    private int _breakpoint;
+  public static final class M37 implements org.jetbrains.v8.protocol.SetbreakpointResult {
     private String _type;
+    private int _breakpoint = -1;
 
-    public M40(com.google.gson.stream.JsonReaderEx reader) {
+    public M37(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("breakpoint")) {
-          _breakpoint = readInt(reader, "breakpoint");
-        }
-        else if (name.equals("type")) {
+        if (name.equals("type")) {
           _type = readString(reader, "type");
+        }
+        else if (name.equals("breakpoint")) {
+          _breakpoint = readInt(reader, "breakpoint");
         }
         else {
           reader.skipValue();
@@ -1876,20 +1570,20 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public int breakpoint() {
-      return _breakpoint;
-    }
-
-    @Override
     public java.lang.String type() {
       return _type;
     }
+
+    @Override
+    public int breakpoint() {
+      return _breakpoint;
+    }
   }
 
-  public static final class M41 implements org.jetbrains.v8.protocol.VersionResult {
+  public static final class M38 implements org.jetbrains.v8.protocol.VersionResult {
     private String _V8Version;
 
-    public M41(com.google.gson.stream.JsonReaderEx reader) {
+    public M38(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         if (reader.nextName().equals("V8Version")) {
@@ -1908,23 +1602,36 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  public static final class M5 implements org.chromium.sdk.internal.v8native.protocol.input.CommandResponse.Error {
-    private String _command;
-    private String _message;
-    private boolean _success;
+  public static final class M29 implements org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef {
+    private String _type;
+    private com.google.gson.stream.JsonReaderEx _value;
+    private int _ref = -1;
+    private String _className;
+    private String _inferredName;
+    private int _scriptId = -1;
 
-    public M5(com.google.gson.stream.JsonReaderEx reader) {
+    public M29(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("command")) {
-          _command = readString(reader, "command");
+        if (name.equals("type")) {
+          _type = readString(reader, "type");
         }
-        else if (name.equals("message")) {
-          _message = readString(reader, "message");
+        else if (name.equals("value")) {
+          _value = reader.subReader();
+          reader.skipValue();
         }
-        else if (name.equals("success")) {
-          _success = readBoolean(reader, "success");
+        else if (name.equals("ref")) {
+          _ref = readInt(reader, "ref");
+        }
+        else if (name.equals("className")) {
+          _className = readString(reader, "className");
+        }
+        else if (name.equals("inferredName")) {
+          _inferredName = readString(reader, "inferredName");
+        }
+        else if (name.equals("scriptId")) {
+          _scriptId = readInt(reader, "scriptId");
         }
         else {
           reader.skipValue();
@@ -1934,8 +1641,210 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public java.lang.String message() {
-      return _message;
+    public java.lang.String type() {
+      return _type;
+    }
+
+    @Override
+    public com.google.gson.stream.JsonReaderEx value() {
+      return _value;
+    }
+
+    @Override
+    public int ref() {
+      return _ref;
+    }
+
+    @Override
+    public java.lang.String className() {
+      return _className;
+    }
+
+    @Override
+    public java.lang.String inferredName() {
+      return _inferredName;
+    }
+
+    @Override
+    public int scriptId() {
+      return _scriptId;
+    }
+  }
+
+  public static final class M23 implements org.chromium.sdk.internal.v8native.protocol.input.data.FunctionValueHandle {
+    private int _line = -1;
+    private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.ScopeRef> _scopes;
+    private int _column = -1;
+    private String _name;
+    private int _position = -1;
+    private com.google.gson.stream.JsonReaderEx _script;
+    private String _source;
+    private String _inferredName;
+    private boolean _resolved;
+    private int _scriptId = -1;
+
+    private final org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle baseMessage;
+
+    public M23(com.google.gson.stream.JsonReaderEx reader, org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle baseMessage) {
+      this.baseMessage = baseMessage;
+
+      reader.beginObject();
+      while (reader.hasNext()) {
+        CharSequence name = reader.nextNameAsCharSequence();
+        if (name.equals("line")) {
+          _line = readInt(reader, "line");
+        }
+        else if (name.equals("scopes")) {
+          _scopes = readObjectArray(reader, "scopes", new M18F(), false);
+        }
+        else if (name.equals("column")) {
+          _column = readInt(reader, "column");
+        }
+        else if (name.equals("name")) {
+          _name = readString(reader, "name");
+        }
+        else if (name.equals("position")) {
+          _position = readInt(reader, "position");
+        }
+        else if (name.equals("script")) {
+          _script = reader.subReader();
+          reader.skipValue();
+        }
+        else if (name.equals("source")) {
+          _source = readString(reader, "source");
+        }
+        else if (name.equals("inferredName")) {
+          _inferredName = readString(reader, "inferredName");
+        }
+        else if (name.equals("resolved")) {
+          _resolved = readBoolean(reader, "resolved");
+        }
+        else if (name.equals("scriptId")) {
+          _scriptId = readInt(reader, "scriptId");
+        }
+        else {
+          reader.skipValue();
+        }
+      }
+      reader.endObject();
+    }
+
+    public static M23 parse(com.google.gson.stream.JsonReaderEx reader) {
+      return M24.parse(reader).asFunction();
+    }
+
+    @Override
+    public int line() {
+      return _line;
+    }
+
+    @Override
+    public java.util.List<org.chromium.sdk.internal.v8native.protocol.input.ScopeRef> scopes() {
+      return _scopes;
+    }
+
+    @Override
+    public int column() {
+      return _column;
+    }
+
+    @Override
+    public java.lang.String name() {
+      return _name;
+    }
+
+    @Override
+    public int position() {
+      return _position;
+    }
+
+    @Override
+    public com.google.gson.stream.JsonReaderEx script() {
+      return _script;
+    }
+
+    @Override
+    public java.lang.String source() {
+      return _source;
+    }
+
+    @Override
+    public java.lang.String inferredName() {
+      return _inferredName;
+    }
+
+    @Override
+    public boolean resolved() {
+      return _resolved;
+    }
+
+    @Override
+    public int scriptId() {
+      return _scriptId;
+    }
+
+    @Override
+    public org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle getSuper() {
+      return baseMessage;
+    }}
+
+  public static final class M30 implements org.chromium.sdk.internal.v8native.protocol.input.data.SomeSerialized {
+    private com.google.gson.stream.JsonReaderEx inputReader;
+    private M29 lazy_0;
+    private M28 lazy_1;
+
+    public M30(com.google.gson.stream.JsonReaderEx reader) {
+      inputReader = reader.subReader();
+      reader.skipValue();
+    }
+
+    @Override
+    public M29 asSomeRef() {
+      if (lazy_0 == null) {
+        lazy_0 = new M29(inputReader);
+        inputReader = null;
+      }
+      return lazy_0;
+    }
+
+    @Override
+    public M28 asSmthWithHandle() {
+      if (lazy_1 == null) {
+        lazy_1 = new M28(inputReader);
+        inputReader = null;
+      }
+      return lazy_1;
+    }
+  }
+
+  public static final class M5 implements org.chromium.sdk.internal.v8native.protocol.input.CommandResponse.Error {
+    private String _command;
+    private boolean _success;
+    private String _message;
+
+    public M5(com.google.gson.stream.JsonReaderEx reader) {
+      reader.beginObject();
+      while (reader.hasNext()) {
+        CharSequence name = reader.nextNameAsCharSequence();
+        if (name.equals("command")) {
+          _command = readString(reader, "command");
+        }
+        else if (name.equals("success")) {
+          _success = readBoolean(reader, "success");
+        }
+        else if (name.equals("message")) {
+          _message = readString(reader, "message");
+        }
+        else {
+          reader.skipValue();
+        }
+      }
+      reader.endObject();
+    }
+
+    @Override
+    public java.lang.String command() {
+      return _command;
     }
 
     @Override
@@ -1944,32 +1853,32 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public java.lang.String command() {
-      return _command;
+    public java.lang.String message() {
+      return _message;
     }
   }
 
   public static final class M6 implements org.chromium.sdk.internal.v8native.protocol.input.CommandResponse.Success {
-    private org.chromium.sdk.internal.v8native.protocol.input.CommandResponseBody _body;
-    private boolean _running;
     private java.util.List<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> _refs;
+    private org.chromium.sdk.internal.v8native.protocol.input.CommandResponseBody _body;
     private boolean _success;
+    private boolean _running;
 
     public M6(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("body")) {
+        if (name.equals("refs")) {
+          _refs = readObjectArray(reader, "refs", new M28F(), true);
+        }
+        else if (name.equals("body")) {
           _body = new M7(reader);
-        }
-        else if (name.equals("running")) {
-          _running = readBoolean(reader, "running");
-        }
-        else if (name.equals("refs")) {
-          _refs = readObjectArray(reader, "refs", new M31F(), true);
         }
         else if (name.equals("success")) {
           _success = readBoolean(reader, "success");
+        }
+        else if (name.equals("running")) {
+          _running = readBoolean(reader, "running");
         }
         else {
           reader.skipValue();
@@ -1999,22 +1908,22 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  public static final class M35 implements org.chromium.v8.liveEditProtocol.LiveEditResult {
+  public static final class M32 implements org.chromium.v8.liveEditProtocol.LiveEditResult {
     private org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode _change_tree;
     private org.chromium.v8.liveEditProtocol.LiveEditResult.TextualDiff _textual_diff;
     private String _created_script_name;
     private boolean _stack_modified;
     private boolean _updated;
 
-    public M35(com.google.gson.stream.JsonReaderEx reader) {
+    public M32(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("change_tree")) {
-          _change_tree = new M37(reader);
+          _change_tree = new M34(reader);
         }
         else if (name.equals("textual_diff")) {
-          _textual_diff = new M39(reader);
+          _textual_diff = new M36(reader);
         }
         else if (name.equals("created_script_name")) {
           _created_script_name = readString(reader, "created_script_name");
@@ -2033,13 +1942,8 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public boolean stack_modified() {
-      return _stack_modified;
-    }
-
-    @Override
-    public java.lang.String created_script_name() {
-      return _created_script_name;
+    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode change_tree() {
+      return _change_tree;
     }
 
     @Override
@@ -2048,8 +1952,13 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode change_tree() {
-      return _change_tree;
+    public java.lang.String created_script_name() {
+      return _created_script_name;
+    }
+
+    @Override
+    public boolean stack_modified() {
+      return _stack_modified;
     }
 
     @Override
@@ -2058,34 +1967,29 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  public static final class M36 implements org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode {
+  public static final class M33 implements org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode {
+    private String _name;
     private org.chromium.v8.liveEditProtocol.LiveEditResult.Positions _positions;
     private java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> _children;
-    private String _name;
 
-    public M36(com.google.gson.stream.JsonReaderEx reader) {
+    public M33(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("positions")) {
-          _positions = new M38(reader);
+        if (name.equals("name")) {
+          _name = readString(reader, "name");
+        }
+        else if (name.equals("positions")) {
+          _positions = new M35(reader);
         }
         else if (name.equals("children")) {
-          _children = readObjectArray(reader, "children", new M36F(), false);
-        }
-        else if (name.equals("name")) {
-          _name = readString(reader, "name");
+          _children = readObjectArray(reader, "children", new M33F(), false);
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> children() {
-      return _children;
     }
 
     @Override
@@ -2097,13 +2001,18 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     public org.chromium.v8.liveEditProtocol.LiveEditResult.Positions positions() {
       return _positions;
     }
+
+    @Override
+    public java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> children() {
+      return _children;
+    }
   }
 
-  public static final class M38 implements org.chromium.v8.liveEditProtocol.LiveEditResult.Positions {
-    private long _start_position;
-    private long _end_position;
+  public static final class M35 implements org.chromium.v8.liveEditProtocol.LiveEditResult.Positions {
+    private long _start_position = -1;
+    private long _end_position = -1;
 
-    public M38(com.google.gson.stream.JsonReaderEx reader) {
+    public M35(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
@@ -2121,75 +2030,55 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
-    public long end_position() {
-      return _end_position;
-    }
-
-    @Override
     public long start_position() {
       return _start_position;
     }
+
+    @Override
+    public long end_position() {
+      return _end_position;
+    }
   }
 
-  public static final class M37 implements org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode {
+  public static final class M34 implements org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode {
     private org.chromium.v8.liveEditProtocol.LiveEditResult.Positions _new_positions;
+    private String _status;
     private java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> _new_children;
     private String _status_explanation;
+    private String _name;
     private org.chromium.v8.liveEditProtocol.LiveEditResult.Positions _positions;
     private java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> _children;
-    private String _status;
-    private String _name;
 
-    public M37(com.google.gson.stream.JsonReaderEx reader) {
+    public M34(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("new_positions")) {
-          _new_positions = new M38(reader);
-        }
-        else if (name.equals("new_children")) {
-          _new_children = readObjectArray(reader, "new_children", new M36F(), true);
-        }
-        else if (name.equals("status_explanation")) {
-          _status_explanation = readString(reader, "status_explanation");
-        }
-        else if (name.equals("positions")) {
-          _positions = new M38(reader);
-        }
-        else if (name.equals("children")) {
-          _children = readObjectArray(reader, "children", new M37F(), false);
+          _new_positions = new M35(reader);
         }
         else if (name.equals("status")) {
           _status = readString(reader, "status");
         }
+        else if (name.equals("new_children")) {
+          _new_children = readObjectArray(reader, "new_children", new M33F(), true);
+        }
+        else if (name.equals("status_explanation")) {
+          _status_explanation = readString(reader, "status_explanation");
+        }
         else if (name.equals("name")) {
           _name = readString(reader, "name");
+        }
+        else if (name.equals("positions")) {
+          _positions = new M35(reader);
+        }
+        else if (name.equals("children")) {
+          _children = readObjectArray(reader, "children", new M34F(), false);
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> children() {
-      return _children;
-    }
-
-    @Override
-    public java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> new_children() {
-      return _new_children;
-    }
-
-    @Override
-    public org.chromium.v8.liveEditProtocol.LiveEditResult.Positions positions() {
-      return _positions;
-    }
-
-    @Override
-    public java.lang.String name() {
-      return _name;
     }
 
     @Override
@@ -2203,15 +2092,35 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
 
     @Override
+    public java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> new_children() {
+      return _new_children;
+    }
+
+    @Override
     public java.lang.String status_explanation() {
       return _status_explanation;
     }
+
+    @Override
+    public java.lang.String name() {
+      return _name;
+    }
+
+    @Override
+    public org.chromium.v8.liveEditProtocol.LiveEditResult.Positions positions() {
+      return _positions;
+    }
+
+    @Override
+    public java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> children() {
+      return _children;
+    }
   }
 
-  public static final class M39 implements org.chromium.v8.liveEditProtocol.LiveEditResult.TextualDiff {
+  public static final class M36 implements org.chromium.v8.liveEditProtocol.LiveEditResult.TextualDiff {
     private int[] _chunks;
 
-    public M39(com.google.gson.stream.JsonReaderEx reader) {
+    public M36(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         if (reader.nextName().equals("chunks")) {
@@ -2227,38 +2136,6 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     @Override
     public int[] chunks() {
       return _chunks;
-    }
-  }
-
-  public static final class M11 implements org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo {
-    private String _name;
-    private boolean _value;
-
-    public M11(com.google.gson.stream.JsonReaderEx reader) {
-      reader.beginObject();
-      while (reader.hasNext()) {
-        CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("name")) {
-          _name = readString(reader, "name");
-        }
-        else if (name.equals("value")) {
-          _value = readBoolean(reader, "value");
-        }
-        else {
-          reader.skipValue();
-        }
-      }
-      reader.endObject();
-    }
-
-    @Override
-    public boolean value() {
-      return _value;
-    }
-
-    @Override
-    public java.lang.String name() {
-      return _name;
     }
   }
 
@@ -2284,17 +2161,49 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  static final class M31F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> {
+  public static final class M11 implements org.chromium.sdk.internal.v8native.protocol.input.FlagsBody.FlagInfo {
+    private String _name;
+    private boolean _value;
+
+    public M11(com.google.gson.stream.JsonReaderEx reader) {
+      reader.beginObject();
+      while (reader.hasNext()) {
+        CharSequence name = reader.nextNameAsCharSequence();
+        if (name.equals("name")) {
+          _name = readString(reader, "name");
+        }
+        else if (name.equals("value")) {
+          _value = readBoolean(reader, "value");
+        }
+        else {
+          reader.skipValue();
+        }
+      }
+      reader.endObject();
+    }
+
     @Override
-    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M31(reader);
+    public java.lang.String name() {
+      return _name;
+    }
+
+    @Override
+    public boolean value() {
+      return _value;
     }
   }
 
-  static final class M29F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle> {
+  static final class M28F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle> {
+    @Override
+    public org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M28(reader);
+    }
+  }
+
+  static final class M26F extends ObjectFactory<org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle> {
     @Override
     public org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M29(reader);
+      return new M26(reader);
     }
   }
 
@@ -2333,17 +2242,17 @@ public final class V8ProtocolReaderImpl implements org.chromium.sdk.internal.v8n
     }
   }
 
-  static final class M36F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> {
+  static final class M33F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> {
     @Override
     public org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M36(reader);
+      return new M33(reader);
     }
   }
 
-  static final class M37F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> {
+  static final class M34F extends ObjectFactory<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> {
     @Override
     public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M37(reader);
+      return new M34(reader);
     }
   }
 

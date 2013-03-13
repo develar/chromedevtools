@@ -22,6 +22,13 @@ class FieldLoader {
   public void writeFieldDeclaration(TextOutput out) {
     out.append("private ");
     valueReader.appendFinishedValueTypeName(out);
-    out.append(' ').append(FIELD_PREFIX).append(fieldName).append(';');
+    out.append(' ').append(FIELD_PREFIX).append(fieldName);
+    if (valueReader instanceof PrimitiveValueReader) {
+      String defaultValue = ((PrimitiveValueReader)valueReader).defaultValue;
+      if (defaultValue != null) {
+        out.append(" = ").append(defaultValue);
+      }
+    }
+    out.semi();
   }
 }

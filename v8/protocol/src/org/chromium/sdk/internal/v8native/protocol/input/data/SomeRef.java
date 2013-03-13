@@ -4,8 +4,8 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
-import org.chromium.protocolReader.JsonSubtypeCasting;
-import org.chromium.protocolReader.JsonType;
+import com.google.gson.stream.JsonReaderEx;
+import org.chromium.protocolReader.*;
 
 /**
  * A reference form of object data serialization. Basically it only has one field "ref" that
@@ -18,6 +18,18 @@ import org.chromium.protocolReader.JsonType;
 public interface SomeRef {
   int ref();
 
-  @JsonSubtypeCasting
-  RefWithDisplayData asWithDisplayData();
+  String type();
+
+  @JsonOptionalField
+  @JsonNullable
+  JsonReaderEx value();
+
+  @JsonOptionalField
+  String className();
+
+  @JsonOptionalField
+  String inferredName();
+
+  @JsonOptionalField
+  int scriptId();
 }

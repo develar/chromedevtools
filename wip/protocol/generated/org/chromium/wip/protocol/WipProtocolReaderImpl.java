@@ -502,19 +502,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M0 implements org.chromium.wip.protocol.console.CallFrameValue {
-    private int _lineNumber;
     private String _url;
     private String _functionName;
-    private int _columnNumber;
+    private int _columnNumber = -1;
+    private int _lineNumber = -1;
 
     public M0(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("lineNumber")) {
-          _lineNumber = readInt(reader, "lineNumber");
-        }
-        else if (name.equals("url")) {
+        if (name.equals("url")) {
           _url = readString(reader, "url");
         }
         else if (name.equals("functionName")) {
@@ -523,16 +520,14 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("columnNumber")) {
           _columnNumber = readInt(reader, "columnNumber");
         }
+        else if (name.equals("lineNumber")) {
+          _lineNumber = readInt(reader, "lineNumber");
+        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public int lineNumber() {
-      return _lineNumber;
     }
 
     @Override
@@ -549,53 +544,58 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public int columnNumber() {
       return _columnNumber;
     }
+
+    @Override
+    public int lineNumber() {
+      return _lineNumber;
+    }
   }
 
   public static final class M1 implements org.chromium.wip.protocol.console.ConsoleMessageValue {
-    private org.chromium.wip.protocol.console.ConsoleMessageValue.Type _type;
-    private java.util.List<org.chromium.wip.protocol.console.CallFrameValue> _stackTrace;
     private String _url;
-    private org.chromium.wip.protocol.console.ConsoleMessageValue.Source _source;
-    private org.chromium.wip.protocol.console.ConsoleMessageValue.Level _level;
+    private int _line = -1;
     private String _text;
-    private int _line;
-    private int _repeatCount;
+    private org.chromium.wip.protocol.console.ConsoleMessageValue.Level _level;
+    private int _repeatCount = -1;
+    private org.chromium.wip.protocol.console.ConsoleMessageValue.Source _source;
     private java.util.List<org.chromium.wip.protocol.runtime.RemoteObjectValue> _parameters;
     private String _networkRequestId;
+    private org.chromium.wip.protocol.console.ConsoleMessageValue.Type _type;
+    private java.util.List<org.chromium.wip.protocol.console.CallFrameValue> _stackTrace;
 
     public M1(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("type")) {
-          _type = readEnum(reader, "type", org.chromium.wip.protocol.console.ConsoleMessageValue.Type.class);
-        }
-        else if (name.equals("stackTrace")) {
-          _stackTrace = readObjectArray(reader, "stackTrace", new M0F(), true);
-        }
-        else if (name.equals("url")) {
+        if (name.equals("url")) {
           _url = readString(reader, "url");
-        }
-        else if (name.equals("source")) {
-          _source = readEnum(reader, "source", org.chromium.wip.protocol.console.ConsoleMessageValue.Source.class);
-        }
-        else if (name.equals("level")) {
-          _level = readEnum(reader, "level", org.chromium.wip.protocol.console.ConsoleMessageValue.Level.class);
-        }
-        else if (name.equals("text")) {
-          _text = readString(reader, "text");
         }
         else if (name.equals("line")) {
           _line = readInt(reader, "line");
         }
+        else if (name.equals("text")) {
+          _text = readString(reader, "text");
+        }
+        else if (name.equals("level")) {
+          _level = readEnum(reader, "level", org.chromium.wip.protocol.console.ConsoleMessageValue.Level.class);
+        }
         else if (name.equals("repeatCount")) {
           _repeatCount = readInt(reader, "repeatCount");
+        }
+        else if (name.equals("source")) {
+          _source = readEnum(reader, "source", org.chromium.wip.protocol.console.ConsoleMessageValue.Source.class);
         }
         else if (name.equals("parameters")) {
           _parameters = readObjectArray(reader, "parameters", new M124F(), true);
         }
         else if (name.equals("networkRequestId")) {
           _networkRequestId = readString(reader, "networkRequestId");
+        }
+        else if (name.equals("type")) {
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.console.ConsoleMessageValue.Type.class);
+        }
+        else if (name.equals("stackTrace")) {
+          _stackTrace = readObjectArray(reader, "stackTrace", new M0F(), true);
         }
         else {
           reader.skipValue();
@@ -605,33 +605,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.chromium.wip.protocol.console.ConsoleMessageValue.Type type() {
-      return _type;
-    }
-
-    @Override
-    public java.util.List<org.chromium.wip.protocol.console.CallFrameValue> stackTrace() {
-      return _stackTrace;
-    }
-
-    @Override
     public java.lang.String url() {
       return _url;
-    }
-
-    @Override
-    public org.chromium.wip.protocol.console.ConsoleMessageValue.Source source() {
-      return _source;
-    }
-
-    @Override
-    public org.chromium.wip.protocol.console.ConsoleMessageValue.Level level() {
-      return _level;
-    }
-
-    @Override
-    public java.lang.String text() {
-      return _text;
     }
 
     @Override
@@ -640,8 +615,23 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
+    public java.lang.String text() {
+      return _text;
+    }
+
+    @Override
+    public org.chromium.wip.protocol.console.ConsoleMessageValue.Level level() {
+      return _level;
+    }
+
+    @Override
     public int repeatCount() {
       return _repeatCount;
+    }
+
+    @Override
+    public org.chromium.wip.protocol.console.ConsoleMessageValue.Source source() {
+      return _source;
     }
 
     @Override
@@ -652,6 +642,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public java.lang.String networkRequestId() {
       return _networkRequestId;
+    }
+
+    @Override
+    public org.chromium.wip.protocol.console.ConsoleMessageValue.Type type() {
+      return _type;
+    }
+
+    @Override
+    public java.util.List<org.chromium.wip.protocol.console.CallFrameValue> stackTrace() {
+      return _stackTrace;
     }
   }
 
@@ -678,7 +678,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M3 implements org.chromium.wip.protocol.console.MessageRepeatCountUpdatedEventData {
-    private int _count;
+    private int _count = -1;
 
     public M3(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -707,18 +707,18 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M5 implements org.chromium.wip.protocol.debugger.BreakpointResolvedEventData {
-    private String _breakpointId;
     private org.chromium.wip.protocol.debugger.LocationValue _location;
+    private String _breakpointId;
 
     public M5(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("breakpointId")) {
-          _breakpointId = readString(reader, "breakpointId");
-        }
-        else if (name.equals("location")) {
+        if (name.equals("location")) {
           _location = new M15(reader);
+        }
+        else if (name.equals("breakpointId")) {
+          _breakpointId = readString(reader, "breakpointId");
         }
         else {
           reader.skipValue();
@@ -728,28 +728,31 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.lang.String breakpointId() {
-      return _breakpointId;
+    public org.chromium.wip.protocol.debugger.LocationValue location() {
+      return _location;
     }
 
     @Override
-    public org.chromium.wip.protocol.debugger.LocationValue location() {
-      return _location;
+    public java.lang.String breakpointId() {
+      return _breakpointId;
     }
   }
 
   public static final class M6 implements org.chromium.wip.protocol.debugger.CallFrameValue {
+    private org.chromium.wip.protocol.debugger.LocationValue _location;
     private String _functionName;
     private String _callFrameId;
     private java.util.List<org.chromium.wip.protocol.debugger.ScopeValue> _scopeChain;
     private org.chromium.wip.protocol.runtime.RemoteObjectValue _this;
-    private org.chromium.wip.protocol.debugger.LocationValue _location;
 
     public M6(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("functionName")) {
+        if (name.equals("location")) {
+          _location = new M15(reader);
+        }
+        else if (name.equals("functionName")) {
           _functionName = readString(reader, "functionName");
         }
         else if (name.equals("callFrameId")) {
@@ -761,14 +764,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("this")) {
           _this = new M124(reader);
         }
-        else if (name.equals("location")) {
-          _location = new M15(reader);
-        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
+    }
+
+    @Override
+    public org.chromium.wip.protocol.debugger.LocationValue location() {
+      return _location;
     }
 
     @Override
@@ -789,11 +794,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public org.chromium.wip.protocol.runtime.RemoteObjectValue getThis() {
       return _this;
-    }
-
-    @Override
-    public org.chromium.wip.protocol.debugger.LocationValue location() {
-      return _location;
     }
   }
 
@@ -874,83 +874,68 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M10 implements org.chromium.wip.protocol.debugger.EvaluateOnCallFrameResult {
-    private boolean _wasThrown;
     private org.chromium.wip.protocol.runtime.RemoteObjectValue _result;
+    private boolean _wasThrown;
 
     public M10(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("wasThrown")) {
-          _wasThrown = readBoolean(reader, "wasThrown");
-        }
-        else if (name.equals("result")) {
+        if (name.equals("result")) {
           _result = new M124(reader);
+        }
+        else if (name.equals("wasThrown")) {
+          _wasThrown = readBoolean(reader, "wasThrown");
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public boolean wasThrown() {
-      return _wasThrown;
     }
 
     @Override
     public org.chromium.wip.protocol.runtime.RemoteObjectValue result() {
       return _result;
     }
+
+    @Override
+    public boolean wasThrown() {
+      return _wasThrown;
+    }
   }
 
   public static final class M11 implements org.chromium.wip.protocol.debugger.FunctionDetailsValue {
-    private String _name;
-    private java.util.List<org.chromium.wip.protocol.debugger.ScopeValue> _scopeChain;
-    private String _inferredName;
     private String _displayName;
     private org.chromium.wip.protocol.debugger.LocationValue _location;
+    private String _inferredName;
+    private String _name;
+    private java.util.List<org.chromium.wip.protocol.debugger.ScopeValue> _scopeChain;
 
     public M11(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("name")) {
-          _name = readString(reader, "name");
-        }
-        else if (name.equals("scopeChain")) {
-          _scopeChain = readObjectArray(reader, "scopeChain", new M22F(), true);
-        }
-        else if (name.equals("inferredName")) {
-          _inferredName = readString(reader, "inferredName");
-        }
-        else if (name.equals("displayName")) {
+        if (name.equals("displayName")) {
           _displayName = readString(reader, "displayName");
         }
         else if (name.equals("location")) {
           _location = new M15(reader);
+        }
+        else if (name.equals("inferredName")) {
+          _inferredName = readString(reader, "inferredName");
+        }
+        else if (name.equals("name")) {
+          _name = readString(reader, "name");
+        }
+        else if (name.equals("scopeChain")) {
+          _scopeChain = readObjectArray(reader, "scopeChain", new M22F(), true);
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public java.lang.String name() {
-      return _name;
-    }
-
-    @Override
-    public java.util.List<org.chromium.wip.protocol.debugger.ScopeValue> scopeChain() {
-      return _scopeChain;
-    }
-
-    @Override
-    public java.lang.String inferredName() {
-      return _inferredName;
     }
 
     @Override
@@ -961,6 +946,21 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public org.chromium.wip.protocol.debugger.LocationValue location() {
       return _location;
+    }
+
+    @Override
+    public java.lang.String inferredName() {
+      return _inferredName;
+    }
+
+    @Override
+    public java.lang.String name() {
+      return _name;
+    }
+
+    @Override
+    public java.util.List<org.chromium.wip.protocol.debugger.ScopeValue> scopeChain() {
+      return _scopeChain;
     }
   }
 
@@ -1016,33 +1016,28 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M15 implements org.chromium.wip.protocol.debugger.LocationValue {
-    private int _lineNumber;
-    private int _columnNumber;
+    private int _columnNumber = -1;
     private String _scriptId;
+    private int _lineNumber = -1;
 
     public M15(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("lineNumber")) {
-          _lineNumber = readInt(reader, "lineNumber");
-        }
-        else if (name.equals("columnNumber")) {
+        if (name.equals("columnNumber")) {
           _columnNumber = readInt(reader, "columnNumber");
         }
         else if (name.equals("scriptId")) {
           _scriptId = readString(reader, "scriptId");
+        }
+        else if (name.equals("lineNumber")) {
+          _lineNumber = readInt(reader, "lineNumber");
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public int lineNumber() {
-      return _lineNumber;
     }
 
     @Override
@@ -1053,6 +1048,11 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public java.lang.String scriptId() {
       return _scriptId;
+    }
+
+    @Override
+    public int lineNumber() {
+      return _lineNumber;
     }
   }
 
@@ -1137,50 +1137,50 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M21 implements org.chromium.wip.protocol.debugger.RunScriptResult {
-    private boolean _wasThrown;
     private org.chromium.wip.protocol.runtime.RemoteObjectValue _result;
+    private boolean _wasThrown;
 
     public M21(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("wasThrown")) {
-          _wasThrown = readBoolean(reader, "wasThrown");
-        }
-        else if (name.equals("result")) {
+        if (name.equals("result")) {
           _result = new M124(reader);
+        }
+        else if (name.equals("wasThrown")) {
+          _wasThrown = readBoolean(reader, "wasThrown");
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public boolean wasThrown() {
-      return _wasThrown;
     }
 
     @Override
     public org.chromium.wip.protocol.runtime.RemoteObjectValue result() {
       return _result;
     }
+
+    @Override
+    public boolean wasThrown() {
+      return _wasThrown;
+    }
   }
 
   public static final class M22 implements org.chromium.wip.protocol.debugger.ScopeValue {
-    private org.chromium.wip.protocol.debugger.ScopeValue.Type _type;
     private org.chromium.wip.protocol.runtime.RemoteObjectValue _object;
+    private org.chromium.wip.protocol.debugger.ScopeValue.Type _type;
 
     public M22(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("type")) {
-          _type = readEnum(reader, "type", org.chromium.wip.protocol.debugger.ScopeValue.Type.class);
-        }
-        else if (name.equals("object")) {
+        if (name.equals("object")) {
           _object = new M124(reader);
+        }
+        else if (name.equals("type")) {
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.debugger.ScopeValue.Type.class);
         }
         else {
           reader.skipValue();
@@ -1190,21 +1190,21 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.chromium.wip.protocol.debugger.ScopeValue.Type type() {
-      return _type;
+    public org.chromium.wip.protocol.runtime.RemoteObjectValue object() {
+      return _object;
     }
 
     @Override
-    public org.chromium.wip.protocol.runtime.RemoteObjectValue object() {
-      return _object;
+    public org.chromium.wip.protocol.debugger.ScopeValue.Type type() {
+      return _type;
     }
   }
 
   public static final class M23 implements org.chromium.wip.protocol.debugger.ScriptFailedToParseEventData {
     private String _url;
     private String _scriptSource;
-    private int _startLine;
-    private int _errorLine;
+    private int _startLine = -1;
+    private int _errorLine = -1;
     private String _errorMessage;
 
     public M23(com.google.gson.stream.JsonReaderEx reader) {
@@ -1262,10 +1262,10 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   public static final class M24 implements org.chromium.wip.protocol.debugger.ScriptParsedEventData {
     private String _url;
     private String _scriptId;
-    private int _startLine;
-    private int _startColumn;
-    private int _endLine;
-    private int _endColumn;
+    private int _startLine = -1;
+    private int _startColumn = -1;
+    private int _endLine = -1;
+    private int _endColumn = -1;
     private boolean _isContentScript;
     private String _sourceMapURL;
     private boolean _hasSourceURL;
@@ -1497,7 +1497,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   public static final class M31 implements org.chromium.wip.protocol.dom.AttributeModifiedEventData {
     private String _name;
     private String _value;
-    private int _nodeId;
+    private int _nodeId = -1;
 
     public M31(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -1537,7 +1537,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
 
   public static final class M32 implements org.chromium.wip.protocol.dom.AttributeRemovedEventData {
     private String _name;
-    private int _nodeId;
+    private int _nodeId = -1;
 
     public M32(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -1568,50 +1568,50 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M33 implements org.chromium.wip.protocol.dom.CharacterDataModifiedEventData {
-    private int _nodeId;
     private String _characterData;
+    private int _nodeId = -1;
 
     public M33(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, "nodeId");
-        }
-        else if (name.equals("characterData")) {
+        if (name.equals("characterData")) {
           _characterData = readString(reader, "characterData");
+        }
+        else if (name.equals("nodeId")) {
+          _nodeId = readInt(reader, "nodeId");
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public int nodeId() {
-      return _nodeId;
     }
 
     @Override
     public java.lang.String characterData() {
       return _characterData;
     }
+
+    @Override
+    public int nodeId() {
+      return _nodeId;
+    }
   }
 
   public static final class M34 implements org.chromium.wip.protocol.dom.ChildNodeCountUpdatedEventData {
-    private int _nodeId;
-    private int _childNodeCount;
+    private int _childNodeCount = -1;
+    private int _nodeId = -1;
 
     public M34(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, "nodeId");
-        }
-        else if (name.equals("childNodeCount")) {
+        if (name.equals("childNodeCount")) {
           _childNodeCount = readInt(reader, "childNodeCount");
+        }
+        else if (name.equals("nodeId")) {
+          _nodeId = readInt(reader, "nodeId");
         }
         else {
           reader.skipValue();
@@ -1621,20 +1621,20 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public int nodeId() {
-      return _nodeId;
+    public int childNodeCount() {
+      return _childNodeCount;
     }
 
     @Override
-    public int childNodeCount() {
-      return _childNodeCount;
+    public int nodeId() {
+      return _nodeId;
     }
   }
 
   public static final class M35 implements org.chromium.wip.protocol.dom.ChildNodeInsertedEventData {
     private org.chromium.wip.protocol.dom.NodeValue _node;
-    private int _parentNodeId;
-    private int _previousNodeId;
+    private int _parentNodeId = -1;
+    private int _previousNodeId = -1;
 
     public M35(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -1673,18 +1673,18 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M36 implements org.chromium.wip.protocol.dom.ChildNodeRemovedEventData {
-    private int _nodeId;
-    private int _parentNodeId;
+    private int _parentNodeId = -1;
+    private int _nodeId = -1;
 
     public M36(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, "nodeId");
-        }
-        else if (name.equals("parentNodeId")) {
+        if (name.equals("parentNodeId")) {
           _parentNodeId = readInt(reader, "parentNodeId");
+        }
+        else if (name.equals("nodeId")) {
+          _nodeId = readInt(reader, "nodeId");
         }
         else {
           reader.skipValue();
@@ -1694,13 +1694,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public int nodeId() {
-      return _nodeId;
+    public int parentNodeId() {
+      return _parentNodeId;
     }
 
     @Override
-    public int parentNodeId() {
-      return _parentNodeId;
+    public int nodeId() {
+      return _nodeId;
     }
   }
 
@@ -1712,30 +1712,27 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M38 implements org.chromium.wip.protocol.dom.EventListenerValue {
-    private String _type;
-    private int _nodeId;
-    private boolean _useCapture;
-    private boolean _isAttribute;
-    private String _handlerBody;
-    private String _sourceName;
     private org.chromium.wip.protocol.debugger.LocationValue _location;
     private org.chromium.wip.protocol.runtime.RemoteObjectValue _handler;
+    private String _type;
+    private String _handlerBody;
+    private String _sourceName;
+    private boolean _isAttribute;
+    private boolean _useCapture;
+    private int _nodeId = -1;
 
     public M38(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("type")) {
+        if (name.equals("location")) {
+          _location = new M15(reader);
+        }
+        else if (name.equals("handler")) {
+          _handler = new M124(reader);
+        }
+        else if (name.equals("type")) {
           _type = readString(reader, "type");
-        }
-        else if (name.equals("nodeId")) {
-          _nodeId = readInt(reader, "nodeId");
-        }
-        else if (name.equals("useCapture")) {
-          _useCapture = readBoolean(reader, "useCapture");
-        }
-        else if (name.equals("isAttribute")) {
-          _isAttribute = readBoolean(reader, "isAttribute");
         }
         else if (name.equals("handlerBody")) {
           _handlerBody = readString(reader, "handlerBody");
@@ -1743,11 +1740,14 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("sourceName")) {
           _sourceName = readString(reader, "sourceName");
         }
-        else if (name.equals("location")) {
-          _location = new M15(reader);
+        else if (name.equals("isAttribute")) {
+          _isAttribute = readBoolean(reader, "isAttribute");
         }
-        else if (name.equals("handler")) {
-          _handler = new M124(reader);
+        else if (name.equals("useCapture")) {
+          _useCapture = readBoolean(reader, "useCapture");
+        }
+        else if (name.equals("nodeId")) {
+          _nodeId = readInt(reader, "nodeId");
         }
         else {
           reader.skipValue();
@@ -1757,23 +1757,18 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
+    public org.chromium.wip.protocol.debugger.LocationValue location() {
+      return _location;
+    }
+
+    @Override
+    public org.chromium.wip.protocol.runtime.RemoteObjectValue handler() {
+      return _handler;
+    }
+
+    @Override
     public java.lang.String type() {
       return _type;
-    }
-
-    @Override
-    public int nodeId() {
-      return _nodeId;
-    }
-
-    @Override
-    public boolean useCapture() {
-      return _useCapture;
-    }
-
-    @Override
-    public boolean isAttribute() {
-      return _isAttribute;
     }
 
     @Override
@@ -1787,13 +1782,18 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.chromium.wip.protocol.debugger.LocationValue location() {
-      return _location;
+    public boolean isAttribute() {
+      return _isAttribute;
     }
 
     @Override
-    public org.chromium.wip.protocol.runtime.RemoteObjectValue handler() {
-      return _handler;
+    public boolean useCapture() {
+      return _useCapture;
+    }
+
+    @Override
+    public int nodeId() {
+      return _nodeId;
     }
   }
 
@@ -1930,7 +1930,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M45 implements org.chromium.wip.protocol.dom.MoveToResult {
-    private int _nodeId;
+    private int _nodeId = -1;
 
     public M45(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -1952,11 +1952,12 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M46 implements org.chromium.wip.protocol.dom.NodeValue {
+    private int _childNodeCount = -1;
     private String _name;
     private String _value;
-    private int _nodeId;
-    private int _childNodeCount;
-    private int _nodeType;
+    private java.util.List<String> _attributes;
+    private int _nodeId = -1;
+    private int _nodeType = -1;
     private String _nodeName;
     private String _localName;
     private String _nodeValue;
@@ -1965,7 +1966,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     private String _baseURL;
     private String _publicId;
     private String _systemId;
-    private java.util.List<String> _attributes;
     private String _internalSubset;
     private String _xmlVersion;
     private String _frameId;
@@ -1977,17 +1977,20 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("name")) {
+        if (name.equals("childNodeCount")) {
+          _childNodeCount = readInt(reader, "childNodeCount");
+        }
+        else if (name.equals("name")) {
           _name = readString(reader, "name");
         }
         else if (name.equals("value")) {
           _value = readString(reader, "value");
         }
+        else if (name.equals("attributes")) {
+          _attributes = nextList(reader);
+        }
         else if (name.equals("nodeId")) {
           _nodeId = readInt(reader, "nodeId");
-        }
-        else if (name.equals("childNodeCount")) {
-          _childNodeCount = readInt(reader, "childNodeCount");
         }
         else if (name.equals("nodeType")) {
           _nodeType = readInt(reader, "nodeType");
@@ -2016,9 +2019,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("systemId")) {
           _systemId = readString(reader, "systemId");
         }
-        else if (name.equals("attributes")) {
-          _attributes = nextList(reader);
-        }
         else if (name.equals("internalSubset")) {
           _internalSubset = readString(reader, "internalSubset");
         }
@@ -2045,6 +2045,11 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
+    public int childNodeCount() {
+      return _childNodeCount;
+    }
+
+    @Override
     public java.lang.String name() {
       return _name;
     }
@@ -2055,13 +2060,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public int nodeId() {
-      return _nodeId;
+    public java.util.List<java.lang.String> attributes() {
+      return _attributes;
     }
 
     @Override
-    public int childNodeCount() {
-      return _childNodeCount;
+    public int nodeId() {
+      return _nodeId;
     }
 
     @Override
@@ -2110,11 +2115,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.util.List<java.lang.String> attributes() {
-      return _attributes;
-    }
-
-    @Override
     public java.lang.String internalSubset() {
       return _internalSubset;
     }
@@ -2147,7 +2147,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
 
   public static final class M47 implements org.chromium.wip.protocol.dom.PerformSearchResult {
     private String _searchId;
-    private int _resultCount;
+    private int _resultCount = -1;
 
     public M47(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -2178,7 +2178,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M48 implements org.chromium.wip.protocol.dom.PushNodeByPathToFrontendResult {
-    private int _nodeId;
+    private int _nodeId = -1;
 
     public M48(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -2222,7 +2222,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M50 implements org.chromium.wip.protocol.dom.QuerySelectorResult {
-    private int _nodeId;
+    private int _nodeId = -1;
 
     public M50(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -2244,7 +2244,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M51 implements org.chromium.wip.protocol.dom.RequestNodeResult {
-    private int _nodeId;
+    private int _nodeId = -1;
 
     public M51(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -2288,7 +2288,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M53 implements org.chromium.wip.protocol.dom.SetChildNodesEventData {
-    private int _parentId;
+    private int _parentId = -1;
     private java.util.List<org.chromium.wip.protocol.dom.NodeValue> _nodes;
 
     public M53(com.google.gson.stream.JsonReaderEx reader) {
@@ -2320,7 +2320,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M54 implements org.chromium.wip.protocol.dom.SetNodeNameResult {
-    private int _nodeId;
+    private int _nodeId = -1;
 
     public M54(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -2342,8 +2342,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M55 implements org.chromium.wip.protocol.dom.ShadowRootPoppedEventData {
-    private int _hostId;
-    private int _rootId;
+    private int _hostId = -1;
+    private int _rootId = -1;
 
     public M55(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -2374,18 +2374,18 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M56 implements org.chromium.wip.protocol.dom.ShadowRootPushedEventData {
+    private int _hostId = -1;
     private org.chromium.wip.protocol.dom.NodeValue _root;
-    private int _hostId;
 
     public M56(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("root")) {
-          _root = new M46(reader);
-        }
-        else if (name.equals("hostId")) {
+        if (name.equals("hostId")) {
           _hostId = readInt(reader, "hostId");
+        }
+        else if (name.equals("root")) {
+          _root = new M46(reader);
         }
         else {
           reader.skipValue();
@@ -2395,30 +2395,27 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.chromium.wip.protocol.dom.NodeValue root() {
-      return _root;
+    public int hostId() {
+      return _hostId;
     }
 
     @Override
-    public int hostId() {
-      return _hostId;
+    public org.chromium.wip.protocol.dom.NodeValue root() {
+      return _root;
     }
   }
 
   public static final class M57 implements org.chromium.wip.protocol.network.CachedResourceValue {
-    private org.chromium.wip.protocol.page.ResourceType _type;
     private String _url;
     private org.chromium.wip.protocol.network.ResponseValue _response;
     private double _bodySize;
+    private org.chromium.wip.protocol.page.ResourceType _type;
 
     public M57(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("type")) {
-          _type = readEnum(reader, "type", org.chromium.wip.protocol.page.ResourceType.class);
-        }
-        else if (name.equals("url")) {
+        if (name.equals("url")) {
           _url = readString(reader, "url");
         }
         else if (name.equals("response")) {
@@ -2427,16 +2424,14 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("bodySize")) {
           _bodySize = readDouble(reader, "bodySize");
         }
+        else if (name.equals("type")) {
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.page.ResourceType.class);
+        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public org.chromium.wip.protocol.page.ResourceType type() {
-      return _type;
     }
 
     @Override
@@ -2452,6 +2447,11 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public double bodySize() {
       return _bodySize;
+    }
+
+    @Override
+    public org.chromium.wip.protocol.page.ResourceType type() {
+      return _type;
     }
   }
 
@@ -2500,42 +2500,32 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M60 implements org.chromium.wip.protocol.network.DataReceivedEventData {
-    private double _timestamp;
+    private int _dataLength = -1;
+    private int _encodedDataLength = -1;
     private String _requestId;
-    private int _dataLength;
-    private int _encodedDataLength;
+    private double _timestamp;
 
     public M60(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, "timestamp");
-        }
-        else if (name.equals("requestId")) {
-          _requestId = readString(reader, "requestId");
-        }
-        else if (name.equals("dataLength")) {
+        if (name.equals("dataLength")) {
           _dataLength = readInt(reader, "dataLength");
         }
         else if (name.equals("encodedDataLength")) {
           _encodedDataLength = readInt(reader, "encodedDataLength");
+        }
+        else if (name.equals("requestId")) {
+          _requestId = readString(reader, "requestId");
+        }
+        else if (name.equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public double timestamp() {
-      return _timestamp;
-    }
-
-    @Override
-    public java.lang.String requestId() {
-      return _requestId;
     }
 
     @Override
@@ -2547,21 +2537,31 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public int encodedDataLength() {
       return _encodedDataLength;
     }
+
+    @Override
+    public java.lang.String requestId() {
+      return _requestId;
+    }
+
+    @Override
+    public double timestamp() {
+      return _timestamp;
+    }
   }
 
   public static final class M61 implements org.chromium.wip.protocol.network.GetResponseBodyResult {
-    private String _body;
     private boolean _base64Encoded;
+    private String _body;
 
     public M61(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("body")) {
-          _body = readString(reader, "body");
-        }
-        else if (name.equals("base64Encoded")) {
+        if (name.equals("base64Encoded")) {
           _base64Encoded = readBoolean(reader, "base64Encoded");
+        }
+        else if (name.equals("body")) {
+          _body = readString(reader, "body");
         }
         else {
           reader.skipValue();
@@ -2571,13 +2571,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.lang.String body() {
-      return _body;
+    public boolean base64Encoded() {
+      return _base64Encoded;
     }
 
     @Override
-    public boolean base64Encoded() {
-      return _base64Encoded;
+    public java.lang.String body() {
+      return _body;
     }
   }
 
@@ -2589,16 +2589,19 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M63 implements org.chromium.wip.protocol.network.InitiatorValue {
+    private String _url;
     private org.chromium.wip.protocol.network.InitiatorValue.Type _type;
     private java.util.List<org.chromium.wip.protocol.console.CallFrameValue> _stackTrace;
     private double _lineNumber;
-    private String _url;
 
     public M63(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("type")) {
+        if (name.equals("url")) {
+          _url = readString(reader, "url");
+        }
+        else if (name.equals("type")) {
           _type = readEnum(reader, "type", org.chromium.wip.protocol.network.InitiatorValue.Type.class);
         }
         else if (name.equals("stackTrace")) {
@@ -2607,14 +2610,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("lineNumber")) {
           _lineNumber = readDouble(reader, "lineNumber");
         }
-        else if (name.equals("url")) {
-          _url = readString(reader, "url");
-        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
+    }
+
+    @Override
+    public java.lang.String url() {
+      return _url;
     }
 
     @Override
@@ -2631,25 +2636,20 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public double lineNumber() {
       return _lineNumber;
     }
-
-    @Override
-    public java.lang.String url() {
-      return _url;
-    }
   }
 
   public static final class M64 implements org.chromium.wip.protocol.network.LoadingFailedEventData {
-    private double _timestamp;
+    private String _requestId;
     private String _errorText;
     private boolean _canceled;
-    private String _requestId;
+    private double _timestamp;
 
     public M64(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, "timestamp");
+        if (name.equals("requestId")) {
+          _requestId = readString(reader, "requestId");
         }
         else if (name.equals("errorText")) {
           _errorText = readString(reader, "errorText");
@@ -2657,8 +2657,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("canceled")) {
           _canceled = readBoolean(reader, "canceled");
         }
-        else if (name.equals("requestId")) {
-          _requestId = readString(reader, "requestId");
+        else if (name.equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
         }
         else {
           reader.skipValue();
@@ -2668,8 +2668,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public double timestamp() {
-      return _timestamp;
+    public java.lang.String requestId() {
+      return _requestId;
     }
 
     @Override
@@ -2683,24 +2683,24 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.lang.String requestId() {
-      return _requestId;
+    public double timestamp() {
+      return _timestamp;
     }
   }
 
   public static final class M65 implements org.chromium.wip.protocol.network.LoadingFinishedEventData {
-    private double _timestamp;
     private String _requestId;
+    private double _timestamp;
 
     public M65(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, "timestamp");
-        }
-        else if (name.equals("requestId")) {
+        if (name.equals("requestId")) {
           _requestId = readString(reader, "requestId");
+        }
+        else if (name.equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
         }
         else {
           reader.skipValue();
@@ -2710,13 +2710,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public double timestamp() {
-      return _timestamp;
+    public java.lang.String requestId() {
+      return _requestId;
     }
 
     @Override
-    public java.lang.String requestId() {
-      return _requestId;
+    public double timestamp() {
+      return _timestamp;
     }
   }
 
@@ -2743,28 +2743,19 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M67 implements org.chromium.wip.protocol.network.RequestServedFromMemoryCacheEventData {
-    private double _timestamp;
-    private String _documentURL;
-    private String _frameId;
     private String _requestId;
     private String _loaderId;
     private org.chromium.wip.protocol.network.InitiatorValue _initiator;
     private org.chromium.wip.protocol.network.CachedResourceValue _resource;
+    private double _timestamp;
+    private String _documentURL;
+    private String _frameId;
 
     public M67(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, "timestamp");
-        }
-        else if (name.equals("documentURL")) {
-          _documentURL = readString(reader, "documentURL");
-        }
-        else if (name.equals("frameId")) {
-          _frameId = readString(reader, "frameId");
-        }
-        else if (name.equals("requestId")) {
+        if (name.equals("requestId")) {
           _requestId = readString(reader, "requestId");
         }
         else if (name.equals("loaderId")) {
@@ -2776,26 +2767,20 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("resource")) {
           _resource = new M57(reader);
         }
+        else if (name.equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
+        }
+        else if (name.equals("documentURL")) {
+          _documentURL = readString(reader, "documentURL");
+        }
+        else if (name.equals("frameId")) {
+          _frameId = readString(reader, "frameId");
+        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public double timestamp() {
-      return _timestamp;
-    }
-
-    @Override
-    public java.lang.String documentURL() {
-      return _documentURL;
-    }
-
-    @Override
-    public java.lang.String frameId() {
-      return _frameId;
     }
 
     @Override
@@ -2816,6 +2801,21 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public org.chromium.wip.protocol.network.CachedResourceValue resource() {
       return _resource;
+    }
+
+    @Override
+    public double timestamp() {
+      return _timestamp;
+    }
+
+    @Override
+    public java.lang.String documentURL() {
+      return _documentURL;
+    }
+
+    @Override
+    public java.lang.String frameId() {
+      return _frameId;
     }
   }
 
@@ -2870,29 +2870,20 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M69 implements org.chromium.wip.protocol.network.RequestWillBeSentEventData {
-    private double _timestamp;
-    private String _documentURL;
-    private String _frameId;
     private String _requestId;
     private String _loaderId;
     private org.chromium.wip.protocol.network.InitiatorValue _initiator;
+    private double _timestamp;
     private org.chromium.wip.protocol.network.RequestValue _request;
     private org.chromium.wip.protocol.network.ResponseValue _redirectResponse;
+    private String _documentURL;
+    private String _frameId;
 
     public M69(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, "timestamp");
-        }
-        else if (name.equals("documentURL")) {
-          _documentURL = readString(reader, "documentURL");
-        }
-        else if (name.equals("frameId")) {
-          _frameId = readString(reader, "frameId");
-        }
-        else if (name.equals("requestId")) {
+        if (name.equals("requestId")) {
           _requestId = readString(reader, "requestId");
         }
         else if (name.equals("loaderId")) {
@@ -2901,32 +2892,26 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("initiator")) {
           _initiator = new M63(reader);
         }
+        else if (name.equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
+        }
         else if (name.equals("request")) {
           _request = new M68(reader);
         }
         else if (name.equals("redirectResponse")) {
           _redirectResponse = new M72(reader);
         }
+        else if (name.equals("documentURL")) {
+          _documentURL = readString(reader, "documentURL");
+        }
+        else if (name.equals("frameId")) {
+          _frameId = readString(reader, "frameId");
+        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public double timestamp() {
-      return _timestamp;
-    }
-
-    @Override
-    public java.lang.String documentURL() {
-      return _documentURL;
-    }
-
-    @Override
-    public java.lang.String frameId() {
-      return _frameId;
     }
 
     @Override
@@ -2945,6 +2930,11 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
+    public double timestamp() {
+      return _timestamp;
+    }
+
+    @Override
     public org.chromium.wip.protocol.network.RequestValue request() {
       return _request;
     }
@@ -2952,6 +2942,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public org.chromium.wip.protocol.network.ResponseValue redirectResponse() {
       return _redirectResponse;
+    }
+
+    @Override
+    public java.lang.String documentURL() {
+      return _documentURL;
+    }
+
+    @Override
+    public java.lang.String frameId() {
+      return _frameId;
     }
   }
 
@@ -3078,27 +3078,18 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M71 implements org.chromium.wip.protocol.network.ResponseReceivedEventData {
-    private org.chromium.wip.protocol.page.ResourceType _type;
-    private double _timestamp;
-    private String _frameId;
     private org.chromium.wip.protocol.network.ResponseValue _response;
     private String _requestId;
     private String _loaderId;
+    private org.chromium.wip.protocol.page.ResourceType _type;
+    private double _timestamp;
+    private String _frameId;
 
     public M71(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("type")) {
-          _type = readEnum(reader, "type", org.chromium.wip.protocol.page.ResourceType.class);
-        }
-        else if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, "timestamp");
-        }
-        else if (name.equals("frameId")) {
-          _frameId = readString(reader, "frameId");
-        }
-        else if (name.equals("response")) {
+        if (name.equals("response")) {
           _response = new M72(reader);
         }
         else if (name.equals("requestId")) {
@@ -3107,26 +3098,20 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("loaderId")) {
           _loaderId = readString(reader, "loaderId");
         }
+        else if (name.equals("type")) {
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.page.ResourceType.class);
+        }
+        else if (name.equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
+        }
+        else if (name.equals("frameId")) {
+          _frameId = readString(reader, "frameId");
+        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public org.chromium.wip.protocol.page.ResourceType type() {
-      return _type;
-    }
-
-    @Override
-    public double timestamp() {
-      return _timestamp;
-    }
-
-    @Override
-    public java.lang.String frameId() {
-      return _frameId;
     }
 
     @Override
@@ -3143,21 +3128,36 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public java.lang.String loaderId() {
       return _loaderId;
     }
+
+    @Override
+    public org.chromium.wip.protocol.page.ResourceType type() {
+      return _type;
+    }
+
+    @Override
+    public double timestamp() {
+      return _timestamp;
+    }
+
+    @Override
+    public java.lang.String frameId() {
+      return _frameId;
+    }
   }
 
   public static final class M72 implements org.chromium.wip.protocol.network.ResponseValue {
     private String _url;
-    private org.chromium.wip.protocol.network.HeadersValue _headers;
-    private double _status;
-    private String _statusText;
-    private String _headersText;
-    private String _mimeType;
-    private org.chromium.wip.protocol.network.HeadersValue _requestHeaders;
     private String _requestHeadersText;
     private boolean _connectionReused;
     private double _connectionId;
     private boolean _fromDiskCache;
     private org.chromium.wip.protocol.network.ResourceTimingValue _timing;
+    private double _status;
+    private String _statusText;
+    private String _headersText;
+    private String _mimeType;
+    private org.chromium.wip.protocol.network.HeadersValue _requestHeaders;
+    private org.chromium.wip.protocol.network.HeadersValue _headers;
 
     public M72(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -3165,24 +3165,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("url")) {
           _url = readString(reader, "url");
-        }
-        else if (name.equals("headers")) {
-          _headers = new M62(reader);
-        }
-        else if (name.equals("status")) {
-          _status = readDouble(reader, "status");
-        }
-        else if (name.equals("statusText")) {
-          _statusText = readString(reader, "statusText");
-        }
-        else if (name.equals("headersText")) {
-          _headersText = readString(reader, "headersText");
-        }
-        else if (name.equals("mimeType")) {
-          _mimeType = readString(reader, "mimeType");
-        }
-        else if (name.equals("requestHeaders")) {
-          _requestHeaders = new M62(reader);
         }
         else if (name.equals("requestHeadersText")) {
           _requestHeadersText = readString(reader, "requestHeadersText");
@@ -3199,6 +3181,24 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("timing")) {
           _timing = new M70(reader);
         }
+        else if (name.equals("status")) {
+          _status = readDouble(reader, "status");
+        }
+        else if (name.equals("statusText")) {
+          _statusText = readString(reader, "statusText");
+        }
+        else if (name.equals("headersText")) {
+          _headersText = readString(reader, "headersText");
+        }
+        else if (name.equals("mimeType")) {
+          _mimeType = readString(reader, "mimeType");
+        }
+        else if (name.equals("requestHeaders")) {
+          _requestHeaders = new M62(reader);
+        }
+        else if (name.equals("headers")) {
+          _headers = new M62(reader);
+        }
         else {
           reader.skipValue();
         }
@@ -3212,8 +3212,28 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.chromium.wip.protocol.network.HeadersValue headers() {
-      return _headers;
+    public java.lang.String requestHeadersText() {
+      return _requestHeadersText;
+    }
+
+    @Override
+    public boolean connectionReused() {
+      return _connectionReused;
+    }
+
+    @Override
+    public double connectionId() {
+      return _connectionId;
+    }
+
+    @Override
+    public boolean fromDiskCache() {
+      return _fromDiskCache;
+    }
+
+    @Override
+    public org.chromium.wip.protocol.network.ResourceTimingValue timing() {
+      return _timing;
     }
 
     @Override
@@ -3242,44 +3262,24 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.lang.String requestHeadersText() {
-      return _requestHeadersText;
-    }
-
-    @Override
-    public boolean connectionReused() {
-      return _connectionReused;
-    }
-
-    @Override
-    public double connectionId() {
-      return _connectionId;
-    }
-
-    @Override
-    public boolean fromDiskCache() {
-      return _fromDiskCache;
-    }
-
-    @Override
-    public org.chromium.wip.protocol.network.ResourceTimingValue timing() {
-      return _timing;
+    public org.chromium.wip.protocol.network.HeadersValue headers() {
+      return _headers;
     }
   }
 
   public static final class M73 implements org.chromium.wip.protocol.network.WebSocketClosedEventData {
-    private double _timestamp;
     private String _requestId;
+    private double _timestamp;
 
     public M73(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, "timestamp");
-        }
-        else if (name.equals("requestId")) {
+        if (name.equals("requestId")) {
           _requestId = readString(reader, "requestId");
+        }
+        else if (name.equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
         }
         else {
           reader.skipValue();
@@ -3289,13 +3289,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public double timestamp() {
-      return _timestamp;
+    public java.lang.String requestId() {
+      return _requestId;
     }
 
     @Override
-    public java.lang.String requestId() {
-      return _requestId;
+    public double timestamp() {
+      return _timestamp;
     }
   }
 
@@ -3332,33 +3332,28 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M75 implements org.chromium.wip.protocol.network.WebSocketFrameErrorEventData {
-    private double _timestamp;
     private String _errorMessage;
     private String _requestId;
+    private double _timestamp;
 
     public M75(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, "timestamp");
-        }
-        else if (name.equals("errorMessage")) {
+        if (name.equals("errorMessage")) {
           _errorMessage = readString(reader, "errorMessage");
         }
         else if (name.equals("requestId")) {
           _requestId = readString(reader, "requestId");
+        }
+        else if (name.equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public double timestamp() {
-      return _timestamp;
     }
 
     @Override
@@ -3370,36 +3365,36 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public java.lang.String requestId() {
       return _requestId;
     }
+
+    @Override
+    public double timestamp() {
+      return _timestamp;
+    }
   }
 
   public static final class M76 implements org.chromium.wip.protocol.network.WebSocketFrameReceivedEventData {
-    private double _timestamp;
     private org.chromium.wip.protocol.network.WebSocketFrameValue _response;
     private String _requestId;
+    private double _timestamp;
 
     public M76(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, "timestamp");
-        }
-        else if (name.equals("response")) {
+        if (name.equals("response")) {
           _response = new M78(reader);
         }
         else if (name.equals("requestId")) {
           _requestId = readString(reader, "requestId");
+        }
+        else if (name.equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public double timestamp() {
-      return _timestamp;
     }
 
     @Override
@@ -3411,36 +3406,36 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public java.lang.String requestId() {
       return _requestId;
     }
+
+    @Override
+    public double timestamp() {
+      return _timestamp;
+    }
   }
 
   public static final class M77 implements org.chromium.wip.protocol.network.WebSocketFrameSentEventData {
-    private double _timestamp;
     private org.chromium.wip.protocol.network.WebSocketFrameValue _response;
     private String _requestId;
+    private double _timestamp;
 
     public M77(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, "timestamp");
-        }
-        else if (name.equals("response")) {
+        if (name.equals("response")) {
           _response = new M78(reader);
         }
         else if (name.equals("requestId")) {
           _requestId = readString(reader, "requestId");
+        }
+        else if (name.equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public double timestamp() {
-      return _timestamp;
     }
 
     @Override
@@ -3452,25 +3447,30 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public java.lang.String requestId() {
       return _requestId;
     }
+
+    @Override
+    public double timestamp() {
+      return _timestamp;
+    }
   }
 
   public static final class M78 implements org.chromium.wip.protocol.network.WebSocketFrameValue {
-    private String _payloadData;
-    private double _opcode;
     private boolean _mask;
+    private double _opcode;
+    private String _payloadData;
 
     public M78(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("payloadData")) {
-          _payloadData = readString(reader, "payloadData");
+        if (name.equals("mask")) {
+          _mask = readBoolean(reader, "mask");
         }
         else if (name.equals("opcode")) {
           _opcode = readDouble(reader, "opcode");
         }
-        else if (name.equals("mask")) {
-          _mask = readBoolean(reader, "mask");
+        else if (name.equals("payloadData")) {
+          _payloadData = readString(reader, "payloadData");
         }
         else {
           reader.skipValue();
@@ -3480,8 +3480,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.lang.String payloadData() {
-      return _payloadData;
+    public boolean mask() {
+      return _mask;
     }
 
     @Override
@@ -3490,39 +3490,34 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public boolean mask() {
-      return _mask;
+    public java.lang.String payloadData() {
+      return _payloadData;
     }
   }
 
   public static final class M79 implements org.chromium.wip.protocol.network.WebSocketHandshakeResponseReceivedEventData {
-    private double _timestamp;
     private org.chromium.wip.protocol.network.WebSocketResponseValue _response;
     private String _requestId;
+    private double _timestamp;
 
     public M79(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, "timestamp");
-        }
-        else if (name.equals("response")) {
+        if (name.equals("response")) {
           _response = new M81(reader);
         }
         else if (name.equals("requestId")) {
           _requestId = readString(reader, "requestId");
+        }
+        else if (name.equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public double timestamp() {
-      return _timestamp;
     }
 
     @Override
@@ -3533,6 +3528,11 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public java.lang.String requestId() {
       return _requestId;
+    }
+
+    @Override
+    public double timestamp() {
+      return _timestamp;
     }
   }
 
@@ -3559,33 +3559,28 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M81 implements org.chromium.wip.protocol.network.WebSocketResponseValue {
-    private org.chromium.wip.protocol.network.HeadersValue _headers;
     private double _status;
     private String _statusText;
+    private org.chromium.wip.protocol.network.HeadersValue _headers;
 
     public M81(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("headers")) {
-          _headers = new M62(reader);
-        }
-        else if (name.equals("status")) {
+        if (name.equals("status")) {
           _status = readDouble(reader, "status");
         }
         else if (name.equals("statusText")) {
           _statusText = readString(reader, "statusText");
+        }
+        else if (name.equals("headers")) {
+          _headers = new M62(reader);
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public org.chromium.wip.protocol.network.HeadersValue headers() {
-      return _headers;
     }
 
     @Override
@@ -3597,22 +3592,27 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public java.lang.String statusText() {
       return _statusText;
     }
+
+    @Override
+    public org.chromium.wip.protocol.network.HeadersValue headers() {
+      return _headers;
+    }
   }
 
   public static final class M82 implements org.chromium.wip.protocol.network.WebSocketWillSendHandshakeRequestEventData {
-    private double _timestamp;
     private String _requestId;
+    private double _timestamp;
     private org.chromium.wip.protocol.network.WebSocketRequestValue _request;
 
     public M82(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("timestamp")) {
-          _timestamp = readDouble(reader, "timestamp");
-        }
-        else if (name.equals("requestId")) {
+        if (name.equals("requestId")) {
           _requestId = readString(reader, "requestId");
+        }
+        else if (name.equals("timestamp")) {
+          _timestamp = readDouble(reader, "timestamp");
         }
         else if (name.equals("request")) {
           _request = new M80(reader);
@@ -3625,13 +3625,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public double timestamp() {
-      return _timestamp;
+    public java.lang.String requestId() {
+      return _requestId;
     }
 
     @Override
-    public java.lang.String requestId() {
-      return _requestId;
+    public double timestamp() {
+      return _timestamp;
     }
 
     @Override
@@ -3817,21 +3817,33 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M91 implements org.chromium.wip.protocol.page.CookieValue {
-    private String _name;
-    private String _value;
-    private int _size;
-    private String _domain;
-    private String _path;
     private double _expires;
     private boolean _httpOnly;
     private boolean _secure;
     private boolean _session;
+    private String _name;
+    private String _value;
+    private int _size = -1;
+    private String _domain;
+    private String _path;
 
     public M91(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("name")) {
+        if (name.equals("expires")) {
+          _expires = readDouble(reader, "expires");
+        }
+        else if (name.equals("httpOnly")) {
+          _httpOnly = readBoolean(reader, "httpOnly");
+        }
+        else if (name.equals("secure")) {
+          _secure = readBoolean(reader, "secure");
+        }
+        else if (name.equals("session")) {
+          _session = readBoolean(reader, "session");
+        }
+        else if (name.equals("name")) {
           _name = readString(reader, "name");
         }
         else if (name.equals("value")) {
@@ -3846,23 +3858,31 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("path")) {
           _path = readString(reader, "path");
         }
-        else if (name.equals("expires")) {
-          _expires = readDouble(reader, "expires");
-        }
-        else if (name.equals("httpOnly")) {
-          _httpOnly = readBoolean(reader, "httpOnly");
-        }
-        else if (name.equals("secure")) {
-          _secure = readBoolean(reader, "secure");
-        }
-        else if (name.equals("session")) {
-          _session = readBoolean(reader, "session");
-        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
+    }
+
+    @Override
+    public double expires() {
+      return _expires;
+    }
+
+    @Override
+    public boolean httpOnly() {
+      return _httpOnly;
+    }
+
+    @Override
+    public boolean secure() {
+      return _secure;
+    }
+
+    @Override
+    public boolean session() {
+      return _session;
     }
 
     @Override
@@ -3888,26 +3908,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public java.lang.String path() {
       return _path;
-    }
-
-    @Override
-    public double expires() {
-      return _expires;
-    }
-
-    @Override
-    public boolean httpOnly() {
-      return _httpOnly;
-    }
-
-    @Override
-    public boolean secure() {
-      return _secure;
-    }
-
-    @Override
-    public boolean session() {
-      return _session;
     }
   }
 
@@ -4001,8 +4001,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
 
   public static final class M96 implements org.chromium.wip.protocol.page.FrameResourceTreeValue {
     private org.chromium.wip.protocol.page.FrameValue _frame;
-    private java.util.List<org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources> _resources;
     private java.util.List<org.chromium.wip.protocol.page.FrameResourceTreeValue> _childFrames;
+    private java.util.List<org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources> _resources;
 
     public M96(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -4011,11 +4011,11 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         if (name.equals("frame")) {
           _frame = new M101(reader);
         }
-        else if (name.equals("resources")) {
-          _resources = readObjectArray(reader, "resources", new M97F(), false);
-        }
         else if (name.equals("childFrames")) {
           _childFrames = readObjectArray(reader, "childFrames", new M96F(), true);
+        }
+        else if (name.equals("resources")) {
+          _resources = readObjectArray(reader, "resources", new M97F(), false);
         }
         else {
           reader.skipValue();
@@ -4030,29 +4030,29 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.util.List<org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources> resources() {
-      return _resources;
+    public java.util.List<org.chromium.wip.protocol.page.FrameResourceTreeValue> childFrames() {
+      return _childFrames;
     }
 
     @Override
-    public java.util.List<org.chromium.wip.protocol.page.FrameResourceTreeValue> childFrames() {
-      return _childFrames;
+    public java.util.List<org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources> resources() {
+      return _resources;
     }
   }
 
   public static final class M98 implements org.chromium.wip.protocol.page.FrameScheduledNavigationEventData {
-    private String _frameId;
     private double _delay;
+    private String _frameId;
 
     public M98(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("frameId")) {
-          _frameId = readString(reader, "frameId");
-        }
-        else if (name.equals("delay")) {
+        if (name.equals("delay")) {
           _delay = readDouble(reader, "delay");
+        }
+        else if (name.equals("frameId")) {
+          _frameId = readString(reader, "frameId");
         }
         else {
           reader.skipValue();
@@ -4062,13 +4062,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.lang.String frameId() {
-      return _frameId;
+    public double delay() {
+      return _delay;
     }
 
     @Override
-    public double delay() {
-      return _delay;
+    public java.lang.String frameId() {
+      return _frameId;
     }
   }
 
@@ -4117,20 +4117,20 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M101 implements org.chromium.wip.protocol.page.FrameValue {
-    private String _name;
+    private String _id;
     private String _url;
     private String _parentId;
     private String _loaderId;
-    private String _mimeType;
+    private String _name;
     private String _securityOrigin;
-    private String _id;
+    private String _mimeType;
 
     public M101(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("name")) {
-          _name = readString(reader, "name");
+        if (name.equals("id")) {
+          _id = readString(reader, "id");
         }
         else if (name.equals("url")) {
           _url = readString(reader, "url");
@@ -4141,14 +4141,14 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("loaderId")) {
           _loaderId = readString(reader, "loaderId");
         }
-        else if (name.equals("mimeType")) {
-          _mimeType = readString(reader, "mimeType");
+        else if (name.equals("name")) {
+          _name = readString(reader, "name");
         }
         else if (name.equals("securityOrigin")) {
           _securityOrigin = readString(reader, "securityOrigin");
         }
-        else if (name.equals("id")) {
-          _id = readString(reader, "id");
+        else if (name.equals("mimeType")) {
+          _mimeType = readString(reader, "mimeType");
         }
         else {
           reader.skipValue();
@@ -4158,8 +4158,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.lang.String name() {
-      return _name;
+    public java.lang.String id() {
+      return _id;
     }
 
     @Override
@@ -4178,8 +4178,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.lang.String mimeType() {
-      return _mimeType;
+    public java.lang.String name() {
+      return _name;
     }
 
     @Override
@@ -4188,8 +4188,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.lang.String id() {
-      return _id;
+    public java.lang.String mimeType() {
+      return _mimeType;
     }
   }
 
@@ -4216,18 +4216,18 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M103 implements org.chromium.wip.protocol.page.GetCookiesResult {
-    private String _cookiesString;
     private java.util.List<org.chromium.wip.protocol.page.CookieValue> _cookies;
+    private String _cookiesString;
 
     public M103(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("cookiesString")) {
-          _cookiesString = readString(reader, "cookiesString");
-        }
-        else if (name.equals("cookies")) {
+        if (name.equals("cookies")) {
           _cookies = readObjectArray(reader, "cookies", new M91F(), false);
+        }
+        else if (name.equals("cookiesString")) {
+          _cookiesString = readString(reader, "cookiesString");
         }
         else {
           reader.skipValue();
@@ -4237,13 +4237,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.lang.String cookiesString() {
-      return _cookiesString;
+    public java.util.List<org.chromium.wip.protocol.page.CookieValue> cookies() {
+      return _cookies;
     }
 
     @Override
-    public java.util.List<org.chromium.wip.protocol.page.CookieValue> cookies() {
-      return _cookies;
+    public java.lang.String cookiesString() {
+      return _cookiesString;
     }
   }
 
@@ -4474,8 +4474,8 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
 
   public static final class M114 implements org.chromium.wip.protocol.page.SearchResultValue {
     private String _url;
-    private String _frameId;
     private double _matchesCount;
+    private String _frameId;
 
     public M114(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
@@ -4484,11 +4484,11 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         if (name.equals("url")) {
           _url = readString(reader, "url");
         }
-        else if (name.equals("frameId")) {
-          _frameId = readString(reader, "frameId");
-        }
         else if (name.equals("matchesCount")) {
           _matchesCount = readDouble(reader, "matchesCount");
+        }
+        else if (name.equals("frameId")) {
+          _frameId = readString(reader, "frameId");
         }
         else {
           reader.skipValue();
@@ -4503,29 +4503,29 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public java.lang.String frameId() {
-      return _frameId;
+    public double matchesCount() {
+      return _matchesCount;
     }
 
     @Override
-    public double matchesCount() {
-      return _matchesCount;
+    public java.lang.String frameId() {
+      return _frameId;
     }
   }
 
   public static final class M115 implements org.chromium.wip.protocol.runtime.CallFunctionOnResult {
-    private boolean _wasThrown;
     private org.chromium.wip.protocol.runtime.RemoteObjectValue _result;
+    private boolean _wasThrown;
 
     public M115(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("wasThrown")) {
-          _wasThrown = readBoolean(reader, "wasThrown");
-        }
-        else if (name.equals("result")) {
+        if (name.equals("result")) {
           _result = new M124(reader);
+        }
+        else if (name.equals("wasThrown")) {
+          _wasThrown = readBoolean(reader, "wasThrown");
         }
         else {
           reader.skipValue();
@@ -4535,29 +4535,29 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public boolean wasThrown() {
-      return _wasThrown;
+    public org.chromium.wip.protocol.runtime.RemoteObjectValue result() {
+      return _result;
     }
 
     @Override
-    public org.chromium.wip.protocol.runtime.RemoteObjectValue result() {
-      return _result;
+    public boolean wasThrown() {
+      return _wasThrown;
     }
   }
 
   public static final class M116 implements org.chromium.wip.protocol.runtime.EvaluateResult {
-    private boolean _wasThrown;
     private org.chromium.wip.protocol.runtime.RemoteObjectValue _result;
+    private boolean _wasThrown;
 
     public M116(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("wasThrown")) {
-          _wasThrown = readBoolean(reader, "wasThrown");
-        }
-        else if (name.equals("result")) {
+        if (name.equals("result")) {
           _result = new M124(reader);
+        }
+        else if (name.equals("wasThrown")) {
+          _wasThrown = readBoolean(reader, "wasThrown");
         }
         else {
           reader.skipValue();
@@ -4567,13 +4567,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public boolean wasThrown() {
-      return _wasThrown;
+    public org.chromium.wip.protocol.runtime.RemoteObjectValue result() {
+      return _result;
     }
 
     @Override
-    public org.chromium.wip.protocol.runtime.RemoteObjectValue result() {
-      return _result;
+    public boolean wasThrown() {
+      return _wasThrown;
     }
   }
 
@@ -4600,32 +4600,42 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M118 implements org.chromium.wip.protocol.runtime.ExecutionContextDescriptionValue {
+    private int _id = -1;
+    private boolean _isPageContext;
     private String _name;
     private String _frameId;
-    private boolean _isPageContext;
-    private int _id;
 
     public M118(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("name")) {
-          _name = readString(reader, "name");
-        }
-        else if (name.equals("frameId")) {
-          _frameId = readString(reader, "frameId");
+        if (name.equals("id")) {
+          _id = readInt(reader, "id");
         }
         else if (name.equals("isPageContext")) {
           _isPageContext = readBoolean(reader, "isPageContext");
         }
-        else if (name.equals("id")) {
-          _id = readInt(reader, "id");
+        else if (name.equals("name")) {
+          _name = readString(reader, "name");
+        }
+        else if (name.equals("frameId")) {
+          _frameId = readString(reader, "frameId");
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
+    }
+
+    @Override
+    public int id() {
+      return _id;
+    }
+
+    @Override
+    public boolean isPageContext() {
+      return _isPageContext;
     }
 
     @Override
@@ -4636,16 +4646,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public java.lang.String frameId() {
       return _frameId;
-    }
-
-    @Override
-    public boolean isPageContext() {
-      return _isPageContext;
-    }
-
-    @Override
-    public int id() {
-      return _id;
     }
   }
 
@@ -4714,28 +4714,33 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M121 implements org.chromium.wip.protocol.runtime.ObjectPreviewValue {
+    private boolean _overflow;
     private java.util.List<org.chromium.wip.protocol.runtime.PropertyPreviewValue> _properties;
     private boolean _lossless;
-    private boolean _overflow;
 
     public M121(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("properties")) {
+        if (name.equals("overflow")) {
+          _overflow = readBoolean(reader, "overflow");
+        }
+        else if (name.equals("properties")) {
           _properties = readObjectArray(reader, "properties", new M123F(), false);
         }
         else if (name.equals("lossless")) {
           _lossless = readBoolean(reader, "lossless");
-        }
-        else if (name.equals("overflow")) {
-          _overflow = readBoolean(reader, "overflow");
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
+    }
+
+    @Override
+    public boolean overflow() {
+      return _overflow;
     }
 
     @Override
@@ -4747,29 +4752,36 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public boolean lossless() {
       return _lossless;
     }
-
-    @Override
-    public boolean overflow() {
-      return _overflow;
-    }
   }
 
   public static final class M122 implements org.chromium.wip.protocol.runtime.PropertyDescriptorValue {
+    private boolean _writable;
+    private boolean _configurable;
+    private boolean _enumerable;
+    private boolean _isOwn;
     private String _name;
     private org.chromium.wip.protocol.runtime.RemoteObjectValue _get;
     private org.chromium.wip.protocol.runtime.RemoteObjectValue _value;
     private org.chromium.wip.protocol.runtime.RemoteObjectValue _set;
     private boolean _wasThrown;
-    private boolean _enumerable;
-    private boolean _isOwn;
-    private boolean _writable;
-    private boolean _configurable;
 
     public M122(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("name")) {
+        if (name.equals("writable")) {
+          _writable = readBoolean(reader, "writable");
+        }
+        else if (name.equals("configurable")) {
+          _configurable = readBoolean(reader, "configurable");
+        }
+        else if (name.equals("enumerable")) {
+          _enumerable = readBoolean(reader, "enumerable");
+        }
+        else if (name.equals("isOwn")) {
+          _isOwn = readBoolean(reader, "isOwn");
+        }
+        else if (name.equals("name")) {
           _name = readString(reader, "name");
         }
         else if (name.equals("get")) {
@@ -4784,23 +4796,31 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("wasThrown")) {
           _wasThrown = readBoolean(reader, "wasThrown");
         }
-        else if (name.equals("enumerable")) {
-          _enumerable = readBoolean(reader, "enumerable");
-        }
-        else if (name.equals("isOwn")) {
-          _isOwn = readBoolean(reader, "isOwn");
-        }
-        else if (name.equals("writable")) {
-          _writable = readBoolean(reader, "writable");
-        }
-        else if (name.equals("configurable")) {
-          _configurable = readBoolean(reader, "configurable");
-        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
+    }
+
+    @Override
+    public boolean writable() {
+      return _writable;
+    }
+
+    @Override
+    public boolean configurable() {
+      return _configurable;
+    }
+
+    @Override
+    public boolean enumerable() {
+      return _enumerable;
+    }
+
+    @Override
+    public boolean isOwn() {
+      return _isOwn;
     }
 
     @Override
@@ -4827,40 +4847,26 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public boolean wasThrown() {
       return _wasThrown;
     }
-
-    @Override
-    public boolean enumerable() {
-      return _enumerable;
-    }
-
-    @Override
-    public boolean isOwn() {
-      return _isOwn;
-    }
-
-    @Override
-    public boolean writable() {
-      return _writable;
-    }
-
-    @Override
-    public boolean configurable() {
-      return _configurable;
-    }
   }
 
   public static final class M123 implements org.chromium.wip.protocol.runtime.PropertyPreviewValue {
+    private org.chromium.wip.protocol.runtime.ObjectPreviewValue _valuePreview;
+    private org.chromium.wip.protocol.runtime.PropertyPreviewValue.Subtype _subtype;
     private String _name;
     private org.chromium.wip.protocol.runtime.PropertyPreviewValue.Type _type;
     private String _value;
-    private org.chromium.wip.protocol.runtime.ObjectPreviewValue _valuePreview;
-    private org.chromium.wip.protocol.runtime.PropertyPreviewValue.Subtype _subtype;
 
     public M123(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("name")) {
+        if (name.equals("valuePreview")) {
+          _valuePreview = new M121(reader);
+        }
+        else if (name.equals("subtype")) {
+          _subtype = readEnum(reader, "subtype", org.chromium.wip.protocol.runtime.PropertyPreviewValue.Subtype.class);
+        }
+        else if (name.equals("name")) {
           _name = readString(reader, "name");
         }
         else if (name.equals("type")) {
@@ -4869,17 +4875,21 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("value")) {
           _value = readString(reader, "value");
         }
-        else if (name.equals("valuePreview")) {
-          _valuePreview = new M121(reader);
-        }
-        else if (name.equals("subtype")) {
-          _subtype = readEnum(reader, "subtype", org.chromium.wip.protocol.runtime.PropertyPreviewValue.Subtype.class);
-        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
+    }
+
+    @Override
+    public org.chromium.wip.protocol.runtime.ObjectPreviewValue valuePreview() {
+      return _valuePreview;
+    }
+
+    @Override
+    public org.chromium.wip.protocol.runtime.PropertyPreviewValue.Subtype subtype() {
+      return _subtype;
     }
 
     @Override
@@ -4896,42 +4906,22 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     public java.lang.String value() {
       return _value;
     }
-
-    @Override
-    public org.chromium.wip.protocol.runtime.ObjectPreviewValue valuePreview() {
-      return _valuePreview;
-    }
-
-    @Override
-    public org.chromium.wip.protocol.runtime.PropertyPreviewValue.Subtype subtype() {
-      return _subtype;
-    }
   }
 
   public static final class M124 implements org.chromium.wip.protocol.runtime.RemoteObjectValue {
-    private org.chromium.wip.protocol.runtime.RemoteObjectValue.Type _type;
-    private com.google.gson.stream.JsonReaderEx _value;
-    private String _className;
     private String _description;
     private org.chromium.wip.protocol.runtime.RemoteObjectValue.Subtype _subtype;
     private String _objectId;
     private org.chromium.wip.protocol.runtime.ObjectPreviewValue _preview;
+    private org.chromium.wip.protocol.runtime.RemoteObjectValue.Type _type;
+    private com.google.gson.stream.JsonReaderEx _value;
+    private String _className;
 
     public M124(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("type")) {
-          _type = readEnum(reader, "type", org.chromium.wip.protocol.runtime.RemoteObjectValue.Type.class);
-        }
-        else if (name.equals("value")) {
-          _value = reader.subReader();
-          reader.skipValue();
-        }
-        else if (name.equals("className")) {
-          _className = readString(reader, "className");
-        }
-        else if (name.equals("description")) {
+        if (name.equals("description")) {
           _description = readString(reader, "description");
         }
         else if (name.equals("subtype")) {
@@ -4943,26 +4933,21 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("preview")) {
           _preview = new M121(reader);
         }
+        else if (name.equals("type")) {
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.runtime.RemoteObjectValue.Type.class);
+        }
+        else if (name.equals("value")) {
+          _value = reader.subReader();
+          reader.skipValue();
+        }
+        else if (name.equals("className")) {
+          _className = readString(reader, "className");
+        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public org.chromium.wip.protocol.runtime.RemoteObjectValue.Type type() {
-      return _type;
-    }
-
-    @Override
-    public com.google.gson.stream.JsonReaderEx value() {
-      return _value;
-    }
-
-    @Override
-    public java.lang.String className() {
-      return _className;
     }
 
     @Override
@@ -4983,6 +4968,21 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public org.chromium.wip.protocol.runtime.ObjectPreviewValue preview() {
       return _preview;
+    }
+
+    @Override
+    public org.chromium.wip.protocol.runtime.RemoteObjectValue.Type type() {
+      return _type;
+    }
+
+    @Override
+    public com.google.gson.stream.JsonReaderEx value() {
+      return _value;
+    }
+
+    @Override
+    public java.lang.String className() {
+      return _className;
     }
   }
 
@@ -5053,16 +5053,19 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M128 implements org.chromium.wip.protocol.timeline.TimelineEventValue {
+    private String _thread;
     private String _type;
     private org.chromium.wip.protocol.timeline.TimelineEventValue.Data _data;
     private java.util.List<org.chromium.wip.protocol.timeline.TimelineEventValue> _children;
-    private String _thread;
 
     public M128(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("type")) {
+        if (name.equals("thread")) {
+          _thread = readString(reader, "thread");
+        }
+        else if (name.equals("type")) {
           _type = readString(reader, "type");
         }
         else if (name.equals("data")) {
@@ -5071,14 +5074,16 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         else if (name.equals("children")) {
           _children = readObjectArray(reader, "children", new M128F(), true);
         }
-        else if (name.equals("thread")) {
-          _thread = readString(reader, "thread");
-        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
+    }
+
+    @Override
+    public java.lang.String thread() {
+      return _thread;
     }
 
     @Override
@@ -5094,11 +5099,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public java.util.List<org.chromium.wip.protocol.timeline.TimelineEventValue> children() {
       return _children;
-    }
-
-    @Override
-    public java.lang.String thread() {
-      return _thread;
     }
   }
 
@@ -5142,9 +5142,9 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }}
 
   public static final class M97 implements org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources {
-    private org.chromium.wip.protocol.page.ResourceType _type;
     private String _url;
     private boolean _canceled;
+    private org.chromium.wip.protocol.page.ResourceType _type;
     private String _mimeType;
     private boolean _failed;
 
@@ -5152,14 +5152,14 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("type")) {
-          _type = readEnum(reader, "type", org.chromium.wip.protocol.page.ResourceType.class);
-        }
-        else if (name.equals("url")) {
+        if (name.equals("url")) {
           _url = readString(reader, "url");
         }
         else if (name.equals("canceled")) {
           _canceled = readBoolean(reader, "canceled");
+        }
+        else if (name.equals("type")) {
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.page.ResourceType.class);
         }
         else if (name.equals("mimeType")) {
           _mimeType = readString(reader, "mimeType");
@@ -5175,11 +5175,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.chromium.wip.protocol.page.ResourceType type() {
-      return _type;
-    }
-
-    @Override
     public java.lang.String url() {
       return _url;
     }
@@ -5187,6 +5182,11 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public boolean canceled() {
       return _canceled;
+    }
+
+    @Override
+    public org.chromium.wip.protocol.page.ResourceType type() {
+      return _type;
     }
 
     @Override
@@ -5217,7 +5217,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     private com.google.gson.stream.JsonReaderEx inputReader;
     private M130 lazy_0;
     private M136 lazy_1;
-    private int _id;
+    private int _id = -1;
 
     public M135(com.google.gson.stream.JsonReaderEx reader) {
       inputReader = reader.subReader();
@@ -5263,7 +5263,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     private com.google.gson.stream.JsonReaderEx inputReader;
     private M134 lazy_0;
     private M131 lazy_1;
-    private int _id;
+    private int _id = -1;
 
     public M130(com.google.gson.stream.JsonReaderEx reader) {
       inputReader = reader.subReader();
@@ -5328,28 +5328,33 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M132 implements org.jetbrains.wip.protocol.CommandResponse.Error.ErrorInfo {
+    private long _code = -1;
     private String _message;
     private java.util.List<String> _data;
-    private long _code;
 
     public M132(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("message")) {
+        if (name.equals("code")) {
+          _code = readLong(reader, "code");
+        }
+        else if (name.equals("message")) {
           _message = readString(reader, "message");
         }
         else if (name.equals("data")) {
           _data = nextList(reader);
-        }
-        else if (name.equals("code")) {
-          _code = readLong(reader, "code");
         }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
+    }
+
+    @Override
+    public long code() {
+      return _code;
     }
 
     @Override
@@ -5360,11 +5365,6 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     @Override
     public java.util.List<java.lang.String> data() {
       return _data;
-    }
-
-    @Override
-    public long code() {
-      return _code;
     }
   }
 
@@ -5398,13 +5398,13 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.jetbrains.wip.protocol.CommandResponse.Result result() {
-      return _result;
+    public void error() {
+
     }
 
     @Override
-    public void error() {
-
+    public org.jetbrains.wip.protocol.CommandResponse.Result result() {
+      return _result;
     }
   }
 
@@ -5540,17 +5540,17 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M0F extends ObjectFactory<org.chromium.wip.protocol.console.CallFrameValue> {
-    @Override
-    public org.chromium.wip.protocol.console.CallFrameValue read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M0(reader);
-    }
-  }
-
   static final class M124F extends ObjectFactory<org.chromium.wip.protocol.runtime.RemoteObjectValue> {
     @Override
     public org.chromium.wip.protocol.runtime.RemoteObjectValue read(com.google.gson.stream.JsonReaderEx reader) {
       return new M124(reader);
+    }
+  }
+
+  static final class M0F extends ObjectFactory<org.chromium.wip.protocol.console.CallFrameValue> {
+    @Override
+    public org.chromium.wip.protocol.console.CallFrameValue read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M0(reader);
     }
   }
 
@@ -5596,17 +5596,17 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
   }
 
-  static final class M97F extends ObjectFactory<org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources> {
-    @Override
-    public org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M97(reader);
-    }
-  }
-
   static final class M96F extends ObjectFactory<org.chromium.wip.protocol.page.FrameResourceTreeValue> {
     @Override
     public org.chromium.wip.protocol.page.FrameResourceTreeValue read(com.google.gson.stream.JsonReaderEx reader) {
       return new M96(reader);
+    }
+  }
+
+  static final class M97F extends ObjectFactory<org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources> {
+    @Override
+    public org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M97(reader);
     }
   }
 

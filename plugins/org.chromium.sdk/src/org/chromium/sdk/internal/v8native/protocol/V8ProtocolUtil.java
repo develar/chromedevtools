@@ -62,16 +62,13 @@ public class V8ProtocolUtil {
    * @param handle to get property references from
    * @return an array of PropertyReferences
    */
-  public static List<? extends PropertyReference> extractObjectProperties(
-      ObjectValueHandle handle) {
-    List<PropertyObject> props = handle.properties();
-    int propsLen = props.size();
-    List<PropertyReference> objProps = new ArrayList<PropertyReference>(propsLen);
-    for (PropertyObject prop : props) {
-      putMirror(objProps, prop, PropertyNameGetter.SUBPROPERTY);
+  public static List<? extends PropertyReference> extractObjectProperties(ObjectValueHandle handle) {
+    List<PropertyObject> properties = handle.properties();
+    List<PropertyReference> result = new ArrayList<PropertyReference>(properties.size());
+    for (PropertyObject property : properties) {
+      putMirror(result, property, PropertyNameGetter.SUBPROPERTY);
     }
-
-    return objProps;
+    return result;
   }
 
   public static List<? extends PropertyReference> extractObjectInternalProperties(
@@ -105,8 +102,7 @@ public class V8ProtocolUtil {
     };
   }
 
-  public static <OBJ> void putMirror(List<PropertyReference> refs, OBJ propertyObject,
-      V8ProtocolUtil.PropertyNameGetter<OBJ> nameGetter) {
+  public static <OBJ> void putMirror(List<PropertyReference> refs, OBJ propertyObject, PropertyNameGetter<OBJ> nameGetter) {
     PropertyReference propertyRef = extractProperty(propertyObject, nameGetter);
     if (propertyRef != null) {
       refs.add(propertyRef);
@@ -121,19 +117,13 @@ public class V8ProtocolUtil {
    * @param nameGetter name of value property in this prop object, might be null
    * @return PropertyReference or null if we ignore this property
    */
-  public static <OBJ> PropertyReference extractProperty(OBJ prop,
-      PropertyNameGetter<OBJ> nameGetter) {
-    Object name = nameGetter.getName(prop);
-    if (name == null) {
-      return null;
-    }
-
-    if (isInternalProperty(name)) {
+  public static <OBJ> PropertyReference extractProperty(OBJ prop, PropertyNameGetter<OBJ> nameGetter) {
+    String name = nameGetter.getName(prop);
+    if (name == null || isInternalProperty(name)) {
       return null;
     }
 
     DataWithRef propValue = nameGetter.getRef(prop);
-
     int propType = nameGetter.getPropertyType(prop);
     // propType is NORMAL by default
     int propTypeValue = propType != -1 ? propType : PropertyType.NORMAL.value;
@@ -146,89 +136,14 @@ public class V8ProtocolUtil {
     return null;
   }
 
-  public static abstract class PropertyNameGetter<OBJ> {
-    static class SimpleNameGetter extends PropertyNameGetter<SomeRef> {
-      private final String name;
-      SimpleNameGetter(String name) {
-        this.name = name;
-      }
-      @Override
-      String getName(SomeRef ref) {
-        return name;
-      }
-      @Override
-      DataWithRef getRef(SomeRef someRef) {
-        return DataWithRef.fromSomeRef(someRef);
-      }
-      @Override
-      int getPropertyType(SomeRef someRef) {
-        return -1;
-      }
-    }
-
-    @SuppressWarnings("UnusedDeclaration") static final PropertyNameGetter<PropertyObject>
-      LOCAL = new SubpropertyNameGetter() {
-      @Override
-      Object getName(PropertyObject ref) {
-        Object name = super.getName(ref);
-        if (isInternalProperty(name)) {
-          return null;
-        }
-        return name;
-      }
-    };
-    /** The name of the "this" object to report as a variable name. */
-    public static final PropertyNameGetter<SomeRef> THIS = new SimpleNameGetter("this");
-    static final PropertyNameGetter<SomeRef> PROTO_OBJECT = new SimpleNameGetter("__proto__");
-    static final PropertyNameGetter<PropertyObject> PRIMITIVE_VALUE = new SubpropertyNameGetter();
-
-    public static final PropertyNameGetter<PropertyObject> SUBPROPERTY = new SubpropertyNameGetter();
-    static class SubpropertyNameGetter extends PropertyNameGetter<PropertyObject> {
-      @Override
-      Object getName(PropertyObject ref) {
-        return ref.name();
-      }
-      @Override
-      DataWithRef getRef(PropertyObject prop) {
-        PropertyWithValue asPropertyWithValue = prop.asPropertyWithValue();
-        if (asPropertyWithValue != null) {
-          return DataWithRef.fromSomeRef(asPropertyWithValue.value());
-        }
-        else {
-          return DataWithRef.fromLong(prop.asPropertyWithRef().ref());
-        }
-      }
-      @Override
-      int getPropertyType(PropertyObject prop) {
-        PropertyWithRef asPropertyWithRef = prop.asPropertyWithRef();
-        if (asPropertyWithRef == null) {
-          return -1;
-        }
-        return asPropertyWithRef.propertyType();
-      }
-    }
-
-    abstract DataWithRef getRef(OBJ prop);
-
-    /**
-     * @return property name or null if we should skip this property
-     */
-    abstract Object getName(OBJ ref);
-    abstract int getPropertyType(OBJ prop);
-  }
-
   /**
    * @param propertyName the property name to check
    * @return whether the given property name corresponds to an internal V8
    *         property
    */
-  public static boolean isInternalProperty(Object propertyName) {
-    if (!(propertyName instanceof String)) {
-      return false;
-    }
-    String propertyNameStr = (String) propertyName;
+  public static boolean isInternalProperty(String propertyName) {
     // Chrome can return properties like ".arguments". They should be ignored.
-    return propertyNameStr.length() == 0 || propertyNameStr.startsWith(".");
+    return propertyName.isEmpty() || propertyName.charAt(0) == '.';
   }
 
   /**
