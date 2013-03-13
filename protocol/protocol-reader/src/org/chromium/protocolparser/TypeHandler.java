@@ -83,11 +83,11 @@ class TypeHandler<T> {
     return subtypeAspect;
   }
 
-  public void writeInstantiateCode(ClassScope scope, TextOutput out) {
+  public void writeInstantiateCode(ClassScopeImpl scope, TextOutput out) {
     writeInstantiateCode(scope, false, out);
   }
 
-  public void writeInstantiateCode(ClassScope scope, boolean deferredReading, TextOutput out) {
+  public void writeInstantiateCode(ClassScopeImpl scope, boolean deferredReading, TextOutput out) {
     String className = scope.getTypeImplReference(this);
     if (deferredReading) {
       out.append("new ").append(className);
@@ -108,7 +108,7 @@ class TypeHandler<T> {
       out.append("private ").append(Util.JSON_READER_CLASS_NAME).space().append(Util.PENDING_INPUT_READER_NAME).semi().newLine();
     }
 
-    ClassScope classScope = fileScope.newClassScope();
+    ClassScopeImpl classScope = fileScope.newClassScope();
     for (VolatileFieldBinding field : volatileFields) {
       field.writeFieldDeclaration(classScope, out);
       out.newLine();
@@ -162,7 +162,7 @@ class TypeHandler<T> {
     out.closeBlock();
   }
 
-  private void writeConstructorMethod(String valueImplClassName, ClassScope classScope, TextOutput out) {
+  private void writeConstructorMethod(String valueImplClassName, ClassScopeImpl classScope, TextOutput out) {
     out.newLine().append("public ").append(valueImplClassName).append("(").append(Util.JSON_READER_PARAMETER_DEF);
     subtypeAspect.writeSuperConstructorParamJava(out);
     out.append(')').openBlock();
@@ -188,7 +188,7 @@ class TypeHandler<T> {
     out.closeBlock();
   }
 
-  private void writeReadFields(TextOutput out, ClassScope classScope) {
+  private void writeReadFields(TextOutput out, ClassScopeImpl classScope) {
     boolean stopIfAllFieldsWereRead = hasLazyFields;
     boolean hasOnlyOneFieldLoader = fieldLoaders.size() == 1;
     boolean isTracedStop = stopIfAllFieldsWereRead && !hasOnlyOneFieldLoader;

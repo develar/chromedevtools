@@ -22,13 +22,13 @@ class EnumReader<T extends Enum<T>> extends ValueReader {
   }
 
   @Override
-  void writeReadCode(ClassScope scope, boolean subtyping, String fieldName, TextOutput out) {
+  void writeReadCode(ClassScopeImpl scope, boolean subtyping, String fieldName, TextOutput out) {
     beginReadCall("Enum", subtyping, out, fieldName);
     out.comma().append(enumClass.getCanonicalName()).append(".class").append(')');
   }
 
   @Override
-  void writeArrayReadCode(ClassScope scope,
+  void writeArrayReadCode(ClassScopeImpl scope,
                           boolean subtyping,
                           boolean nullable,
                           String fieldName, TextOutput out) {

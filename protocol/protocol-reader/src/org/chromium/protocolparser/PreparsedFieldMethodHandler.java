@@ -10,7 +10,7 @@ class PreparsedFieldMethodHandler extends MethodHandler {
   }
 
   @Override
-  void writeMethodImplementationJava(ClassScope scope, Method m, TextOutput out) {
+  void writeMethodImplementationJava(ClassScopeImpl scope, Method m, TextOutput out) {
     writeMethodDeclarationJava(out, m);
     out.openBlock();
     if (fieldName != null) {

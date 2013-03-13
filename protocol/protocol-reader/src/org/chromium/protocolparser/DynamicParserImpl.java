@@ -52,7 +52,7 @@ public class DynamicParserImpl<ROOT> {
     out.newLine().newLine().append("public final class ").append(className);
     out.append(" implements ").append(rootImpl.getType().getCanonicalName()).openBlock(false);
 
-    final ClassScope rootClassScope = fileScope.newClassScope();
+    final ClassScopeImpl rootClassScope = fileScope.newClassScope();
     rootImpl.writeStaticMethodJava(rootClassScope);
 
     for (TypeHandler<?> typeHandler : typeToTypeHandler.values()) {

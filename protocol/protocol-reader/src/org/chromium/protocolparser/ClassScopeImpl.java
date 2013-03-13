@@ -1,15 +1,14 @@
 package org.chromium.protocolparser;
 
-public class ClassScopeImpl extends FileScopeImpl implements ClassScope {
-  private final ClassScope parentClass;
+public class ClassScopeImpl extends FileScopeImpl implements FileScope {
+  private final ClassScopeImpl parentClass;
 
-  public ClassScopeImpl(FileScopeImpl fileScopeImpl, ClassScope parentClass) {
+  public ClassScopeImpl(FileScopeImpl fileScopeImpl, ClassScopeImpl parentClass) {
     super(fileScopeImpl);
     this.parentClass = parentClass;
   }
 
-  @Override
-  public ClassScope getRootClassScope() {
+  public ClassScopeImpl getRootClassScope() {
     if (parentClass == null) {
       return this;
     } else {
@@ -17,7 +16,6 @@ public class ClassScopeImpl extends FileScopeImpl implements ClassScope {
     }
   }
 
-  @Override
   public void writeClassMembers() {
   }
 

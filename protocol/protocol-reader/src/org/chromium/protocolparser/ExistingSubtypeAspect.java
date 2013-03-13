@@ -39,7 +39,7 @@ class ExistingSubtypeAspect extends SubtypeAspect {
   }
 
   @Override
-  void writeParseMethod(String className, ClassScope scope, TextOutput out) {
+  void writeParseMethod(String className, ClassScopeImpl scope, TextOutput out) {
     out.newLine().append("public static ").append(className).space().append("parse").append("(").append(Util.JSON_READER_PARAMETER_DEF).append(')').openBlock();
     out.append("return ");
     jsonSuperClass.get().writeInstantiateCode(scope, out);

@@ -23,7 +23,7 @@ class AbsentSubtypeAspect extends SubtypeAspect {
   }
 
   @Override
-  void writeParseMethod(String className, ClassScope scope, TextOutput out) {
+  void writeParseMethod(String className, ClassScopeImpl scope, TextOutput out) {
   }
 
   @Override

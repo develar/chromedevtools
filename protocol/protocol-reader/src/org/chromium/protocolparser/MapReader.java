@@ -11,13 +11,13 @@ public class MapReader extends ValueReader {
   }
 
   @Override
-  void writeReadCode(ClassScope scope, boolean subtyping, String fieldName, TextOutput out) {
+  void writeReadCode(ClassScopeImpl scope, boolean subtyping, String fieldName, TextOutput out) {
     beginReadCall("Map", subtyping, out, fieldName);
     out.append(')');
   }
 
   @Override
-  void writeArrayReadCode(ClassScope scope,
+  void writeArrayReadCode(ClassScopeImpl scope,
                           boolean subtyping,
                           boolean nullable,
                           String fieldName, TextOutput out) {

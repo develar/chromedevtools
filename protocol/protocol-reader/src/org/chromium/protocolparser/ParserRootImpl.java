@@ -122,7 +122,7 @@ class ParserRootImpl<R> {
       this.map = map;
     }
 
-    public void writeStaticMethodJava(ClassScope scope) {
+    public void writeStaticMethodJava(ClassScopeImpl scope) {
       TextOutput out = scope.getOutput();
       for (Map.Entry<Method, MethodDelegate> en : map.entrySet()) {
         out.newLine();
@@ -133,7 +133,7 @@ class ParserRootImpl<R> {
   }
 
   private static abstract class MethodDelegate {
-    abstract void writeStaticMethodJava(ClassScope scope, Method key, TextOutput out);
+    abstract void writeStaticMethodJava(ClassScopeImpl scope, Method key, TextOutput out);
   }
 
   private static class ParseDelegate extends MethodDelegate {
@@ -144,7 +144,7 @@ class ParserRootImpl<R> {
     }
 
     @Override
-    void writeStaticMethodJava(ClassScope scope, Method method, TextOutput out) {
+    void writeStaticMethodJava(ClassScopeImpl scope, Method method, TextOutput out) {
       MethodHandler.writeMethodDeclarationJava(out, method, STATIC_METHOD_PARAM_NAME_LIST);
       out.openBlock();
       out.append("return ");
@@ -163,7 +163,7 @@ class ParserRootImpl<R> {
     return rootClass;
   }
 
-  public void writeStaticMethodJava(ClassScope rootClassScope) {
+  public void writeStaticMethodJava(ClassScopeImpl rootClassScope) {
     invocationHandler.writeStaticMethodJava(rootClassScope);
   }
 }
