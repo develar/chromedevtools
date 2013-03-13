@@ -64,7 +64,7 @@ public class SignalRelay<SIGNAL> {
   public <OPPOSITE> void bind(SignalRelay<OPPOSITE> peer,
       SignalConverter<SIGNAL, OPPOSITE> toPeerConverter,
       SignalConverter<OPPOSITE, SIGNAL> fromPeerConverter) throws AlreadySignalledException {
-    this.addPeer(peer, toPeerConverter);
+    addPeer(peer, toPeerConverter);
 
     try {
       peer.addPeer(this, fromPeerConverter);
@@ -97,19 +97,6 @@ public class SignalRelay<SIGNAL> {
 
   public static class AlreadySignalledException extends Exception {
     AlreadySignalledException() {
-      super();
-    }
-
-    AlreadySignalledException(String message, Throwable cause) {
-      super(message, cause);
-    }
-
-    AlreadySignalledException(String message) {
-      super(message);
-    }
-
-    AlreadySignalledException(Throwable cause) {
-      super(cause);
     }
   }
 

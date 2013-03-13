@@ -28,7 +28,7 @@ public class LazyConstructable<T> {
   private final AtomicReference<Result<T>> resultRef;
 
   public LazyConstructable(Factory<T> factory) {
-    this.resultRef = new AtomicReference<Result<T>>(new FutureResult(factory));
+    resultRef = new AtomicReference<Result<T>>(new FutureResult(factory));
   }
 
   /**

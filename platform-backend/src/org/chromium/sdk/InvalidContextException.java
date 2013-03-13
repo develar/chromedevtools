@@ -11,15 +11,7 @@ package org.chromium.sdk;
  * simple {@link IllegalStateException}.
  */
 public class InvalidContextException extends RuntimeException {
-  InvalidContextException() {
-    super();
-  }
-  InvalidContextException(String message, Throwable cause) {
-    super(message, cause);
-  }
-  InvalidContextException(String message) {
-    super(message);
-  }
+
   public InvalidContextException(Throwable cause) {
     super(cause);
   }

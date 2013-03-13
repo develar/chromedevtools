@@ -42,7 +42,7 @@ public abstract class ScriptBase<ID> implements Script {
       this.name = name;
       this.lineOffset = lineOffset;
       this.columnOffset = columnOffset;
-      this.endLine = lineOffset + lineCount - 1;
+      endLine = lineOffset + lineCount - 1;
     }
 
     @Override
@@ -63,10 +63,10 @@ public abstract class ScriptBase<ID> implements Script {
       }
       Descriptor<?> that = (Descriptor<?>) obj;
       // The id equality is stronger than the name equality.
-      return this.id.equals(that.id) &&
-          this.lineOffset == that.lineOffset &&
-          this.columnOffset == that.columnOffset &&
-          this.endLine == that.endLine;
+      return id.equals(that.id) &&
+             lineOffset == that.lineOffset &&
+          columnOffset == that.columnOffset &&
+          endLine == that.endLine;
     }
   }
 
@@ -81,12 +81,12 @@ public abstract class ScriptBase<ID> implements Script {
    */
   public ScriptBase(Descriptor<ID> descriptor) {
     this.descriptor = descriptor;
-    this.source = null;
+    source = null;
   }
 
   @Override
   public Type getType() {
-    return this.descriptor.type;
+    return descriptor.type;
   }
 
   @Override
@@ -176,11 +176,11 @@ public abstract class ScriptBase<ID> implements Script {
 
       OldFunctionNodeImpl(LiveEditResult.OldTreeNode treeNode) {
         this.treeNode = treeNode;
-        this.positions = wrapPositions(treeNode.positions());
+        positions = wrapPositions(treeNode.positions());
         if (treeNode.new_positions() == null) {
-          this.newPositions = null;
+          newPositions = null;
         } else {
-          this.newPositions = wrapPositions(treeNode.new_positions());
+          newPositions = wrapPositions(treeNode.new_positions());
         }
       }
       @Override public String getName() {
@@ -213,7 +213,7 @@ public abstract class ScriptBase<ID> implements Script {
       private final FunctionPositions positions;
       NewFunctionNodeImpl(LiveEditResult.NewTreeNode treeNode) {
         this.treeNode = treeNode;
-        this.positions = wrapPositions(treeNode.positions());
+        positions = wrapPositions(treeNode.positions());
       }
       @Override public String getName() {
         return treeNode.name();
@@ -299,7 +299,7 @@ public abstract class ScriptBase<ID> implements Script {
       return false;
     }
     ScriptBase<?> that = (ScriptBase<?>) obj;
-    return this.descriptor.equals(that.descriptor) && eq(this.source, that.source);
+    return descriptor.equals(that.descriptor) && eq(source, that.source);
   }
 
   private static boolean eq(Object left, Object right) {
