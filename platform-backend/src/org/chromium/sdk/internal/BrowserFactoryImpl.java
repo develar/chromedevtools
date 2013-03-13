@@ -4,36 +4,17 @@
 
 package org.chromium.sdk.internal;
 
-import org.chromium.sdk.Browser;
 import org.chromium.sdk.BrowserFactory;
 import org.chromium.sdk.ConnectionLogger;
 import org.chromium.sdk.StandaloneVm;
-import org.chromium.sdk.internal.shellprotocol.BrowserImpl;
-import org.chromium.sdk.internal.shellprotocol.ConnectionFactory;
-import org.chromium.sdk.internal.shellprotocol.SocketConnectionFactory;
 import org.chromium.sdk.internal.standalonev8.StandaloneVmImpl;
 import org.chromium.sdk.internal.transport.Handshaker;
 import org.chromium.sdk.internal.transport.SocketConnection;
 
 import java.net.SocketAddress;
 
-/**
- * A default implementation of the BrowserFactory interface.
- * TODO: rename it somehow. It's not only a browser factory.
- */
 public class BrowserFactoryImpl extends BrowserFactory {
   private static final int DEFAULT_CONNECTION_TIMEOUT_MS = 1000;
-
-  @Override
-  public Browser create(SocketAddress socketAddress, ConnectionLogger.Factory connectionLoggerFactory) {
-    SocketConnectionFactory socketConnectionFactory = new SocketConnectionFactory(socketAddress, getTimeout(), connectionLoggerFactory, Handshaker.CHROMIUM);
-    return new BrowserImpl(socketConnectionFactory);
-  }
-
-  // Debug entry (no logger by definition)
-  Browser create(ConnectionFactory connectionFactory) {
-    return new BrowserImpl(connectionFactory);
-  }
 
   @Override
   public StandaloneVm createStandalone(SocketAddress socketAddress, ConnectionLogger connectionLogger) {
@@ -41,7 +22,7 @@ public class BrowserFactoryImpl extends BrowserFactory {
     return new StandaloneVmImpl(new SocketConnection(socketAddress, getTimeout(), connectionLogger, handshaker), handshaker);
   }
 
-  private int getTimeout() {
+  private static int getTimeout() {
     String timeoutString = System.getProperty(
         "org.chromium.sdk.client.connection.timeoutMs",
         String.valueOf(DEFAULT_CONNECTION_TIMEOUT_MS));
