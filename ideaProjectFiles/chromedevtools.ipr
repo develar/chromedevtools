@@ -808,7 +808,7 @@
       <method />
     </configuration>
     <configuration default="false" name="Generate WIP model" type="Application" factoryName="Application" singleton="true">
-      <option name="MAIN_CLASS_NAME" value="org.chromium.wip.protocolParser.ProtocolModelGenerator" />
+      <option name="MAIN_CLASS_NAME" value="org.jetbrains.protocolReader.ProtocolModelGenerator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="protocol-model/generated http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/inspector/Inspector.json org.chromium.wip.protocol org.jetbrains.wip.protocol.WipRequest" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../wip" />
@@ -830,7 +830,7 @@
       <method />
     </configuration>
     <configuration default="false" name="Generate V8 model" type="Application" factoryName="Application" singleton="true">
-      <option name="MAIN_CLASS_NAME" value="org.chromium.wip.protocolParser.ProtocolModelGenerator" />
+      <option name="MAIN_CLASS_NAME" value="org.jetbrains.protocolReader.ProtocolModelGenerator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="generated protocol.json org.jetbrains.v8.protocol org.jetbrains.v8.protocol.V8Request" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../v8/protocol-model" />

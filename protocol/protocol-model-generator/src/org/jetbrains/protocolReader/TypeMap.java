@@ -1,4 +1,4 @@
-package org.chromium.wip.protocolParser;
+package org.jetbrains.protocolReader;
 
 import java.io.IOException;
 import java.util.*;

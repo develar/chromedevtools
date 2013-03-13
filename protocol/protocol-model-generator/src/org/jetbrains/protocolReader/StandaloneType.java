@@ -1,4 +1,4 @@
-package org.chromium.wip.protocolParser;
+package org.jetbrains.protocolReader;
 
 class StandaloneType extends BoxableType {
   private final NamePath namePath;

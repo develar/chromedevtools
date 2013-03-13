@@ -1,4 +1,4 @@
-package org.chromium.wip.protocolParser;
+package org.jetbrains.protocolReader;
 
 import org.jetbrains.jsonProtocol.ItemDescriptor;
 import org.jetbrains.jsonProtocol.ProtocolMetaModel;

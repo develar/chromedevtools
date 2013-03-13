@@ -1,4 +1,4 @@
-package org.chromium.wip.protocolParser;
+package org.jetbrains.protocolReader;
 
 class NamePath {
   private final String lastComponent;

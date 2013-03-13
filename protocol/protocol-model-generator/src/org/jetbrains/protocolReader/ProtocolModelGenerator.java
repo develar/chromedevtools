@@ -1,4 +1,4 @@
-package org.chromium.wip.protocolParser;
+package org.jetbrains.protocolReader;
 
 import com.google.gson.stream.JsonReaderEx;
 import org.jetbrains.annotations.NotNull;

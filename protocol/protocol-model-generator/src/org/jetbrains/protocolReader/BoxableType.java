@@ -1,4 +1,4 @@
-package org.chromium.wip.protocolParser;
+package org.jetbrains.protocolReader;
 
 abstract class BoxableType {
   static final BoxableType STRING = new StandaloneType(new NamePath("String"), "writeString");

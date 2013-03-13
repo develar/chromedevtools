@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.wip.protocolParser;
+package org.jetbrains.protocolReader;
 
 import org.chromium.protocolparser.TextOutput;
 import org.jetbrains.jsonProtocol.ItemDescriptor;

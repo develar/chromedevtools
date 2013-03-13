@@ -1,4 +1,4 @@
-package org.chromium.wip.protocolParser;
+package org.jetbrains.protocolReader;
 
 import org.chromium.protocolparser.TextOutput;
 import org.chromium.protocolparser.Util;

@@ -1,4 +1,4 @@
-package org.chromium.wip.protocolParser;
+package org.jetbrains.protocolReader;
 
 class ListType extends BoxableType {
   private final BoxableType itemType;

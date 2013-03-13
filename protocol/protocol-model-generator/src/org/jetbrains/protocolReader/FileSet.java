@@ -1,4 +1,4 @@
-package org.chromium.wip.protocolParser;
+package org.jetbrains.protocolReader;
 
 import gnu.trove.THashSet;
 import gnu.trove.TObjectProcedure;
