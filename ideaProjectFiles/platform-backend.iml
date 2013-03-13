@@ -14,7 +14,6 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../platform-backend">
       <sourceFolder url="file://$MODULE_DIR$/../platform-backend/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../platform-backend/src-wip" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />

@@ -2,13 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.wip;
+package org.chromium.sdk.wip;
 
 import java.io.IOException;
 import java.util.List;
-
-import org.chromium.sdk.wip.WipBackend;
-import org.chromium.sdk.wip.WipBrowser;
 
 /**
  * An internal interface to {@link WipBackend} implementation.

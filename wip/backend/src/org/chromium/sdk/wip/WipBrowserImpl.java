@@ -2,16 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.wip;
+package org.chromium.sdk.wip;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.List;
 
 import org.chromium.sdk.Browser;
-import org.chromium.sdk.wip.WipBackend;
-import org.chromium.sdk.wip.WipBrowser;
-import org.chromium.sdk.wip.WipBrowserFactory;
 
 /**
  * Implements {@link Browser} API that offers connection to a browser tab

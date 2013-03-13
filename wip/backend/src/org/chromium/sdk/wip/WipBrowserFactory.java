@@ -13,7 +13,7 @@ import org.chromium.sdk.ConnectionLogger;
  */
 public interface WipBrowserFactory {
 
-  WipBrowserFactory INSTANCE = new org.chromium.sdk.internal.wip.WipBrowserFactoryImpl();
+  WipBrowserFactory INSTANCE = new WipBrowserFactoryImpl();
 
   WipBrowser createBrowser(InetSocketAddress socketAddress,
       LoggerFactory connectionLoggerFactory);
