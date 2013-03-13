@@ -726,6 +726,7 @@
       <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-reader/protocol-reader.iml" filepath="$PROJECT_DIR$/../protocol/protocol-reader/protocol-reader.iml" group="protocol" />
       <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-reader-runtime/protocol-reader-runtime.iml" filepath="$PROJECT_DIR$/../protocol/protocol-reader-runtime/protocol-reader-runtime.iml" group="protocol" />
       <module fileurl="file://$PROJECT_DIR$/../protocol/schema-reader-generator/schema-reader-generator.iml" filepath="$PROJECT_DIR$/../protocol/schema-reader-generator/schema-reader-generator.iml" group="protocol" />
+      <module fileurl="file://$PROJECT_DIR$/../v8/backend/v8-backend.iml" filepath="$PROJECT_DIR$/../v8/backend/v8-backend.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" filepath="$PROJECT_DIR$/../v8/protocol/v8-protocol.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol-model/v8-protocol-model.iml" filepath="$PROJECT_DIR$/../v8/protocol-model/v8-protocol-model.iml" group="v8" />
       <module fileurl="file://$PROJECT_DIR$/../v8/protocol-reader-generator/v8-protocol-reader-generator.iml" filepath="$PROJECT_DIR$/../v8/protocol-reader-generator/v8-protocol-reader-generator.iml" group="v8" />

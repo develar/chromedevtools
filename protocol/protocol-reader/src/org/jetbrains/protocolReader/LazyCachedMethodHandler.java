@@ -16,7 +16,7 @@ class LazyCachedMethodHandler extends MethodHandler {
   }
 
   protected void writeReturnTypeJava(ClassScope scope, Method m, TextOutput out) {
-    ObjectValueReader objectValueParser = parser.asJsonTypeParser();
+    ObjectValueReader<?> objectValueParser = parser.asJsonTypeParser();
     if (objectValueParser == null) {
       Util.writeJavaTypeName(m.getGenericReturnType(), out);
     }

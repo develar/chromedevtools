@@ -32,7 +32,7 @@ public class ReaderGenerator {
       this(packageName, className, parser, Collections.<GeneratedCodeMap>emptyList());
     }
 
-    public GenerateConfiguration(String packageName, String className, DynamicParserImpl parser, Collection<GeneratedCodeMap> basePackagesMap) {
+    public GenerateConfiguration(String packageName, String className, DynamicParserImpl<?> parser, Collection<GeneratedCodeMap> basePackagesMap) {
       this.packageName = packageName;
       this.className = className;
       this.parser = parser;

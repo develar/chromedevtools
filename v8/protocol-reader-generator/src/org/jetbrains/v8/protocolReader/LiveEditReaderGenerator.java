@@ -22,6 +22,6 @@ public class LiveEditReaderGenerator extends ReaderGenerator {
   public static ReaderGenerator.GenerateConfiguration createConfiguration() {
     DynamicParserImpl<LiveEditProtocolReader> result = new DynamicParserImpl<LiveEditProtocolReader>(LiveEditProtocolReader.class,
                                                                                                      new Class[]{LiveEditResult.class});
-    return new GenerateConfiguration("org.chromium.v8.liveEditProtocol", "LiveEditProtocolReaderImpl", result);
+    return new GenerateConfiguration("org.jetbrains.v8.liveEditProtocol", "LiveEditProtocolReaderImpl", result);
   }
 }

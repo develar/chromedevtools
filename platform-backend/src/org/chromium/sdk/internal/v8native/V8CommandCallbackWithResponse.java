@@ -5,7 +5,7 @@
 package org.chromium.sdk.internal.v8native;
 
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
-import org.chromium.v8.protocol.ProtocolService;
+import org.jetbrains.v8.protocol.ProtocolService;
 import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.v8.protocol.ProtocolReponseReader;
 

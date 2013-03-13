@@ -55,7 +55,7 @@ public class V8ReaderGenerator extends ReaderGenerator {
     List<Class<?>> classes = new ArrayList<Class<?>>(Arrays.asList(interfaces));
     classes.addAll(Arrays.asList(GeneratedReaderInterfaceList.LIST));
     GeneratedCodeMap liveEditParserMap = buildParserMap(LiveEditReaderGenerator.createConfiguration());
-    return new GenerateConfiguration("org.chromium.v8.protocol",
+    return new GenerateConfiguration("org.jetbrains.v8.protocol",
         "V8ProtocolReaderImpl", new DynamicParserImpl<V8ProtocolReader>(V8ProtocolReader.class, classes.toArray(new Class[classes.size()])),
         Collections.singletonList(liveEditParserMap));
   }

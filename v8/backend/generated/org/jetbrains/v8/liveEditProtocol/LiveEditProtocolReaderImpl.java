@@ -1,5 +1,5 @@
 // This is a generated source.
-package org.chromium.v8.liveEditProtocol;
+package org.jetbrains.v8.liveEditProtocol;
 
 import org.jetbrains.jsonProtocol.*;
 

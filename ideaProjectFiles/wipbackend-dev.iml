@@ -17,6 +17,7 @@
     <orderEntry type="module" module-name="protocol-reader-runtime" />
     <orderEntry type="module" module-name="wip-protocol" />
     <orderEntry type="module" module-name="liveedit-protocol" />
+    <orderEntry type="module" module-name="v8-backend" />
   </component>
 </module>
 

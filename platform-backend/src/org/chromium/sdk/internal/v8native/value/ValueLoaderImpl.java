@@ -19,7 +19,7 @@ import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory
 import org.chromium.sdk.internal.v8native.protocol.output.LookupMessage;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;
-import org.chromium.v8.protocol.ProtocolService;
+import org.jetbrains.v8.protocol.ProtocolService;
 import org.jetbrains.v8.protocol.input.Handle;
 
 import java.util.ArrayList;

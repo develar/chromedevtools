@@ -17,7 +17,7 @@ import org.chromium.sdk.internal.transport.Message;
 import org.chromium.sdk.internal.v8native.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ContextHandle;
 import org.chromium.sdk.util.MethodIsBlockingException;
-import org.chromium.v8.protocol.ProtocolService;
+import org.jetbrains.v8.protocol.ProtocolService;
 import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.jsonProtocol.Request;
 
