@@ -18,7 +18,7 @@ class BasicPropertyData {
   private final List<JsVariableImpl> intenalProperties;
   private final SubpropertiesMirror subpropertiesMirror;
 
-  private volatile Map<String, JsVariableImpl> propertyMap = null;
+  private volatile Map<String, JsVariableImpl> propertyMap;
 
   BasicPropertyData(int cacheState, List<JsVariableImpl> properties, List<JsVariableImpl> intenalProperties,
                     SubpropertiesMirror subpropertiesMirror) {
@@ -62,9 +62,9 @@ class BasicPropertyData {
     // Method is not synchronized -- it's OK if we initialize volatile propertyMap field
     // several times.
     if (propertyMap == null) {
-      Map<String, JsVariableImpl> map = new HashMap<String, JsVariableImpl>(properties.size() * 2, 0.75f);
-      for (JsVariableImpl prop : properties) {
-        map.put(prop.getName(), prop);
+      Map<String, JsVariableImpl> map = new HashMap<String, JsVariableImpl>(properties.size());
+      for (JsVariableImpl property : properties) {
+        map.put(property.getName(), property);
       }
       // Make synchronized for such not thread-safe methods as entrySet.
       propertyMap = Collections.unmodifiableMap(Collections.synchronizedMap(map));
