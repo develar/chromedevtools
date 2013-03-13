@@ -1,6 +1,6 @@
 package org.chromium.protocolparser;
 
-class FileScopeImpl extends GlobalScopeImpl implements FileScope {
+class FileScopeImpl extends GlobalScopeImpl implements GlobalScope {
   private final TextOutput out;
 
   FileScopeImpl(GlobalScopeImpl globalScopeImpl, StringBuilder stringBuilder) {
@@ -13,12 +13,10 @@ class FileScopeImpl extends GlobalScopeImpl implements FileScope {
     out = fileScopeImpl.out;
   }
 
-  @Override
   public TextOutput getOutput() {
     return out;
   }
 
-  @Override
   public ClassScope newClassScope() {
     return new ClassScope(this, asClassScopeImpl());
   }

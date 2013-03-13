@@ -34,7 +34,7 @@ class ObjectValueReader<T> extends ValueReader {
   }
 
   @Override
-  public void appendInternalValueTypeName(FileScope classScope, TextOutput out) {
+  public void appendInternalValueTypeName(FileScopeImpl classScope, TextOutput out) {
     out.append(classScope.getTypeImplReference(refToType.get()));
   }
 

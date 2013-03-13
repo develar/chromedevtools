@@ -25,7 +25,7 @@ class ArrayReader extends ValueReader {
   }
 
   @Override
-  public void appendInternalValueTypeName(FileScope scope, TextOutput out) {
+  public void appendInternalValueTypeName(FileScopeImpl scope, TextOutput out) {
     appendFinishedValueTypeName(out);
   }
 

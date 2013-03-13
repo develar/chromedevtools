@@ -9,7 +9,7 @@ interface GlobalScope {
 
   String getTypeImplShortName(TypeHandler<?> typeHandler);
 
-  FileScope newFileScope(StringBuilder output);
+  FileScopeImpl newFileScope(StringBuilder output);
 
   void forEachTypeFactory(TObjectProcedure<TypeHandler> procedure);
 }

@@ -43,7 +43,7 @@ public class DynamicParserImpl<ROOT> {
 
   public GeneratedCodeMap generateStaticParser(StringBuilder stringBuilder, String packageName, String className, Collection<GeneratedCodeMap> basePackages) {
     final GlobalScope globalScope = new GlobalScopeImpl(typeToTypeHandler.values(), basePackages);
-    FileScope fileScope = globalScope.newFileScope(stringBuilder);
+    FileScopeImpl fileScope = globalScope.newFileScope(stringBuilder);
     final TextOutput out = fileScope.getOutput();
     out.append("// This is a generated source.");
     out.newLine().append("package ").append(packageName).append(';');

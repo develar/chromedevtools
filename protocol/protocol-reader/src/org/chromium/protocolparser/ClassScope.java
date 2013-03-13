@@ -1,6 +1,6 @@
 package org.chromium.protocolparser;
 
-public class ClassScope extends FileScopeImpl implements FileScope {
+public class ClassScope extends FileScopeImpl implements GlobalScope {
   private final ClassScope parentClass;
 
   public ClassScope(FileScopeImpl fileScopeImpl, ClassScope parentClass) {

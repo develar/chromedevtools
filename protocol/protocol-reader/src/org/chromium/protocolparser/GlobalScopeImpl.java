@@ -33,7 +33,7 @@ public class GlobalScopeImpl implements GlobalScope {
   }
 
   @Override
-  public FileScope newFileScope(StringBuilder output) {
+  public FileScopeImpl newFileScope(StringBuilder output) {
     return new FileScopeImpl(this, output);
   }
 
