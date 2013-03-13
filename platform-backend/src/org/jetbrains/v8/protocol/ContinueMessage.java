@@ -6,7 +6,6 @@ package org.jetbrains.v8.protocol;
 
 import org.chromium.sdk.DebugContext.StepAction;
 import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
-import org.chromium.sdk.internal.v8native.protocol.output.*;
 
 import java.util.EnumMap;
 import java.util.Map;

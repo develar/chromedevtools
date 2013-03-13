@@ -7,7 +7,7 @@ package org.chromium.sdk.internal.v8native.protocol.output;
 /**
  * Represents a generic V8 request message (so that it can serialize itself into JSON.)
  */
-abstract class V8Request extends org.jetbrains.v8.protocol.V8Request {
+public abstract class V8Request extends org.jetbrains.v8.protocol.V8Request {
   private final String command;
 
   public V8Request(String command) {
