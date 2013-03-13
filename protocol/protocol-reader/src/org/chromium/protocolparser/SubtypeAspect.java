@@ -9,7 +9,7 @@ abstract class SubtypeAspect {
   abstract void writeSuperConstructorParamJava(TextOutput out);
   abstract void writeSuperConstructorInitialization(TextOutput out);
 
-  abstract void writeParseMethod(String className, ClassScopeImpl scope, TextOutput out);
+  abstract void writeParseMethod(String className, ClassScope scope, TextOutput out);
 
   public abstract void writeInstantiateCode(String className, TextOutput out);
 

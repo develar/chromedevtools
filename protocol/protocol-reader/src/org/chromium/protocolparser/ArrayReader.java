@@ -30,12 +30,12 @@ class ArrayReader extends ValueReader {
   }
 
   @Override
-  void writeReadCode(ClassScopeImpl scope, boolean subtyping, String fieldName, TextOutput out) {
+  void writeReadCode(ClassScope scope, boolean subtyping, String fieldName, TextOutput out) {
     componentParser.writeArrayReadCode(scope, subtyping, isNullable(), fieldName, out);
   }
 
   @Override
-  void writeArrayReadCode(ClassScopeImpl scope,
+  void writeArrayReadCode(ClassScope scope,
                           boolean subtyping,
                           boolean nullable,
                           String fieldName, TextOutput out) {

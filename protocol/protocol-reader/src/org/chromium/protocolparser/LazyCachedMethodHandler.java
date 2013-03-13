@@ -15,7 +15,7 @@ class LazyCachedMethodHandler extends MethodHandler {
     this.fieldBinding = fieldBinding;
   }
 
-  protected void writeReturnTypeJava(ClassScopeImpl scope, Method m, TextOutput out) {
+  protected void writeReturnTypeJava(ClassScope scope, Method m, TextOutput out) {
     ObjectValueReader objectValueParser = parser.asJsonTypeParser();
     if (objectValueParser == null) {
       Util.writeJavaTypeName(m.getGenericReturnType(), out);
@@ -26,7 +26,7 @@ class LazyCachedMethodHandler extends MethodHandler {
   }
 
   @Override
-  void writeMethodImplementationJava(ClassScopeImpl classScope, Method m, TextOutput out) {
+  void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
     out.append("@Override").newLine().append("public ");
     writeReturnTypeJava(classScope, m, out);
     out.append(' ');

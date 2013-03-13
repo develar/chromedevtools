@@ -19,11 +19,11 @@ class FileScopeImpl extends GlobalScopeImpl implements FileScope {
   }
 
   @Override
-  public ClassScopeImpl newClassScope() {
-    return new ClassScopeImpl(this, asClassScopeImpl());
+  public ClassScope newClassScope() {
+    return new ClassScope(this, asClassScopeImpl());
   }
 
-  protected ClassScopeImpl asClassScopeImpl() {
+  protected ClassScope asClassScopeImpl() {
     return null;
   }
 }

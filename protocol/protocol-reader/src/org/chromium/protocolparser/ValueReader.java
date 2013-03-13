@@ -31,13 +31,13 @@ abstract class ValueReader {
     appendFinishedValueTypeName(out);
   }
 
-  abstract void writeReadCode(ClassScopeImpl methodScope, boolean subtyping, String fieldName, TextOutput out);
+  abstract void writeReadCode(ClassScope methodScope, boolean subtyping, String fieldName, TextOutput out);
 
   public boolean isNullable() {
     return nullable;
   }
 
-  abstract void writeArrayReadCode(ClassScopeImpl scope,
+  abstract void writeArrayReadCode(ClassScope scope,
                                    boolean subtyping,
                                    boolean nullable,
                                    String fieldName, TextOutput out);

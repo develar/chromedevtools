@@ -8,6 +8,6 @@ public abstract class NativeMethodHandler extends BaseHandlersLibrary.MethodHand
   }
 
   @Override
-  void writeMethodImplementationJava(ClassScopeImpl classScope, Method m, TextOutput out) {
+  void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out) {
   }
 }

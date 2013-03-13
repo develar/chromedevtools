@@ -21,7 +21,7 @@ class PrimitiveValueReader extends ValueReader {
   }
 
   @Override
-  void writeReadCode(ClassScopeImpl methodScope, boolean subtyping, String fieldName, TextOutput out) {
+  void writeReadCode(ClassScope methodScope, boolean subtyping, String fieldName, TextOutput out) {
     beginReadCall(readPostfix, subtyping, out, fieldName);
     out.append(')');
   }
@@ -32,7 +32,7 @@ class PrimitiveValueReader extends ValueReader {
   }
 
   @Override
-  public void writeArrayReadCode(ClassScopeImpl scope,
+  public void writeArrayReadCode(ClassScope scope,
                                  boolean subtyping,
                                  boolean nullable,
                                  String fieldName, TextOutput out) {

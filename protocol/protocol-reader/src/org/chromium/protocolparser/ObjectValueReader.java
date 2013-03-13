@@ -39,7 +39,7 @@ class ObjectValueReader<T> extends ValueReader {
   }
 
   @Override
-  void writeReadCode(ClassScopeImpl scope, boolean subtyping, String fieldName, TextOutput out) {
+  void writeReadCode(ClassScope scope, boolean subtyping, String fieldName, TextOutput out) {
     refToType.get().writeInstantiateCode(scope.getRootClassScope(), subtyping, out);
     out.append('(');
     addReaderParameter(subtyping, out);
@@ -50,7 +50,7 @@ class ObjectValueReader<T> extends ValueReader {
   }
 
   @Override
-  public void writeArrayReadCode(ClassScopeImpl scope, boolean subtyping, boolean nullable, String fieldName, TextOutput out) {
+  public void writeArrayReadCode(ClassScope scope, boolean subtyping, boolean nullable, String fieldName, TextOutput out) {
     beginReadCall("ObjectArray", subtyping, out, fieldName);
     out.comma().append("new ").append(scope.requireFactoryGenerationAndGetName(refToType.get())).append(Util.TYPE_FACTORY_NAME_POSTFIX).append("()");
     out.comma().append(nullable).append(')');

@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Iterator;
 
 abstract class MethodHandler {
-  abstract void writeMethodImplementationJava(ClassScopeImpl classScope, Method m, TextOutput out);
+  abstract void writeMethodImplementationJava(ClassScope classScope, Method m, TextOutput out);
 
   protected static void appendMethodSignatureJava(Method m, Iterable<String> paramNames, TextOutput out) {
     out.append(m.getName()).append('(');

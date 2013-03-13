@@ -21,7 +21,7 @@ class VolatileFieldBinding {
     out.append(FIELD_NAME_PREFIX).append(position);
   }
 
-  void writeFieldDeclaration(ClassScopeImpl scope, TextOutput out) {
+  void writeFieldDeclaration(ClassScope scope, TextOutput out) {
     out.append("private ");
     fieldTypeInfo.appendValueTypeNameJava(scope, out);
     out.space();

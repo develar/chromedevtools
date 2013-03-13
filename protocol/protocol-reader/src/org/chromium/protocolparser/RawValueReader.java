@@ -8,7 +8,7 @@ class RawValueReader extends ValueReader {
   }
 
   @Override
-  void writeReadCode(ClassScopeImpl scope, boolean subtyping, String fieldName, TextOutput out) {
+  void writeReadCode(ClassScope scope, boolean subtyping, String fieldName, TextOutput out) {
     addReaderParameter(subtyping, out);
     out.append(".subReader();").newLine();
     addReaderParameter(subtyping, out);
@@ -21,7 +21,7 @@ class RawValueReader extends ValueReader {
   }
 
   @Override
-  void writeArrayReadCode(ClassScopeImpl scope,
+  void writeArrayReadCode(ClassScope scope,
                           boolean subtyping,
                           boolean nullable,
                           String fieldName, TextOutput out) {
