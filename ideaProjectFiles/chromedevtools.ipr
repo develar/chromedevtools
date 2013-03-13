@@ -40,7 +40,7 @@
         <element id="dir-copy" path="$PROJECT_DIR$/../wip/protocol-model/src" />
         <element id="dir-copy" path="$PROJECT_DIR$/../wip/protocol/generated" />
         <element id="dir-copy" path="$PROJECT_DIR$/../wip/protocol/src" />
-        <element id="dir-copy" path="$PROJECT_DIR$/../wip/wip-backend/src" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../wip/backend/src" />
       </root>
     </artifact>
     <artifact type="jar" name="protocol-reader-runtime">

@@ -3,8 +3,8 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <output url="file://$MODULE_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/bin" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../wip/wip-backend">
-      <sourceFolder url="file://$MODULE_DIR$/../wip/wip-backend/src" isTestSource="false" />
+    <content url="file://$MODULE_DIR$/../wip/backend">
+      <sourceFolder url="file://$MODULE_DIR$/../wip/backend/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../wip/protocol/generated">
       <sourceFolder url="file://$MODULE_DIR$/../wip/protocol/generated" isTestSource="false" />
