@@ -13,6 +13,8 @@
     <orderEntry type="module" module-name="v8-protocol-model" />
     <orderEntry type="module" module-name="protocol-reader-runtime" />
     <orderEntry type="module" module-name="platform-backend" />
+    <orderEntry type="library" name="trove4j" level="project" />
+    <orderEntry type="library" name="annotations" level="project" />
   </component>
 </module>
 

@@ -7,13 +7,13 @@ package org.jetbrains.v8.protocol;
 import org.chromium.sdk.Script;
 import org.chromium.sdk.Script.Type;
 import org.chromium.sdk.internal.JsonUtil;
-import org.chromium.sdk.internal.v8native.V8ContextFilter;
+import org.jetbrains.v8.V8ContextFilter;
 import org.chromium.sdk.internal.v8native.protocol.V8Protocol;
 import org.chromium.sdk.internal.v8native.protocol.input.data.*;
 import org.chromium.sdk.internal.v8native.protocol.output.ScriptsMessage;
-import org.chromium.sdk.internal.v8native.value.DataWithRef;
-import org.chromium.sdk.internal.v8native.value.PropertyReference;
-import org.chromium.sdk.internal.v8native.value.PropertyType;
+import org.jetbrains.v8.value.DataWithRef;
+import org.jetbrains.v8.value.PropertyReference;
+import org.jetbrains.v8.value.PropertyType;
 
 import java.util.AbstractList;
 import java.util.ArrayList;

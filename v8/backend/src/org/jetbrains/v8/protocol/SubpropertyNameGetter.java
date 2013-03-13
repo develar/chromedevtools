@@ -1,7 +1,7 @@
 package org.jetbrains.v8.protocol;
 
 import org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject;
-import org.chromium.sdk.internal.v8native.value.DataWithRef;
+import org.jetbrains.v8.value.DataWithRef;
 
 class SubpropertyNameGetter extends PropertyNameGetter<PropertyObject> {
   @Override

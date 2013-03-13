@@ -14,7 +14,7 @@ import java.nio.charset.Charset;
  * A helper reader class that allows to read LF-terminated lines and fixed-sized blocks of bytes
  * in turn. To keep it fast it stores the data inside its internal buffer.
  */
-class LineReader {
+public class LineReader {
   private static final byte LF_BYTE = '\n';
   private static final byte CR_BYTE = '\r';
 

@@ -30,15 +30,6 @@ public abstract class BrowserFactory {
   }
 
   /**
-   * Constructs StandaloneVm instance that talks to a V8 JavaScript VM via
-   * DebuggerAgent opened at {@code socketAddress}.
-   * @param socketAddress V8 DebuggerAgent is listening on
-   * @param connectionLogger provides facility for listening to network
-   *        traffic; may be null
-   */
-  public abstract StandaloneVm createStandalone(SocketAddress socketAddress, ConnectionLogger connectionLogger);
-
-  /**
    * @return SDK root logger that can be used to add handlers or to adjust log level
    */
   public static Logger getRootLogger() {
