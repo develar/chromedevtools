@@ -134,11 +134,9 @@ public class V8ProtocolUtil {
 
     DataWithRef propValue = nameGetter.getRef(prop);
 
-    Long propType = nameGetter.getPropertyType(prop);
+    int propType = nameGetter.getPropertyType(prop);
     // propType is NORMAL by default
-    int propTypeValue = propType != null
-        ? propType.intValue()
-        : PropertyType.NORMAL.value;
+    int propTypeValue = propType != -1 ? propType : PropertyType.NORMAL.value;
     if (propTypeValue == PropertyType.FIELD.value ||
         propTypeValue == PropertyType.CONSTANT_FUNCTION.value ||
         propTypeValue == PropertyType.CALLBACKS.value ||
@@ -163,8 +161,8 @@ public class V8ProtocolUtil {
         return DataWithRef.fromSomeRef(someRef);
       }
       @Override
-      Long getPropertyType(SomeRef someRef) {
-        return null;
+      int getPropertyType(SomeRef someRef) {
+        return -1;
       }
     }
 
@@ -181,12 +179,10 @@ public class V8ProtocolUtil {
     };
     /** The name of the "this" object to report as a variable name. */
     public static final PropertyNameGetter<SomeRef> THIS = new SimpleNameGetter("this");
-    static final PropertyNameGetter<SomeRef> PROTO_OBJECT =
-        new SimpleNameGetter("__proto__");
+    static final PropertyNameGetter<SomeRef> PROTO_OBJECT = new SimpleNameGetter("__proto__");
     static final PropertyNameGetter<PropertyObject> PRIMITIVE_VALUE = new SubpropertyNameGetter();
 
-    public static final PropertyNameGetter<PropertyObject> SUBPROPERTY =
-        new SubpropertyNameGetter();
+    public static final PropertyNameGetter<PropertyObject> SUBPROPERTY = new SubpropertyNameGetter();
     static class SubpropertyNameGetter extends PropertyNameGetter<PropertyObject> {
       @Override
       Object getName(PropertyObject ref) {
@@ -197,15 +193,16 @@ public class V8ProtocolUtil {
         PropertyWithValue asPropertyWithValue = prop.asPropertyWithValue();
         if (asPropertyWithValue != null) {
           return DataWithRef.fromSomeRef(asPropertyWithValue.value());
-        } else {
+        }
+        else {
           return DataWithRef.fromLong(prop.asPropertyWithRef().ref());
         }
       }
       @Override
-      Long getPropertyType(PropertyObject prop) {
+      int getPropertyType(PropertyObject prop) {
         PropertyWithRef asPropertyWithRef = prop.asPropertyWithRef();
         if (asPropertyWithRef == null) {
-          return null;
+          return -1;
         }
         return asPropertyWithRef.propertyType();
       }
@@ -217,7 +214,7 @@ public class V8ProtocolUtil {
      * @return property name or null if we should skip this property
      */
     abstract Object getName(OBJ ref);
-    abstract Long getPropertyType(OBJ prop);
+    abstract int getPropertyType(OBJ prop);
   }
 
   /**

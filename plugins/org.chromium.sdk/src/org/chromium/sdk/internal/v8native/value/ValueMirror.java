@@ -4,6 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.value;
 
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.sdk.JsValue;
 import org.chromium.sdk.JsValue.Type;
 import org.chromium.sdk.internal.v8native.V8Helper;
@@ -12,8 +13,6 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.RefWithDisplayData;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ValueHandle;
 import org.chromium.sdk.internal.v8native.value.LoadableString.Factory;
-
-import java.io.IOException;
 
 /**
  * A representation of a datum (value) in the remote JavaScript VM. The class must be immutable.
@@ -52,25 +51,42 @@ public abstract class ValueMirror {
   /**
    * Constructs a {@link ValueMirror} given a V8 debugger object specification if it's possible.
    */
-  public static ValueMirror create(final RefWithDisplayData refWithDisplayData, Factory loadableStringFactory) {
-    final Type type = V8Helper.calculateType(refWithDisplayData.type(),
-        refWithDisplayData.className(), false);
-
+  public static ValueMirror create(RefWithDisplayData refWithDisplayData, Factory loadableStringFactory) {
+    final String className = refWithDisplayData.className();
+    final String typeString = refWithDisplayData.type();
+    final Type type = V8Helper.calculateType(typeString, className, false);
+    final JsonReaderEx reader = refWithDisplayData.value();
     return new ValueMirror(refWithDisplayData.ref(), type) {
       @Override
       public String getClassName() {
-        return refWithDisplayData.className();
+        return className;
       }
 
       @Override
       public LoadableString getStringValue() {
-        // try another format
-        Object valueObj = refWithDisplayData.value();
         String valueStr;
-        if (valueObj == null) {
-          valueStr = refWithDisplayData.type(); // e.g. "undefined"
-        } else {
-          valueStr = valueObj.toString();
+        if (reader == null) {
+          valueStr = typeString; // e.g. "undefined"
+        }
+        else {
+          switch (type) {
+            case TYPE_STRING:
+            case TYPE_NUMBER:
+            case TYPE_REGEXP:
+              valueStr = reader.nextString();
+              break;
+
+            case TYPE_BOOLEAN:
+              valueStr = reader.nextBoolean() ? "true" : "false";
+              break;
+
+            case TYPE_NULL:
+              valueStr = "null";
+              break;
+
+            default:
+              throw new UnsupportedOperationException(reader.toString());
+          }
         }
         return new LoadableString.Immutable(valueStr);
       }
@@ -101,13 +117,7 @@ public abstract class ValueMirror {
 
       @Override
       public SubpropertiesMirror getProperties() {
-        ObjectValueHandle objectValueHandle;
-        try {
-          objectValueHandle = valueHandle.asObject();
-        }
-        catch (IOException e) {
-          throw new RuntimeException(e);
-        }
+        ObjectValueHandle objectValueHandle = valueHandle.asObject();
         if (objectValueHandle == null) {
           return SubpropertiesMirror.EMPTY;
         }
@@ -135,9 +145,7 @@ public abstract class ValueMirror {
     };
   }
 
-  public static ValueMirror create(long ref, Type type,
-      final String className, final LoadableString loadableString,
-      final SubpropertiesMirror subpropertiesMirror) {
+  public static ValueMirror create(int ref, Type type, final String className, final LoadableString loadableString, final SubpropertiesMirror subpropertiesMirror) {
     return new ValueMirror(ref, type) {
       @Override
       public String getClassName() {
@@ -161,10 +169,10 @@ public abstract class ValueMirror {
     };
   }
 
-  private final long ref;
+  private final int ref;
   protected final Type type;
 
-  protected ValueMirror(long ref, Type type) {
+  protected ValueMirror(int ref, Type type) {
     this.ref = ref;
     this.type = type;
   }
@@ -175,7 +183,7 @@ public abstract class ValueMirror {
 
   public abstract SubpropertiesMirror getProperties();
 
-  public long getRef() {
+  public int getRef() {
     return ref;
   }
 

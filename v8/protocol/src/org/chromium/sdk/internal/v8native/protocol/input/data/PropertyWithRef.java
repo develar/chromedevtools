@@ -12,11 +12,11 @@ public interface PropertyWithRef {
   @JsonOptionalField
   void value();
 
-  long ref();
+  int ref();
 
   @JsonOptionalField
-  long attributes();
+  int attributes();
 
   @JsonOptionalField
-  long propertyType();
+  int propertyType();
 }

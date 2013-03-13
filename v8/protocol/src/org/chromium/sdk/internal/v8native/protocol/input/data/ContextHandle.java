@@ -4,6 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.JsonOptionalField;
 import org.chromium.protocolReader.JsonType;
 
@@ -14,5 +15,5 @@ public interface ContextHandle {
    * as well as its stringified form (as "type,in").
    */
   @JsonOptionalField
-  Object data();
+  JsonReaderEx data();
 }

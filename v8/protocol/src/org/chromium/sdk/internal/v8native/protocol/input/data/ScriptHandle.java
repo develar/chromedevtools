@@ -15,8 +15,8 @@ public interface ScriptHandle {
   int columnOffset();
   int lineCount();
 
-  @JsonOptionalField
-  Object data();
+  //@JsonOptionalField
+  //Object data();
 
   // either sourceStart or source
   @JsonOptionalField

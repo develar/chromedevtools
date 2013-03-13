@@ -33,9 +33,6 @@ import java.util.*;
 import java.util.logging.Logger;
 
 public class BreakpointManager {
-  /** The class logger. */
-  private static final Logger LOGGER = Logger.getLogger(BreakpointManager.class.getName());
-
   /**
    * This map shall contain only breakpoints with valid IDs.
    * Complex operations must be explicitly synchronized on this instance.
@@ -324,9 +321,7 @@ public class BreakpointManager {
           List<FlagInfo> flagList = successResponse.body().asFlagsBody().flags();
           List<Boolean> result = new ArrayList<Boolean>(flagNames.size());
           for (String name : flagNames) {
-
             FlagsBody.FlagInfo flag;
-
             findCorrectFlag: {
               for (FlagsBody.FlagInfo f : flagList) {
                 if (name.equals(f.name())) {
@@ -336,16 +331,7 @@ public class BreakpointManager {
               }
               throw new RuntimeException("Failed to find the correct flag in response");
             }
-
-            Object flagValue = flag.value();
-            Boolean boolValue;
-            if (!(flagValue instanceof Boolean)) {
-              LOGGER.info("Flag value has a wrong type");
-              boolValue = null;
-            } else {
-              boolValue = (Boolean) flagValue;
-            }
-            result.add(boolValue);
+            result.add(flag.value());
           }
           callback.success(result);
         }

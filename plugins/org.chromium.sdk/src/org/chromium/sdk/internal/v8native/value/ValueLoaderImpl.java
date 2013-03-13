@@ -4,6 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.value;
 
+import gnu.trove.TIntObjectHashMap;
 import gnu.trove.TLongIntHashMap;
 import gnu.trove.TLongObjectHashMap;
 import org.chromium.sdk.JsValue;
@@ -37,7 +38,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * strategies about whether to parse and add them into a map or save parsing time and ignore.
  */
 public class ValueLoaderImpl extends ValueLoader {
-  private final TLongObjectHashMap<ValueMirror> refToMirror = new TLongObjectHashMap<ValueMirror>();
+  private final TIntObjectHashMap<ValueMirror> refToMirror = new TIntObjectHashMap<ValueMirror>();
 
   private final HandleManager specialHandleManager = new HandleManager();
 
@@ -94,15 +95,14 @@ public class ValueLoaderImpl extends ValueLoader {
   }
 
   public ValueMirror addDataToMap(RefWithDisplayData refWithDisplayData) {
-    ValueMirror mirror = ValueMirror.create(refWithDisplayData, getLoadableStringFactory());
-    return putValueMirrorIntoMapRecursive(mirror);
+    return putValueMirrorIntoMapRecursive(ValueMirror.create(refWithDisplayData, getLoadableStringFactory()));
   }
 
   public ValueMirror addDataToMap(ValueHandle valueHandle) {
     return putValueMirrorIntoMapRecursive(ValueMirror.create(valueHandle, getLoadableStringFactory()));
   }
 
-  public ValueMirror addDataToMap(long ref, JsValue.Type type, String className,
+  public ValueMirror addDataToMap(int ref, JsValue.Type type, String className,
       LoadableString loadableString, SubpropertiesMirror subpropertiesMirror) {
     return putValueMirrorIntoMapRecursive(ValueMirror.create(ref, type, className, loadableString, subpropertiesMirror));
   }
@@ -117,7 +117,7 @@ public class ValueLoaderImpl extends ValueLoader {
     return mergeValueMirrorIntoMap(mirror.getRef(), mirror);
   }
 
-  private ValueMirror mergeValueMirrorIntoMap(long ref, ValueMirror mirror) {
+  private ValueMirror mergeValueMirrorIntoMap(int ref, ValueMirror mirror) {
     while (true) {
       ValueMirror old;
       synchronized (refToMirror) {
@@ -151,7 +151,7 @@ public class ValueLoaderImpl extends ValueLoader {
    * if property data is unavailable (or expired).
    */
   @Override
-  public SubpropertiesMirror getOrLoadSubproperties(long ref) throws MethodIsBlockingException {
+  public SubpropertiesMirror getOrLoadSubproperties(int ref) throws MethodIsBlockingException {
     ValueMirror mirror;
     synchronized (refToMirror) {
       mirror = refToMirror.get(ref);
@@ -188,8 +188,7 @@ public class ValueLoaderImpl extends ValueLoader {
    * (possibly cached value) or 2. lookup value by refId from remote
    */
   @Override
-  public ValueMirror[] getOrLoadValueFromRefs(List<? extends PropertyReference> propertyRefs)
-      throws MethodIsBlockingException {
+  public ValueMirror[] getOrLoadValueFromRefs(List<? extends PropertyReference> propertyRefs) throws MethodIsBlockingException {
     TLongIntHashMap refToRequestIndex = new TLongIntHashMap() {
       @Override
       public int get(long key) {
@@ -202,14 +201,15 @@ public class ValueLoaderImpl extends ValueLoader {
     for (int i = 0; i < propertyRefs.size(); i++) {
       PropertyReference property = propertyRefs.get(i);
       DataWithRef dataWithRef = property.getValueObject();
-      Long ref = dataWithRef.ref();
+      int ref = dataWithRef.ref();
       RefWithDisplayData dataWithDisplayData = dataWithRef.getWithDisplayData();
       ValueMirror mirror;
       if (dataWithDisplayData == null) {
         synchronized (refToMirror) {
           mirror = refToMirror.get(ref);
         }
-      } else {
+      }
+      else {
         mirror = ValueMirror.create(dataWithDisplayData, loadableStringFactory);
       }
       if (mirror == null) {
@@ -397,12 +397,13 @@ public class ValueLoaderImpl extends ValueLoader {
       final long actualSize;
 
       LoadedValue(ValueHandle handle) {
-        stringValue = (String) handle.value();
-        Long toIndex = handle.toIndex();
-        if (toIndex == null) {
+        stringValue = handle.value();
+        long toIndex = handle.toIndex();
+        if (toIndex == -1) {
           loadedSize = stringValue.length();
           actualSize = loadedSize;
-        } else {
+        }
+        else {
           loadedSize = toIndex;
           actualSize = handle.length();
         }

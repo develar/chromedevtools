@@ -4,20 +4,15 @@
 
 package org.chromium.sdk.internal.v8native.value;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.chromium.sdk.JsFunction;
 import org.chromium.sdk.JsObject;
 import org.chromium.sdk.JsVariable;
 import org.chromium.sdk.internal.v8native.InternalContext;
 import org.chromium.sdk.util.AsyncFuture;
 import org.chromium.sdk.util.MethodIsBlockingException;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A generic implementation of the JsObject interface.
@@ -26,11 +21,8 @@ import org.chromium.sdk.util.MethodIsBlockingException;
  *     properties expire
  */
 public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
-
-  private final long ref;
-
+  private final int ref;
   private final String className;
-
   private final ValueLoader valueLoader;
 
   /**
@@ -43,8 +35,7 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
    * that several threads may access simultaneously. The future gets reinitialized
    * on the next access after cache state was updated.
    */
-  private final AtomicReference<AsyncFuture<D>> propertyDataRef =
-      new AtomicReference<AsyncFuture<D>>(null);
+  private final AtomicReference<AsyncFuture<D>> propertyDataRef = new AtomicReference<AsyncFuture<D>>(null);
 
   /**
    * This constructor implies the lazy resolution of object properties.
@@ -75,7 +66,8 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
     if (ref < 0) {
       // Negative handle means that it's transient. We don't expose it.
       return null;
-    } else {
+    }
+    else {
       return String.valueOf(ref);
     }
   }
@@ -121,7 +113,7 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
     return valueLoader.getInternalContext();
   }
 
-  protected long getRef() {
+  protected int getRef() {
     return ref;
   }
 
@@ -154,41 +146,31 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
   /**
    * Convenience method that gets property data and returns wrapped {@link BasicPropertyData}.
    */
-  protected BasicPropertyData getBasicPropertyData(boolean checkFreshness)
-      throws MethodIsBlockingException {
-    D propertyData = getPropertyData(checkFreshness);
-    return unwrapBasicData(propertyData);
+  protected BasicPropertyData getBasicPropertyData(boolean checkFreshness) throws MethodIsBlockingException {
+    return unwrapBasicData(getPropertyData(checkFreshness));
   }
 
-  private void startPropertyLoadOperation(boolean reload, final int currentCacheState)
-      throws MethodIsBlockingException {
+  private void startPropertyLoadOperation(boolean reload, final int currentCacheState) throws MethodIsBlockingException {
     // The operation is blocking, because we will wait for its result anyway.
     // On the other hand there is a post-load job that we need a thread to occupy with.
 
-    AsyncFuture.SyncOperation<D> blockingOperation =
-        new AsyncFuture.SyncOperation<D>() {
+    AsyncFuture.SyncOperation<D> blockingOperation = new AsyncFuture.SyncOperation<D>() {
       @Override
       protected D runSync() throws MethodIsBlockingException {
-        SubpropertiesMirror subpropertiesMirror =
-            getRemoteValueMapping().getOrLoadSubproperties(ref);
-
+        SubpropertiesMirror subpropertiesMirror = getRemoteValueMapping().getOrLoadSubproperties(ref);
         List<JsVariableImpl> properties = wrapProperties(subpropertiesMirror.getProperties());
-        List<JsVariableImpl> internalProperties =
-            wrapProperties(subpropertiesMirror.getInternalProperties());
-
-        BasicPropertyData data = new BasicPropertyData(currentCacheState, properties,
-            internalProperties, subpropertiesMirror);
-        return wrapBasicData(data);
+        List<JsVariableImpl> internalProperties = wrapProperties(subpropertiesMirror.getInternalProperties());
+        return wrapBasicData(new BasicPropertyData(currentCacheState, properties,  internalProperties, subpropertiesMirror));
       }
 
-      private List<JsVariableImpl> wrapProperties(List<? extends PropertyReference> propertyRefs)
-          throws MethodIsBlockingException {
+      private List<JsVariableImpl> wrapProperties(List<? extends PropertyReference> propertyRefs) throws MethodIsBlockingException {
         return Collections.unmodifiableList(createPropertiesFromMirror(valueLoader.getOrLoadValueFromRefs(propertyRefs), propertyRefs));
       }
     };
     if (reload) {
       AsyncFuture.reinitializeReference(propertyDataRef, blockingOperation.asAsyncOperation());
-    } else {
+    }
+    else {
       AsyncFuture.initializeReference(propertyDataRef, blockingOperation.asAsyncOperation());
     }
     blockingOperation.execute();

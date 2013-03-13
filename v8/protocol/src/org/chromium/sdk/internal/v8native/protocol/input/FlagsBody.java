@@ -15,6 +15,6 @@ public interface FlagsBody {
   @JsonType
   interface FlagInfo {
     String name();
-    Object value();
+    boolean value();
   }
 }

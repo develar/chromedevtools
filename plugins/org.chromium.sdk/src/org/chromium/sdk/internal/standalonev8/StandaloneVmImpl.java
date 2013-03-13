@@ -102,7 +102,7 @@ public class StandaloneVmImpl extends JavascriptVmImpl implements StandaloneVm {
       }
 
       public void messageReceived(Message message) {
-        debugSession.getCommandProcessor().processIncomingJson(JsonReaders.createReader(message.getContent().toString()));
+        debugSession.getCommandProcessor().processIncomingJson(JsonReaders.createReader(message.getContent()));
       }
     };
     connection.setNetListener(netListener);

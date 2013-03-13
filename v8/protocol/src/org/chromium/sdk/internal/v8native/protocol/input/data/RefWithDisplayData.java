@@ -4,6 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input.data;
 
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.*;
 
 /**
@@ -14,7 +15,7 @@ import org.chromium.protocolReader.*;
 @JsonType
 public interface RefWithDisplayData {
   @JsonOverrideField
-  long ref();
+  int ref();
 
   String type();
 
@@ -23,8 +24,7 @@ public interface RefWithDisplayData {
 
   @JsonOptionalField
   @JsonNullable
-  Object value();
-
+  JsonReaderEx value();
 
   // For function.
   @JsonOptionalField

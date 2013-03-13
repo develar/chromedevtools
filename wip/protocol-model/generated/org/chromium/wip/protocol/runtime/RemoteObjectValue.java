@@ -25,7 +25,7 @@ public interface RemoteObjectValue {
    */
   @org.chromium.protocolReader.JsonOptionalField
   @org.chromium.protocolReader.JsonNullable
-  Object value();
+  com.google.gson.stream.JsonReaderEx value();
   /**
    * String representation of the object.
    */
@@ -45,13 +45,13 @@ public interface RemoteObjectValue {
   /**
    * Object type.
    */
-  public enum Type {
+  enum Type {
     OBJECT, FUNCTION, UNDEFINED, STRING, NUMBER, BOOLEAN
   }
   /**
    * Object subtype hint. Specified for <code>object</code> type values only.
    */
-  public enum Subtype {
+  enum Subtype {
     ARRAY, NULL, NODE, REGEXP, DATE
   }
 }

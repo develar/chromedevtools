@@ -1,21 +1,5 @@
 package com.google.gson.stream;
 
-/*
- * Copyright (C) 2010 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import com.google.gson.JsonParseException;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,7 +40,7 @@ public class JsonReaderEx implements Closeable {
    * and length in the buffer.
    */
   private String value;
-  private int valuePosition = -1;
+  private int valueStart = -1;
   private int valueLength = -1;
 
   // True if we're currently handling a skipValue() call
@@ -72,43 +56,35 @@ public class JsonReaderEx implements Closeable {
   }
 
   public JsonReaderEx(@NotNull CharSequence in, int start) {
-    this(in, start, null);
+    this(in, start, JsonScope.EMPTY_DOCUMENT);
   }
 
-  //new StringCreator() {
-  //      @Override
-  //      public String createString(int start, int end) {
-  //        return in.subSequence(start, end).toString();
-  //      }
-  //    }
-
-  public JsonReaderEx(@NotNull CharSequence in, int start, StringCreator stringCreator) {
+  private JsonReaderEx(@NotNull CharSequence in, int start, JsonScope scope) {
     this.in = in;
-    //this.stringCreator = stringCreator;
     position = start;
     limit = in.length();
-    stack[stackSize++] = JsonScope.EMPTY_DOCUMENT;
-  }
-
-  public interface StringCreator {
-    String createString(int start, int end);
+    stack[stackSize++] = scope;
   }
 
   public JsonReaderEx subReader() {
     JsonToken nextToken = peek();
-    if (!(nextToken == JsonToken.BEGIN_ARRAY || nextToken == JsonToken.BEGIN_OBJECT)) {
-      throw createParseError("Cannot create sub reader, next token " + nextToken + " is not value");
+    switch (nextToken) {
+      case BEGIN_ARRAY:
+      case BEGIN_OBJECT:
+      case STRING:
+      case NUMBER:
+      case BOOLEAN:
+      case NULL:
+        break;
+      default:
+        throw createParseError("Cannot create sub reader, next token " + nextToken + " is not value");
     }
 
-    JsonReaderEx subReader = new JsonReaderEx(in, position);
-    assert name == null;
+    JsonReaderEx subReader = new JsonReaderEx(in, position, stack[stackSize - 1]);
     subReader.token = token;
     subReader.value = value;
+    subReader.valueStart = valueStart;
     subReader.valueLength = valueLength;
-    subReader.valuePosition = valuePosition;
-    subReader.stack[0] = stack[stackSize - 1];
-    assert subReader.stack[0] == JsonScope.EMPTY_OBJECT || subReader.stack[0] == JsonScope.EMPTY_ARRAY;
-    subReader.stackSize = 1;
     return subReader;
   }
 
@@ -246,7 +222,7 @@ public class JsonReaderEx implements Closeable {
     JsonToken result = token;
     token = null;
     value = null;
-    valuePosition = -1;
+    valueStart = -1;
     valueLength = -1;
     name = null;
     return result;
@@ -260,7 +236,7 @@ public class JsonReaderEx implements Closeable {
     if (token != JsonToken.NAME) {
       throw createParseError("Expected a name but was " + peek());
     }
-    String result = name == null ? in.subSequence(valuePosition, valuePosition + valueLength).toString() : name;
+    String result = name == null ? in.subSequence(valueStart, valueStart + valueLength).toString() : name;
     advance();
     return result;
   }
@@ -272,7 +248,8 @@ public class JsonReaderEx implements Closeable {
     }
     CharSequence result;
     if (name == null) {
-      result = new MyCharSequence(in, valuePosition, valueLength);
+      assert valueStart != -1 && valueLength != -1;
+      result = new MyCharSequence(in, valueStart, valueLength);
     }
     else {
       result = name;
@@ -313,7 +290,7 @@ public class JsonReaderEx implements Closeable {
     @NotNull
     @Override
     public String toString() {
-      return subSequence(offset, in.length()).toString();
+      return in.subSequence(offset, in.length()).toString();
     }
 
     @Override
@@ -349,7 +326,28 @@ public class JsonReaderEx implements Closeable {
       throw createParseError("Expected a string but was " + peek());
     }
 
-    String result = value == null ? in.subSequence(valuePosition, valuePosition + valueLength).toString() : value;
+    String result = value == null ? in.subSequence(valueStart, valueStart + valueLength).toString() : value;
+    advance();
+    return result;
+  }
+
+  public String nextPrimitiveValue() {
+    peek();
+    final String result;
+    switch (token) {
+      case STRING:
+      case NUMBER:
+        result = value == null ? in.subSequence(valueStart, valueStart + valueLength).toString() : value;
+        break;
+      case BOOLEAN:
+        result = value;
+        break;
+      case NULL:
+        result = "null";
+        break;
+      default:
+        throw createParseError("Expected primitive value but was " + peek());
+    }
     advance();
     return result;
   }
@@ -404,7 +402,7 @@ public class JsonReaderEx implements Closeable {
     }
 
     if (value == null) {
-      value = in.subSequence(valuePosition, valuePosition + valueLength).toString();
+      value = in.subSequence(valueStart, valueStart + valueLength).toString();
     }
     double result = Double.parseDouble(value);
     if ((result >= 1.0d && value.length() > 0 && value.charAt(0) == '0')) {
@@ -435,7 +433,7 @@ public class JsonReaderEx implements Closeable {
     }
 
     if (value == null) {
-      value = in.subSequence(valuePosition, valuePosition + valueLength).toString();
+      value = in.subSequence(valueStart, valueStart + valueLength).toString();
     }
 
     long result;
@@ -476,7 +474,7 @@ public class JsonReaderEx implements Closeable {
     }
 
     if (value == null) {
-      value = in.subSequence(valuePosition, valuePosition + valueLength).toString();
+      value = in.subSequence(valueStart, valueStart + valueLength).toString();
     }
 
     int result;
@@ -660,7 +658,7 @@ public class JsonReaderEx implements Closeable {
         }
         break;
       default:
-        throw new JsonParseException("Expected ':'");
+        throw createParseError("Expected ':'");
     }
 
     stack[stackSize - 1] = JsonScope.NONEMPTY_OBJECT;
@@ -764,7 +762,7 @@ public class JsonReaderEx implements Closeable {
               // skip a /* c-style comment */
               position++;
               if (!skipTo("*/")) {
-                throw new JsonParseException("Unterminated comment");
+                throw createParseError("Unterminated comment");
               }
               p = position + 2;
               l = limit;
@@ -801,7 +799,7 @@ public class JsonReaderEx implements Closeable {
       }
     }
     if (throwOnEof) {
-      throw new JsonParseException("End of input at line " + getLineNumber() + " column " + getColumnNumber());
+      throw createParseError("End of input");
     }
     else {
       return -1;
@@ -848,8 +846,7 @@ public class JsonReaderEx implements Closeable {
    * not include it in the returned string.
    *
    * @param quote either ' or ".
-   * @throws NumberFormatException if any unicode escape sequences are
-   *     malformed.
+   * @throws NumberFormatException if any unicode escape sequences are malformed.
    */
   private String nextString(char quote) {
     // Like nextNonWhitespace, this uses locals 'p' and 'l' to save inner-loop field access.
@@ -867,22 +864,22 @@ public class JsonReaderEx implements Closeable {
           return "skipped!";
         }
         else if (builder == null) {
-          valuePosition = start;
+          valueStart = start;
           valueLength = (p - 1) - start;
           return null;
         }
         else {
-          builder.append(in, start, p - 1);
-          String result = builder.toString();
-          builder.setLength(0);
-          return result;
+          return builder.append(in, start, p - 1).toString();
         }
       }
       else if (c == '\\') {
         position = p;
         if (builder == null) {
           if (this.builder == null) {
-            this.builder = new StringBuilder();
+            this.builder = new StringBuilder((p - start) + 16);
+          }
+          else {
+            this.builder.setLength(0);
           }
           builder = this.builder;
         }
@@ -927,7 +924,7 @@ public class JsonReaderEx implements Closeable {
       }
     }
 
-    valuePosition = position;
+    valueStart = position;
     valueLength = i - position;
     position += valueLength;
   }
@@ -1020,37 +1017,37 @@ public class JsonReaderEx implements Closeable {
    * Assigns {@code nextToken} based on the value of {@code nextValue}.
    */
   private JsonToken decodeLiteral() {
-    if (valuePosition == -1) {
+    if (valueStart == -1) {
       // it was too long to fit in the buffer so it can only be a string
       return JsonToken.STRING;
     }
     else if (valueLength == 4
-             && ('n' == in.charAt(valuePosition) || 'N' == in.charAt(valuePosition))
-             && ('u' == in.charAt(valuePosition + 1) || 'U' == in.charAt(valuePosition + 1))
-             && ('l' == in.charAt(valuePosition + 2) || 'L' == in.charAt(valuePosition + 2))
-             && ('l' == in.charAt(valuePosition + 3) || 'L' == in.charAt(valuePosition + 3))) {
+             && ('n' == in.charAt(valueStart) || 'N' == in.charAt(valueStart))
+             && ('u' == in.charAt(valueStart + 1) || 'U' == in.charAt(valueStart + 1))
+             && ('l' == in.charAt(valueStart + 2) || 'L' == in.charAt(valueStart + 2))
+             && ('l' == in.charAt(valueStart + 3) || 'L' == in.charAt(valueStart + 3))) {
       value = "null";
       return JsonToken.NULL;
     }
     else if (valueLength == 4
-             && ('t' == in.charAt(valuePosition) || 'T' == in.charAt(valuePosition))
-             && ('r' == in.charAt(valuePosition + 1) || 'R' == in.charAt(valuePosition + 1))
-             && ('u' == in.charAt(valuePosition + 2) || 'U' == in.charAt(valuePosition + 2))
-             && ('e' == in.charAt(valuePosition + 3) || 'E' == in.charAt(valuePosition + 3))) {
+             && ('t' == in.charAt(valueStart) || 'T' == in.charAt(valueStart))
+             && ('r' == in.charAt(valueStart + 1) || 'R' == in.charAt(valueStart + 1))
+             && ('u' == in.charAt(valueStart + 2) || 'U' == in.charAt(valueStart + 2))
+             && ('e' == in.charAt(valueStart + 3) || 'E' == in.charAt(valueStart + 3))) {
       value = TRUE;
       return JsonToken.BOOLEAN;
     }
     else if (valueLength == 5
-             && ('f' == in.charAt(valuePosition) || 'F' == in.charAt(valuePosition))
-             && ('a' == in.charAt(valuePosition + 1) || 'A' == in.charAt(valuePosition + 1))
-             && ('l' == in.charAt(valuePosition + 2) || 'L' == in.charAt(valuePosition + 2))
-             && ('s' == in.charAt(valuePosition + 3) || 'S' == in.charAt(valuePosition + 3))
-             && ('e' == in.charAt(valuePosition + 4) || 'E' == in.charAt(valuePosition + 4))) {
+             && ('f' == in.charAt(valueStart) || 'F' == in.charAt(valueStart))
+             && ('a' == in.charAt(valueStart + 1) || 'A' == in.charAt(valueStart + 1))
+             && ('l' == in.charAt(valueStart + 2) || 'L' == in.charAt(valueStart + 2))
+             && ('s' == in.charAt(valueStart + 3) || 'S' == in.charAt(valueStart + 3))
+             && ('e' == in.charAt(valueStart + 4) || 'E' == in.charAt(valueStart + 4))) {
       value = FALSE;
       return JsonToken.BOOLEAN;
     }
     else {
-      return decodeNumber(in, valuePosition, valueLength);
+      return detectNumber(in, valueStart, valueLength);
     }
   }
 
@@ -1060,7 +1057,7 @@ public class JsonReaderEx implements Closeable {
    * zeroes are not allowed in the value or exponential part, but are allowed
    * in the fraction.
    */
-  private static JsonToken decodeNumber(CharSequence chars, int offset, int length) {
+  private static JsonToken detectNumber(CharSequence chars, int offset, int length) {
     int i = offset;
     char c = chars.charAt(i);
     if (c == '-') {

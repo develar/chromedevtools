@@ -17,7 +17,7 @@ public interface PropertyObject {
   /**
    * @return either String (normal property) or Long (array element)
    */
-  Object name();
+  String name();
 
   @JsonSubtypeCasting
   PropertyWithValue asPropertyWithValue();

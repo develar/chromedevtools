@@ -26,7 +26,7 @@ class TypeHandler<T> {
   private final List<FieldLoader> fieldLoaders;
 
   /** Set of parsers that non-lazily check that all fields read OK. */
-  private final EagerFieldParser eagerFieldParser;
+  private final DynamicParserImpl.EagerFieldParserImpl eagerFieldParser;
 
   /** Subtype aspects of the type or null */
   private final SubtypeAspect subtypeAspect;
@@ -37,7 +37,7 @@ class TypeHandler<T> {
               List<VolatileFieldBinding> volatileFields,
               Map<Method, MethodHandler> methodHandlerMap,
               List<FieldLoader> fieldLoaders,
-              EagerFieldParser eagerFieldParser,
+              DynamicParserImpl.EagerFieldParserImpl eagerFieldParser,
               boolean hasLazyFields) {
     this.typeClass = typeClass;
     this.volatileFields = volatileFields;
@@ -95,10 +95,6 @@ class TypeHandler<T> {
     else {
       subtypeAspect.writeInstantiateCode(className, out);
     }
-  }
-
-  static abstract class EagerFieldParser {
-    abstract void addAllFieldNames(Set<? super String> output);
   }
 
   public void writeStaticClassJava(FileScope fileScope) {

@@ -10,8 +10,6 @@ import org.chromium.protocolReader.JsonSubtypeCasting;
 import org.chromium.protocolReader.JsonType;
 import org.jetbrains.v8.protocol.input.Handle;
 
-import java.io.IOException;
-
 
 /**
  * A serialization of a JavaScript value. May be cast to {@link ObjectValueHandle} if value is
@@ -27,7 +25,7 @@ public interface ValueHandle extends Handle {
   String text();
 
   @JsonOptionalField
-  Object value();
+  String value();
 
   @JsonOverrideField
   String type();
@@ -44,6 +42,6 @@ public interface ValueHandle extends Handle {
   String className();
 
   @JsonSubtypeCasting
-  ObjectValueHandle asObject() throws IOException;
+  ObjectValueHandle asObject();
 }
 

@@ -131,7 +131,7 @@ public class ChromeDevToolSessionManager implements DebugSessionManager {
   }
 
   private void handleChromeDevToolMessage(Message message) {
-    JsonReaderEx reader = JsonReaders.createReader(message.getContent().toString());
+    JsonReaderEx reader = JsonReaders.createReader(message.getContent());
     ToolsMessage devToolsMessage;
     //try {
       //devToolsMessage = ToolsProtocolParserAccess.get().parseToolsMessage(reader);

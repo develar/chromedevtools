@@ -4,13 +4,14 @@
 
 package org.chromium.sdk.internal.v8native.protocol.input;
 
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolReader.*;
 import org.chromium.v8.liveEditProtocol.LiveEditResult;
 
 @JsonType
 public interface ChangeLiveBody {
   @JsonField(jsonLiteralName="change_log")
-  Object getChangeLog();
+  JsonReaderEx getChangeLog();
 
   @JsonNullable
   @JsonField(jsonLiteralName="result")

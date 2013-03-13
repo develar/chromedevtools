@@ -246,10 +246,9 @@ class WipValueBuilder {
 
     @Override
     protected String getValueString(RemoteObjectValue valueData) {
-      return valueData.value().toString();
+      return valueData.value().nextPrimitiveValue();
     }
   }
-
 
   private static abstract class ObjectTypeBase extends ValueType {
     private final JsValue.Type jsValueType;

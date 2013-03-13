@@ -271,10 +271,8 @@ public class EvaluateHack {
         }
 
         @Override
-        public Step<JsVariable> processResponse(CallFunctionOnResult response)
-            throws ProcessException {
-          throw new ProcessException("Helper script failed on remote: " +
-              response.result().value());
+        public Step<JsVariable> processResponse(CallFunctionOnResult response) throws ProcessException {
+          throw new ProcessException("Helper script failed on remote: " + response.result().value().nextPrimitiveValue());
         }
 
         @Override

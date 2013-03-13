@@ -76,7 +76,7 @@ public class DevToolsServiceHandler implements ToolHandler {
   }
 
   public void handleMessage(Message message) {
-    JsonReaderEx reader = JsonReaders.createReader(message.getContent().toString());
+    JsonReaderEx reader = JsonReaders.createReader(message.getContent());
     ToolsMessage toolsResponse;
     //try {
       //toolsResponse = ToolsProtocolParserAccess.get().parseToolsMessage(reader);

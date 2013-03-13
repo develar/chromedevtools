@@ -118,7 +118,8 @@ public class V8Helper {
     if (type == null) {
       if (tolerateNullType) {
         type = Type.TYPE_OBJECT;
-      } else {
+      }
+      else {
         throw new ValueLoadException("Bad value object");
       }
     }

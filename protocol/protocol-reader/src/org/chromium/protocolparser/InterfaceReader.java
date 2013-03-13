@@ -28,7 +28,6 @@ class InterfaceReader {
   private static final PrimitiveValueParser STRING_PARSER = new PrimitiveValueParser("String");
   private static final PrimitiveValueParser NULLABLE_STRING_PARSER = new PrimitiveValueParser("String", true);
 
-  private static final SimpleParserPair<Object> OBJECT_PARSER = SimpleParserPair.create(Object.class);
   private static final SimpleParserPair<JsonReaderEx> JSON_PARSER = SimpleParserPair.create(JsonReaderEx.class);
   private static final MapParser MAP_PARSER = new MapParser(false);
   private static final MapParser NULLABLE_MAP_PARSER = new MapParser(true);
@@ -189,7 +188,7 @@ class InterfaceReader {
       methodHandlerMap.putAll(BaseHandlersLibrary.INSTANCE.getAllHandlers());
     }
 
-    TypeHandler.EagerFieldParser eagerFieldParser = new DynamicParserImpl.EagerFieldParserImpl(fields.getOnDemandHandlers());
+    DynamicParserImpl.EagerFieldParserImpl eagerFieldParser = new DynamicParserImpl.EagerFieldParserImpl(fields.getOnDemandHandlers());
     return new TypeHandler<T>(typeClass, getSuperclassRef(typeClass),
                               fields.getVolatileFields(), methodHandlerMap,
                               fields.getFieldLoaders(),
@@ -227,9 +226,9 @@ class InterfaceReader {
       else if (type == String.class) {
         return declaredNullable ? NULLABLE_STRING_PARSER : STRING_PARSER;
       }
-      else if (type == Object.class) {
-        return OBJECT_PARSER.get(declaredNullable);
-      }
+      //else if (type == Object.class) {
+      //  return OBJECT_PARSER.get(declaredNullable);
+      //}
       else if (type == JsonReaderEx.class) {
         return JSON_PARSER.get(declaredNullable);
       }

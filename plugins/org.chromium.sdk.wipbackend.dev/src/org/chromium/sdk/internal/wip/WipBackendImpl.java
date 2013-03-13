@@ -192,7 +192,7 @@ public class WipBackendImpl extends WipBackendBase {
     stream.write(0xA);
   }
 
-  private static List<WipTabList.TabDescription> parseJsonReponse(String content) throws IOException {
+  private static List<WipTabList.TabDescription> parseJsonReponse(String content) {
     return WipReaderService.get().parseTabList(JsonReaders.createReader(content)).asTabList();
   }
 }

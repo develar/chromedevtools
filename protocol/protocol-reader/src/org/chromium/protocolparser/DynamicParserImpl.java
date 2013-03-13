@@ -17,18 +17,13 @@ public class DynamicParserImpl<ROOT> {
     rootImpl = new ParserRootImpl<ROOT>(parserRootClass, typeToTypeHandler);
   }
 
-  public ROOT getParserRoot() {
-    return rootImpl.getInstance();
-  }
-
-  static class EagerFieldParserImpl extends TypeHandler.EagerFieldParser {
+  static class EagerFieldParserImpl {
     private final List<LazyHandler> onDemandHandlers;
 
     EagerFieldParserImpl(List<LazyHandler> onDemandHandlers) {
       this.onDemandHandlers = onDemandHandlers;
     }
 
-    @Override
     void addAllFieldNames(Set<? super String> output) {
       for (LazyHandler handler : onDemandHandlers) {
         output.add(handler.getFieldName());

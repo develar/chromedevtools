@@ -4,20 +4,18 @@
 
 package org.chromium.sdk.internal.v8native.value;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
-
+import gnu.trove.THashMap;
 import org.chromium.sdk.JsValue.Type;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * A utility that facilitates retrieval of {@link Type}s according to the
  * JSON values received.
  */
 public class JsDataTypeUtil {
-
-  private static Map<String, Type> jsonTypeToEnum = new HashMap<String, Type>();
-
+  private static Map<String, Type> jsonTypeToEnum = new THashMap<String, Type>();
   private static Map<Type, String> enumToJsonType = new EnumMap<Type, String>(Type.class);
 
   /**
@@ -49,7 +47,7 @@ public class JsDataTypeUtil {
    * of the object. If {@code className} is {@code null}, only the 1:1 mapping
    * shall be used.
    *
-   * @param jsonType the JS type from a JSON response
+   * @param jsonType  the JS type from a JSON response
    * @param className a nullable class name of the object
    * @return a JsDataType corresponding to {@code jsonType} and, possibly,
    *         modified according to {@code className}
@@ -61,7 +59,8 @@ public class JsDataTypeUtil {
     if (CLASSNAME_DATE.equals(className)) {
       // hack to use the TYPE_DATE type even though its type in V8 is "object"
       return Type.TYPE_DATE;
-    } else if (CLASSNAME_ARRAY.equals(className)) {
+    }
+    else if (CLASSNAME_ARRAY.equals(className)) {
       // hack to use the TYPE_ARRAY type even though its type in V8 is "object"
       return Type.TYPE_ARRAY;
     }
@@ -84,6 +83,5 @@ public class JsDataTypeUtil {
   }
 
   private JsDataTypeUtil() {
-    // not instantiable
   }
 }

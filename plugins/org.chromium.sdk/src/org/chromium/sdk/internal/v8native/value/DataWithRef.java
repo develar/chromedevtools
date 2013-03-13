@@ -4,7 +4,7 @@ import org.chromium.sdk.internal.v8native.protocol.input.data.RefWithDisplayData
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef;
 
 public abstract class DataWithRef {
-  public abstract long ref();
+  public abstract int ref();
 
   /** @return data or null */
   public abstract RefWithDisplayData getWithDisplayData();
@@ -16,19 +16,19 @@ public abstract class DataWithRef {
         return someRef.asWithDisplayData();
       }
       @Override
-      public long ref() {
+      public int ref() {
         return someRef.ref();
       }
     };
   }
-  public static DataWithRef fromLong(final long ref) {
+  public static DataWithRef fromLong(final int ref) {
     return new DataWithRef() {
       @Override
       public RefWithDisplayData getWithDisplayData() {
         return null;
       }
       @Override
-      public long ref() {
+      public int ref() {
         return ref;
       }
     };
