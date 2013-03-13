@@ -18,7 +18,6 @@ import java.util.List;
  * may occur, the map should always hold the fullest (and the less expired) version.
  */
 public abstract class ValueLoader implements RemoteValueMapping {
-
   /**
    * @return internal cache state variable value
    */

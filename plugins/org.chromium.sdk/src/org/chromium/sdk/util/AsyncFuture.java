@@ -300,7 +300,7 @@ public abstract class AsyncFuture<T> {
         throw new IllegalStateException();
       }
       synchronized (this) {
-        this.resultReady = true;
+        resultReady = true;
         this.result = result;
       }
       for (CallbackPair<T> pair : callbacks) {
@@ -313,7 +313,7 @@ public abstract class AsyncFuture<T> {
     private void resultIsReadySync(RuntimeException e) {
       // Double-check that result is marked ready.
       synchronized (this) {
-        this.resultReady = true;
+        resultReady = true;
       }
       for (CallbackPair<T> pair : callbacks) {
         if (pair.syncCallback != null) {
@@ -332,9 +332,9 @@ public abstract class AsyncFuture<T> {
 
     void startFailureIsReady(RuntimeException cause) {
       synchronized (this) {
-        this.resultReady = true;
-        this.result = null;
-        this.startFailure = cause;
+        resultReady = true;
+        result = null;
+        startFailure = cause;
       }
       for (CallbackPair<T> pair : callbacks) {
         if (pair.syncCallback != null) {

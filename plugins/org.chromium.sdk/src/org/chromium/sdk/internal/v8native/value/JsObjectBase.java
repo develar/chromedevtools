@@ -53,12 +53,12 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
 
   @Override
   public Collection<JsVariableImpl> getProperties() throws MethodIsBlockingException {
-    return getBasicPropertyData(true).getPropertyList();
+    return getBasicPropertyData(true).getProperties();
   }
 
   @Override
   public Collection<JsVariableImpl> getInternalProperties() throws MethodIsBlockingException {
-    return getBasicPropertyData(true).getIntenalPropertyList();
+    return getBasicPropertyData(true).getIntenalProperties();
   }
 
   @Override
@@ -88,7 +88,7 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
 
   @Override
   public JsVariable getProperty(String name) throws MethodIsBlockingException {
-    return getBasicPropertyData(true).getPropertyMap().get(name);
+    return getBasicPropertyData(true).getProperty(name);
   }
 
   @Override
@@ -126,9 +126,9 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
    */
   protected D getPropertyData(boolean checkFreshness) throws MethodIsBlockingException {
     if (propertyDataRef.get() == null) {
-      int currentCacheState = getRemoteValueMapping().getCurrentCacheState();
-      startPropertyLoadOperation(false, currentCacheState);
-    } else {
+      startPropertyLoadOperation(false, getRemoteValueMapping().getCurrentCacheState());
+    }
+    else {
       if (checkFreshness) {
         int currentCacheState = getRemoteValueMapping().getCurrentCacheState();
         D result = propertyDataRef.get().getSync();
@@ -139,7 +139,6 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
         startPropertyLoadOperation(true, currentCacheState);
       }
     }
-
     return propertyDataRef.get().getSync();
   }
 
@@ -153,7 +152,6 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
   private void startPropertyLoadOperation(boolean reload, final int currentCacheState) throws MethodIsBlockingException {
     // The operation is blocking, because we will wait for its result anyway.
     // On the other hand there is a post-load job that we need a thread to occupy with.
-
     AsyncFuture.SyncOperation<D> blockingOperation = new AsyncFuture.SyncOperation<D>() {
       @Override
       protected D runSync() throws MethodIsBlockingException {
@@ -190,60 +188,6 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
    * User-provided method that extracts basic property data from user-provided data class.
    */
   protected abstract BasicPropertyData unwrapBasicData(D wrappedBasicData);
-
-  /**
-   * Contains immutable data about object properties plus lazy-initialized fields that are
-   * derived from property data. There can be more fields in user-provided wrapper class.
-   */
-  protected static class BasicPropertyData {
-    private final int cacheState;
-
-    private final List<JsVariableImpl> propertyList;
-    private final List<JsVariableImpl> intenalPropertyList;
-    private final SubpropertiesMirror subpropertiesMirror;
-
-    private volatile Map<String, JsVariableImpl> propertyMap = null;
-
-    BasicPropertyData(int cacheState,
-        List<JsVariableImpl> propertyList,
-        List<JsVariableImpl> intenalPropertyList, SubpropertiesMirror subpropertiesMirror) {
-      this.cacheState = cacheState;
-      this.propertyList = propertyList;
-      this.intenalPropertyList = intenalPropertyList;
-      this.subpropertiesMirror = subpropertiesMirror;
-    }
-
-    int getCacheState() {
-      return cacheState;
-    }
-
-    List<JsVariableImpl> getPropertyList() {
-      return propertyList;
-    }
-
-    List<JsVariableImpl> getIntenalPropertyList() {
-      return intenalPropertyList;
-    }
-
-    SubpropertiesMirror getSubpropertiesMirror() {
-      return subpropertiesMirror;
-    }
-
-    Map<String, JsVariableImpl> getPropertyMap() {
-      // Method is not synchronized -- it's OK if we initialize volatile propertyMap field
-      // several times.
-      if (propertyMap == null) {
-        Map<String, JsVariableImpl> map =
-            new HashMap<String, JsVariableImpl>(propertyList.size() * 2, 0.75f);
-        for (JsVariableImpl prop : propertyList) {
-          map.put(prop.getName(), prop);
-        }
-        // Make make synchronized for such not thread-safe methods as entrySet.
-        propertyMap = Collections.unmodifiableMap(Collections.synchronizedMap(map));
-      }
-      return propertyMap;
-    }
-  }
 
   private List<JsVariableImpl> createPropertiesFromMirror(ValueMirror[] mirrorProperties, List<? extends PropertyReference> propertyRefs) {
     // TODO(peter.rybin) Maybe assert that context is valid here

@@ -4,16 +4,12 @@
 
 package org.chromium.sdk.internal.v8native.value;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import org.chromium.sdk.JsArray;
 import org.chromium.sdk.JsFunction;
 import org.chromium.sdk.JsVariable;
 import org.chromium.sdk.util.MethodIsBlockingException;
+
+import java.util.*;
 
 /**
  * A generic implementation of the JsArray interface.
@@ -124,7 +120,7 @@ class JsArrayImpl extends JsObjectBase<JsArrayImpl.ArrayPropertyData> implements
       if (indexToElementMap == null) {
         SortedMap<Integer, JsVariableImpl> map = new TreeMap<Integer, JsVariableImpl>();
 
-        for (JsVariableImpl prop : basicPropertyData.getPropertyList()) {
+        for (JsVariableImpl prop : basicPropertyData.getProperties()) {
           Object name = prop.getRawNameAsObject();
           if (name instanceof Number == false) {
             continue;

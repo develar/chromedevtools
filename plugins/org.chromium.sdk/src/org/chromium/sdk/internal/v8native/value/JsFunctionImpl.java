@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Generic implementation of {@link JsFunction}.
  */
-public class JsFunctionImpl extends JsObjectBase<JsObjectBase.BasicPropertyData>
+public class JsFunctionImpl extends JsObjectBase<BasicPropertyData>
     implements JsFunction {
   private volatile TextStreamPosition openParenPosition = null;
 

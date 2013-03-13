@@ -12,9 +12,9 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
   }
 
   public static final class M0 implements org.chromium.v8.liveEditProtocol.LiveEditResult {
-    private org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode _change_tree;
     private org.chromium.v8.liveEditProtocol.LiveEditResult.TextualDiff _textual_diff;
     private String _created_script_name;
+    private org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode _change_tree;
     private boolean _stack_modified;
     private boolean _updated;
 
@@ -22,14 +22,14 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("change_tree")) {
-          _change_tree = new M2(reader);
-        }
-        else if (name.equals("textual_diff")) {
+        if (name.equals("textual_diff")) {
           _textual_diff = new M4(reader);
         }
         else if (name.equals("created_script_name")) {
           _created_script_name = readString(reader, "created_script_name");
+        }
+        else if (name.equals("change_tree")) {
+          _change_tree = new M2(reader);
         }
         else if (name.equals("stack_modified")) {
           _stack_modified = readBoolean(reader, "stack_modified");
@@ -45,11 +45,6 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     }
 
     @Override
-    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode change_tree() {
-      return _change_tree;
-    }
-
-    @Override
     public org.chromium.v8.liveEditProtocol.LiveEditResult.TextualDiff textual_diff() {
       return _textual_diff;
     }
@@ -57,6 +52,11 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     @Override
     public java.lang.String created_script_name() {
       return _created_script_name;
+    }
+
+    @Override
+    public org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode change_tree() {
+      return _change_tree;
     }
 
     @Override
@@ -144,31 +144,19 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
   }
 
   public static final class M2 implements org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode {
-    private org.chromium.v8.liveEditProtocol.LiveEditResult.Positions _new_positions;
-    private String _status;
-    private java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> _new_children;
-    private String _status_explanation;
     private String _name;
     private org.chromium.v8.liveEditProtocol.LiveEditResult.Positions _positions;
     private java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> _children;
+    private String _status;
+    private org.chromium.v8.liveEditProtocol.LiveEditResult.Positions _new_positions;
+    private java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> _new_children;
+    private String _status_explanation;
 
     public M2(com.google.gson.stream.JsonReaderEx reader) {
       reader.beginObject();
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
-        if (name.equals("new_positions")) {
-          _new_positions = new M3(reader);
-        }
-        else if (name.equals("status")) {
-          _status = readString(reader, "status");
-        }
-        else if (name.equals("new_children")) {
-          _new_children = readObjectArray(reader, "new_children", new M1F(), true);
-        }
-        else if (name.equals("status_explanation")) {
-          _status_explanation = readString(reader, "status_explanation");
-        }
-        else if (name.equals("name")) {
+        if (name.equals("name")) {
           _name = readString(reader, "name");
         }
         else if (name.equals("positions")) {
@@ -177,31 +165,23 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
         else if (name.equals("children")) {
           _children = readObjectArray(reader, "children", new M2F(), false);
         }
+        else if (name.equals("status")) {
+          _status = readString(reader, "status");
+        }
+        else if (name.equals("new_positions")) {
+          _new_positions = new M3(reader);
+        }
+        else if (name.equals("new_children")) {
+          _new_children = readObjectArray(reader, "new_children", new M1F(), true);
+        }
+        else if (name.equals("status_explanation")) {
+          _status_explanation = readString(reader, "status_explanation");
+        }
         else {
           reader.skipValue();
         }
       }
       reader.endObject();
-    }
-
-    @Override
-    public org.chromium.v8.liveEditProtocol.LiveEditResult.Positions new_positions() {
-      return _new_positions;
-    }
-
-    @Override
-    public java.lang.String status() {
-      return _status;
-    }
-
-    @Override
-    public java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> new_children() {
-      return _new_children;
-    }
-
-    @Override
-    public java.lang.String status_explanation() {
-      return _status_explanation;
     }
 
     @Override
@@ -217,6 +197,26 @@ public final class LiveEditProtocolReaderImpl implements org.chromium.v8.liveEdi
     @Override
     public java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.OldTreeNode> children() {
       return _children;
+    }
+
+    @Override
+    public java.lang.String status() {
+      return _status;
+    }
+
+    @Override
+    public org.chromium.v8.liveEditProtocol.LiveEditResult.Positions new_positions() {
+      return _new_positions;
+    }
+
+    @Override
+    public java.util.List<org.chromium.v8.liveEditProtocol.LiveEditResult.NewTreeNode> new_children() {
+      return _new_children;
+    }
+
+    @Override
+    public java.lang.String status_explanation() {
+      return _status_explanation;
     }
   }
 
