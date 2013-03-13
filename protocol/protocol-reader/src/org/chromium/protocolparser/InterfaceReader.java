@@ -55,13 +55,10 @@ class InterfaceReader {
   private final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;
   private final boolean strictMode;
 
-  private final boolean isStatic;
-
   final List<TypeRef<?>> refs = new ArrayList<TypeRef<?>>();
   final List<SubtypeCaster> subtypeCasters = new ArrayList<SubtypeCaster>();
 
-  InterfaceReader(Class[] protocolInterfaces, boolean isStatic, boolean strictMode) {
-    this.isStatic = isStatic;
+  InterfaceReader(Class[] protocolInterfaces, boolean strictMode) {
     this.strictMode = strictMode;
 
     typeToTypeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>(protocolInterfaces.length);
@@ -77,14 +74,13 @@ class InterfaceReader {
     }
   }
 
-  private InterfaceReader(Map<Class<?>, TypeHandler<?>> typeToTypeHandler, boolean isStatic, boolean strictMode) {
-    this.isStatic = isStatic;
+  private InterfaceReader(Map<Class<?>, TypeHandler<?>> typeToTypeHandler, boolean strictMode) {
     this.strictMode = strictMode;
     this.typeToTypeHandler = typeToTypeHandler;
   }
 
   public static TypeHandler createHandler(Map<Class<?>, TypeHandler<?>> typeToTypeHandler, Class<?> aClass) {
-    InterfaceReader reader = new InterfaceReader(typeToTypeHandler, true, false);
+    InterfaceReader reader = new InterfaceReader(typeToTypeHandler, false);
     reader.processed.addAll(typeToTypeHandler.keySet());
     reader.go(new Class[]{aClass});
     return typeToTypeHandler.get(aClass);
@@ -166,10 +162,6 @@ class InterfaceReader {
       if (returnType != typeClass && returnType.getAnnotation(JsonType.class) != null) {
         createIfNotExists(returnType);
       }
-    }
-
-    if (!isStatic) {
-      methodHandlerMap.putAll(BaseHandlersLibrary.INSTANCE.getAllHandlers());
     }
 
     DynamicParserImpl.EagerFieldParserImpl eagerFieldParser = new DynamicParserImpl.EagerFieldParserImpl(fields.getOnDemandHandlers());

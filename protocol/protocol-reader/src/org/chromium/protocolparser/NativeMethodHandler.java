@@ -2,7 +2,7 @@ package org.chromium.protocolparser;
 
 import java.lang.reflect.Method;
 
-public abstract class NativeMethodHandler extends BaseHandlersLibrary.MethodHandlerBase {
+public abstract class NativeMethodHandler extends MethodHandlerBase {
   public NativeMethodHandler(Method method) {
     super(method);
   }

@@ -6,7 +6,7 @@ package org.jetbrains.v8.protocolParser;
 
 import org.chromium.protocolparser.DynamicParserImpl;
 import org.chromium.protocolparser.GeneratedCodeMap;
-import org.chromium.protocolparser.ReaderGeneratorBase;
+import org.chromium.protocolparser.ReaderGenerator;
 import org.chromium.sdk.internal.v8native.protocol.input.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.*;
 import org.jetbrains.v8.protocol.GeneratedReaderInterfaceList;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class V8ReaderGenerator extends ReaderGeneratorBase {
+public class V8ReaderGenerator extends ReaderGenerator {
   public static void main(String[] args) {
     mainImpl(args, createConfiguration());
   }

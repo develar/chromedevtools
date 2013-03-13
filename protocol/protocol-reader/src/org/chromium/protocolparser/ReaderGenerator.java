@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReaderGeneratorBase {
+public class ReaderGenerator {
   protected static void mainImpl(String[] args, GenerateConfiguration configuration) {
     Params params = parseArgs(args);
 

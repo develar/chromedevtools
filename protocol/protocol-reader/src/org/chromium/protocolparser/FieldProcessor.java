@@ -4,17 +4,14 @@ import org.chromium.protocolReader.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 class FieldProcessor<T> {
   private final Class<T> typeClass;
 
   private final List<FieldLoader> fieldLoaders = new ArrayList<FieldLoader>(2);
   private final List<DynamicParserImpl.LazyHandler> onDemandHandlers = new ArrayList<DynamicParserImpl.LazyHandler>();
-  private final Map<Method, MethodHandler> methodHandlerMap = new HashMap<Method, MethodHandler>();
+  private final LinkedHashMap<Method, MethodHandler> methodHandlerMap = new LinkedHashMap<>();
   private final DynamicParserImpl.FieldMap fieldMap = new DynamicParserImpl.FieldMap();
   private List<VolatileFieldBinding> volatileFields = new ArrayList<VolatileFieldBinding>(2);
   boolean lazyRead;

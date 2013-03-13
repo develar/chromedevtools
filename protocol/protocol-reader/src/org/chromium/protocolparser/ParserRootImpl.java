@@ -12,32 +12,21 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.*;
 
-/**
- * Dynamic implementation of user 'root' interface to parser.
- * @param <R> 'root' interface type
- * @see org.chromium.protocolReader.JsonParserRoot
- */
 class ParserRootImpl<R> {
   private final Class<R> rootClass;
-  private final InvocationHandlerImpl invocationHandler;
-  private final R instance;
+  private final InvocationHandler invocationHandler;
 
   ParserRootImpl(Class<R> rootClass, Map<Class<?>, TypeHandler<?>> typeToTypeHandler) {
     this.rootClass = rootClass;
     ParseInterfaceSession session = new ParseInterfaceSession(typeToTypeHandler);
     session.run(rootClass);
-    invocationHandler = session.createInvocationHandler();
-    instance = null;
-  }
-
-  R getInstance() {
-    return instance;
+    invocationHandler = new InvocationHandler(session.methodMap);
   }
 
   private static class ParseInterfaceSession {
     private final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;
     private final Set<Class<?>> visitedInterfaces = new HashSet<Class<?>>(1);
-    private final Map<Method, MethodDelegate> methodMap = new HashMap<Method, MethodDelegate>();
+    private final LinkedHashMap<Method, MethodDelegate> methodMap = new LinkedHashMap<Method, MethodDelegate>();
 
     ParseInterfaceSession(Map<Class<?>, TypeHandler<?>> typeToTypeHandler) {
       this.typeToTypeHandler = typeToTypeHandler;
@@ -109,16 +98,12 @@ class ParserRootImpl<R> {
         parseInterfaceRecursive(baseClass);
       }
     }
-
-    InvocationHandlerImpl createInvocationHandler() {
-      return new InvocationHandlerImpl(methodMap);
-    }
   }
 
-  private static class InvocationHandlerImpl {
+  private static class InvocationHandler {
     private final Map<Method, MethodDelegate> map;
 
-    InvocationHandlerImpl(Map<Method, MethodDelegate> map) {
+    InvocationHandler(Map<Method, MethodDelegate> map) {
       this.map = map;
     }
 
