@@ -12,10 +12,10 @@ import org.chromium.sdk.util.RelaySyncCallback;
 import org.chromium.sdk.util.SignalRelay;
 import org.chromium.sdk.util.SignalRelay.AlreadySignalledException;
 import org.chromium.sdk.wip.*;
-import org.chromium.wip.protocol.debugger.Enable;
-import org.chromium.wip.protocol.debugger.Pause;
-import org.chromium.wip.protocol.debugger.SetBreakpointsActive;
-import org.chromium.wip.protocol.debugger.SetPauseOnExceptions;
+import org.jetbrains.wip.protocol.debugger.Enable;
+import org.jetbrains.wip.protocol.debugger.Pause;
+import org.jetbrains.wip.protocol.debugger.SetBreakpointsActive;
+import org.jetbrains.wip.protocol.debugger.SetPauseOnExceptions;
 import org.jetbrains.jsonProtocol.JsonReaders;
 import org.jetbrains.wip.protocol.CommandResponse.Success;
 import org.jetbrains.wip.protocol.WipRequest;
@@ -105,7 +105,7 @@ public class WipTabImpl implements WipBrowserTab, WipJavascriptVm {
     };
 
     commandProcessor.send(new Enable(), null, syncCallback);
-    commandProcessor.send(new org.chromium.wip.protocol.page.Enable(), null, null);
+    commandProcessor.send(new org.jetbrains.wip.protocol.page.Enable(), null, null);
     frameManager.readFrames();
   }
 

@@ -5,7 +5,6 @@
 package org.jetbrains.wip.protocol;
 
 import com.google.gson.stream.JsonReaderEx;
-import org.chromium.wip.protocol.ProtocolReponseReader;
 
 import java.io.IOException;
 

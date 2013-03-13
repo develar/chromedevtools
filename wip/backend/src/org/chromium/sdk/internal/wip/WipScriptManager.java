@@ -8,9 +8,9 @@ import org.chromium.sdk.*;
 import org.chromium.sdk.internal.ScriptBase;
 import org.chromium.sdk.util.*;
 import org.chromium.sdk.util.AsyncFuture.Callback;
-import org.chromium.wip.protocol.debugger.GetScriptSourceResult;
-import org.chromium.wip.protocol.debugger.ScriptParsedEventData;
-import org.chromium.wip.protocol.debugger.GetScriptSource;
+import org.jetbrains.wip.protocol.debugger.GetScriptSourceResult;
+import org.jetbrains.wip.protocol.debugger.ScriptParsedEventData;
+import org.jetbrains.wip.protocol.debugger.GetScriptSource;
 
 import java.util.*;
 

@@ -778,10 +778,10 @@
       <method />
     </configuration>
     <configuration default="false" name="Generate WIP reader" type="Application" factoryName="Application" singleton="true">
-      <option name="MAIN_CLASS_NAME" value="org.chromium.wip.protocolReader.WipReaderGenerator" />
+      <option name="MAIN_CLASS_NAME" value="org.jetbrains.wip.protocolReader.WipReaderGenerator" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PROGRAM_PARAMETERS" value="--output-dir=protocol/generated" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../wip" />
+      <option name="PROGRAM_PARAMETERS" value="--output-dir=generated" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../wip/protocol" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
@@ -802,8 +802,8 @@
     <configuration default="false" name="Generate WIP model" type="Application" factoryName="Application" singleton="true">
       <option name="MAIN_CLASS_NAME" value="org.jetbrains.protocolReader.ProtocolModelGenerator" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="protocol-model/generated http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/inspector/Inspector.json org.chromium.wip.protocol org.jetbrains.wip.protocol.WipRequest" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../wip" />
+      <option name="PROGRAM_PARAMETERS" value="generated http://svn.webkit.org/repository/webkit/trunk/Source/WebCore/inspector/Inspector.json org.jetbrains.wip.protocol org.jetbrains.wip.protocol.WipRequest" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../wip/protocol-model" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />

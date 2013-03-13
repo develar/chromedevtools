@@ -8,7 +8,7 @@ import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
-import org.chromium.wip.protocol.ProtocolReponseReader;
+import org.jetbrains.wip.protocol.ProtocolReponseReader;
 import org.jetbrains.jsonProtocol.RequestWithResponse;
 import org.jetbrains.wip.protocol.CommandResponse;
 import org.jetbrains.wip.protocol.WipRequest;

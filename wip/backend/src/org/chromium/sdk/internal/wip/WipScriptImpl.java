@@ -11,9 +11,9 @@ import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.RelaySyncCallback;
 import org.chromium.v8.liveEditProtocol.LiveEditResult;
 import org.chromium.v8.protocol.ProtocolService;
-import org.chromium.wip.protocol.debugger.CallFrameValue;
-import org.chromium.wip.protocol.debugger.SetScriptSourceResult;
-import org.chromium.wip.protocol.debugger.SetScriptSource;
+import org.jetbrains.wip.protocol.debugger.CallFrameValue;
+import org.jetbrains.wip.protocol.debugger.SetScriptSourceResult;
+import org.jetbrains.wip.protocol.debugger.SetScriptSource;
 
 import java.util.List;
 

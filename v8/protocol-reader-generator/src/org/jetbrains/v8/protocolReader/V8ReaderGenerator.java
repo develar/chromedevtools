@@ -23,7 +23,7 @@ public class V8ReaderGenerator extends ReaderGenerator {
   }
 
   public static GenerateConfiguration createConfiguration() {
-    Class[] interfaces = new Class[]{
+    Class<?>[] interfaces = new Class<?>[]{
       IncomingMessage.class,
       EventNotification.class,
       EventNotificationBody.class,
@@ -52,7 +52,7 @@ public class V8ReaderGenerator extends ReaderGenerator {
       ScriptWithId.class
     };
 
-    List<Class> classes = new ArrayList<Class>(Arrays.asList(interfaces));
+    List<Class<?>> classes = new ArrayList<Class<?>>(Arrays.asList(interfaces));
     classes.addAll(Arrays.asList(GeneratedReaderInterfaceList.LIST));
     GeneratedCodeMap liveEditParserMap = buildParserMap(LiveEditReaderGenerator.createConfiguration());
     return new GenerateConfiguration("org.chromium.v8.protocol",

@@ -5,10 +5,10 @@
 package org.chromium.sdk.internal.wip;
 
 import org.chromium.sdk.util.GenericCallback;
-import org.chromium.wip.protocol.page.FrameNavigatedEventData;
-import org.chromium.wip.protocol.page.FrameValue;
-import org.chromium.wip.protocol.page.GetResourceTreeResult;
-import org.chromium.wip.protocol.page.GetResourceTree;
+import org.jetbrains.wip.protocol.page.FrameNavigatedEventData;
+import org.jetbrains.wip.protocol.page.FrameValue;
+import org.jetbrains.wip.protocol.page.GetResourceTreeResult;
+import org.jetbrains.wip.protocol.page.GetResourceTree;
 
 /**
  * Collects information about frame tree. At first class only watches for the url of root frame.

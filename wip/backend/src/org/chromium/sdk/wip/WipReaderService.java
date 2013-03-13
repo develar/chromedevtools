@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.wip;
 
-import org.chromium.wip.protocol.WipProtocolReaderImpl;
+import org.jetbrains.wip.protocol.WipProtocolReaderImpl;
 import org.jetbrains.wip.protocol.WipProtocolReader;
 
 public class WipReaderService {

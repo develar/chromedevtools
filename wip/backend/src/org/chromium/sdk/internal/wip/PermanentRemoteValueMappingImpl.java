@@ -9,7 +9,7 @@ import org.chromium.sdk.RelayOk;
 import org.chromium.sdk.SyncCallback;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.wip.PermanentRemoteValueMapping;
-import org.chromium.wip.protocol.runtime.ReleaseObjectGroup;
+import org.jetbrains.wip.protocol.runtime.ReleaseObjectGroup;
 import org.jetbrains.wip.protocol.CommandResponse;
 
 class PermanentRemoteValueMappingImpl extends WipValueLoader
