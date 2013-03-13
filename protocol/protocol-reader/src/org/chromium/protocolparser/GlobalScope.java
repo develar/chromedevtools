@@ -6,15 +6,15 @@ import gnu.trove.TObjectProcedure;
 
 import java.util.*;
 
-public class GlobalScopeImpl {
+public class GlobalScope {
   private final State state;
 
-  public GlobalScopeImpl(Collection<TypeHandler<?>> typeHandlers, Collection<GeneratedCodeMap> basePackages) {
+  public GlobalScope(Collection<TypeHandler<?>> typeHandlers, Collection<GeneratedCodeMap> basePackages) {
     state = new State(typeHandlers, basePackages);
   }
 
-  public GlobalScopeImpl(GlobalScopeImpl globalScopeImpl) {
-    state = globalScopeImpl.state;
+  public GlobalScope(GlobalScope globalScope) {
+    state = globalScope.state;
   }
 
   public String getTypeImplReference(TypeHandler<?> typeHandler) {

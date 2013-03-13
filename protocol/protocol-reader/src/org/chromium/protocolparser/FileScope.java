@@ -1,10 +1,10 @@
 package org.chromium.protocolparser;
 
-class FileScope extends GlobalScopeImpl {
+class FileScope extends GlobalScope {
   private final TextOutput out;
 
-  FileScope(GlobalScopeImpl globalScopeImpl, StringBuilder stringBuilder) {
-    super(globalScopeImpl);
+  FileScope(GlobalScope globalScope, StringBuilder stringBuilder) {
+    super(globalScope);
     out = new TextOutput(stringBuilder);
   }
 

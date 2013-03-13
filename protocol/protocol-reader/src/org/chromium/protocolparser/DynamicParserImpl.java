@@ -42,7 +42,7 @@ public class DynamicParserImpl<ROOT> {
   }
 
   public GeneratedCodeMap generateStaticParser(StringBuilder stringBuilder, String packageName, String className, Collection<GeneratedCodeMap> basePackages) {
-    final GlobalScopeImpl globalScope = new GlobalScopeImpl(typeToTypeHandler.values(), basePackages);
+    final GlobalScope globalScope = new GlobalScope(typeToTypeHandler.values(), basePackages);
     FileScope fileScope = globalScope.newFileScope(stringBuilder);
     final TextOutput out = fileScope.getOutput();
     out.append("// This is a generated source.");
