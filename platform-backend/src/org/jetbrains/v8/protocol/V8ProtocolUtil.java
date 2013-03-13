@@ -2,12 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.v8native.protocol;
+package org.jetbrains.v8.protocol;
 
 import org.chromium.sdk.Script;
 import org.chromium.sdk.Script.Type;
 import org.chromium.sdk.internal.JsonUtil;
 import org.chromium.sdk.internal.v8native.V8ContextFilter;
+import org.chromium.sdk.internal.v8native.protocol.V8Protocol;
 import org.chromium.sdk.internal.v8native.protocol.input.data.*;
 import org.chromium.sdk.internal.v8native.protocol.output.ScriptsMessage;
 import org.chromium.sdk.internal.v8native.value.DataWithRef;

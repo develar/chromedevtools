@@ -9,7 +9,7 @@ import gnu.trove.TObjectProcedure;
 import org.chromium.sdk.Script;
 import org.chromium.sdk.Script.Type;
 import org.chromium.sdk.internal.ScriptBase.Descriptor;
-import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
+import org.jetbrains.v8.protocol.V8ProtocolUtil;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ScriptHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeHandle;
 

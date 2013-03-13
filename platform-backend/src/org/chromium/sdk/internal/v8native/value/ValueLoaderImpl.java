@@ -15,7 +15,7 @@ import org.chromium.sdk.internal.v8native.InternalContext.ContextDismissedChecke
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.ScopeBody;
 import org.chromium.sdk.internal.v8native.protocol.input.data.*;
-import org.chromium.sdk.internal.v8native.protocol.output.DebuggerMessageFactory;
+import org.jetbrains.v8.protocol.DebuggerMessageFactory;
 import org.chromium.sdk.internal.v8native.protocol.output.LookupMessage;
 import org.chromium.sdk.util.GenericCallback;
 import org.chromium.sdk.util.MethodIsBlockingException;

@@ -716,11 +716,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../fake module.iml" filepath="$PROJECT_DIR$/../fake module.iml" />
       <module fileurl="file://$PROJECT_DIR$/../v8/liveedit-protocol/liveedit-protocol.iml" filepath="$PROJECT_DIR$/../v8/liveedit-protocol/liveedit-protocol.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.feature.iml" filepath="$PROJECT_DIR$/org.chromium.debug.feature.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.jsdtbridge.feature.iml" filepath="$PROJECT_DIR$/org.chromium.debug.jsdtbridge.feature.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.feature.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.feature.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" />
       <module fileurl="file://$PROJECT_DIR$/platform-backend.iml" filepath="$PROJECT_DIR$/platform-backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-model-generator/protocol-model-generator.iml" filepath="$PROJECT_DIR$/../protocol/protocol-model-generator/protocol-model-generator.iml" group="protocol" />
       <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-reader/protocol-reader.iml" filepath="$PROJECT_DIR$/../protocol/protocol-reader/protocol-reader.iml" group="protocol" />

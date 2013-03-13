@@ -2,10 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.v8native.protocol.output;
+package org.jetbrains.v8.protocol;
+
+import org.chromium.sdk.internal.v8native.protocol.output.ScopeMessage;
 
 /**
- * A factory for {@link V8Request}s. Static methods are used to construct
+ * A factory for {@link org.chromium.sdk.internal.v8native.protocol.output.V8Request}s. Static methods are used to construct
  * commands to be sent to the remote V8 debugger.
  */
 public class DebuggerMessageFactory {

@@ -9,7 +9,7 @@ import org.chromium.sdk.internal.v8native.DebugSession;
 import org.chromium.sdk.internal.v8native.V8CommandCallbackBase;
 import org.chromium.sdk.internal.v8native.V8ContextFilter;
 import org.chromium.sdk.internal.v8native.V8Helper;
-import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
+import org.jetbrains.v8.protocol.V8ProtocolUtil;
 import org.chromium.sdk.internal.v8native.protocol.input.AfterCompileBody;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.EventNotification;

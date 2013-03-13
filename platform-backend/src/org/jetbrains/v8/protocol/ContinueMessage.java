@@ -2,10 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-package org.chromium.sdk.internal.v8native.protocol.output;
+package org.jetbrains.v8.protocol;
 
 import org.chromium.sdk.DebugContext.StepAction;
 import org.chromium.sdk.internal.v8native.protocol.DebuggerCommand;
+import org.chromium.sdk.internal.v8native.protocol.output.*;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -13,7 +14,7 @@ import java.util.Map;
 /**
  * Represents a "continue" V8 request message.
  */
-public class ContinueMessage extends V8Request {
+public class ContinueMessage extends org.chromium.sdk.internal.v8native.protocol.output.V8Request {
   private static final Map<StepAction, String> stepActionToV8 =
       new EnumMap<StepAction, String>(StepAction.class);
 

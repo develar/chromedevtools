@@ -11,7 +11,6 @@
     </src_description>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <output url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/bin" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../platform-backend">
       <sourceFolder url="file://$MODULE_DIR$/../platform-backend/src" isTestSource="false" />

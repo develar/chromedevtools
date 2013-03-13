@@ -4,7 +4,7 @@
 
 package org.chromium.sdk.internal.v8native.value;
 
-import org.chromium.sdk.internal.v8native.protocol.V8ProtocolUtil;
+import org.jetbrains.v8.protocol.V8ProtocolUtil;
 import org.chromium.sdk.internal.v8native.protocol.input.data.FunctionValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.ObjectValueHandle;
 import org.chromium.sdk.internal.v8native.protocol.input.data.SomeRef;

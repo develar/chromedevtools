@@ -1,4 +1,4 @@
-package org.chromium.sdk.internal.v8native.protocol;
+package org.jetbrains.v8.protocol;
 
 import org.chromium.sdk.internal.v8native.protocol.input.data.PropertyObject;
 import org.chromium.sdk.internal.v8native.value.DataWithRef;

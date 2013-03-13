@@ -7,7 +7,7 @@ package org.chromium.sdk.internal.v8native;
 import org.chromium.sdk.*;
 import org.chromium.sdk.internal.v8native.protocol.input.CommandResponse;
 import org.chromium.sdk.internal.v8native.protocol.input.FrameObject;
-import org.chromium.sdk.internal.v8native.protocol.output.ContinueMessage;
+import org.jetbrains.v8.protocol.ContinueMessage;
 import org.chromium.sdk.internal.v8native.value.ValueLoaderImpl;
 import org.jetbrains.jsonProtocol.Request;
 import org.jetbrains.v8.protocol.V8Request;
