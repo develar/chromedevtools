@@ -28,7 +28,9 @@ class InterfaceReader {
   private static final PrimitiveValueParser STRING_PARSER = new PrimitiveValueParser("String");
   private static final PrimitiveValueParser NULLABLE_STRING_PARSER = new PrimitiveValueParser("String", true);
 
-  private static final SimpleParserPair<JsonReaderEx> JSON_PARSER = SimpleParserPair.create(JsonReaderEx.class);
+  private static final RawValueParser JSON_PARSER = new RawValueParser(false);
+  private static final RawValueParser NULLABLE_JSON_PARSER = new RawValueParser(true);
+
   private static final MapParser MAP_PARSER = new MapParser(false);
   private static final MapParser NULLABLE_MAP_PARSER = new MapParser(true);
 
@@ -86,24 +88,6 @@ class InterfaceReader {
     reader.processed.addAll(typeToTypeHandler.keySet());
     reader.go(new Class[]{aClass});
     return typeToTypeHandler.get(aClass);
-  }
-
-  static class SimpleParserPair<T> {
-    static <T> SimpleParserPair<T> create(Class<T> fieldType) {
-      return new SimpleParserPair<T>(fieldType);
-    }
-
-    private final SimpleCastValueParser<T> nullable;
-    private final SimpleCastValueParser<T> notNullable;
-
-    private SimpleParserPair(Class<T> fieldType) {
-      nullable = new SimpleCastValueParser<T>(fieldType, true);
-      notNullable = new SimpleCastValueParser<T>(fieldType, false);
-    }
-
-    ValueParser get(boolean declaredNullable) {
-      return declaredNullable ? nullable : notNullable;
-    }
   }
 
   Map<Class<?>, TypeHandler<?>> go() {
@@ -226,11 +210,8 @@ class InterfaceReader {
       else if (type == String.class) {
         return declaredNullable ? NULLABLE_STRING_PARSER : STRING_PARSER;
       }
-      //else if (type == Object.class) {
-      //  return OBJECT_PARSER.get(declaredNullable);
-      //}
       else if (type == JsonReaderEx.class) {
-        return JSON_PARSER.get(declaredNullable);
+        return declaredNullable ? NULLABLE_JSON_PARSER : JSON_PARSER;
       }
       else if (type == Map.class) {
         return declaredNullable ? NULLABLE_MAP_PARSER : MAP_PARSER;

@@ -15,7 +15,7 @@ public final class SetPauseOnExceptions extends org.jetbrains.wip.protocol.WipRe
   /**
    * Pause on exceptions mode.
    */
-  public enum State {
+  enum State {
     NONE("none"), UNCAUGHT("uncaught"), ALL("all");
 
     private final String protocolValue;

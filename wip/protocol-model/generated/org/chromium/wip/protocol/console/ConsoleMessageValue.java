@@ -57,19 +57,19 @@ public interface ConsoleMessageValue {
   /**
    * Message source.
    */
-  public enum Source {
+  enum Source {
     XML, JAVASCRIPT, NETWORK, CONSOLE_API, STORAGE, APPCACHE, RENDERING, CSS, SECURITY, OTHER
   }
   /**
    * Message severity.
    */
-  public enum Level {
+  enum Level {
     LOG, WARNING, ERROR, DEBUG
   }
   /**
    * Console message type.
    */
-  public enum Type {
+  enum Type {
     LOG, DIR, DIRXML, TABLE, TRACE, CLEAR, START_GROUP, START_GROUP_COLLAPSED, END_GROUP, ASSERT, TIMING, PROFILE, PROFILE_END
   }
 }

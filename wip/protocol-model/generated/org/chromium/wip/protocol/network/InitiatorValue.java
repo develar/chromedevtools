@@ -29,7 +29,7 @@ public interface InitiatorValue {
   /**
    * Type of this initiator.
    */
-  public enum Type {
+  enum Type {
     PARSER, SCRIPT, OTHER
   }
 }

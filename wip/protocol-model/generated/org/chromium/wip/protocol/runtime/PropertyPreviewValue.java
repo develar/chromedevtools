@@ -30,13 +30,13 @@ public interface PropertyPreviewValue {
   /**
    * Object type.
    */
-  public enum Type {
+  enum Type {
     OBJECT, FUNCTION, UNDEFINED, STRING, NUMBER, BOOLEAN
   }
   /**
    * Object subtype hint. Specified for <code>object</code> type values only.
    */
-  public enum Subtype {
+  enum Subtype {
     ARRAY, NULL, NODE, REGEXP, DATE
   }
 }

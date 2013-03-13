@@ -18,7 +18,7 @@ public interface ScopeValue {
   /**
    * Scope type.
    */
-  public enum Type {
+  enum Type {
     GLOBAL, LOCAL, WITH, CLOSURE, CATCH
   }
 }

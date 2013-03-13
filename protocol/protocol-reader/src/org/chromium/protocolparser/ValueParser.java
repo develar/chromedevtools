@@ -64,12 +64,7 @@ abstract class ValueParser {
   }
 
   protected static void addReaderParameter(boolean subtyping, TextOutput out) {
-    if (subtyping) {
-      out.append(Util.PENDING_INPUT_READER_NAME);
-    }
-    else {
-      out.append(Util.READER_NAME);
-    }
+    out.append(subtyping ? Util.PENDING_INPUT_READER_NAME : Util.READER_NAME);
   }
 
   public boolean isThrowsIOException() {

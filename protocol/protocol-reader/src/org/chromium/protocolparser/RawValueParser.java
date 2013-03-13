@@ -1,22 +1,23 @@
 package org.chromium.protocolparser;
 
-class SimpleCastValueParser<T> extends ValueParser {
-  private final Class<T> fieldType;
+import com.google.gson.stream.JsonReaderEx;
 
-  SimpleCastValueParser(Class<T> fieldType, boolean nullable) {
+class RawValueParser extends ValueParser {
+  RawValueParser(boolean nullable) {
     super(nullable);
-
-    this.fieldType = fieldType;
   }
 
   @Override
   void writeReadCode(ClassScope scope, boolean subtyping, String fieldName, TextOutput out) {
     addReaderParameter(subtyping, out);
+    out.append(".subReader();").newLine();
+    addReaderParameter(subtyping, out);
+    out.append(".skipValue()");
   }
 
   @Override
   public void appendFinishedValueTypeName(TextOutput out) {
-    out.append(fieldType.getCanonicalName());
+    out.append(JsonReaderEx.class.getCanonicalName());
   }
 
   @Override
@@ -25,10 +26,5 @@ class SimpleCastValueParser<T> extends ValueParser {
                           boolean nullable,
                           String fieldName, TextOutput out) {
     throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public boolean isThrowsIOException() {
-    return false;
   }
 }

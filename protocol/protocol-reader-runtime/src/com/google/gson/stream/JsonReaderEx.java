@@ -2,6 +2,7 @@ package com.google.gson.stream;
 
 import com.google.gson.JsonParseException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.Closeable;
 
@@ -66,6 +67,7 @@ public class JsonReaderEx implements Closeable {
     stack[stackSize++] = scope;
   }
 
+  @Nullable
   public JsonReaderEx subReader() {
     JsonToken nextToken = peek();
     switch (nextToken) {
@@ -74,8 +76,10 @@ public class JsonReaderEx implements Closeable {
       case STRING:
       case NUMBER:
       case BOOLEAN:
-      case NULL:
         break;
+      case NULL:
+        // just return null
+        return null;
       default:
         throw createParseError("Cannot create sub reader, next token " + nextToken + " is not value");
     }
