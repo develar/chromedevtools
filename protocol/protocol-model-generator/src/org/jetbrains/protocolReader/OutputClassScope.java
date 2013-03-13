@@ -1,5 +1,6 @@
 package org.jetbrains.protocolReader;
 
+import com.google.gson.stream.JsonReaderEx;
 import org.chromium.protocolparser.Enums;
 import org.chromium.protocolparser.TextOutput;
 import org.jetbrains.jsonProtocol.ItemDescriptor;
@@ -49,7 +50,7 @@ class OutputClassScope extends ClassScope {
       }
 
       CharSequence type = new OutputMemberScope(parameter.name()).resolveType(parameter).getJavaType().getShortText(getClassContextNamespace());
-      if (type.equals("Object")) {
+      if (type.equals(JsonReaderEx.class.getCanonicalName())) {
         type = "String";
       }
 
@@ -146,13 +147,6 @@ class OutputClassScope extends ClassScope {
 
     @Override
     public BoxableType generateEnum(final String description, final List<String> enumConstants) {
-      //final String enumName = Generator.capitalizeFirstChar(getMemberName());
-      //addMember(new TextOutConsumer() {
-      //  @Override
-      //  public void append(TextOutput out) throws IOException {
-      //    appendEnumClass(out, description, enumConstants, enumName);
-      //  }
-      //});
       return new StandaloneType(new NamePath(Generator.capitalizeFirstChar(getMemberName()), getClassContextNamespace()), "writeEnum");
     }
 

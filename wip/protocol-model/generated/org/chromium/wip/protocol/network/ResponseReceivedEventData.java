@@ -25,7 +25,7 @@ public interface ResponseReceivedEventData {
   /**
    * Resource type.
    */
-  org.chromium.wip.protocol.page.ResourceTypeEnum type();
+  org.chromium.wip.protocol.page.ResourceType type();
   /**
    * Response data.
    */

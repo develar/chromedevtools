@@ -29,7 +29,7 @@ public interface FrameResourceTreeValue {
     /**
      * Type of this resource.
      */
-    org.chromium.wip.protocol.page.ResourceTypeEnum type();
+    org.chromium.wip.protocol.page.ResourceType type();
     /**
      * Resource mimeType as determined by the browser.
      */

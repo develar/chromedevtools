@@ -66,7 +66,7 @@ class Generator {
       commandResult = new ClassNameScheme.Input("Result", inputPackage);
       eventData = new ClassNameScheme.Input("EventData", inputPackage);
       inputValue = new ClassNameScheme.Input("Value", inputPackage);
-      inputEnum = new ClassNameScheme.Input("Enum", inputPackage);
+      inputEnum = new ClassNameScheme.Input("", inputPackage);
       inputTypedef = new ClassNameScheme.Input("Typedef", inputPackage);
     }
   }

@@ -2406,7 +2406,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M57 implements org.chromium.wip.protocol.network.CachedResourceValue {
-    private org.chromium.wip.protocol.page.ResourceTypeEnum _type;
+    private org.chromium.wip.protocol.page.ResourceType _type;
     private String _url;
     private org.chromium.wip.protocol.network.ResponseValue _response;
     private double _bodySize;
@@ -2416,7 +2416,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
-          _type = readEnum(reader, "type", org.chromium.wip.protocol.page.ResourceTypeEnum.class);
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.page.ResourceType.class);
         }
         else if (name.equals("url")) {
           _url = readString(reader, "url");
@@ -2440,7 +2440,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.chromium.wip.protocol.page.ResourceTypeEnum type() {
+    public org.chromium.wip.protocol.page.ResourceType type() {
       return _type;
     }
 
@@ -3078,7 +3078,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
   }
 
   public static final class M71 implements org.chromium.wip.protocol.network.ResponseReceivedEventData {
-    private org.chromium.wip.protocol.page.ResourceTypeEnum _type;
+    private org.chromium.wip.protocol.page.ResourceType _type;
     private double _timestamp;
     private String _frameId;
     private org.chromium.wip.protocol.network.ResponseValue _response;
@@ -3090,7 +3090,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
-          _type = readEnum(reader, "type", org.chromium.wip.protocol.page.ResourceTypeEnum.class);
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.page.ResourceType.class);
         }
         else if (name.equals("timestamp")) {
           _timestamp = readDouble(reader, "timestamp");
@@ -3115,7 +3115,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.chromium.wip.protocol.page.ResourceTypeEnum type() {
+    public org.chromium.wip.protocol.page.ResourceType type() {
       return _type;
     }
 
@@ -4926,7 +4926,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
         }
         else if (name.equals("value")) {
           _value = reader.subReader();
-          reader.skipValue();;
+          reader.skipValue();
         }
         else if (name.equals("className")) {
           _className = readString(reader, "className");
@@ -5142,7 +5142,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }}
 
   public static final class M97 implements org.chromium.wip.protocol.page.FrameResourceTreeValue.Resources {
-    private org.chromium.wip.protocol.page.ResourceTypeEnum _type;
+    private org.chromium.wip.protocol.page.ResourceType _type;
     private String _url;
     private boolean _canceled;
     private String _mimeType;
@@ -5153,7 +5153,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
       while (reader.hasNext()) {
         CharSequence name = reader.nextNameAsCharSequence();
         if (name.equals("type")) {
-          _type = readEnum(reader, "type", org.chromium.wip.protocol.page.ResourceTypeEnum.class);
+          _type = readEnum(reader, "type", org.chromium.wip.protocol.page.ResourceType.class);
         }
         else if (name.equals("url")) {
           _url = readString(reader, "url");
@@ -5185,7 +5185,7 @@ public final class WipProtocolReaderImpl implements org.jetbrains.wip.protocol.W
     }
 
     @Override
-    public org.chromium.wip.protocol.page.ResourceTypeEnum type() {
+    public org.chromium.wip.protocol.page.ResourceType type() {
       return _type;
     }
 

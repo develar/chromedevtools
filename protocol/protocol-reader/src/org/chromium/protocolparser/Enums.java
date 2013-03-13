@@ -10,7 +10,7 @@ import java.util.List;
 
 public final class Enums {
   public static void appendEnums(List<String> enumConstants, String enumName, boolean input, TextOutput out) {
-    out.append("enum ").append(enumName).openBlock();
+    out.append("public enum ").append(enumName).openBlock();
     for (String constant : enumConstants) {
       out.append(JsonReaders.convertRawEnumName(constant));
       if (!input) {

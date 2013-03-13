@@ -587,6 +587,34 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     }
   }
 
+  static final class M4F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M4(reader);
+    }
+  }
+
+  static final class M3F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Event> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Event read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M3(reader);
+    }
+  }
+
+  static final class M7F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M7(reader);
+    }
+  }
+
+  static final class M5F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> {
+    @Override
+    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter read(com.google.gson.stream.JsonReaderEx reader) {
+      return new M5(reader);
+    }
+  }
+
   static final class M2F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain> {
     @Override
     public org.jetbrains.jsonProtocol.ProtocolMetaModel.Domain read(com.google.gson.stream.JsonReaderEx reader) {
@@ -598,34 +626,6 @@ public final class ProtocolSchemaReaderImpl implements org.jetbrains.jsonProtoco
     @Override
     public org.jetbrains.jsonProtocol.ProtocolMetaModel.Command read(com.google.gson.stream.JsonReaderEx reader) {
       return new M1(reader);
-    }
-  }
-
-  static final class M5F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter> {
-    @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Parameter read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M5(reader);
-    }
-  }
-
-  static final class M7F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType> {
-    @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.StandaloneType read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M7(reader);
-    }
-  }
-
-  static final class M3F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.Event> {
-    @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.Event read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M3(reader);
-    }
-  }
-
-  static final class M4F extends ObjectFactory<org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty> {
-    @Override
-    public org.jetbrains.jsonProtocol.ProtocolMetaModel.ObjectProperty read(com.google.gson.stream.JsonReaderEx reader) {
-      return new M4(reader);
     }
   }
 

@@ -13,7 +13,7 @@ public interface CachedResourceValue {
   /**
    * Type of this resource.
    */
-  org.chromium.wip.protocol.page.ResourceTypeEnum type();
+  org.chromium.wip.protocol.page.ResourceType type();
   /**
    * Cached response data.
    */

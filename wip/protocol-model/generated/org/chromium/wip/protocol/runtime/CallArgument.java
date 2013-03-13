@@ -10,7 +10,7 @@ public final class CallArgument extends org.jetbrains.jsonProtocol.OutMessage {
   /**
    * @param v Primitive value.
    */
-  public CallArgument value(com.google.gson.stream.JsonReaderEx v) {
+  public CallArgument value(String v) {
     writeString("value", v);
     return this;
   }
