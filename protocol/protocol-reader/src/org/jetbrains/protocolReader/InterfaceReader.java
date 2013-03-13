@@ -146,7 +146,7 @@ class InterfaceReader {
     FieldProcessor<T> fields = new FieldProcessor<T>(this, typeClass);
     fields.go();
 
-    Map<Method, MethodHandler> methodHandlerMap = fields.getMethodHandlerMap();
+    LinkedHashMap<Method, MethodHandler> methodHandlerMap = fields.getMethodHandlerMap();
     for (Method method : methodHandlerMap.keySet()) {
       Class<?> returnType = method.getReturnType();
       if (returnType != typeClass && returnType.getAnnotation(JsonType.class) != null) {

@@ -7,6 +7,7 @@ package org.jetbrains.protocolReader;
 import org.jetbrains.jsonProtocol.JsonObjectBased;
 
 import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ class TypeHandler<T> {
   private final List<VolatileFieldBinding> volatileFields;
 
   /** Method implementation for dynamic proxy. */
-  private final Map<Method, MethodHandler> methodHandlerMap;
+  private final LinkedHashMap<Method, MethodHandler> methodHandlerMap;
 
   /** Loaders that should read values and save them in field array on parse time. */
   private final List<FieldLoader> fieldLoaders;
@@ -28,7 +29,7 @@ class TypeHandler<T> {
 
   TypeHandler(Class<T> typeClass, TypeRef<?> jsonSuperClass,
               List<VolatileFieldBinding> volatileFields,
-              Map<Method, MethodHandler> methodHandlerMap,
+              LinkedHashMap<Method, MethodHandler> methodHandlerMap,
               List<FieldLoader> fieldLoaders,
               boolean hasLazyFields) {
     this.typeClass = typeClass;

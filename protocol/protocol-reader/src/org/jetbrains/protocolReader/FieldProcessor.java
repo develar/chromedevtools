@@ -4,7 +4,9 @@ import org.chromium.protocolReader.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 class FieldProcessor<T> {
   private final Class<T> typeClass;
@@ -58,7 +60,8 @@ class FieldProcessor<T> {
     methodHandlerMap.put(m, methodHandler);
   }
 
-  private MethodHandler processFieldGetterMethod(Method m, boolean hasOverrideFieldAnnotation, String fieldName) throws JsonProtocolModelParseException {
+  private MethodHandler processFieldGetterMethod(Method m, boolean hasOverrideFieldAnnotation, String fieldName)
+    throws JsonProtocolModelParseException {
     Type genericReturnType = m.getGenericReturnType();
     ValueReader fieldTypeParser = reader.getFieldTypeParser(genericReturnType, m.getAnnotation(JsonNullable.class) != null, false, m);
     if (hasOverrideFieldAnnotation) {
@@ -73,7 +76,8 @@ class FieldProcessor<T> {
     return new PreparsedFieldMethodHandler(fieldTypeParser == InterfaceReader.VOID_PARSER ? null : fieldName);
   }
 
-  private MethodHandler processManualSubtypeMethod(final Method m, JsonSubtypeCasting jsonSubtypeCaseAnn) throws JsonProtocolModelParseException {
+  private MethodHandler processManualSubtypeMethod(final Method m, JsonSubtypeCasting jsonSubtypeCaseAnn)
+    throws JsonProtocolModelParseException {
     ValueReader fieldTypeParser = reader.getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret(), null);
     VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
     LazyCachedMethodHandler handler = new LazyCachedMethodHandler(fieldTypeParser, fieldInfo);
@@ -98,7 +102,7 @@ class FieldProcessor<T> {
     return fieldLoaders;
   }
 
-  Map<Method, MethodHandler> getMethodHandlerMap() {
+  LinkedHashMap<Method, MethodHandler> getMethodHandlerMap() {
     return methodHandlerMap;
   }
 
