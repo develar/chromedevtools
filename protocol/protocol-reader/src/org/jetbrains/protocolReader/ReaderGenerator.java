@@ -4,7 +4,9 @@
 
 package org.jetbrains.protocolReader;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,39 +14,28 @@ import java.util.Map;
 
 public class ReaderGenerator {
   protected static void mainImpl(String[] args, GenerateConfiguration configuration) throws IOException {
-    Params params = parseArgs(args);
-
-    FileUpdater fileUpdater = new
-
-    StringBuilder stringBuilder = new StringBuilder();
-    generateImpl(configuration, stringBuilder);
-
-    String path = configuration.getPackageName().replace('.', '/');
-    File directory = new File(params.outputDirectory() + "/" + path);
-    //noinspection ResultOfMethodCallIgnored
-    directory.mkdirs();
-
-    File output = new File(directory, configuration.getClassName() + ".java");
-    try (Writer writer = new OutputStreamWriter(new FileOutputStream(output))) {
-      writer.append(stringBuilder);
-      writer.close();
-    }
+    FileUpdater fileUpdater = new FileUpdater(FileSystems.getDefault().getPath(parseArgs(args).outputDirectory(),
+                                                                               configuration.getPackageName().replace('.',
+                                                                                                                      File.separatorChar),
+                                                                               configuration.getClassName() + ".java"));
+    generateImpl(configuration, fileUpdater.builder);
+    fileUpdater.update();
   }
 
   protected static class GenerateConfiguration {
     private final String packageName;
     private final String className;
-    private final DynamicParserImpl<?> parserImpl;
+    private final DynamicParserImpl<?> parser;
     private final Collection<GeneratedCodeMap> basePackagesMap;
 
-    public GenerateConfiguration(String packageName, String className, DynamicParserImpl parserImpl) {
-      this(packageName, className, parserImpl, Collections.<GeneratedCodeMap>emptyList());
+    public GenerateConfiguration(String packageName, String className, DynamicParserImpl parser) {
+      this(packageName, className, parser, Collections.<GeneratedCodeMap>emptyList());
     }
 
-    public GenerateConfiguration(String packageName, String className, DynamicParserImpl parserImpl, Collection<GeneratedCodeMap> basePackagesMap) {
+    public GenerateConfiguration(String packageName, String className, DynamicParserImpl parser, Collection<GeneratedCodeMap> basePackagesMap) {
       this.packageName = packageName;
       this.className = className;
-      this.parserImpl = parserImpl;
+      this.parser = parser;
       this.basePackagesMap = basePackagesMap;
     }
 
@@ -56,8 +47,8 @@ public class ReaderGenerator {
       return className;
     }
 
-    public DynamicParserImpl<?> getParserImpl() {
-      return parserImpl;
+    public DynamicParserImpl<?> getParser() {
+      return parser;
     }
 
     public Collection<GeneratedCodeMap> getBasePackagesMap() {
@@ -141,7 +132,7 @@ public class ReaderGenerator {
   }
 
   private static GeneratedCodeMap generateImpl(GenerateConfiguration configuration, StringBuilder stringBuilder) {
-    return configuration.getParserImpl().generateStaticParser(stringBuilder,
+    return configuration.getParser().generateStaticParser(stringBuilder,
                                                               configuration.getPackageName(), configuration.getClassName(),
                                                               configuration.getBasePackagesMap());
   }

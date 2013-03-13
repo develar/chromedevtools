@@ -4,11 +4,13 @@
 
 package org.jetbrains.v8.protocolParser;
 
+import java.io.IOException;
+
 /**
  * A main class that generates all protocol static parsers (except tests).
  */
 public class AllProtocolReadersGenerator {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     LiveEditReaderGenerator.main(args);
     V8ReaderGenerator.main(args);
   }

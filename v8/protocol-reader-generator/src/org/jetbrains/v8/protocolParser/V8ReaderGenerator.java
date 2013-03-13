@@ -11,13 +11,14 @@ import org.chromium.sdk.internal.v8native.protocol.input.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.*;
 import org.jetbrains.v8.protocol.GeneratedReaderInterfaceList;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class V8ReaderGenerator extends ReaderGenerator {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     mainImpl(args, createConfiguration());
   }
 
@@ -61,7 +62,7 @@ public class V8ReaderGenerator extends ReaderGenerator {
     classes.addAll(Arrays.asList(GeneratedReaderInterfaceList.LIST));
     GeneratedCodeMap liveEditParserMap = buildParserMap(LiveEditReaderGenerator.createConfiguration());
     return new GenerateConfiguration("org.chromium.v8.protocol",
-        "V8ProtocolReaderImpl", new DynamicParserImpl<V8ProtocolReader>(true, V8ProtocolReader.class, classes.toArray(new Class[classes.size()])),
+        "V8ProtocolReaderImpl", new DynamicParserImpl<V8ProtocolReader>(V8ProtocolReader.class, classes.toArray(new Class[classes.size()])),
         Collections.singletonList(liveEditParserMap));
   }
 }
