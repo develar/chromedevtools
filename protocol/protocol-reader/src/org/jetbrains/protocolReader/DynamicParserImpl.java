@@ -7,7 +7,7 @@ package org.jetbrains.protocolReader;
 import java.util.*;
 
 public class DynamicParserImpl<ROOT> {
-  final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;
+  final LinkedHashMap<Class<?>, TypeHandler<?>> typeToTypeHandler;
   private final ParserRootImpl<ROOT> rootImpl;
 
   public DynamicParserImpl(Class<ROOT> parserRootClass, Class<?>[] protocolInterfaces) {

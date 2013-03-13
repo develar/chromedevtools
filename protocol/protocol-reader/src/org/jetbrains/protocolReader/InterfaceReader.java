@@ -52,13 +52,12 @@ class InterfaceReader {
       throw new UnsupportedOperationException();
     }
   };
-  private final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;
+  private final LinkedHashMap<Class<?>, TypeHandler<?>> typeToTypeHandler;
 
   final List<TypeRef<?>> refs = new ArrayList<TypeRef<?>>();
   final List<SubtypeCaster> subtypeCasters = new ArrayList<SubtypeCaster>();
 
   InterfaceReader(Class[] protocolInterfaces) {
-
     typeToTypeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>(protocolInterfaces.length);
     for (Class typeClass : protocolInterfaces) {
       if (!typeClass.isInterface()) {
@@ -72,22 +71,22 @@ class InterfaceReader {
     }
   }
 
-  private InterfaceReader(Map<Class<?>, TypeHandler<?>> typeToTypeHandler) {
+  private InterfaceReader(LinkedHashMap<Class<?>, TypeHandler<?>> typeToTypeHandler) {
     this.typeToTypeHandler = typeToTypeHandler;
   }
 
-  public static TypeHandler createHandler(Map<Class<?>, TypeHandler<?>> typeToTypeHandler, Class<?> aClass) {
+  public static TypeHandler createHandler(LinkedHashMap<Class<?>, TypeHandler<?>> typeToTypeHandler, Class<?> aClass) {
     InterfaceReader reader = new InterfaceReader(typeToTypeHandler);
     reader.processed.addAll(typeToTypeHandler.keySet());
     reader.go(new Class[]{aClass});
     return typeToTypeHandler.get(aClass);
   }
 
-  Map<Class<?>, TypeHandler<?>> go() {
+  LinkedHashMap<Class<?>, TypeHandler<?>> go() {
     return go(typeToTypeHandler.keySet().toArray(new Class[typeToTypeHandler.size()]));
   }
 
-  private Map<Class<?>, TypeHandler<?>> go(Class<?>[] classes) {
+  private LinkedHashMap<Class<?>, TypeHandler<?>> go(Class<?>[] classes) {
     for (Class<?> typeClass : classes) {
       createIfNotExists(typeClass);
     }

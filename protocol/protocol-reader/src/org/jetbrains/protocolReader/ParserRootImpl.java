@@ -16,7 +16,7 @@ class ParserRootImpl<R> {
   private final Class<R> rootClass;
   private final InvocationHandler invocationHandler;
 
-  ParserRootImpl(Class<R> rootClass, Map<Class<?>, TypeHandler<?>> typeToTypeHandler) {
+  ParserRootImpl(Class<R> rootClass, LinkedHashMap<Class<?>, TypeHandler<?>> typeToTypeHandler) {
     this.rootClass = rootClass;
     ParseInterfaceSession session = new ParseInterfaceSession(typeToTypeHandler);
     session.run(rootClass);
@@ -24,11 +24,11 @@ class ParserRootImpl<R> {
   }
 
   private static class ParseInterfaceSession {
-    private final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;
+    private final LinkedHashMap<Class<?>, TypeHandler<?>> typeToTypeHandler;
     private final Set<Class<?>> visitedInterfaces = new HashSet<Class<?>>(1);
     private final LinkedHashMap<Method, MethodDelegate> methodMap = new LinkedHashMap<Method, MethodDelegate>();
 
-    ParseInterfaceSession(Map<Class<?>, TypeHandler<?>> typeToTypeHandler) {
+    ParseInterfaceSession(LinkedHashMap<Class<?>, TypeHandler<?>> typeToTypeHandler) {
       this.typeToTypeHandler = typeToTypeHandler;
     }
 
