@@ -6,7 +6,7 @@ import gnu.trove.TObjectProcedure;
 
 import java.util.*;
 
-public class GlobalScopeImpl implements JavaCodeGenerator.GlobalScope {
+public class GlobalScopeImpl implements Impl.GlobalScope {
   private final State state;
 
   public GlobalScopeImpl(Collection<TypeHandler<?>> typeHandlers, Collection<GeneratedCodeMap> basePackages) {
@@ -34,7 +34,7 @@ public class GlobalScopeImpl implements JavaCodeGenerator.GlobalScope {
 
   @Override
   public FileScope newFileScope(StringBuilder output) {
-    return new JavaCodeGenerator.Impl.FileScopeImpl(this, output);
+    return new Impl.FileScopeImpl(this, output);
   }
 
   @Override
