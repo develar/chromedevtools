@@ -11,7 +11,7 @@ public class DynamicParserImpl<ROOT> {
   private final ParserRootImpl<ROOT> rootImpl;
 
   public DynamicParserImpl(Class<ROOT> parserRootClass, Class<?>[] protocolInterfaces) {
-    typeToTypeHandler = new InterfaceReader(protocolInterfaces, false).go();
+    typeToTypeHandler = new InterfaceReader(protocolInterfaces).go();
     rootImpl = new ParserRootImpl<ROOT>(parserRootClass, typeToTypeHandler);
   }
 

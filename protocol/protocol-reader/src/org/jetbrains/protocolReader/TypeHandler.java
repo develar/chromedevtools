@@ -4,15 +4,11 @@
 
 package org.jetbrains.protocolReader;
 
-import gnu.trove.THashSet;
-import org.chromium.protocolReader.JsonType;
 import org.jetbrains.jsonProtocol.JsonObjectBased;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 class TypeHandler<T> {
   private final Class<T> typeClass;
@@ -50,26 +46,6 @@ class TypeHandler<T> {
 
   public Class<T> getTypeClass() {
     return typeClass;
-  }
-
-  void buildClosedNameSet() {
-    if (subtypeAspect.isRoot()) {
-      buildClosedNameSetRecursive(new ArrayList<Set<String>>(3));
-    }
-  }
-
-  private void buildClosedNameSetRecursive(List<Set<String>> namesChain) {
-    for (FieldLoader loader : fieldLoaders) {
-      new THashSet<String>().add(loader.getFieldName());
-    }
-
-    JsonType jsonAnnotation = typeClass.getAnnotation(JsonType.class);
-    if (jsonAnnotation.allowsOtherProperties()) {
-      return;
-    }
-    for (Set<String> set : namesChain) {
-      new THashSet<String>().addAll(set);
-    }
   }
 
   public SubtypeAspect getSubtypeSupport() {

@@ -53,13 +53,11 @@ class InterfaceReader {
     }
   };
   private final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;
-  private final boolean strictMode;
 
   final List<TypeRef<?>> refs = new ArrayList<TypeRef<?>>();
   final List<SubtypeCaster> subtypeCasters = new ArrayList<SubtypeCaster>();
 
-  InterfaceReader(Class[] protocolInterfaces, boolean strictMode) {
-    this.strictMode = strictMode;
+  InterfaceReader(Class[] protocolInterfaces) {
 
     typeToTypeHandler = new LinkedHashMap<Class<?>, TypeHandler<?>>(protocolInterfaces.length);
     for (Class typeClass : protocolInterfaces) {
@@ -74,13 +72,12 @@ class InterfaceReader {
     }
   }
 
-  private InterfaceReader(Map<Class<?>, TypeHandler<?>> typeToTypeHandler, boolean strictMode) {
-    this.strictMode = strictMode;
+  private InterfaceReader(Map<Class<?>, TypeHandler<?>> typeToTypeHandler) {
     this.typeToTypeHandler = typeToTypeHandler;
   }
 
   public static TypeHandler createHandler(Map<Class<?>, TypeHandler<?>> typeToTypeHandler, Class<?> aClass) {
-    InterfaceReader reader = new InterfaceReader(typeToTypeHandler, false);
+    InterfaceReader reader = new InterfaceReader(typeToTypeHandler);
     reader.processed.addAll(typeToTypeHandler.keySet());
     reader.go(new Class[]{aClass});
     return typeToTypeHandler.get(aClass);
@@ -107,12 +104,6 @@ class InterfaceReader {
     // Set subtype casters.
     for (SubtypeCaster subtypeCaster : subtypeCasters) {
       subtypeCaster.getSubtypeHandler().getSubtypeSupport().setSubtypeCaster(subtypeCaster);
-    }
-
-    if (strictMode) {
-      for (TypeHandler<?> type : typeToTypeHandler.values()) {
-        type.buildClosedNameSet();
-      }
     }
 
     return typeToTypeHandler;
