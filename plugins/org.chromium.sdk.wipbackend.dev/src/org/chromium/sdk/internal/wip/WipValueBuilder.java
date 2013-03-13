@@ -271,11 +271,9 @@ class WipValueBuilder {
       private final RemoteObjectValue valueData;
       private final WipValueLoader valueLoader;
       private final QualifiedNameBuilder nameBuilder;
-      private final AsyncFutureRef<Getter<ObjectProperties>> loadedPropertiesRef =
-          new AsyncFutureRef<Getter<ObjectProperties>>();
+      private final AsyncFutureRef<Getter<ObjectProperties>> loadedPropertiesRef = new AsyncFutureRef<Getter<ObjectProperties>>();
 
-      JsObjectBase(RemoteObjectValue valueData, WipValueLoader valueLoader,
-          QualifiedNameBuilder nameBuilder) {
+      JsObjectBase(RemoteObjectValue valueData, WipValueLoader valueLoader, QualifiedNameBuilder nameBuilder) {
         this.valueData = valueData;
         this.valueLoader = valueLoader;
         this.nameBuilder = nameBuilder;

@@ -128,16 +128,14 @@ public abstract class JsObjectBase<D> extends JsValueBase implements JsObject {
     if (propertyDataRef.get() == null) {
       startPropertyLoadOperation(false, getRemoteValueMapping().getCurrentCacheState());
     }
-    else {
-      if (checkFreshness) {
-        int currentCacheState = getRemoteValueMapping().getCurrentCacheState();
-        D result = propertyDataRef.get().getSync();
-        BasicPropertyData basicPropertyData = unwrapBasicData(result);
-        if (basicPropertyData.getCacheState() == currentCacheState) {
-          return result;
-        }
-        startPropertyLoadOperation(true, currentCacheState);
+    else if (checkFreshness) {
+      int currentCacheState = getRemoteValueMapping().getCurrentCacheState();
+      D result = propertyDataRef.get().getSync();
+      BasicPropertyData basicPropertyData = unwrapBasicData(result);
+      if (basicPropertyData.getCacheState() == currentCacheState) {
+        return result;
       }
+      startPropertyLoadOperation(true, currentCacheState);
     }
     return propertyDataRef.get().getSync();
   }
