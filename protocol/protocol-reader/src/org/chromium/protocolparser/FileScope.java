@@ -8,9 +8,9 @@ class FileScope extends GlobalScope {
     out = new TextOutput(stringBuilder);
   }
 
-  FileScope(FileScope fileScopeImpl) {
-    super(fileScopeImpl);
-    out = fileScopeImpl.out;
+  FileScope(FileScope fileScope) {
+    super(fileScope);
+    out = fileScope.out;
   }
 
   public TextOutput getOutput() {
@@ -18,10 +18,10 @@ class FileScope extends GlobalScope {
   }
 
   public ClassScope newClassScope() {
-    return new ClassScope(this, asClassScopeImpl());
+    return new ClassScope(this, asClassScope());
   }
 
-  protected ClassScope asClassScopeImpl() {
+  protected ClassScope asClassScope() {
     return null;
   }
 }

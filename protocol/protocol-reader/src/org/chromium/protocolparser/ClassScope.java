@@ -11,16 +11,14 @@ public class ClassScope extends FileScope {
   public ClassScope getRootClassScope() {
     if (parentClass == null) {
       return this;
-    } else {
+    }
+    else {
       return parentClass.getRootClassScope();
     }
   }
 
-  public void writeClassMembers() {
-  }
-
   @Override
-  protected ClassScope asClassScopeImpl() {
+  protected ClassScope asClassScope() {
     return this;
   }
 }

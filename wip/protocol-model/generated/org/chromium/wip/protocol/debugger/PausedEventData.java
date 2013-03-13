@@ -30,7 +30,7 @@ public interface PausedEventData {
   /**
    * Pause reason.
    */
-  enum Reason {
+  public enum Reason {
     XHR, DOM, _EVENT_LISTENER, EXCEPTION, ASSERT, CSP_VIOLATION, OTHER
   }
   /**

@@ -4,8 +4,6 @@
 
 package org.chromium.protocolparser;
 
-import gnu.trove.TObjectProcedure;
-
 import java.util.*;
 
 public class DynamicParserImpl<ROOT> {
@@ -61,23 +59,20 @@ public class DynamicParserImpl<ROOT> {
       out.newLine();
     }
 
-    globalScope.forEachTypeFactory(new TObjectProcedure<TypeHandler>() {
-      @Override
-      public boolean execute(TypeHandler typeHandler) {
-        String name = globalScope.getTypeImplShortName(typeHandler);
-        String originName = typeHandler.getTypeClass().getCanonicalName();
-        out.newLine().append("static final class ").append(name).append(Util.TYPE_FACTORY_NAME_POSTFIX).append(" extends ObjectFactory<").append(originName).append('>').openBlock();
-        out.append("@Override").newLine().append("public ").append(originName).append(" read(").append(Util.JSON_READER_PARAMETER_DEF).append(')').openBlock();
-        out.append("return ");
-        typeHandler.writeInstantiateCode(rootClassScope, out);
-        out.append('(').append(Util.READER_NAME).append(");").closeBlock();
-        out.closeBlock();
-        out.newLine();
-        return true;
-      }
-    });
+    for (TypeHandler<?> typeHandler : globalScope.getTypeFactories()) {
+      String name = globalScope.getTypeImplShortName(typeHandler);
+      String originName = typeHandler.getTypeClass().getCanonicalName();
+      out.newLine().append("static final class ").append(name).append(Util.TYPE_FACTORY_NAME_POSTFIX).append(" extends ObjectFactory<");
+      out.append(originName).append('>').openBlock();
+      out.append("@Override").newLine().append("public ").append(originName).append(" read(").append(Util.JSON_READER_PARAMETER_DEF);
+      out.append(')').openBlock();
+      out.append("return ");
+      typeHandler.writeInstantiateCode(rootClassScope, out);
+      out.append('(').append(Util.READER_NAME).append(");").closeBlock();
+      out.closeBlock();
+      out.newLine();
+    }
 
-    rootClassScope.writeClassMembers();
     out.closeBlock();
 
     Map<Class<?>, String> typeToImplClassName = new HashMap<Class<?>, String>();

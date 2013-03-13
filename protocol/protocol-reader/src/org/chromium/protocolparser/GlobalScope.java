@@ -2,7 +2,6 @@ package org.chromium.protocolparser;
 
 import gnu.trove.THashMap;
 import gnu.trove.THashSet;
-import gnu.trove.TObjectProcedure;
 
 import java.util.*;
 
@@ -33,15 +32,15 @@ public class GlobalScope {
     return new FileScope(this, output);
   }
 
-  public void forEachTypeFactory(TObjectProcedure<TypeHandler> procedure) {
-    state.typesWithFactories.forEach(procedure);
+  public List<TypeHandler<?>> getTypeFactories() {
+    return state.typesWithFactoriesList;
   }
 
   private static class State {
     private final Map<TypeHandler<?>, String> typeToName;
     private final Collection<GeneratedCodeMap> basePackages;
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private final THashSet<TypeHandler> typesWithFactories = new THashSet<TypeHandler>();
+    private final THashSet<TypeHandler<?>> typesWithFactories = new THashSet<>();
+    private final List<TypeHandler<?>> typesWithFactoriesList = new ArrayList<>();
 
     State(Collection<TypeHandler<?>> typeHandlers, Collection<GeneratedCodeMap> basePackages) {
       this.basePackages = basePackages;
@@ -66,7 +65,9 @@ public class GlobalScope {
 
     public String requireFactoryGenerationAndGetName(TypeHandler<?> typeHandler) {
       String name = getTypeImplShortName(typeHandler);
-      typesWithFactories.add(typeHandler);
+      if (typesWithFactories.add(typeHandler)) {
+        typesWithFactoriesList.add(typeHandler);
+      }
       return name;
     }
 
@@ -78,10 +79,8 @@ public class GlobalScope {
       return result;
     }
 
-    private static Map<TypeHandler<?>, String> buildLocalTypeNameMap(
-        Collection<TypeHandler<?>> typeHandlers) {
+    private static Map<TypeHandler<?>, String> buildLocalTypeNameMap(Collection<TypeHandler<?>> typeHandlers) {
       List<TypeHandler<?>> list = new ArrayList<TypeHandler<?>>(typeHandlers);
-
       // Sort to produce consistent GeneratedCodeMap later.
       Collections.sort(list, new Comparator<TypeHandler<?>>() {
         @Override
@@ -95,9 +94,9 @@ public class GlobalScope {
       });
 
       int uniqueCode = 0;
-      Map<TypeHandler<?>, String> result = new THashMap<TypeHandler<?>, String>();
+      Map<TypeHandler<?>, String> result = new THashMap<TypeHandler<?>, String>(list.size());
       for (TypeHandler<?> handler : list) {
-        Object conflict = result.put(handler, Util.TYPE_NAME_PREFIX + Integer.toString(uniqueCode++));
+        String conflict = result.put(handler, Util.TYPE_NAME_PREFIX + Integer.toString(uniqueCode++));
         if (conflict != null) {
           throw new RuntimeException();
         }
