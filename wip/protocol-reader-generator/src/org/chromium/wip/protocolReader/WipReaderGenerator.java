@@ -1,4 +1,4 @@
-package org.chromium.wip.protocolParser;
+package org.chromium.wip.protocolReader;
 
 import org.jetbrains.protocolReader.DynamicParserImpl;
 import org.jetbrains.protocolReader.ReaderGenerator;

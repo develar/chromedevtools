@@ -778,7 +778,7 @@
       <method />
     </configuration>
     <configuration default="false" name="Generate WIP reader" type="Application" factoryName="Application" singleton="true">
-      <option name="MAIN_CLASS_NAME" value="org.chromium.wip.protocolParser.WipReaderGenerator" />
+      <option name="MAIN_CLASS_NAME" value="org.chromium.wip.protocolReader.WipReaderGenerator" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PROGRAM_PARAMETERS" value="--output-dir=protocol/generated" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../wip" />
