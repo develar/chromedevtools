@@ -1,7 +1,7 @@
 package org.jetbrains.protocolReader;
 
-import org.chromium.protocolparser.Enums;
-import org.chromium.protocolparser.TextOutput;
+import org.jetbrains.protocolReader.Enums;
+import org.jetbrains.protocolReader.TextOutput;
 import org.jetbrains.jsonProtocol.ProtocolMetaModel;
 
 import java.io.IOException;

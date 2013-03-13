@@ -4,9 +4,9 @@
 
 package org.jetbrains.v8.protocolParser;
 
-import org.chromium.protocolparser.DynamicParserImpl;
-import org.chromium.protocolparser.GeneratedCodeMap;
-import org.chromium.protocolparser.ReaderGenerator;
+import org.jetbrains.protocolReader.DynamicParserImpl;
+import org.jetbrains.protocolReader.GeneratedCodeMap;
+import org.jetbrains.protocolReader.ReaderGenerator;
 import org.chromium.sdk.internal.v8native.protocol.input.*;
 import org.chromium.sdk.internal.v8native.protocol.input.data.*;
 import org.jetbrains.v8.protocol.GeneratedReaderInterfaceList;

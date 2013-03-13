@@ -1,7 +1,7 @@
 package org.jetbrains.protocolReader;
 
-import org.chromium.protocolparser.TextOutput;
-import org.chromium.protocolparser.Util;
+import org.jetbrains.protocolReader.TextOutput;
+import org.jetbrains.protocolReader.Util;
 
 import java.io.IOException;
 

@@ -36,10 +36,10 @@ class FileSet {
     });
   }
 
-  JavaFileUpdater createFileUpdater(String filePath) {
+  FileUpdater createFileUpdater(String filePath) {
     Path file = rootDir.resolve(filePath);
     unusedFiles.remove(file);
-    return new JavaFileUpdater(file);
+    return new FileUpdater(file);
   }
 
   void deleteOtherFiles() {

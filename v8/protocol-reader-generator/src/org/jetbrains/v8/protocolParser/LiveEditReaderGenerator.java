@@ -4,8 +4,8 @@
 
 package org.jetbrains.v8.protocolParser;
 
-import org.chromium.protocolparser.DynamicParserImpl;
-import org.chromium.protocolparser.ReaderGenerator;
+import org.jetbrains.protocolReader.DynamicParserImpl;
+import org.jetbrains.protocolReader.ReaderGenerator;
 import org.chromium.v8.liveEditProtocol.LiveEditProtocolReader;
 import org.chromium.v8.liveEditProtocol.LiveEditResult;
 

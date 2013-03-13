@@ -1,6 +1,6 @@
 package org.jetbrains.protocolReader;
 
-import org.chromium.protocolparser.TextOutput;
+import org.jetbrains.protocolReader.TextOutput;
 
 import java.io.IOException;
 

@@ -1,8 +1,8 @@
 package org.jetbrains.protocolReader;
 
-import org.chromium.protocolparser.Enums;
-import org.chromium.protocolparser.TextOutput;
-import org.chromium.protocolparser.Util;
+import org.jetbrains.protocolReader.Enums;
+import org.jetbrains.protocolReader.TextOutput;
+import org.jetbrains.protocolReader.Util;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jsonProtocol.ItemDescriptor;
 import org.jetbrains.jsonProtocol.ProtocolMetaModel;
@@ -34,7 +34,7 @@ class DomainGenerator {
       generateCommandParams(command, hasResponse);
       if (hasResponse) {
         String className = generator.getNaming().commandResult.getShortName(command.name());
-        JavaFileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().commandResult, domain, command.name());
+        FileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().commandResult, domain, command.name());
         generateJsonProtocolInterface(fileUpdater.out, className, command.description(), command.returns(), null);
         fileUpdater.update();
         String dataFullName = generator.getNaming().commandResult.getFullName(domain.domain(), command.name()).getFullText();
@@ -101,7 +101,7 @@ class DomainGenerator {
                                                                             TextOutConsumer baseType,
                                                                             TextOutConsumer additionalMemberText,
                                                                             List<P> properties) throws IOException {
-    JavaFileUpdater fileUpdater = generator.startJavaFile(nameScheme, domain, baseName);
+    FileUpdater fileUpdater = generator.startJavaFile(nameScheme, domain, baseName);
     TextOutput out = fileUpdater.out;
     NamePath classNamePath = nameScheme.getFullName(domain.domain(), baseName);
     generateOutputClass(out, classNamePath, description, baseType, additionalMemberText, properties);
@@ -208,7 +208,7 @@ class DomainGenerator {
       @Override
       public void generate() throws IOException {
         NamePath className = generator.getNaming().inputValue.getFullName(domain.domain(), name);
-        JavaFileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().inputValue, domain, name);
+        FileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().inputValue, domain, name);
         TextOutput out = fileUpdater.out;
         if (type.description() != null) {
           out.doc(type.description());
@@ -240,7 +240,7 @@ class DomainGenerator {
 
       @Override
       public void generate() throws IOException {
-        JavaFileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().inputEnum, domain, name);
+        FileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().inputEnum, domain, name);
         fileUpdater.out.doc(type.description());
         Enums.appendEnums(enumConstants, generator.getNaming().inputEnum.getShortName(name), true, fileUpdater.out);
         fileUpdater.update();
@@ -297,7 +297,7 @@ class DomainGenerator {
       @Override
       public void generate() throws IOException {
         String className = nameScheme.getShortName(name);
-        JavaFileUpdater fileUpdater = generator.startJavaFile(nameScheme, domain, name);
+        FileUpdater fileUpdater = generator.startJavaFile(nameScheme, domain, name);
         TextOutput out = fileUpdater.out;
         out.doc(type.description());
         out.append("public class ").append(className).openBlock();
@@ -319,7 +319,7 @@ class DomainGenerator {
 
   private void generateEvenData(final ProtocolMetaModel.Event event) throws IOException {
     String className = generator.getNaming().eventData.getShortName(event.name());
-    JavaFileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().eventData, domain, event.name());
+    FileUpdater fileUpdater = generator.startJavaFile(generator.getNaming().eventData, domain, event.name());
     final String domainName = domain.domain();
     final CharSequence fullName = generator.getNaming().eventData.getFullName(domainName, event.name()).getFullText();
     generateJsonProtocolInterface(fileUpdater.out, className, event.description(), event.parameters(), new TextOutConsumer() {

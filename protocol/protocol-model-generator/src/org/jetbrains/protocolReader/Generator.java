@@ -4,7 +4,7 @@
 
 package org.jetbrains.protocolReader;
 
-import org.chromium.protocolparser.TextOutput;
+import org.jetbrains.protocolReader.TextOutput;
 import org.jetbrains.jsonProtocol.ItemDescriptor;
 
 import java.io.IOException;
@@ -189,7 +189,7 @@ class Generator {
   }
 
   private void generateParserInterfaceList() throws IOException {
-    JavaFileUpdater fileUpdater = startJavaFile(getNaming().inputPackage, PARSER_INTERFACE_LIST_CLASS_NAME + ".java");
+    FileUpdater fileUpdater = startJavaFile(getNaming().inputPackage, PARSER_INTERFACE_LIST_CLASS_NAME + ".java");
     // Write classes in stable order.
     Collections.sort(jsonProtocolParserClassNames);
 
@@ -206,7 +206,7 @@ class Generator {
   }
 
   private void generateParserRoot(List<ParserRootInterfaceItem> parserRootInterfaceItems) throws IOException {
-    JavaFileUpdater fileUpdater = startJavaFile(getNaming().inputPackage, READER_INTERFACE_NAME + ".java");
+    FileUpdater fileUpdater = startJavaFile(getNaming().inputPackage, READER_INTERFACE_NAME + ".java");
     // Write classes in stable order.
     Collections.sort(parserRootInterfaceItems);
 
@@ -254,12 +254,12 @@ class Generator {
     return s;
   }
 
-  JavaFileUpdater startJavaFile(ClassNameScheme nameScheme, Domain domain, String baseName) throws IOException {
+  FileUpdater startJavaFile(ClassNameScheme nameScheme, Domain domain, String baseName) throws IOException {
     return startJavaFile(nameScheme.getPackageNameVirtual(domain.domain()), nameScheme.getShortName(baseName) + ".java");
   }
 
-  private JavaFileUpdater startJavaFile(String packageName, String filename) {
-    JavaFileUpdater fileUpdater = fileSet.createFileUpdater(packageName.replace('.', '/') + "/" + filename);
+  private FileUpdater startJavaFile(String packageName, String filename) {
+    FileUpdater fileUpdater = fileSet.createFileUpdater(packageName.replace('.', '/') + "/" + filename);
     fileUpdater.out.append("// Generated source").newLine().append("package ").append(packageName).semi().newLine().newLine();
     return fileUpdater;
   }

@@ -1,7 +1,7 @@
 package org.jetbrains.jsonProtocol;
 
-import org.chromium.protocolparser.DynamicParserImpl;
-import org.chromium.protocolparser.ReaderGenerator;
+import org.jetbrains.protocolReader.DynamicParserImpl;
+import org.jetbrains.protocolReader.ReaderGenerator;
 
 public class SchemaReaderGenerator extends ReaderGenerator {
   public static void main(String[] args) {

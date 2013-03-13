@@ -1,7 +1,7 @@
 package org.chromium.wip.protocolParser;
 
-import org.chromium.protocolparser.DynamicParserImpl;
-import org.chromium.protocolparser.ReaderGenerator;
+import org.jetbrains.protocolReader.DynamicParserImpl;
+import org.jetbrains.protocolReader.ReaderGenerator;
 import org.chromium.wip.protocol.GeneratedReaderInterfaceList;
 import org.jetbrains.wip.protocol.WipProtocolReader;
 
