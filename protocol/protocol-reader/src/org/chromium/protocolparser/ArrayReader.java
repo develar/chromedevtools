@@ -1,10 +1,10 @@
 package org.chromium.protocolparser;
 
-class ArrayParser extends ValueParser {
-  private final ValueParser componentParser;
+class ArrayReader extends ValueReader {
+  private final ValueReader componentParser;
   private final boolean isList;
 
-  ArrayParser(ValueParser componentParser, boolean isList, boolean nullable) {
+  ArrayReader(ValueReader componentParser, boolean isList, boolean nullable) {
     super(nullable);
 
     this.componentParser = componentParser;

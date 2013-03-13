@@ -1,14 +1,14 @@
 package org.chromium.protocolparser;
 
-class PrimitiveValueParser extends ValueParser {
+class PrimitiveValueReader extends ValueReader {
   private final String className;
   private final String readPostfix;
 
-  PrimitiveValueParser(String name) {
+  PrimitiveValueReader(String name) {
     this(name, false);
   }
 
-  PrimitiveValueParser(String name, boolean nullable) {
+  PrimitiveValueReader(String name, boolean nullable) {
     super(nullable);
 
     className = name;

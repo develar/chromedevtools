@@ -8,11 +8,11 @@ class FieldLoader {
   public static final char FIELD_PREFIX = '_';
 
   private final String fieldName;
-  final ValueParser valueParser;
+  final ValueReader valueReader;
 
-  FieldLoader(String fieldName, ValueParser valueParser) {
+  FieldLoader(String fieldName, ValueReader valueReader) {
     this.fieldName = fieldName;
-    this.valueParser = valueParser;
+    this.valueReader = valueReader;
   }
 
   public String getFieldName() {
@@ -21,7 +21,7 @@ class FieldLoader {
 
   public void writeFieldDeclaration(TextOutput out) {
     out.append("private ");
-    valueParser.appendFinishedValueTypeName(out);
+    valueReader.appendFinishedValueTypeName(out);
     out.append(' ').append(FIELD_PREFIX).append(fieldName).append(';');
   }
 }

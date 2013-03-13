@@ -1,7 +1,7 @@
 package org.chromium.protocolparser;
 
-public class StringIntPairValueParser extends ValueParser {
-  StringIntPairValueParser() {
+public class StringIntPairValueReader extends ValueReader {
+  StringIntPairValueReader() {
     super(false);
   }
 

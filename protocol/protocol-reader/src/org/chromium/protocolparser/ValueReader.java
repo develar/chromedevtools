@@ -14,14 +14,14 @@ import org.jetbrains.annotations.Nullable;
  * that returns intermediate value (that may be stored in {@_link ObjectData#getFieldArray()} array).
  * <p>The parser's name "slow" reads "may be slow". It means that parser may do heavy operations.
  */
-abstract class ValueParser {
+abstract class ValueReader {
   private final boolean nullable;
 
-  protected ValueParser(boolean nullable) {
+  protected ValueReader(boolean nullable) {
     this.nullable = nullable;
   }
 
-  public ObjectValueParser asJsonTypeParser() {
+  public ObjectValueReader asJsonTypeParser() {
     return null;
   }
 

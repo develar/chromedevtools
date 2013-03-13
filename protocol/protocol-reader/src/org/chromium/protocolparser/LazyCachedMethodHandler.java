@@ -7,16 +7,16 @@ import java.util.Collections;
  * Basic implementation of the method that parses value on demand and store it for a future use
  */
 class LazyCachedMethodHandler extends MethodHandler {
-  private final ValueParser parser;
+  private final ValueReader parser;
   private final VolatileFieldBinding fieldBinding;
 
-  LazyCachedMethodHandler(ValueParser parser, VolatileFieldBinding fieldBinding) {
+  LazyCachedMethodHandler(ValueReader parser, VolatileFieldBinding fieldBinding) {
     this.parser = parser;
     this.fieldBinding = fieldBinding;
   }
 
   protected void writeReturnTypeJava(ClassScope scope, Method m, TextOutput out) {
-    ObjectValueParser objectValueParser = parser.asJsonTypeParser();
+    ObjectValueReader objectValueParser = parser.asJsonTypeParser();
     if (objectValueParser == null) {
       Util.writeJavaTypeName(m.getGenericReturnType(), out);
     }

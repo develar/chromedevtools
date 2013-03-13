@@ -64,7 +64,7 @@ class FieldProcessor<T> {
 
   private MethodHandler processFieldGetterMethod(Method m, boolean hasOverrideFieldAnnotation, String fieldName) throws JsonProtocolModelParseException {
     Type genericReturnType = m.getGenericReturnType();
-    ValueParser fieldTypeParser = reader.getFieldTypeParser(genericReturnType, m.getAnnotation(JsonNullable.class) != null, false, m);
+    ValueReader fieldTypeParser = reader.getFieldTypeParser(genericReturnType, m.getAnnotation(JsonNullable.class) != null, false, m);
     if (hasOverrideFieldAnnotation) {
       fieldMap.overridenNames.add(fieldName);
     }
@@ -78,10 +78,10 @@ class FieldProcessor<T> {
   }
 
   private MethodHandler processManualSubtypeMethod(final Method m, JsonSubtypeCasting jsonSubtypeCaseAnn) throws JsonProtocolModelParseException {
-    ValueParser fieldTypeParser = reader.getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret(), null);
+    ValueReader fieldTypeParser = reader.getFieldTypeParser(m.getGenericReturnType(), false, !jsonSubtypeCaseAnn.reinterpret(), null);
     VolatileFieldBinding fieldInfo = allocateVolatileField(fieldTypeParser, true);
     LazyCachedMethodHandler handler = new LazyCachedMethodHandler(fieldTypeParser, fieldInfo);
-    ObjectValueParser<?> parserAsObjectValueParser = fieldTypeParser.asJsonTypeParser();
+    ObjectValueReader<?> parserAsObjectValueParser = fieldTypeParser.asJsonTypeParser();
     if (parserAsObjectValueParser != null && parserAsObjectValueParser.isSubtyping()) {
       SubtypeCaster subtypeCaster = new SubtypeCaster(parserAsObjectValueParser.getType()) {
         @Override
@@ -110,7 +110,7 @@ class FieldProcessor<T> {
     return methodHandlerMap;
   }
 
-  private VolatileFieldBinding allocateVolatileField(final ValueParser fieldTypeParser, boolean internalType) {
+  private VolatileFieldBinding allocateVolatileField(final ValueReader fieldTypeParser, boolean internalType) {
     int position = volatileFields.size();
     FieldTypeInfo fieldTypeInfo;
     if (internalType) {

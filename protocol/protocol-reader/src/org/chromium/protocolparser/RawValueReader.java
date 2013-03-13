@@ -2,8 +2,8 @@ package org.chromium.protocolparser;
 
 import com.google.gson.stream.JsonReaderEx;
 
-class RawValueParser extends ValueParser {
-  RawValueParser(boolean nullable) {
+class RawValueReader extends ValueReader {
+  RawValueReader(boolean nullable) {
     super(nullable);
   }
 

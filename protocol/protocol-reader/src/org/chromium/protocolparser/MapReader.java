@@ -1,7 +1,7 @@
 package org.chromium.protocolparser;
 
-public class MapParser extends ValueParser {
-  MapParser(boolean nullable) {
+public class MapReader extends ValueReader {
+  MapReader(boolean nullable) {
     super(nullable);
   }
 

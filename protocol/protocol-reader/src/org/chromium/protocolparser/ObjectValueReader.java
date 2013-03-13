@@ -4,11 +4,11 @@
 
 package org.chromium.protocolparser;
 
-class ObjectValueParser<T> extends ValueParser {
+class ObjectValueReader<T> extends ValueReader {
   private final TypeRef<T> refToType;
   private final boolean isSubtyping;
 
-  ObjectValueParser(TypeRef<T> refToType, boolean nullable, boolean isSubtyping) {
+  ObjectValueReader(TypeRef<T> refToType, boolean nullable, boolean isSubtyping) {
     super(nullable);
 
     this.refToType = refToType;
@@ -20,7 +20,7 @@ class ObjectValueParser<T> extends ValueParser {
   }
 
   @Override
-  public ObjectValueParser asJsonTypeParser() {
+  public ObjectValueReader asJsonTypeParser() {
     return this;
   }
 

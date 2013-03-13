@@ -4,14 +4,14 @@
 
 package org.chromium.protocolparser;
 
-class EnumParser<T extends Enum<T>> extends ValueParser {
-  public static <T extends Enum<T>> EnumParser<T> create(Class<T> enumTypeClass, boolean isNullable) {
-    return new EnumParser<T>(enumTypeClass, isNullable);
+class EnumReader<T extends Enum<T>> extends ValueReader {
+  public static <T extends Enum<T>> EnumReader<T> create(Class<T> enumTypeClass, boolean isNullable) {
+    return new EnumReader<T>(enumTypeClass, isNullable);
   }
 
   private final Class<T> enumClass;
 
-  private EnumParser(Class<T> enumClass, boolean nullable) {
+  private EnumReader(Class<T> enumClass, boolean nullable) {
     super(nullable);
     this.enumClass = enumClass;
   }

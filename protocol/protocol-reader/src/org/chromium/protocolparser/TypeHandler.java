@@ -209,7 +209,7 @@ class TypeHandler<T> {
       out.append(".equals(\"").append(fieldName).append("\"))").openBlock();
       {
         assignField(out, fieldName);
-        fieldLoader.valueParser.writeReadCode(classScope, false, fieldName, out);
+        fieldLoader.valueReader.writeReadCode(classScope, false, fieldName, out);
         out.semi();
         if (stopIfAllFieldsWereRead && !isTracedStop) {
           out.newLine().append(Util.READER_NAME).append(".skipValues()").semi().newLine().append("break").semi();

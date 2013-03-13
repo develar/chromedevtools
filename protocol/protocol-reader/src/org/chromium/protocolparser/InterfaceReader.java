@@ -16,27 +16,27 @@ import java.lang.reflect.WildcardType;
 import java.util.*;
 
 class InterfaceReader {
-  private static final PrimitiveValueParser LONG_PARSER = new PrimitiveValueParser("long");
+  private static final PrimitiveValueReader LONG_PARSER = new PrimitiveValueReader("long");
 
-  private static final PrimitiveValueParser INTEGER_PARSER = new PrimitiveValueParser("int");
-  private static final PrimitiveValueParser BOOLEAN_PARSER = new PrimitiveValueParser("boolean");
-  private static final PrimitiveValueParser FLOAT_PARSER = new PrimitiveValueParser("float");
+  private static final PrimitiveValueReader INTEGER_PARSER = new PrimitiveValueReader("int");
+  private static final PrimitiveValueReader BOOLEAN_PARSER = new PrimitiveValueReader("boolean");
+  private static final PrimitiveValueReader FLOAT_PARSER = new PrimitiveValueReader("float");
 
-  private static final PrimitiveValueParser NUMBER_PARSER = new PrimitiveValueParser("double");
-  private static final PrimitiveValueParser NULLABLE_NUMBER_PARSER = new PrimitiveValueParser("double", true);
+  private static final PrimitiveValueReader NUMBER_PARSER = new PrimitiveValueReader("double");
+  private static final PrimitiveValueReader NULLABLE_NUMBER_PARSER = new PrimitiveValueReader("double", true);
 
-  private static final PrimitiveValueParser STRING_PARSER = new PrimitiveValueParser("String");
-  private static final PrimitiveValueParser NULLABLE_STRING_PARSER = new PrimitiveValueParser("String", true);
+  private static final PrimitiveValueReader STRING_PARSER = new PrimitiveValueReader("String");
+  private static final PrimitiveValueReader NULLABLE_STRING_PARSER = new PrimitiveValueReader("String", true);
 
-  private static final RawValueParser JSON_PARSER = new RawValueParser(false);
-  private static final RawValueParser NULLABLE_JSON_PARSER = new RawValueParser(true);
+  private static final RawValueReader JSON_PARSER = new RawValueReader(false);
+  private static final RawValueReader NULLABLE_JSON_PARSER = new RawValueReader(true);
 
-  private static final MapParser MAP_PARSER = new MapParser(false);
-  private static final MapParser NULLABLE_MAP_PARSER = new MapParser(true);
+  private static final MapReader MAP_PARSER = new MapReader(false);
+  private static final MapReader NULLABLE_MAP_PARSER = new MapReader(true);
 
-  private static final StringIntPairValueParser STRING_INT_PAIR_PARSER = new StringIntPairValueParser();
+  private static final StringIntPairValueReader STRING_INT_PAIR_PARSER = new StringIntPairValueReader();
 
-  static ValueParser VOID_PARSER = new ValueParser(true) {
+  static ValueReader VOID_PARSER = new ValueReader(true) {
     @Override
     public void appendFinishedValueTypeName(TextOutput out) {
       out.append("void");
@@ -180,7 +180,7 @@ class InterfaceReader {
                               fields.lazyRead);
   }
 
-  ValueParser getFieldTypeParser(Type type, boolean declaredNullable, boolean isSubtyping, @Nullable Method method)
+  ValueReader getFieldTypeParser(Type type, boolean declaredNullable, boolean isSubtyping, @Nullable Method method)
     throws JsonProtocolModelParseException {
     if (type instanceof Class) {
       Class<?> typeClass = (Class<?>)type;
@@ -220,13 +220,13 @@ class InterfaceReader {
         return STRING_INT_PAIR_PARSER;
       }
       else if (typeClass.isArray()) {
-        return new ArrayParser(getFieldTypeParser(typeClass.getComponentType(), false, false, null), false,
+        return new ArrayReader(getFieldTypeParser(typeClass.getComponentType(), false, false, null), false,
                                isComplexNullable(declaredNullable, method));
       }
       else if (typeClass.isEnum()) {
         @SuppressWarnings("unchecked")
         Class<RetentionPolicy> enumTypeClass = (Class<RetentionPolicy>)typeClass;
-        return EnumParser.create(enumTypeClass, declaredNullable);
+        return EnumReader.create(enumTypeClass, declaredNullable);
       }
       TypeRef<?> ref = getTypeRef(typeClass);
       if (ref != null) {
@@ -244,7 +244,7 @@ class InterfaceReader {
             argumentType = wildcard.getUpperBounds()[0];
           }
         }
-        return new ArrayParser(getFieldTypeParser(argumentType, false, false, null), true, isComplexNullable(declaredNullable, method));
+        return new ArrayReader(getFieldTypeParser(argumentType, false, false, null), true, isComplexNullable(declaredNullable, method));
       }
       else {
         throw new JsonProtocolModelParseException("Method return type " + type + " (generic) not supported");
@@ -266,8 +266,8 @@ class InterfaceReader {
     }
   }
 
-  private static <T> ObjectValueParser<T> createJsonParser(TypeRef<T> type, boolean isNullable, boolean isSubtyping) {
-    return new ObjectValueParser<T>(type, isNullable, isSubtyping);
+  private static <T> ObjectValueReader<T> createJsonParser(TypeRef<T> type, boolean isNullable, boolean isSubtyping) {
+    return new ObjectValueReader<T>(type, isNullable, isSubtyping);
   }
 
   <T> TypeRef<T> getTypeRef(Class<T> typeClass) {
