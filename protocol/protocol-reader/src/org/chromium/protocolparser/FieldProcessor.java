@@ -116,7 +116,7 @@ class FieldProcessor<T> {
     if (internalType) {
       fieldTypeInfo = new FieldTypeInfo() {
         @Override
-        public void appendValueTypeNameJava(FileScopeImpl scope, TextOutput out) {
+        public void appendValueTypeNameJava(FileScope scope, TextOutput out) {
           fieldTypeParser.appendInternalValueTypeName(scope, out);
         }
       };
@@ -124,7 +124,7 @@ class FieldProcessor<T> {
     else {
       fieldTypeInfo = new FieldTypeInfo() {
         @Override
-        public void appendValueTypeNameJava(FileScopeImpl scope, TextOutput out) {
+        public void appendValueTypeNameJava(FileScope scope, TextOutput out) {
           fieldTypeParser.appendFinishedValueTypeName(out);
         }
       };

@@ -1,14 +1,14 @@
 package org.chromium.protocolparser;
 
-class FileScopeImpl extends GlobalScopeImpl implements GlobalScope {
+class FileScope extends GlobalScopeImpl {
   private final TextOutput out;
 
-  FileScopeImpl(GlobalScopeImpl globalScopeImpl, StringBuilder stringBuilder) {
+  FileScope(GlobalScopeImpl globalScopeImpl, StringBuilder stringBuilder) {
     super(globalScopeImpl);
     out = new TextOutput(stringBuilder);
   }
 
-  FileScopeImpl(FileScopeImpl fileScopeImpl) {
+  FileScope(FileScope fileScopeImpl) {
     super(fileScopeImpl);
     out = fileScopeImpl.out;
   }

@@ -27,7 +27,7 @@ abstract class ValueReader {
 
   abstract void appendFinishedValueTypeName(TextOutput out);
 
-  void appendInternalValueTypeName(FileScopeImpl scope, TextOutput out) {
+  void appendInternalValueTypeName(FileScope scope, TextOutput out) {
     appendFinishedValueTypeName(out);
   }
 

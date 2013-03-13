@@ -97,7 +97,7 @@ class TypeHandler<T> {
     }
   }
 
-  public void writeStaticClassJava(FileScopeImpl fileScope) {
+  public void writeStaticClassJava(FileScope fileScope) {
     TextOutput out = fileScope.getOutput();
     String valueImplClassName = fileScope.getTypeImplShortName(this);
     out.append("public static final class ").append(valueImplClassName);

@@ -6,7 +6,7 @@ import gnu.trove.TObjectProcedure;
 
 import java.util.*;
 
-public class GlobalScopeImpl implements GlobalScope {
+public class GlobalScopeImpl {
   private final State state;
 
   public GlobalScopeImpl(Collection<TypeHandler<?>> typeHandlers, Collection<GeneratedCodeMap> basePackages) {
@@ -17,27 +17,22 @@ public class GlobalScopeImpl implements GlobalScope {
     state = globalScopeImpl.state;
   }
 
-  @Override
   public String getTypeImplReference(TypeHandler<?> typeHandler) {
     return state.getTypeImplReference(typeHandler);
   }
 
-  @Override
   public String requireFactoryGenerationAndGetName(TypeHandler<?> typeHandler) {
     return state.requireFactoryGenerationAndGetName(typeHandler);
   }
 
-  @Override
   public String getTypeImplShortName(TypeHandler<?> typeHandler) {
     return state.getTypeImplShortName(typeHandler);
   }
 
-  @Override
-  public FileScopeImpl newFileScope(StringBuilder output) {
-    return new FileScopeImpl(this, output);
+  public FileScope newFileScope(StringBuilder output) {
+    return new FileScope(this, output);
   }
 
-  @Override
   public void forEachTypeFactory(TObjectProcedure<TypeHandler> procedure) {
     state.typesWithFactories.forEach(procedure);
   }
