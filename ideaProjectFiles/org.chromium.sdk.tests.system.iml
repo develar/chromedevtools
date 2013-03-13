@@ -8,7 +8,7 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="module" module-name="org.chromium.sdk" />
+    <orderEntry type="module" module-name="platform-backend" />
     <orderEntry type="module" module-name="wipbackend-dev" />
   </component>
 </module>

@@ -15,7 +15,7 @@
     <artifact type="jar" name="chromium-sdk">
       <output-path>$PROJECT_DIR$/../../idea/plugins/JavaScriptDebugger/ChromeConnector/lib</output-path>
       <root id="archive" name="chromium-sdk.jar">
-        <element id="module-output" name="org.chromium.sdk" />
+        <element id="module-output" name="platform-backend" />
         <element id="module-output" name="v8-protocol" />
         <element id="module-output" name="liveedit-protocol" />
         <element id="module-output" name="v8-protocol-model" />
@@ -718,10 +718,10 @@
       <module fileurl="file://$PROJECT_DIR$/../v8/liveedit-protocol/liveedit-protocol.iml" filepath="$PROJECT_DIR$/../v8/liveedit-protocol/liveedit-protocol.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.feature.iml" filepath="$PROJECT_DIR$/org.chromium.debug.feature.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.debug.jsdtbridge.feature.iml" filepath="$PROJECT_DIR$/org.chromium.debug.jsdtbridge.feature.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.feature.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.feature.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.iml" />
       <module fileurl="file://$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" filepath="$PROJECT_DIR$/org.chromium.sdk.tests.system.runner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform-backend.iml" filepath="$PROJECT_DIR$/platform-backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-model-generator/protocol-model-generator.iml" filepath="$PROJECT_DIR$/../protocol/protocol-model-generator/protocol-model-generator.iml" group="protocol" />
       <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-reader/protocol-reader.iml" filepath="$PROJECT_DIR$/../protocol/protocol-reader/protocol-reader.iml" group="protocol" />
       <module fileurl="file://$PROJECT_DIR$/../protocol/protocol-reader-runtime/protocol-reader-runtime.iml" filepath="$PROJECT_DIR$/../protocol/protocol-reader-runtime/protocol-reader-runtime.iml" group="protocol" />
