@@ -10,27 +10,9 @@ public class DynamicParserImpl<ROOT> {
   final Map<Class<?>, TypeHandler<?>> typeToTypeHandler;
   private final ParserRootImpl<ROOT> rootImpl;
 
-  public DynamicParserImpl(Class<ROOT> parserRootClass, Class[] protocolInterfaces) {
+  public DynamicParserImpl(Class<ROOT> parserRootClass, Class<?>[] protocolInterfaces) {
     typeToTypeHandler = new InterfaceReader(protocolInterfaces, false).go();
     rootImpl = new ParserRootImpl<ROOT>(parserRootClass, typeToTypeHandler);
-  }
-
-  static class EagerFieldParserImpl {
-    private final List<LazyHandler> onDemandHandlers;
-
-    EagerFieldParserImpl(List<LazyHandler> onDemandHandlers) {
-      this.onDemandHandlers = onDemandHandlers;
-    }
-
-    void addAllFieldNames(Set<? super String> output) {
-      for (LazyHandler handler : onDemandHandlers) {
-        output.add(handler.getFieldName());
-      }
-    }
-  }
-
-  interface LazyHandler {
-    String getFieldName();
   }
 
   // We should use it for static analysis later.

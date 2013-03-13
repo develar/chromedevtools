@@ -164,11 +164,9 @@ class InterfaceReader {
       }
     }
 
-    DynamicParserImpl.EagerFieldParserImpl eagerFieldParser = new DynamicParserImpl.EagerFieldParserImpl(fields.getOnDemandHandlers());
     return new TypeHandler<T>(typeClass, getSuperclassRef(typeClass),
                               fields.getVolatileFields(), methodHandlerMap,
                               fields.getFieldLoaders(),
-                              eagerFieldParser,
                               fields.lazyRead);
   }
 

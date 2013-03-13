@@ -10,7 +10,6 @@ class FieldProcessor<T> {
   private final Class<T> typeClass;
 
   private final List<FieldLoader> fieldLoaders = new ArrayList<FieldLoader>(2);
-  private final List<DynamicParserImpl.LazyHandler> onDemandHandlers = new ArrayList<DynamicParserImpl.LazyHandler>();
   private final LinkedHashMap<Method, MethodHandler> methodHandlerMap = new LinkedHashMap<>();
   private final DynamicParserImpl.FieldMap fieldMap = new DynamicParserImpl.FieldMap();
   private List<VolatileFieldBinding> volatileFields = new ArrayList<VolatileFieldBinding>(2);
@@ -97,10 +96,6 @@ class FieldProcessor<T> {
 
   List<FieldLoader> getFieldLoaders() {
     return fieldLoaders;
-  }
-
-  List<DynamicParserImpl.LazyHandler> getOnDemandHandlers() {
-    return onDemandHandlers;
   }
 
   Map<Method, MethodHandler> getMethodHandlerMap() {

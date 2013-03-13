@@ -25,9 +25,6 @@ class TypeHandler<T> {
   /** Loaders that should read values and save them in field array on parse time. */
   private final List<FieldLoader> fieldLoaders;
 
-  /** Set of parsers that non-lazily check that all fields read OK. */
-  private final DynamicParserImpl.EagerFieldParserImpl eagerFieldParser;
-
   /** Subtype aspects of the type or null */
   private final SubtypeAspect subtypeAspect;
 
@@ -37,13 +34,11 @@ class TypeHandler<T> {
               List<VolatileFieldBinding> volatileFields,
               Map<Method, MethodHandler> methodHandlerMap,
               List<FieldLoader> fieldLoaders,
-              DynamicParserImpl.EagerFieldParserImpl eagerFieldParser,
               boolean hasLazyFields) {
     this.typeClass = typeClass;
     this.volatileFields = volatileFields;
     this.methodHandlerMap = methodHandlerMap;
     this.fieldLoaders = fieldLoaders;
-    this.eagerFieldParser = eagerFieldParser;
     this.hasLazyFields = hasLazyFields;
     if (jsonSuperClass == null) {
       subtypeAspect = new AbsentSubtypeAspect();
@@ -64,10 +59,8 @@ class TypeHandler<T> {
   }
 
   private void buildClosedNameSetRecursive(List<Set<String>> namesChain) {
-    Set<String> thisSet = new THashSet<String>();
-    eagerFieldParser.addAllFieldNames(thisSet);
     for (FieldLoader loader : fieldLoaders) {
-      thisSet.add(loader.getFieldName());
+      new THashSet<String>().add(loader.getFieldName());
     }
 
     JsonType jsonAnnotation = typeClass.getAnnotation(JsonType.class);
@@ -75,7 +68,7 @@ class TypeHandler<T> {
       return;
     }
     for (Set<String> set : namesChain) {
-      thisSet.addAll(set);
+      new THashSet<String>().addAll(set);
     }
   }
 
