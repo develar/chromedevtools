@@ -13,10 +13,10 @@
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/bin" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../plugins/org.chromium.sdk">
-      <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/src-wip" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../plugins/org.chromium.sdk/generated" isTestSource="false" />
+    <content url="file://$MODULE_DIR$/../org.chromium.sdk">
+      <sourceFolder url="file://$MODULE_DIR$/../org.chromium.sdk/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../org.chromium.sdk/src-wip" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../org.chromium.sdk/generated" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />

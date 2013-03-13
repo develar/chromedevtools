@@ -26,8 +26,8 @@
       <output-path>$PROJECT_DIR$/../../idea/plugins/JavaScriptDebugger/ChromeConnector/lib/src</output-path>
       <root id="archive" name="chromium-sdk-src.jar">
         <element id="dir-copy" path="$PROJECT_DIR$/../v8/liveedit-protocol/src" />
-        <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk/generated" />
-        <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk/src" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../org.chromium.sdk/generated" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../org.chromium.sdk/src" />
         <element id="dir-copy" path="$PROJECT_DIR$/../v8/protocol/src" />
         <element id="dir-copy" path="$PROJECT_DIR$/../v8/protocol-model/generated" />
         <element id="dir-copy" path="$PROJECT_DIR$/../v8/protocol-model/src" />
@@ -40,7 +40,7 @@
         <element id="dir-copy" path="$PROJECT_DIR$/../wip/protocol-model/src" />
         <element id="dir-copy" path="$PROJECT_DIR$/../wip/protocol/generated" />
         <element id="dir-copy" path="$PROJECT_DIR$/../wip/protocol/src" />
-        <element id="dir-copy" path="$PROJECT_DIR$/../plugins/org.chromium.sdk.wipbackend.dev/src" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../org.chromium.sdk.wipbackend.dev/src" />
       </root>
     </artifact>
     <artifact type="jar" name="protocol-reader-runtime">
